@@ -6,11 +6,17 @@ import ErrorPage from './ErrorPage';
 import Root from './routes/root';
 import { Counter } from './features/counter/Counter';
 import Pokemons from './components/Pokemons';
+import Users from './components/Users';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/test',
+    element: <Users />,
     errorElement: <ErrorPage />,
   },
   {

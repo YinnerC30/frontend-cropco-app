@@ -6,6 +6,9 @@ export default function Root() {
       <nav>
         <ul>
           <li>
+            <Link to={`/test`}>Test</Link>
+          </li>
+          <li>
             <Link to={`/login`}>Iniciar sesión</Link>
           </li>
           <li>

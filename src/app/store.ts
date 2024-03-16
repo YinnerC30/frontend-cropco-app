@@ -2,17 +2,21 @@ import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
 import { pokemonApi } from '../services/pokemon';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import { cropcoApi } from '../services/cropco';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     // Add the generated reducer as a specific top-level slice
     [pokemonApi.reducerPath]: pokemonApi.reducer,
+    [cropcoApi.reducerPath]: cropcoApi.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(pokemonApi.middleware),
+    getDefaultMiddleware()
+      .concat(pokemonApi.middleware)
+      .concat(cropcoApi.middleware),
 });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
