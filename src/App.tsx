@@ -10,6 +10,7 @@ import Pokemons from './components/Pokemons';
 import DemoPage from './payments/page';
 import Root from './routes/root';
 import UsersModule from './features/users/UsersModule';
+import { UserForm } from './features/users/UserForm';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,12 @@ const router = createBrowserRouter([
     path: '/users',
     element: <UsersModule />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: 'create',
+        element: <UserForm />,
+      },
+    ],
   },
   {
     path: '/counter',

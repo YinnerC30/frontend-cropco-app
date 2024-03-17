@@ -51,7 +51,7 @@ const DemoPage = () => {
 
   return (
     <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} nameColumnFilter="email" />
+      <DataTable columns={columns} data={data} />
     </div>
   );
 };

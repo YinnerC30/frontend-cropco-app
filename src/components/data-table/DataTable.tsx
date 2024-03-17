@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/table';
 import { useState } from 'react';
 import { DataTablePagination } from './Pagination';
+import { Input } from '../ui/input';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -32,7 +33,7 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  // const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const table = useReactTable({
@@ -42,13 +43,13 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
+    // onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     state: {
       sorting,
-      columnFilters,
+      // columnFilters,
       columnVisibility,
       rowSelection,
     },
@@ -56,7 +57,9 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
+      <br />
       <DataTablePagination table={table} />
+      <br />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

@@ -12,7 +12,7 @@ export const cropcoApi = createApi({
       query: id => `users/${id}`,
     }),
     getAllUsers: builder.query({
-      query: () => `users`,
+      query: () => `users?limit=100`,
     }),
     updateUserById: builder.query({
       query: id => `users/${id}`,
