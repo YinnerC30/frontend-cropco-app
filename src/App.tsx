@@ -3,15 +3,16 @@ import { Home } from './components/Home';
 import { Login } from './components/Login';
 import { UsersModule } from './components/UsersModule';
 import ErrorPage from './ErrorPage';
-import Root from './routes/root';
+
 import { Counter } from './features/counter/Counter';
 import Pokemons from './components/Pokemons';
 import Users from './components/Users';
+import DemoPage from './payments/page';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: <DemoPage />,
     errorElement: <ErrorPage />,
   },
   {
