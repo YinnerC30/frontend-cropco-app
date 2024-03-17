@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Payment, columns } from './columns-components';
-import { DataTable } from '@/components/data-table/data-table-components';
+import { DataTable } from '@/components/data-table/DataTable';
 // import { DataTable } from './data-table';
 
 async function getData(): Promise<Payment[]> {
@@ -51,7 +51,7 @@ const DemoPage = () => {
 
   return (
     <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={data} nameColumnFilter="email" />
     </div>
   );
 };

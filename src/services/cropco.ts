@@ -4,7 +4,9 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 // Define a service using a base URL and expected endpoints
 export const cropcoApi = createApi({
   reducerPath: 'cropcoApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${import.meta.env.VITE_HOST_API_CROPCO}`,
+  }),
   endpoints: builder => ({
     getUserById: builder.query({
       query: id => `users/${id}`,

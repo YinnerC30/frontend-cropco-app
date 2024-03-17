@@ -1,23 +1,30 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Home } from './components/Home';
 import { Login } from './components/Login';
-import { UsersModule } from './components/UsersModule';
+
 import ErrorPage from './ErrorPage';
 
 import { Counter } from './features/counter/Counter';
 import Pokemons from './components/Pokemons';
-import Users from './components/Users';
+
 import DemoPage from './payments/page';
+import Root from './routes/root';
+import UsersModule from './features/users/UsersModule';
 
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <Root />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/demo-table',
     element: <DemoPage />,
     errorElement: <ErrorPage />,
   },
   {
-    path: '/test',
-    element: <Users />,
+    path: '/users',
+    element: <UsersModule />,
     errorElement: <ErrorPage />,
   },
   {
