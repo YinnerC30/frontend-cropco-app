@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Payment, columns } from './columns';
-import { DataTable } from './data-table';
+import { Payment, columns } from './columns-components';
+import { DataTable } from '@/components/data-table/data-table-components';
+// import { DataTable } from './data-table';
 
 async function getData(): Promise<Payment[]> {
   // Fetch data from your API here.
@@ -10,6 +11,30 @@ async function getData(): Promise<Payment[]> {
       amount: 100,
       status: 'pending',
       email: 'm@example.com',
+    },
+    {
+      id: '728ed52f',
+      amount: 100,
+      status: 'pending',
+      email: '1m@example.com',
+    },
+    {
+      id: '728ed52f',
+      amount: 100,
+      status: 'pending',
+      email: '2m@example.com',
+    },
+    {
+      id: '728ed52f',
+      amount: 100,
+      status: 'pending',
+      email: '3m@example.com',
+    },
+    {
+      id: '728ed52f',
+      amount: 100,
+      status: 'pending',
+      email: '4m@example.com',
     },
     // ...
   ];
