@@ -55,7 +55,7 @@ export function FormTemplate({
           />
         ))}
 
-        <Button type="submit">{nameButtonSubmit || 'Crear'}</Button>
+        <Button type="submit">{nameButtonSubmit}</Button>
       </form>
     </Form>
   );

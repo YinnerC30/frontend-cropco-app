@@ -10,7 +10,7 @@ export const cropcoApi = createApi({
   tagTypes: ['Users'],
   endpoints: builder => ({
     createUser: builder.mutation({
-      query: ({ user }) => ({ url: `users`, method: 'POST', body: user }),
+      query: values => ({ url: `users`, method: 'POST', body: values }),
       invalidatesTags: ['Users'],
     }),
     getUserById: builder.query({
@@ -24,10 +24,10 @@ export const cropcoApi = createApi({
     }),
 
     updateUser: builder.mutation({
-      query: ({ id, userData }) => ({
+      query: ({ id, values }) => ({
         url: `users/${id}`,
         method: 'PATCH',
-        body: userData,
+        body: values,
       }),
       invalidatesTags: ['Users'],
     }),

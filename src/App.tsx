@@ -13,6 +13,7 @@ import UsersModule from './features/users/UsersModule';
 import { UserForm } from './features/users/UserForm';
 import { ViewUser } from './features/users/ViewUser';
 import { ModifyUser } from './features/users/ModifyUser';
+import { CreateUser } from './features/users/CreateUser';
 
 const router = createBrowserRouter([
   {
@@ -52,7 +53,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'create',
-            element: <UserForm />,
+            element: <CreateUser />,
           },
           {
             path: 'view/:id',
