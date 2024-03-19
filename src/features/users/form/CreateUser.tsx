@@ -1,7 +1,7 @@
 import { useCreateUserMutation } from '@/services/cropco';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import { formSchema } from './ElementsForm';
+import { formSchema } from './ElementsUserForm';
 import { UserForm } from './UserForm';
 
 export const CreateUser = () => {

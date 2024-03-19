@@ -8,12 +8,12 @@ import { Counter } from './features/counter/Counter';
 import Pokemons from './components/Pokemons';
 
 import DemoPage from './payments/page';
-import Root from './routes/root';
+import Root from './routes/Root';
 import UsersModule from './features/users/UsersModule';
-import { UserForm } from './features/users/UserForm';
+
 import { ViewUser } from './features/users/ViewUser';
-import { ModifyUser } from './features/users/ModifyUser';
-import { CreateUser } from './features/users/CreateUser';
+import { ModifyUser } from './features/users/form/ModifyUser';
+import { CreateUser } from './features/users/form/CreateUser';
 
 const router = createBrowserRouter([
   {

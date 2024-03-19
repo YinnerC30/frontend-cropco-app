@@ -2,8 +2,8 @@ import { FormTemplate } from '@/components/form/FormTemplate';
 import { Button } from '@/components/ui/button';
 
 import { Link } from 'react-router-dom';
-import { defaultValues, formFields, formSchema } from './ElementsForm';
-import { UserFormProps } from './interfaces';
+import { UserFormProps } from '../interfaces/UserFormProps';
+import { defaultValues, formFields, formSchema } from './ElementsUserForm';
 
 export const UserForm = ({
   values = defaultValues,

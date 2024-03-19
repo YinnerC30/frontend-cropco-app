@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { UserForm } from './UserForm';
 
 import { z } from 'zod';
-import { formSchema } from './ElementsForm';
+import { formSchema } from './ElementsUserForm';
 
 export const ModifyUser = () => {
   const { id } = useParams();

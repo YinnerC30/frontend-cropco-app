@@ -1,8 +1,8 @@
 import { setSearchParameter } from '@/features/users/usersModuleSlice';
 
+import { useAppDispatch } from '@/app/hooks';
 import { z } from 'zod';
 import { FormTemplate } from './FormTemplate';
-import { useAppDispatch } from '@/app/hooks';
 
 interface SearchBarProps {
   searchTerms: string[];

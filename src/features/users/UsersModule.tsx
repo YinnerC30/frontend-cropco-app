@@ -1,10 +1,8 @@
-import { UserTable } from './UserTable';
-import { Link } from 'react-router-dom';
+import { UserTable } from './table/UserTable';
 
 export const UsersModule = () => {
   return (
     <>
-      <Link to="create">Crear usuario</Link>
       <UserTable />
     </>
   );

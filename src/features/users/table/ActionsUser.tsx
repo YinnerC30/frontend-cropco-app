@@ -1,4 +1,3 @@
-import { ColumnDef, Row } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -9,10 +8,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useRemoveUserMutation } from '@/services/cropco';
 import { useNavigate } from 'react-router-dom';
+import { useRemoveUserMutation } from '@/services/cropco';
 
-const actionsUser = ({ row }: { row: Row<User> }) => {
+export const ActionsUser = ({ row }: any) => {
   const user = row.original;
   const { id } = user;
   const navigate = useNavigate();
@@ -42,35 +41,3 @@ const actionsUser = ({ row }: { row: Row<User> }) => {
     </DropdownMenu>
   );
 };
-
-export interface User {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  cell_phone_number: string;
-  password: string;
-}
-
-export const columns: ColumnDef<User>[] = [
-  {
-    accessorKey: 'first_name',
-    header: 'Nombre',
-  },
-  {
-    accessorKey: 'last_name',
-    header: 'Apellido',
-  },
-  {
-    accessorKey: 'email',
-    header: 'Email',
-  },
-  {
-    accessorKey: 'cell_phone_number',
-    header: 'Número celular',
-  },
-  {
-    id: 'actions',
-    cell: actionsUser,
-  },
-];
