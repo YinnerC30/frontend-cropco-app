@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { Checkbox } from '@/components/ui/checkbox';
-import { DataTableColumnHeader } from '@/components/data-table/ColumnHeader';
+import { DataTableColumnHeader } from '@/components/table/ColumnHeader';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.

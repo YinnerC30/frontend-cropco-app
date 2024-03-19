@@ -7,27 +7,41 @@ export const cropcoApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_HOST_API_CROPCO}`,
   }),
+  tagTypes: ['Users'],
   endpoints: builder => ({
+    createUser: builder.mutation({
+      query: ({ user }) => ({ url: `users`, method: 'POST', body: user }),
+      invalidatesTags: ['Users'],
+    }),
     getUserById: builder.query({
       query: id => `users/${id}`,
+      providesTags: ['Users'],
     }),
     getAllUsers: builder.query({
-      query: () => `users?limit=100`,
+      query: ({ limit = 100, offset = 0, parameter = '' }) =>
+        `users?limit=${limit}&offset=${offset}&parameter=${parameter}`,
+      providesTags: ['Users'],
     }),
-    updateUserById: builder.query({
-      query: id => `users/${id}`,
+
+    updateUser: builder.mutation({
+      query: ({ id, userData }) => ({
+        url: `users/${id}`,
+        method: 'PATCH',
+        body: userData,
+      }),
+      invalidatesTags: ['Users'],
     }),
-    removeUserById: builder.query({
-      query: id => `users/${id}`,
+    removeUser: builder.mutation({
+      query: ({ id }) => ({ url: `users/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['Users'],
     }),
   }),
 });
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
 export const {
-  useGetUserByIdQuery,
+  useCreateUserMutation,
   useGetAllUsersQuery,
-  useUpdateUserByIdQuery,
-  useRemoveUserByIdQuery,
+  useGetUserByIdQuery,
+  useRemoveUserMutation,
+  useUpdateUserMutation,
 } = cropcoApi;

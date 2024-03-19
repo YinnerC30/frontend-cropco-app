@@ -11,6 +11,8 @@ import DemoPage from './payments/page';
 import Root from './routes/root';
 import UsersModule from './features/users/UsersModule';
 import { UserForm } from './features/users/UserForm';
+import { ViewUser } from './features/users/ViewUser';
+import { ModifyUser } from './features/users/ModifyUser';
 
 const router = createBrowserRouter([
   {
@@ -23,17 +25,7 @@ const router = createBrowserRouter([
     element: <DemoPage />,
     errorElement: <ErrorPage />,
   },
-  {
-    path: '/users',
-    element: <UsersModule />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        path: 'create',
-        element: <UserForm />,
-      },
-    ],
-  },
+
   {
     path: '/counter',
     element: <Counter />,
@@ -57,6 +49,20 @@ const router = createBrowserRouter([
       {
         path: 'users',
         element: <UsersModule />,
+        children: [
+          {
+            path: 'create',
+            element: <UserForm />,
+          },
+          {
+            path: 'view/:id',
+            element: <ViewUser />,
+          },
+          {
+            path: 'modify/:id',
+            element: <ModifyUser />,
+          },
+        ],
       },
     ],
   },

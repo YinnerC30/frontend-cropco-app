@@ -1,3 +1,5 @@
+import { useCreateUserMutation } from '@/services/cropco';
+import { useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -14,21 +16,21 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-interface FormTemplateProps {
-  formSchema: any;
-  defaultValues: any;
-  onSubmit: any;
-  formFields: any;
-  nameButtonSubmit: string;
-}
+import { formSchema, formFields, defaultValues } from './ElementsForm';
 
-export function FormTemplate({
-  formSchema,
-  defaultValues,
-  onSubmit,
-  formFields,
-  nameButtonSubmit,
-}: FormTemplateProps) {
+export const CreateUser = () => {
+  const nameButtonSubmit = 'Crear';
+
+  const navigation = useNavigate();
+
+  const [createUser] = useCreateUserMutation();
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+    createUser({ user: values });
+    navigation('../');
+  }
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues,
@@ -55,8 +57,8 @@ export function FormTemplate({
           />
         ))}
 
-        <Button type="submit">{nameButtonSubmit || 'Crear'}</Button>
+        <Button type="submit">{nameButtonSubmit}</Button>
       </form>
     </Form>
   );
-}
+};

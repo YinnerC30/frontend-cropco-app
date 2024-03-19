@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
+import usersModuleReducer from '../features/users/usersModuleSlice';
 import { pokemonApi } from '../services/pokemon';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { cropcoApi } from '../services/cropco';
@@ -7,6 +8,7 @@ import { cropcoApi } from '../services/cropco';
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
+    usersModule: usersModuleReducer,
     // Add the generated reducer as a specific top-level slice
     [pokemonApi.reducerPath]: pokemonApi.reducer,
     [cropcoApi.reducerPath]: cropcoApi.reducer,

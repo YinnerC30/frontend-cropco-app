@@ -1,0 +1,47 @@
+import { setSearchParameter } from '@/features/users/usersModuleSlice';
+
+import { z } from 'zod';
+import { FormTemplate } from './FormTemplate';
+import { useAppDispatch } from '@/app/hooks';
+
+interface SearchBarProps {
+  searchTerms: string[];
+}
+
+export const SearchBar = ({ searchTerms }: SearchBarProps) => {
+  const dispatch = useAppDispatch();
+
+  const formSchema = z.object({
+    parameter: z.string(),
+  });
+
+  const formFields = [
+    {
+      name: 'parameter',
+      label: '',
+      placeholder: `Ingrese uno de los siguientes términos de búsqueda: ${searchTerms.slice(
+        0,
+        searchTerms.length - 1,
+      )} o ${searchTerms[searchTerms.length - 1]} `,
+      description: '',
+    },
+  ];
+
+  const defaultValues = {
+    parameter: '',
+  };
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    dispatch(setSearchParameter(values.parameter));
+  };
+
+  return (
+    <FormTemplate
+      formSchema={formSchema}
+      defaultValues={defaultValues}
+      onSubmit={onSubmit}
+      formFields={formFields}
+      nameButtonSubmit="Buscar"
+    />
+  );
+};

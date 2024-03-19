@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Payment, columns } from './columns-components';
-import { DataTable } from '@/components/data-table/DataTable';
+import { DataTable } from '@/components/table/DataTable';
 // import { DataTable } from './data-table';
 
 async function getData(): Promise<Payment[]> {
