@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 export const UserTable = () => {
   const parameter = useAppSelector(state => state.usersModule.searchParameter);
   const { data, isLoading } = useGetAllUsersQuery({ parameter });
+  console.log({ data });
   return (
     <>
       {isLoading ? (

@@ -3,7 +3,6 @@ import { setSearchParameter } from '@/features/users/usersModuleSlice';
 import { useAppDispatch } from '@/app/hooks';
 import { z } from 'zod';
 import { FormTemplate } from './FormTemplate';
-import { Button } from '../ui/button';
 
 interface SearchBarProps {
   searchTerms: string[];
