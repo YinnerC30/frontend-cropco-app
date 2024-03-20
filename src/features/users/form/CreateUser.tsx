@@ -3,13 +3,27 @@ import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { formSchema } from './ElementsUserForm';
 import { UserForm } from './UserForm';
+import {
+  useMutation,
+  QueryClient,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { createUser } from '@/services/cropcoAPI';
 
 export const CreateUser = () => {
   const navigation = useNavigate();
-  const [createUser] = useCreateUserMutation();
+
+  const queryClient = useQueryClient();
+
+  const createUserMutation = useMutation({
+    mutationFn: createUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+    },
+  });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    createUser(values);
+    createUserMutation.mutate(values);
     navigation('../');
   };
 

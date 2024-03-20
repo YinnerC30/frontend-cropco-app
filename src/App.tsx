@@ -1,79 +1,17 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Home } from './components/Home';
-import { Login } from './components/Login';
+import { RouterProvider } from 'react-router-dom';
 
-import ErrorPage from './ErrorPage';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { router } from './routes/BrowserRouter';
 
-import { Counter } from './features/counter/Counter';
-import Pokemons from './components/Pokemons';
-
-import DemoPage from './payments/page';
-import Root from './routes/Root';
-import UsersModule from './features/users/UsersModule';
-
-import { ViewUser } from './features/users/ViewUser';
-import { ModifyUser } from './features/users/form/ModifyUser';
-import { CreateUser } from './features/users/form/CreateUser';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Root />,
-    errorElement: <ErrorPage />,
-  },
-
-  {
-    path: '/demo-table',
-    element: <DemoPage />,
-    errorElement: <ErrorPage />,
-  },
-
-  {
-    path: '/counter',
-    element: <Counter />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: '/pokemon',
-    element: <Pokemons />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: '/login',
-    element: <Login />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: '/home',
-    element: <Home />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        path: 'users',
-        element: <UsersModule />,
-        children: [
-          {
-            path: 'create',
-            element: <CreateUser />,
-          },
-          {
-            path: 'view/:id',
-            element: <ViewUser />,
-          },
-          {
-            path: 'modify/:id',
-            element: <ModifyUser />,
-          },
-        ],
-      },
-    ],
-  },
-]);
-
+const queryClient = new QueryClient();
 export const App = () => {
   return (
     <>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </>
   );
 };

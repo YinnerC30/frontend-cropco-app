@@ -9,13 +9,22 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useNavigate } from 'react-router-dom';
-import { useRemoveUserMutation } from '@/services/cropco';
+
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteUser } from '@/services/cropcoAPI';
 
 export const ActionsUser = ({ row }: any) => {
   const user = row.original;
   const { id } = user;
   const navigate = useNavigate();
-  const [removeUser] = useRemoveUserMutation();
+  const queryClient = useQueryClient();
+
+  const deleteUserMutation = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+    },
+  });
 
   return (
     <DropdownMenu>
@@ -34,7 +43,11 @@ export const ActionsUser = ({ row }: any) => {
           Modificar
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => removeUser({ id })}>
+        <DropdownMenuItem
+          onClick={() => {
+            deleteUserMutation.mutate(id);
+          }}
+        >
           Eliminar
         </DropdownMenuItem>
       </DropdownMenuContent>

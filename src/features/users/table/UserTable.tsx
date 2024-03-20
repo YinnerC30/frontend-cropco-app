@@ -8,10 +8,17 @@ import { useAppSelector } from '@/app/hooks';
 import { Button } from '@/components/ui/button';
 
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { getUsers } from '@/services/cropcoAPI';
 
 export const UserTable = () => {
   const parameter = useAppSelector(state => state.usersModule.searchParameter);
-  const { data, isLoading } = useGetAllUsersQuery({ parameter });
+
+  const { isLoading, data } = useQuery({
+    queryKey: ['users', parameter],
+    queryFn: () => getUsers({ parameter }),
+  });
+
   console.log({ data });
   return (
     <>
