@@ -18,6 +18,8 @@ export const UserForm = ({
         onSubmit={onSubmit}
         formFields={formFields}
         nameButtonSubmit={nameButtonSubmit}
+        nameButtonReset="Borrar formulario"
+        onResetValues={null}
       />
       <Button asChild>
         <Link to="../">Cancelar</Link>

@@ -21,6 +21,7 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
   },
+
   {
     path: '/demo-table',
     element: <DemoPage />,

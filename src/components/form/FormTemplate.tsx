@@ -20,6 +20,8 @@ interface FormTemplateProps {
   onSubmit: any;
   formFields: any;
   nameButtonSubmit: string;
+  onResetValues?: any;
+  nameButtonReset: string;
 }
 
 export function FormTemplate({
@@ -28,11 +30,18 @@ export function FormTemplate({
   onSubmit,
   formFields,
   nameButtonSubmit,
+  onResetValues,
+  nameButtonReset,
 }: FormTemplateProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
+
+  const handleResetForm = () => {
+    form.reset();
+    return () => onResetValues;
+  };
 
   return (
     <Form {...form}>
@@ -56,6 +65,7 @@ export function FormTemplate({
         ))}
 
         <Button type="submit">{nameButtonSubmit}</Button>
+        <Button onClick={() => handleResetForm()}>{nameButtonReset}</Button>
       </form>
     </Form>
   );
