@@ -1,8 +1,10 @@
 import { NavLink, Outlet } from 'react-router-dom';
+import { ModeToggle } from './mode-toggle';
 
 export const Home = () => {
   return (
     <>
+      <ModeToggle />
       <nav>
         <h1>CropcoApp</h1>
 

@@ -8,9 +8,8 @@ import { ViewUser } from '@/features/users/ViewUser';
 import { CreateUser } from '@/features/users/form/CreateUser';
 import { ModifyUser } from '@/features/users/form/ModifyUser';
 import { UserTable } from '@/features/users/table/UserTable';
-import DemoPage from '@/payments/page';
 import { createBrowserRouter } from 'react-router-dom';
-import Root from './Root';
+import Root from './root';
 
 export const router = createBrowserRouter([
   {
