@@ -1,15 +1,13 @@
 import { setSearchParameter } from '@/features/users/usersModuleSlice';
 
-import { useAppDispatch } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { z } from 'zod';
 import { FormTemplate } from './FormTemplate';
-
-interface SearchBarProps {
-  searchTerms: string[];
-}
+import { SearchBarProps } from './interfaces/SearchBarProps';
 
 export const SearchBar = ({ searchTerms }: SearchBarProps) => {
   const dispatch = useAppDispatch();
+  const parameter = useAppSelector(state => state.usersModule.searchParameter);
 
   const formSchema = z.object({
     parameter: z.string(),
@@ -28,7 +26,7 @@ export const SearchBar = ({ searchTerms }: SearchBarProps) => {
   ];
 
   const defaultValues = {
-    parameter: '',
+    parameter,
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {

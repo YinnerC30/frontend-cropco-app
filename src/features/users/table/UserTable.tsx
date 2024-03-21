@@ -1,15 +1,15 @@
 import { SearchBar } from '@/components/form/SearchBar';
 import { DataTable } from '@/components/table/DataTable';
-import { useGetAllUsersQuery } from '@/services/cropco';
+
 import { Outlet } from 'react-router-dom';
 import { columns } from './ColumnsUser';
 
 import { useAppSelector } from '@/app/hooks';
 import { Button } from '@/components/ui/button';
 
-import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import { getUsers } from '@/services/cropcoAPI';
+import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 
 export const UserTable = () => {
   const parameter = useAppSelector(state => state.usersModule.searchParameter);

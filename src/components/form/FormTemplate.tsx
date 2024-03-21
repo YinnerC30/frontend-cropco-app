@@ -13,16 +13,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-
-interface FormTemplateProps {
-  formSchema: any;
-  defaultValues: any;
-  onSubmit: any;
-  formFields: any;
-  nameButtonSubmit: string;
-  onResetValues?: any;
-  nameButtonReset: string;
-}
+import { FormTemplateProps } from './interfaces/FormTemplateProps';
 
 export function FormTemplate({
   formSchema,

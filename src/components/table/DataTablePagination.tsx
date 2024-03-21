@@ -4,7 +4,6 @@ import {
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
 } from '@radix-ui/react-icons';
-import { Table } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,16 +13,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
-export interface DataTablePaginationProps<TData> {
-  table: Table<TData>;
-}
+import { DataTablePaginationProps } from './interfaces/DataTablePaginationProps';
 
 export function DataTablePagination<TData>({
   table,
 }: DataTablePaginationProps<TData>) {
-  console.log({ table });
-
   return (
     <div className="flex items-center justify-between px-2">
       <div className="flex items-center space-x-6 lg:space-x-8">

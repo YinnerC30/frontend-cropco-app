@@ -10,8 +10,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useNavigate } from 'react-router-dom';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteUser } from '@/services/cropcoAPI';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const ActionsUser = ({ row }: any) => {
   const user = row.original;
