@@ -4,6 +4,8 @@ import { z } from 'zod';
 
 import { DialogTemplate } from '@/components/common/DialogTemplate';
 import { defaultValues, formFields, formSchema } from './ElementsUserForm';
+import { toast } from 'sonner';
+import { AxiosError } from 'axios';
 
 export const CreateUser = () => {
   const queryClient = useQueryClient();
@@ -12,11 +14,11 @@ export const CreateUser = () => {
     mutationFn: createUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
+      toast('Usuario fue creado exitosamente');
     },
-    onError: error => {
-      // Aquí puedes manejar el error
-      console.error('Error al crear usuario:', error);
-      // Por ejemplo, mostrar un mensaje de error al usuario
+    onError: (error: AxiosError | any) => {
+      const { data } = error.response;
+      toast(`Hubo un problema creando el usuario, ${data.message}`);
     },
   });
 
@@ -31,6 +33,7 @@ export const CreateUser = () => {
         formSchema={formSchema}
         defaultValues={defaultValues}
         formFields={formFields}
+        nameButtonTrigger="Crear"
       />
     </>
   );

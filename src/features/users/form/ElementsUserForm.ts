@@ -60,3 +60,10 @@ export const defaultValues = {
   cell_phone_number: '3147736549',
   password: '123456',
 };
+// export const defaultValues = {
+//   first_name: '',
+//   last_name: '',
+//   email: '',
+//   cell_phone_number: '',
+//   password: '',
+// };

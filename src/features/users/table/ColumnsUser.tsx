@@ -1,7 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { User } from '../interfaces/User';
-
 import { ActionsUser } from './ActionsUser';
 
 export const columns: ColumnDef<User>[] = [

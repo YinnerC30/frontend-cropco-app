@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -22,12 +23,14 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form';
+import { useState } from 'react';
 
 export interface DialogProps {
   onSubmit: (values: z.infer<typeof formSchema>) => void;
   formSchema: any;
   defaultValues: any;
   formFields: any;
+  nameButtonTrigger: string;
 }
 
 export function DialogTemplate({
@@ -35,6 +38,7 @@ export function DialogTemplate({
   defaultValues,
   formSchema,
   formFields,
+  nameButtonTrigger,
 }: DialogProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,13 +48,13 @@ export function DialogTemplate({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Crear</Button>
+        <Button variant="outline">{nameButtonTrigger}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Crear</DialogTitle>
+          <DialogTitle>{nameButtonTrigger}</DialogTitle>
           <DialogDescription>
-            Rellena los campos para crear el usuario
+            Rellena los campos para crear el registro.
           </DialogDescription>
         </DialogHeader>
         <ScrollArea
@@ -61,7 +65,7 @@ export function DialogTemplate({
         >
           <Form {...form}>
             <form
-              id="formUser"
+              id="formTemplate"
               onSubmit={form.handleSubmit(onSubmit)}
               className="grid gap-4 py-4"
             >
@@ -78,7 +82,7 @@ export function DialogTemplate({
                       <FormControl>
                         <Input
                           style={{
-                            width: '250px',
+                            width: '280px',
                           }}
                           className="col-span-3"
                           placeholder={record.placeholder}
@@ -99,7 +103,7 @@ export function DialogTemplate({
           </Form>
         </ScrollArea>
         <DialogFooter>
-          <Button type="submit" form="formUser">
+          <Button type="submit" form="formTemplate">
             Guardar
           </Button>
         </DialogFooter>

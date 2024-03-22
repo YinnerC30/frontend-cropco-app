@@ -8,7 +8,7 @@ const cropcoAPI = axios.create({
 export const createUser = async (user: User) =>
   await cropcoAPI.post('/users', user);
 
-export const getUsers = async ({ parameter = '', limit = 10, offset = 0 }) => {
+export const getUsers = async ({ parameter = '', limit = 100, offset = 0 }) => {
   const res = await cropcoAPI.get(
     `/users?parameter=${parameter}&limit=${limit}&offset=${offset}`,
   );
@@ -16,12 +16,14 @@ export const getUsers = async ({ parameter = '', limit = 10, offset = 0 }) => {
 };
 
 export const getUserById = async ({ id }: any) => {
+  console.log('Se llamo getUserById');
   const res = await cropcoAPI.get(`/users/${id}`);
   return res.data;
 };
 
-export const updateUser = async ({ id, user }: any) =>
+export const updateUser = async ({ id, user }: any) => {
   await cropcoAPI.patch(`/users/${id}`, user);
+};
 
 export const deleteUser = async (id: string) =>
   await cropcoAPI.delete(`/users/${id}`);

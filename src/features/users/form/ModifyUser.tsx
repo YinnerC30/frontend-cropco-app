@@ -1,29 +1,33 @@
 import { useGetUserByIdQuery } from '@/services/cropco';
-import { useNavigate, useParams } from 'react-router-dom';
-import { UserForm } from './UserForm';
+import { useParams } from 'react-router-dom';
 
-import { z } from 'zod';
-import { formSchema } from './ElementsUserForm';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { DialogTemplate } from '@/components/common/DialogTemplate';
 import { updateUser } from '@/services/cropcoAPI';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { z } from 'zod';
+import { formFields, formSchema } from './ElementsUserForm';
+import { toast } from 'sonner';
+import { AxiosError } from 'axios';
 
-export const ModifyUser = () => {
-  const { id } = useParams();
-  const { data, isLoading } = useGetUserByIdQuery(id);
+export const ModifyUser = ({ id }: any) => {
+  const { data: defaultValues, isLoading } = useGetUserByIdQuery(id);
 
-  const navigation = useNavigate();
   const queryClient = useQueryClient();
 
   const updateUserMutation = useMutation({
     mutationFn: updateUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
+      toast('Usuario actualizado con éxito');
+    },
+    onError: (error: AxiosError | any) => {
+      const { data } = error.response;
+      toast(`Hubo un problema actualizando el usuario, ${data.message}`);
     },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     updateUserMutation.mutate({ id, user: values });
-    navigation('../');
   };
 
   return (
@@ -31,10 +35,12 @@ export const ModifyUser = () => {
       {isLoading ? (
         <h1>Cargando...</h1>
       ) : (
-        <UserForm
-          values={{ ...data, password: '' }}
-          nameButtonSubmit="Actualizar"
+        <DialogTemplate
           onSubmit={onSubmit}
+          formSchema={formSchema}
+          defaultValues={{ ...defaultValues, password: '' }}
+          formFields={formFields}
+          nameButtonTrigger="Modificar"
         />
       )}
     </>
