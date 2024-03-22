@@ -1,15 +1,13 @@
-import { SearchBar } from '@/components/form/SearchBar';
 import { DataTable } from '@/components/table/DataTable';
 
 import { Outlet } from 'react-router-dom';
 import { columns } from './ColumnsUser';
 
 import { useAppSelector } from '@/app/hooks';
-import { Button } from '@/components/ui/button';
 
 import { getUsers } from '@/services/cropcoAPI';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+import { CreateUser } from '../form/CreateUser';
 
 export const UserTable = () => {
   const parameter = useAppSelector(state => state.usersModule.searchParameter);
@@ -19,7 +17,6 @@ export const UserTable = () => {
     queryFn: () => getUsers({ parameter }),
   });
 
-  console.log({ data });
   return (
     <>
       {isLoading ? (
@@ -27,10 +24,7 @@ export const UserTable = () => {
       ) : (
         <div>
           <div className="container mx-auto py-10">
-            <Button asChild>
-              <Link to="create">Crear usuario</Link>
-            </Button>
-            <SearchBar searchTerms={['nombre', 'email']} />
+            <CreateUser />
             <DataTable columns={columns} data={data} />
             <Outlet />
           </div>

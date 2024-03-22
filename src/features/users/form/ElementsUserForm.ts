@@ -54,9 +54,9 @@ export const formSchema = z.object({
 });
 
 export const defaultValues = {
-  first_name: '',
-  last_name: '',
-  email: '',
-  cell_phone_number: '',
-  password: '',
+  first_name: 'aYinner',
+  last_name: 'aChilito',
+  email: 'aYc@gmail.com',
+  cell_phone_number: '3147736549',
+  password: '123456',
 };
