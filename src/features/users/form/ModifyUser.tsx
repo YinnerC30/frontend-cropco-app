@@ -1,18 +1,20 @@
-import { useGetUserByIdQuery } from '@/services/cropco';
-import { useParams } from 'react-router-dom';
-
 import { DialogTemplate } from '@/components/common/DialogTemplate';
-import { updateUser } from '@/services/cropcoAPI';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { getUserById, updateUser } from '@/services/cropcoAPI';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { toast } from 'sonner';
 import { z } from 'zod';
 import { formFields, formSchema } from './ElementsUserForm';
-import { toast } from 'sonner';
-import { AxiosError } from 'axios';
 
 export const ModifyUser = ({ id }: any) => {
-  const { data: defaultValues, isLoading } = useGetUserByIdQuery(id);
+  // const { data: defaultValues, isLoading } = useGetUserByIdQuery(id);
 
   const queryClient = useQueryClient();
+
+  const { isLoading, data: defaultValues } = useQuery({
+    queryKey: ['users', id],
+    queryFn: () => getUserById({ id }),
+  });
 
   const updateUserMutation = useMutation({
     mutationFn: updateUser,
