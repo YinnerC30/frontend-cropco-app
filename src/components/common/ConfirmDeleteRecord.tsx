@@ -10,21 +10,8 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { deleteUser } from '@/services/cropcoAPI';
-import { useQueryClient, useMutation } from '@tanstack/react-query';
-import { toast } from 'sonner';
 
-export function ConfirmDeleteRecord({ id }: any) {
-  const queryClient = useQueryClient();
-
-  const deleteUserMutation = useMutation({
-    mutationFn: deleteUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
-      toast('Registro eliminado');
-    },
-  });
-
+export function ConfirmDeleteRecord({ children }: { children: any }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -43,11 +30,7 @@ export function ConfirmDeleteRecord({ id }: any) {
           <AlertDialogCancel asChild>
             <Button variant="secondary">Cancelar</Button>
           </AlertDialogCancel>
-          <AlertDialogAction asChild>
-            <Button onClick={() => deleteUserMutation.mutate(id)}>
-              Continuar
-            </Button>
-          </AlertDialogAction>
+          <AlertDialogAction asChild>{children}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
