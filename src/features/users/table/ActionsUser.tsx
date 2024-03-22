@@ -1,4 +1,4 @@
-import { ConfirmDeleteRecord } from '@/components/ConfirmDeleteRecord';
+import { ConfirmDeleteRecord } from '@/components/common/ConfirmDeleteRecord';
 import { ModifyUser } from '../form/ModifyUser';
 
 export const ActionsUser = ({ row }: any) => {

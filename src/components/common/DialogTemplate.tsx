@@ -46,6 +46,8 @@ export function DialogTemplate({
   });
 
   return (
+    // TODO: Dar estilos apropiados al componente
+    // TODO: Encontrar la forma de cerrar el dialog una vez es exitoso el registro
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline">{nameButtonTrigger}</Button>
