@@ -41,12 +41,14 @@ export const formSchema = z.object({
     message: 'Apellido debe tener al menos 4 caracteres',
   }),
   email: z.string().email('El correo electrónico es incorrecto'),
-  cell_phone_number: z
-    .string()
-    .min(10, {
-      message: 'El número celular debe tener solo 10 dígitos',
-    })
-    .max(10, 'El número celular debe tener solo 10 dígitos'),
+  cell_phone_number: z.string().refine(
+    data => {
+      return /^3\d{9}$/.test(data);
+    },
+    {
+      message: 'El número de teléfono es incorrecto.',
+    },
+  ),
 
   password: z.string().min(6, {
     message: 'La contraseña debe tener mínimo 6 caracteres',
@@ -54,7 +56,7 @@ export const formSchema = z.object({
 });
 
 // export const defaultValues = {
-//   first_name: 'aYinner',
+//   first_name: 'aaaaa',
 //   last_name: 'aChilito',
 //   email: 'aYc@gmail.com',
 //   cell_phone_number: '3147736549',

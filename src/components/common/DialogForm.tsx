@@ -19,7 +19,7 @@ export function DialogForm({ children, name }: DialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">{name}</Button>
+        <Button className='mt-2 ml-10' variant="secondary">{name}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -28,12 +28,7 @@ export function DialogForm({ children, name }: DialogProps) {
             Asegúrate de rellenar todos los campos a continuación
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea
-          style={{
-            width: '400px',
-            height: '300px',
-          }}
-        >
+        <ScrollArea type='auto' className="w-auto h-auto max-h-96">
           {children}
         </ScrollArea>
         <DialogFooter>

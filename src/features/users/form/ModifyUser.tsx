@@ -1,10 +1,4 @@
-import { DialogForm } from '@/components/common/DialogForm';
-import { getUserById, updateUser } from '@/services/cropcoAPI';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { toast } from 'sonner';
-import { z } from 'zod';
-import { formFields, formSchema } from './ElementsUserForm';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -14,15 +8,24 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useForm } from 'react-hook-form';
+import { getUserById } from '@/services/cropcoAPI';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { Link, useParams } from 'react-router-dom';
+import { z } from 'zod';
+import { useUserActions } from '../hooks/useUserActions';
+import { defaultValues, formFields, formSchema } from './ElementsUserForm';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 
-export const ModifyUser = ({ id }: any) => {
-  // const { data: defaultValues, isLoading } = useGetUserByIdQuery(id);
+export const ModifyUser = () => {
+  const { id } = useParams();
+  const { updateUserMutation } = useUserActions();
 
-  const queryClient = useQueryClient();
-
-  const { isLoading, data: defaultValues } = useQuery({
+  const { isLoading, data } = useQuery({
     queryKey: ['users', id],
     queryFn: () => getUserById({ id }),
   });
@@ -32,68 +35,114 @@ export const ModifyUser = ({ id }: any) => {
     defaultValues,
   });
 
-  const updateUserMutation = useMutation({
-    mutationFn: updateUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
-      toast('Usuario actualizado con éxito');
-    },
-    onError: (error: AxiosError | any) => {
-      const { data } = error.response;
-      toast(`Hubo un problema actualizando el usuario, ${data.message}`);
-    },
-  });
+  useEffect(() => {
+    if (data) {
+      form.reset({
+        ...data,
+        password: '',
+      });
+    }
+  }, [data]);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     updateUserMutation.mutate({ id, user: values });
+    form.reset();
   };
+
+  if (isLoading) {
+    return (
+      <>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="mx-5"
+            id="formUser"
+          >
+            {formFields.map((record: any) => (
+              <FormField
+                key={record.name}
+                control={form.control}
+                name={record.name}
+                render={({ field }) => (
+                  <FormItem className="my-1">
+                    <FormLabel>{record.label}</FormLabel>
+                    <FormControl>
+                      <Skeleton className="w-[700px] h-[20px]" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ))}
+          </form>
+        </Form>
+        <div className="flex justify-between w-48 mt-5 ml-5">
+          <Button type="submit" form="formUser">
+            Actualizar
+          </Button>
+          <Button asChild>
+            <Link to={'../view'}>Cancelar</Link>
+          </Button>
+        </div>
+      </>
+    );
+  }
+
+  if (!data) {
+    return (
+      <>
+        <Alert variant="destructive" className="mt-5 ml-5 w-80">
+          <ExclamationTriangleIcon className="w-4 h-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>
+            No se encontró la información del usuario
+          </AlertDescription>
+        </Alert>
+        <Button asChild className="mt-5 ml-5">
+          <Link to={'../view'}>Volver</Link>
+        </Button>
+      </>
+    );
+  }
 
   return (
     <>
-      {isLoading ? (
-        <h1>Cargando...</h1>
-      ) : (
-        <DialogForm name={'Modificar'}>
-          <Form {...form}>
-            <form
-              id="formTemplate"
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="grid gap-4 py-4"
-            >
-              {formFields.map((record: any) => (
-                <FormField
-                  key={record.name}
-                  control={form.control}
-                  name={record.name}
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4">
-                      <FormLabel className="text-left">
-                        {record.label}
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          style={{
-                            width: '280px',
-                          }}
-                          className="col-span-3"
-                          placeholder={record.placeholder}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage
-                        style={{
-                          marginLeft: '100px',
-                        }}
-                        className="col-span-4"
-                      />
-                    </FormItem>
-                  )}
-                />
-              ))}
-            </form>
-          </Form>
-        </DialogForm>
-      )}
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="mx-5"
+          id="formUser"
+        >
+          {formFields.map((record: any) => (
+            <FormField
+              key={record.name}
+              control={form.control}
+              name={record.name}
+              render={({ field }) => (
+                <FormItem className="my-1">
+                  <FormLabel>{record.label}</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="w-80"
+                      placeholder={record.placeholder}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+        </form>
+      </Form>
+      <div className="flex justify-between w-48 mt-5 ml-5">
+        <Button type="submit" form="formUser">
+          Actualizar
+        </Button>
+        <Button asChild>
+          <Link to={'../view'}>Cancelar</Link>
+        </Button>
+      </div>
     </>
   );
 };

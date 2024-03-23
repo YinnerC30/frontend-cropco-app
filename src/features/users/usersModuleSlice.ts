@@ -1,19 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export interface UsersModuleState {
+interface UsersModuleState {
   searchParameter: string;
 }
 
 const initialState: UsersModuleState = {
   searchParameter: '',
-};
+} satisfies UsersModuleState as UsersModuleState;
 
 export const usersModuleSlice = createSlice({
   name: 'usersModule',
   initialState,
   reducers: {
     setSearchParameter: (state, action) =>
-      void (state.searchParameter = action.payload),
+      void (state.searchParameter = action.payload.parameter),
   },
 });
 

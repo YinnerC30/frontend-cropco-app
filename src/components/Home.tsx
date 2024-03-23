@@ -8,12 +8,18 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import { PersonIcon } from '@radix-ui/react-icons';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { ModeToggle } from './mode-toggle';
-import { ScrollArea } from './ui/scroll-area';
 import { Toaster } from './ui/sonner';
 
 export const Home = () => {
+  const navigate = useNavigate();
+
+  const handleNavigate = (endpoint: string) => {
+    navigate(`${endpoint}`);
+  };
+
   return (
     <>
       <div className="grid h-screen grid-cols-10 grid-rows-10">
@@ -26,7 +32,7 @@ export const Home = () => {
             <ModeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="secondary">Perfil</Button>
+                <Button variant="link">Perfil</Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
@@ -37,22 +43,25 @@ export const Home = () => {
           </div>
           <Separator className="my-2" />
         </header>
-        <nav className="flex flex-row col-span-2 row-start-2 row-span-9">
+        <nav className="flex flex-row items-center justify-center col-span-2 row-start-2 row-span-9">
           <ul className="w-11/12 ml-5 text-base font-bold">
             <li>
-              <NavLink to="users">Usuarios</NavLink>
+              <Button
+                variant={'link'}
+                onClick={() => handleNavigate('users/view')}
+              >
+                <PersonIcon className="w-4 h-4 mr-2" /> Users
+              </Button>
             </li>
+            
           </ul>
 
-          <div className="h-full m-1">
+          <div className="h-full">
             <Separator orientation="vertical" />
           </div>
         </nav>
-        <main className="col-span-6 row-span-7">
-          {/* TODO: Configurar medidas de Scroll area */}
-          <ScrollArea>
-            <Outlet />
-          </ScrollArea>
+        <main className="col-span-8 overflow-hidden row-span-9">
+          <Outlet />
         </main>
         <Toaster />
       </div>

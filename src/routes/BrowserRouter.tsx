@@ -15,8 +15,11 @@ export const Router = createBrowserRouter([
     children: [
       {
         path: 'users',
-        element: <UsersModule />,
         children: [
+          {
+            path: 'view',
+            element: <UsersModule />,
+          },
           {
             path: 'create',
             element: <CreateUser />,
