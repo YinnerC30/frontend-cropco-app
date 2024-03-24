@@ -1,8 +1,9 @@
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { setSearchParameter } from '@/features/users/usersModuleSlice';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Cross1Icon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
+
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import {
@@ -13,9 +14,16 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../ui/tooltip';
 
 export const SearchBar = () => {
-  const dispatch = useDispatch();
+  const parameter = useAppSelector(state => state.usersModule.searchParameter);
+  const dispatch = useAppDispatch();
 
   const formSchema = z.object({
     parameter: z.string(),
@@ -24,7 +32,7 @@ export const SearchBar = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      parameter: '',
+      parameter,
     },
   });
 
@@ -34,7 +42,7 @@ export const SearchBar = () => {
   };
 
   const onReset = () => {
-    form.reset();
+    form.reset({ parameter: '' });
     dispatch(setSearchParameter({ parameter: '' }));
   };
 
@@ -66,12 +74,30 @@ export const SearchBar = () => {
           </form>
         </Form>
         <div className="flex flex-row gap-4">
-          <Button type="submit" form="formUser">
-            <MagnifyingGlassIcon className="w-4 h-4" />
-          </Button>
-          <Button onClick={() => onReset()}>
-            <Cross1Icon />
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button type="submit" form="formUser" >
+                  <MagnifyingGlassIcon className="w-4 h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Buscar</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button onClick={() => onReset()}>
+                  <Cross1Icon />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Borrar</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
     </>

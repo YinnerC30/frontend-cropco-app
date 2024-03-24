@@ -24,24 +24,65 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { ArrowUpDown } from 'lucide-react';
 
 export const columns: ColumnDef<GetUser>[] = [
   {
     accessorKey: 'first_name',
-    header: 'Nombre',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Nombre
+          <ArrowUpDown className="w-4 h-4 ml-2" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: 'last_name',
-    header: 'Apellido',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Apellido
+          <ArrowUpDown className="w-4 h-4 ml-2" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: 'email',
-    header: 'Email',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Email
+          <ArrowUpDown className="w-4 h-4 ml-2" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: 'cell_phone_number',
-    header: 'Número celular',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Número celular
+          <ArrowUpDown className="w-4 h-4 ml-2" />
+        </Button>
+      );
+    },
   },
   {
     id: 'actions',
@@ -65,7 +106,10 @@ export const columns: ColumnDef<GetUser>[] = [
               <Tooltip>
                 <TooltipTrigger asChild>
                   <AlertDialogTrigger asChild>
-                    <Button variant={'destructive'} className="mr-2">
+                    <Button
+                      variant={'destructive'}
+                      className="mr-2 bg-rose-600 hover:bg-rose-400"
+                    >
                       <TrashIcon className="w-4 h-4" />
                     </Button>
                   </AlertDialogTrigger>

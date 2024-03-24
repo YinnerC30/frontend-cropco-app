@@ -39,6 +39,7 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+
     state: {
       sorting,
       columnVisibility,
@@ -50,7 +51,7 @@ export function DataTable<TData, TValue>({
     <div>
       <ScrollArea
         type="auto"
-        className="h-[300px] w-[1000px]  rounded-b-md mb-10"
+        className="h-[380px] w-[1000px]  rounded-b-md mb-10"
       >
         <div className="border rounded-md ">
           <Table>
