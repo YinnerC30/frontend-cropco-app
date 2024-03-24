@@ -2,7 +2,7 @@ import ErrorPage from '@/ErrorPage';
 import { Home } from '@/components/Home';
 
 import UsersModule from '@/features/users/UsersModule';
-import { ViewUser } from '@/features/users/ViewUser';
+import { ViewUser } from '@/features/users/form/ViewUser';
 import { CreateUser } from '@/features/users/form/CreateUser';
 import { ModifyUser } from '@/features/users/form/ModifyUser';
 import { createBrowserRouter } from 'react-router-dom';

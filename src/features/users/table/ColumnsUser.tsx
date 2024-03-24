@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 
-import { Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
+import { EyeOpenIcon, Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
 
 import {
   Tooltip,
@@ -99,7 +99,6 @@ export const columns: ColumnDef<GetUser>[] = [
 
       return (
         <>
-          {/* TODO: Cambios por iconos interactivos */}
           {/* Eliminar */}
           <AlertDialog>
             <TooltipProvider>
@@ -143,12 +142,28 @@ export const columns: ColumnDef<GetUser>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button onClick={() => navigate(`../modify/${id}`)}>
+                <Button
+                  className="mr-2"
+                  onClick={() => navigate(`../modify/${id}`)}
+                >
                   <Pencil2Icon className="w-full h-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Modificar</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          {/* View */}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button onClick={() => navigate(`../view/${id}`)}>
+                  <EyeOpenIcon className="w-full h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Ver</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>

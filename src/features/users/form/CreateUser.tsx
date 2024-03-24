@@ -68,7 +68,7 @@ export const CreateUser = () => {
         </Form>
       </ScrollArea>
 
-      <div className="flex justify-between w-48 mt-5 ml-5">
+      <div className="flex justify-between w-48 ml-5">
         <Button type="submit" form="formUser">
           Guardar
         </Button>

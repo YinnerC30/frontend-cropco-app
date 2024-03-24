@@ -16,7 +16,6 @@ export const getUsers = async ({ parameter = '', limit = 100, offset = 0 }) => {
 };
 
 export const getUserById = async ({ id }: any) => {
-  console.log('Se llamo getUserById');
   const res = await cropcoAPI.get(`/users/${id}`);
   return res.data;
 };

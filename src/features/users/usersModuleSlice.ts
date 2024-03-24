@@ -14,9 +14,11 @@ export const usersModuleSlice = createSlice({
   reducers: {
     setSearchParameter: (state, action) =>
       void (state.searchParameter = action.payload.parameter),
+    clearSearchParameter: state => void (state.searchParameter = ''),
   },
 });
 
-export const { setSearchParameter } = usersModuleSlice.actions;
+export const { setSearchParameter, clearSearchParameter } =
+  usersModuleSlice.actions;
 
 export default usersModuleSlice.reducer;

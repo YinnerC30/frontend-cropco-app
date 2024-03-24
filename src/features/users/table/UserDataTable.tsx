@@ -1,7 +1,8 @@
 import { useAppSelector } from '@/app/hooks';
 import { DataTable } from '@/components/table/DataTable';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
+import { ErrorLoading } from '@/components/common/ErrorLoading';
+import { Loading } from '@/components/common/Loading';
 import { SearchBar } from '@/components/form/SearchBar';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,19 +12,14 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { getUsers } from '@/services/cropcoAPI';
-import {
-  ExclamationTriangleIcon,
-  PlusIcon,
-  ReloadIcon,
-} from '@radix-ui/react-icons';
+import { PlusIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { columns } from './ColumnsUser';
-import { Loading } from '@/components/common/Loading';
-import { ErrorLoading } from '@/components/common/ErrorLoading';
 
 export const UserDataTable = () => {
   const parameter = useAppSelector(state => state.usersModule.searchParameter);
+  
 
   const navigate = useNavigate();
 
@@ -46,7 +42,7 @@ export const UserDataTable = () => {
     <>
       <div className="flex flex-col items-center justify-center mt-10">
         <div className="flex flex-row items-center ">
-          <SearchBar />
+          <SearchBar parameter={parameter} />
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>

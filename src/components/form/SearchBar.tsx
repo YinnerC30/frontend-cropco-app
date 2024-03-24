@@ -1,9 +1,14 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { setSearchParameter } from '@/features/users/usersModuleSlice';
+import { useAppDispatch } from '@/app/hooks';
+import {
+  clearSearchParameter,
+  setSearchParameter,
+} from '@/features/users/usersModuleSlice';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Cross1Icon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useLocation } from 'react-router-dom';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import {
@@ -21,8 +26,7 @@ import {
   TooltipTrigger,
 } from '../ui/tooltip';
 
-export const SearchBar = () => {
-  const parameter = useAppSelector(state => state.usersModule.searchParameter);
+export const SearchBar = ({ parameter }: any) => {
   const dispatch = useAppDispatch();
 
   const formSchema = z.object({
@@ -37,13 +41,12 @@ export const SearchBar = () => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
     dispatch(setSearchParameter(values));
   };
 
   const onReset = () => {
     form.reset({ parameter: '' });
-    dispatch(setSearchParameter({ parameter: '' }));
+    dispatch(clearSearchParameter());
   };
 
   return (
@@ -77,7 +80,7 @@ export const SearchBar = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button type="submit" form="formUser" >
+                <Button type="submit" form="formUser">
                   <MagnifyingGlassIcon className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
