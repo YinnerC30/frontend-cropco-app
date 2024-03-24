@@ -1,14 +1,8 @@
-import { useAppDispatch } from '@/app/hooks';
-import {
-  clearSearchParameter,
-  setSearchParameter,
-} from '@/features/users/usersModuleSlice';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Cross1Icon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import {
@@ -27,7 +21,9 @@ import {
 } from '../ui/tooltip';
 
 export const SearchBar = ({ parameter }: any) => {
-  const dispatch = useAppDispatch();
+  
+
+  const navigate = useNavigate();
 
   const formSchema = z.object({
     parameter: z.string(),
@@ -40,13 +36,13 @@ export const SearchBar = ({ parameter }: any) => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    dispatch(setSearchParameter(values));
-  };
-
   const onReset = () => {
     form.reset({ parameter: '' });
-    dispatch(clearSearchParameter());
+    navigate(`../view`);
+  };
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    navigate(`?search=${values.parameter.trim()}`);
   };
 
   return (

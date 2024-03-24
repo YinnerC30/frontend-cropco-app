@@ -21,6 +21,10 @@ export const Router = createBrowserRouter([
             element: <UsersModule />,
           },
           {
+            path: 'view?search=:parameter',
+            element: <UsersModule />,
+          },
+          {
             path: 'create',
             element: <CreateUser />,
           },

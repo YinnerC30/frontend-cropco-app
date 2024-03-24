@@ -1,4 +1,3 @@
-import { useAppSelector } from '@/app/hooks';
 import { DataTable } from '@/components/table/DataTable';
 
 import { ErrorLoading } from '@/components/common/ErrorLoading';
@@ -14,14 +13,13 @@ import {
 import { getUsers } from '@/services/cropcoAPI';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { columns } from './ColumnsUser';
 
 export const UserDataTable = () => {
-  const parameter = useAppSelector(state => state.usersModule.searchParameter);
-  
-
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const parameter = searchParams.get('search');
 
   const {
     isLoading,
@@ -29,7 +27,7 @@ export const UserDataTable = () => {
     isError,
   } = useQuery({
     queryKey: ['users', parameter],
-    queryFn: () => getUsers({ parameter }),
+    queryFn: () => getUsers({ parameter: parameter || '' }),
   });
 
   if (isLoading) return <Loading />;

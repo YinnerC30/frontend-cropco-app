@@ -17,12 +17,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 import { defaultValues, formFields, formSchema } from './ElementsUserForm';
 
 export const ViewUser = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { isLoading, data } = useQuery({
     queryKey: ['users'],
@@ -86,9 +87,7 @@ export const ViewUser = () => {
         </ScrollArea>
 
         <div className="flex justify-center w-48 mt-5 ml-5">
-          <Button asChild>
-            <Link to={'../view'}>Volver</Link>
-          </Button>
+          <Button onClick={() => navigate(-1)}>Volver</Button>
         </div>
       </div>
     </>

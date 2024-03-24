@@ -11,20 +11,22 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { getUserById } from '@/services/cropcoAPI';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 import { useUserActions } from '../hooks/useUserActions';
 import { defaultValues, formFields, formSchema } from './ElementsUserForm';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 export const ModifyUser = () => {
   const { id } = useParams();
   const { updateUserMutation } = useUserActions();
+
+  const navigate = useNavigate();
 
   const { isLoading, data } = useQuery({
     queryKey: ['users', id],
@@ -99,9 +101,7 @@ export const ModifyUser = () => {
         <Button type="submit" form="formUser">
           Actualizar
         </Button>
-        <Button asChild>
-          <Link to={'../view'}>Cancelar</Link>
-        </Button>
+        <Button onClick={() => navigate(-1)}>Cancelar</Button>
       </div>
     </div>
   );
