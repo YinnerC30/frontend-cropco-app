@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 export const useUserActions = () => {
-  
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
@@ -15,7 +14,7 @@ export const useUserActions = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       toast('Usuario fue creado exitosamente');
-      navigate('../view')
+      navigate('../view');
     },
     onError: (error: AxiosError | any) => {
       const { data } = error.response;
@@ -28,7 +27,7 @@ export const useUserActions = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       toast('Usuario actualizado con éxito');
-      navigate('../view');
+      navigate(-1);
     },
     onError: (error: AxiosError | any) => {
       const { data } = error.response;

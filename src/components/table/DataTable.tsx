@@ -18,13 +18,14 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useState } from 'react';
-import { ScrollArea } from '../ui/scroll-area';
+import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 import { DataTablePagination } from './DataTablePagination';
 import { DataTableProps } from './interfaces/DataTableProps';
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  width,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -54,7 +55,7 @@ export function DataTable<TData, TValue>({
         className="h-[380px] w-[1000px]  rounded-b-md mb-10"
       >
         <div className="border rounded-md ">
-          <Table>
+          <Table className={`w-[${width || 1000}px]`}>
             <TableHeader>
               {table.getHeaderGroups().map(headerGroup => (
                 <TableRow key={headerGroup.id}>
@@ -103,6 +104,7 @@ export function DataTable<TData, TValue>({
             </TableBody>
           </Table>
         </div>
+        {width && <ScrollBar orientation="horizontal" />}
       </ScrollArea>
       <DataTablePagination table={table} />
     </div>

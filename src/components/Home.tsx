@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
-import { PersonIcon } from '@radix-ui/react-icons';
+import { PersonIcon, LightningBoltIcon } from '@radix-ui/react-icons';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { ModeToggle } from './mode-toggle';
 import { Toaster } from './ui/sonner';
@@ -53,7 +53,14 @@ export const Home = () => {
                 <PersonIcon className="w-4 h-4 mr-2" /> Users
               </Button>
             </li>
-            
+            <li>
+              <Button
+                variant={'link'}
+                onClick={() => handleNavigate('crops/view')}
+              >
+                <LightningBoltIcon className="w-4 h-4 mr-2" /> Crops
+              </Button>
+            </li>
           </ul>
 
           <div className="h-full">
