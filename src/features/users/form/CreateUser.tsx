@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ReloadIcon } from '@radix-ui/react-icons';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -27,11 +28,15 @@ export const CreateUser = () => {
   });
 
   const { createUserMutation } = useUserActions();
+  const { mutate, isSuccess, isPending } = createUserMutation;
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    createUserMutation.mutate(values);
-    form.reset();
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    mutate(values);
   };
+
+  if (isSuccess) {
+    navigate('../view');
+  }
 
   return (
     <div className="flex flex-col items-center w-full h-full">
@@ -71,7 +76,8 @@ export const CreateUser = () => {
       </ScrollArea>
 
       <div className="flex justify-between w-48 ml-5">
-        <Button type="submit" form="formUser">
+        <Button type="submit" form="formUser" disabled={isPending}>
+          {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
           Guardar
         </Button>
         <Button onClick={() => navigate(-1)}>Cancelar</Button>

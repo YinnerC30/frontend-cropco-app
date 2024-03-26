@@ -50,6 +50,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
+      
       <ScrollArea
         type="auto"
         className="h-[380px] w-[1000px]  rounded-b-md mb-10"

@@ -1,3 +1,3 @@
 export interface SearchBarProps {
-  searchTerms: string[];
+  parameter: string;
 }

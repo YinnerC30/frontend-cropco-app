@@ -16,20 +16,21 @@ import { DataTableViewOptionsProps } from './interfaces/DataTableViewOptionsProp
 export function DataTableViewOptions<TData>({
   table,
 }: DataTableViewOptionsProps<TData>) {
+  console.log(table.getAllColumns());
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
           size="sm"
-          className="ml-auto hidden h-8 lg:flex"
+          className="hidden h-8 ml-auto lg:flex"
         >
-          <MixerHorizontalIcon className="mr-2 h-4 w-4" />
-          View
+          <MixerHorizontalIcon className="w-4 h-4 mr-2" />
+          Vista
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[150px]">
-        <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+        <DropdownMenuLabel>Ocultar columnas</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {table
           .getAllColumns()
@@ -45,7 +46,7 @@ export function DataTableViewOptions<TData>({
                 checked={column.getIsVisible()}
                 onCheckedChange={value => column.toggleVisibility(!!value)}
               >
-                {column.id}
+                Hola
               </DropdownMenuCheckboxItem>
             );
           })}

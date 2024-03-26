@@ -1,46 +1,57 @@
 import { createUser, deleteUser, updateUser } from '@/services/cropcoAPI';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 export const useUserActions = () => {
-  const navigate = useNavigate();
-
   const queryClient = useQueryClient();
 
   const createUserMutation = useMutation({
     mutationFn: createUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
-      toast('Usuario fue creado exitosamente');
-      navigate('../view');
+      toast.success(`Usuario creado`);
     },
-    onError: (error: AxiosError | any) => {
-      const { data } = error.response;
-      toast(`Hubo un problema creando el usuario, ${data.message}`);
+    onError: (error: AxiosError) => {
+      const updateError: AxiosError | any = error;
+      const { data } = updateError.response;
+      toast.error(
+        `Hubo un problema durante la creación del usuario, ${data.message}`,
+      );
     },
+    retry: 1,
   });
 
   const updateUserMutation = useMutation({
     mutationFn: updateUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
-      toast('Usuario actualizado con éxito');
-      navigate(-1);
+      toast.success(`Usuario actualizado`);
     },
-    onError: (error: AxiosError | any) => {
-      const { data } = error.response;
-      toast(`Hubo un problema actualizando el usuario, ${data.message}`);
+    onError: (error: AxiosError) => {
+      const updateError: AxiosError | any = error;
+      const { data } = updateError.response;
+      toast.error(
+        `Hubo un problema durante la actualización del usuario, ${data.message}`,
+      );
     },
+    retry: 1,
   });
 
   const deleteUserMutation = useMutation({
     mutationFn: deleteUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
-      toast('Registro eliminado');
+      toast.success(`Usuario eliminado`);
     },
+    onError: (error: AxiosError) => {
+      const updateError: AxiosError | any = error;
+      const { data } = updateError.response;
+      toast.error(
+        `Hubo un problema durante la eliminación del usuario, ${data.message}`,
+      );
+    },
+    retry: 1,
   });
 
   return {

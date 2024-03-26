@@ -55,7 +55,7 @@ export const CropDataTable = () => {
           </TooltipProvider>
         </div>
         <div className="container py-2">
-          <DataTable columns={columns} data={data} width={1500}></DataTable>
+          <DataTable columns={columns} data={data}></DataTable>
         </div>
       </div>
     </>

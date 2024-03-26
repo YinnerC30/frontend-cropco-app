@@ -11,7 +11,9 @@ import { Separator } from '@/components/ui/separator';
 import { PersonIcon, LightningBoltIcon } from '@radix-ui/react-icons';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { ModeToggle } from './mode-toggle';
-import { Toaster } from './ui/sonner';
+import { Toaster } from 'sonner';
+
+
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -69,8 +71,8 @@ export const Home = () => {
         </nav>
         <main className="col-span-8 overflow-hidden row-span-9">
           <Outlet />
+          <Toaster position="top-right" closeButton richColors={true} />
         </main>
-        <Toaster />
       </div>
     </>
   );

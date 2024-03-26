@@ -1,4 +1,4 @@
-import { es } from 'date-fns/locale';
+import { es, is } from 'date-fns/locale';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
@@ -13,7 +13,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CalendarIcon } from '@radix-ui/react-icons';
+import { CalendarIcon, ReloadIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -38,11 +38,15 @@ export const CreateCrop = () => {
   });
 
   const { createCropMutation } = useCropActions();
+  const { mutate, isSuccess, isPending } = createCropMutation;
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    createCropMutation.mutate(values);
-    form.reset();
+    mutate(values);
   };
+
+  if (isSuccess) {
+    navigate('../view');
+  }
 
   return (
     <div className="flex flex-col items-center w-full h-full">
@@ -111,7 +115,7 @@ export const CreateCrop = () => {
                               )}
                             >
                               {field.value ? (
-                                format(field.value, 'PPP')
+                                format(field.value, 'PPP', { locale: es })
                               ) : (
                                 <span>Selecciona una fecha</span>
                               )}
@@ -145,7 +149,8 @@ export const CreateCrop = () => {
       </ScrollArea>
 
       <div className="flex justify-between w-48 ml-5">
-        <Button type="submit" form="formCrop">
+        <Button type="submit" form="formCrop" disabled={isPending}>
+          {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
           Guardar
         </Button>
         <Button onClick={() => navigate(-1)}>Cancelar</Button>

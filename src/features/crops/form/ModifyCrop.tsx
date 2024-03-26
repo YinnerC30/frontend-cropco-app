@@ -1,6 +1,7 @@
 import { ErrorLoading } from '@/components/common/ErrorLoading';
 import { Loading } from '@/components/common/Loading';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import {
   Form,
   FormControl,
@@ -11,35 +12,36 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { getCropById } from '@/services/cropcoAPI';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import { z } from 'zod';
-import { useCropActions } from '../hooks/useCropActions';
-import { defaultValues, formFields, formSchema } from './ElementsCropForm';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
-import { Calendar } from '@/components/ui/calendar';
-import { CalendarIcon } from '@radix-ui/react-icons';
 import { cn } from '@/lib/utils';
+import { getCropById } from '@/services/cropcoAPI';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { CalendarIcon, ReloadIcon } from '@radix-ui/react-icons';
+import { useQuery } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
+import { z } from 'zod';
+import { useCropActions } from '../hooks/useCropActions';
+import { defaultValues, formFields, formSchema } from './ElementsCropForm';
 
 export const ModifyCrop = () => {
   const { id } = useParams();
-  const { updateCropMutation } = useCropActions();
-
   const navigate = useNavigate();
 
-  const { isLoading, data } = useQuery({
+  const { updateCropMutation } = useCropActions();
+
+  const { isLoading, data: dataCrop } = useQuery({
     queryKey: ['crops', id],
     queryFn: () => getCropById({ id }),
   });
@@ -49,29 +51,32 @@ export const ModifyCrop = () => {
     defaultValues,
   });
 
+  const { mutate, isPending, isSuccess } = updateCropMutation;
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    mutate({ id, crop: values });
+  };
+
   useEffect(() => {
-    if (data) {
+    if (dataCrop) {
       form.reset({
-        ...data,
-        date_of_creation: new Date(`${data.date_of_creation}T00:00:00-05:00`),
+        ...dataCrop,
+        date_of_creation: new Date(
+          `${dataCrop.date_of_creation}T00:00:00-05:00`,
+        ),
         date_of_termination: new Date(
-          `${data.date_of_termination}T00:00:00-05:00`,
+          `${dataCrop.date_of_termination}T00:00:00-05:00`,
         ),
       });
     }
-  }, [data]);
+  }, [dataCrop]);
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    updateCropMutation.mutate({ id, crop: values });
-    form.reset();
-  };
+  if (isLoading) return <Loading />;
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  if (!dataCrop) return <ErrorLoading />;
 
-  if (!data) {
-    return <ErrorLoading />;
+  if (isSuccess) {
+    navigate(`../view`);
   }
 
   return (
@@ -178,7 +183,8 @@ export const ModifyCrop = () => {
       </ScrollArea>
 
       <div className="flex justify-between w-48 ml-5">
-        <Button type="submit" form="formCrop">
+        <Button type="submit" form="formCrop" disabled={isPending}>
+          {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
           Actualizar
         </Button>
         <Button onClick={() => navigate(-1)}>Cancelar</Button>

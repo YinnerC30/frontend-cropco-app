@@ -21,10 +21,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 import { useUserActions } from '../hooks/useUserActions';
 import { defaultValues, formFields, formSchema } from './ElementsUserForm';
+import { ReloadIcon } from '@radix-ui/react-icons';
 
 export const ModifyUser = () => {
   const { id } = useParams();
   const { updateUserMutation } = useUserActions();
+  const { mutate, isSuccess, isPending } = updateUserMutation;
 
   const navigate = useNavigate();
 
@@ -48,8 +50,7 @@ export const ModifyUser = () => {
   }, [data]);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    updateUserMutation.mutate({ id, user: values });
-    form.reset();
+    mutate({ id, user: values });
   };
 
   if (isLoading) {
@@ -58,6 +59,10 @@ export const ModifyUser = () => {
 
   if (!data) {
     return <ErrorLoading />;
+  }
+
+  if (isSuccess) {
+    navigate('../view');
   }
 
   return (
@@ -98,7 +103,8 @@ export const ModifyUser = () => {
       </ScrollArea>
 
       <div className="flex justify-between w-48 mt-5 ml-5">
-        <Button type="submit" form="formUser">
+        <Button type="submit" form="formUser" disabled={isPending}>
+          {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
           Actualizar
         </Button>
         <Button onClick={() => navigate(-1)}>Cancelar</Button>
