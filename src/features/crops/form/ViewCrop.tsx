@@ -86,7 +86,7 @@ export const ViewCrop = () => {
               className="w-40"
             />
           </div>
-          <div>
+          {/* <div>
             <Label className="mr-2">Cantidad por vender:</Label>
             {dataCrop.harvests_stock === null ? (
               <Badge>{0}</Badge>
@@ -101,7 +101,7 @@ export const ViewCrop = () => {
             ) : (
               <Badge>{dataCrop.harvests[0].total}</Badge>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="flex justify-between w-48 col-span-10 ml-5 row-start-10">

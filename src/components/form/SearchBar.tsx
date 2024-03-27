@@ -21,7 +21,7 @@ import {
 } from '../ui/tooltip';
 import { SearchBarProps } from './interfaces/SearchBarProps';
 
-export const SearchBar = ({ parameter = '' }: SearchBarProps) => {
+export const SearchBar = ({ parameter }: SearchBarProps) => {
   const navigate = useNavigate();
 
   const formSchema = z.object({

@@ -15,12 +15,11 @@ import { PlusIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { columns } from './ColumnsUser';
-import { DataTableViewOptions } from '@/components/table/ColumnToggle';
 
 export const UserDataTable = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const parameter = searchParams.get('search');
+  const parameter = searchParams.get('search') || '';
 
   const {
     isLoading,
