@@ -12,8 +12,7 @@ import { PersonIcon, LightningBoltIcon } from '@radix-ui/react-icons';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { ModeToggle } from './mode-toggle';
 import { Toaster } from 'sonner';
-
-
+import { PersonStandingIcon } from 'lucide-react';
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -61,6 +60,14 @@ export const Home = () => {
                 onClick={() => handleNavigate('crops/view')}
               >
                 <LightningBoltIcon className="w-4 h-4 mr-2" /> Crops
+              </Button>
+            </li>
+            <li>
+              <Button
+                variant={'link'}
+                onClick={() => handleNavigate('clients/view')}
+              >
+                <PersonStandingIcon className="w-4 h-4 mr-2" /> Clientes
               </Button>
             </li>
           </ul>

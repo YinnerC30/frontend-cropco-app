@@ -1,5 +1,9 @@
 import ErrorPage from '@/ErrorPage';
 import { Home } from '@/components/Home';
+import { ClientsModule } from '@/features/clients/ClientsModule';
+import { CreateClient } from '@/features/clients/form/CreateClient';
+import { ModifyClient } from '@/features/clients/form/ModifyClient';
+import { ViewClient } from '@/features/clients/form/ViewClient';
 
 import CropsModule from '@/features/crops/CropsModule';
 import { CreateCrop } from '@/features/crops/form/CreateCrop';
@@ -25,10 +29,6 @@ export const Router = createBrowserRouter([
             element: <UsersModule />,
           },
           {
-            path: 'view?search=:parameter',
-            element: <UsersModule />,
-          },
-          {
             path: 'create',
             element: <CreateUser />,
           },
@@ -50,10 +50,6 @@ export const Router = createBrowserRouter([
             element: <CropsModule />,
           },
           {
-            path: 'view?search=:parameter',
-            element: <CropsModule />,
-          },
-          {
             path: 'create',
             element: <CreateCrop />,
           },
@@ -72,6 +68,19 @@ export const Router = createBrowserRouter([
         children: [
           {
             path: 'view',
+            element: <ClientsModule />,
+          },
+          {
+            path: 'create',
+            element: <CreateClient />,
+          },
+          {
+            path: 'modify/:id',
+            element: <ModifyClient />,
+          },
+          {
+            path: 'view/:id',
+            element: <ViewClient />,
           },
         ],
       },
