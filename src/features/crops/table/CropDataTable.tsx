@@ -10,7 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { getCrops } from '@/services/cropcoAPI';
+import { getCrops } from '@/services/cropco/CropMethods';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -19,7 +19,7 @@ import { columns } from './ColumnsCrop';
 export const CropDataTable = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const parameter = searchParams.get('search');
+  const parameter = searchParams.get('search') || '';
 
   const {
     isLoading,

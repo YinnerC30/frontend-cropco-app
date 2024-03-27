@@ -1,4 +1,8 @@
-import { createUser, deleteUser, updateUser } from '@/services/cropcoAPI';
+import {
+  createUser,
+  deleteUser,
+  updateUser,
+} from '@/services/cropco/UserMethods';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';

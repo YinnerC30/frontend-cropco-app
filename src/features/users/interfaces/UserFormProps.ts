@@ -1,7 +1,7 @@
-import { User } from './User';
+import { CreateUser } from './User';
 
 export interface UserFormProps {
-  values?: User;
+  values?: CreateUser;
   nameButtonSubmit: string;
-  onSubmit: (values: User) => void;
+  onSubmit: (values: CreateUser) => void;
 }

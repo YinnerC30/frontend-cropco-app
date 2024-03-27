@@ -67,6 +67,14 @@ export const Router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: 'clients',
+        children: [
+          {
+            path: 'view',
+          },
+        ],
+      },
     ],
   },
 ]);
