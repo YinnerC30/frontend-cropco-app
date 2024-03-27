@@ -4,8 +4,8 @@ export const formFields = [
   {
     name: 'name',
     label: 'Nombre:',
-    placeholder: 'Maco',
-    description: '',
+    placeholder: 'Cultivo 1',
+    description: 'Nombre único del cultivo ',
     type: 'string',
   },
   {

@@ -4,6 +4,7 @@ import { Home } from '@/components/Home';
 import CropsModule from '@/features/crops/CropsModule';
 import { CreateCrop } from '@/features/crops/form/CreateCrop';
 import { ModifyCrop } from '@/features/crops/form/ModifyCrop';
+import { ViewCrop } from '@/features/crops/form/ViewCrop';
 import UsersModule from '@/features/users/UsersModule';
 import { CreateUser } from '@/features/users/form/CreateUser';
 import { ModifyUser } from '@/features/users/form/ModifyUser';
@@ -59,6 +60,10 @@ export const Router = createBrowserRouter([
           {
             path: 'modify/:id',
             element: <ModifyCrop />,
+          },
+          {
+            path: 'view/:id',
+            element: <ViewCrop />,
           },
         ],
       },

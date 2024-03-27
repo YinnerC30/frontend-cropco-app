@@ -66,17 +66,10 @@ export const formSchema = z.object({
     .max(100, { message: `La contraseña debe tener máximo 100 caracteres` }),
 });
 
-// export const defaultValues = {
-//   first_name: '',
-//   last_name: '',
-//   email: '',
-//   cell_phone_number: '',
-//   password: '',
-// };
 export const defaultValues = {
-  first_name: 'aaaaa',
-  last_name: 'aaaaa',
-  email: 'aaaa@gmail.com',
-  cell_phone_number: '3147736549',
-  password: '123456',
+  first_name: '',
+  last_name: '',
+  email: '',
+  cell_phone_number: '',
+  password: '',
 };
