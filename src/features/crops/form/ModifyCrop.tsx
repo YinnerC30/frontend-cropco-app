@@ -187,7 +187,6 @@ export const ModifyCrop = () => {
         </Button>
         <Button onClick={() => navigate(-1)}>Cancelar</Button>
       </div>
-      {JSON.stringify(dataCrop)}
     </div>
   );
 };

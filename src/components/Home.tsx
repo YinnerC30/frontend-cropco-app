@@ -8,11 +8,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
-import { PersonIcon, LightningBoltIcon } from '@radix-ui/react-icons';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { ModeToggle } from './mode-toggle';
 import { Toaster } from 'sonner';
-import { PersonStandingIcon } from 'lucide-react';
+import { ModeToggle } from './mode-toggle';
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -51,7 +49,7 @@ export const Home = () => {
                 variant={'link'}
                 onClick={() => handleNavigate('users/view')}
               >
-                <PersonIcon className="w-4 h-4 mr-2" /> Users
+                Users
               </Button>
             </li>
             <li>
@@ -59,7 +57,7 @@ export const Home = () => {
                 variant={'link'}
                 onClick={() => handleNavigate('crops/view')}
               >
-                <LightningBoltIcon className="w-4 h-4 mr-2" /> Crops
+                Crops
               </Button>
             </li>
             <li>
@@ -67,7 +65,15 @@ export const Home = () => {
                 variant={'link'}
                 onClick={() => handleNavigate('clients/view')}
               >
-                <PersonStandingIcon className="w-4 h-4 mr-2" /> Clientes
+                Clientes
+              </Button>
+            </li>
+            <li>
+              <Button
+                variant={'link'}
+                onClick={() => handleNavigate('employees/view')}
+              >
+                Empleados
               </Button>
             </li>
           </ul>

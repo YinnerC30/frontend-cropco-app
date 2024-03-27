@@ -1,6 +1,10 @@
-import { PersonalInformation } from '@/components/common/interfaces/PersonalInfomation';
 
-export interface CreateUser extends PersonalInformation {
+export interface CreateUser {
+  first_name: string;
+  last_name: string;
+  email: string;
+  cell_phone_number: string;
+
   password: string;
 }
 

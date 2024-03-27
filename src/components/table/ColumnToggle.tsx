@@ -16,7 +16,6 @@ import { DataTableViewOptionsProps } from './interfaces/DataTableViewOptionsProp
 export function DataTableViewOptions<TData>({
   table,
 }: DataTableViewOptionsProps<TData>) {
-  console.log(table.getAllColumns());
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

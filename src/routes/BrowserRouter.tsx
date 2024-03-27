@@ -9,6 +9,10 @@ import CropsModule from '@/features/crops/CropsModule';
 import { CreateCrop } from '@/features/crops/form/CreateCrop';
 import { ModifyCrop } from '@/features/crops/form/ModifyCrop';
 import { ViewCrop } from '@/features/crops/form/ViewCrop';
+import { EmployeesModule } from '@/features/employees/EmployeesModule';
+import { CreateEmployee } from '@/features/employees/form/CreateEmployee';
+import { ModifyEmployee } from '@/features/employees/form/ModifyEmployee';
+import { ViewEmployee } from '@/features/employees/form/ViewEmployee';
 import UsersModule from '@/features/users/UsersModule';
 import { CreateUser } from '@/features/users/form/CreateUser';
 import { ModifyUser } from '@/features/users/form/ModifyUser';
@@ -81,6 +85,27 @@ export const Router = createBrowserRouter([
           {
             path: 'view/:id',
             element: <ViewClient />,
+          },
+        ],
+      },
+      {
+        path: 'employees',
+        children: [
+          {
+            path: 'view',
+            element: <EmployeesModule />,
+          },
+          {
+            path: 'create',
+            element: <CreateEmployee />,
+          },
+          {
+            path: 'modify/:id',
+            element: <ModifyEmployee />,
+          },
+          {
+            path: 'view/:id',
+            element: <ViewEmployee />,
           },
         ],
       },
