@@ -12,7 +12,14 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { getSupplierById } from '@/services/cropco/SupplierMethods';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { getSupplyById } from '@/services/cropco/SupplyMethods';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
@@ -20,19 +27,19 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
-import { useSupplierActions } from '../hooks/useSupplierActions';
-import { defaultValues, formFields, formSchema } from './ElementsSupplierForm';
+import { useSupplyActions } from '../hooks/useSuppliesActions';
+import { defaultValues, formFields, formSchema } from './ElementsSupplyForm';
 
-export const ModifySupplier = () => {
+export const ModifySupply = () => {
   const { id } = useParams();
-  const { updateSupplierMutation } = useSupplierActions();
-  const { mutate, isSuccess, isPending } = updateSupplierMutation;
+  const { updateSupplyMutation } = useSupplyActions();
+  const { mutate, isSuccess, isPending } = updateSupplyMutation;
 
   const navigate = useNavigate();
 
   const { isLoading, data } = useQuery({
-    queryKey: ['supplier', id],
-    queryFn: () => getSupplierById({ id }),
+    queryKey: ['supplies', id],
+    queryFn: () => getSupplyById({ id }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -49,7 +56,7 @@ export const ModifySupplier = () => {
   }, [data]);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    mutate({ id, supplier: values });
+    mutate({ id, supply: values });
   };
 
   if (isLoading) {
@@ -82,15 +89,34 @@ export const ModifySupplier = () => {
                 control={form.control}
                 name={record.name}
                 render={({ field }) => (
-                  <FormItem className="my-1">
+                  <FormItem className="my-4">
                     <FormLabel>{record.label}</FormLabel>
-                    <FormControl>
+
+                    {record.type === 'select' && (
+                      <Select
+                        onValueChange={field.onChange}
+                        {...field}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder={record.placeholder} />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="GRAMOS">GRAMOS</SelectItem>
+                          <SelectItem value="MILILITROS">MILILITROS</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    )}
+
+                    {record.type !== 'select' && (
                       <Input
                         className="w-80"
                         placeholder={record.placeholder}
                         {...field}
                       />
-                    </FormControl>
+                    )}
+
                     <FormDescription>{record.description}</FormDescription>
                     <FormMessage />
                   </FormItem>
