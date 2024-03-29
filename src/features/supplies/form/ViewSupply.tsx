@@ -85,7 +85,6 @@ export const ViewSupply = () => {
           >
             {formFields.map((record: any) => (
               <FormField
-                disabled
                 key={record.name}
                 control={form.control}
                 name={record.name}
@@ -94,7 +93,7 @@ export const ViewSupply = () => {
                     <FormLabel>{record.label}</FormLabel>
 
                     {record.type === 'select' && (
-                      <Select onValueChange={field.onChange} {...field}>
+                      <Select onValueChange={field.onChange} {...field} disabled>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder={record.placeholder} />
@@ -109,6 +108,7 @@ export const ViewSupply = () => {
 
                     {record.type !== 'select' && (
                       <Input
+                        readOnly
                         className="w-80"
                         placeholder={record.placeholder}
                         {...field}
