@@ -76,6 +76,14 @@ export const Home = () => {
                 Empleados
               </Button>
             </li>
+            <li>
+              <Button
+                variant={'link'}
+                onClick={() => handleNavigate('suppliers/view')}
+              >
+                Proveedores
+              </Button>
+            </li>
           </ul>
 
           <div className="h-full">

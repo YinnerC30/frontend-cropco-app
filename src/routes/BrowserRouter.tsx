@@ -13,6 +13,10 @@ import { EmployeesModule } from '@/features/employees/EmployeesModule';
 import { CreateEmployee } from '@/features/employees/form/CreateEmployee';
 import { ModifyEmployee } from '@/features/employees/form/ModifyEmployee';
 import { ViewEmployee } from '@/features/employees/form/ViewEmployee';
+import { SuppliersModule } from '@/features/suppliers/SuppliersModule';
+import { CreateSupplier } from '@/features/suppliers/form/CreateSupplier';
+import { ModifySupplier } from '@/features/suppliers/form/ModifySupplier';
+import { ViewSupplier } from '@/features/suppliers/form/ViewSupplier';
 import UsersModule from '@/features/users/UsersModule';
 import { CreateUser } from '@/features/users/form/CreateUser';
 import { ModifyUser } from '@/features/users/form/ModifyUser';
@@ -106,6 +110,27 @@ export const Router = createBrowserRouter([
           {
             path: 'view/:id',
             element: <ViewEmployee />,
+          },
+        ],
+      },
+      {
+        path: 'suppliers',
+        children: [
+          {
+            path: 'view',
+            element: <SuppliersModule />,
+          },
+          {
+            path: 'create',
+            element: <CreateSupplier />,
+          },
+          {
+            path: 'modify/:id',
+            element: <ModifySupplier />,
+          },
+          {
+            path: 'view/:id',
+            element: <ViewSupplier />,
           },
         ],
       },
