@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { getUserById } from '@/features/users/UserActions';
+import { getUserById } from '@/features/users/actions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
@@ -20,15 +20,13 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 import { defaultValues, formFields, formSchema } from './ElementsUserForm';
+import { useGetUser } from '../hooks/useGetUser';
 
 export const ViewUser = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { isLoading, data } = useQuery({
-    queryKey: ['users', id],
-    queryFn: () => getUserById({ id }),
-  });
+  const { isLoading, data } = useGetUser(id!);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

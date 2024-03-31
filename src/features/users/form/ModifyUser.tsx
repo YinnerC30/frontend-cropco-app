@@ -12,28 +12,21 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { getUserById } from '@/features/users/UserActions';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQuery } from '@tanstack/react-query';
+import { ReloadIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
-import { useUserActions } from '../hooks/useUserActions';
+import { useGetUser } from '../hooks/useGetUser';
+import { usePatchUser } from '../hooks/usePatchUser';
 import { defaultValues, formFields, formSchema } from './ElementsUserForm';
-import { ReloadIcon } from '@radix-ui/react-icons';
 
 export const ModifyUser = () => {
   const { id } = useParams();
-  const { updateUserMutation } = useUserActions();
-  const { mutate, isSuccess, isPending } = updateUserMutation;
-
+  const { mutate, isSuccess, isPending } = usePatchUser();
   const navigate = useNavigate();
-
-  const { isLoading, data } = useQuery({
-    queryKey: ['users', id],
-    queryFn: () => getUserById({ id }),
-  });
+  const { isLoading, data } = useGetUser(id!);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -50,7 +43,7 @@ export const ModifyUser = () => {
   }, [data]);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    mutate(values);
+    mutate({ id, ...values });
   };
 
   if (isLoading) {

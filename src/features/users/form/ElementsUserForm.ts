@@ -6,30 +6,35 @@ export const formFields = [
     label: 'Nombre:',
     placeholder: 'Stiven',
     description: 'Su primer nombre',
+    visible: true,
   },
   {
     name: 'last_name',
     label: 'Apellido:',
     placeholder: 'Gomez',
     description: 'Su primer apellido',
+    visible: true,
   },
   {
     name: 'email',
     label: 'Correo electrónico:',
     placeholder: 'stivgome@google.com',
     description: 'Su correo electrónico personal',
+    visible: true,
   },
   {
     name: 'cell_phone_number',
     label: 'Número celular:',
     placeholder: '3148009870',
     description: 'Su número celular personal',
+    visible: true,
   },
   {
     name: 'password',
     label: 'Contraseña:',
     placeholder: '',
     description: 'Una contraseña de mínimo 6 caracteres',
+    visible: false,
   },
 ];
 

@@ -6,8 +6,8 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useMemo, useReducer, useState } from 'react';
-import { getUsers } from '../UserActions';
-import { columns } from './ColumnsUser';
+import { getUsers } from '../actions';
+import { CreateColumnsTable } from './ColumnsUser';
 
 export const UserDataTable = () => {
   const rerender = useReducer(() => ({}), {})[1];
@@ -31,7 +31,7 @@ export const UserDataTable = () => {
 
   const table = useReactTable({
     data: data?.rows ?? defaultData,
-    columns,
+    columns: CreateColumnsTable,
     pageCount: data?.pageCount ?? -1, //you can now pass in `rowCount` instead of pageCount and `pageCount` will be calculated internally (new in v8.13.0)
     rowCount: data?.rowCount, // new in v8.13.0 - alternatively, just pass in `pageCount` directly
 

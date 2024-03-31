@@ -13,12 +13,7 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '../ui/tooltip';
+import { ToolTipTemplate } from './ToolTipTemplate';
 
 interface Props {
   parameter: string;
@@ -75,30 +70,16 @@ export const SearchBar = ({ parameter }: Props) => {
           </form>
         </Form>
         <div className="flex flex-row gap-4">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button type="submit" form="formUser">
-                  <MagnifyingGlassIcon className="w-4 h-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Buscar</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button onClick={() => onReset()}>
-                  <Cross1Icon />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Borrar</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <ToolTipTemplate content="Buscar">
+            <Button type="submit" form="formUser">
+              <MagnifyingGlassIcon className="w-4 h-4" />
+            </Button>
+          </ToolTipTemplate>
+          <ToolTipTemplate content="Borrar">
+            <Button onClick={() => onReset()}>
+              <Cross1Icon />
+            </Button>
+          </ToolTipTemplate>
         </div>
       </div>
     </>

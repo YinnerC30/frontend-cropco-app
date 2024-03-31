@@ -16,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from '../../../components/ui/form';
-import { useUserActions } from '../hooks/useUserActions';
+import { usePostUser } from '../hooks/usePostUser';
 import { defaultValues, formFields, formSchema } from './ElementsUserForm';
 
 export const CreateUser = () => {
@@ -27,8 +27,7 @@ export const CreateUser = () => {
     defaultValues,
   });
 
-  const { createUserMutation } = useUserActions();
-  const { mutate, isSuccess, isPending } = createUserMutation;
+  const { mutate, isSuccess, isPending } = usePostUser();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     mutate(values);
