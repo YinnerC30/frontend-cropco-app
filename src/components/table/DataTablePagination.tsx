@@ -17,6 +17,7 @@ import { DataTablePaginationProps } from './interfaces/DataTablePaginationProps'
 
 export function DataTablePagination<TData>({
   table,
+  pageCount,
 }: DataTablePaginationProps<TData>) {
   return (
     <div className="flex items-center justify-between px-2">
@@ -43,7 +44,7 @@ export function DataTablePagination<TData>({
         </div>
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
           Página {table.getState().pagination.pageIndex + 1} de{' '}
-          {table.getPageCount()}
+          {Math.ceil(pageCount / table.getState().pagination.pageSize)}
         </div>
         <div className="flex items-center space-x-2">
           <Button

@@ -2,7 +2,7 @@ import {
   createSupply,
   deleteSupply,
   updateSupply,
-} from '@/services/cropco/SupplyMethods';
+} from '@/features/supplies/SupplyMethods';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';

@@ -1,8 +1,9 @@
 import { CreateCrop } from '@/features/crops/interfaces/Crop';
-import { cropcoAPI } from './cropcoAPI';
+import { cropcoAPI } from '../../api/cropcoAPI';
 
-export const createCrop = async (crop: CreateCrop) =>
+export const createCrop = async (crop: CreateCrop) => {
   await cropcoAPI.post('/crops', crop);
+};
 
 export const getCrops = async ({ parameter = '', limit = 100, offset = 0 }) => {
   const res = await cropcoAPI.get(

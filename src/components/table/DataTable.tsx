@@ -27,6 +27,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   width,
+  pageCount,
 }: DataTableProps<TData, TValue>) {
   const navigate = useNavigate();
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -113,7 +114,7 @@ export function DataTable<TData, TValue>({
         </div>
         {width && <ScrollBar orientation="horizontal" />}
       </ScrollArea>
-      <DataTablePagination table={table} />
+      <DataTablePagination table={table} pageCount={pageCount} />
     </div>
   );
 }

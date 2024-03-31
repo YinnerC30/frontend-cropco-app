@@ -2,7 +2,7 @@ import {
   createCrop,
   deleteCrop,
   updateCrop,
-} from '@/services/cropco/CropMethods';
+} from '@/features/crops/CropMethods';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';

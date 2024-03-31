@@ -4,7 +4,6 @@ import { ClientsModule } from '@/features/clients/ClientsModule';
 import { CreateClient } from '@/features/clients/form/CreateClient';
 import { ModifyClient } from '@/features/clients/form/ModifyClient';
 import { ViewClient } from '@/features/clients/form/ViewClient';
-
 import CropsModule from '@/features/crops/CropsModule';
 import { CreateCrop } from '@/features/crops/form/CreateCrop';
 import { ModifyCrop } from '@/features/crops/form/ModifyCrop';
@@ -26,6 +25,8 @@ import { CreateUser } from '@/features/users/form/CreateUser';
 import { ModifyUser } from '@/features/users/form/ModifyUser';
 import { ViewUser } from '@/features/users/form/ViewUser';
 import { createBrowserRouter } from 'react-router-dom';
+
+// TODO: Crear archivo de barril para las importaciones
 
 export const Router = createBrowserRouter([
   {

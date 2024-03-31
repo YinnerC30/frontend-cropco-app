@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { getSupplyById } from '@/services/cropco/SupplyMethods';
+import { getSupplyById } from '@/features/supplies/SupplyMethods';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
@@ -93,7 +93,11 @@ export const ViewSupply = () => {
                     <FormLabel>{record.label}</FormLabel>
 
                     {record.type === 'select' && (
-                      <Select onValueChange={field.onChange} {...field} disabled>
+                      <Select
+                        onValueChange={field.onChange}
+                        {...field}
+                        disabled
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder={record.placeholder} />

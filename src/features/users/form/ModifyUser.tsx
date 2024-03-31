@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { getUserById } from '@/services/cropco/UserMethods';
+import { getUserById } from '@/features/users/UserActions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
@@ -50,7 +50,7 @@ export const ModifyUser = () => {
   }, [data]);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    mutate({ id, user: values });
+    mutate(values);
   };
 
   if (isLoading) {

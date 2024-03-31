@@ -1,5 +1,5 @@
 import { CreateSupplier } from '@/features/suppliers/interfaces/Supplier';
-import { cropcoAPI } from './cropcoAPI';
+import { cropcoAPI } from '../../api/cropcoAPI';
 
 export const createSupplier = async (supplier: CreateSupplier) =>
   await cropcoAPI.post('/suppliers', supplier);

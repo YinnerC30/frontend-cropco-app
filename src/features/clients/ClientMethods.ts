@@ -1,5 +1,5 @@
 import { CreateClient } from '@/features/clients/interfaces/Client';
-import { cropcoAPI } from './cropcoAPI';
+import { cropcoAPI } from '../../api/cropcoAPI';
 
 export const createClient = async (client: CreateClient) =>
   await cropcoAPI.post('/clients', client);

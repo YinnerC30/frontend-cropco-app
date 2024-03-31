@@ -1,5 +1,3 @@
-import { DataTable } from '@/components/table/DataTable';
-
 import { ErrorLoading } from '@/components/common/ErrorLoading';
 import { Loading } from '@/components/common/Loading';
 import { SearchBar } from '@/components/common/SearchBar';
@@ -10,11 +8,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { getUsers } from '@/services/cropco/UserMethods';
+
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { columns } from './ColumnsUser';
+import { getUsers } from '../UserActions';
 
 export const UserDataTable = () => {
   const navigate = useNavigate();
@@ -23,7 +21,7 @@ export const UserDataTable = () => {
 
   const {
     isLoading,
-    data = [],
+    data,
     isError,
   } = useQuery({
     queryKey: ['users', parameter],
@@ -55,9 +53,7 @@ export const UserDataTable = () => {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <div className="container py-2">
-          <DataTable columns={columns} data={data}></DataTable>
-        </div>
+        <div className="container py-2"></div>
       </div>
     </>
   );

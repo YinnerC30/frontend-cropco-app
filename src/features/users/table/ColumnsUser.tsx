@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { useUserActions } from '../hooks/useUserActions';
-import { GetUser } from '../interfaces/User';
+import { User } from '../interfaces/User';
 
 import {
   AlertDialog,
@@ -31,9 +31,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useState } from 'react';
 
-
-
-export const columns: ColumnDef<GetUser>[] = [
+export const columns: ColumnDef<User>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
@@ -45,7 +43,7 @@ export const columns: ColumnDef<GetUser>[] = [
       const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
       const handleDelete = () => {
-        mutate(id);
+        mutate(id!);
         setOpenDropDownMenu(false);
       };
 

@@ -10,12 +10,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { getUsers } from '@/services/cropco/UserMethods';
+import { getUsers } from '@/features/users/UserActions';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { columns } from './ColumnsEmployee';
-import { getEmployees } from '@/services/cropco/EmployeeMethods';
+import { getEmployees } from '@/features/employees/EmployeeMethods';
 
 export const EmployeeDataTable = () => {
   const navigate = useNavigate();

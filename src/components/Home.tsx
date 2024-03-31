@@ -46,7 +46,7 @@ export const Home = () => {
         <nav className="flex flex-row items-center justify-center col-span-2 row-start-2 row-span-9">
           <ul className="w-11/12 ml-5 text-base font-bold">
             {routes.map(route => (
-              <li>
+              <li key={route.name}>
                 <Button
                   variant={'link'}
                   onClick={() => handleNavigate(route.path)}

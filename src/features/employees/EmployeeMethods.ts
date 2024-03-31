@@ -1,5 +1,5 @@
 import { CreateEmployee } from '@/features/employees/interfaces/Employee';
-import { cropcoAPI } from './cropcoAPI';
+import { cropcoAPI } from '../../api/cropcoAPI';
 
 export const createEmployee = async (employee: CreateEmployee) =>
   await cropcoAPI.post('/employees', employee);

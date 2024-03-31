@@ -2,7 +2,7 @@ import {
   createUser,
   deleteUser,
   updateUser,
-} from '@/services/cropco/UserMethods';
+} from '@/features/users/UserActions';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';

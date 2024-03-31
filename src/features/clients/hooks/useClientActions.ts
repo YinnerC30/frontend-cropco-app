@@ -2,7 +2,7 @@ import {
   createClient,
   deleteClient,
   updateClient,
-} from '@/services/cropco/ClientMethods';
+} from '@/features/clients/ClientMethods';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
