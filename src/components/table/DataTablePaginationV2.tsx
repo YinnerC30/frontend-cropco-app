@@ -15,8 +15,9 @@ import {
 } from '@/components/ui/select';
 import { DataTablePaginationProps } from './interfaces/DataTablePaginationProps';
 
-export function DataTablePagination<TData>({
+export function DataTablePaginationV2<TData>({
   table,
+  data
 }: DataTablePaginationProps<TData>) {
   return (
     <div className="flex items-center justify-between px-2">
@@ -83,6 +84,7 @@ export function DataTablePagination<TData>({
             <DoubleArrowRightIcon className="w-4 h-4" />
           </Button>
         </div>
+        <p className="text-sm font-medium">Total: {data.rowCount}</p>
       </div>
     </div>
   );

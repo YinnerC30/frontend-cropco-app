@@ -26,7 +26,7 @@ export const ViewUser = () => {
   const navigate = useNavigate();
 
   const { isLoading, data } = useQuery({
-    queryKey: ['users'],
+    queryKey: ['users', id],
     queryFn: () => getUserById({ id }),
   });
 

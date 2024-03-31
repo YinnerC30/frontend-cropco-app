@@ -4,7 +4,6 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
@@ -17,26 +16,32 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useState } from 'react';
-import { ScrollArea, ScrollBar } from '../ui/scroll-area';
-import { DataTablePagination } from './DataTablePagination';
-import { DataTableProps } from './interfaces/DataTableProps';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ScrollBar } from '../ui/scroll-area';
+import { DataTablePaginationV2 } from './DataTablePaginationV2';
+import { DataTableProps } from './interfaces/DataTableProps';
 
-export function DataTable<TData, TValue>({
+export function DataTableV2<TData, TValue>({
   columns,
   data,
   width,
+  rows,
+  pagination,
+  setPagination,
 }: DataTableProps<TData, TValue>) {
+  const defaultData = useMemo(() => [], []);
   const navigate = useNavigate();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const table = useReactTable({
-    data,
+    data: rows ?? defaultData,
     columns,
+    pageCount: data?.pageCount ?? -1, //you can now pass in `rowCount` instead of pageCount and `pageCount` will be calculated internally (new in v8.13.0)
+    rowCount: data?.rowCount,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -47,13 +52,17 @@ export function DataTable<TData, TValue>({
       sorting,
       columnVisibility,
       rowSelection,
+      pagination,
     },
+    manualPagination: true,
+    debugTable: true,
   });
 
   return (
     <div>
-      <DataTablePagination table={table} />
-      <div className="mt-3 border rounded-md ">
+      <DataTablePaginationV2 table={table} data={data} />
+      
+      <div className="mt-3 border rounded-md">
         <Table className={`w-[${width || 1000}px]`}>
           <TableHeader>
             {table.getHeaderGroups().map(headerGroup => (

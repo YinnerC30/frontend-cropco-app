@@ -1,9 +1,9 @@
-import { UserDataTable } from './table/UserDataTable';
+import { UserDataTableV2 } from './table/UserDataTableV2';
 
 export const UsersModule = () => {
   return (
     <>
-      <UserDataTable />
+      <UserDataTableV2 />
     </>
   );
 };

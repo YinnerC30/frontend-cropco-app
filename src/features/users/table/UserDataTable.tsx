@@ -11,18 +11,17 @@ import { columns } from './ColumnsUser';
 
 export const UserDataTable = () => {
   const rerender = useReducer(() => ({}), {})[1];
-  
 
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
 
-  const { data, isFetching } = useQuery({
+  const { data } = useQuery({
     queryKey: ['users', pagination],
     queryFn: () =>
       getUsers({
-        parameter: "",
+        parameter: '',
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
       }),
@@ -149,11 +148,9 @@ export const UserDataTable = () => {
             </option>
           ))}
         </select>
-        {isFetching ? 'Loading...' : null}
       </div>
       <div>
-        Showing {table.getRowModel().rows.length} of{' '}
-        {data?.rowCount} Rows
+        Showing {table.getRowModel().rows.length} of {data?.rowCount} Rows
       </div>
       <div>
         <button onClick={() => rerender()}>Force Rerender</button>

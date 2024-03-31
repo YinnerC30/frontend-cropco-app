@@ -23,7 +23,7 @@ export const Home = () => {
   return (
     <>
       <div className="grid grid-cols-10 grid-rows-10">
-        <header className="flex flex-col col-span-10 col-start-1 row-span-1">
+        <header className="sticky top-0 flex flex-col col-span-10 col-start-1 row-span-1 backdrop-blur-xl max-h-16">
           <div className="flex items-center my-2 justify-evenly">
             <Button variant="link" asChild>
               <Link to="/">CropcoApp</Link>
@@ -43,7 +43,7 @@ export const Home = () => {
           </div>
           <Separator className="my-2" />
         </header>
-        <nav className="flex flex-row items-center justify-center col-span-2 row-start-2 row-span-9">
+        <nav className="flex flex-row items-start justify-center col-span-2 row-start-2 row-span-9">
           <ul className="w-11/12 ml-5 text-base font-bold">
             {routes.map(route => (
               <li key={route.name}>
@@ -61,7 +61,7 @@ export const Home = () => {
             <Separator orientation="vertical" />
           </div>
         </nav>
-        <main className="col-span-8 overflow-hidden row-span-9">
+        <main className="col-span-8 row-span-9">
           <Outlet />
           <Toaster position="top-right" closeButton richColors={true} />
         </main>
