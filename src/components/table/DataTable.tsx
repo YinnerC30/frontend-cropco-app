@@ -82,7 +82,7 @@ export function DataTable<TData, TValue>({
                   <TableRow
                     onDoubleClick={() => {
                       const original: any = row.original;
-                      console.log(original)
+                      console.log(original);
                       navigate(`../view/${original.id}`);
                     }}
                     key={row.id}

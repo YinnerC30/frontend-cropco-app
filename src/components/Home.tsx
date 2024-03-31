@@ -10,7 +10,8 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
-import { ModeToggle } from './mode-toggle';
+import { ModeToggle } from './ModeToggle';
+import { routes } from './RoutesNavBar';
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -44,54 +45,16 @@ export const Home = () => {
         </header>
         <nav className="flex flex-row items-center justify-center col-span-2 row-start-2 row-span-9">
           <ul className="w-11/12 ml-5 text-base font-bold">
-            <li>
-              <Button
-                variant={'link'}
-                onClick={() => handleNavigate('users/view')}
-              >
-                Users
-              </Button>
-            </li>
-            <li>
-              <Button
-                variant={'link'}
-                onClick={() => handleNavigate('crops/view')}
-              >
-                Crops
-              </Button>
-            </li>
-            <li>
-              <Button
-                variant={'link'}
-                onClick={() => handleNavigate('clients/view')}
-              >
-                Clientes
-              </Button>
-            </li>
-            <li>
-              <Button
-                variant={'link'}
-                onClick={() => handleNavigate('employees/view')}
-              >
-                Empleados
-              </Button>
-            </li>
-            <li>
-              <Button
-                variant={'link'}
-                onClick={() => handleNavigate('suppliers/view')}
-              >
-                Proveedores
-              </Button>
-            </li>
-            <li>
-              <Button
-                variant={'link'}
-                onClick={() => handleNavigate('supplies/view')}
-              >
-                Insumos
-              </Button>
-            </li>
+            {routes.map(route => (
+              <li>
+                <Button
+                  variant={'link'}
+                  onClick={() => handleNavigate(route.path)}
+                >
+                  {route.name}
+                </Button>
+              </li>
+            ))}
           </ul>
 
           <div className="h-full">

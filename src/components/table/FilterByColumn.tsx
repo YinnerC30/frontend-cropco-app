@@ -33,7 +33,7 @@ export function FilterByColumn<TData>({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="ml-auto">
-            Columns
+            Columnas
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">

@@ -2,7 +2,7 @@ import { DataTable } from '@/components/table/DataTable';
 
 import { ErrorLoading } from '@/components/common/ErrorLoading';
 import { Loading } from '@/components/common/Loading';
-import { SearchBar } from '@/components/form/SearchBar';
+import { SearchBar } from '@/components/common/SearchBar';
 import { Button } from '@/components/ui/button';
 import {
   Tooltip,
