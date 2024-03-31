@@ -22,7 +22,7 @@ export const Home = () => {
 
   return (
     <>
-      <div className="grid h-screen grid-cols-10 grid-rows-10">
+      <div className="grid grid-cols-10 grid-rows-10">
         <header className="flex flex-col col-span-10 col-start-1 row-span-1">
           <div className="flex items-center my-2 justify-evenly">
             <Button variant="link" asChild>

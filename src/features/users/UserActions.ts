@@ -7,6 +7,7 @@ export const createUser = async (user: User) =>
   await cropcoAPI.post('/users', user);
 
 export const getUsers = async ({ parameter = '', limit = 10, offset = 0 }) => {
+  console.log({ parameter, limit, offset });
   const params = new URLSearchParams();
   params.append('parameter', parameter);
   params.append('limit', limit.toString());
