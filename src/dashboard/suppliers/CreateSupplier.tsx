@@ -1,6 +1,12 @@
-import { ErrorLoading } from '@/components/common/ErrorLoading';
-import { Loading } from '@/components/common/Loading';
+import { z } from 'zod';
+
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ReloadIcon } from '@radix-ui/react-icons';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import {
   Form,
   FormControl,
@@ -9,25 +15,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
+} from '../../components/ui/form';
+import { defaultValues, formFields, formSchema } from './ElementsSupplierForm';
+
 import { Textarea } from '@/components/ui/textarea';
 import { CustomFormField } from '@/interfaces/CustomFormField';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ReloadIcon } from '@radix-ui/react-icons';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import { z } from 'zod';
-import { defaultValues, formFields, formSchema } from './ElementsClientForm';
-import { useGetClient } from './hooks/useGetClient';
-import { usePatchClient } from './hooks/usePatchClient';
+import { usePostSupplier } from './hooks/usePostSupplier';
 
-export const ModifyClient = () => {
-  const { id } = useParams();
-  const { data, isLoading } = useGetClient(id!);
-  const { mutate, isSuccess, isPending } = usePatchClient();
+export const CreateSupplier = () => {
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -35,41 +30,28 @@ export const ModifyClient = () => {
     defaultValues,
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    mutate({ id, ...values });
+  const { mutate, isSuccess, isPending } = usePostSupplier();
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    mutate(values);
   };
-
-  useEffect(() => {
-    if (data) {
-      form.reset({
-        ...data,
-      });
-    }
-  }, [data]);
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (!data) {
-    return <ErrorLoading />;
-  }
 
   if (isSuccess) {
     navigate('../view');
   }
+  console.log(form.getValues())
 
   return (
     <div className="flex flex-col items-center w-full h-full">
       <ScrollArea
         type="auto"
-        className="h-[480px] w-[380px]  rounded-b-md mb-10"
+        className="h-[450px] w-[380px]  rounded-b-md mb-10"
       >
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="mx-5"
-            id="formUser"
+            id="formClient"
           >
             {formFields.map((record: CustomFormField) => (
               <FormField
@@ -77,7 +59,7 @@ export const ModifyClient = () => {
                 control={form.control}
                 name={record.name}
                 render={({ field }) => (
-                  <FormItem className="my-1">
+                  <FormItem className="my-4">
                     <FormLabel>{record.label}</FormLabel>
                     {record.type === 'string' && (
                       <FormControl>
@@ -97,6 +79,7 @@ export const ModifyClient = () => {
                         />
                       </FormControl>
                     )}
+
                     <FormDescription>{record.description}</FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -107,10 +90,10 @@ export const ModifyClient = () => {
         </Form>
       </ScrollArea>
 
-      <div className="flex justify-between w-48 mt-5 ml-5">
-        <Button type="submit" form="formUser" disabled={isPending}>
+      <div className="flex justify-between w-48 ml-5">
+        <Button type="submit" form="formClient" disabled={isPending}>
           {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
-          Actualizar
+          Guardar
         </Button>
         <Button onClick={() => navigate(-1)}>Cancelar</Button>
       </div>

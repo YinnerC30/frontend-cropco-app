@@ -15,19 +15,17 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
 import { CustomFormField } from '@/interfaces/CustomFormField';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ReloadIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
-import { defaultValues, formFields, formSchema } from './ElementsClientForm';
-import { useGetClient } from './hooks/useGetClient';
-import { usePatchClient } from './hooks/usePatchClient';
+import { defaultValues, formFields, formSchema } from './ElementsSupplierForm';
+import { useGetSupplier } from './hooks/useGetSupplier';
 
-export const ModifyClient = () => {
+export const ViewSupplier = () => {
   const { id } = useParams();
-  const { data, isLoading } = useGetClient(id!);
-  const { mutate, isSuccess, isPending } = usePatchClient();
+  const { data, isLoading } = useGetSupplier(id!);
+
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -35,14 +33,11 @@ export const ModifyClient = () => {
     defaultValues,
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    mutate({ id, ...values });
-  };
-
   useEffect(() => {
     if (data) {
       form.reset({
         ...data,
+        password: '',
       });
     }
   }, [data]);
@@ -55,22 +50,14 @@ export const ModifyClient = () => {
     return <ErrorLoading />;
   }
 
-  if (isSuccess) {
-    navigate('../view');
-  }
-
   return (
     <div className="flex flex-col items-center w-full h-full">
       <ScrollArea
         type="auto"
-        className="h-[480px] w-[380px]  rounded-b-md mb-10"
+        className="h-[450px] w-[380px]  rounded-b-md mb-10"
       >
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="mx-5"
-            id="formUser"
-          >
+          <form className="mx-5" id="formUser">
             {formFields.map((record: CustomFormField) => (
               <FormField
                 key={record.name}
@@ -82,6 +69,7 @@ export const ModifyClient = () => {
                     {record.type === 'string' && (
                       <FormControl>
                         <Input
+                          readOnly
                           className="w-80"
                           placeholder={record.placeholder}
                           {...field}
@@ -91,6 +79,7 @@ export const ModifyClient = () => {
                     {record.type === 'text' && (
                       <FormControl>
                         <Textarea
+                          readOnly
                           placeholder={record.placeholder}
                           className="resize-none"
                           {...field}
@@ -108,11 +97,7 @@ export const ModifyClient = () => {
       </ScrollArea>
 
       <div className="flex justify-between w-48 mt-5 ml-5">
-        <Button type="submit" form="formUser" disabled={isPending}>
-          {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
-          Actualizar
-        </Button>
-        <Button onClick={() => navigate(-1)}>Cancelar</Button>
+        <Button onClick={() => navigate(-1)}>Volver</Button>
       </div>
     </div>
   );

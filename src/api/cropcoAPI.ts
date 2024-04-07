@@ -8,4 +8,5 @@ export const pathsCropco = {
   users: '/users',
   crops: '/crops',
   clients: '/clients',
+  suppliers: '/suppliers',
 };

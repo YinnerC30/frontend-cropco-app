@@ -28,8 +28,8 @@ import { useState } from 'react';
 
 import { Client } from '@/interfaces/Client';
 import { ColumnDef } from '@tanstack/react-table';
-import { formFields } from './ElementsClientForm';
-import { useDeleteClient } from './hooks/useDeleteClient';
+import { formFields } from './ElementsSupplierForm';
+import { useDeleteSupplier } from './hooks/useDeleteSupplier';
 
 export let columns: ColumnDef<Client>[] = [];
 
@@ -56,9 +56,9 @@ for (const field of formFields) {
 columns.unshift({
   id: 'actions',
   cell: ({ row }: any) => {
-    const client = row.original;
-    const { id } = client;
-    const { mutate } = useDeleteClient();
+    const supplier = row.original;
+    const { id } = supplier;
+    const { mutate } = useDeleteSupplier();
 
     const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 

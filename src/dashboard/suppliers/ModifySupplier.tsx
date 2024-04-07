@@ -20,14 +20,14 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
-import { defaultValues, formFields, formSchema } from './ElementsClientForm';
-import { useGetClient } from './hooks/useGetClient';
-import { usePatchClient } from './hooks/usePatchClient';
+import { defaultValues, formFields, formSchema } from './ElementsSupplierForm';
+import { useGetSupplier } from './hooks/useGetSupplier';
+import { usePatchSupplier } from './hooks/usePatchSupplier';
 
-export const ModifyClient = () => {
+export const ModifySupplier = () => {
   const { id } = useParams();
-  const { data, isLoading } = useGetClient(id!);
-  const { mutate, isSuccess, isPending } = usePatchClient();
+  const { data, isLoading } = useGetSupplier(id!);
+  const { mutate, isSuccess, isPending } = usePatchSupplier();
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -40,9 +40,11 @@ export const ModifyClient = () => {
   };
 
   useEffect(() => {
+    console.log(data);
     if (data) {
       form.reset({
         ...data,
+        company_name: undefined,
       });
     }
   }, [data]);
@@ -63,7 +65,7 @@ export const ModifyClient = () => {
     <div className="flex flex-col items-center w-full h-full">
       <ScrollArea
         type="auto"
-        className="h-[480px] w-[380px]  rounded-b-md mb-10"
+        className="h-[450px] w-[380px]  rounded-b-md mb-10"
       >
         <Form {...form}>
           <form

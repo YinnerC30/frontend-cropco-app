@@ -12,17 +12,15 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Textarea } from '@/components/ui/textarea';
+import { CustomFormField } from '@/interfaces/CustomFormField';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ReloadIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
+import { defaultValues, formFields, formSchema } from './ElementsClientForm';
 import { useGetClient } from './hooks/useGetClient';
-import { formSchema, defaultValues, formFields } from './ElementsClientForm';
-import { usePatchClient } from './hooks/usePatchClient';
-import { CustomFormField } from '@/interfaces/CustomFormField';
-import { Textarea } from '@/components/ui/textarea';
 
 export const ViewClient = () => {
   const { id } = useParams();
