@@ -18,20 +18,24 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
+import { defaultValues, formFields, formSchema } from './ElementsUserForm';
 import { useGetUser } from './hooks/useGetUser';
 import { usePatchUser } from './hooks/usePatchUser';
-import { defaultValues, formFields, formSchema } from './ElementsUserForm';
 
 export const ModifyUser = () => {
   const { id } = useParams();
+  const { data, isLoading } = useGetUser(id!);
   const { mutate, isSuccess, isPending } = usePatchUser();
   const navigate = useNavigate();
-  const { isLoading, data } = useGetUser(id!);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    mutate({ id, ...values });
+  };
 
   useEffect(() => {
     if (data) {
@@ -41,10 +45,6 @@ export const ModifyUser = () => {
       });
     }
   }, [data]);
-
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    mutate({ id, ...values });
-  };
 
   if (isLoading) {
     return <Loading />;

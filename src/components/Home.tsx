@@ -8,9 +8,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { Toaster } from 'sonner';
+
 import { ModeToggle } from './ModeToggle';
 import { routes } from './RoutesNavBar';
+import { Toaster } from './ui/sonner';
 
 export const Home = () => {
   const navigate = useNavigate();

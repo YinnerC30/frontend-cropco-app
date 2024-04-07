@@ -6,4 +6,5 @@ export const cropcoAPI = axios.create({
 
 export const pathsCropco = {
   users: '/users',
+  crops: '/crops',
 };

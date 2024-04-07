@@ -1,11 +1,13 @@
+import { FormField } from '@/interfaces/FormField';
 import { z } from 'zod';
 
-export const formFields = [
+export const formFields: FormField[] = [
   {
     name: 'first_name',
     label: 'Nombre:',
     placeholder: 'Stiven',
     description: 'Su primer nombre',
+    type: 'string',
     visible: true,
   },
   {
@@ -13,6 +15,7 @@ export const formFields = [
     label: 'Apellido:',
     placeholder: 'Gomez',
     description: 'Su primer apellido',
+    type: 'string',
     visible: true,
   },
   {
@@ -20,6 +23,7 @@ export const formFields = [
     label: 'Correo electrónico:',
     placeholder: 'stivgome@google.com',
     description: 'Su correo electrónico personal',
+    type: 'string',
     visible: true,
   },
   {
@@ -27,6 +31,7 @@ export const formFields = [
     label: 'Número celular:',
     placeholder: '3148009870',
     description: 'Su número celular personal',
+    type: 'string',
     visible: true,
   },
   {
@@ -34,6 +39,7 @@ export const formFields = [
     label: 'Contraseña:',
     placeholder: '',
     description: 'Una contraseña de mínimo 6 caracteres',
+    type: 'string',
     visible: false,
   },
 ];
