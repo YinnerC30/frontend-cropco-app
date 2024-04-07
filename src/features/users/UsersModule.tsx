@@ -3,7 +3,7 @@ import { Loading } from '@/components/common/Loading';
 import { SearchBar } from '@/components/common/SearchBar';
 import { Button } from '@/components/ui/button';
 
-import { DataTable } from '@/components/table/DataTableV2';
+import { DataTable } from '@/components/table/DataTable';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -26,7 +26,7 @@ export const UsersModule = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center my-4">
         <div className="flex items-center justify-center">
           <SearchBar parameter={searchParameter} />
           <ToolTipTemplate content={'Crear'}>

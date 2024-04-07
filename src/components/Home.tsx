@@ -7,7 +7,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Separator } from '@/components/ui/separator';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { ModeToggle } from './ModeToggle';
@@ -22,9 +21,9 @@ export const Home = () => {
 
   return (
     <>
-      <div className="grid grid-cols-10 grid-rows-10">
-        <header className="sticky top-0 flex flex-col col-span-10 col-start-1 row-span-1 backdrop-blur-xl max-h-16">
-          <div className="flex items-center my-2 justify-evenly">
+      <div className="grid grid-cols-10">
+        <header className="flex flex-col col-span-10 col-start-1 my-6 max-h-16">
+          <div className="flex items-center justify-evenly">
             <Button variant="link" asChild>
               <Link to="/">CropcoApp</Link>
             </Button>
@@ -41,9 +40,8 @@ export const Home = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <Separator className="my-2" />
         </header>
-        <nav className="flex flex-row items-start justify-center col-span-2 row-start-2 row-span-9">
+        <nav className="flex flex-row items-start justify-center col-span-2">
           <ul className="w-11/12 ml-5 text-base font-bold">
             {routes.map(route => (
               <li key={route.name}>
@@ -57,12 +55,11 @@ export const Home = () => {
             ))}
           </ul>
 
-          <div className="h-full">
-            <Separator orientation="vertical" />
-          </div>
+          <div className="h-full"></div>
         </nav>
-        <main className="col-span-8 row-span-9">
+        <main className="col-span-8">
           <Outlet />
+
           <Toaster position="top-right" closeButton richColors={true} />
         </main>
       </div>

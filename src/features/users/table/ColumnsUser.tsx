@@ -39,7 +39,7 @@ for (const field of formFields) {
       header: ({ column }: any) => {
         return (
           <Button
-            className="px-0"
+            className="px-0 hover:bg-transparent"
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
