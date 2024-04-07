@@ -1,4 +1,4 @@
-import { UnitOfMeasure } from '@/enums/UnitOfMeasure';
+import { UnitOfMeasureSupply } from '@/enums/UnitOfMeasure';
 import { TypeInput } from '@/enums/TypeInput';
 import { CustomFormField } from '@/interfaces/CustomFormField';
 import { z } from 'zod';
@@ -64,6 +64,6 @@ export const formSchema = z.object({
 export const defaultValues = {
   name: '',
   brand: '',
-  unit_of_measure: UnitOfMeasure.GRAMOS,
+  unit_of_measure: UnitOfMeasureSupply.GRAMOS,
   observation: '',
 };

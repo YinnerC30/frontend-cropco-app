@@ -29,7 +29,7 @@ import { Textarea } from '@/components/ui/textarea';
 
 import { CustomFormField } from '@/interfaces/CustomFormField';
 import { usePostSupply } from './hooks/usePostSupply';
-import { UnitOfMeasure } from '@/enums/UnitOfMeasure';
+import { UnitOfMeasureSupply } from '@/enums/UnitOfMeasure';
 
 export const CreateSupply = () => {
   const navigate = useNavigate();
@@ -100,10 +100,10 @@ export const CreateSupply = () => {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value={UnitOfMeasure.GRAMOS}>
+                          <SelectItem value={UnitOfMeasureSupply.GRAMOS}>
                             GRAMOS
                           </SelectItem>
-                          <SelectItem value={UnitOfMeasure.MILILITROS}>
+                          <SelectItem value={UnitOfMeasureSupply.MILILITROS}>
                             MILILITROS
                           </SelectItem>
                         </SelectContent>

@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { UnitOfMeasure } from '@/enums/UnitOfMeasure';
+import { UnitOfMeasureSupply } from '@/enums/UnitOfMeasure';
 import { CustomFormField } from '@/interfaces/CustomFormField';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ReloadIcon } from '@radix-ui/react-icons';
@@ -121,10 +121,10 @@ export const ModifySupply = () => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value={UnitOfMeasure.GRAMOS}>
+                            <SelectItem value={UnitOfMeasureSupply.GRAMOS}>
                               GRAMOS
                             </SelectItem>
-                            <SelectItem value={UnitOfMeasure.MILILITROS}>
+                            <SelectItem value={UnitOfMeasureSupply.MILILITROS}>
                               MILILITROS
                             </SelectItem>
                           </SelectContent>

@@ -1,21 +1,21 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { createCrop } from '../actions/create';
+import { createHarvest } from '../actions/create';
 
-export const usePostCrop = () => {
+export const usePostHarvest = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: createCrop,
+    mutationFn: createHarvest,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['crops'] });
-      toast.success(`Cultivo creado`);
+      queryClient.invalidateQueries({ queryKey: ['harvests'] });
+      toast.success(`Cosecha creada`);
     },
     onError: (error: AxiosError) => {
       const updateError: AxiosError | any = error;
       const { data } = updateError.response;
       toast.error(
-        `Hubo un problema durante la creación del cultivo, ${data.message}`,
+        `Hubo un problema durante la creación de la cosecha, ${data.message}`,
       );
     },
     retry: 1,

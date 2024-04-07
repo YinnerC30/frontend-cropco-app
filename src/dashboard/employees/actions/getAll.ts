@@ -7,7 +7,7 @@ interface Props {
   allRecords: boolean;
 }
 
-export const getCrops = async ({
+export const getEmployees = async ({
   parameter = '',
   limit = 10,
   offset = 0,
@@ -18,8 +18,7 @@ export const getCrops = async ({
   params.append('limit', limit.toString());
   params.append('offset', offset.toString());
   params.append('allRecords', allRecords.toString());
-  
 
-  const { data } = await cropcoAPI.get(`${pathsCropco.crops}?${params}`);
+  const { data } = await cropcoAPI.get(`${pathsCropco.employees}?${params}`);
   return data;
 };

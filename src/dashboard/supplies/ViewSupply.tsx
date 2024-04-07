@@ -12,9 +12,15 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { UnitOfMeasure } from '@/enums/UnitOfMeasure';
+import { UnitOfMeasureSupply } from '@/enums/UnitOfMeasure';
 import { CustomFormField } from '@/interfaces/CustomFormField';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
@@ -99,10 +105,10 @@ export const ViewSupply = () => {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value={UnitOfMeasure.GRAMOS}>
+                          <SelectItem value={UnitOfMeasureSupply.GRAMOS}>
                             GRAMOS
                           </SelectItem>
-                          <SelectItem value={UnitOfMeasure.MILILITROS}>
+                          <SelectItem value={UnitOfMeasureSupply.MILILITROS}>
                             MILILITROS
                           </SelectItem>
                         </SelectContent>

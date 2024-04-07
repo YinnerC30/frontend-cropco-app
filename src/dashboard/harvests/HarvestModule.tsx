@@ -1,24 +1,22 @@
 import { ErrorLoading } from '@/components/common/ErrorLoading';
 import { Loading } from '@/components/common/Loading';
-import { SearchBar } from '@/components/common/SearchBar';
-import { ToolTipTemplate } from '@/components/common/ToolTipTemplate';
-import { DataTable } from '@/components/table/DataTable';
-import { PlusIcon } from 'lucide-react';
-
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import columns from './ColumnsCrop';
-import { useGetAllCrops } from './hooks/useGetAllCrops';
 import { Button } from '@/components/ui/button';
 
-export const CropsModule = () => {
+import { DataTable } from '@/components/table/DataTable';
+import { PlusIcon } from '@radix-ui/react-icons';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+
+import { ToolTipTemplate } from '@/components/common/ToolTipTemplate';
+import columnsHarvest from './ColumnsHarvest';
+import { useGetAllHarvests } from './hooks/useGetAllHarvests';
+
+export const HarvestModule = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const searchParameter = searchParams.get('search') || '';
 
-  const { query, pagination, setPagination } = useGetAllCrops({
-    searchParameter,
-    allRecords: false,
-  });
+  const { query, pagination, setPagination } =
+    useGetAllHarvests(searchParameter);
 
   if (query.isLoading) return <Loading />;
 
@@ -30,7 +28,6 @@ export const CropsModule = () => {
     <>
       <div className="flex flex-col items-center justify-center my-4">
         <div className="flex items-center justify-center">
-          <SearchBar parameter={searchParameter} />
           <ToolTipTemplate content={'Crear'}>
             <Button
               className="ml-4 bg-blue-600 rounded-full hover:bg-blue-400"
@@ -43,7 +40,7 @@ export const CropsModule = () => {
 
         <div className="container py-2">
           <DataTable
-            columns={columns}
+            columns={columnsHarvest}
             rows={query.data.rows}
             data={query.data}
             pagination={pagination}
@@ -55,4 +52,4 @@ export const CropsModule = () => {
   );
 };
 
-export default CropsModule;
+export default HarvestModule;
