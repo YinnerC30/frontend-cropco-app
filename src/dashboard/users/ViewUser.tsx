@@ -12,9 +12,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { getUserById } from '@/dashboard/users/actions';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -58,28 +56,31 @@ export const ViewUser = () => {
         >
           <Form {...form}>
             <form className="mx-5" id="formUser">
-              {formFields.map((record: any) => (
-                <FormField
-                  key={record.name}
-                  control={form.control}
-                  name={record.name}
-                  render={({ field }) => (
-                    <FormItem className="my-1">
-                      <FormLabel>{record.label}</FormLabel>
-                      <FormControl>
-                        <Input
-                          readOnly
-                          className="w-80"
-                          placeholder={record.placeholder}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription>{record.description}</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              ))}
+              {formFields.map((record: any) => {
+                if (record.name === 'password') return null;
+                return (
+                  <FormField
+                    key={record.name}
+                    control={form.control}
+                    name={record.name}
+                    render={({ field }) => (
+                      <FormItem className="my-1">
+                        <FormLabel>{record.label}</FormLabel>
+                        <FormControl>
+                          <Input
+                            readOnly
+                            className="w-80"
+                            placeholder={record.placeholder}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription>{record.description}</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                );
+              })}
             </form>
           </Form>
         </ScrollArea>

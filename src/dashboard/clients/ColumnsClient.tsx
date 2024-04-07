@@ -26,12 +26,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useState } from 'react';
 
+import { Client } from '@/interfaces/Client';
 import { ColumnDef } from '@tanstack/react-table';
-import { User } from '../../interfaces/User';
-import { formFields } from './ElementsUserForm';
-import { useDeleteUser } from './hooks/useDeleteUser';
+import { formFields } from './ElementsClientForm';
+import { useDeleteClient } from './hooks/useDeleteClient';
 
-export let columns: ColumnDef<User>[] = [];
+export let columns: ColumnDef<Client>[] = [];
 
 for (const field of formFields) {
   if (field.visible) {
@@ -58,7 +58,7 @@ columns.unshift({
   cell: ({ row }: any) => {
     const user = row.original;
     const { id } = user;
-    const { mutate } = useDeleteUser();
+    const { mutate } = useDeleteClient();
 
     const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 

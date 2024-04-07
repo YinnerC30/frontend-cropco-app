@@ -35,12 +35,12 @@ export const formFields: CustomFormField[] = [
     visible: true,
   },
   {
-    name: 'password',
-    label: 'Contraseña:',
-    placeholder: '',
-    description: 'Una contraseña de mínimo 6 caracteres',
-    type: 'string',
-    visible: false,
+    name: 'address',
+    label: 'Dirección:',
+    placeholder: 'Bolivar Cauca...',
+    description: '',
+    type: 'text',
+    visible: true,
   },
 ];
 
@@ -69,12 +69,12 @@ export const formSchema = z.object({
     },
   ),
 
-  password: z
+  address: z
     .string()
     .min(6, {
-      message: 'La contraseña debe tener mínimo 6 caracteres',
+      message: 'La dirección debe tener mínimo 6 caracteres',
     })
-    .max(100, { message: `La contraseña debe tener máximo 100 caracteres` }),
+    .max(200, { message: `La dirección debe tener máximo 200 caracteres` }),
 });
 
 export const defaultValues = {
@@ -82,5 +82,5 @@ export const defaultValues = {
   last_name: '',
   email: '',
   cell_phone_number: '',
-  password: '',
+  address: '',
 };

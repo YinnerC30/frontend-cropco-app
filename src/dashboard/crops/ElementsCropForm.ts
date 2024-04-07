@@ -1,7 +1,7 @@
-import { FormField } from '@/interfaces/FormField';
+import { CustomFormField } from '@/interfaces/CustomFormField';
 import { z } from 'zod';
 
-export const formFields: FormField[] = [
+export const formFields: CustomFormField[] = [
   {
     name: 'name',
     label: 'Nombre:',

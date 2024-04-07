@@ -77,8 +77,8 @@ export const ViewCrop = () => {
                     {record.type === 'string' && (
                       <FormControl>
                         <Input
-                          className="w-80"
                           readOnly
+                          className="w-80"
                           placeholder={record.placeholder}
                           {...field}
                         />

@@ -5,7 +5,7 @@ import { getCropById } from '../actions/getOne';
 export const useGetCrop = (id: string) => {
   const query = useQuery({
     queryKey: ['crop', id],
-    queryFn: () => getCropById({ id }),
+    queryFn: () => getCropById(id),
   });
   return query;
 };
