@@ -51,21 +51,22 @@ import { Textarea } from '@/components/ui/textarea';
 import { UnitOfMeasureHarvest } from '@/enums/UnitOfMeasure';
 import { Crop } from '@/interfaces/Crop';
 import { CustomFormField } from '@/interfaces/CustomFormField';
-import { HarvestDetail } from '@/interfaces/Harvest';
+import { Employee } from '@/interfaces/Employee';
 import { cn } from '@/lib/utils';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { PaginationState } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { useState } from 'react';
 import { useGetAllCrops } from '../crops/hooks/useGetAllCrops';
+import { useGetAllEmployees } from '../employees/hooks/useGetAllEmployees';
 import columnsHarvestDetail from './ColumnsHarvestDetail';
 import {
   defaultValuesHarvestDetail,
   formFieldsHarvestDetail,
   formSchemaHarvestDetail,
 } from './ElementsHarvestDetailForm';
-import { useGetAllEmployees } from '../employees/hooks/useGetAllEmployees';
-import { Employee } from '@/interfaces/Employee';
+import { add, reset } from './harvestSlice';
 
 export const CreateHarvest = () => {
   const navigate = useNavigate();
@@ -85,24 +86,24 @@ export const CreateHarvest = () => {
   });
 
   const { mutate, isSuccess, isPending } = usePostHarvest();
+  const details = useAppSelector(state => state.harvest.details);
 
   const onSubmitHarvest = async (values: z.infer<typeof formSchemaHarvest>) => {
     console.log(values);
-    mutate({ ...values, details: [] });
+    mutate({
+      ...values,
+      details: details.map(({ id, ...rest }) => ({ ...rest, employee: id })),
+    });
   };
 
   // Details
-  const [details, setDetails] = useState<HarvestDetail[]>([]);
+
+  const dispatch = useAppDispatch();
 
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
-
-  const data = {
-    rowCount: details.length,
-    pageCount: Math.ceil(details.length / pagination.pageSize),
-  };
 
   const formHarvestDetail = useForm<z.infer<typeof formSchemaHarvestDetail>>({
     resolver: zodResolver(formSchemaHarvestDetail),
@@ -114,12 +115,14 @@ export const CreateHarvest = () => {
   ) => {
     const isIncludes = details.some(item => item.employee === values.employee);
     if (isIncludes) return;
-    setDetails([...details, values]);
+    const [id, name] = values.employee.split('|');
+    dispatch(add({ ...values, employee: name, id }));
     formHarvestDetail.reset();
   };
 
   // Estados
   if (isSuccess) {
+    dispatch(reset());
     navigate('../view');
   }
 
@@ -333,7 +336,9 @@ export const CreateHarvest = () => {
                             {queryEmployees.data.rows.map((item: Employee) => (
                               <SelectItem
                                 key={item.id}
-                                value={item.first_name!}
+                                value={`${item.id!}|${item.first_name} ${
+                                  item.last_name
+                                }`}
                               >
                                 {`${item.first_name} ${item.last_name}`}
                               </SelectItem>
@@ -362,7 +367,10 @@ export const CreateHarvest = () => {
       <DataTable
         columns={columnsHarvestDetail}
         rows={details}
-        data={data}
+        data={{
+          rowCount: details.length,
+          pageCount: Math.ceil(details.length / pagination.pageSize),
+        }}
         pagination={pagination}
         setPagination={setPagination}
       ></DataTable>

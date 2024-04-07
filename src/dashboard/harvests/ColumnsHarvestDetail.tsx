@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 
-import { EyeOpenIcon, Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
+import { Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
 
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -29,8 +29,9 @@ import { useState } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { HarvestDetail } from '@/interfaces/Harvest';
+import { useAppDispatch } from '@/redux/store';
 import { formFieldsHarvestDetail } from './ElementsHarvestDetailForm';
-import { useDeleteHarvest } from './hooks/useDeleteHarvest';
+import { remove } from './harvestSlice';
 
 export let columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [];
 
@@ -57,14 +58,15 @@ for (const field of formFieldsHarvestDetail) {
 columnsHarvestDetail.unshift({
   id: 'actions',
   cell: ({ row }: any) => {
-    const harvest = row.original;
-    const { id } = harvest;
-    const { mutate } = useDeleteHarvest();
+    const harvestDetail = row.original;
+    const { id } = harvestDetail;
+
+    const dispatch = useAppDispatch();
 
     const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
     const handleDelete = () => {
-      mutate(id!);
+      dispatch(remove(id!));
       setOpenDropDownMenu(false);
     };
 
@@ -127,6 +129,15 @@ columnsHarvestDetail.unshift({
                 onClick={() => navigate(`../modify/${id}`)}
               >
                 <Pencil2Icon className="w-full h-4 mr-2" /> Modificar
+              </Button>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Button
+                variant={'ghost'}
+                className="mr-2"
+                onClick={() => console.log(id)}
+              >
+                <Pencil2Icon className="w-full h-4 mr-2" /> Imprimir id
               </Button>
             </DropdownMenuItem>
             <DropdownMenuSeparator className="w-full" />

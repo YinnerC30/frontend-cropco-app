@@ -14,7 +14,8 @@ export interface Harvest {
 }
 
 export interface HarvestDetail {
-  employee: string;
+  id?: string;
+  employee: string | undefined;
   total: number;
   value_pay: number;
 }
