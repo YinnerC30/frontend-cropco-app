@@ -12,7 +12,9 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { UnitOfMeasure } from '@/enums/UnitOfMeasure';
 import { CustomFormField } from '@/interfaces/CustomFormField';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
@@ -85,6 +87,28 @@ export const ViewSupply = () => {
                         />
                       </FormControl>
                     )}
+                    {record.type === 'select' && (
+                      <Select
+                        disabled
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder={record.placeholder} />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value={UnitOfMeasure.GRAMOS}>
+                            GRAMOS
+                          </SelectItem>
+                          <SelectItem value={UnitOfMeasure.MILILITROS}>
+                            MILILITROS
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    )}
+
                     <FormDescription>{record.description}</FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -95,7 +119,7 @@ export const ViewSupply = () => {
         </Form>
       </ScrollArea>
 
-      <div className="flex justify-between w-48 mt-5 ml-5">
+      <div className="flex items-center justify-center w-48 mt-5">
         <Button onClick={() => navigate(-1)}>Volver</Button>
       </div>
     </div>

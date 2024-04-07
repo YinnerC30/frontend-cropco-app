@@ -48,7 +48,7 @@ export const ModifySupply = () => {
   };
 
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
     if (data) {
       form.reset({
         ...data,
@@ -85,53 +85,57 @@ export const ModifySupply = () => {
                 key={record.name}
                 control={form.control}
                 name={record.name}
-                render={({ field }) => (
-                  <FormItem className="my-4">
-                    <FormLabel>{record.label}</FormLabel>
-                    {record.type === 'string' && (
-                      <FormControl>
-                        <Input
-                          className="w-80"
-                          placeholder={record.placeholder}
-                          {...field}
-                        />
-                      </FormControl>
-                    )}
-                    {record.type === 'text' && (
-                      <FormControl>
-                        <Textarea
-                          placeholder={record.placeholder}
-                          className="resize-none"
-                          {...field}
-                        />
-                      </FormControl>
-                    )}
-
-                    {record.type === 'select' && (
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
+                render={({ field }) => {
+                  console.log(field);
+                  return (
+                    <FormItem className="my-4">
+                      <FormLabel>{record.label}</FormLabel>
+                      {record.type === 'string' && (
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder={record.placeholder} />
-                          </SelectTrigger>
+                          <Input
+                            className="w-80"
+                            placeholder={record.placeholder}
+                            {...field}
+                          />
                         </FormControl>
-                        <SelectContent>
-                          <SelectItem value={UnitOfMeasure.GRAMOS}>
-                            GRAMOS
-                          </SelectItem>
-                          <SelectItem value={UnitOfMeasure.MILILITROS}>
-                            MILILITROS
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
+                      )}
+                      {record.type === 'text' && (
+                        <FormControl>
+                          <Textarea
+                            placeholder={record.placeholder}
+                            className="resize-none"
+                            {...field}
+                          />
+                        </FormControl>
+                      )}
 
-                    <FormDescription>{record.description}</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                      {record.type === 'select' && (
+                        <Select
+                          onValueChange={field.onChange}
+                          // defaultValue={field.value}
+                          value={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder={record.placeholder} />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value={UnitOfMeasure.GRAMOS}>
+                              GRAMOS
+                            </SelectItem>
+                            <SelectItem value={UnitOfMeasure.MILILITROS}>
+                              MILILITROS
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      )}
+
+                      <FormDescription>{record.description}</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
             ))}
           </form>

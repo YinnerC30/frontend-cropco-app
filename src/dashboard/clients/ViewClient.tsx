@@ -96,7 +96,7 @@ export const ViewClient = () => {
         </Form>
       </ScrollArea>
 
-      <div className="flex justify-between w-48 mt-5 ml-5">
+      <div className="flex items-center justify-center w-48 mt-5">
         <Button onClick={() => navigate(-1)}>Volver</Button>
       </div>
     </div>

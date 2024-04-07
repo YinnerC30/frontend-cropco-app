@@ -42,13 +42,13 @@ export const CreateSupply = () => {
   const { mutate, isSuccess, isPending } = usePostSupply();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log(values);
     mutate(values);
   };
 
   if (isSuccess) {
     navigate('../view');
   }
-  console.log(form.getValues());
 
   return (
     <div className="flex flex-col items-center w-full h-full">

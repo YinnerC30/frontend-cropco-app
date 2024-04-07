@@ -44,7 +44,7 @@ for (const field of formFields) {
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
-            {field.label}
+            {field.label.replace(/:/g, '')}
             <ArrowUpDown className="w-4 h-4 ml-2" />
           </Button>
         );
