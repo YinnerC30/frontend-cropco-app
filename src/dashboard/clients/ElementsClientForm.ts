@@ -1,3 +1,4 @@
+import { TypeInput } from '@/enums/TypeInput';
 import { CustomFormField } from '@/interfaces/CustomFormField';
 import { z } from 'zod';
 
@@ -7,7 +8,7 @@ export const formFields: CustomFormField[] = [
     label: 'Nombre:',
     placeholder: 'Stiven',
     description: 'Su primer nombre',
-    type: 'string',
+    type: TypeInput.string,
     visible: true,
   },
   {
@@ -15,7 +16,7 @@ export const formFields: CustomFormField[] = [
     label: 'Apellido:',
     placeholder: 'Gomez',
     description: 'Su primer apellido',
-    type: 'string',
+    type: TypeInput.string,
     visible: true,
   },
   {
@@ -23,7 +24,7 @@ export const formFields: CustomFormField[] = [
     label: 'Correo electrónico:',
     placeholder: 'stivgome@google.com',
     description: 'Su correo electrónico personal',
-    type: 'string',
+    type: TypeInput.string,
     visible: true,
   },
   {
@@ -31,7 +32,7 @@ export const formFields: CustomFormField[] = [
     label: 'Número celular:',
     placeholder: '3148009870',
     description: 'Su número celular personal',
-    type: 'string',
+    type: TypeInput.string,
     visible: true,
   },
   {
@@ -39,7 +40,7 @@ export const formFields: CustomFormField[] = [
     label: 'Dirección:',
     placeholder: 'Bolivar Cauca...',
     description: '',
-    type: 'text',
+    type: TypeInput.text,
     visible: true,
   },
 ];

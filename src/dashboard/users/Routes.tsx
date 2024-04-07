@@ -3,7 +3,7 @@ import { ModifyUser } from './ModifyUser';
 import UsersModule from './UsersModule';
 import { ViewUser } from './ViewUser';
 
-const routes = {
+const userRoutes = {
   path: 'users',
   children: [
     {
@@ -25,4 +25,4 @@ const routes = {
   ],
 };
 
-export default routes;
+export { userRoutes };

@@ -3,7 +3,7 @@ import { CreateClient } from './CreateClient';
 import { ModifyClient } from './ModifyClient';
 import { ViewClient } from './ViewClient';
 
-const routes = {
+const clientRoutes = {
   path: 'clients',
   children: [
     {
@@ -25,4 +25,4 @@ const routes = {
   ],
 };
 
-export default routes;
+export  { clientRoutes };

@@ -9,4 +9,5 @@ export const pathsCropco = {
   crops: '/crops',
   clients: '/clients',
   suppliers: '/suppliers',
+  supplies: '/supplies',
 };

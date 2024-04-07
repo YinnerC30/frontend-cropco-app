@@ -3,7 +3,7 @@ import CropsModule from './CropsModule';
 import { ModifyCrop } from './ModifyCrop';
 import { ViewCrop } from './ViewCrop';
 
-const routes = {
+const cropRoutes = {
   path: 'crops',
   children: [
     {
@@ -24,4 +24,4 @@ const routes = {
     },
   ],
 };
-export default routes;
+export  { cropRoutes };

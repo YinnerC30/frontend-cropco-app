@@ -1,3 +1,4 @@
+import { TypeInput } from '@/enums/TypeInput';
 import { CustomFormField } from '@/interfaces/CustomFormField';
 import { z } from 'zod';
 
@@ -7,7 +8,7 @@ export const formFields: CustomFormField[] = [
     label: 'Nombre:',
     placeholder: 'Cultivo 1',
     description: 'Nombre único del cultivo ',
-    type: 'string',
+    type: TypeInput.string,
     visible: true,
   },
   {
@@ -15,7 +16,7 @@ export const formFields: CustomFormField[] = [
     label: 'Descripción:',
     placeholder: 'El cultivo presenta las siguientes...',
     description: 'Información de interés sobre el cultivo',
-    type: 'text',
+    type: TypeInput.text,
     visible: true,
   },
   {
@@ -23,7 +24,7 @@ export const formFields: CustomFormField[] = [
     label: 'Número de unidades:',
     placeholder: '1000',
     description: 'Cantidad de plantas u arboles que tiene el cultivo',
-    type: 'number',
+    type: TypeInput.number,
     visible: true,
   },
   {
@@ -31,7 +32,7 @@ export const formFields: CustomFormField[] = [
     label: 'Ubicación:',
     placeholder: 'A 1 Km de la escuela....',
     description: '',
-    type: 'text',
+    type: TypeInput.text,
     visible: true,
   },
   {
@@ -39,7 +40,7 @@ export const formFields: CustomFormField[] = [
     label: 'Fecha de creación:',
     placeholder: '',
     description: 'Fecha en la que se creo el cultivo',
-    type: 'date',
+    type: TypeInput.date,
     visible: true,
   },
   {
@@ -47,7 +48,7 @@ export const formFields: CustomFormField[] = [
     label: 'Fecha de terminación:',
     placeholder: '',
     description: 'Fecha en la que se termino el cultivo',
-    type: 'date',
+    type: TypeInput.date,
     visible: true,
   },
 ];

@@ -3,7 +3,7 @@ import { ModifySupplier } from './ModifySupplier';
 import { SuppliersModule } from './SupplierModule';
 import { ViewSupplier } from './ViewSupplier';
 
-const routes = {
+const supplierRoutes = {
   path: 'suppliers',
   children: [
     {
@@ -25,4 +25,4 @@ const routes = {
   ],
 };
 
-export default routes;
+export  { supplierRoutes };

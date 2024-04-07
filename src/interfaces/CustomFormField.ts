@@ -1,10 +1,10 @@
-type typeInput = 'text' | 'number' | 'date' | 'string';
+import { TypeInput } from '@/enums/TypeInput';
 
 export interface CustomFormField {
   name: string | any;
   label: string;
   placeholder: string;
   description: string;
-  type: typeInput;
+  type: TypeInput;
   visible: boolean;
 }
