@@ -16,30 +16,30 @@ import { Input } from '../ui/input';
 import { ToolTipTemplate } from './ToolTipTemplate';
 
 interface Props {
-  parameter: string;
+  search: string;
 }
 
-export const SearchBar = ({ parameter }: Props) => {
+export const SearchBar = ({ search }: Props) => {
   const navigate = useNavigate();
 
   const formSchema = z.object({
-    parameter: z.string(),
+    search: z.string(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      parameter,
+      search,
     },
   });
 
   const onReset = () => {
-    form.reset({ parameter: '' });
+    form.reset({ search: '' });
     navigate(`../view`);
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    navigate(`?search=${values.parameter.trim()}`);
+    navigate(`?search=${values.search.trim()}`);
   };
 
   return (
@@ -53,7 +53,7 @@ export const SearchBar = ({ parameter }: Props) => {
           >
             <FormField
               control={form.control}
-              name="parameter"
+              name="search"
               render={({ field }) => (
                 <FormItem className="my-1">
                   <FormControl>

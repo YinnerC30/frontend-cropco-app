@@ -19,7 +19,7 @@ export const useGetAllCrops = ({ searchParameter, allRecords }: Props) => {
     queryKey: ['crops', { searchParameter, ...pagination }],
     queryFn: () =>
       getCrops({
-        parameter: searchParameter,
+        search: searchParameter,
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
         allRecords,

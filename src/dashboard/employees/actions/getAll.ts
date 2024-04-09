@@ -1,20 +1,20 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
 interface Props {
-  parameter: string;
+  search: string;
   limit: number;
   offset: number;
   allRecords: boolean;
 }
 
 export const getEmployees = async ({
-  parameter = '',
+  search = '',
   limit = 10,
   offset = 0,
   allRecords,
 }: Props) => {
   let params = new URLSearchParams();
-  params.append('parameter', parameter);
+  params.append('search', search);
   params.append('limit', limit.toString());
   params.append('offset', offset.toString());
   params.append('allRecords', allRecords.toString());

@@ -30,7 +30,7 @@ export const CropsModule = () => {
     <>
       <div className="flex flex-col items-center justify-center my-4">
         <div className="flex items-center justify-center">
-          <SearchBar parameter={searchParameter} />
+          <SearchBar search={searchParameter} />
           <ToolTipTemplate content={'Crear'}>
             <Button
               className="ml-4 bg-blue-600 rounded-full hover:bg-blue-400"

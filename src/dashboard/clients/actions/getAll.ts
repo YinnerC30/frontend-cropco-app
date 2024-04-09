@@ -1,12 +1,8 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
-export const getClients = async ({
-  parameter = '',
-  limit = 10,
-  offset = 0,
-}) => {
+export const getClients = async ({ search = '', limit = 10, offset = 0 }) => {
   const params = new URLSearchParams();
-  params.append('parameter', parameter);
+  params.append('search', search);
   params.append('limit', limit.toString());
   params.append('offset', offset.toString());
 

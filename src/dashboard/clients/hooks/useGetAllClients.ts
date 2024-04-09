@@ -13,7 +13,7 @@ export const useGetAllClients = (searchParameter: string) => {
     queryKey: ['clients', { searchParameter, ...pagination }],
     queryFn: () =>
       getClients({
-        parameter: searchParameter,
+        search: searchParameter,
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
       }),

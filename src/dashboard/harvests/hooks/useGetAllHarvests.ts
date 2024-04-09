@@ -14,7 +14,7 @@ export const useGetAllHarvests = (searchParameter: string) => {
     queryKey: ['harvests', { searchParameter, ...pagination }],
     queryFn: () =>
       getHarvests({
-        parameter: searchParameter,
+        search: searchParameter,
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
       }),

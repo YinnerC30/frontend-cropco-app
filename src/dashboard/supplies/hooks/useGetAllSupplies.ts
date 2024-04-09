@@ -13,7 +13,7 @@ export const useGetAllSupplies = (searchParameter: string) => {
     queryKey: ['supplies', { searchParameter, ...pagination }],
     queryFn: () =>
       getSupplies({
-        parameter: searchParameter,
+        search: searchParameter,
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
       }),

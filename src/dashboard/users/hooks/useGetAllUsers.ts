@@ -13,7 +13,7 @@ export const useGetAllUsers = (searchParameter: string) => {
     queryKey: ['users', { searchParameter, ...pagination }],
     queryFn: () =>
       getUsers({
-        parameter: searchParameter,
+        search: searchParameter,
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
       }),

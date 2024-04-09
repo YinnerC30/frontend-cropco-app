@@ -19,7 +19,7 @@ export const useGetAllEmployees = ({ searchParameter, allRecords }: Props) => {
     queryKey: ['employees', { searchParameter, ...pagination }],
     queryFn: () =>
       getEmployees({
-        parameter: searchParameter,
+        search: searchParameter,
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
         allRecords,
