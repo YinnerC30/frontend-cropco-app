@@ -91,6 +91,7 @@ import {
 } from './ElementsHarvestDetailForm';
 import { add, reset } from './harvestSlice';
 import { HarvestDetail } from '@/interfaces/Harvest';
+import { DataTableDynamic } from '@/components/table/DataTableDynamic';
 
 export const CreateHarvest = () => {
   const navigate = useNavigate();
@@ -110,7 +111,7 @@ export const CreateHarvest = () => {
   });
 
   const { mutate, isSuccess, isPending } = usePostHarvest();
-  const details: any = useAppSelector((state:any) => state.harvest.details);
+  const details: any = useAppSelector((state: any) => state.harvest.details);
 
   const onSubmitHarvest = async (values: z.infer<typeof formSchemaHarvest>) => {
     if (details.length === 0) {
@@ -130,10 +131,10 @@ export const CreateHarvest = () => {
 
   const dispatch = useAppDispatch();
 
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
+  // const [pagination, setPagination] = useState<PaginationState>({
+  //   pageIndex: 0,
+  //   pageSize: 10,
+  // });
 
   const formHarvestDetail = useForm<z.infer<typeof formSchemaHarvestDetail>>({
     resolver: zodResolver(formSchemaHarvestDetail),
@@ -527,7 +528,7 @@ export const CreateHarvest = () => {
               </DialogContent>
             </Dialog>
           </div>
-          <DataTable
+          {/* <DataTable
             columns={columnsHarvestDetail}
             rows={details.map((item: any) => {
               const { employee, ...rest } = item;
@@ -543,7 +544,18 @@ export const CreateHarvest = () => {
             }}
             pagination={pagination}
             setPagination={setPagination}
-          ></DataTable>
+          ></DataTable> */}
+          <DataTableDynamic
+            columns={columnsHarvestDetail}
+            data={details.map((item: any) => {
+              const { employee, ...rest } = item;
+              return {
+                ...rest,
+                employee: employee.first_name,
+                id: employee.id,
+              };
+            })}
+          ></DataTableDynamic>
         </div>
       </div>
       <div className="flex gap-2 my-6 ">

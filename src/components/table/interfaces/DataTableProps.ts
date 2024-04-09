@@ -7,3 +7,7 @@ export interface DataTableProps<TData, TValue> {
   pagination: any;
   setPagination: any;
 }
+export interface DataTableDynamicProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+}
