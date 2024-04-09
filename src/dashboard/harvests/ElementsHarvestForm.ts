@@ -56,10 +56,13 @@ export const formFieldsHarvest: CustomFormField[] = [
 ];
 
 export const formSchemaHarvest = z.object({
-  date: z.date(),
-  crop: z
-    .string()
-    .uuid({ message: 'El identificador del cultivo debe ser un UUID válido.' }),
+  date: z.date().max(new Date(), 'La fecha no puede ser futura.'),
+  crop: z.object({
+    id: z.string().uuid({
+      message: 'El identificador del cultivo debe ser un UUID válido.',
+    }),
+    name: z.string().optional(),
+  }),
   unit_of_measure: z.enum(['LIBRAS', 'KILOGRAMOS'], {
     invalid_type_error: 'Unidad de medida no valida',
   }),
@@ -77,12 +80,16 @@ export const formSchemaHarvest = z.object({
     .max(100, {
       message: 'La observación no puede tener más de 100 caracteres.',
     })
+    .default('Sin observaciones')
     .optional(),
 });
 
 export const defaultValuesHarvest = {
   date: undefined,
-  crop: '',
+  crop: {
+    id: '',
+    name: ''
+  },
   unit_of_measure: UnitOfMeasureHarvest.LIBRAS,
   total: 0,
   value_pay: 0,

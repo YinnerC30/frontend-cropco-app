@@ -90,6 +90,7 @@ import {
   formSchemaHarvestDetail,
 } from './ElementsHarvestDetailForm';
 import { add, reset } from './harvestSlice';
+import { HarvestDetail } from '@/interfaces/Harvest';
 
 export const CreateHarvest = () => {
   const navigate = useNavigate();
@@ -109,7 +110,7 @@ export const CreateHarvest = () => {
   });
 
   const { mutate, isSuccess, isPending } = usePostHarvest();
-  const details: any = useAppSelector(state => state.harvest.details);
+  const details: any = useAppSelector((state:any) => state.harvest.details);
 
   const onSubmitHarvest = async (values: z.infer<typeof formSchemaHarvest>) => {
     if (details.length === 0) {
@@ -118,10 +119,10 @@ export const CreateHarvest = () => {
     }
     mutate({
       ...values,
-      details: details.map(({ id, ...rest }: any) => ({
-        ...rest,
-        employee: id,
-      })),
+      crop: { id: values.crop.id },
+      details: details.map((item: HarvestDetail) => {
+        return { ...item, employee: { id: item.employee.id } };
+      }),
     });
   };
 
@@ -146,8 +147,8 @@ export const CreateHarvest = () => {
       (item: any) => item.employee === values.employee,
     );
     if (isIncludes) return;
-    const [id, name] = values.employee.split('|');
-    dispatch(add({ ...values, employee: name, id }));
+
+    dispatch(add({ ...values }));
     formHarvestDetail.reset();
   };
 
@@ -162,6 +163,8 @@ export const CreateHarvest = () => {
   if (queryCrops.isError) {
     return <ErrorLoading />;
   }
+
+  formHarvest.getValues();
 
   return (
     <div className="flex flex-col items-center">
@@ -290,12 +293,13 @@ export const CreateHarvest = () => {
                                   !field.value && 'text-muted-foreground',
                                 )}
                               >
-                                {field.value
+                                {field.value.id
                                   ? queryCrops.data.rows.find(
-                                      (item: Crop) => item.id === field.value,
+                                      (item: Crop) =>
+                                        item.id === field.value.id,
                                     )?.name
                                   : 'Selecciona un cultivo'}
-                                {console.log(queryCrops.data.rows)}
+
                                 <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                               </Button>
                             </FormControl>
@@ -314,34 +318,33 @@ export const CreateHarvest = () => {
                                     </CommandEmpty>
                                     {queryCrops.data.rows &&
                                       Array.isArray(queryCrops.data.rows) &&
-                                      queryCrops.data.rows.map((crop: Crop) => {
-                                        const isIncludes = details.some(
-                                          (item: any) => item.id === crop.id,
-                                        );
-                                        if (isIncludes) return;
-                                        return (
-                                          <CommandItem
-                                            value={crop.name}
-                                            key={crop.id!}
-                                            onSelect={() => {
-                                              formHarvest.setValue(
-                                                'crop',
-                                                crop.id!,
-                                              );
-                                            }}
-                                          >
-                                            {crop.name}
-                                            <CheckIcon
-                                              className={cn(
-                                                'ml-auto h-4 w-4',
-                                                crop.id! === field.value
-                                                  ? 'opacity-100'
-                                                  : 'opacity-0',
-                                              )}
-                                            />
-                                          </CommandItem>
-                                        );
-                                      })}
+                                      queryCrops.data.rows.map(
+                                        (crop: Crop | any) => {
+                                          // console.log(crop)
+                                          return (
+                                            <CommandItem
+                                              value={crop.name}
+                                              key={crop.id!}
+                                              onSelect={() => {
+                                                formHarvest.setValue(
+                                                  'crop',
+                                                  crop!,
+                                                );
+                                              }}
+                                            >
+                                              {crop.name}
+                                              <CheckIcon
+                                                className={cn(
+                                                  'ml-auto h-4 w-4',
+                                                  crop.id! === field.value.id
+                                                    ? 'opacity-100'
+                                                    : 'opacity-0',
+                                                )}
+                                              />
+                                            </CommandItem>
+                                          );
+                                        },
+                                      )}
                                   </CommandGroup>
                                 </ScrollArea>
                               </CommandList>
@@ -433,17 +436,17 @@ export const CreateHarvest = () => {
                                       role="combobox"
                                       className={cn(
                                         'w-[200px] justify-between',
-                                        !field.value && 'text-muted-foreground',
+                                        !field.value.id &&
+                                          'text-muted-foreground',
                                       )}
                                     >
-                                      {field.value
+                                      {field.value.id
                                         ? queryEmployees.data.rows.find(
                                             (item: Employee) =>
-                                              item.id ===
-                                              field.value.split('|')[0],
+                                              item.id === field.value.id,
                                           )?.first_name
                                         : 'Selecciona un empleado'}
-                                      {console.log(queryEmployees.data.rows)}
+
                                       <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                                     </Button>
                                   </FormControl>
@@ -465,10 +468,11 @@ export const CreateHarvest = () => {
                                               queryEmployees.data.rows,
                                             ) &&
                                             queryEmployees.data.rows.map(
-                                              (employee: Employee) => {
+                                              (employee: Employee | any) => {
                                                 const isIncludes = details.some(
                                                   (item: any) =>
-                                                    item.id === employee.id,
+                                                    item.employee.id ===
+                                                    employee.id,
                                                 );
                                                 if (isIncludes) return;
                                                 return (
@@ -478,9 +482,7 @@ export const CreateHarvest = () => {
                                                     onSelect={() => {
                                                       formHarvestDetail.setValue(
                                                         'employee',
-                                                        `${employee.id!}|${
-                                                          employee.first_name
-                                                        }`,
+                                                        employee!,
                                                       );
                                                     }}
                                                   >
@@ -489,7 +491,7 @@ export const CreateHarvest = () => {
                                                       className={cn(
                                                         'ml-auto h-4 w-4',
                                                         employee.id! ===
-                                                          field.value
+                                                          field.value.id
                                                           ? 'opacity-100'
                                                           : 'opacity-0',
                                                       )}
@@ -527,7 +529,14 @@ export const CreateHarvest = () => {
           </div>
           <DataTable
             columns={columnsHarvestDetail}
-            rows={details}
+            rows={details.map((item: any) => {
+              const { employee, ...rest } = item;
+              return {
+                ...rest,
+                employee: employee.first_name,
+                id: employee.id,
+              };
+            })}
             data={{
               rowCount: details.length,
               pageCount: Math.ceil(details.length / pagination.pageSize),

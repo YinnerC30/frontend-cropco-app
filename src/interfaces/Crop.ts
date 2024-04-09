@@ -1,5 +1,5 @@
 export interface Crop {
-  id?: string;
+  id?: string | undefined;
   name: string;
   description: string;
   units: number;
