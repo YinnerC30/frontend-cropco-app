@@ -9,7 +9,7 @@ export interface Harvest {
   unit_of_measure: UnitOfMeasureHarvest | string;
   total: number;
   value_pay: number;
-  observation: string;
+  observation?: string | undefined;
   details: HarvestDetail[];
 }
 

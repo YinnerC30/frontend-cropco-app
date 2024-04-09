@@ -1,3 +1,14 @@
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import { z } from 'zod';
 
@@ -50,6 +61,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Select,
   SelectContent,
@@ -68,6 +80,7 @@ import { PaginationState } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { useGetAllCrops } from '../crops/hooks/useGetAllCrops';
 import { useGetAllEmployees } from '../employees/hooks/useGetAllEmployees';
 import columnsHarvestDetail from './ColumnsHarvestDetail';
@@ -77,7 +90,6 @@ import {
   formSchemaHarvestDetail,
 } from './ElementsHarvestDetailForm';
 import { add, reset } from './harvestSlice';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 export const CreateHarvest = () => {
   const navigate = useNavigate();
@@ -97,13 +109,19 @@ export const CreateHarvest = () => {
   });
 
   const { mutate, isSuccess, isPending } = usePostHarvest();
-  const details = useAppSelector(state => state.harvest.details);
+  const details: any = useAppSelector(state => state.harvest.details);
 
   const onSubmitHarvest = async (values: z.infer<typeof formSchemaHarvest>) => {
-    console.log(values);
+    if (details.length === 0) {
+      toast.error('Debes registrar al menos 1 registro de algún empleado');
+      return;
+    }
     mutate({
       ...values,
-      details: details.map(({ id, ...rest }) => ({ ...rest, employee: id })),
+      details: details.map(({ id, ...rest }: any) => ({
+        ...rest,
+        employee: id,
+      })),
     });
   };
 
@@ -124,7 +142,9 @@ export const CreateHarvest = () => {
   const onSubmitHarvestDetail = async (
     values: z.infer<typeof formSchemaHarvestDetail>,
   ) => {
-    const isIncludes = details.some(item => item.employee === values.employee);
+    const isIncludes = details.some(
+      (item: any) => item.employee === values.employee,
+    );
     if (isIncludes) return;
     const [id, name] = values.employee.split('|');
     dispatch(add({ ...values, employee: name, id }));
@@ -149,6 +169,7 @@ export const CreateHarvest = () => {
         <div className="w-5/12 ">
           <Form {...formHarvest}>
             <form
+              noValidate
               onSubmit={formHarvest.handleSubmit(onSubmitHarvest)}
               className="mx-5"
               id="formHarvest"
@@ -258,23 +279,6 @@ export const CreateHarvest = () => {
                         )}
 
                       {record.type === 'select' && record.name === 'crop' && (
-                        // <Select
-                        //   onValueChange={field.onChange}
-                        //   defaultValue={field.value}
-                        // >
-                        //   <FormControl>
-                        //     <SelectTrigger>
-                        //       <SelectValue placeholder={record.placeholder} />
-                        //     </SelectTrigger>
-                        //   </FormControl>
-                        //   <SelectContent>
-                        //     {queryCrops.data.rows.map((item: Crop) => (
-                        //       <SelectItem key={item.id} value={item.id!}>
-                        //         {item.name}
-                        //       </SelectItem>
-                        //     ))}
-                        //   </SelectContent>
-                        // </Select>
                         <Popover modal={true}>
                           <PopoverTrigger asChild>
                             <FormControl>
@@ -288,8 +292,7 @@ export const CreateHarvest = () => {
                               >
                                 {field.value
                                   ? queryCrops.data.rows.find(
-                                      (item: Crop) =>
-                                        item.id === field.value,
+                                      (item: Crop) => item.id === field.value,
                                     )?.name
                                   : 'Selecciona un cultivo'}
                                 {console.log(queryCrops.data.rows)}
@@ -313,7 +316,7 @@ export const CreateHarvest = () => {
                                       Array.isArray(queryCrops.data.rows) &&
                                       queryCrops.data.rows.map((crop: Crop) => {
                                         const isIncludes = details.some(
-                                          item => item.id === crop.id,
+                                          (item: any) => item.id === crop.id,
                                         );
                                         if (isIncludes) return;
                                         return (
@@ -410,9 +413,13 @@ export const CreateHarvest = () => {
                                   type="number"
                                   min={0}
                                   step={record.name === 'value_pay' ? 50 : 1}
-                                  onChange={e =>
-                                    field.onChange(parseFloat(e.target.value))
-                                  }
+                                  onChange={e => {
+                                    return !Number.isNaN(e.target.value)
+                                      ? field.onChange(
+                                          parseFloat(e.target.value),
+                                        )
+                                      : 0;
+                                  }}
                                 />
                               </FormControl>
                             )}
@@ -460,7 +467,7 @@ export const CreateHarvest = () => {
                                             queryEmployees.data.rows.map(
                                               (employee: Employee) => {
                                                 const isIncludes = details.some(
-                                                  item =>
+                                                  (item: any) =>
                                                     item.id === employee.id,
                                                 );
                                                 if (isIncludes) return;
@@ -535,14 +542,39 @@ export const CreateHarvest = () => {
           {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
           Guardar
         </Button>
-        <Button
-          onClick={() => {
-            dispatch(reset());
-            navigate(-1);
-          }}
-        >
-          Cancelar
-        </Button>
+
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button>Cancelar</Button>
+          </AlertDialogTrigger>
+
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                ¿Estas seguro de cancelar el registro?
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                No podrá recuperar la información que ha registrado hasta el
+                momento
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel asChild>
+                <Button variant="secondary">Cancelar</Button>
+              </AlertDialogCancel>
+              <AlertDialogAction asChild>
+                <Button
+                  onClick={() => {
+                    dispatch(reset());
+                    navigate(-1);
+                  }}
+                >
+                  Continuar
+                </Button>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );

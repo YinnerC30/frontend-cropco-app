@@ -57,11 +57,27 @@ export const formFieldsHarvest: CustomFormField[] = [
 
 export const formSchemaHarvest = z.object({
   date: z.date(),
-  crop: z.string().uuid(),
-  unit_of_measure: z.enum(['LIBRAS', 'KILOGRAMOS']),
-  total: z.number(),
-  value_pay: z.number(),
-  observation: z.string().max(100),
+  crop: z
+    .string()
+    .uuid({ message: 'El identificador del cultivo debe ser un UUID válido.' }),
+  unit_of_measure: z.enum(['LIBRAS', 'KILOGRAMOS'], {
+    invalid_type_error: 'Unidad de medida no valida',
+  }),
+  total: z
+    .number()
+    .positive({ message: 'El total debe ser un número positivo.' }),
+  value_pay: z
+    .number()
+    .positive({ message: 'El valor a pagar debe ser un número positivo.' })
+    .refine(value => value % 50 === 0, {
+      message: 'El valor a pagar debe ser un múltiplo de 50.',
+    }),
+  observation: z
+    .string()
+    .max(100, {
+      message: 'La observación no puede tener más de 100 caracteres.',
+    })
+    .optional(),
 });
 
 export const defaultValuesHarvest = {

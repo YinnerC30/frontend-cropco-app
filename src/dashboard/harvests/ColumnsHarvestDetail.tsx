@@ -29,16 +29,11 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { HarvestDetail } from '@/interfaces/Harvest';
 import { useAppDispatch } from '@/redux/store';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import {
-  defaultValuesHarvestDetail,
-  formFieldsHarvestDetail,
-  formSchemaHarvestDetail,
-} from './ElementsHarvestDetailForm';
-import { add, remove } from './harvestSlice';
 import { toast } from 'sonner';
+import {
+  formFieldsHarvestDetail
+} from './ElementsHarvestDetailForm';
+import { remove } from './harvestSlice';
 
 export let columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [];
 
@@ -129,7 +124,7 @@ columnsHarvestDetail.unshift({
                 </AlertDialogContent>
               </AlertDialog>
             </DropdownMenuItem>
-            <DropdownMenuSeparator className="w-full" />
+            
           </DropdownMenuContent>
         </DropdownMenu>
       </>

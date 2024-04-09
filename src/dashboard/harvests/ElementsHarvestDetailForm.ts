@@ -31,8 +31,15 @@ export const formFieldsHarvestDetail: CustomFormField[] = [
 
 export const formSchemaHarvestDetail = z.object({
   employee: z.string(),
-  total: z.number(),
-  value_pay: z.number(),
+  total: z
+    .number()
+    .positive({ message: 'El total debe ser un número positivo.' }),
+  value_pay: z
+    .number()
+    .positive({ message: 'El valor a pagar debe ser un número positivo.' })
+    .refine(value => value % 50 === 0, {
+      message: 'El valor a pagar debe ser un múltiplo de 50.',
+    }),
 });
 
 export const defaultValuesHarvestDetail = {
