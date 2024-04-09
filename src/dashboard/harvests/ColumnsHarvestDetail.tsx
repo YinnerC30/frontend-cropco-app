@@ -11,10 +11,9 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 
-import { Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
+import { TrashIcon } from '@radix-ui/react-icons';
 
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 
 import {
   DropdownMenu,
@@ -30,8 +29,16 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { HarvestDetail } from '@/interfaces/Harvest';
 import { useAppDispatch } from '@/redux/store';
-import { formFieldsHarvestDetail } from './ElementsHarvestDetailForm';
-import { remove } from './harvestSlice';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import {
+  defaultValuesHarvestDetail,
+  formFieldsHarvestDetail,
+  formSchemaHarvestDetail,
+} from './ElementsHarvestDetailForm';
+import { add, remove } from './harvestSlice';
+import { toast } from 'sonner';
 
 export let columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [];
 
@@ -67,10 +74,11 @@ columnsHarvestDetail.unshift({
 
     const handleDelete = () => {
       dispatch(remove(id!));
+      toast.success(
+        `Se ha eliminado la cosecha del empleado ${harvestDetail.employee}`,
+      );
       setOpenDropDownMenu(false);
     };
-
-    const navigate = useNavigate();
 
     return (
       <>
@@ -120,25 +128,6 @@ columnsHarvestDetail.unshift({
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator className="w-full" />
-            <DropdownMenuItem asChild>
-              <Button
-                variant={'ghost'}
-                className="mr-2"
-                onClick={() => navigate(`../modify/${id}`)}
-              >
-                <Pencil2Icon className="w-full h-4 mr-2" /> Modificar
-              </Button>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Button
-                variant={'ghost'}
-                className="mr-2"
-                onClick={() => console.log(id)}
-              >
-                <Pencil2Icon className="w-full h-4 mr-2" /> Imprimir id
-              </Button>
             </DropdownMenuItem>
             <DropdownMenuSeparator className="w-full" />
           </DropdownMenuContent>
