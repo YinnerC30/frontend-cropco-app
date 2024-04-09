@@ -77,6 +77,7 @@ import {
   formSchemaHarvestDetail,
 } from './ElementsHarvestDetailForm';
 import { add, reset } from './harvestSlice';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export const CreateHarvest = () => {
   const navigate = useNavigate();
@@ -257,23 +258,93 @@ export const CreateHarvest = () => {
                         )}
 
                       {record.type === 'select' && record.name === 'crop' && (
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder={record.placeholder} />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {queryCrops.data.rows.map((item: Crop) => (
-                              <SelectItem key={item.id} value={item.id!}>
-                                {item.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        // <Select
+                        //   onValueChange={field.onChange}
+                        //   defaultValue={field.value}
+                        // >
+                        //   <FormControl>
+                        //     <SelectTrigger>
+                        //       <SelectValue placeholder={record.placeholder} />
+                        //     </SelectTrigger>
+                        //   </FormControl>
+                        //   <SelectContent>
+                        //     {queryCrops.data.rows.map((item: Crop) => (
+                        //       <SelectItem key={item.id} value={item.id!}>
+                        //         {item.name}
+                        //       </SelectItem>
+                        //     ))}
+                        //   </SelectContent>
+                        // </Select>
+                        <Popover modal={true}>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                className={cn(
+                                  'w-[200px] justify-between',
+                                  !field.value && 'text-muted-foreground',
+                                )}
+                              >
+                                {field.value
+                                  ? queryCrops.data.rows.find(
+                                      (item: Crop) =>
+                                        item.id === field.value,
+                                    )?.name
+                                  : 'Selecciona un cultivo'}
+                                {console.log(queryCrops.data.rows)}
+                                <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[200px] p-0">
+                            <Command>
+                              <CommandInput
+                                placeholder="Buscar cultivo..."
+                                className="h-9"
+                              />
+                              <CommandList>
+                                <ScrollArea className="w-auto h-56">
+                                  <CommandGroup>
+                                    <CommandEmpty>
+                                      Cultivo no encontrado.
+                                    </CommandEmpty>
+                                    {queryCrops.data.rows &&
+                                      Array.isArray(queryCrops.data.rows) &&
+                                      queryCrops.data.rows.map((crop: Crop) => {
+                                        const isIncludes = details.some(
+                                          item => item.id === crop.id,
+                                        );
+                                        if (isIncludes) return;
+                                        return (
+                                          <CommandItem
+                                            value={crop.name}
+                                            key={crop.id!}
+                                            onSelect={() => {
+                                              formHarvest.setValue(
+                                                'crop',
+                                                crop.id!,
+                                              );
+                                            }}
+                                          >
+                                            {crop.name}
+                                            <CheckIcon
+                                              className={cn(
+                                                'ml-auto h-4 w-4',
+                                                crop.id! === field.value
+                                                  ? 'opacity-100'
+                                                  : 'opacity-0',
+                                              )}
+                                            />
+                                          </CommandItem>
+                                        );
+                                      })}
+                                  </CommandGroup>
+                                </ScrollArea>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
                       )}
 
                       <FormDescription>{record.description}</FormDescription>
@@ -347,34 +418,7 @@ export const CreateHarvest = () => {
                             )}
 
                             {record.type === 'select' && (
-                              // <Select
-                              //   onValueChange={field.onChange}
-                              //   defaultValue={field.value}
-                              //   value={field.value}
-                              // >
-                              //   <FormControl>
-                              //     <SelectTrigger>
-                              //       <SelectValue
-                              //         placeholder={record.placeholder}
-                              //       />
-                              //     </SelectTrigger>
-                              //   </FormControl>
-                              //   <SelectContent>
-                              //     {queryEmployees.data.rows.map(
-                              //       (item: Employee) => (
-                              //         <SelectItem
-                              //           key={item.id}
-                              //           value={`${item.id!}|${
-                              //             item.first_name
-                              //           } ${item.last_name}`}
-                              //         >
-                              //           {`${item.first_name} ${item.last_name}`}
-                              //         </SelectItem>
-                              //       ),
-                              //     )}
-                              //   </SelectContent>
-                              // </Select>
-                              <Popover>
+                              <Popover modal={true}>
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     <Button
@@ -388,7 +432,8 @@ export const CreateHarvest = () => {
                                       {field.value
                                         ? queryEmployees.data.rows.find(
                                             (item: Employee) =>
-                                              item.id === field.value,
+                                              item.id ===
+                                              field.value.split('|')[0],
                                           )?.first_name
                                         : 'Selecciona un empleado'}
                                       {console.log(queryEmployees.data.rows)}
@@ -402,41 +447,52 @@ export const CreateHarvest = () => {
                                       placeholder="Buscar empleado..."
                                       className="h-9"
                                     />
-
                                     <CommandList>
-                                      <CommandGroup>
-                                        <CommandEmpty>
-                                          Empleado no encontrado.
-                                        </CommandEmpty>
-                                        {queryEmployees.data.rows &&
-                                          Array.isArray(
-                                            queryEmployees.data.rows,
-                                          ) &&
-                                          queryEmployees.data.rows.map(
-                                            (item: Employee) => (
-                                              <CommandItem
-                                                value={item.first_name!}
-                                                key={item.id!}
-                                                onSelect={() => {
-                                                  formHarvestDetail.setValue(
-                                                    'employee',
-                                                    item.id!,
-                                                  );
-                                                }}
-                                              >
-                                                {item.first_name}
-                                                <CheckIcon
-                                                  className={cn(
-                                                    'ml-auto h-4 w-4',
-                                                    item.id! === field.value
-                                                      ? 'opacity-100'
-                                                      : 'opacity-0',
-                                                  )}
-                                                />
-                                              </CommandItem>
-                                            ),
-                                          )}
-                                      </CommandGroup>
+                                      <ScrollArea className="w-auto h-56">
+                                        <CommandGroup>
+                                          <CommandEmpty>
+                                            Empleado no encontrado.
+                                          </CommandEmpty>
+                                          {queryEmployees.data.rows &&
+                                            Array.isArray(
+                                              queryEmployees.data.rows,
+                                            ) &&
+                                            queryEmployees.data.rows.map(
+                                              (employee: Employee) => {
+                                                const isIncludes = details.some(
+                                                  item =>
+                                                    item.id === employee.id,
+                                                );
+                                                if (isIncludes) return;
+                                                return (
+                                                  <CommandItem
+                                                    value={employee.first_name}
+                                                    key={employee.id!}
+                                                    onSelect={() => {
+                                                      formHarvestDetail.setValue(
+                                                        'employee',
+                                                        `${employee.id!}|${
+                                                          employee.first_name
+                                                        }`,
+                                                      );
+                                                    }}
+                                                  >
+                                                    {employee.first_name}
+                                                    <CheckIcon
+                                                      className={cn(
+                                                        'ml-auto h-4 w-4',
+                                                        employee.id! ===
+                                                          field.value
+                                                          ? 'opacity-100'
+                                                          : 'opacity-0',
+                                                      )}
+                                                    />
+                                                  </CommandItem>
+                                                );
+                                              },
+                                            )}
+                                        </CommandGroup>
+                                      </ScrollArea>
                                     </CommandList>
                                   </Command>
                                 </PopoverContent>
