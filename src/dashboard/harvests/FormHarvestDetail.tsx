@@ -47,7 +47,7 @@ import {
   defaultValuesHarvestDetail,
   formSchemaHarvestDetail,
 } from './ElementsHarvestDetailForm';
-import { add } from './harvestSlice';
+import { add, calculateTotal } from './harvestSlice';
 import { ErrorLoading } from '@/components/common/ErrorLoading';
 import { Loading } from '@/components/common/Loading';
 
@@ -66,12 +66,8 @@ export const FormHarvestDetail = () => {
   const onSubmitHarvestDetail = async (
     values: z.infer<typeof formSchemaHarvestDetail>,
   ) => {
-    const isIncludes = details.some(
-      (item: any) => item.employee === values.employee,
-    );
-    if (isIncludes) return;
-
-    dispatch(add({ ...values }));
+    dispatch(add(values));
+    dispatch(calculateTotal());
     formHarvestDetail.reset();
   };
 
@@ -102,9 +98,9 @@ export const FormHarvestDetail = () => {
               id="formDetail"
             >
               <FormField
-                key={'employee'}
+                key={'employee.id'}
                 control={formHarvestDetail.control}
-                name={'employee'}
+                name={'employee.id'}
                 render={({ field }) => (
                   <FormItem className="my-4">
                     <FormLabel className="block">{'Empleado:'}</FormLabel>
@@ -117,13 +113,12 @@ export const FormHarvestDetail = () => {
                             role="combobox"
                             className={cn(
                               'w-[200px] justify-between',
-                              !field.value.id && 'text-muted-foreground',
+                              !field.value && 'text-muted-foreground',
                             )}
                           >
-                            {field.value.id
+                            {field.value
                               ? queryEmployees.data.rows.find(
-                                  (item: Employee) =>
-                                    item.id === field.value.id,
+                                  (item: Employee) => item.id === field.value,
                                 )?.first_name
                               : 'Selecciona un empleado'}
 
@@ -161,13 +156,16 @@ export const FormHarvestDetail = () => {
                                               'employee',
                                               employee!,
                                             );
+                                            formHarvestDetail.trigger(
+                                              'employee.id',
+                                            );
                                           }}
                                         >
                                           {employee.first_name}
                                           <CheckIcon
                                             className={cn(
                                               'ml-auto h-4 w-4',
-                                              employee.id! === field.value.id
+                                              employee.id! === field.value
                                                 ? 'opacity-100'
                                                 : 'opacity-0',
                                             )}

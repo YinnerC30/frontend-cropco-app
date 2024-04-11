@@ -1,7 +1,6 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HarvestDetail } from '@/interfaces/Harvest';
 import { ObjectWithId } from '@/interfaces/ObjectWithId';
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface HarvestState {
   details: HarvestDetail[];
@@ -10,7 +9,7 @@ interface HarvestState {
 }
 
 interface ModifyHarvestDetail {
-  harvestDetail: HarvestDetail;
+  detail: HarvestDetail;
   oldEmployee: ObjectWithId;
 }
 
@@ -20,49 +19,55 @@ const initialState: HarvestState = {
   value_pay: 0,
 };
 
-export const harvestSlice: any = createSlice({
+export const harvestSlice = createSlice({
   name: 'harvest',
   initialState,
   reducers: {
     add: (state, action: PayloadAction<HarvestDetail>) => {
       state.details.push(action.payload);
-      state.total += action.payload.total;
-      state.value_pay += action.payload.value_pay;
     },
     modify: (state, action: PayloadAction<ModifyHarvestDetail>) => {
-      const { harvestDetail, oldEmployee } = action.payload;
-      const isDifferentEmployee = harvestDetail.employee.id !== oldEmployee.id;
+      const { detail, oldEmployee } = action.payload;
+      const isDifferentEmployee = detail.employee.id !== oldEmployee.id;
 
       if (isDifferentEmployee) {
         state.details = [
           ...state.details.filter(
-            (item: HarvestDetail) => oldEmployee.id !== item.employee.id,
+            (detail: HarvestDetail) => oldEmployee.id !== detail.employee.id,
           ),
-          harvestDetail,
+          detail,
         ];
       } else {
-        state.details = state.details.map((item: HarvestDetail) =>
-          harvestDetail.employee.id === item.employee.id ? harvestDetail : item,
+        state.details = state.details.map((detailState: HarvestDetail) =>
+          detailState.employee.id === detail.employee.id ? detail : detailState,
         );
       }
     },
-
     remove: (state, action: PayloadAction<HarvestDetail>) => {
       state.details = state.details.filter(
-        item => item.employee.id !== action.payload.employee.id,
+        (detail: HarvestDetail) =>
+          detail.employee.id !== action.payload.employee.id,
       );
-      state.total -= action.payload.total;
-      state.value_pay -= action.payload.value_pay;
     },
     reset: state => {
       state.details = [];
       state.total = 0;
       state.value_pay = 0;
     },
+    calculateTotal: state => {
+      state.total = state.details.reduce(
+        (total: number, detail: HarvestDetail) => total + detail.total,
+        0,
+      );
+      state.value_pay = state.details.reduce(
+        (total: number, detail: HarvestDetail) => total + detail.value_pay,
+        0,
+      );
+    },
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { add, remove, reset, modify } = harvestSlice.actions;
+export const { add, remove, reset, modify, calculateTotal } =
+  harvestSlice.actions;
 
 export default harvestSlice.reducer;

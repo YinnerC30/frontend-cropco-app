@@ -31,9 +31,13 @@ export const formFieldsHarvestDetail: CustomFormField[] = [
 
 export const formSchemaHarvestDetail = z.object({
   employee: z.object({
-    id: z.string().uuid({
-      message: 'El identificador del cultivo debe ser un UUID válido.',
-    }),
+    id: z
+      .string({
+        required_error: 'El empleado es un campo obligatorio',
+      })
+      .uuid({
+        message: 'El identificador del cultivo debe ser un UUID válido.',
+      }),
     first_name: z.string().optional(),
   }),
   total: z
@@ -49,8 +53,8 @@ export const formSchemaHarvestDetail = z.object({
 
 export const defaultValuesHarvestDetail = {
   employee: {
-    id: '',
-    first_name: '',
+    id: undefined,
+    first_name: undefined,
   },
   total: 0,
   value_pay: 0,

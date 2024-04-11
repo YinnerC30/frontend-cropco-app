@@ -56,7 +56,7 @@ import {
   formFieldsHarvestDetail,
   formSchemaHarvestDetail,
 } from './ElementsHarvestDetailForm';
-import { add, modify, remove } from './harvestSlice';
+import { add, calculateTotal, modify, remove } from './harvestSlice';
 
 import {
   Popover,
@@ -79,27 +79,53 @@ import {
   CommandList,
 } from '@/components/ui/command';
 
-export let columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [];
-
-for (const field of formFieldsHarvestDetail) {
-  if (field.visible) {
-    columnsHarvestDetail.push({
-      accessorKey: field.name,
-      header: ({ column }: any) => {
-        return (
-          <Button
-            className="px-0 hover:bg-transparent"
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            {field.label.replace(/:/g, '')}
-            <ArrowUpDown className="w-4 h-4 ml-2" />
-          </Button>
-        );
-      },
-    });
-  }
-}
+export let columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
+  {
+    accessorKey: 'employee.first_name',
+    header: ({ column }: any) => {
+      return (
+        <Button
+          className="px-0 hover:bg-transparent"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          {'Empleado'}
+          <ArrowUpDown className="w-4 h-4 ml-2" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'total',
+    header: ({ column }: any) => {
+      return (
+        <Button
+          className="px-0 hover:bg-transparent"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          {'Total'}
+          <ArrowUpDown className="w-4 h-4 ml-2" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'value_pay',
+    header: ({ column }: any) => {
+      return (
+        <Button
+          className="px-0 hover:bg-transparent"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          {'Valor a pagar'}
+          <ArrowUpDown className="w-4 h-4 ml-2" />
+        </Button>
+      );
+    },
+  },
+];
 
 export const ModifyHarvestDetail = ({ defaultValues }: any) => {
   console.log({ defaultValues });
@@ -119,17 +145,22 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
   const onSubmitHarvestDetail = async (
     values: z.infer<typeof formSchemaHarvestDetail>,
   ) => {
-    const isIncludes = details.some(
-      (item: any) => item.employee === values.employee,
-    );
-    if (isIncludes) return;
+    // const isIncludes = details.some(
+    //   (detail: HarvestDetail) => detail.employee.id === values.employee.id,
+    // );
+    // if (isIncludes && values.employee.id !== defaultValues.employee.id) return;
+
+    const oldEmployee = {
+      id: defaultValues.employee.id,
+    };
 
     dispatch(
       modify({
-        harvestDetail: values,
-        oldEmployee: { id: defaultValues.employee.id },
+        detail: values,
+        oldEmployee,
       }),
     );
+    dispatch(calculateTotal());
     toast.success('Registro actualizado');
   };
   return (
@@ -141,9 +172,9 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Agregar</DialogTitle>
+          <DialogTitle>Modificar</DialogTitle>
           <DialogDescription>
-            Cuando termines de agregar la información, puedes cerrar esta
+            Cuando termines de modificar la información, puedes cerrar esta
             ventana.
           </DialogDescription>
         </DialogHeader>
@@ -320,6 +351,7 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
 columnsHarvestDetail.push({
   id: 'actions',
   cell: ({ row }: any) => {
+    console.log({ row });
     const harvestDetail = row.original;
 
     const dispatch = useAppDispatch();
@@ -331,6 +363,7 @@ columnsHarvestDetail.push({
       toast.success(
         `Se ha eliminado la cosecha del empleado ${harvestDetail.employee.first_name}`,
       );
+      dispatch(calculateTotal());
       setOpenDropDownMenu(false);
     };
 

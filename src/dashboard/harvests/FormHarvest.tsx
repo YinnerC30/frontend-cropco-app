@@ -45,13 +45,13 @@ import { UnitOfMeasureHarvest } from '@/enums/UnitOfMeasure';
 import { Crop } from '@/interfaces/Crop';
 import { HarvestDetail } from '@/interfaces/Harvest';
 import { cn } from '@/lib/utils';
-import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { RootState, useAppDispatch, useAppSelector } from '@/redux/store';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { toast } from 'sonner';
 import { useGetAllCrops } from '../crops/hooks/useGetAllCrops';
 import { CancelRegister } from './CancelRegister';
-import { reset } from './harvestSlice';
+import { calculateTotal, reset } from './harvestSlice';
 import { FormHarvestDetail } from './FormHarvestDetail';
 import { DataTableHarvestDetail } from './DataTableHarvestDetails';
 import { Separator } from '@/components/ui/separator';
@@ -73,21 +73,18 @@ export const FormHarvest = () => {
 
   const { mutate, isSuccess, isPending } = usePostHarvest();
   const { details, total, value_pay } = useAppSelector(
-    (state: any) => state.harvest,
+    (state: RootState) => state.harvest,
   );
-  const data = details.map((item: any) => {
-    return { ...item, first_name: item.employee.first_name };
-  });
 
   const onSubmitHarvest = (values: z.infer<typeof formSchemaHarvest>) => {
     if (details.length === 0) {
-      toast.error('Debes registrar al menos 1 registro de algún empleado');
+      toast.error('Debes registrar al menos 1 cosecha de algún empleado');
       return;
     }
     mutate({
       ...values,
       crop: { id: values.crop.id },
-      total, 
+      total,
       value_pay,
       details: details.map((item: HarvestDetail) => {
         return { ...item, employee: { id: item.employee.id } };
@@ -110,7 +107,6 @@ export const FormHarvest = () => {
     return <ErrorLoading />;
   }
 
-  console.log(formHarvest.getValues());
   return (
     <>
       <Label className="text-2xl">Registro de cosecha</Label>
@@ -371,7 +367,7 @@ export const FormHarvest = () => {
 
         <FormHarvestDetail />
 
-        <DataTableHarvestDetail data={data} />
+        <DataTableHarvestDetail data={details} />
         <Separator className="w-full my-5" />
 
         {/* Botones de guardar o cancelar */}
