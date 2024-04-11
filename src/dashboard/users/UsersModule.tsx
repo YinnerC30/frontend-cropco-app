@@ -27,14 +27,14 @@ export const UsersModule = () => {
   return (
     <>
       <div className="flex flex-col items-center justify-center my-4">
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-between gap-2">
           <SearchBar search={searchParameter} />
           <ToolTipTemplate content={'Crear'}>
             <Button
-              className="ml-4 bg-blue-600 rounded-full hover:bg-blue-400"
+              className="bg-blue-600 rounded-full hover:bg-blue-400"
               onClick={() => navigate('../create')}
             >
-              <PlusIcon className="w-4 h-4" />
+              <PlusIcon className="w-4 h-4 mr-2" /> Crear
             </Button>
           </ToolTipTemplate>
         </div>

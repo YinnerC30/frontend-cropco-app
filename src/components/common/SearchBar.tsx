@@ -44,18 +44,14 @@ export const SearchBar = ({ search }: Props) => {
 
   return (
     <>
-      <div className="flex flex-row items-center justify-center w-full">
+      <div className="flex flex-row w-full">
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="mx-5"
-            id="formUser"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} id="formSearchBar">
             <FormField
               control={form.control}
               name="search"
               render={({ field }) => (
-                <FormItem className="my-1">
+                <FormItem>
                   <FormControl>
                     <Input
                       className="w-80"
@@ -69,9 +65,9 @@ export const SearchBar = ({ search }: Props) => {
             />
           </form>
         </Form>
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-1 ml-2">
           <ToolTipTemplate content="Buscar">
-            <Button type="submit" form="formUser">
+            <Button type="submit" form="formSearchBar">
               <MagnifyingGlassIcon className="w-4 h-4" />
             </Button>
           </ToolTipTemplate>
