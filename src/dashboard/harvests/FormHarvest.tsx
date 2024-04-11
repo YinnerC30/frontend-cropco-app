@@ -1,5 +1,7 @@
-import { CaretSortIcon, CheckIcon, ReloadIcon } from '@radix-ui/react-icons';
-import { z } from 'zod';
+import { ErrorLoading } from '@/components/common/ErrorLoading';
+import { Loading } from '@/components/common/Loading';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import {
   Command,
   CommandEmpty,
@@ -8,25 +10,8 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import { Button } from '@/components/ui/button';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { CalendarIcon } from '@radix-ui/react-icons';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../../components/ui/form';
-import { defaultValuesHarvest, formSchemaHarvest } from './ElementsHarvestForm';
-import { usePostHarvest } from './hooks/usePostHarvest';
-import { ErrorLoading } from '@/components/common/ErrorLoading';
-import { Loading } from '@/components/common/Loading';
-import { Calendar } from '@/components/ui/calendar';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Popover,
   PopoverContent,
@@ -40,32 +25,57 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { UnitOfMeasureHarvest } from '@/enums/UnitOfMeasure';
 import { Crop } from '@/interfaces/Crop';
 import { HarvestDetail } from '@/interfaces/Harvest';
 import { cn } from '@/lib/utils';
-import { RootState, useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  AppDispatch,
+  RootState,
+  useAppDispatch,
+  useAppSelector,
+} from '@/redux/store';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  CalendarIcon,
+  CaretSortIcon,
+  CheckIcon,
+  ReloadIcon,
+} from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { z } from 'zod';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '../../components/ui/form';
 import { useGetAllCrops } from '../crops/hooks/useGetAllCrops';
 import { CancelRegister } from './CancelRegister';
-import { calculateTotal, reset } from './harvestSlice';
-import { FormHarvestDetail } from './FormHarvestDetail';
 import { DataTableHarvestDetail } from './DataTableHarvestDetails';
-import { Separator } from '@/components/ui/separator';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
+import { defaultValuesHarvest, formSchemaHarvest } from './ElementsHarvestForm';
+import { FormHarvestDetail } from './FormHarvestDetail';
+import { reset } from './harvestSlice';
+import { usePostHarvest } from './hooks/usePostHarvest';
 
 export const FormHarvest = () => {
+  const dispatch: AppDispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(reset());
+  }, []);
+
   const navigate = useNavigate();
-
-  const formHarvest = useForm<z.infer<typeof formSchemaHarvest>>({
-    resolver: zodResolver(formSchemaHarvest),
-    defaultValues: defaultValuesHarvest,
-  });
-
   const { query: queryCrops } = useGetAllCrops({
     searchParameter: '',
     allRecords: true,
@@ -75,6 +85,11 @@ export const FormHarvest = () => {
   const { details, total, value_pay } = useAppSelector(
     (state: RootState) => state.harvest,
   );
+
+  const formHarvest = useForm<z.infer<typeof formSchemaHarvest>>({
+    resolver: zodResolver(formSchemaHarvest),
+    defaultValues: defaultValuesHarvest,
+  });
 
   const onSubmitHarvest = (values: z.infer<typeof formSchemaHarvest>) => {
     if (details.length === 0) {
@@ -92,9 +107,6 @@ export const FormHarvest = () => {
     });
   };
 
-  // Details
-  const dispatch = useAppDispatch();
-
   // Estados
   if (isSuccess) {
     dispatch(reset());
@@ -109,9 +121,6 @@ export const FormHarvest = () => {
 
   return (
     <>
-      <Label className="text-2xl">Registro de cosecha</Label>
-      <Separator className="my-2" />
-
       {/* Formulario principal */}
       <Form {...formHarvest}>
         <form id="formHarvest">

@@ -9,6 +9,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ToolTipTemplate } from '@/components/common/ToolTipTemplate';
 import columnsHarvest from './ColumnsHarvest';
 import { useGetAllHarvests } from './hooks/useGetAllHarvests';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 
 export const HarvestModule = () => {
   const navigate = useNavigate();
@@ -27,6 +29,8 @@ export const HarvestModule = () => {
   return (
     <>
       <div className="flex flex-col items-center justify-center my-4">
+        <Label className="text-2xl">Registros de cosecha</Label>
+        <Separator className="my-2" />
         <div className="flex items-center justify-center">
           <ToolTipTemplate content={'Crear'}>
             <Button

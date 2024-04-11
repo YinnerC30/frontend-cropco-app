@@ -69,6 +69,15 @@ export function DataTable<TData, TValue>({
     debugTable: true,
   });
 
+  // Paginación
+  const pageIndex = table.getState().pagination.pageIndex;
+  const pageCount = table.getPageCount();
+  const pageText = `Página ${pageIndex + 1} de ${pageCount}`;
+
+  // Si no hay páginas, muestra solo el índice de página actual
+  const messageCountPage =
+    pageCount > 0 ? pageText : `Página ${pageIndex} de ${pageCount}`;
+
   return (
     <div className="flex flex-col items-center">
       {/* Paginación */}
@@ -99,8 +108,7 @@ export function DataTable<TData, TValue>({
           </div>
           {/* Cantidad de paginas */}
           <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-            Página {table.getState().pagination.pageIndex + 1} de{' '}
-            {table.getPageCount()}
+            {messageCountPage}
           </div>
           {/* Flechas de Paginación */}
           <div className="flex items-center space-x-2">
@@ -174,7 +182,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   onDoubleClick={() => {
                     const original: any = row.original;
-                    
+
                     navigate(`../view/${original.id}`);
                   }}
                   key={row.id}
