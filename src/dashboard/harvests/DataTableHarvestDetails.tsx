@@ -17,16 +17,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  DoubleArrowLeftIcon,
-  DoubleArrowRightIcon,
-} from '@radix-ui/react-icons';
 import { useState } from 'react';
-import { DataTableDynamicProps } from './interfaces/DataTableProps';
 
-import { Button } from '@/components/ui/button';
+import columnsHarvestDetail from './ColumnsHarvestDetail';
 import {
   Select,
   SelectContent,
@@ -34,17 +27,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Input } from '../ui/input';
+import { Button } from '@/components/ui/button';
+import {
+  ChevronLeftIcon,
+  DoubleArrowLeftIcon,
+  ChevronRightIcon,
+  DoubleArrowRightIcon,
+} from '@radix-ui/react-icons';
 
-export function DataTableDynamic<TData, TValue>({
-  columns,
-  data,
-}: DataTableDynamicProps<TData, TValue>) {
+export function DataTableHarvestDetail({ data }: any) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
     data,
-    columns,
+    columns: columnsHarvestDetail,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -58,26 +54,13 @@ export function DataTableDynamic<TData, TValue>({
   });
 
   return (
-    <div className="flex flex-col items-center">
-      {/* Filter */}
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filtro por nombre..."
-          value={
-            (table.getColumn('employee')?.getFilterValue() as string) ?? ''
-          }
-          onChange={event =>
-            table.getColumn('employee')?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-      </div>
-      {/* Paginación */}
+    <div className="w-[600px]">
       <div className="flex items-center justify-between px-2">
         <div className="flex items-center justify-center gap-4 ">
           {/* Select de cantidad de registros por pagina */}
           <div className="flex items-center space-x-2">
             <p className="text-sm font-medium">Filas por página</p>
+
             <Select
               value={`${table.getState().pagination.pageSize}`}
               onValueChange={value => {
@@ -148,7 +131,6 @@ export function DataTableDynamic<TData, TValue>({
           </div>
         </div>
       </div>
-
       {/* Tabla */}
       <div className={`w-auto border rounded-lg mt-3`}>
         <Table>
@@ -189,10 +171,7 @@ export function DataTableDynamic<TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columnsHarvestDetail.length} className='h-24 text-center'>
                   No hay registros.
                 </TableCell>
               </TableRow>

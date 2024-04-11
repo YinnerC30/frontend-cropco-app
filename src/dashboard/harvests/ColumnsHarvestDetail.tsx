@@ -102,6 +102,7 @@ for (const field of formFieldsHarvestDetail) {
 }
 
 export const ModifyHarvestDetail = ({ defaultValues }: any) => {
+  console.log({ defaultValues });
   const { query: queryEmployees } = useGetAllEmployees({
     searchParameter: '',
     allRecords: true,
@@ -153,130 +154,156 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
             className="mx-5"
             id="formDetail"
           >
-            {formFieldsHarvestDetail.map((record: CustomFormField) => (
-              <FormField
-                key={record.name}
-                control={formHarvestDetail.control}
-                name={record.name}
-                render={({ field }) => (
-                  <FormItem className="my-4">
-                    <FormLabel className="block">{record.label}</FormLabel>
+            <FormField
+              key={'employee'}
+              control={formHarvestDetail.control}
+              name={'employee'}
+              render={({ field }) => (
+                <FormItem className="my-4">
+                  <FormLabel className="block">{'Empleado:'}</FormLabel>
 
-                    {record.type === 'string' && (
+                  <Popover modal={true}>
+                    <PopoverTrigger asChild>
                       <FormControl>
-                        <Input
-                          className="w-80"
-                          placeholder={record.placeholder}
-                          {...field}
-                        />
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            'w-[200px] justify-between',
+                            !field.value.id && 'text-muted-foreground',
+                          )}
+                        >
+                          {field.value.id
+                            ? queryEmployees.data.rows.find(
+                                (item: Employee) => item.id === field.value.id,
+                              )?.first_name
+                            : 'Selecciona un empleado'}
+
+                          <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                        </Button>
                       </FormControl>
-                    )}
-
-                    {record.type === 'number' && (
-                      <FormControl>
-                        <Input
-                          className="w-80"
-                          placeholder={record.placeholder}
-                          {...field}
-                          type="number"
-                          min={0}
-                          step={record.name === 'value_pay' ? 50 : 1}
-                          onChange={e => {
-                            return !Number.isNaN(e.target.value)
-                              ? field.onChange(parseFloat(e.target.value))
-                              : 0;
-                          }}
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandInput
+                          placeholder="Buscar empleado..."
+                          className="h-9"
                         />
-                      </FormControl>
-                    )}
+                        <CommandList>
+                          <ScrollArea className="w-auto h-56">
+                            <CommandEmpty>Empleado no encontrado.</CommandEmpty>
+                            <CommandGroup>
+                              {queryEmployees.data.rows &&
+                                Array.isArray(queryEmployees.data.rows) &&
+                                queryEmployees.data.rows.map(
+                                  (employee: Employee | any) => {
+                                    const isIncludes = details.some(
+                                      (item: any) =>
+                                        item.employee.id === employee.id,
+                                    );
+                                    if (
+                                      isIncludes &&
+                                      employee.id !== field.value.id
+                                    )
+                                      return;
 
-                    {record.type === 'select' && (
-                      <Popover modal={true}>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              className={cn(
-                                'w-[200px] justify-between',
-                                !field.value.id && 'text-muted-foreground',
-                              )}
-                            >
-                              {field.value.id
-                                ? queryEmployees.data.rows.find(
-                                    (item: Employee) =>
-                                      item.id === field.value.id,
-                                  )?.first_name
-                                : 'Selecciona un empleado'}
-                              {console.log(field.value)}
+                                    return (
+                                      <CommandItem
+                                        value={employee.first_name}
+                                        key={employee.id!}
+                                        onSelect={() => {
+                                          formHarvestDetail.setValue(
+                                            'employee',
+                                            employee!,
+                                          );
+                                        }}
+                                      >
+                                        {employee.first_name}
+                                        <CheckIcon
+                                          className={cn(
+                                            'ml-auto h-4 w-4',
+                                            employee.id! === field.value.id
+                                              ? 'opacity-100'
+                                              : 'opacity-0',
+                                          )}
+                                        />
+                                      </CommandItem>
+                                    );
+                                  },
+                                )}
+                            </CommandGroup>
+                          </ScrollArea>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
 
-                              <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
-                          <Command>
-                            <CommandInput
-                              placeholder="Buscar empleado..."
-                              className="h-9"
-                            />
-                            <CommandList>
-                              <ScrollArea className="w-auto h-56">
-                                <CommandGroup>
-                                  <CommandEmpty>
-                                    Empleado no encontrado.
-                                  </CommandEmpty>
-                                  {queryEmployees.data.rows &&
-                                    Array.isArray(queryEmployees.data.rows) &&
-                                    queryEmployees.data.rows.map(
-                                      (employee: Employee | any) => {
-                                        const isIncludes = details.some(
-                                          (item: any) =>
-                                            item.employee.id === employee.id,
-                                        );
-                                        if (
-                                          isIncludes &&
-                                          employee.id !== field.value.id
-                                        )
-                                          return;
-                                        return (
-                                          <CommandItem
-                                            value={employee.first_name}
-                                            key={employee.id!}
-                                            onSelect={() => {
-                                              formHarvestDetail.setValue(
-                                                'employee',
-                                                employee!,
-                                              );
-                                            }}
-                                          >
-                                            {employee.first_name}
-                                            <CheckIcon
-                                              className={cn(
-                                                'ml-auto h-4 w-4',
-                                                employee.id! === field.value.id
-                                                  ? 'opacity-100'
-                                                  : 'opacity-0',
-                                              )}
-                                            />
-                                          </CommandItem>
-                                        );
-                                      },
-                                    )}
-                                </CommandGroup>
-                              </ScrollArea>
-                            </CommandList>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
-                    )}
+                  <FormDescription>
+                    Selecciona el nombre del empleado
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              key={'total'}
+              control={formHarvestDetail.control}
+              name={'total'}
+              render={({ field }) => (
+                <FormItem className="my-4">
+                  <FormLabel className="block">{'Total:'}</FormLabel>
 
-                    <FormDescription>{record.description}</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ))}
+                  <FormControl>
+                    <Input
+                      className="w-80"
+                      placeholder={'0'}
+                      {...field}
+                      type="number"
+                      min={0}
+                      onChange={e => {
+                        return !Number.isNaN(e.target.value)
+                          ? field.onChange(parseFloat(e.target.value))
+                          : 0;
+                      }}
+                    />
+                  </FormControl>
+
+                  <FormDescription>
+                    Introduce la cantidad que ha cosechado
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              key={'value_pay'}
+              control={formHarvestDetail.control}
+              name={'value_pay'}
+              render={({ field }) => (
+                <FormItem className="my-4">
+                  <FormLabel className="block">{'Valor a pagar:'}</FormLabel>
+
+                  <FormControl>
+                    <Input
+                      className="w-80"
+                      placeholder={'0'}
+                      {...field}
+                      type="number"
+                      min={0}
+                      step={50}
+                      onChange={e => {
+                        return !Number.isNaN(e.target.value)
+                          ? field.onChange(parseFloat(e.target.value))
+                          : 0;
+                      }}
+                    />
+                  </FormControl>
+
+                  <FormDescription>Introduce el valor a pagar</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </form>
         </Form>
 
@@ -290,21 +317,20 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
   );
 };
 
-columnsHarvestDetail.unshift({
+columnsHarvestDetail.push({
   id: 'actions',
   cell: ({ row }: any) => {
     const harvestDetail = row.original;
-    console.log(harvestDetail);
-    const { id } = harvestDetail;
+    const { employee } = harvestDetail;
 
     const dispatch = useAppDispatch();
 
     const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
     const handleDelete = () => {
-      dispatch(remove(id!));
+      dispatch(remove(employee.id!));
       toast.success(
-        `Se ha eliminado la cosecha del empleado ${harvestDetail.employee}`,
+        `Se ha eliminado la cosecha del empleado ${harvestDetail.employee.first_name}`,
       );
       setOpenDropDownMenu(false);
     };
@@ -359,15 +385,7 @@ columnsHarvestDetail.unshift({
               </AlertDialog>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <ModifyHarvestDetail
-                defaultValues={{
-                  ...harvestDetail,
-                  employee: {
-                    first_name: harvestDetail.employee,
-                    id: harvestDetail.id,
-                  },
-                }}
-              />
+              <ModifyHarvestDetail defaultValues={harvestDetail} />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

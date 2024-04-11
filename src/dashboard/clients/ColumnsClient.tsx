@@ -53,7 +53,7 @@ for (const field of formFields) {
   }
 }
 
-columns.unshift({
+columns.push({
   id: 'actions',
   cell: ({ row }: any) => {
     const client = row.original;

@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 export const formFieldsHarvestDetail: CustomFormField[] = [
   {
-    name: 'employee',
+    name: 'first_name',
     label: 'Empleado:',
     placeholder: 'Selecciona',
     description: 'Selecciona el nombre del empleado',

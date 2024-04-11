@@ -54,7 +54,7 @@ for (const field of formFieldsHarvest) {
   }
 }
 
-columnsHarvest.unshift({
+columnsHarvest.push({
   id: 'actions',
   cell: ({ row }: any) => {
     const harvest = row.original;

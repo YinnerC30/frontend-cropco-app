@@ -56,7 +56,12 @@ export const formFieldsHarvest: CustomFormField[] = [
 ];
 
 export const formSchemaHarvest = z.object({
-  date: z.date().max(new Date(), 'La fecha no puede ser futura.'),
+  date: z
+    .date()
+    .max(new Date(), 'La fecha no puede ser futura.')
+    .refine(date => !!date, {
+      message: 'Debes ingresar una fecha',
+    }),
   crop: z.object({
     id: z.string().uuid({
       message: 'El identificador del cultivo debe ser un UUID válido.',
@@ -88,7 +93,7 @@ export const defaultValuesHarvest = {
   date: undefined,
   crop: {
     id: '',
-    name: ''
+    name: '',
   },
   unit_of_measure: UnitOfMeasureHarvest.LIBRAS,
   total: 0,
