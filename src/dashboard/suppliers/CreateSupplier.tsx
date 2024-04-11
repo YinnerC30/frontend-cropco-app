@@ -39,7 +39,7 @@ export const CreateSupplier = () => {
   if (isSuccess) {
     navigate('../view');
   }
-  console.log(form.getValues())
+  
 
   return (
     <div className="flex flex-col items-center w-full h-full">

@@ -40,7 +40,7 @@ export const ModifySupplier = () => {
   };
 
   useEffect(() => {
-    console.log(data);
+    
     if (data) {
       form.reset({
         ...data,

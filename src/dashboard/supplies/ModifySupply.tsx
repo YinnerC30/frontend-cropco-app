@@ -48,7 +48,6 @@ export const ModifySupply = () => {
   };
 
   useEffect(() => {
-    // console.log(data);
     if (data) {
       form.reset({
         ...data,
@@ -86,7 +85,6 @@ export const ModifySupply = () => {
                 control={form.control}
                 name={record.name}
                 render={({ field }) => {
-                  console.log(field);
                   return (
                     <FormItem className="my-4">
                       <FormLabel>{record.label}</FormLabel>

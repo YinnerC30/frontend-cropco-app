@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useState } from 'react';
 
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, Row } from '@tanstack/react-table';
 
 import {
   Dialog,
@@ -128,7 +128,7 @@ export let columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
 ];
 
 export const ModifyHarvestDetail = ({ defaultValues }: any) => {
-  console.log({ defaultValues });
+  
   const { query: queryEmployees } = useGetAllEmployees({
     searchParameter: '',
     allRecords: true,
@@ -351,7 +351,6 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
 columnsHarvestDetail.push({
   id: 'actions',
   cell: ({ row }: any) => {
-    console.log({ row });
     const harvestDetail = row.original;
 
     const dispatch = useAppDispatch();
