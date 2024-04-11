@@ -5,6 +5,8 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface HarvestState {
   details: HarvestDetail[];
+  total: number;
+  value_pay: number;
 }
 
 interface ModifyHarvestDetail {
@@ -13,25 +15,9 @@ interface ModifyHarvestDetail {
 }
 
 const initialState: HarvestState = {
-  details: [
-    {
-      employee: {
-        id: '7f257e39-7d51-47e3-857d-1a5d8cf547de',
-        first_name: 'Joseph',
-      },
-      total: 5,
-      value_pay: 500,
-    },
-    {
-      employee: {
-        id: '2cb772f9-1dfe-4149-ad2a-3b00c103f9e0',
-        first_name: 'John',
-      },
-      total: 4,
-      value_pay: 100,
-    },
-    
-  ],
+  details: [],
+  total: 0,
+  value_pay: 0,
 };
 
 export const harvestSlice: any = createSlice({
@@ -40,6 +26,8 @@ export const harvestSlice: any = createSlice({
   reducers: {
     add: (state, action: PayloadAction<HarvestDetail>) => {
       state.details.push(action.payload);
+      state.total += action.payload.total;
+      state.value_pay += action.payload.value_pay;
     },
     modify: (state, action: PayloadAction<ModifyHarvestDetail>) => {
       const { harvestDetail, oldEmployee } = action.payload;
@@ -59,13 +47,17 @@ export const harvestSlice: any = createSlice({
       }
     },
 
-    remove: (state, action: PayloadAction<string>) => {
+    remove: (state, action: PayloadAction<HarvestDetail>) => {
       state.details = state.details.filter(
-        item => item.employee.id !== action.payload,
+        item => item.employee.id !== action.payload.employee.id,
       );
+      state.total -= action.payload.total;
+      state.value_pay -= action.payload.value_pay;
     },
     reset: state => {
       state.details = [];
+      state.total = 0;
+      state.value_pay = 0;
     },
   },
 });

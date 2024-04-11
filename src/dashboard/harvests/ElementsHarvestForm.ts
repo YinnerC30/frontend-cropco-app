@@ -56,27 +56,29 @@ export const formFieldsHarvest: CustomFormField[] = [
 ];
 
 export const formSchemaHarvest = z.object({
-  date: z
-    .date()
-    .max(new Date(), 'La fecha no puede ser futura.')
-    .refine(date => !!date, {
-      message: 'Debes ingresar una fecha',
-    }),
+  date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
   crop: z.object({
-    id: z.string().uuid({
-      message: 'El identificador del cultivo debe ser un UUID válido.',
-    }),
-    name: z.string().optional(),
+    id: z
+      .string({
+        required_error: 'El cultivo es un campo obligatorio',
+      })
+      .uuid({
+        message: 'El identificador del cultivo debe ser un UUID válido.',
+      }),
   }),
   unit_of_measure: z.enum(['LIBRAS', 'KILOGRAMOS'], {
+    required_error: 'La unidad de medida es requerida',
     invalid_type_error: 'Unidad de medida no valida',
   }),
-  total: z
-    .number()
-    .positive({ message: 'El total debe ser un número positivo.' }),
+  total: z.number({
+    invalid_type_error: 'Debes introducir un valor numérico',
+  }),
+
   value_pay: z
-    .number()
-    .positive({ message: 'El valor a pagar debe ser un número positivo.' })
+    .number({
+      invalid_type_error: 'Debes introducir un valor numérico',
+    })
+
     .refine(value => value % 50 === 0, {
       message: 'El valor a pagar debe ser un múltiplo de 50.',
     }),
@@ -92,10 +94,9 @@ export const formSchemaHarvest = z.object({
 export const defaultValuesHarvest = {
   date: undefined,
   crop: {
-    id: '',
-    name: '',
+    id: undefined,
   },
-  unit_of_measure: UnitOfMeasureHarvest.LIBRAS,
+  unit_of_measure: undefined,
   total: 0,
   value_pay: 0,
   observation: '',

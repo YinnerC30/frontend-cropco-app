@@ -56,6 +56,7 @@ import { FormHarvestDetail } from './FormHarvestDetail';
 import { DataTableHarvestDetail } from './DataTableHarvestDetails';
 import { Separator } from '@/components/ui/separator';
 import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 export const FormHarvest = () => {
   const navigate = useNavigate();
@@ -71,12 +72,14 @@ export const FormHarvest = () => {
   });
 
   const { mutate, isSuccess, isPending } = usePostHarvest();
-  const details: any = useAppSelector((state: any) => state.harvest.details);
+  const { details, total, value_pay } = useAppSelector(
+    (state: any) => state.harvest,
+  );
   const data = details.map((item: any) => {
     return { ...item, first_name: item.employee.first_name };
   });
 
-  const onSubmitHarvest = async (values: z.infer<typeof formSchemaHarvest>) => {
+  const onSubmitHarvest = (values: z.infer<typeof formSchemaHarvest>) => {
     if (details.length === 0) {
       toast.error('Debes registrar al menos 1 registro de algún empleado');
       return;
@@ -84,6 +87,8 @@ export const FormHarvest = () => {
     mutate({
       ...values,
       crop: { id: values.crop.id },
+      total, 
+      value_pay,
       details: details.map((item: HarvestDetail) => {
         return { ...item, employee: { id: item.employee.id } };
       }),
@@ -104,6 +109,8 @@ export const FormHarvest = () => {
   if (queryCrops.isError) {
     return <ErrorLoading />;
   }
+
+  console.log(formHarvest.getValues());
   return (
     <>
       <Label className="text-2xl">Registro de cosecha</Label>
@@ -111,11 +118,7 @@ export const FormHarvest = () => {
 
       {/* Formulario principal */}
       <Form {...formHarvest}>
-        <form
-          noValidate
-          onSubmit={formHarvest.handleSubmit(onSubmitHarvest)}
-          id="formHarvest"
-        >
+        <form id="formHarvest">
           <FormField
             key={'date'}
             control={formHarvest.control}
@@ -164,9 +167,9 @@ export const FormHarvest = () => {
             )}
           />
           <FormField
-            key={'crop'}
+            key={'crop.id'}
             control={formHarvest.control}
-            name={'crop'}
+            name={'crop.id'}
             render={({ field }) => (
               <FormItem className="my-4">
                 <FormLabel className="block">{'Cultivo:'}</FormLabel>
@@ -182,9 +185,9 @@ export const FormHarvest = () => {
                           !field.value && 'text-muted-foreground',
                         )}
                       >
-                        {field.value.id
+                        {field.value
                           ? queryCrops.data.rows.find(
-                              (item: Crop) => item.id === field.value.id,
+                              (item: Crop) => item.id === field.value,
                             )?.name
                           : 'Selecciona un cultivo'}
 
@@ -210,14 +213,15 @@ export const FormHarvest = () => {
                                     value={crop.name}
                                     key={crop.id!}
                                     onSelect={() => {
-                                      formHarvest.setValue('crop', crop!);
+                                      formHarvest.setValue('crop.id', crop.id!);
+                                      formHarvest.trigger('crop.id');
                                     }}
                                   >
                                     {crop.name}
                                     <CheckIcon
                                       className={cn(
                                         'ml-auto h-4 w-4',
-                                        crop.id! === field.value.id
+                                        crop.id! === field.value
                                           ? 'opacity-100'
                                           : 'opacity-0',
                                       )}
@@ -294,28 +298,96 @@ export const FormHarvest = () => {
               </FormItem>
             )}
           />
+          <FormField
+            key={'total'}
+            control={formHarvest.control}
+            name={'total'}
+            render={({ field }) => (
+              <FormItem className="my-4">
+                <FormLabel className="block">{'Total:'}</FormLabel>
+
+                <FormControl>
+                  <Input
+                    readOnly
+                    {...field}
+                    className="w-80"
+                    placeholder={'0'}
+                    type="number"
+                    min={0}
+                    onChange={e => {
+                      return !Number.isNaN(e.target.value)
+                        ? field.onChange(parseFloat(e.target.value))
+                        : 0;
+                    }}
+                    value={total}
+                  />
+                </FormControl>
+
+                <FormDescription>
+                  Introduce la cantidad que ha cosechado
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            key={'value_pay'}
+            control={formHarvest.control}
+            name={'value_pay'}
+            render={({ field }) => (
+              <FormItem className="my-4">
+                <FormLabel className="block">{'Valor a pagar:'}</FormLabel>
+
+                <FormControl>
+                  <Input
+                    readOnly
+                    className="w-80"
+                    placeholder={'0'}
+                    {...field}
+                    type="number"
+                    min={0}
+                    step={50}
+                    onChange={e => {
+                      return !Number.isNaN(e.target.value)
+                        ? field.onChange(parseFloat(e.target.value))
+                        : 0;
+                    }}
+                    value={value_pay}
+                  />
+                </FormControl>
+
+                <FormDescription>Introduce el valor a pagar</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </form>
+
+        <Separator className="w-full my-5" />
+        <Label className="text-sm">
+          A continuación registre de forma individual la cosecha que ha
+          realizado cada empleado:
+        </Label>
+
+        <FormHarvestDetail />
+
+        <DataTableHarvestDetail data={data} />
+        <Separator className="w-full my-5" />
+
+        {/* Botones de guardar o cancelar */}
+        <div className="flex gap-2 my-6 ">
+          <Button
+            type="submit"
+            form="formHarvest"
+            disabled={isPending}
+            onClick={formHarvest.handleSubmit(onSubmitHarvest)}
+          >
+            {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
+            Guardar
+          </Button>
+          <CancelRegister />
+        </div>
       </Form>
-
-      <Separator className="w-full my-5" />
-      <Label className="text-sm">
-        A continuación registre de forma individual la cosecha que ha realizado
-        cada empleado:
-      </Label>
-
-      <FormHarvestDetail />
-
-      <DataTableHarvestDetail data={data} />
-      <Separator className="w-full my-5" />
-
-      {/* Botones de guardar o cancelar */}
-      <div className="flex gap-2 my-6 ">
-        <Button type="submit" form="formHarvest" disabled={isPending}>
-          {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
-          Guardar
-        </Button>
-        <CancelRegister />
-      </div>
     </>
   );
 };

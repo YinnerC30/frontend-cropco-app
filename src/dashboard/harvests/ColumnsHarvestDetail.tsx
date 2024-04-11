@@ -321,14 +321,13 @@ columnsHarvestDetail.push({
   id: 'actions',
   cell: ({ row }: any) => {
     const harvestDetail = row.original;
-    const { employee } = harvestDetail;
 
     const dispatch = useAppDispatch();
 
     const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
     const handleDelete = () => {
-      dispatch(remove(employee.id!));
+      dispatch(remove(harvestDetail));
       toast.success(
         `Se ha eliminado la cosecha del empleado ${harvestDetail.employee.first_name}`,
       );
