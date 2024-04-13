@@ -23,6 +23,8 @@ import { z } from 'zod';
 import { defaultValues, formFields, formSchema } from './ElementsClientForm';
 import { useGetClient } from './hooks/useGetClient';
 import { usePatchClient } from './hooks/usePatchClient';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 
 export const ModifyClient = () => {
   const { id } = useParams();
@@ -60,60 +62,130 @@ export const ModifyClient = () => {
   }
 
   return (
-    <div className="flex flex-col items-center w-full h-full">
-      <ScrollArea
-        type="auto"
-        className="h-[480px] w-[380px]  rounded-b-md mb-10"
-      >
+    <>
+      <Label className="text-2xl">Modificar cliente</Label>
+      <Separator className="my-2" />
+      <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="mx-5"
             id="formUser"
+            className="flex flex-col gap-2 ml-1"
           >
-            {formFields.map((record: CustomFormField) => (
-              <FormField
-                key={record.name}
-                control={form.control}
-                name={record.name}
-                render={({ field }) => (
-                  <FormItem className="my-1">
-                    <FormLabel>{record.label}</FormLabel>
-                    {record.type === 'string' && (
-                      <FormControl>
-                        <Input
-                          className="w-80"
-                          placeholder={record.placeholder}
-                          {...field}
-                        />
-                      </FormControl>
-                    )}
-                    {record.type === 'text' && (
-                      <FormControl>
-                        <Textarea
-                          placeholder={record.placeholder}
-                          className="resize-none"
-                          {...field}
-                        />
-                      </FormControl>
-                    )}
-                    <FormDescription>{record.description}</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ))}
+            <FormField
+              control={form.control}
+              name={`first_name`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.first_name.label}</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="w-56"
+                      placeholder={formFields.first_name.placeholder}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {formFields.first_name.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name={'last_name'}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.last_name.label}</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="w-56"
+                      placeholder={formFields.last_name.placeholder}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {formFields.last_name.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name={'email'}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.email.label}</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="w-64"
+                      placeholder={formFields.email.placeholder}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {formFields.email.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name={'cell_phone_number'}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.cell_phone_number.label}</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="w-56"
+                      placeholder={formFields.cell_phone_number.placeholder}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {formFields.cell_phone_number.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name={'address'}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.address.label}</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder={formFields.address.placeholder}
+                      className="resize-none w-96"
+                      rows={4}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {formFields.address.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </form>
+
+          <div className="flex w-48 gap-2 mt-2">
+            <Button type="submit" form="formUser" disabled={isPending}>
+              {isPending && (
+                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
+              )}
+              Guardar
+            </Button>
+            <Button onClick={() => navigate(-1)}>Cancelar</Button>
+          </div>
         </Form>
       </ScrollArea>
-
-      <div className="flex justify-between w-48 mt-5 ml-5">
-        <Button type="submit" form="formUser" disabled={isPending}>
-          {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
-          Actualizar
-        </Button>
-        <Button onClick={() => navigate(-1)}>Cancelar</Button>
-      </div>
-    </div>
+    </>
   );
 };
