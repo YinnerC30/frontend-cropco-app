@@ -1,57 +1,44 @@
-import { TypeInput } from '@/enums/TypeInput';
 import { CustomFormField } from '@/interfaces/CustomFormField';
 import { z } from 'zod';
 
-export const formFields: CustomFormField[] = [
-  {
+export const formFields: Record<string, CustomFormField> = {
+  first_name: {
     name: 'first_name',
     label: 'Nombre:',
     placeholder: 'Stiven',
     description: 'Su primer nombre',
-    type: TypeInput.string,
-    visible: true,
   },
-  {
+  last_name: {
     name: 'last_name',
     label: 'Apellido:',
     placeholder: 'Gomez',
     description: 'Su primer apellido',
-    type: TypeInput.string,
-    visible: true,
   },
-  {
+  email: {
     name: 'email',
     label: 'Correo electrónico:',
     placeholder: 'stivgome@google.com',
     description: 'Su correo electrónico personal',
-    type: TypeInput.string,
-    visible: true,
   },
-  {
+  cell_phone_number: {
     name: 'cell_phone_number',
     label: 'Número celular:',
     placeholder: '3148009870',
     description: 'Su número celular personal',
-    type: TypeInput.string,
-    visible: true,
   },
-  {
+  address: {
     name: 'address',
     label: 'Dirección:',
     placeholder: 'Bolivar Cauca...',
     description: '',
-    type: TypeInput.text,
-    visible: true,
   },
-  {
+  company_name: {
     name: 'company_name',
     label: 'Nombre empresa:',
-    placeholder: 'Tierra bella',
+    placeholder: 'Raíces',
     description: '',
-    type: TypeInput.string,
-    visible: true,
   },
-];
+};
 
 export const formSchema = z.object({
   first_name: z
