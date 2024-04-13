@@ -3,7 +3,6 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { deleteUser } from '../actions/delete';
 
-
 export const useDeleteUser = () => {
   const queryClient = useQueryClient();
 

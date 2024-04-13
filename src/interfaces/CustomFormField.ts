@@ -1,6 +1,5 @@
-
 export interface CustomFormField {
-  name: string | any;
+  name: string;
   label: string;
   placeholder: string;
   description: string;

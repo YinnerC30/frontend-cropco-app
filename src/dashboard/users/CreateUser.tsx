@@ -18,7 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from '../../components/ui/form';
-import { defaultValues, formSchema } from './ElementsUserForm';
+import { defaultValues, formFields, formSchema } from './ElementsUserForm';
 import { usePostUser } from './hooks/usePostUser';
 import { useState } from 'react';
 
@@ -39,8 +39,8 @@ export const CreateUser = () => {
   const { mutate, isSuccess, isPending } = usePostUser();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const { repeat_password, ...rest } = values;
-    mutate(rest);
+    const { password, ...rest } = values;
+    mutate({ ...rest, password: password.password1 });
   };
 
   if (isSuccess) {
@@ -48,7 +48,7 @@ export const CreateUser = () => {
   }
 
   return (
-    <div className="">
+    <>
       <Label className="text-2xl">Registro de usuario</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
@@ -59,84 +59,91 @@ export const CreateUser = () => {
             className="flex flex-col gap-2 ml-1"
           >
             <FormField
-              key={'first_name'}
               control={form.control}
-              name={'first_name'}
+              name={`first_name`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{'Nombre(s):'}</FormLabel>
+                  <FormLabel>{formFields.first_name.label}</FormLabel>
                   <FormControl>
-                    <Input className="w-56" placeholder={'Stiven'} {...field} />
+                    <Input
+                      className="w-56"
+                      placeholder={formFields.first_name.placeholder}
+                      {...field}
+                    />
                   </FormControl>
-                  <FormDescription>{'Su primer nombre'}</FormDescription>
+                  <FormDescription>
+                    {formFields.first_name.description}
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
-              key={'last_name'}
               control={form.control}
               name={'last_name'}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{'Apellido(s):'}</FormLabel>
+                  <FormLabel>{formFields.last_name.label}</FormLabel>
                   <FormControl>
-                    <Input className="w-56" placeholder={'Gomez'} {...field} />
+                    <Input
+                      className="w-56"
+                      placeholder={formFields.last_name.placeholder}
+                      {...field}
+                    />
                   </FormControl>
-                  <FormDescription>{'Su primer apellido'}</FormDescription>
+                  <FormDescription>
+                    {formFields.last_name.description}
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
-              key={'email'}
               control={form.control}
               name={'email'}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{'Correo electrónico:'}</FormLabel>
+                  <FormLabel>{formFields.email.label}</FormLabel>
                   <FormControl>
                     <Input
                       className="w-56"
-                      placeholder={'stivgome@google.com'}
+                      placeholder={formFields.email.placeholder}
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    {'Su correo electrónico personal'}
+                    {formFields.email.description}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
-              key={'cell_phone_number'}
               control={form.control}
               name={'cell_phone_number'}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{'Número celular:'}</FormLabel>
+                  <FormLabel>{formFields.cell_phone_number.label}</FormLabel>
                   <FormControl>
                     <Input
                       className="w-56"
-                      placeholder={'3148009870'}
+                      placeholder={formFields.cell_phone_number.placeholder}
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    {'Su número celular personal'}
+                    {formFields.cell_phone_number.description}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
-              key={'password'}
               control={form.control}
-              name={'password'}
+              name={`password.password1`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{'Contraseña:'}</FormLabel>
+                  <FormLabel>{formFields.password1.label}</FormLabel>
                   <div className="flex gap-2">
                     <FormControl>
                       <Input
@@ -150,19 +157,18 @@ export const CreateUser = () => {
                     </Button>
                   </div>
                   <FormDescription>
-                    {'Escribe una contraseña segura'}
+                    {formFields.password1.description}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
-              key={'repeat_password'}
               control={form.control}
-              name={'repeat_password'}
+              name={`password.password2`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{'Repite la contraseña:'}</FormLabel>
+                  <FormLabel>{formFields.password2.label}</FormLabel>
                   <div className="flex gap-2">
                     <FormControl>
                       <Input
@@ -176,7 +182,7 @@ export const CreateUser = () => {
                     </Button>
                   </div>
                   <FormDescription>
-                    {'Vuelve a escribir la contraseña'}
+                    {formFields.password2.description}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -195,6 +201,6 @@ export const CreateUser = () => {
           </div>
         </Form>
       </ScrollArea>
-    </div>
+    </>
   );
 };

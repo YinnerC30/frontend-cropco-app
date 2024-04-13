@@ -39,7 +39,8 @@ export const SearchBar = ({ search }: Props) => {
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    navigate(`?search=${values.search.trim()}`);
+    if (values.search.trim().length > 0)
+      navigate(`?search=${values.search.trim()}`);
   };
 
   return (

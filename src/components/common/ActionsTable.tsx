@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 
 import { EyeOpenIcon, Pencil2Icon } from '@radix-ui/react-icons';
 
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, TrashIcon } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -16,12 +16,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface Props {
+  mutate: any;
   id: string;
 }
 
-export const ActionsTable = ({ id }: Props) => {
+export const ActionsTable = ({ mutate, id }: Props) => {
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
-
   const navigate = useNavigate();
   return (
     <DropdownMenu open={openDropDownMenu} modal={openDropDownMenu}>
@@ -42,7 +42,17 @@ export const ActionsTable = ({ id }: Props) => {
       >
         <DropdownMenuLabel>Acciones</DropdownMenuLabel>
         <DropdownMenuSeparator className="w-full" />
-
+        <DropdownMenuItem asChild>
+          <Button
+            onClick={() => {
+              mutate(id);
+              setOpenDropDownMenu(false);
+            }}
+            variant={'ghost'}
+          >
+            <TrashIcon className="w-4 h-4 mr-2" /> Eliminar
+          </Button>
+        </DropdownMenuItem>
         <DropdownMenuSeparator className="w-full" />
         <DropdownMenuItem asChild>
           <Button

@@ -4,7 +4,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import { User } from '../../interfaces/User';
 import { formFields } from './ElementsUserForm';
 import { useDeleteUser } from './hooks/useDeleteUser';
-import { useRef } from 'react';
 
 export let columns: ColumnDef<User>[] = [
   {
@@ -51,7 +50,8 @@ columns.push({
   id: 'actions',
   cell: ({ row }: any) => {
     const { id } = row.original;
-    return <ActionsTable id={id} />;
+    const { mutate } = useDeleteUser();
+    return <ActionsTable mutate={mutate} id={id} />;
   },
 });
 
