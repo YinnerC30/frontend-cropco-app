@@ -53,7 +53,7 @@ export const ViewUser = () => {
     <>
       <Label className="text-2xl">Información del usuario</Label>
       <Separator className="my-2" />
-      <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
+      <ScrollArea type="auto" className="h-[75vh] w-full  mb-10">
         <Form {...form}>
           <form id="formUser" className="flex flex-col gap-2 ml-1">
             <FormField

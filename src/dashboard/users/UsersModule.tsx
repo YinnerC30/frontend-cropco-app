@@ -44,7 +44,7 @@ export const UsersModule = () => {
             </Button>
           </ToolTipTemplate>
         </div>
-        <div className="w-[620px]">
+        <div className="w-[650px]">
           <DataTable
             columns={columns}
             rows={query.data.rows}

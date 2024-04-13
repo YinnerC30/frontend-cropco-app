@@ -70,7 +70,7 @@ export const ModifyUser = () => {
     <>
       <Label className="text-2xl">Modificar usuario</Label>
       <Separator className="my-2" />
-      <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
+      <ScrollArea type="auto" className="h-[75vh] w-full  mb-10">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
