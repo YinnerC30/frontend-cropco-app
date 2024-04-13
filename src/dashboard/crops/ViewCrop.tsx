@@ -30,6 +30,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 import { defaultValues, formFields, formSchema } from './ElementsCropForm';
 import { useGetCrop } from './hooks/useGetCrop';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 
 export const ViewCrop = () => {
   const { id } = useParams();
@@ -43,13 +45,16 @@ export const ViewCrop = () => {
 
   useEffect(() => {
     if (data) {
-      form.reset({
+      const cropData = {
         ...data,
-        date_of_creation: new Date(`${data.date_of_creation}T00:00:00-05:00`),
-        date_of_termination: data.date_of_termination
-          ? new Date(`${data.date_of_termination}T00:00:00-05:00`)
-          : undefined,
-      });
+        dates: {
+          date_of_creation: new Date(`${data.date_of_creation}T00:00:00-05:00`),
+          date_of_termination: data.date_of_termination
+            ? new Date(`${data.date_of_termination}T00:00:00-05:00`)
+            : undefined,
+        },
+      };
+      form.reset(cropData);
     }
   }, [data]);
 
@@ -58,111 +63,213 @@ export const ViewCrop = () => {
   if (!data) return <ErrorLoading />;
 
   return (
-    <div className="flex flex-col items-center w-full h-full">
-      <ScrollArea
-        type="auto"
-        className="h-[480px] w-[380px]  rounded-b-md mb-10"
-      >
+    <>
+      <Label className="text-2xl">
+        Información del cultivo de "{data.name}"
+      </Label>
+      <Separator className="my-2" />
+      <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <Form {...form}>
-          <form className="mx-5" id="formCrop">
-            {formFields.map((record: any) => (
-              <FormField
-                key={record.name}
-                control={form.control}
-                name={record.name}
-                render={({ field }) => (
-                  <FormItem className="my-4">
-                    <FormLabel>{record.label}</FormLabel>
+          <form id="formCrop" className="flex flex-col gap-2 ml-1">
+            <FormField
+              disabled
+              control={form.control}
+              name={'name'}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.name.label}</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="w-56"
+                      placeholder={formFields.name.placeholder}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {formFields.name.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              disabled
+              control={form.control}
+              name={'description'}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.description.label}</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder={formFields.description.placeholder}
+                      className="resize-none w-96"
+                      rows={4}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {formFields.description.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              disabled
+              control={form.control}
+              name={'units'}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.units.label}</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="w-56"
+                      placeholder={formFields.units.placeholder}
+                      {...field}
+                      type={'number'}
+                      min={0}
+                    />
+                  </FormControl>
 
-                    {record.type === 'string' && (
-                      <FormControl>
-                        <Input
-                          readOnly
-                          className="w-80"
-                          placeholder={record.placeholder}
-                          {...field}
-                        />
-                      </FormControl>
-                    )}
-                    {record.type === 'text' && (
-                      <FormControl>
-                        <Textarea
-                          readOnly
-                          placeholder={record.placeholder}
-                          className="resize-none"
-                          {...field}
-                        />
-                      </FormControl>
-                    )}
+                  <FormDescription>
+                    {formFields.units.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-                    {record.type === 'number' && (
-                      <FormControl>
-                        <Input
-                          readOnly
-                          className="w-80"
-                          placeholder={record.placeholder}
-                          {...field}
-                          type="number"
-                          min={0}
-                          onChange={e =>
-                            field.onChange(parseFloat(e.target.value))
+            <FormField
+              disabled
+              control={form.control}
+              name={`location`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.location.label}</FormLabel>
+
+                  <FormControl>
+                    <Textarea
+                      placeholder={formFields.location.placeholder}
+                      className="resize-none w-96"
+                      rows={4}
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormDescription>
+                    {formFields.location.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name={`dates.date_of_creation`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.date_of_creation.label}</FormLabel>
+
+                  <div className="block">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            disabled
+                            variant={'outline'}
+                            className={cn(
+                              'w-[240px] pl-3 text-left font-normal',
+                              !field.value && 'text-muted-foreground',
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, 'PPP', { locale: es })
+                            ) : (
+                              <span>Selecciona una fecha</span>
+                            )}
+                            <CalendarIcon className="w-4 h-4 ml-auto opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          locale={es}
+                          mode="single"
+                          selected={new Date(field.value)}
+                          onSelect={field.onChange}
+                          disabled={date =>
+                            date > new Date() || date < new Date('1900-01-01')
                           }
+                          initialFocus
                         />
-                      </FormControl>
-                    )}
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <FormDescription>
+                    {formFields.date_of_creation.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name={`dates.date_of_termination`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.date_of_termination.label}</FormLabel>
 
-                    {record.type === 'date' && (
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              disabled
-                              variant={'outline'}
-                              className={cn(
-                                'w-[240px] pl-3 text-left font-normal',
-                                !field.value && 'text-muted-foreground',
-                              )}
-                            >
-                              {field.value ? (
-                                format(field.value, 'PPP', {
-                                  locale: es,
-                                })
-                              ) : (
-                                <span>Selecciona una fecha</span>
-                              )}
-                              <CalendarIcon className="w-4 h-4 ml-auto opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            locale={es}
-                            mode="single"
-                            selected={field.value}
-                            defaultMonth={field.value}
-                            onSelect={field.onChange}
-                            disabled={date =>
-                              date > new Date() || date < new Date('1900-01-01')
-                            }
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    )}
-
-                    <FormDescription>{record.description}</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ))}
+                  <div className="block">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            disabled
+                            variant={'outline'}
+                            className={cn(
+                              'w-[240px] pl-3 text-left font-normal',
+                              !field.value && 'text-muted-foreground',
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, 'PPP', { locale: es })
+                            ) : (
+                              <span>Selecciona una fecha</span>
+                            )}
+                            <CalendarIcon className="w-4 h-4 ml-auto opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          locale={es}
+                          mode="single"
+                          selected={
+                            !field.value ? new Date(field.value!) : undefined
+                          }
+                          onSelect={field.onChange}
+                          disabled={date =>
+                            date > new Date() || date < new Date('1900-01-01')
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <FormDescription>
+                    {formFields.date_of_termination.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </form>
+
+          <div className="flex w-48 gap-2 mt-2">
+            <Button onClick={() => navigate(-1)}>Volver</Button>
+          </div>
         </Form>
       </ScrollArea>
-
-      <div className="flex items-center justify-center w-48 mt-5">
-        <Button onClick={() => navigate(-1)}>Volver</Button>
-      </div>
-    </div>
+    </>
   );
 };

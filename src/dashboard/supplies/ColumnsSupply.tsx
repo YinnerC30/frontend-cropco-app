@@ -1,11 +1,11 @@
 import { ActionsTable } from '@/components/common/ActionsTable';
 import { ButtonHeaderTable } from '@/components/table/ButtonHeaderTable';
-import { Client } from '@/interfaces/Client';
+import { Supply } from '@/interfaces/Supply';
 import { ColumnDef } from '@tanstack/react-table';
 import { formFields } from './ElementsSupplyForm';
 import { useDeleteSupply } from './hooks/useDeleteSupply';
 
-export let columns: ColumnDef<Client>[] = [
+export let columns: ColumnDef<Supply>[] = [
   {
     accessorKey: formFields.name.name,
     header: ({ column }: any) => {

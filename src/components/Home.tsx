@@ -61,7 +61,7 @@ export const Home = () => {
         <main className="col-span-8">
           <Outlet />
 
-          <Toaster position="top-right" closeButton richColors={true} />
+          <Toaster position="bottom-right" closeButton />
         </main>
       </div>
     </>
