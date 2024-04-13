@@ -11,6 +11,9 @@ import { ToolTipTemplate } from '@/components/common/ToolTipTemplate';
 
 import columns from './ColumnsSupply';
 import { useGetAllSupplies } from './hooks/useGetAllSupplies';
+import { Separator } from '@/components/ui/separator';
+import { Label } from '@/components/ui/label';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export const SuppliesModule = () => {
   const navigate = useNavigate();
@@ -28,8 +31,11 @@ export const SuppliesModule = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center my-4">
-        <div className="flex items-center justify-between gap-2">
+      <Label className="text-2xl">Insumos</Label>
+
+      <Separator className="my-2" />
+      <ScrollArea className="w-full h-[80vh]">
+        <div className="flex items-center justify-between gap-2 w-[650px] p-1">
           <SearchBar search={searchParameter} />
           <ToolTipTemplate content={'Crear'}>
             <Button
@@ -40,17 +46,16 @@ export const SuppliesModule = () => {
             </Button>
           </ToolTipTemplate>
         </div>
-
-        <div className="container py-2">
+        <div className="w-[650px]">
           <DataTable
             columns={columns}
             rows={query.data.rows}
             data={query.data}
             pagination={pagination}
             setPagination={setPagination}
-          ></DataTable>
+          />
         </div>
-      </div>
+      </ScrollArea>
     </>
   );
 };

@@ -79,7 +79,7 @@ export function DataTable<TData, TValue>({
     pageCount > 0 ? pageText : `Página ${pageIndex} de ${pageCount}`;
 
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col my-1">
       {/* Tabla */}
       <div className={`w-auto border rounded-lg my-2`}>
         <Table>

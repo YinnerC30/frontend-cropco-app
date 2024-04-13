@@ -51,12 +51,15 @@ export const ViewUser = () => {
 
   return (
     <>
-      <Label className="text-2xl">Información del usuario</Label>
+      <Label className="text-2xl">
+        Información del usuario(a) "{data.first_name + ' ' + data.last_name}"
+      </Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[75vh] w-full  mb-10">
         <Form {...form}>
           <form id="formUser" className="flex flex-col gap-2 ml-1">
             <FormField
+              disabled
               control={form.control}
               name={`first_name`}
               render={({ field }) => (
@@ -77,6 +80,7 @@ export const ViewUser = () => {
               )}
             />
             <FormField
+              disabled
               control={form.control}
               name={'last_name'}
               render={({ field }) => (
@@ -97,6 +101,7 @@ export const ViewUser = () => {
               )}
             />
             <FormField
+              disabled
               control={form.control}
               name={'email'}
               render={({ field }) => (
@@ -117,6 +122,7 @@ export const ViewUser = () => {
               )}
             />
             <FormField
+              disabled
               control={form.control}
               name={'cell_phone_number'}
               render={({ field }) => (

@@ -9,13 +9,13 @@ export const usePostSupply = () => {
     mutationFn: createSupply,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['suppliers'] });
-      toast.success(`Proveedor creado`);
+      toast.success(`Insumo creado`);
     },
     onError: (error: AxiosError) => {
       const updateError: AxiosError | any = error;
       const { data } = updateError.response;
       toast.error(
-        `Hubo un problema durante la creación del proveedor, ${data.message}`,
+        `Hubo un problema durante la creación del Insumo, ${data.message}`,
       );
     },
     retry: 1,

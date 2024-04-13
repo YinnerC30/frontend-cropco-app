@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Select,
@@ -19,9 +20,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { UnitOfMeasureSupply } from '@/enums/UnitOfMeasure';
-import { CustomFormField } from '@/interfaces/CustomFormField';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
@@ -68,85 +69,124 @@ export const ModifySupply = () => {
   }
 
   return (
-    <div className="flex flex-col items-center w-full h-full">
-      <ScrollArea
-        type="auto"
-        className="h-[450px] w-[380px]  rounded-b-md mb-10"
-      >
+    <>
+      <Label className="text-2xl">Actualizar insumo</Label>
+      <Separator className="my-2" />
+      <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="mx-5"
-            id="formSupply"
+            id="formUser"
+            className="flex flex-col gap-2 ml-1"
           >
-            {formFields.map((record: CustomFormField) => (
-              <FormField
-                key={record.name}
-                control={form.control}
-                name={record.name}
-                render={({ field }) => {
-                  return (
-                    <FormItem className="my-4">
-                      <FormLabel>{record.label}</FormLabel>
-                      {record.type === 'string' && (
-                        <FormControl>
-                          <Input
-                            className="w-80"
-                            placeholder={record.placeholder}
-                            {...field}
-                          />
-                        </FormControl>
-                      )}
-                      {record.type === 'text' && (
-                        <FormControl>
-                          <Textarea
-                            placeholder={record.placeholder}
-                            className="resize-none"
-                            {...field}
-                          />
-                        </FormControl>
-                      )}
+            <FormField
+              control={form.control}
+              name={'name'}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.name.label}</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="w-56"
+                      placeholder={formFields.name.placeholder}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {formFields.name.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name={'brand'}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.brand.label}</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="w-56"
+                      placeholder={formFields.brand.placeholder}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {formFields.brand.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name={'unit_of_measure'}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.unit_of_measure.label}</FormLabel>
+                  <div className="w-40 ">
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger>
+                        <SelectValue
+                          placeholder={formFields.unit_of_measure.placeholder}
+                        />
+                      </SelectTrigger>
 
-                      {record.type === 'select' && (
-                        <Select
-                          onValueChange={field.onChange}
-                          // defaultValue={field.value}
-                          value={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder={record.placeholder} />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value={UnitOfMeasureSupply.GRAMOS}>
-                              GRAMOS
-                            </SelectItem>
-                            <SelectItem value={UnitOfMeasureSupply.MILILITROS}>
-                              MILILITROS
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      )}
+                      <SelectContent>
+                        <SelectItem value={UnitOfMeasureSupply.GRAMOS}>
+                          GRAMOS
+                        </SelectItem>
+                        <SelectItem value={UnitOfMeasureSupply.MILILITROS}>
+                          MILILITROS
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-                      <FormDescription>{record.description}</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              />
-            ))}
+                  <FormDescription>
+                    {formFields.unit_of_measure.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name={`observation`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.observation.label}</FormLabel>
+
+                  <FormControl>
+                    <Textarea
+                      placeholder={formFields.observation.placeholder}
+                      className="resize-none w-96"
+                      rows={4}
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormDescription>
+                    {formFields.observation.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </form>
+
+          <div className="flex w-48 gap-2 mt-2">
+            <Button type="submit" form="formUser" disabled={isPending}>
+              {isPending && (
+                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
+              )}
+              Actualizar
+            </Button>
+            <Button onClick={() => navigate(-1)}>Cancelar</Button>
+          </div>
         </Form>
       </ScrollArea>
-
-      <div className="flex justify-between w-48 mt-5 ml-5">
-        <Button type="submit" form="formSupply" disabled={isPending}>
-          {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
-          Actualizar
-        </Button>
-        <Button onClick={() => navigate(-1)}>Cancelar</Button>
-      </div>
-    </div>
+    </>
   );
 };
