@@ -29,7 +29,7 @@ export const HarvestModule = () => {
   return (
     <>
       <div className="flex flex-col items-center justify-center my-4">
-        <Label className="text-2xl">Registros de cosecha</Label>
+        <Label className="text-2xl">Cosechas de cultivos</Label>
         <Separator className="my-2" />
         <div className="flex items-center justify-center">
           <ToolTipTemplate content={'Crear'}>

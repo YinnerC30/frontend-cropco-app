@@ -79,9 +79,65 @@ export function DataTable<TData, TValue>({
     pageCount > 0 ? pageText : `Página ${pageIndex} de ${pageCount}`;
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col ">
+      {/* Tabla */}
+      <div className={`w-auto border rounded-lg my-2`}>
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map(headerGroup => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map(header => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map(row => (
+                <TableRow
+                  onDoubleClick={() => {
+                    const original: any = row.original;
+
+                    navigate(`../view/${original.id}`);
+                  }}
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                >
+                  {row.getVisibleCells().map(cell => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No hay registros.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
       {/* Paginación */}
-      <div className="flex items-center justify-between px-2">
+      <div className="flex items-center justify-between">
         <div className="flex items-center justify-center gap-4 ">
           {/* Select de cantidad de registros por pagina */}
           <div className="flex items-center space-x-2">
@@ -154,62 +210,6 @@ export function DataTable<TData, TValue>({
             <p className="text-sm font-medium">Total: {data.rowCount}</p>
           </div>
         </div>
-      </div>
-      {/* Tabla */}
-      <div className={`w-auto border rounded-lg mt-3`}>
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map(headerGroup => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map(header => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map(row => (
-                <TableRow
-                  onDoubleClick={() => {
-                    const original: any = row.original;
-
-                    navigate(`../view/${original.id}`);
-                  }}
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map(cell => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No hay registros.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
       </div>
     </div>
   );

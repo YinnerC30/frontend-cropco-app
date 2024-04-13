@@ -1,5 +1,4 @@
 import { TypeInput } from '@/enums/TypeInput';
-import { UnitOfMeasureHarvest } from '@/enums/UnitOfMeasure';
 import { CustomFormField } from '@/interfaces/CustomFormField';
 import { z } from 'zod';
 

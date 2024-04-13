@@ -23,7 +23,7 @@ export const Home = () => {
   return (
     <>
       <div className="grid grid-cols-10">
-        <header className="flex flex-col col-span-10 col-start-1 my-6 max-h-16">
+        <header className="flex flex-col col-span-10 col-start-1 my-3 max-h-16">
           <div className="flex items-center justify-evenly">
             <Button variant="link" asChild>
               <Link to="/">CropcoApp</Link>
