@@ -1,6 +1,10 @@
 import { Button } from '@/components/ui/button';
 
-import { EyeOpenIcon, Pencil2Icon } from '@radix-ui/react-icons';
+import {
+  EyeOpenIcon,
+  PaperPlaneIcon,
+  Pencil2Icon,
+} from '@radix-ui/react-icons';
 
 import { MoreHorizontal, TrashIcon } from 'lucide-react';
 
@@ -14,6 +18,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 interface Props {
   mutate: any;
@@ -41,6 +46,19 @@ export const ActionsTable = ({ mutate, id }: Props) => {
         className="flex flex-col items-center"
       >
         <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+        <DropdownMenuSeparator className="w-full" />
+
+        <DropdownMenuItem asChild>
+          <Button
+            onClick={() => {
+              navigator.clipboard.writeText(id);
+              toast.success('ID copiado al portapapeles');
+            }}
+            variant={'ghost'}
+          >
+            <PaperPlaneIcon className="w-4 h-4 mr-2" /> Copiar Id
+          </Button>
+        </DropdownMenuItem>
         <DropdownMenuSeparator className="w-full" />
         <DropdownMenuItem asChild>
           <Button

@@ -24,12 +24,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Crop } from '@/interfaces/Crop';
 import { HarvestDetail } from '@/interfaces/Harvest';
 import { cn } from '@/lib/utils';
-import {
-  AppDispatch,
-  RootState,
-  useAppDispatch,
-  useAppSelector,
-} from '@/redux/store';
+import { AppDispatch, useAppDispatch, useAppSelector } from '@/redux/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   CalendarIcon,
@@ -41,7 +36,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import {
@@ -62,23 +57,27 @@ import {
   formSchemaHarvest,
 } from './ElementsHarvestForm';
 import { FormHarvestDetail } from './FormHarvestDetail';
-import { reset } from './harvestSlice';
-import { usePostHarvest } from './hooks/usePostHarvest';
+import { add, calculateTotal, reset } from './harvestSlice';
+import { useGetHarvest } from './hooks/useGetHarvest';
+import { usePatchHarvest } from './hooks/usePatchHarvest';
 
-export const CreateHarvest = () => {
+export const ModifyHarvest = () => {
+  const { id } = useParams();
   const dispatch: AppDispatch = useAppDispatch();
+  const { data, isLoading, isError } = useGetHarvest(id!);
+  const { mutate, isPending, isSuccess } = usePatchHarvest(id!);
 
   useEffect(() => {
     dispatch(reset());
   }, []);
 
   const navigate = useNavigate();
+
   const { query: queryCrops } = useGetAllCrops({
     searchParameter: '',
     allRecords: true,
   });
 
-  const { mutate, isSuccess, isPending } = usePostHarvest();
   const { details, total, value_pay } = useAppSelector(
     (state: any) => state.harvest,
   );
@@ -88,19 +87,32 @@ export const CreateHarvest = () => {
     defaultValues: defaultValuesHarvest,
   });
 
+  useEffect(() => {
+    if (data) {
+      formHarvest.reset({
+        ...data,
+        date: new Date(`${data.date}T00:00:00-05:00`),
+      });
+      dispatch(add(data.details));
+      dispatch(calculateTotal());
+    }
+  }, [data]);
+
   const onSubmitHarvest = (values: z.infer<typeof formSchemaHarvest>) => {
     if (details.length === 0) {
       toast.error('Debes registrar al menos 1 cosecha de algún empleado');
       return;
     }
-    
+
     mutate({
+      id,
       ...values,
       crop: { id: values.crop.id },
       total,
       value_pay,
       details: details.map((item: HarvestDetail) => {
-        return { ...item, employee: { id: item.employee.id } };
+        const { id, payments_harvest, ...rest } = item;
+        return { ...rest, employee: { id: rest.employee.id } };
       }),
     });
   };
@@ -112,14 +124,15 @@ export const CreateHarvest = () => {
   }
 
   if (queryCrops.isLoading) return <Loading />;
+  if (isLoading) return <Loading />;
 
-  if (queryCrops.isError) {
+  if (queryCrops.isError && isError) {
     return <ErrorLoading />;
   }
 
   return (
     <>
-      <Label className="text-2xl">Registro de cosecha</Label>
+      <Label className="text-2xl">Modificar cosecha</Label>
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
         {/* Formulario principal */}
@@ -369,7 +382,7 @@ export const CreateHarvest = () => {
               {isPending && (
                 <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
               )}
-              Guardar
+              Actualizar
             </Button>
             <CancelRegister />
           </div>

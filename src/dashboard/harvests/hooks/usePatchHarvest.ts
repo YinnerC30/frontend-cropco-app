@@ -3,12 +3,13 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { updateHarvest } from '../actions/update';
 
-export const usePatchCrop = () => {
+export const usePatchHarvest = (id:string) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: updateHarvest,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['harvests'] });
+      queryClient.invalidateQueries({ queryKey: ['harvest',id] });
       toast.success(`Cosecha actualizada`);
     },
     onError: (error: AxiosError) => {

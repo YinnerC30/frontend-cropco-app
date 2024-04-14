@@ -107,8 +107,8 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   onDoubleClick={() => {
                     const original: any = row.original;
-
                     navigate(`../view/${original.id}`);
+                    
                   }}
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}

@@ -1,75 +1,6 @@
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-
-import { CaretSortIcon, Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
-
-import { ArrowUpDown, CheckIcon, MoreHorizontal } from 'lucide-react';
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useState } from 'react';
-
-import { ColumnDef, Row } from '@tanstack/react-table';
-
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { CustomFormField } from '@/interfaces/CustomFormField';
-import { Employee } from '@/interfaces/Employee';
-import { HarvestDetail } from '@/interfaces/Harvest';
-import { cn } from '@/lib/utils';
-import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { toast } from 'sonner';
-import {
-  formFieldsHarvestDetail,
-  formSchemaHarvestDetail,
-} from './ElementsHarvestDetailForm';
-import { add, calculateTotal, modify, remove } from './harvestSlice';
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { zodResolver } from '@hookform/resolvers/zod';
-
-import { useForm } from 'react-hook-form';
-
+import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import { z } from 'zod';
-import { useGetAllEmployees } from '../employees/hooks/useGetAllEmployees';
+
 import {
   Command,
   CommandEmpty,
@@ -79,62 +10,62 @@ import {
   CommandList,
 } from '@/components/ui/command';
 
-export let columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
-  {
-    accessorKey: 'employee.first_name',
-    header: ({ column }: any) => {
-      return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {'Empleado'}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: 'total',
-    header: ({ column }: any) => {
-      return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {'Total'}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: 'value_pay',
-    header: ({ column }: any) => {
-      return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {'Valor a pagar'}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      );
-    },
-  },
-];
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '../../components/ui/form';
 
-export const ModifyHarvestDetail = ({ defaultValues }: any) => {
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Employee } from '@/interfaces/Employee';
+import { cn } from '@/lib/utils';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
+import { useGetAllEmployees } from '../employees/hooks/useGetAllEmployees';
+import { formSchemaHarvestDetail } from './ElementsHarvestDetailForm';
+import { calculateTotal, modify } from './harvestSlice';
+import { ErrorLoading } from '@/components/common/ErrorLoading';
+import { Loading } from '@/components/common/Loading';
 
-  console.log(defaultValues)
-  
+interface Props {
+  isDialogOpen: boolean;
+  setDialogOpen: any;
+  defaultValues: any;
+}
+
+export const DialogFormHarvestDetails = ({
+  isDialogOpen,
+  setDialogOpen,
+  defaultValues,
+}: Props) => {
   const { query: queryEmployees } = useGetAllEmployees({
     searchParameter: '',
     allRecords: true,
   });
+
+  console.log(defaultValues);
 
   const details: any = useAppSelector((state: any) => state.harvest.details);
   const formHarvestDetail = useForm<z.infer<typeof formSchemaHarvestDetail>>({
@@ -142,16 +73,15 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
     defaultValues,
   });
 
+  useEffect(() => {
+    formHarvestDetail.reset(defaultValues);
+  }, []);
+
   const dispatch = useAppDispatch();
 
   const onSubmitHarvestDetail = async (
     values: z.infer<typeof formSchemaHarvestDetail>,
   ) => {
-    // const isIncludes = details.some(
-    //   (detail: HarvestDetail) => detail.employee.id === values.employee.id,
-    // );
-    // if (isIncludes && values.employee.id !== defaultValues.employee.id) return;
-
     const oldEmployee = {
       id: defaultValues.employee.id,
     };
@@ -165,13 +95,16 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
     dispatch(calculateTotal());
     toast.success('Registro actualizado');
   };
+
+  if (queryEmployees.isLoading) return <Loading />;
+
+  if (queryEmployees.isError) {
+    return <ErrorLoading />;
+  }
+  console.log(formHarvestDetail.getValues())
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="ghost">
-          <Pencil2Icon className="w-full h-4 mr-2" /> Modificar
-        </Button>
-      </DialogTrigger>
+    <Dialog open={isDialogOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Modificar</DialogTitle>
@@ -188,9 +121,8 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
             id="formDetail"
           >
             <FormField
-              key={'employee'}
               control={formHarvestDetail.control}
-              name={'employee'}
+              name={'employee.id'}
               render={({ field }) => (
                 <FormItem className="my-4">
                   <FormLabel className="block">{'Empleado:'}</FormLabel>
@@ -203,12 +135,12 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
                           role="combobox"
                           className={cn(
                             'w-[200px] justify-between',
-                            !field.value.id && 'text-muted-foreground',
+                            !field.value && 'text-muted-foreground',
                           )}
                         >
-                          {field.value.id
+                          {field.value
                             ? queryEmployees.data.rows.find(
-                                (item: Employee) => item.id === field.value.id,
+                                (item: Employee) => item.id === field.value,
                               )?.first_name
                             : 'Selecciona un empleado'}
 
@@ -236,7 +168,7 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
                                     );
                                     if (
                                       isIncludes &&
-                                      employee.id !== field.value.id
+                                      employee.id !== field.value
                                     )
                                       return;
 
@@ -255,7 +187,7 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
                                         <CheckIcon
                                           className={cn(
                                             'ml-auto h-4 w-4',
-                                            employee.id! === field.value.id
+                                            employee.id! === field.value
                                               ? 'opacity-100'
                                               : 'opacity-0',
                                           )}
@@ -290,14 +222,9 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
                     <Input
                       className="w-80"
                       placeholder={'0'}
-                      {...field}
                       type="number"
                       min={0}
-                      onChange={e => {
-                        return !Number.isNaN(e.target.value)
-                          ? field.onChange(parseFloat(e.target.value))
-                          : 0;
-                      }}
+                      {...field}
                     />
                   </FormControl>
 
@@ -320,15 +247,10 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
                     <Input
                       className="w-80"
                       placeholder={'0'}
-                      {...field}
                       type="number"
                       min={0}
                       step={50}
-                      onChange={e => {
-                        return !Number.isNaN(e.target.value)
-                          ? field.onChange(parseFloat(e.target.value))
-                          : 0;
-                      }}
+                      {...field}
                     />
                   </FormControl>
 
@@ -344,87 +266,9 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
           <Button type="submit" form="formDetail">
             Guardar
           </Button>
+          <Button onClick={() => setDialogOpen(false)}>Cerrar</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 };
-
-columnsHarvestDetail.push({
-  id: 'actions',
-  cell: ({ row }: any) => {
-    const harvestDetail = row.original;
-
-    const dispatch = useAppDispatch();
-
-    const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
-
-    const handleDelete = () => {
-      dispatch(remove(harvestDetail));
-      toast.success(
-        `Se ha eliminado la cosecha del empleado ${harvestDetail.employee.first_name}`,
-      );
-      dispatch(calculateTotal());
-      setOpenDropDownMenu(false);
-    };
-
-    return (
-      <>
-        <DropdownMenu open={openDropDownMenu} modal={openDropDownMenu}>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="w-8 h-8 p-0"
-              onClick={() => setOpenDropDownMenu(!openDropDownMenu)}
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            onPointerDownOutside={() => setOpenDropDownMenu(false)}
-            align="center"
-            className="flex flex-col items-center"
-          >
-            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-            <DropdownMenuSeparator className="w-full" />
-            <DropdownMenuItem asChild>
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button variant={'ghost'}>
-                    <TrashIcon className="w-4 h-4 mr-2" /> Eliminar
-                  </Button>
-                </AlertDialogTrigger>
-
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      ¿Estas seguro de eliminar el registro?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      Esta acción es irreversible y no podrá recuperar su
-                      registro
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel asChild>
-                      <Button variant="secondary">Cancelar</Button>
-                    </AlertDialogCancel>
-                    <AlertDialogAction asChild>
-                      <Button onClick={() => handleDelete()}>Continuar</Button>
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <ModifyHarvestDetail defaultValues={harvestDetail} />
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </>
-    );
-  },
-});
-
-export default columnsHarvestDetail;

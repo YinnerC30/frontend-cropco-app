@@ -36,7 +36,21 @@ import {
 } from '@radix-ui/react-icons';
 import { Input } from '@/components/ui/input';
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { DialogFormHarvestDetails } from './DialogFormHarvestDetails';
+
 export function DataTableHarvestDetail({ data }: any) {
+  //
+  const [record, setRecord] = useState({});
+  const [isDialogOpen, setDialogOpen] = useState(false);
+  //
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
@@ -64,146 +78,161 @@ export function DataTableHarvestDetail({ data }: any) {
     pageCount > 0 ? pageText : `Página ${pageIndex} de ${pageCount}`;
 
   return (
-    <div className="w-[600px]">
-      <div className="flex flex-col items-start justify-between gap-2">
-        <Input
-          placeholder="Buscar empleado por nombre..."
-          value={
-            (table
-              .getColumn('employee_first_name')
-              ?.getFilterValue() as string) ?? ''
-          }
-          onChange={event =>
-            table
-              .getColumn('employee_first_name')
-              ?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-      </div>
-      {/* Tabla */}
-      <div className={`w-auto border rounded-lg mt-3`}>
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map(headerGroup => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map(header => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map(row => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map(cell => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
+    <>
+      <div className="w-[600px]">
+        <div className="flex flex-col items-start justify-between gap-2">
+          <Input
+            placeholder="Buscar empleado por nombre..."
+            value={
+              (table
+                .getColumn('employee_first_name')
+                ?.getFilterValue() as string) ?? ''
+            }
+            onChange={event =>
+              table
+                .getColumn('employee_first_name')
+                ?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
+        {/* Tabla */}
+        <div className={`w-auto border rounded-lg mt-3`}>
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map(headerGroup => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map(header => {
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                      </TableHead>
+                    );
+                  })}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columnsHarvestDetail.length}
-                  className="h-24 text-center"
-                >
-                  No hay registros.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      {/* Paginación */}
-      <div className="flex items-center justify-start gap-4 my-2">
-        {/* Select de cantidad de registros por pagina */}
-        <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Filas por página</p>
-
-          <Select
-            value={`${table.getState().pagination.pageSize}`}
-            onValueChange={value => {
-              table.setPageSize(Number(value));
-            }}
-          >
-            <SelectTrigger className="h-8 w-[70px]">
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
-            </SelectTrigger>
-            <SelectContent side="top">
-              {[10, 20, 30, 40, 50].map(pageSize => (
-                <SelectItem key={pageSize} value={`${pageSize}`}>
-                  {pageSize}
-                </SelectItem>
               ))}
-            </SelectContent>
-          </Select>
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map(row => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && 'selected'}
+                    onDoubleClick={() => {
+                      setRecord(row.original);
+                      setDialogOpen(true);
+                    }}
+                  >
+                    {row.getVisibleCells().map(cell => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columnsHarvestDetail.length}
+                    className="h-24 text-center"
+                  >
+                    No hay registros.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
         </div>
-        {/* Cantidad de paginas */}
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          {messageCountPage}
-        </div>
-        {/* Flechas de Paginación */}
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            className="hidden w-8 h-8 p-0 lg:flex"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <span className="sr-only">Go to first page</span>
-            <DoubleArrowLeftIcon className="w-4 h-4" />
-          </Button>
-          <Button
-            variant="outline"
-            className="w-8 h-8 p-0"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <span className="sr-only">Go to previous page</span>
-            <ChevronLeftIcon className="w-4 h-4" />
-          </Button>
-          <Button
-            variant="outline"
-            className="w-8 h-8 p-0"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            <span className="sr-only">Go to next page</span>
-            <ChevronRightIcon className="w-4 h-4" />
-          </Button>
-          <Button
-            variant="outline"
-            className="hidden w-8 h-8 p-0 lg:flex"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            <span className="sr-only">Go to last page</span>
-            <DoubleArrowRightIcon className="w-4 h-4" />
-          </Button>
-        </div>
-        {/* Total registros */}
-        <div>
-          <p className="text-sm font-medium">Total: {data.length}</p>
+        {/* Paginación */}
+        <div className="flex items-center justify-start gap-4 my-2">
+          {/* Select de cantidad de registros por pagina */}
+          <div className="flex items-center space-x-2">
+            <p className="text-sm font-medium">Filas por página</p>
+
+            <Select
+              value={`${table.getState().pagination.pageSize}`}
+              onValueChange={value => {
+                table.setPageSize(Number(value));
+              }}
+            >
+              <SelectTrigger className="h-8 w-[70px]">
+                <SelectValue
+                  placeholder={table.getState().pagination.pageSize}
+                />
+              </SelectTrigger>
+              <SelectContent side="top">
+                {[10, 20, 30, 40, 50].map(pageSize => (
+                  <SelectItem key={pageSize} value={`${pageSize}`}>
+                    {pageSize}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          {/* Cantidad de paginas */}
+          <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+            {messageCountPage}
+          </div>
+          {/* Flechas de Paginación */}
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="outline"
+              className="hidden w-8 h-8 p-0 lg:flex"
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <span className="sr-only">Go to first page</span>
+              <DoubleArrowLeftIcon className="w-4 h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="w-8 h-8 p-0"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <span className="sr-only">Go to previous page</span>
+              <ChevronLeftIcon className="w-4 h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="w-8 h-8 p-0"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              <span className="sr-only">Go to next page</span>
+              <ChevronRightIcon className="w-4 h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="hidden w-8 h-8 p-0 lg:flex"
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              <span className="sr-only">Go to last page</span>
+              <DoubleArrowRightIcon className="w-4 h-4" />
+            </Button>
+          </div>
+          {/* Total registros */}
+          <div>
+            <p className="text-sm font-medium">Total: {data.length}</p>
+          </div>
         </div>
       </div>
-    </div>
+      {console.log({ isDialogOpen, record })}
+
+      <DialogFormHarvestDetails
+        isDialogOpen={isDialogOpen}
+        setDialogOpen={setDialogOpen}
+        defaultValues={record}
+      />
+    </>
   );
 }

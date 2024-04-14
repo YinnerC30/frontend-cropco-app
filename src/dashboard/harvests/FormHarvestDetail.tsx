@@ -1,4 +1,4 @@
-import { CaretSortIcon, CheckIcon, PlusIcon } from '@radix-ui/react-icons';
+import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import { z } from 'zod';
 
 import {
@@ -24,6 +24,8 @@ import {
   FormMessage,
 } from '../../components/ui/form';
 
+import { ErrorLoading } from '@/components/common/ErrorLoading';
+import { Loading } from '@/components/common/Loading';
 import {
   Dialog,
   DialogContent,
@@ -42,6 +44,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Employee } from '@/interfaces/Employee';
 import { cn } from '@/lib/utils';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { toast } from 'sonner';
 import { useGetAllEmployees } from '../employees/hooks/useGetAllEmployees';
 import {
   defaultValuesHarvestDetail,
@@ -49,9 +52,6 @@ import {
   formSchemaHarvestDetail,
 } from './ElementsHarvestDetailForm';
 import { add, calculateTotal } from './harvestSlice';
-import { ErrorLoading } from '@/components/common/ErrorLoading';
-import { Loading } from '@/components/common/Loading';
-import { toast } from 'sonner';
 
 export const FormHarvestDetail = () => {
   const dispatch = useAppDispatch();
@@ -68,7 +68,7 @@ export const FormHarvestDetail = () => {
   const onSubmitHarvestDetail = async (
     values: z.infer<typeof formSchemaHarvestDetail>,
   ) => {
-    dispatch(add(values));
+    dispatch(add([values]));
     dispatch(calculateTotal());
     formHarvestDetail.reset();
     toast.success('Registro añadido');

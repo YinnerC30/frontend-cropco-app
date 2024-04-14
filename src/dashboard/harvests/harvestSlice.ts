@@ -23,8 +23,8 @@ export const harvestSlice = createSlice({
   name: 'harvest',
   initialState,
   reducers: {
-    add: (state, action: PayloadAction<HarvestDetail>) => {
-      state.details.push(action.payload);
+    add: (state, action: PayloadAction<HarvestDetail[]>) => {
+      state.details.push(...action.payload);
     },
     modify: (state, action: PayloadAction<ModifyHarvestDetail>) => {
       const { detail, oldEmployee } = action.payload;

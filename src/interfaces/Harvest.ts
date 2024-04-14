@@ -17,6 +17,7 @@ export interface HarvestDetail {
   employee: ObjectWithId;
   total: number;
   value_pay: number;
+  payments_harvest?: any[];
 }
 
 export interface TableHarvest {

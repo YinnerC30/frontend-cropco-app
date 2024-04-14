@@ -1,5 +1,6 @@
 import { CreateHarvest } from './CreateHarvest';
 import { HarvestModule } from './HarvestModule';
+import { ModifyHarvest } from './ModifyHarvest';
 
 const harvestRoutes = {
   path: 'harvests',
@@ -18,7 +19,7 @@ const harvestRoutes = {
     },
     {
       path: 'modify/:id',
-      // element: <ModifyClient />,
+      element: <ModifyHarvest />,
     },
   ],
 };
