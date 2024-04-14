@@ -84,7 +84,7 @@ export const FormHarvestDetail = () => {
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="my-2">Agregar registro</Button>
+          <Button className="my-2 ml-1">Agregar registro</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>

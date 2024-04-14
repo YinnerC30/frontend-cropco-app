@@ -70,7 +70,7 @@ export function DataTableHarvestDetail({ data, columns }: Props) {
   return (
     <>
       <div className="w-[600px]">
-        <div className="flex flex-col items-start justify-between gap-2">
+        <div className="flex flex-col items-start justify-between gap-2 ml-1">
           <Input
             placeholder="Buscar empleado por nombre..."
             value={
