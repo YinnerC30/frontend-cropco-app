@@ -1,4 +1,4 @@
-import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
+import { CaretSortIcon, CheckIcon, Cross2Icon } from '@radix-ui/react-icons';
 import { z } from 'zod';
 
 import {
@@ -28,12 +28,12 @@ import { ErrorLoading } from '@/components/common/ErrorLoading';
 import { Loading } from '@/components/common/Loading';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Popover,
@@ -53,7 +53,10 @@ import {
 } from './ElementsHarvestDetailForm';
 import { add, calculateTotal } from './harvestSlice';
 
-export const FormHarvestDetail = () => {
+export const FormHarvestDetail = ({
+  isOpenDialogForm,
+  setIsOpenDialogForm,
+}: any) => {
   const dispatch = useAppDispatch();
   const details: any = useAppSelector((state: any) => state.harvest.details);
   const { query: queryEmployees } = useGetAllEmployees({
@@ -72,6 +75,7 @@ export const FormHarvestDetail = () => {
     dispatch(calculateTotal());
     formHarvestDetail.reset();
     toast.success('Registro añadido');
+    setIsOpenDialogForm(false);
   };
 
   if (queryEmployees.isLoading) return <Loading />;
@@ -82,11 +86,15 @@ export const FormHarvestDetail = () => {
 
   return (
     <div>
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button className="my-2 ml-1">Agregar registro</Button>
-        </DialogTrigger>
+      <Dialog open={isOpenDialogForm}>
         <DialogContent className="sm:max-w-[425px]">
+          <DialogClose
+            onClick={() => setIsOpenDialogForm(false)}
+            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+          >
+            <Cross2Icon className="w-4 h-4" />
+            <span className="sr-only">Close</span>
+          </DialogClose>
           <DialogHeader>
             <DialogTitle>Agregar cosecha empleado</DialogTitle>
             <DialogDescription className="">
@@ -253,6 +261,15 @@ export const FormHarvestDetail = () => {
           </Form>
 
           <DialogFooter>
+            <Button
+              variant={'destructive'}
+              onClick={() => {
+                formHarvestDetail.reset();
+                setIsOpenDialogForm(false);
+              }}
+            >
+              Cancelar
+            </Button>
             <Button type="submit" form="formDetail">
               Guardar
             </Button>

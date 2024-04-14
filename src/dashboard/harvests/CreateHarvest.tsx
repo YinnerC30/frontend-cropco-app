@@ -39,7 +39,7 @@ import {
 } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -65,9 +65,13 @@ import { FormHarvestDetail } from './FormHarvestDetail';
 import { reset } from './harvestSlice';
 import { usePostHarvest } from './hooks/usePostHarvest';
 import { columnsHarvestDetailActions } from './ColumnsHarvestDetail';
+import { ModifyHarvestDetail } from './ModifyHarvestDetail';
 
 export const CreateHarvest = () => {
   const dispatch: AppDispatch = useAppDispatch();
+  const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
+  const [isOpenDialogModifyForm, setIsOpenDialogModifyForm] = useState(false);
+  const [harvestDetail, setHarvestDetail] = useState({});
 
   useEffect(() => {
     dispatch(reset());
@@ -291,12 +295,32 @@ export const CreateHarvest = () => {
             realizado cada empleado:
           </Label>
 
-          <FormHarvestDetail />
+          <Button
+            onClick={() => setIsOpenDialogForm(true)}
+            className="block my-2 ml-1"
+          >
+            Agregar registro
+          </Button>
+
+          <FormHarvestDetail
+            isOpenDialogForm={isOpenDialogForm}
+            setIsOpenDialogForm={setIsOpenDialogForm}
+          />
 
           <DataTableHarvestDetail
             data={details}
             columns={columnsHarvestDetailActions}
+            setHarvestDetail={setHarvestDetail}
+            setIsOpenDialogModifyForm={setIsOpenDialogModifyForm}
           />
+
+          {isOpenDialogModifyForm && (
+            <ModifyHarvestDetail
+              defaultValues={harvestDetail}
+              isDialogOpen={isOpenDialogModifyForm}
+              setDialogOpen={setIsOpenDialogModifyForm}
+            />
+          )}
 
           <div className="flex flex-col gap-4 ml-1 w-[300px] h-[120px] justify-center">
             <FormField
@@ -364,6 +388,7 @@ export const CreateHarvest = () => {
 
           {/* Botones de guardar o cancelar */}
           <div className="flex gap-2 my-6 ">
+            <CancelRegister />
             <Button
               type="submit"
               form="formHarvest"
@@ -375,7 +400,6 @@ export const CreateHarvest = () => {
               )}
               Guardar
             </Button>
-            <CancelRegister />
           </div>
         </Form>
       </ScrollArea>

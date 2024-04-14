@@ -38,9 +38,16 @@ import {
 interface Props {
   data: any;
   columns: any;
+  setHarvestDetail: any;
+  setIsOpenDialogModifyForm: any;
 }
 
-export function DataTableHarvestDetail({ data, columns }: Props) {
+export function DataTableHarvestDetail({
+  data,
+  columns,
+  setHarvestDetail,
+  setIsOpenDialogModifyForm,
+}: Props) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
@@ -113,6 +120,10 @@ export function DataTableHarvestDetail({ data, columns }: Props) {
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
+                    onDoubleClick={() => {
+                      setHarvestDetail(row.original);
+                      setIsOpenDialogModifyForm(true);
+                    }}
                   >
                     {row.getVisibleCells().map(cell => (
                       <TableCell key={cell.id}>

@@ -1,13 +1,8 @@
 import { Button } from '@/components/ui/button';
 
-import {
-  CaretSortIcon,
-  Cross2Icon
-} from '@radix-ui/react-icons';
+import { CaretSortIcon, Cross2Icon } from '@radix-ui/react-icons';
 
 import { CheckIcon } from 'lucide-react';
-
-
 
 import {
   Dialog,
@@ -67,8 +62,6 @@ export const ModifyHarvestDetail = ({
   setDialogOpen,
   defaultValues,
 }: Props) => {
-  console.log(defaultValues);
-
   const { query: queryEmployees } = useGetAllEmployees({
     searchParameter: '',
     allRecords: true,
@@ -277,6 +270,15 @@ export const ModifyHarvestDetail = ({
         </Form>
 
         <DialogFooter>
+          <Button
+            variant={'destructive'}
+            onClick={() => {
+              formHarvestDetail.reset();
+              setDialogOpen(false);
+            }}
+          >
+            Cancelar
+          </Button>
           <Button type="submit" form="formDetail">
             Guardar
           </Button>

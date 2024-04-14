@@ -22,7 +22,7 @@ export const CancelRegister = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button>Cancelar</Button>
+        <Button variant={'destructive'}>Cancelar</Button>
       </AlertDialogTrigger>
 
       <AlertDialogContent>

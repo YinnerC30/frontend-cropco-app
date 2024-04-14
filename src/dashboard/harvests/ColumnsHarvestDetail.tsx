@@ -155,10 +155,7 @@ export const columnsHarvestDetailActions = [
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <div>
-                  <Button
-                    variant="ghost"
-                    onClick={() => setDialogOpen(!isDialogOpen)}
-                  >
+                  <Button variant="ghost" onClick={() => setDialogOpen(true)}>
                     <Pencil2Icon className="w-full h-4 mr-2" /> Modificar
                   </Button>
                   <ModifyHarvestDetail
