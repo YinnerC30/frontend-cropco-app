@@ -34,7 +34,7 @@ import {
 } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -61,12 +61,17 @@ import { add, calculateTotal, reset } from './harvestSlice';
 import { useGetHarvest } from './hooks/useGetHarvest';
 import { usePatchHarvest } from './hooks/usePatchHarvest';
 import { columnsHarvestDetailActions } from './ColumnsHarvestDetail';
+import { ModifyHarvestDetail } from './ModifyHarvestDetail';
 
 export const ModifyHarvest = () => {
   const { id } = useParams();
   const dispatch: AppDispatch = useAppDispatch();
   const { data, isLoading, isError } = useGetHarvest(id!);
   const { mutate, isPending, isSuccess } = usePatchHarvest(id!);
+
+  const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
+  const [isOpenDialogModifyForm, setIsOpenDialogModifyForm] = useState(false);
+  const [harvestDetail, setHarvestDetail] = useState({});
 
   useEffect(() => {
     dispatch(reset());
@@ -304,12 +309,32 @@ export const ModifyHarvest = () => {
             realizado cada empleado:
           </Label>
 
-          <FormHarvestDetail />
+          <Button
+            onClick={() => setIsOpenDialogForm(true)}
+            className="block my-2 ml-1"
+          >
+            Agregar registro
+          </Button>
+
+          <FormHarvestDetail
+            isOpenDialogForm={isOpenDialogForm}
+            setIsOpenDialogForm={setIsOpenDialogForm}
+          />
 
           <DataTableHarvestDetail
             data={details}
             columns={columnsHarvestDetailActions}
+            setHarvestDetail={setHarvestDetail}
+            setIsOpenDialogModifyForm={setIsOpenDialogModifyForm}
           />
+
+          {isOpenDialogModifyForm && (
+            <ModifyHarvestDetail
+              defaultValues={harvestDetail}
+              isDialogOpen={isOpenDialogModifyForm}
+              setDialogOpen={setIsOpenDialogModifyForm}
+            />
+          )}
 
           <div className="flex flex-col gap-4 ml-1 w-[300px] h-[120px] justify-center">
             <FormField
