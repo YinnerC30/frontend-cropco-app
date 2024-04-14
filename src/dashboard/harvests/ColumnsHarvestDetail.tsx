@@ -11,7 +11,12 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 
-import { CaretSortIcon, Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
+import {
+  CaretSortIcon,
+  Cross2Icon,
+  Pencil2Icon,
+  TrashIcon,
+} from '@radix-ui/react-icons';
 
 import { ArrowUpDown, CheckIcon, MoreHorizontal } from 'lucide-react';
 
@@ -25,7 +30,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useState } from 'react';
 
-import { ColumnDef, Row } from '@tanstack/react-table';
+import { ColumnDef } from '@tanstack/react-table';
 
 import {
   Dialog,
@@ -34,7 +39,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Form,
@@ -46,17 +50,13 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { CustomFormField } from '@/interfaces/CustomFormField';
 import { Employee } from '@/interfaces/Employee';
 import { HarvestDetail } from '@/interfaces/Harvest';
 import { cn } from '@/lib/utils';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { toast } from 'sonner';
-import {
-  formFieldsHarvestDetail,
-  formSchemaHarvestDetail,
-} from './ElementsHarvestDetailForm';
-import { add, calculateTotal, modify, remove } from './harvestSlice';
+import { formSchemaHarvestDetail } from './ElementsHarvestDetailForm';
+import { calculateTotal, modify, remove } from './harvestSlice';
 
 import {
   Popover,
@@ -68,8 +68,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useForm } from 'react-hook-form';
 
-import { z } from 'zod';
-import { useGetAllEmployees } from '../employees/hooks/useGetAllEmployees';
 import {
   Command,
   CommandEmpty,
@@ -78,6 +76,9 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
+import { z } from 'zod';
+import { useGetAllEmployees } from '../employees/hooks/useGetAllEmployees';
+import { DialogClose } from '@radix-ui/react-dialog';
 
 export let columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
   {
@@ -127,10 +128,18 @@ export let columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
   },
 ];
 
-export const ModifyHarvestDetail = ({ defaultValues }: any) => {
+interface Props {
+  defaultValues: any;
+  isDialogOpen: boolean;
+  setDialogOpen: any;
+}
+export const ModifyHarvestDetail = ({
+  isDialogOpen,
+  setDialogOpen,
+  defaultValues,
+}: Props) => {
+  console.log(defaultValues);
 
-  console.log(defaultValues)
-  
   const { query: queryEmployees } = useGetAllEmployees({
     searchParameter: '',
     allRecords: true,
@@ -147,11 +156,6 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
   const onSubmitHarvestDetail = async (
     values: z.infer<typeof formSchemaHarvestDetail>,
   ) => {
-    // const isIncludes = details.some(
-    //   (detail: HarvestDetail) => detail.employee.id === values.employee.id,
-    // );
-    // if (isIncludes && values.employee.id !== defaultValues.employee.id) return;
-
     const oldEmployee = {
       id: defaultValues.employee.id,
     };
@@ -164,15 +168,18 @@ export const ModifyHarvestDetail = ({ defaultValues }: any) => {
     );
     dispatch(calculateTotal());
     toast.success('Registro actualizado');
+    setDialogOpen(false);
   };
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="ghost">
-          <Pencil2Icon className="w-full h-4 mr-2" /> Modificar
-        </Button>
-      </DialogTrigger>
+    <Dialog open={isDialogOpen}>
       <DialogContent className="sm:max-w-[425px]">
+        <DialogClose
+          onClick={() => setDialogOpen(false)}
+          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+        >
+          <Cross2Icon className="w-4 h-4" />
+          <span className="sr-only">Close</span>
+        </DialogClose>
         <DialogHeader>
           <DialogTitle>Modificar</DialogTitle>
           <DialogDescription>
@@ -358,6 +365,7 @@ columnsHarvestDetail.push({
     const dispatch = useAppDispatch();
 
     const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
+    const [isDialogOpen, setDialogOpen] = useState(false);
 
     const handleDelete = () => {
       dispatch(remove(harvestDetail));
@@ -418,7 +426,19 @@ columnsHarvestDetail.push({
               </AlertDialog>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <ModifyHarvestDetail defaultValues={harvestDetail} />
+              <div>
+                <Button
+                  variant="ghost"
+                  onClick={() => setDialogOpen(!isDialogOpen)}
+                >
+                  <Pencil2Icon className="w-full h-4 mr-2" /> Modificar
+                </Button>
+                <ModifyHarvestDetail
+                  defaultValues={harvestDetail}
+                  isDialogOpen={isDialogOpen}
+                  setDialogOpen={setDialogOpen}
+                />
+              </div>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
