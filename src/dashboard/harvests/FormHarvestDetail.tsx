@@ -45,11 +45,13 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useGetAllEmployees } from '../employees/hooks/useGetAllEmployees';
 import {
   defaultValuesHarvestDetail,
+  formFieldsHarvestDetail,
   formSchemaHarvestDetail,
 } from './ElementsHarvestDetailForm';
 import { add, calculateTotal } from './harvestSlice';
 import { ErrorLoading } from '@/components/common/ErrorLoading';
 import { Loading } from '@/components/common/Loading';
+import { toast } from 'sonner';
 
 export const FormHarvestDetail = () => {
   const dispatch = useAppDispatch();
@@ -69,6 +71,7 @@ export const FormHarvestDetail = () => {
     dispatch(add(values));
     dispatch(calculateTotal());
     formHarvestDetail.reset();
+    toast.success('Registro añadido');
   };
 
   if (queryEmployees.isLoading) return <Loading />;
@@ -76,11 +79,12 @@ export const FormHarvestDetail = () => {
   if (queryEmployees.isError) {
     return <ErrorLoading />;
   }
+
   return (
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="my-2">Añadir registro</Button>
+          <Button className="my-2">Agregar registro</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -103,7 +107,9 @@ export const FormHarvestDetail = () => {
                 name={'employee.id'}
                 render={({ field }) => (
                   <FormItem className="my-4">
-                    <FormLabel className="block">{'Empleado:'}</FormLabel>
+                    <FormLabel className="block">
+                      {formFieldsHarvestDetail.first_name.label}
+                    </FormLabel>
 
                     <Popover modal={true}>
                       <PopoverTrigger asChild>
@@ -120,7 +126,7 @@ export const FormHarvestDetail = () => {
                               ? queryEmployees.data.rows.find(
                                   (item: Employee) => item.id === field.value,
                                 )?.first_name
-                              : 'Selecciona un empleado'}
+                              : formFieldsHarvestDetail.first_name.placeholder}
 
                             <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                           </Button>
@@ -182,7 +188,7 @@ export const FormHarvestDetail = () => {
                     </Popover>
 
                     <FormDescription>
-                      Selecciona el nombre del empleado
+                      {formFieldsHarvestDetail.first_name.description}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -194,25 +200,22 @@ export const FormHarvestDetail = () => {
                 name={'total'}
                 render={({ field }) => (
                   <FormItem className="my-4">
-                    <FormLabel className="block">{'Total:'}</FormLabel>
+                    <FormLabel className="block">
+                      {formFieldsHarvestDetail.total.label}
+                    </FormLabel>
 
                     <FormControl>
                       <Input
                         className="w-80"
-                        placeholder={'0'}
+                        placeholder={formFieldsHarvestDetail.total.placeholder}
                         {...field}
                         type="number"
                         min={0}
-                        onChange={e => {
-                          return !Number.isNaN(e.target.value)
-                            ? field.onChange(parseFloat(e.target.value))
-                            : 0;
-                        }}
                       />
                     </FormControl>
 
                     <FormDescription>
-                      Introduce la cantidad que ha cosechado
+                      {formFieldsHarvestDetail.total.description}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -224,26 +227,23 @@ export const FormHarvestDetail = () => {
                 name={'value_pay'}
                 render={({ field }) => (
                   <FormItem className="my-4">
-                    <FormLabel className="block">{'Valor a pagar:'}</FormLabel>
+                    <FormLabel className="block">
+                      {formFieldsHarvestDetail.value_pay.label}
+                    </FormLabel>
 
                     <FormControl>
                       <Input
                         className="w-80"
-                        placeholder={'0'}
-                        {...field}
-                        type="number"
+                        placeholder={formFieldsHarvestDetail.value_pay.label}
                         min={0}
                         step={50}
-                        onChange={e => {
-                          return !Number.isNaN(e.target.value)
-                            ? field.onChange(parseFloat(e.target.value))
-                            : 0;
-                        }}
+                        {...field}
+                        type="number"
                       />
                     </FormControl>
 
                     <FormDescription>
-                      Introduce el valor a pagar
+                      {formFieldsHarvestDetail.value_pay.description}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

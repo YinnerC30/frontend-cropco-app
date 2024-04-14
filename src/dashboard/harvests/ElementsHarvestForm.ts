@@ -1,58 +1,39 @@
-import { TypeInput } from '@/enums/TypeInput';
 import { CustomFormField } from '@/interfaces/CustomFormField';
 import { z } from 'zod';
 
-export const formFieldsHarvest: CustomFormField[] = [
-  {
+export const formFieldsHarvest: Record<string, CustomFormField> = {
+  date: {
     name: 'date',
     label: 'Fecha:',
-    placeholder: '',
+    placeholder: 'Selecciona una fecha',
     description: 'Fecha en la que se realizo la cosecha',
-    type: TypeInput.date,
-    visible: true,
   },
-  {
+  crop: {
     name: 'crop',
     label: 'Cultivo:',
-    placeholder: '',
+    placeholder: 'Selecciona un cultivo',
     description: '',
-    type: TypeInput.select,
-    visible: true,
   },
-  {
-    name: 'unit_of_measure',
-    label: 'Unidad de medida:',
-    placeholder: 'Selecciona',
-    description:
-      'La medida seleccionada se usara durante todo el ciclo de vida del cultivo',
-    type: TypeInput.select,
-    visible: true,
-  },
-  {
+
+  total: {
     name: 'total',
     label: 'Total:',
     placeholder: '',
     description: '',
-    type: TypeInput.number,
-    visible: true,
   },
-  {
+  value_pay: {
     name: 'value_pay',
     label: 'Valor a pagar:',
     placeholder: '',
     description: '',
-    type: TypeInput.number,
-    visible: true,
   },
-  {
+  observation: {
     name: 'observation',
     label: 'Observación:',
     placeholder: 'Se cosecho hasta...',
     description: '',
-    type: TypeInput.text,
-    visible: true,
   },
-];
+};
 
 export const formSchemaHarvest = z.object({
   date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
@@ -62,12 +43,8 @@ export const formSchemaHarvest = z.object({
         required_error: 'El cultivo es un campo obligatorio',
       })
       .uuid({
-        message: 'El identificador del cultivo debe ser un UUID válido.',
+        message: 'La opción seleccionada no es valida.',
       }),
-  }),
-  unit_of_measure: z.enum(['LIBRAS', 'KILOGRAMOS'], {
-    required_error: 'La unidad de medida es requerida',
-    invalid_type_error: 'Unidad de medida no valida',
   }),
   total: z.number({
     invalid_type_error: 'Debes introducir un valor numérico',
@@ -77,16 +54,14 @@ export const formSchemaHarvest = z.object({
     .number({
       invalid_type_error: 'Debes introducir un valor numérico',
     })
-
     .refine(value => value % 50 === 0, {
-      message: 'El valor a pagar debe ser un múltiplo de 50.',
+      message: 'El valor a pagar debe ser un número que termine en 50 o 00.',
     }),
   observation: z
     .string()
     .max(100, {
       message: 'La observación no puede tener más de 100 caracteres.',
     })
-    .default('Sin observaciones')
     .optional(),
 });
 
@@ -95,7 +70,7 @@ export const defaultValuesHarvest = {
   crop: {
     id: undefined,
   },
-  unit_of_measure: undefined,
+  
   total: 0,
   value_pay: 0,
   observation: '',

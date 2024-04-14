@@ -1,33 +1,26 @@
-import { TypeInput } from '@/enums/TypeInput';
 import { CustomFormField } from '@/interfaces/CustomFormField';
 import { z } from 'zod';
 
-export const formFieldsHarvestDetail: CustomFormField[] = [
-  {
+export const formFieldsHarvestDetail: Record<string, CustomFormField> = {
+  first_name: {
     name: 'first_name',
     label: 'Empleado:',
     placeholder: 'Selecciona',
     description: 'Selecciona el nombre del empleado',
-    type: TypeInput.select,
-    visible: true,
   },
-  {
+  total: {
     name: 'total',
     label: 'Total:',
     placeholder: '',
     description: 'Introduce la cantidad que ha cosechado',
-    type: TypeInput.number,
-    visible: true,
   },
-  {
+  value_pay: {
     name: 'value_pay',
     label: 'Valor a pagar:',
     placeholder: '',
-    description: 'Introduce el valor a pagarle por su cosecha',
-    type: TypeInput.number,
-    visible: true,
+    description: 'Introduce el valor a pagar por la cosecha',
   },
-];
+};
 
 export const formSchemaHarvestDetail = z.object({
   employee: z.object({
@@ -40,11 +33,17 @@ export const formSchemaHarvestDetail = z.object({
       }),
     first_name: z.string().optional(),
   }),
-  total: z
-    .number()
-    .positive({ message: 'El total debe ser un número positivo.' }),
-  value_pay: z
-    .number()
+  total: z.coerce
+    .number({
+      required_error: `El valor cosechado es requerido`,
+      invalid_type_error: `Debe introducir un valor numérico`,
+    })
+    .positive({ message: 'El valor cosechado debe ser un número positivo.' }),
+  value_pay: z.coerce
+    .number({
+      required_error: `El valor a pagar es requerido`,
+      invalid_type_error: `Debe introducir un valor numérico`,
+    })
     .positive({ message: 'El valor a pagar debe ser un número positivo.' })
     .refine(value => value % 50 === 0, {
       message: 'El valor a pagar debe ser un múltiplo de 50.',
