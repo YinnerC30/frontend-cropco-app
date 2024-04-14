@@ -22,27 +22,15 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 
 import { Crop } from '@/interfaces/Crop';
-import { HarvestDetail } from '@/interfaces/Harvest';
 import { cn } from '@/lib/utils';
-import {
-  AppDispatch,
-  RootState,
-  useAppDispatch,
-  useAppSelector,
-} from '@/redux/store';
+import { AppDispatch, useAppDispatch, useAppSelector } from '@/redux/store';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  CalendarIcon,
-  CaretSortIcon,
-  CheckIcon,
-  ReloadIcon,
-} from '@radix-ui/react-icons';
+import { CalendarIcon, CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
+import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 import {
   Form,
@@ -54,32 +42,31 @@ import {
   FormMessage,
 } from '../../components/ui/form';
 import { useGetAllCrops } from '../crops/hooks/useGetAllCrops';
-import { CancelRegister } from './CancelRegister';
+import { columnsHarvestDetail } from './ColumnsHarvestDetail';
 import { DataTableHarvestDetail } from './DataTableHarvestDetails';
 import {
   defaultValuesHarvest,
   formFieldsHarvest,
   formSchemaHarvest,
 } from './ElementsHarvestForm';
-import { FormHarvestDetail } from './FormHarvestDetail';
-import { reset } from './harvestSlice';
-import { usePostHarvest } from './hooks/usePostHarvest';
-import { columnsHarvestDetailActions } from './ColumnsHarvestDetail';
+import { add, calculateTotal, reset } from './harvestSlice';
+import { useGetHarvest } from './hooks/useGetHarvest';
 
-export const CreateHarvest = () => {
+export const ViewHarvest = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch: AppDispatch = useAppDispatch();
+  const { data, isLoading, isError } = useGetHarvest(id!);
 
   useEffect(() => {
     dispatch(reset());
   }, []);
 
-  const navigate = useNavigate();
   const { query: queryCrops } = useGetAllCrops({
     searchParameter: '',
     allRecords: true,
   });
 
-  const { mutate, isSuccess, isPending } = usePostHarvest();
   const { details, total, value_pay } = useAppSelector(
     (state: any) => state.harvest,
   );
@@ -89,38 +76,27 @@ export const CreateHarvest = () => {
     defaultValues: defaultValuesHarvest,
   });
 
-  const onSubmitHarvest = (values: z.infer<typeof formSchemaHarvest>) => {
-    if (details.length === 0) {
-      toast.error('Debes registrar al menos 1 cosecha de algún empleado');
-      return;
+  useEffect(() => {
+    if (data) {
+      formHarvest.reset({
+        ...data,
+        date: new Date(`${data.date}T00:00:00-05:00`),
+      });
+      dispatch(add(data.details));
+      dispatch(calculateTotal());
     }
-
-    mutate({
-      ...values,
-      crop: { id: values.crop.id },
-      total,
-      value_pay,
-      details: details.map((item: HarvestDetail) => {
-        return { ...item, employee: { id: item.employee.id } };
-      }),
-    });
-  };
-
-  // Estados
-  if (isSuccess) {
-    dispatch(reset());
-    navigate('../view');
-  }
+  }, [data]);
 
   if (queryCrops.isLoading) return <Loading />;
+  if (isLoading) return <Loading />;
 
-  if (queryCrops.isError) {
+  if (queryCrops.isError && isError) {
     return <ErrorLoading />;
   }
 
   return (
     <>
-      <Label className="text-2xl">Registro de cosecha</Label>
+      <Label className="text-2xl">Información de la cosecha</Label>
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
         {/* Formulario principal */}
@@ -139,6 +115,7 @@ export const CreateHarvest = () => {
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
+                          disabled
                           variant={'outline'}
                           className={cn(
                             'w-[240px] pl-3 text-left font-normal',
@@ -190,6 +167,7 @@ export const CreateHarvest = () => {
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
+                          disabled
                           variant="outline"
                           role="combobox"
                           className={cn(
@@ -270,6 +248,7 @@ export const CreateHarvest = () => {
 
                   <FormControl>
                     <Textarea
+                      disabled
                       placeholder={'Durante la cosecha ocurrió...'}
                       className="resize-none w-72"
                       rows={5}
@@ -286,16 +265,10 @@ export const CreateHarvest = () => {
           </form>
 
           <Separator className="w-full my-5" />
-          <Label className="text-sm">
-            A continuación registre de forma individual la cosecha que ha
-            realizado cada empleado:
-          </Label>
-
-          <FormHarvestDetail />
 
           <DataTableHarvestDetail
             data={details}
-            columns={columnsHarvestDetailActions}
+            columns={columnsHarvestDetail}
           />
 
           <div className="flex flex-col gap-4 ml-1 w-[300px] h-[120px] justify-center">
@@ -364,18 +337,7 @@ export const CreateHarvest = () => {
 
           {/* Botones de guardar o cancelar */}
           <div className="flex gap-2 my-6 ">
-            <Button
-              type="submit"
-              form="formHarvest"
-              disabled={isPending}
-              onClick={formHarvest.handleSubmit(onSubmitHarvest)}
-            >
-              {isPending && (
-                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
-              )}
-              Guardar
-            </Button>
-            <CancelRegister />
+            <Button onClick={() => navigate(-1)}>Volver</Button>
           </div>
         </Form>
       </ScrollArea>

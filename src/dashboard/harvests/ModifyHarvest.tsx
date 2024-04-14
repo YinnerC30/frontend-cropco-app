@@ -60,6 +60,7 @@ import { FormHarvestDetail } from './FormHarvestDetail';
 import { add, calculateTotal, reset } from './harvestSlice';
 import { useGetHarvest } from './hooks/useGetHarvest';
 import { usePatchHarvest } from './hooks/usePatchHarvest';
+import { columnsHarvestDetailActions } from './ColumnsHarvestDetail';
 
 export const ModifyHarvest = () => {
   const { id } = useParams();
@@ -305,7 +306,10 @@ export const ModifyHarvest = () => {
 
           <FormHarvestDetail />
 
-          <DataTableHarvestDetail data={details} />
+          <DataTableHarvestDetail
+            data={details}
+            columns={columnsHarvestDetailActions}
+          />
 
           <div className="flex flex-col gap-4 ml-1 w-[300px] h-[120px] justify-center">
             <FormField

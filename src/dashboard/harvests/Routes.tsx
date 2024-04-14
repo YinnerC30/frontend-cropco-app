@@ -1,6 +1,7 @@
 import { CreateHarvest } from './CreateHarvest';
 import { HarvestModule } from './HarvestModule';
 import { ModifyHarvest } from './ModifyHarvest';
+import { ViewHarvest } from './ViewHarvest';
 
 const harvestRoutes = {
   path: 'harvests',
@@ -15,7 +16,7 @@ const harvestRoutes = {
     },
     {
       path: 'view/:id',
-      // element: <ViewClient />,
+      element: <ViewHarvest />,
     },
     {
       path: 'modify/:id',

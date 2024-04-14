@@ -19,7 +19,8 @@ import {
 } from '@/components/ui/table';
 import { useState } from 'react';
 
-import columnsHarvestDetail from './ColumnsHarvestDetail';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -27,35 +28,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
 import {
   ChevronLeftIcon,
-  DoubleArrowLeftIcon,
   ChevronRightIcon,
+  DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
 } from '@radix-ui/react-icons';
-import { Input } from '@/components/ui/input';
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { DialogFormHarvestDetails } from './DialogFormHarvestDetails';
+interface Props {
+  data: any;
+  columns: any;
+}
 
-export function DataTableHarvestDetail({ data }: any) {
-  //
-  const [record, setRecord] = useState({});
-  const [isDialogOpen, setDialogOpen] = useState(false);
-  //
+export function DataTableHarvestDetail({ data, columns }: Props) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
     data,
-    columns: columnsHarvestDetail,
+    columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -123,10 +113,6 @@ export function DataTableHarvestDetail({ data }: any) {
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
-                    onDoubleClick={() => {
-                      setRecord(row.original);
-                      setDialogOpen(true);
-                    }}
                   >
                     {row.getVisibleCells().map(cell => (
                       <TableCell key={cell.id}>
@@ -141,7 +127,7 @@ export function DataTableHarvestDetail({ data }: any) {
               ) : (
                 <TableRow>
                   <TableCell
-                    colSpan={columnsHarvestDetail.length}
+                    colSpan={columns.length}
                     className="h-24 text-center"
                   >
                     No hay registros.
@@ -226,13 +212,6 @@ export function DataTableHarvestDetail({ data }: any) {
           </div>
         </div>
       </div>
-      {console.log({ isDialogOpen, record })}
-
-      <DialogFormHarvestDetails
-        isDialogOpen={isDialogOpen}
-        setDialogOpen={setDialogOpen}
-        defaultValues={record}
-      />
     </>
   );
 }
