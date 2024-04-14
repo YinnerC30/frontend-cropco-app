@@ -55,12 +55,14 @@ interface Props {
   defaultValues: any;
   isDialogOpen: boolean;
   setDialogOpen: any;
+  setOpenDropDownMenu?: any;
 }
 
 export const ModifyHarvestDetail = ({
   isDialogOpen,
   setDialogOpen,
   defaultValues,
+  setOpenDropDownMenu,
 }: Props) => {
   const { query: queryEmployees } = useGetAllEmployees({
     searchParameter: '',
@@ -91,6 +93,7 @@ export const ModifyHarvestDetail = ({
     dispatch(calculateTotal());
     toast.success('Registro actualizado');
     setDialogOpen(false);
+    setOpenDropDownMenu(false);
   };
   return (
     <Dialog open={isDialogOpen}>

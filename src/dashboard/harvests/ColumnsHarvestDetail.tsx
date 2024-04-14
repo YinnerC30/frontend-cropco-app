@@ -162,6 +162,7 @@ export const columnsHarvestDetailActions = [
                     defaultValues={harvestDetail}
                     isDialogOpen={isDialogOpen}
                     setDialogOpen={setDialogOpen}
+                    setOpenDropDownMenu={setOpenDropDownMenu}
                   />
                 </div>
               </DropdownMenuItem>
