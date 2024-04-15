@@ -3,6 +3,7 @@ import { Home } from '@/components/Home';
 
 import { clientRoutes } from '@/dashboard/clients/Routes';
 import { cropRoutes } from '@/dashboard/crops/Routes';
+import { harvestProcessedRoutes } from '@/dashboard/harvest-processed/Routes';
 import { harvestRoutes } from '@/dashboard/harvests/Routes';
 import { supplierRoutes } from '@/dashboard/suppliers/Routes';
 import { supplyRoutes } from '@/dashboard/supplies/Routes';
@@ -22,6 +23,7 @@ export const Router = createBrowserRouter([
       supplierRoutes,
       supplyRoutes,
       harvestRoutes,
+      harvestProcessedRoutes
     ],
   },
 ]);

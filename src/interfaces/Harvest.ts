@@ -3,27 +3,35 @@
 import { ObjectWithId } from './ObjectWithId';
 
 export interface Harvest {
-  id?: string;
-  date: Date;
   crop: ObjectWithId;
+  date: Date;
+  details: HarvestDetail[];
+  id?: string;
+  observation?: string | undefined;
   total: number;
   value_pay: number;
-  observation?: string | undefined;
-  details: HarvestDetail[];
 }
 
 export interface HarvestDetail {
-  id?: string;
   employee: ObjectWithId;
+  id?: string;
+  payments_harvest?: any[];
   total: number;
   value_pay: number;
-  payments_harvest?: any[];
 }
 
 export interface TableHarvest {
-  id?: string;
-  date: string;
   crop: string;
+  date: Date;
+  id?: string;
   total: number;
   value_pay: number;
+}
+
+export interface HarvestProcessed {
+  crop: ObjectWithId;
+  date: Date;
+  harvest: ObjectWithId;
+  id?: string;
+  total: number;
 }
