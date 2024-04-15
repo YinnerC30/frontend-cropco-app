@@ -30,6 +30,7 @@ import { defaultValues, formFields, formSchema } from './ElementsCropForm';
 import { usePostCrop } from './hooks/usePostCrop';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
 
 export const CreateCrop = () => {
   const navigate = useNavigate();
@@ -256,7 +257,7 @@ export const CreateCrop = () => {
               )}
               Guardar
             </Button>
-            <Button onClick={() => navigate(-1)}>Cancelar</Button>
+            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

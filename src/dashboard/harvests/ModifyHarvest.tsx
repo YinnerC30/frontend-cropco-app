@@ -49,7 +49,7 @@ import {
   FormMessage,
 } from '../../components/ui/form';
 import { useGetAllCrops } from '../crops/hooks/useGetAllCrops';
-import { CancelRegister } from './CancelRegister';
+import { ButtonCancelRegister } from '../../components/common/ButtonCancelRegister';
 import { DataTableHarvestDetail } from './DataTableHarvestDetails';
 import {
   defaultValuesHarvest,
@@ -413,7 +413,7 @@ export const ModifyHarvest = () => {
               )}
               Actualizar
             </Button>
-            <CancelRegister />
+            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

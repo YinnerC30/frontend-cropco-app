@@ -22,6 +22,7 @@ import { usePostClient } from './hooks/usePostClient';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
+import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
 
 export const CreateClient = () => {
   const navigate = useNavigate();
@@ -162,7 +163,7 @@ export const CreateClient = () => {
               )}
               Guardar
             </Button>
-            <Button onClick={() => navigate(-1)}>Cancelar</Button>
+            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

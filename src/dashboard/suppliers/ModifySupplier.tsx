@@ -1,3 +1,4 @@
+import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
 import { ErrorLoading } from '@/components/common/ErrorLoading';
 import { Loading } from '@/components/common/Loading';
 import { Button } from '@/components/ui/button';
@@ -202,7 +203,7 @@ export const ModifySupplier = () => {
               )}
               Actualizar
             </Button>
-            <Button onClick={() => navigate(-1)}>Cancelar</Button>
+            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

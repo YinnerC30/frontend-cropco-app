@@ -22,6 +22,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { usePostSupplier } from './hooks/usePostSupplier';
+import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
 export const CreateSupplier = () => {
   const navigate = useNavigate();
 
@@ -181,7 +182,7 @@ export const CreateSupplier = () => {
               )}
               Guardar
             </Button>
-            <Button onClick={() => navigate(-1)}>Cancelar</Button>
+            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

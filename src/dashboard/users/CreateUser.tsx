@@ -21,6 +21,7 @@ import {
 import { defaultValues, formFields, formSchema } from './ElementsUserForm';
 import { usePostUser } from './hooks/usePostUser';
 import { useState } from 'react';
+import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
 
 export const CreateUser = () => {
   const navigate = useNavigate();
@@ -197,7 +198,7 @@ export const CreateUser = () => {
               )}
               Guardar
             </Button>
-            <Button onClick={() => navigate(-1)}>Cancelar</Button>
+            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

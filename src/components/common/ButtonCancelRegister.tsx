@@ -12,13 +12,11 @@ import {
 
 import { Button } from '@/components/ui/button';
 
-import { useAppDispatch } from '@/redux/store';
-import { useNavigate } from 'react-router-dom';
-import { reset } from './harvestSlice';
+interface Props {
+  action: () => void;
+}
 
-export const CancelRegister = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+export const ButtonCancelRegister = ({ action }: Props) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -39,14 +37,7 @@ export const CancelRegister = () => {
             <Button variant="secondary">Cancelar</Button>
           </AlertDialogCancel>
           <AlertDialogAction asChild>
-            <Button
-              onClick={() => {
-                dispatch(reset());
-                navigate(-1);
-              }}
-            >
-              Continuar
-            </Button>
+            <Button onClick={() => action()}>Continuar</Button>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

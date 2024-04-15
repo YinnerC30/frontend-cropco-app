@@ -23,6 +23,7 @@ import { defaultValues, formFields, formSchema } from './ElementsUserForm';
 import { useGetUser } from './hooks/useGetUser';
 import { usePatchUser } from './hooks/usePatchUser';
 import { Separator } from '@/components/ui/separator';
+import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
 
 export const ModifyUser = () => {
   const { id } = useParams();
@@ -216,7 +217,7 @@ export const ModifyUser = () => {
               )}
               Guardar
             </Button>
-            <Button onClick={() => navigate(-1)}>Cancelar</Button>
+            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

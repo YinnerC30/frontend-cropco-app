@@ -1,3 +1,4 @@
+import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
 import { ErrorLoading } from '@/components/common/ErrorLoading';
 import { Loading } from '@/components/common/Loading';
 import { Button } from '@/components/ui/button';
@@ -11,9 +12,10 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
-import { CustomFormField } from '@/interfaces/CustomFormField';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
@@ -23,8 +25,6 @@ import { z } from 'zod';
 import { defaultValues, formFields, formSchema } from './ElementsClientForm';
 import { useGetClient } from './hooks/useGetClient';
 import { usePatchClient } from './hooks/usePatchClient';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
 
 export const ModifyClient = () => {
   const { id } = useParams();
@@ -182,7 +182,7 @@ export const ModifyClient = () => {
               )}
               Guardar
             </Button>
-            <Button onClick={() => navigate(-1)}>Cancelar</Button>
+            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

@@ -52,7 +52,8 @@ export const ActionsTable = ({ mutate, id }: Props) => {
           <Button
             onClick={() => {
               navigator.clipboard.writeText(id);
-              toast.success('ID copiado al portapapeles');
+              setOpenDropDownMenu(false);
+              toast.success('Id copiado al portapapeles');
             }}
             variant={'ghost'}
           >

@@ -24,11 +24,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Crop } from '@/interfaces/Crop';
 import { HarvestDetail } from '@/interfaces/Harvest';
 import { cn } from '@/lib/utils';
-import {
-  AppDispatch,
-  useAppDispatch,
-  useAppSelector
-} from '@/redux/store';
+import { AppDispatch, useAppDispatch, useAppSelector } from '@/redux/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   CalendarIcon,
@@ -53,7 +49,7 @@ import {
   FormMessage,
 } from '../../components/ui/form';
 import { useGetAllCrops } from '../crops/hooks/useGetAllCrops';
-import { CancelRegister } from './CancelRegister';
+import { ButtonCancelRegister } from '../../components/common/ButtonCancelRegister';
 import { columnsHarvestDetailActions } from './ColumnsHarvestDetail';
 import { DataTableHarvestDetail } from './DataTableHarvestDetails';
 import {
@@ -387,7 +383,6 @@ export const CreateHarvest = () => {
 
           {/* Botones de guardar o cancelar */}
           <div className="flex gap-2 my-6 ">
-            <CancelRegister />
             <Button
               type="submit"
               form="formHarvest"
@@ -399,6 +394,7 @@ export const CreateHarvest = () => {
               )}
               Guardar
             </Button>
+            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

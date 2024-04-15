@@ -10,7 +10,7 @@ import {
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 import { ModeToggle } from './ModeToggle';
-import { routes } from './RoutesNavBar';
+import { routes } from '../routes/RoutesNavBar';
 import { Toaster } from './ui/sonner';
 
 export const Home = () => {

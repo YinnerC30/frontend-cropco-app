@@ -1,3 +1,4 @@
+import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
 import {
   Select,
   SelectContent,
@@ -168,7 +169,7 @@ export const CreateSupply = () => {
               )}
               Guardar
             </Button>
-            <Button onClick={() => navigate(-1)}>Cancelar</Button>
+            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>
