@@ -1,6 +1,6 @@
 import ErrorPage from '@/ErrorPage';
 import { Home } from '@/components/Home';
-import { Test } from '@/dashboard/Test';
+
 import { clientRoutes } from '@/dashboard/clients/Routes';
 import { cropRoutes } from '@/dashboard/crops/Routes';
 import { harvestRoutes } from '@/dashboard/harvests/Routes';
@@ -22,10 +22,6 @@ export const Router = createBrowserRouter([
       supplierRoutes,
       supplyRoutes,
       harvestRoutes,
-      {
-        path: 'test/view',
-        element: <Test />,
-      },
     ],
   },
 ]);
