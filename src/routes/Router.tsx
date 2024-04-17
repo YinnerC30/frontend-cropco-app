@@ -1,14 +1,14 @@
 import ErrorPage from '@/ErrorPage';
 import { Home } from '@/components/Home';
 
-import { clientRoutes } from '@/dashboard/clients/Routes';
-import { cropRoutes } from '@/dashboard/crops/Routes';
-import { employeeRoutes } from '@/dashboard/employees/Routes';
-import { harvestProcessedRoutes } from '@/dashboard/harvest-processed/Routes';
-import { harvestRoutes } from '@/dashboard/harvests/Routes';
-import { supplierRoutes } from '@/dashboard/suppliers/Routes';
-import { supplyRoutes } from '@/dashboard/supplies/Routes';
-import { userRoutes } from '@/dashboard/users/Routes';
+import { clientRoutes } from '@/modules/clients/Routes';
+import { cropRoutes } from '@/modules/crops/Routes';
+import { employeeRoutes } from '@/modules/employees/Routes';
+import { harvestProcessedRoutes } from '@/modules/harvest-processed/Routes';
+import { harvestRoutes } from '@/modules/harvests/Routes';
+import { supplierRoutes } from '@/modules/suppliers/Routes';
+import { supplyRoutes } from '@/modules/supplies/Routes';
+import { userRoutes } from '@/modules/users/Routes';
 
 import { createBrowserRouter } from 'react-router-dom';
 

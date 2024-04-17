@@ -70,4 +70,5 @@ export const harvestSlice = createSlice({
 export const { add, remove, reset, modify, calculateTotal } =
   harvestSlice.actions;
 
-export default harvestSlice.reducer;
+export const harvestReducer = harvestSlice.reducer;
+export default { harvestReducer };
