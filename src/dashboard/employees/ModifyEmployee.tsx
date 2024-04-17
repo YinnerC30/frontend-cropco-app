@@ -22,14 +22,14 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
-import { defaultValues, formFields, formSchema } from './ElementsClientForm';
-import { useGetClient } from './hooks/useGetClient';
-import { usePatchClient } from './hooks/usePatchClient';
+import { defaultValues, formFields, formSchema } from './ElementsEmployeeForm';
+import { useGetEmployee } from './hooks/useGetEmployee';
+import { usePatchEmployee } from './hooks/usePatchEmployee';
 
-export const ModifyClient = () => {
+export const ModifyEmployee = () => {
   const { id } = useParams();
-  const { data, isLoading } = useGetClient(id!);
-  const { mutate, isSuccess, isPending } = usePatchClient();
+  const { data, isLoading } = useGetEmployee(id!);
+  const { mutate, isSuccess, isPending } = usePatchEmployee();
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -63,7 +63,7 @@ export const ModifyClient = () => {
 
   return (
     <>
-      <Label className="text-2xl">Modificar cliente</Label>
+      <Label className="text-2xl">Modificar empleado</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <Form {...form}>

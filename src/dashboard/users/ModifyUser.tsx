@@ -215,7 +215,7 @@ export const ModifyUser = () => {
               {isPending && (
                 <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
               )}
-              Guardar
+              Actualizar
             </Button>
             <ButtonCancelRegister action={() => navigate(-1)} />
           </div>

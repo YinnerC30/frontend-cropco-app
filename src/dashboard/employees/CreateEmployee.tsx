@@ -1,7 +1,12 @@
-import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
-import { ErrorLoading } from '@/components/common/ErrorLoading';
-import { Loading } from '@/components/common/Loading';
+import { z } from 'zod';
+
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ReloadIcon } from '@radix-ui/react-icons';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import {
   Form,
   FormControl,
@@ -10,26 +15,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '../../components/ui/form';
+import { defaultValues, formFields, formSchema } from './ElementsEmployeeForm';
+
 import { Label } from '@/components/ui/label';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ReloadIcon } from '@radix-ui/react-icons';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import { z } from 'zod';
-import { defaultValues, formFields, formSchema } from './ElementsClientForm';
-import { useGetClient } from './hooks/useGetClient';
-import { usePatchClient } from './hooks/usePatchClient';
+import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
+import { usePostEmployee } from './hooks/usePostEmployee';
 
-export const ModifyClient = () => {
-  const { id } = useParams();
-  const { data, isLoading } = useGetClient(id!);
-  const { mutate, isSuccess, isPending } = usePatchClient();
+export const CreateEmployee = () => {
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -37,25 +32,11 @@ export const ModifyClient = () => {
     defaultValues,
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    mutate({ id, ...values });
+  const { mutate, isSuccess, isPending } = usePostEmployee();
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    mutate(values);
   };
-
-  useEffect(() => {
-    if (data) {
-      form.reset({
-        ...data,
-      });
-    }
-  }, [data]);
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (!data) {
-    return <ErrorLoading />;
-  }
 
   if (isSuccess) {
     navigate('../view');
@@ -63,7 +44,7 @@ export const ModifyClient = () => {
 
   return (
     <>
-      <Label className="text-2xl">Modificar cliente</Label>
+      <Label className="text-2xl">Registro de empleado</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <Form {...form}>
@@ -180,7 +161,7 @@ export const ModifyClient = () => {
               {isPending && (
                 <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
               )}
-              Actualizar
+              Guardar
             </Button>
             <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
