@@ -1,9 +1,18 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  UseMutationResult,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { deleteSupply } from '../actions/delete';
+import { deleteSupply } from '../services/delete';
 
-export const useDeleteSupply = () => {
+export const useDeleteSupply = (): UseMutationResult<
+  void,
+  AxiosError<unknown, any>,
+  string,
+  unknown
+> => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({

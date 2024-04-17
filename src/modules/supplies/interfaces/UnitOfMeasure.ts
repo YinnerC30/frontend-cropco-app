@@ -1,4 +1,4 @@
-export enum UnitOfMeasureSupply {
+export enum UnitOfMeasure {
   GRAMOS = 'GRAMOS',
   MILILITROS = 'MILILITROS',
 }

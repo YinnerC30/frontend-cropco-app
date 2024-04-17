@@ -1,6 +1,3 @@
-import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
-import { ErrorLoading } from '@/components/common/ErrorLoading';
-import { Loading } from '@/components/common/Loading';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -23,31 +20,21 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
-import { UnitOfMeasureSupply } from '@/modules/harvests/UnitOfMeasure';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ReloadIcon } from '@radix-ui/react-icons';
+import { UnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { z } from 'zod';
-import { defaultValues, formFields, formSchema } from './ElementsSupplyForm';
-import { useGetSupply } from './hooks/useGetSupply';
-import { usePatchSupply } from './hooks/usePatchSupply';
+import { useGetSupply } from '../hooks/useGetSupply';
+import { useSupplyForm } from '../hooks/useSupplyForm';
+import { formFields } from '../utils';
+import { ErrorLoading, Loading } from '@/modules/core/components';
 
-export const ModifySupply = () => {
+export const ViewSupply = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetSupply(id!);
-  const { mutate, isSuccess, isPending } = usePatchSupply();
+
   const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
-
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    mutate({ id, ...values });
-  };
+  const { form } = useSupplyForm();
 
   useEffect(() => {
     if (data) {
@@ -65,22 +52,15 @@ export const ModifySupply = () => {
     return <ErrorLoading />;
   }
 
-  if (isSuccess) {
-    navigate('../view');
-  }
-
   return (
     <>
-      <Label className="text-2xl">Actualizar insumo</Label>
+      <Label className="text-2xl">Información del insumo "{data.name}"</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            id="formUser"
-            className="flex flex-col gap-2 ml-1"
-          >
+          <form id="formSupply" className="flex flex-col gap-2 ml-1">
             <FormField
+              disabled
               control={form.control}
               name={'name'}
               render={({ field }) => (
@@ -101,6 +81,7 @@ export const ModifySupply = () => {
               )}
             />
             <FormField
+              disabled
               control={form.control}
               name={'brand'}
               render={({ field }) => (
@@ -121,13 +102,18 @@ export const ModifySupply = () => {
               )}
             />
             <FormField
+              disabled
               control={form.control}
               name={'unit_of_measure'}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.unit_of_measure.label}</FormLabel>
                   <div className="w-40 ">
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      disabled
+                    >
                       <SelectTrigger>
                         <SelectValue
                           placeholder={formFields.unit_of_measure.placeholder}
@@ -135,10 +121,10 @@ export const ModifySupply = () => {
                       </SelectTrigger>
 
                       <SelectContent>
-                        <SelectItem value={UnitOfMeasureSupply.GRAMOS}>
+                        <SelectItem value={UnitOfMeasure.GRAMOS}>
                           GRAMOS
                         </SelectItem>
-                        <SelectItem value={UnitOfMeasureSupply.MILILITROS}>
+                        <SelectItem value={UnitOfMeasure.MILILITROS}>
                           MILILITROS
                         </SelectItem>
                       </SelectContent>
@@ -153,6 +139,7 @@ export const ModifySupply = () => {
               )}
             />
             <FormField
+              disabled
               control={form.control}
               name={`observation`}
               render={({ field }) => (
@@ -178,13 +165,7 @@ export const ModifySupply = () => {
           </form>
 
           <div className="flex w-48 gap-2 mt-2">
-            <Button type="submit" form="formUser" disabled={isPending}>
-              {isPending && (
-                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
-              )}
-              Actualizar
-            </Button>
-            <ButtonCancelRegister action={() => navigate(-1)} />
+            <Button onClick={() => navigate(-1)}>Volver</Button>
           </div>
         </Form>
       </ScrollArea>

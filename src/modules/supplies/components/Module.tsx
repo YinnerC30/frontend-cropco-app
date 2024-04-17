@@ -1,19 +1,18 @@
-import { ErrorLoading } from '@/components/common/ErrorLoading';
-import { Loading } from '@/components/common/Loading';
-import { SearchBar } from '@/components/common/SearchBar';
-import { Button } from '@/components/ui/button';
-
-import { DataTable } from '@/components/table/DataTable';
-import { PlusIcon } from '@radix-ui/react-icons';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-
-import { ToolTipTemplate } from '@/components/common/ToolTipTemplate';
-
-import columns from './ColumnsSupply';
-import { useGetAllSupplies } from './hooks/useGetAllSupplies';
+import columns from './ColumnsTable';
+import { useGetAllSupplies } from '../hooks/useGetAllSupplies';
 import { Separator } from '@/components/ui/separator';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import {
+  DataTable,
+  ErrorLoading,
+  Loading,
+  SearchBar,
+  ToolTipTemplate,
+} from '@/modules/core/components';
+import { PlusIcon } from 'lucide-react';
+import { Button } from 'react-day-picker';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export const SuppliesModule = () => {
   const navigate = useNavigate();
@@ -49,7 +48,7 @@ export const SuppliesModule = () => {
         <div className="w-[650px]">
           <DataTable
             columns={columns}
-            rows={query.data.rows}
+            rows={query.data?.rows}
             data={query.data}
             pagination={pagination}
             setPagination={setPagination}

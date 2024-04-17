@@ -13,13 +13,13 @@ import { Form, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { usePostUser } from '../hooks/usePostUser';
 import { useUserForm } from '../hooks/useUserForm';
-import { defaultValues, formFields, formSchema } from '../utils/ElementsForm';
+import { formSchema, formFields } from '../utils';
+
 
 export const CreateUser = () => {
   const navigate = useNavigate();
 
-  const { showPassword, togglePasswordVisibility, form } =
-    useUserForm(defaultValues);
+  const { showPassword, togglePasswordVisibility, form } = useUserForm();
 
   const { mutate, isSuccess, isPending } = usePostUser();
 

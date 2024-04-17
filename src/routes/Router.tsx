@@ -7,7 +7,7 @@ import { employeeRoutes } from '@/modules/employees/Routes';
 import { harvestProcessedRoutes } from '@/modules/harvest-processed/Routes';
 import { harvestRoutes } from '@/modules/harvests/Routes';
 import { supplierRoutes } from '@/modules/suppliers/Routes';
-import { supplyRoutes } from '@/modules/supplies/Routes';
+import { supplyRoutes } from '@/modules/supplies/routes/Routes';
 import { userRoutes } from '@/modules/users/Routes';
 
 import { createBrowserRouter } from 'react-router-dom';

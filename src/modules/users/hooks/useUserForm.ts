@@ -2,11 +2,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { formSchema } from '../utils/ElementsForm';
-import { DefaultValuesUser } from '../interfaces/DefaultValues';
+import { formSchema } from '../utils';
 
+const defaultValues = {
+  first_name: '',
+  last_name: '',
+  email: '',
+  cell_phone_number: '',
+  password: {
+    password1: '',
+    password2: '',
+  },
+};
 
-export const useUserForm = (defaultValues: DefaultValuesUser) => {
+export const useUserForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = (event: any) => {
     event.preventDefault();

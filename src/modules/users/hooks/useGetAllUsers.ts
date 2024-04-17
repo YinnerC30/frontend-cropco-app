@@ -5,13 +5,13 @@ import { useState } from 'react';
 import { getUsers } from '../services/getAll';
 import { ResponseGetUsers } from '../interfaces/Response';
 
-interface ReturnMethod {
+interface Response {
   query: UseQueryResult<ResponseGetUsers, Error>;
   pagination: PaginationState;
   setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
 }
 
-export function useGetAllUsers(searchParameter: string): ReturnMethod {
+export function useGetAllUsers(searchParameter: string): Response {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,

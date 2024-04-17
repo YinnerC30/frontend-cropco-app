@@ -1,7 +1,9 @@
-import { CreateSupply } from './CreateSupply';
-import { ModifySupply } from './ModifySupply';
-import SuppliesModule from './SuppliesModule';
-import { ViewSupply } from './ViewSupply';
+import {
+  CreateSupply,
+  ModifySupply,
+  SuppliesModule,
+  ViewSupply,
+} from '../components';
 
 const supplyRoutes = {
   path: 'supplies',

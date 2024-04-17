@@ -1,4 +1,3 @@
-import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
 import {
   Select,
   SelectContent,
@@ -11,9 +10,7 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { ReloadIcon } from '@radix-ui/react-icons';
-import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
   Form,
@@ -23,23 +20,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../../components/ui/form';
-import { defaultValues, formFields, formSchema } from './ElementsSupplyForm';
+} from '../../../components/ui/form';
+
 
 import { Textarea } from '@/components/ui/textarea';
 
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { UnitOfMeasureSupply } from '@/modules/harvests/UnitOfMeasure';
-import { usePostSupply } from './hooks/usePostSupply';
+import { ButtonCancelRegister } from '@/modules/core/components';
+import { UnitOfMeasureSupply } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { usePostSupply } from '../hooks/usePostSupply';
+import { useSupplyForm } from '../hooks/useSupplyForm';
+import { formFields, formSchema } from '../utils';
 
 export const CreateSupply = () => {
   const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
+  const { form } = useSupplyForm();
 
   const { mutate, isSuccess, isPending } = usePostSupply();
 

@@ -1,7 +1,4 @@
-import { CreateUser } from '../components/Create';
-import { ModifyUser } from '../components/Modify';
-import UsersModule from '../components/Module';
-import { ViewUser } from '../components/View';
+import { CreateUser, ModifyUser, UsersModule, ViewUser } from '../components';
 
 const userRoutes = {
   path: 'users',

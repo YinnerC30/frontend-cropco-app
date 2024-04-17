@@ -21,10 +21,11 @@ import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
 import { Form, useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
-import { useUserForm } from '../hooks/useUserForm';
 import { useGetUser } from '../hooks/useGetUser';
 import { usePatchUser } from '../hooks/usePatchUser';
-import { defaultValues, formFields, formSchema } from '../utils/ElementsForm';
+import { useUserForm } from '../hooks/useUserForm';
+
+import { formFields, formSchema } from '../utils';
 
 export const ModifyUser = () => {
   const { id } = useParams();
@@ -32,8 +33,7 @@ export const ModifyUser = () => {
   const { mutate, isSuccess, isPending } = usePatchUser();
   const navigate = useNavigate();
 
-  const { showPassword, togglePasswordVisibility, form } =
-    useUserForm(defaultValues);
+  const { showPassword, togglePasswordVisibility, form } = useUserForm();
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const { password, ...rest } = values;

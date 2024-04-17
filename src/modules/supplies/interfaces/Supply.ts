@@ -1,4 +1,4 @@
-import { UnitOfMeasureSupply } from '@/modules/harvests/UnitOfMeasure';
+import { UnitOfMeasureSupply } from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 export interface Supply {
   id?: string;

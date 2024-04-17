@@ -1,9 +1,19 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  UseMutationResult,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { createSupply } from '../actions/create';
+import { createSupply } from '../services/create';
+import { Supply } from '../interfaces/Supply';
 
-export const usePostSupply = () => {
+export const usePostSupply = (): UseMutationResult<
+  Supply,
+  AxiosError<unknown, any>,
+  Supply,
+  unknown
+> => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: createSupply,

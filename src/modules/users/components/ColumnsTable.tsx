@@ -3,8 +3,9 @@ import { ButtonHeaderTable } from '@/modules/core/components/table/ButtonHeaderT
 import { ColumnDef } from '@tanstack/react-table';
 
 import { useDeleteUser } from '../hooks/useDeleteUser';
-import { formFields } from '../utils/ElementsForm';
+
 import { User } from '../interfaces/User';
+import { formFields } from '../utils';
 
 export let columns: ColumnDef<User>[] = [
   {
