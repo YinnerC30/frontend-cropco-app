@@ -1,4 +1,4 @@
-import { CustomFormField } from '@/interfaces/CustomFormField';
+import { CustomFormField } from '@/modules/core/interfaces/CustomFormField';
 import { z } from 'zod';
 
 export const formFields: Record<string, CustomFormField> = {
@@ -51,7 +51,10 @@ export const formSchema = z.object({
     .string({ required_error: `La descripción es requerida` })
     .max(100, { message: `La descripción no debe exceder los 100 caracteres` }),
   units: z.coerce
-    .number({ required_error: `El número de unidades es requerido`, invalid_type_error: `Debe introducir un valor numérico` })
+    .number({
+      required_error: `El número de unidades es requerido`,
+      invalid_type_error: `Debe introducir un valor numérico`,
+    })
     .positive({ message: `El número debe ser positivo` }),
   location: z
     .string({ required_error: `La ubicación es requerida` })

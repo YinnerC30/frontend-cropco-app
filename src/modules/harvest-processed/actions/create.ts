@@ -1,5 +1,5 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { HarvestProcessed } from '@/interfaces/Harvest';
+import { HarvestProcessed } from '@/modules/harvests/Harvest';
 
 export const createHarvestProcessed = async (
   harvestProcessed: HarvestProcessed,

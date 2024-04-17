@@ -1,6 +1,11 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { ResponseGetUsers } from '../interfaces/Response';
 
-export const getUsers = async ({ search = '', limit = 10, offset = 0 }) => {
+export async function getUsers({
+  search = '',
+  limit = 10,
+  offset = 0,
+}): Promise<ResponseGetUsers> {
   const params = new URLSearchParams();
   params.append('search', search);
   params.append('limit', limit.toString());
@@ -8,4 +13,4 @@ export const getUsers = async ({ search = '', limit = 10, offset = 0 }) => {
 
   const { data } = await cropcoAPI.get(`${pathsCropco.users}?${params}`);
   return data;
-};
+}

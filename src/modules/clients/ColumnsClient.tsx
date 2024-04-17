@@ -1,5 +1,5 @@
 import { ActionsTable } from '@/components/common/ActionsTable';
-import { Client } from '@/interfaces/Client';
+import { Client } from '@/modules/clients/Client';
 import { ColumnDef } from '@tanstack/react-table';
 import { useDeleteClient } from './hooks/useDeleteClient';
 import { formFields } from './ElementsClientForm';

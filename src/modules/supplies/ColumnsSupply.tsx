@@ -1,6 +1,6 @@
 import { ActionsTable } from '@/components/common/ActionsTable';
 import { ButtonHeaderTable } from '@/components/table/ButtonHeaderTable';
-import { Supply } from '@/interfaces/Supply';
+import { Supply } from '@/modules/supplies/Supply';
 import { ColumnDef } from '@tanstack/react-table';
 import { formFields } from './ElementsSupplyForm';
 import { useDeleteSupply } from './hooks/useDeleteSupply';

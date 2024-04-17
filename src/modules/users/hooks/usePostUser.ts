@@ -1,9 +1,19 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  UseMutationResult,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { createUser } from '../actions/create';
+import { createUser } from '../services/create';
+import { User } from '../interfaces/User';
 
-export const usePostUser = () => {
+export function usePostUser(): UseMutationResult<
+  User,
+  AxiosError<unknown, any>,
+  User,
+  unknown
+> {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: createUser,
@@ -22,4 +32,4 @@ export const usePostUser = () => {
   });
 
   return mutation;
-};
+}

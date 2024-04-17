@@ -1,5 +1,5 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { Client } from '@/interfaces/Client';
+import { Client } from '@/modules/clients/Client';
 
 export const updateClient = async (client: Client) => {
   const { id, ...rest } = client;

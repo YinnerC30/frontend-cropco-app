@@ -1,4 +1,4 @@
-import { CustomFormField } from '@/interfaces/CustomFormField';
+import { CustomFormField } from '@/modules/core/interfaces/CustomFormField';
 import { z } from 'zod';
 
 export const formFieldsHarvest: Record<string, CustomFormField> = {
@@ -70,7 +70,7 @@ export const defaultValuesHarvest = {
   crop: {
     id: undefined,
   },
-  
+
   total: 0,
   value_pay: 0,
   observation: '',

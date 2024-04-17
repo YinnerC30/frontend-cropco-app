@@ -1,42 +1,53 @@
-import { ErrorLoading } from '@/components/common/ErrorLoading';
-import { Loading } from '@/components/common/Loading';
-import { Button } from '@/components/ui/button';
 import {
-  Form,
+  Button,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import { z } from 'zod';
-import { defaultValues, formFields, formSchema } from './ElementsUserForm';
-import { useGetUser } from './hooks/useGetUser';
+  Input,
+  Label,
+  ScrollArea,
+  Separator,
+} from '@/components';
 
-export const ViewUser = () => {
+import {
+  ButtonCancelRegister,
+  ErrorLoading,
+  Loading,
+} from '@/modules/core/components';
+import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from '@radix-ui/react-icons';
+import { useEffect } from 'react';
+import { Form, useNavigate, useParams } from 'react-router-dom';
+import { z } from 'zod';
+import { useUserForm } from '../hooks/useUserForm';
+import { useGetUser } from '../hooks/useGetUser';
+import { usePatchUser } from '../hooks/usePatchUser';
+import { defaultValues, formFields, formSchema } from '../utils/ElementsForm';
+
+export const ModifyUser = () => {
   const { id } = useParams();
+  const { data, isLoading } = useGetUser(id!);
+  const { mutate, isSuccess, isPending } = usePatchUser();
   const navigate = useNavigate();
 
-  const { isLoading, data } = useGetUser(id!);
+  const { showPassword, togglePasswordVisibility, form } =
+    useUserForm(defaultValues);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const { password, ...rest } = values;
+    mutate({ ...rest, password: password.password1, id });
+  };
 
   useEffect(() => {
     if (data) {
       form.reset({
         ...data,
+        password: {
+          password1: '',
+          password2: '',
+        },
       });
     }
   }, [data]);
@@ -49,17 +60,22 @@ export const ViewUser = () => {
     return <ErrorLoading />;
   }
 
+  if (isSuccess) {
+    navigate('../view');
+  }
+
   return (
     <>
-      <Label className="text-2xl">
-        Información del usuario(a) "{data.first_name + ' ' + data.last_name}"
-      </Label>
+      <Label className="text-2xl">Modificar usuario</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[75vh] w-full  mb-10">
         <Form {...form}>
-          <form id="formUser" className="flex flex-col gap-2 ml-1">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            id="formUser"
+            className="flex flex-col gap-2 ml-1"
+          >
             <FormField
-              disabled
               control={form.control}
               name={`first_name`}
               render={({ field }) => (
@@ -80,7 +96,6 @@ export const ViewUser = () => {
               )}
             />
             <FormField
-              disabled
               control={form.control}
               name={'last_name'}
               render={({ field }) => (
@@ -101,7 +116,6 @@ export const ViewUser = () => {
               )}
             />
             <FormField
-              disabled
               control={form.control}
               name={'email'}
               render={({ field }) => (
@@ -122,7 +136,6 @@ export const ViewUser = () => {
               )}
             />
             <FormField
-              disabled
               control={form.control}
               name={'cell_phone_number'}
               render={({ field }) => (
@@ -142,10 +155,66 @@ export const ViewUser = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name={`password.password1`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.password1.label}</FormLabel>
+                  <div className="flex gap-2">
+                    <FormControl>
+                      <Input
+                        className="w-56"
+                        {...field}
+                        type={showPassword ? 'text' : 'password'}
+                      />
+                    </FormControl>
+                    <Button onClick={e => togglePasswordVisibility(e)}>
+                      {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                    </Button>
+                  </div>
+                  <FormDescription>
+                    {formFields.password1.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name={`password.password2`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{formFields.password2.label}</FormLabel>
+                  <div className="flex gap-2">
+                    <FormControl>
+                      <Input
+                        className="w-56"
+                        {...field}
+                        type={showPassword ? 'text' : 'password'}
+                      />
+                    </FormControl>
+                    <Button onClick={e => togglePasswordVisibility(e)}>
+                      {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                    </Button>
+                  </div>
+                  <FormDescription>
+                    {formFields.password2.description}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </form>
 
           <div className="flex w-48 gap-2 mt-2">
-            <Button onClick={() => navigate(-1)}>Volver</Button>
+            <Button type="submit" form="formUser" disabled={isPending}>
+              {isPending && (
+                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
+              )}
+              Actualizar
+            </Button>
+            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

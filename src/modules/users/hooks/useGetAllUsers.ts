@@ -1,9 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
-import { getUsers } from '../actions/getAll';
-import { useState } from 'react';
-import { PaginationState } from '@tanstack/react-table';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
-export const useGetAllUsers = (searchParameter: string) => {
+import { PaginationState } from '@tanstack/react-table';
+import { useState } from 'react';
+import { getUsers } from '../services/getAll';
+import { ResponseGetUsers } from '../interfaces/Response';
+
+interface ReturnMethod {
+  query: UseQueryResult<ResponseGetUsers, Error>;
+  pagination: PaginationState;
+  setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
+}
+
+export function useGetAllUsers(searchParameter: string): ReturnMethod {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -20,4 +28,4 @@ export const useGetAllUsers = (searchParameter: string) => {
   });
 
   return { query, pagination, setPagination };
-};
+}

@@ -5,7 +5,7 @@ import { ArrowUpDown } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { ActionsTable } from '@/components/common/ActionsTable';
-import { HarvestProcessed } from '@/interfaces/Harvest';
+import { HarvestProcessed } from '@/modules/harvests/Harvest';
 import { formFieldsHarvestProcessed } from './ElementsHarvestProcessedForm';
 import { useDeleteHarvestProcessed } from './hooks/useDeleteHarvestProcessed';
 

@@ -1,9 +1,15 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  UseMutationResult,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { deleteUser } from '../actions/delete';
+import { deleteUser } from '../services/delete';
 
-export const useDeleteUser = () => {
+export async function useDeleteUser(): Promise<
+  UseMutationResult<void, AxiosError<unknown, any>, string, unknown>
+> {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -22,4 +28,4 @@ export const useDeleteUser = () => {
     retry: 1,
   });
   return mutation;
-};
+}

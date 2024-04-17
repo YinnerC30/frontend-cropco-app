@@ -1,4 +1,4 @@
-import { CustomFormField } from '@/interfaces/CustomFormField';
+import { CustomFormField } from '@/modules/core/interfaces/CustomFormField';
 import { z } from 'zod';
 
 export const formFields: Record<string, CustomFormField> = {

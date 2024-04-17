@@ -1,18 +1,16 @@
-import { ErrorLoading } from '@/components/common/ErrorLoading';
-import { Loading } from '@/components/common/Loading';
-import { SearchBar } from '@/components/common/SearchBar';
-import { Button } from '@/components/ui/button';
+import {
+  Loading,
+  ErrorLoading,
+  SearchBar,
+  ToolTipTemplate,
+  DataTable,
+} from '@/modules/core/components';
 
-import { DataTable } from '@/components/table/DataTable';
-import { PlusIcon } from '@radix-ui/react-icons';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-
-import { ToolTipTemplate } from '@/components/common/ToolTipTemplate';
-import { useGetAllUsers } from './hooks/useGetAllUsers';
-import { columns } from './ColumnsUser';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { useGetAllUsers } from '../hooks/useGetAllUsers';
+import columns from './ColumnsTable';
+import { Button, Label, ScrollArea, Separator } from '@/components';
+import { PlusIcon } from 'lucide-react';
 
 export const UsersModule = () => {
   const navigate = useNavigate();

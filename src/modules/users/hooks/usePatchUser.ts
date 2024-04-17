@@ -1,10 +1,19 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  UseMutationResult,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { updateUser } from '../actions/update';
+import { updateUser } from '../services/update';
+import { User } from '../interfaces/User';
 
-
-export const usePatchUser = () => {
+export function usePatchUser(): UseMutationResult<
+  void,
+  AxiosError<unknown, any>,
+  User,
+  unknown
+> {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: updateUser,
@@ -22,4 +31,4 @@ export const usePatchUser = () => {
     retry: 1,
   });
   return mutation;
-};
+}

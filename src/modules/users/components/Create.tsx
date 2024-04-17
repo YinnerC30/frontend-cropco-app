@@ -1,41 +1,25 @@
-import { z } from 'zod';
-
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from '@radix-ui/react-icons';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Button, Input, Label, ScrollArea, Separator } from '@/components';
 import {
-  Form,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '../../components/ui/form';
-import { defaultValues, formFields, formSchema } from './ElementsUserForm';
-import { usePostUser } from './hooks/usePostUser';
-import { useState } from 'react';
-import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
+} from '@/components/ui/form';
+import { ButtonCancelRegister } from '@/modules/core/components/ButtonCancelRegister';
+import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from '@radix-ui/react-icons';
+import { Form, useNavigate } from 'react-router-dom';
+import { z } from 'zod';
+import { usePostUser } from '../hooks/usePostUser';
+import { useUserForm } from '../hooks/useUserForm';
+import { defaultValues, formFields, formSchema } from '../utils/ElementsForm';
 
 export const CreateUser = () => {
   const navigate = useNavigate();
 
-  const [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = (event: any) => {
-    event.preventDefault();
-    setShowPassword(!showPassword);
-  };
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
+  const { showPassword, togglePasswordVisibility, form } =
+    useUserForm(defaultValues);
 
   const { mutate, isSuccess, isPending } = usePostUser();
 

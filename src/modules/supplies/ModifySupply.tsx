@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
-import { UnitOfMeasureSupply } from '@/enums/UnitOfMeasure';
+import { UnitOfMeasureSupply } from '@/modules/harvests/UnitOfMeasure';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';

@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Employee } from '@/interfaces/Employee';
+import { Employee } from '@/modules/employees/Employee';
 import { cn } from '@/lib/utils';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { toast } from 'sonner';

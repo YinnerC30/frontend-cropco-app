@@ -1,6 +1,6 @@
 import { ActionsTable } from '@/components/common/ActionsTable';
 import { ButtonHeaderTable } from '@/components/table/ButtonHeaderTable';
-import { Crop } from '@/interfaces/Crop';
+import { Crop } from '@/modules/crops/Crop';
 import { ColumnDef } from '@tanstack/react-table';
 import { formFields } from './ElementsCropForm';
 import { useDeleteCrop } from './hooks/useDeleteCrop';

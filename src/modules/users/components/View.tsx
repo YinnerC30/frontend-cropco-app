@@ -1,34 +1,27 @@
-import { ErrorLoading } from '@/components/common/ErrorLoading';
-import { Loading } from '@/components/common/Loading';
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Textarea } from '@/components/ui/textarea';
-import { CustomFormField } from '@/modules/core/interfaces/CustomFormField';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Form, useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
-import { defaultValues, formFields, formSchema } from './ElementsClientForm';
-import { useGetClient } from './hooks/useGetClient';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
+import { useGetUser } from '../hooks/useGetUser';
+import { ErrorLoading } from '@/modules/core/components/ErrorLoading';
+import { Loading } from '@/modules/core/components/Loading';
+import { formSchema, defaultValues, formFields } from '../utils/ElementsForm';
+import { Button, Input, Label, ScrollArea, Separator } from '@/components';
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+} from '@/components/ui/form';
 
-export const ViewClient = () => {
+export const ViewUser = () => {
   const { id } = useParams();
-  const { data, isLoading } = useGetClient(id!);
-
   const navigate = useNavigate();
+
+  const { isLoading, data } = useGetUser(id!);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,7 +32,10 @@ export const ViewClient = () => {
     if (data) {
       form.reset({
         ...data,
-        password: '',
+        password: {
+          password1: '',
+          password2: '',
+        },
       });
     }
   }, [data]);
@@ -55,12 +51,12 @@ export const ViewClient = () => {
   return (
     <>
       <Label className="text-2xl">
-        Información del cliente "{`${data.first_name} ${data.last_name}`}"
+        Información del usuario(a) "{data.first_name + ' ' + data.last_name}"
       </Label>
       <Separator className="my-2" />
-      <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
+      <ScrollArea type="auto" className="h-[75vh] w-full  mb-10">
         <Form {...form}>
-          <form id="formClient" className="flex flex-col gap-2 ml-1">
+          <form id="formUser" className="flex flex-col gap-2 ml-1">
             <FormField
               disabled
               control={form.control}
@@ -112,7 +108,7 @@ export const ViewClient = () => {
                   <FormLabel>{formFields.email.label}</FormLabel>
                   <FormControl>
                     <Input
-                      className="w-64"
+                      className="w-56"
                       placeholder={formFields.email.placeholder}
                       {...field}
                     />
@@ -140,28 +136,6 @@ export const ViewClient = () => {
                   </FormControl>
                   <FormDescription>
                     {formFields.cell_phone_number.description}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              disabled
-              control={form.control}
-              name={'address'}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{formFields.address.label}</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder={formFields.address.placeholder}
-                      className="resize-none w-96"
-                      rows={4}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    {formFields.address.description}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

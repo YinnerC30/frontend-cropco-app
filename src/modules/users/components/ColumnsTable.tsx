@@ -1,9 +1,10 @@
-import { ActionsTable } from '@/components/common/ActionsTable';
-import { ButtonHeaderTable } from '@/components/table/ButtonHeaderTable';
+import { ActionsTable } from '@/modules/core/components/table/ActionsTable';
+import { ButtonHeaderTable } from '@/modules/core/components/table/ButtonHeaderTable';
 import { ColumnDef } from '@tanstack/react-table';
-import { User } from '../../interfaces/User';
-import { formFields } from './ElementsUserForm';
-import { useDeleteUser } from './hooks/useDeleteUser';
+
+import { useDeleteUser } from '../hooks/useDeleteUser';
+import { formFields } from '../utils/ElementsForm';
+import { User } from '../interfaces/User';
 
 export let columns: ColumnDef<User>[] = [
   {
@@ -50,7 +51,7 @@ columns.push({
   id: 'actions',
   cell: ({ row }: any) => {
     const { id } = row.original;
-    const { mutate } = useDeleteUser();
+    const mutate = useDeleteUser();
     return <ActionsTable mutate={mutate} id={id} />;
   },
 });

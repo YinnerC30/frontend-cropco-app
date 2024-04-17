@@ -1,5 +1,5 @@
-import { UnitOfMeasureSupply } from '@/enums/UnitOfMeasure';
-import { CustomFormField } from '@/interfaces/CustomFormField';
+import { UnitOfMeasureSupply } from '@/modules/harvests/UnitOfMeasure';
+import { CustomFormField } from '@/modules/core/interfaces/CustomFormField';
 import { z } from 'zod';
 import errorMap from 'zod/locales/en.js';
 

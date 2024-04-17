@@ -41,7 +41,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Employee } from '@/interfaces/Employee';
+import { Employee } from '@/modules/employees/Employee';
 import { cn } from '@/lib/utils';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { toast } from 'sonner';

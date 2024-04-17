@@ -30,7 +30,7 @@ import { Textarea } from '@/components/ui/textarea';
 
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { UnitOfMeasureSupply } from '@/enums/UnitOfMeasure';
+import { UnitOfMeasureSupply } from '@/modules/harvests/UnitOfMeasure';
 import { usePostSupply } from './hooks/usePostSupply';
 
 export const CreateSupply = () => {

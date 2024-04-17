@@ -27,7 +27,7 @@ import { useState } from 'react';
 
 import { ColumnDef } from '@tanstack/react-table';
 
-import { HarvestDetail } from '@/interfaces/Harvest';
+import { HarvestDetail } from '@/modules/harvests/Harvest';
 import { useAppDispatch } from '@/redux/store';
 import { toast } from 'sonner';
 import { calculateTotal, remove } from './harvestSlice';
