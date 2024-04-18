@@ -1,7 +1,5 @@
-import { ErrorLoading } from '@/components/common/ErrorLoading';
-import { Loading } from '@/components/common/Loading';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Command,
   CommandEmpty,
@@ -9,36 +7,36 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/command";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 
-import { Crop } from '@/modules/crops/Crop';
-import { HarvestDetail } from '@/modules/harvests/Harvest';
-import { cn } from '@/lib/utils';
-import { AppDispatch, useAppDispatch, useAppSelector } from '@/redux/store';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Crop } from "@/modules/crops/Crop";
+import { HarvestDetail } from "@/modules/harvests/Harvest";
+import { cn } from "@/lib/utils";
+import { AppDispatch, useAppDispatch, useAppSelector } from "@/redux/store";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CalendarIcon,
   CaretSortIcon,
   CheckIcon,
   ReloadIcon,
-} from '@radix-ui/react-icons';
-import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from 'sonner';
-import { z } from 'zod';
+} from "@radix-ui/react-icons";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
+import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -47,21 +45,26 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../../components/ui/form';
-import { useGetAllCrops } from '../crops/hooks/useGetAllCrops';
-import { ButtonCancelRegister } from '../../components/common/ButtonCancelRegister';
-import { DataTableHarvestDetail } from './DataTableHarvestDetails';
+} from "../../components/ui/form";
+import { useGetAllCrops } from "../crops/hooks/useGetAllCrops";
+
+import { DataTableHarvestDetail } from "./DataTableHarvestDetails";
 import {
   defaultValuesHarvest,
   formFieldsHarvest,
   formSchemaHarvest,
-} from './ElementsHarvestForm';
-import { FormHarvestDetail } from './FormHarvestDetail';
-import { add, calculateTotal, reset } from './harvestSlice';
-import { useGetHarvest } from './hooks/useGetHarvest';
-import { usePatchHarvest } from './hooks/usePatchHarvest';
-import { columnsHarvestDetailActions } from './ColumnsHarvestDetail';
-import { ModifyHarvestDetail } from './ModifyHarvestDetail';
+} from "./ElementsHarvestForm";
+import { FormHarvestDetail } from "./FormHarvestDetail";
+import { add, calculateTotal, reset } from "./harvestSlice";
+import { useGetHarvest } from "./hooks/useGetHarvest";
+import { usePatchHarvest } from "./hooks/usePatchHarvest";
+import { columnsHarvestDetailActions } from "./ColumnsHarvestDetail";
+import { ModifyHarvestDetail } from "./ModifyHarvestDetail";
+import {
+  ButtonCancelRegister,
+  ErrorLoading,
+  Loading,
+} from "../core/components";
 
 export const ModifyHarvest = () => {
   const { id } = useParams();
@@ -80,12 +83,12 @@ export const ModifyHarvest = () => {
   const navigate = useNavigate();
 
   const { query: queryCrops } = useGetAllCrops({
-    searchParameter: '',
+    searchParameter: "",
     allRecords: true,
   });
 
   const { details, total, value_pay } = useAppSelector(
-    (state: any) => state.harvest,
+    (state: any) => state.harvest
   );
 
   const formHarvest = useForm<z.infer<typeof formSchemaHarvest>>({
@@ -106,7 +109,7 @@ export const ModifyHarvest = () => {
 
   const onSubmitHarvest = (values: z.infer<typeof formSchemaHarvest>) => {
     if (details.length === 0) {
-      toast.error('Debes registrar al menos 1 cosecha de algún empleado');
+      toast.error("Debes registrar al menos 1 cosecha de algún empleado");
       return;
     }
 
@@ -126,7 +129,7 @@ export const ModifyHarvest = () => {
   // Estados
   if (isSuccess) {
     dispatch(reset());
-    navigate('../view');
+    navigate("../view");
   }
 
   if (queryCrops.isLoading) return <Loading />;
@@ -146,7 +149,7 @@ export const ModifyHarvest = () => {
           <form id="formHarvest" className="ml-1">
             <FormField
               control={formHarvest.control}
-              name={'date'}
+              name={"date"}
               render={({ field }) => (
                 <FormItem className="my-4">
                   <FormLabel className="block">
@@ -157,16 +160,16 @@ export const ModifyHarvest = () => {
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
-                          variant={'outline'}
+                          variant={"outline"}
                           className={cn(
-                            'w-[240px] pl-3 text-left font-normal',
-                            !field.value && 'text-muted-foreground',
+                            "w-[240px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
                           )}
                           ref={field.ref}
                           onBlur={field.onBlur}
                         >
                           {field.value ? (
-                            format(field.value, 'PPP', { locale: es })
+                            format(field.value, "PPP", { locale: es })
                           ) : (
                             <span>{formFieldsHarvest.date.placeholder}</span>
                           )}
@@ -181,7 +184,7 @@ export const ModifyHarvest = () => {
                         selected={new Date(field.value)}
                         onSelect={field.onChange}
                         disabled={(date: any) =>
-                          date > new Date() || date < new Date('1900-01-01')
+                          date > new Date() || date < new Date("1900-01-01")
                         }
                         initialFocus
                       />
@@ -195,9 +198,9 @@ export const ModifyHarvest = () => {
               )}
             />
             <FormField
-              key={'crop.id'}
+              key={"crop.id"}
               control={formHarvest.control}
-              name={'crop.id'}
+              name={"crop.id"}
               render={({ field }) => (
                 <FormItem className="my-4">
                   <FormLabel className="block">
@@ -211,15 +214,15 @@ export const ModifyHarvest = () => {
                           variant="outline"
                           role="combobox"
                           className={cn(
-                            'w-[200px] justify-between',
-                            !field.value && 'text-muted-foreground',
+                            "w-[200px] justify-between",
+                            !field.value && "text-muted-foreground"
                           )}
                           ref={field.ref}
                           onBlur={field.onBlur}
                         >
                           {field.value
                             ? queryCrops.data.rows.find(
-                                (item: Crop) => item.id === field.value,
+                                (item: Crop) => item.id === field.value
                               )?.name
                             : formFieldsHarvest.crop.placeholder}
 
@@ -246,19 +249,19 @@ export const ModifyHarvest = () => {
                                       key={crop.id!}
                                       onSelect={() => {
                                         formHarvest.setValue(
-                                          'crop.id',
-                                          crop.id!,
+                                          "crop.id",
+                                          crop.id!
                                         );
-                                        formHarvest.trigger('crop.id');
+                                        formHarvest.trigger("crop.id");
                                       }}
                                     >
                                       {crop.name}
                                       <CheckIcon
                                         className={cn(
-                                          'ml-auto h-4 w-4',
+                                          "ml-auto h-4 w-4",
                                           crop.id! === field.value
-                                            ? 'opacity-100'
-                                            : 'opacity-0',
+                                            ? "opacity-100"
+                                            : "opacity-0"
                                         )}
                                       />
                                     </CommandItem>
@@ -279,7 +282,7 @@ export const ModifyHarvest = () => {
             />
             <FormField
               control={formHarvest.control}
-              name={'observation'}
+              name={"observation"}
               render={({ field }) => (
                 <FormItem className="my-4">
                   <FormLabel className="block">
@@ -288,7 +291,7 @@ export const ModifyHarvest = () => {
 
                   <FormControl>
                     <Textarea
-                      placeholder={'Durante la cosecha ocurrió...'}
+                      placeholder={"Durante la cosecha ocurrió..."}
                       className="resize-none w-72"
                       rows={5}
                       {...field}
@@ -339,10 +342,10 @@ export const ModifyHarvest = () => {
           <div className="flex flex-col gap-4 ml-1 w-[300px] h-[120px] justify-center">
             <FormField
               control={formHarvest.control}
-              name={'total'}
+              name={"total"}
               render={({ field }) => (
                 <FormItem className="flex items-center justify-between">
-                  <FormLabel>{'Total cosechado:'}</FormLabel>
+                  <FormLabel>{"Total cosechado:"}</FormLabel>
 
                   <FormControl>
                     <Input
@@ -350,10 +353,10 @@ export const ModifyHarvest = () => {
                       readOnly
                       {...field}
                       className="w-40 text-center"
-                      placeholder={'0'}
+                      placeholder={"0"}
                       type="number"
                       min={0}
-                      onChange={e => {
+                      onChange={(e) => {
                         return !Number.isNaN(e.target.value)
                           ? field.onChange(parseFloat(e.target.value))
                           : 0;
@@ -367,24 +370,24 @@ export const ModifyHarvest = () => {
               )}
             />
             <FormField
-              key={'value_pay'}
+              key={"value_pay"}
               control={formHarvest.control}
-              name={'value_pay'}
+              name={"value_pay"}
               render={({ field }) => (
                 <FormItem className="flex items-center justify-between">
-                  <FormLabel>{'Total valor a pagar:'}</FormLabel>
+                  <FormLabel>{"Total valor a pagar:"}</FormLabel>
 
                   <FormControl>
                     <Input
                       disabled
                       readOnly
                       className="w-40 text-center"
-                      placeholder={'0'}
+                      placeholder={"0"}
                       {...field}
                       type="number"
                       min={0}
                       step={50}
-                      onChange={e => {
+                      onChange={(e) => {
                         return !Number.isNaN(e.target.value)
                           ? field.onChange(parseFloat(e.target.value))
                           : 0;

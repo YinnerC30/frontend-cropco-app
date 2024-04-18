@@ -1,9 +1,8 @@
-import { ActionsTable } from '@/components/common/ActionsTable';
-import { ButtonHeaderTable } from '@/components/table/ButtonHeaderTable';
-import { Supplier } from '@/modules/suppliers/Supplier';
-import { ColumnDef } from '@tanstack/react-table';
-import { formFields } from './ElementsSupplierForm';
-import { useDeleteSupplier } from './hooks/useDeleteSupplier';
+import { Supplier } from "@/modules/suppliers/Supplier";
+import { ColumnDef } from "@tanstack/react-table";
+import { formFields } from "./ElementsSupplierForm";
+import { useDeleteSupplier } from "./hooks/useDeleteSupplier";
+import { ActionsTable, ButtonHeaderTable } from "../core/components";
 
 export let columns: ColumnDef<Supplier>[] = [
   {
@@ -66,7 +65,7 @@ export let columns: ColumnDef<Supplier>[] = [
 ];
 
 columns.push({
-  id: 'actions',
+  id: "actions",
   cell: ({ row }: any) => {
     const { id } = row.original;
 

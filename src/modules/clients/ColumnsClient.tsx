@@ -1,9 +1,8 @@
-import { ActionsTable } from '@/components/common/ActionsTable';
-import { Client } from '@/modules/clients/Client';
-import { ColumnDef } from '@tanstack/react-table';
-import { useDeleteClient } from './hooks/useDeleteClient';
-import { formFields } from './ElementsClientForm';
-import { ButtonHeaderTable } from '@/components/table/ButtonHeaderTable';
+import { ButtonHeaderTable, ActionsTable } from "../core/components";
+import { Client } from "@/modules/clients/Client";
+import { ColumnDef } from "@tanstack/react-table";
+import { useDeleteClient } from "./hooks/useDeleteClient";
+import { formFields } from "./ElementsClientForm";
 
 export let columns: ColumnDef<Client>[] = [
   {
@@ -55,7 +54,7 @@ export let columns: ColumnDef<Client>[] = [
 ];
 
 columns.push({
-  id: 'actions',
+  id: "actions",
   cell: ({ row }: any) => {
     const client = row.original;
     const { id } = client;

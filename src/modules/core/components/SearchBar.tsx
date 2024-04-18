@@ -4,16 +4,11 @@ import { Cross1Icon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import { Button } from '../ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '../ui/form';
-import { Input } from '../ui/input';
+
+
+
 import { ToolTipTemplate } from './ToolTipTemplate';
+import { Button, Form, FormControl, FormField, FormItem, FormMessage, Input } from '@/components';
 
 interface Props {
   search: string;

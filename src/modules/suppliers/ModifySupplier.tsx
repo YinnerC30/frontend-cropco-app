@@ -1,7 +1,4 @@
-import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
-import { ErrorLoading } from '@/components/common/ErrorLoading';
-import { Loading } from '@/components/common/Loading';
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -10,21 +7,26 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ReloadIcon } from '@radix-ui/react-icons';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import { z } from 'zod';
-import { defaultValues, formFields, formSchema } from './ElementsSupplierForm';
-import { useGetSupplier } from './hooks/useGetSupplier';
-import { usePatchSupplier } from './hooks/usePatchSupplier';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import { z } from "zod";
+import {
+  ButtonCancelRegister,
+  ErrorLoading,
+  Loading,
+} from "../core/components";
+import { defaultValues, formFields, formSchema } from "./ElementsSupplierForm";
+import { useGetSupplier } from "./hooks/useGetSupplier";
+import { usePatchSupplier } from "./hooks/usePatchSupplier";
 
 export const ModifySupplier = () => {
   const { id } = useParams();
@@ -59,7 +61,7 @@ export const ModifySupplier = () => {
   }
 
   if (isSuccess) {
-    navigate('../view');
+    navigate("../view");
   }
 
   return (
@@ -95,7 +97,7 @@ export const ModifySupplier = () => {
             />
             <FormField
               control={form.control}
-              name={'last_name'}
+              name={"last_name"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.last_name.label}</FormLabel>
@@ -115,7 +117,7 @@ export const ModifySupplier = () => {
             />
             <FormField
               control={form.control}
-              name={'email'}
+              name={"email"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.email.label}</FormLabel>
@@ -135,7 +137,7 @@ export const ModifySupplier = () => {
             />
             <FormField
               control={form.control}
-              name={'cell_phone_number'}
+              name={"cell_phone_number"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.cell_phone_number.label}</FormLabel>
@@ -155,7 +157,7 @@ export const ModifySupplier = () => {
             />
             <FormField
               control={form.control}
-              name={'address'}
+              name={"address"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.address.label}</FormLabel>
@@ -176,7 +178,7 @@ export const ModifySupplier = () => {
             />
             <FormField
               control={form.control}
-              name={'company_name'}
+              name={"company_name"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.company_name.label}</FormLabel>

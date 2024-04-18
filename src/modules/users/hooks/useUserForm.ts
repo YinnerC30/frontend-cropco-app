@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { formSchema } from '../utils';
 
-const defaultValues = {
+export const defaultValues = {
   first_name: '',
   last_name: '',
   email: '',

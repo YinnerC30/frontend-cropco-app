@@ -22,7 +22,8 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { usePostSupplier } from './hooks/usePostSupplier';
-import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
+import { ButtonCancelRegister } from '../core/components';
+
 export const CreateSupplier = () => {
   const navigate = useNavigate();
 

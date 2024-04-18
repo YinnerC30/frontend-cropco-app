@@ -1,10 +1,11 @@
-import { ActionsTable } from '@/components/common/ActionsTable';
+
 import { ColumnDef } from '@tanstack/react-table';
 
-import { ButtonHeaderTable } from '@/components/table/ButtonHeaderTable';
+
 import { Employee } from '@/modules/employees/Employee';
 import { formFields } from './ElementsEmployeeForm';
 import { useDeleteEmployee } from './hooks/useDeleteEmployee';
+import { ButtonHeaderTable, ActionsTable } from '../core/components';
 
 export let columns: ColumnDef<Employee>[] = [
   {

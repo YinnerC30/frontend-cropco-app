@@ -1,7 +1,8 @@
-import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
-import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
-import { Button } from '../ui/button';
-import { useNavigate } from 'react-router-dom';
+import { Alert, Button } from "@/components";
+import { AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+
+import { useNavigate } from "react-router-dom";
 
 export const ErrorLoading = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export const ErrorLoading = () => {
         <Button className="mt-5 ml-5" onClick={() => window.location.reload()}>
           Reintentar
         </Button>
-        <Button className="mt-5 ml-5" onClick={() => navigate('/')}>
+        <Button className="mt-5 ml-5" onClick={() => navigate("/")}>
           Regresar
         </Button>
       </div>
