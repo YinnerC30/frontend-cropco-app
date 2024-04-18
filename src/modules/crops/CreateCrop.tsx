@@ -30,7 +30,8 @@ import { defaultValues, formFields, formSchema } from './ElementsCropForm';
 import { usePostCrop } from './hooks/usePostCrop';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
+import { ButtonCancelRegister } from '../core/components';
+
 
 export const CreateCrop = () => {
   const navigate = useNavigate();

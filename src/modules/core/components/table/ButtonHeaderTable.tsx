@@ -1,5 +1,6 @@
+import { Button } from '@/components';
 import { ArrowUpDown } from 'lucide-react';
-import { Button } from '../ui/button';
+
 import React from 'react';
 
 interface Props {

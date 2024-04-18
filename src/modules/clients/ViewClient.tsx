@@ -1,6 +1,4 @@
-import { ErrorLoading } from '@/components/common/ErrorLoading';
-import { Loading } from '@/components/common/Loading';
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,20 +7,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Textarea } from '@/components/ui/textarea';
-import { CustomFormField } from '@/modules/core/interfaces/CustomFormField';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import { z } from 'zod';
-import { defaultValues, formFields, formSchema } from './ElementsClientForm';
-import { useGetClient } from './hooks/useGetClient';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import { z } from "zod";
+import { ErrorLoading, Loading } from "../core/components";
+import { defaultValues, formFields, formSchema } from "./ElementsClientForm";
+import { useGetClient } from "./hooks/useGetClient";
 
 export const ViewClient = () => {
   const { id } = useParams();
@@ -39,7 +37,7 @@ export const ViewClient = () => {
     if (data) {
       form.reset({
         ...data,
-        password: '',
+        password: "",
       });
     }
   }, [data]);
@@ -85,7 +83,7 @@ export const ViewClient = () => {
             <FormField
               disabled
               control={form.control}
-              name={'last_name'}
+              name={"last_name"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.last_name.label}</FormLabel>
@@ -106,7 +104,7 @@ export const ViewClient = () => {
             <FormField
               disabled
               control={form.control}
-              name={'email'}
+              name={"email"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.email.label}</FormLabel>
@@ -127,7 +125,7 @@ export const ViewClient = () => {
             <FormField
               disabled
               control={form.control}
-              name={'cell_phone_number'}
+              name={"cell_phone_number"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.cell_phone_number.label}</FormLabel>
@@ -148,7 +146,7 @@ export const ViewClient = () => {
             <FormField
               disabled
               control={form.control}
-              name={'address'}
+              name={"address"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.address.label}</FormLabel>

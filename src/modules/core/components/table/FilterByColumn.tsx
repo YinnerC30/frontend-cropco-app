@@ -1,3 +1,4 @@
+import { Button, Input } from '@/components';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -5,8 +6,7 @@ import {
   DropdownMenuCheckboxItem,
 } from '@radix-ui/react-dropdown-menu';
 
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
+
 import { Table } from '@tanstack/react-table';
 
 interface DataTablePaginationProps<TData> {

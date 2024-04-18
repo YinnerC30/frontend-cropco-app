@@ -1,13 +1,13 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { Form, useNavigate, useParams } from 'react-router-dom';
-import { z } from 'zod';
-import { useGetUser } from '../hooks/useGetUser';
-import { ErrorLoading } from '@/modules/core/components/ErrorLoading';
-import { Loading } from '@/modules/core/components/Loading';
-import { formSchema, defaultValues, formFields } from '../utils/ElementsForm';
-import { Button, Input, Label, ScrollArea, Separator } from '@/components';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Form, useNavigate, useParams } from "react-router-dom";
+import { z } from "zod";
+import { useGetUser } from "../hooks/useGetUser";
+import { ErrorLoading } from "@/modules/core/components/ErrorLoading";
+import { Loading } from "@/modules/core/components/Loading";
+
+import { Button, Input, Label, ScrollArea, Separator } from "@/components";
 import {
   FormField,
   FormItem,
@@ -15,7 +15,9 @@ import {
   FormControl,
   FormDescription,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
+import { formFields, formSchema } from "../utils";
+import { defaultValues } from "../hooks/useUserForm";
 
 export const ViewUser = () => {
   const { id } = useParams();
@@ -33,8 +35,8 @@ export const ViewUser = () => {
       form.reset({
         ...data,
         password: {
-          password1: '',
-          password2: '',
+          password1: "",
+          password2: "",
         },
       });
     }
@@ -51,7 +53,7 @@ export const ViewUser = () => {
   return (
     <>
       <Label className="text-2xl">
-        Información del usuario(a) "{data.first_name + ' ' + data.last_name}"
+        Información del usuario(a) "{data.first_name + " " + data.last_name}"
       </Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[75vh] w-full  mb-10">
@@ -81,7 +83,7 @@ export const ViewUser = () => {
             <FormField
               disabled
               control={form.control}
-              name={'last_name'}
+              name={"last_name"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.last_name.label}</FormLabel>
@@ -102,7 +104,7 @@ export const ViewUser = () => {
             <FormField
               disabled
               control={form.control}
-              name={'email'}
+              name={"email"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.email.label}</FormLabel>
@@ -123,7 +125,7 @@ export const ViewUser = () => {
             <FormField
               disabled
               control={form.control}
-              name={'cell_phone_number'}
+              name={"cell_phone_number"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.cell_phone_number.label}</FormLabel>

@@ -1,5 +1,4 @@
-import { ErrorLoading } from '@/components/common/ErrorLoading';
-import { Loading } from '@/components/common/Loading';
+
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -32,6 +31,7 @@ import { defaultValues, formFields, formSchema } from './ElementsCropForm';
 import { useGetCrop } from './hooks/useGetCrop';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { Loading, ErrorLoading } from '../core/components';
 
 export const ViewCrop = () => {
   const { id } = useParams();

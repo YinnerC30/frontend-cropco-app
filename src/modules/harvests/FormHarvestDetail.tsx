@@ -24,8 +24,8 @@ import {
   FormMessage,
 } from '../../components/ui/form';
 
-import { ErrorLoading } from '@/components/common/ErrorLoading';
-import { Loading } from '@/components/common/Loading';
+
+
 import {
   Dialog,
   DialogClose,
@@ -52,6 +52,7 @@ import {
   formSchemaHarvestDetail,
 } from './ElementsHarvestDetailForm';
 import { add, calculateTotal } from './harvestSlice';
+import { Loading, ErrorLoading } from '../core/components';
 
 export const FormHarvestDetail = ({
   isOpenDialogForm,

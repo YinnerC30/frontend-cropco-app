@@ -4,10 +4,11 @@ import { ArrowUpDown } from 'lucide-react';
 
 import { ColumnDef } from '@tanstack/react-table';
 
-import { ActionsTable } from '@/components/common/ActionsTable';
+
 import { TableHarvest } from '@/modules/harvests/Harvest';
 import { formFieldsHarvest } from './ElementsHarvestForm';
 import { useDeleteHarvest } from './hooks/useDeleteHarvest';
+import { ActionsTable } from '../core/components';
 
 export let columnsHarvest: ColumnDef<TableHarvest>[] = [
   {

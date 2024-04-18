@@ -1,8 +1,3 @@
-import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
-import { ErrorLoading } from '@/components/common/ErrorLoading';
-import { Loading } from '@/components/common/Loading';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
 import {
   Form,
   FormControl,
@@ -11,29 +6,37 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { CalendarIcon, ReloadIcon } from '@radix-ui/react-icons';
-import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import { z } from 'zod';
-import { defaultValues, formFields, formSchema } from './ElementsCropForm';
-import { useGetCrop } from './hooks/useGetCrop';
-import { usePatchCrop } from './hooks/usePatchCrop';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CalendarIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import { z } from "zod";
+import { defaultValues, formFields, formSchema } from "./ElementsCropForm";
+import { useGetCrop } from "./hooks/useGetCrop";
+import { usePatchCrop } from "./hooks/usePatchCrop";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import {
+  ButtonCancelRegister,
+  ErrorLoading,
+  Loading,
+} from "../core/components";
+
+import { Button } from "react-day-picker";
+import { Calendar } from "@/components";
 
 export const ModifyCrop = () => {
   const { id } = useParams();
@@ -89,7 +92,7 @@ export const ModifyCrop = () => {
           >
             <FormField
               control={form.control}
-              name={'name'}
+              name={"name"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.name.label}</FormLabel>
@@ -109,7 +112,7 @@ export const ModifyCrop = () => {
             />
             <FormField
               control={form.control}
-              name={'description'}
+              name={"description"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.description.label}</FormLabel>
@@ -130,7 +133,7 @@ export const ModifyCrop = () => {
             />
             <FormField
               control={form.control}
-              name={'units'}
+              name={"units"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.units.label}</FormLabel>
@@ -139,7 +142,7 @@ export const ModifyCrop = () => {
                       className="w-56"
                       placeholder={formFields.units.placeholder}
                       {...field}
-                      type={'number'}
+                      type={"number"}
                       min={0}
                     />
                   </FormControl>
@@ -187,14 +190,14 @@ export const ModifyCrop = () => {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            variant={'outline'}
+                            variant={"outline"}
                             className={cn(
-                              'w-[240px] pl-3 text-left font-normal',
-                              !field.value && 'text-muted-foreground',
+                              "w-[240px] pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
                             )}
                           >
                             {field.value ? (
-                              format(field.value, 'PPP', { locale: es })
+                              format(field.value, "PPP", { locale: es })
                             ) : (
                               <span>Selecciona una fecha</span>
                             )}
@@ -208,8 +211,8 @@ export const ModifyCrop = () => {
                           mode="single"
                           selected={new Date(field.value)}
                           onSelect={field.onChange}
-                          disabled={date =>
-                            date > new Date() || date < new Date('1900-01-01')
+                          disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
                           }
                           initialFocus
                         />
@@ -235,14 +238,14 @@ export const ModifyCrop = () => {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            variant={'outline'}
+                            variant={"outline"}
                             className={cn(
-                              'w-[240px] pl-3 text-left font-normal',
-                              !field.value && 'text-muted-foreground',
+                              "w-[240px] pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
                             )}
                           >
                             {field.value ? (
-                              format(field.value, 'PPP', { locale: es })
+                              format(field.value, "PPP", { locale: es })
                             ) : (
                               <span>Selecciona una fecha</span>
                             )}
@@ -258,8 +261,8 @@ export const ModifyCrop = () => {
                             !field.value ? new Date(field.value!) : undefined
                           }
                           onSelect={field.onChange}
-                          disabled={date =>
-                            date > new Date() || date < new Date('1900-01-01')
+                          disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
                           }
                           initialFocus
                         />

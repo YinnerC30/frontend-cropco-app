@@ -1,12 +1,12 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ReloadIcon } from '@radix-ui/react-icons';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import {
   Form,
   FormControl,
@@ -15,14 +15,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../../components/ui/form';
-import { defaultValues, formFields, formSchema } from './ElementsClientForm';
-import { usePostClient } from './hooks/usePostClient';
+} from "../../components/ui/form";
+import { defaultValues, formFields, formSchema } from "./ElementsClientForm";
+import { usePostClient } from "./hooks/usePostClient";
 
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
-import { ButtonCancelRegister } from '@/components/common/ButtonCancelRegister';
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
+import { ButtonCancelRegister } from "../core/components";
 
 export const CreateClient = () => {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export const CreateClient = () => {
   };
 
   if (isSuccess) {
-    navigate('../view');
+    navigate("../view");
   }
 
   return (
@@ -75,7 +75,7 @@ export const CreateClient = () => {
             />
             <FormField
               control={form.control}
-              name={'last_name'}
+              name={"last_name"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.last_name.label}</FormLabel>
@@ -95,7 +95,7 @@ export const CreateClient = () => {
             />
             <FormField
               control={form.control}
-              name={'email'}
+              name={"email"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.email.label}</FormLabel>
@@ -115,7 +115,7 @@ export const CreateClient = () => {
             />
             <FormField
               control={form.control}
-              name={'cell_phone_number'}
+              name={"cell_phone_number"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.cell_phone_number.label}</FormLabel>
@@ -135,7 +135,7 @@ export const CreateClient = () => {
             />
             <FormField
               control={form.control}
-              name={'address'}
+              name={"address"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.address.label}</FormLabel>

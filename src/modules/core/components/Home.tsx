@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,12 +6,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+} from "@/components/ui/dropdown-menu";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
-import { ModeToggle } from './ModeToggle';
-import { routes } from '../routes/RoutesNavBar';
-import { Toaster } from './ui/sonner';
+import { ModeToggle } from "./ModeToggle";
+import { Toaster } from "@/components/ui/sonner";
+import { routes } from "@/routes/RoutesNavBar";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -44,10 +44,10 @@ export const Home = () => {
         </header>
         <nav className="flex flex-row items-start justify-center col-span-2">
           <ul className="w-11/12 ml-5 text-base font-bold">
-            {routes.map(route => (
+            {routes.map((route) => (
               <li key={route.name}>
                 <Button
-                  variant={'link'}
+                  variant={"link"}
                   onClick={() => handleNavigate(route.path)}
                 >
                   {route.name}
