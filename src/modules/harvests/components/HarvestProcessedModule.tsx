@@ -14,6 +14,10 @@ import { useState } from "react";
 
 import { Harvest } from "../interfaces/Harvest";
 import { CreateHarvestProcessed } from "./CreateHarvestProcessed";
+import { es } from "date-fns/locale";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 export const HarvestProcessedModule = () => {
   const { id } = useParams();
@@ -36,27 +40,54 @@ export const HarvestProcessedModule = () => {
       <Separator className="my-2" />
       <div className="flex gap-4">
         <div>
-          <Label>Fecha:</Label>
-          <Input className="w-40" value={data.date} readOnly />
+          <Label className="block mb-1">Fecha:</Label>
+
+          <Button
+            variant={"outline"}
+            className={cn(
+              "w-[200px] pl-3 text-left font-normal",
+              !data.date && "text-muted-foreground"
+            )}
+            disabled
+          >
+            {data.date ? (
+              format(`${data.date}T00:00:00-05:00`, "PPP", { locale: es })
+            ) : (
+              <span>Selecciona una fecha</span>
+            )}
+            <CalendarIcon className="w-4 h-4 ml-auto opacity-50" />
+          </Button>
         </div>
         <div>
           <Label>Cultivo:</Label>
-          <Input className="w-40" value={data.crop.name} readOnly />
+          <Input
+            className="w-40 text-neutral-500"
+            value={data.crop.name}
+            readOnly
+          />
         </div>
 
         <div>
           <Label>Total:</Label>
-          <Input className="w-40" value={data.total} readOnly />
+          <Input
+            className="w-40 text-neutral-500"
+            value={data.total}
+            readOnly
+          />
         </div>
         <div>
           <Label>Valor a pagar:</Label>
-          <Input className="w-40" value={data.value_pay} readOnly />
+          <Input
+            className="w-40 text-neutral-500"
+            value={data.value_pay}
+            readOnly
+          />
         </div>
         <div>
           <Label>Observación:</Label>
           <Textarea
             value={data.observation}
-            className="resize-none w-80"
+            className="resize-none w-80 text-neutral-500"
             rows={3}
             readOnly
           />
