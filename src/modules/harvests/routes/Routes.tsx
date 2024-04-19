@@ -1,26 +1,30 @@
-import { CreateHarvest } from '../components/CreateHarvest';
-import { HarvestModule } from '../components/HarvestModule';
-import { ModifyHarvest } from '../components/ModifyHarvest';
-import { ViewHarvest } from '../components/ViewHarvest';
+import { CreateHarvest } from "../components/CreateHarvest";
+import { HarvestModule } from "../components/HarvestModule";
+import { ModifyHarvest } from "../components/ModifyHarvest";
+import { ViewHarvest } from "../components/ViewHarvest";
 
 const harvestRoutes = {
-  path: 'harvests',
+  path: "harvests",
   children: [
     {
-      path: 'view',
+      path: "view",
       element: <HarvestModule />,
     },
     {
-      path: 'create',
+      path: "create",
       element: <CreateHarvest />,
     },
     {
-      path: 'view/:id',
+      path: "view/:id",
       element: <ViewHarvest />,
     },
     {
-      path: 'modify/:id',
+      path: "modify/:id",
       element: <ModifyHarvest />,
+    },
+    {
+      path: "processed",
+      chidren: [],
     },
   ],
 };

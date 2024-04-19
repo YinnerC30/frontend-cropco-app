@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getHarvestProcessedById } from '../actions/getOne';
+import { getHarvestProcessedById } from '../services/getOneHarvestProcessed';
 
 export const useGetHarvestProcessed = (id: string) => {
   const query = useQuery({

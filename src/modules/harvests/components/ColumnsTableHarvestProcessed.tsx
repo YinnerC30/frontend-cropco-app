@@ -4,10 +4,10 @@ import { ArrowUpDown } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { HarvestProcessed } from "@/modules/harvests/interfaces/Harvest";
-import { formFieldsHarvestProcessed } from "./ElementsHarvestProcessedForm";
-import { useDeleteHarvestProcessed } from "./hooks/useDeleteHarvestProcessed";
-import { ActionsTable } from "../core/components";
+import { ActionsTable } from "../../core/components";
+import { useDeleteHarvestProcessed } from "../hooks/useDeleteHarvestProcessed";
+import { HarvestProcessed } from "../interfaces/HarvestProcessed";
+import { formFieldsHarvestProcessed } from "../utils/formFieldsHarvestProcessed";
 
 export let columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
   {

@@ -32,8 +32,4 @@ export const routes: Route[] = [
     name: 'Cosecha',
     path: 'harvests/view',
   },
-  {
-    name: 'Cosecha Procesada',
-    path: 'harvests/processed/view',
-  },
 ];

@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { PaginationState } from '@tanstack/react-table';
 import { useState } from 'react';
-import { getHarvestsProcessed } from '../actions/getAll';
+import { getHarvestsProcessed } from '../services/getAllHarvestProcessed';
 
 export const useGetAllHarvestsProcessed = (searchParameter: string) => {
   const [pagination, setPagination] = useState<PaginationState>({

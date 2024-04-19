@@ -1,22 +1,22 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { updateHarvestProcessed } from '../actions/update';
+import { deleteHarvestProcessed } from '../services/deleteHarvestProcessed';
 
-export const usePatchHarvestProcessed = (id: string) => {
+export const useDeleteHarvestProcessed = () => {
   const queryClient = useQueryClient();
+
   const mutation = useMutation({
-    mutationFn: updateHarvestProcessed,
+    mutationFn: deleteHarvestProcessed,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['harvests_processed'] });
-      queryClient.invalidateQueries({ queryKey: ['harvest_processed', id] });
-      toast.success(`Cosecha procesada actualizada`);
+      toast.success(`Cosecha procesada eliminada`);
     },
     onError: (error: AxiosError) => {
       const updateError: AxiosError | any = error;
       const { data } = updateError.response;
       toast.error(
-        `Hubo un problema durante la actualización del cosecha procesada, ${data.message}`,
+        `Hubo un problema durante la eliminación de la cosecha procesada, ${data.message}`,
       );
     },
     retry: 1,

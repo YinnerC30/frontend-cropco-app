@@ -11,10 +11,4 @@ export interface Harvest {
   value_pay: number;
 }
 
-export interface HarvestProcessed {
-  crop: ObjectWithId;
-  date: Date;
-  harvest: ObjectWithId;
-  id?: string;
-  total: number;
-}
+
