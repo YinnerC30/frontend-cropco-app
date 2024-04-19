@@ -35,8 +35,8 @@ import {
   Loading,
 } from "../core/components";
 
-import { Button } from "react-day-picker";
-import { Calendar } from "@/components";
+
+import { Button, Calendar } from "@/components";
 
 export const ModifyCrop = () => {
   const { id } = useParams();
