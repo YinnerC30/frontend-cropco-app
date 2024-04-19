@@ -24,7 +24,6 @@ import {
 } from "@radix-ui/react-icons";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { DataTableProps } from "./interfaces/DataTableProps";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -34,6 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { DataTableProps } from "../../interfaces/table/DataTableProps";
 
 export function DataTable<TData, TValue>({
   columns,

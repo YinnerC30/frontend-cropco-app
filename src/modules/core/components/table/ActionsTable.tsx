@@ -19,9 +19,14 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { UseMutateFunction } from "@tanstack/react-query";
 
+type MutateParams = {
+  id: string;
+  // ... otras propiedades si son necesarias
+};
 interface Props {
-  mutate: any;
+  mutate: UseMutateFunction<any, unknown, MutateParams, unknown> | any;
   id: string;
 }
 
