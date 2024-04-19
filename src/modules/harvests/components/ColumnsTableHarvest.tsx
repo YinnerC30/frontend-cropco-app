@@ -5,9 +5,11 @@ import { ArrowUpDown } from "lucide-react";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { useDeleteHarvest } from "../hooks/useDeleteHarvest";
-import { ActionsTable } from "../../core/components";
+
 import { TableHarvest } from "../interfaces/TableHarvest";
 import { formFieldsHarvest } from "../utils";
+
+import { ActionsHarvestTable } from "./ActionsHarvestTable";
 
 export let columnsHarvest: ColumnDef<TableHarvest>[] = [
   {
@@ -79,7 +81,7 @@ columnsHarvest.push({
 
     const { mutate } = useDeleteHarvest();
 
-    return <ActionsTable mutate={mutate} id={id} />;
+    return <ActionsHarvestTable mutate={mutate} id={id} />;
   },
 });
 

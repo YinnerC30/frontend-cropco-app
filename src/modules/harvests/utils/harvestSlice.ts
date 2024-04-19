@@ -1,11 +1,14 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { HarvestDetail } from '@/modules/harvests/interfaces/Harvest';
-import { ObjectWithId } from '@/modules/core/interfaces/ObjectWithId';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+import { ObjectWithId } from "@/modules/core/interfaces/ObjectWithId";
+import { HarvestDetail } from "../interfaces/HarvestDetail";
+import { HarvestProcessed } from "../interfaces/HarvestProcessed";
 
 interface HarvestState {
   details: HarvestDetail[];
   total: number;
   value_pay: number;
+  processed: HarvestProcessed[];
 }
 
 interface ModifyHarvestDetail {
@@ -17,10 +20,11 @@ const initialState: HarvestState = {
   details: [],
   total: 0,
   value_pay: 0,
+  processed: [],
 };
 
 export const harvestSlice = createSlice({
-  name: 'harvest',
+  name: "harvest",
   initialState,
   reducers: {
     add: (state, action: PayloadAction<HarvestDetail[]>) => {
@@ -33,35 +37,35 @@ export const harvestSlice = createSlice({
       if (isDifferentEmployee) {
         state.details = [
           ...state.details.filter(
-            (detail: HarvestDetail) => oldEmployee.id !== detail.employee.id,
+            (detail: HarvestDetail) => oldEmployee.id !== detail.employee.id
           ),
           detail,
         ];
       } else {
         state.details = state.details.map((detailState: HarvestDetail) =>
-          detailState.employee.id === detail.employee.id ? detail : detailState,
+          detailState.employee.id === detail.employee.id ? detail : detailState
         );
       }
     },
     remove: (state, action: PayloadAction<HarvestDetail>) => {
       state.details = state.details.filter(
         (detail: HarvestDetail) =>
-          detail.employee.id !== action.payload.employee.id,
+          detail.employee.id !== action.payload.employee.id
       );
     },
-    reset: state => {
+    reset: (state) => {
       state.details = [];
       state.total = 0;
       state.value_pay = 0;
     },
-    calculateTotal: state => {
+    calculateTotal: (state) => {
       state.total = state.details.reduce(
         (total: number, detail: HarvestDetail) => total + detail.total,
-        0,
+        0
       );
       state.value_pay = state.details.reduce(
         (total: number, detail: HarvestDetail) => total + detail.value_pay,
-        0,
+        0
       );
     },
   },

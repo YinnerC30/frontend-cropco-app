@@ -1,5 +1,6 @@
 import { CreateHarvest } from "../components/CreateHarvest";
 import { HarvestModule } from "../components/HarvestModule";
+import { HarvestProcessedModule } from "../components/HarvestProcessedModule";
 import { ModifyHarvest } from "../components/ModifyHarvest";
 import { ViewHarvest } from "../components/ViewHarvest";
 
@@ -24,7 +25,7 @@ const harvestRoutes = {
     },
     {
       path: "processed",
-      chidren: [],
+      children: [{ path: "view/:id", element: <HarvestProcessedModule /> }],
     },
   ],
 };

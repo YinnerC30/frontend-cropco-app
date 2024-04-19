@@ -21,7 +21,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { cn } from "@/lib/utils";
 import { Crop } from "@/modules/crops/interfaces/Crop";
-import { AppDispatch, useAppDispatch, useAppSelector } from "@/redux/store";
+import { AppDispatch, useAppDispatch } from "@/redux/store";
 import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
@@ -37,7 +37,6 @@ import {
   FormMessage,
 } from "../../../components/ui/form";
 import { ErrorLoading, Loading } from "../../core/components";
-import { useGetAllCrops } from "../../crops/hooks/useGetAllCrops";
 import { useGetHarvest } from "../hooks/useGetHarvest";
 import { useHarvestForm } from "../hooks/useHarvestForm";
 import { formFieldsHarvest } from "../utils";
@@ -55,16 +54,8 @@ export const ViewHarvest = () => {
     dispatch(reset());
   }, []);
 
-  const { query: queryCrops } = useGetAllCrops({
-    searchParameter: "",
-    allRecords: true,
-  });
-
-  const { details, total, value_pay } = useAppSelector(
-    (state: any) => state.harvest
-  );
-
-  const { formHarvest } = useHarvestForm();
+  const { formHarvest, queryCrops, details, total, value_pay } =
+    useHarvestForm();
 
   useEffect(() => {
     if (data) {

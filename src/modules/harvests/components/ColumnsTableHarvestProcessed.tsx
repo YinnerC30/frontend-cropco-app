@@ -4,10 +4,12 @@ import { ArrowUpDown } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { ActionsTable } from "../../core/components";
 import { useDeleteHarvestProcessed } from "../hooks/useDeleteHarvestProcessed";
 import { HarvestProcessed } from "../interfaces/HarvestProcessed";
 import { formFieldsHarvestProcessed } from "../utils/formFieldsHarvestProcessed";
+import { useParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { ActionsHarvestProcessedTable } from "./ActionsHarvestProcessedTable";
 
 export let columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
   {
@@ -20,36 +22,6 @@ export let columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           {formFieldsHarvestProcessed.date.label}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: `${formFieldsHarvestProcessed.crop.name}`,
-    header: ({ column }: any) => {
-      return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          {formFieldsHarvestProcessed.crop.label}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: formFieldsHarvestProcessed.harvest.name,
-    header: ({ column }: any) => {
-      return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          {formFieldsHarvestProcessed.harvest.label}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
@@ -75,11 +47,25 @@ export let columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
 columnsHarvestProcessed.push({
   id: "actions",
   cell: ({ row }: any) => {
-    const { id } = row.original;
+    const { id } = useParams();
 
-    const { mutate } = useDeleteHarvestProcessed();
+    const values = row.original;
 
-    return <ActionsTable mutate={mutate} id={id} />;
+    const queryClient = useQueryClient();
+
+    const { mutate, isSuccess } = useDeleteHarvestProcessed();
+
+    if (isSuccess) {
+      queryClient.invalidateQueries({ queryKey: ["harvest", id] });
+    }
+
+    return (
+      <ActionsHarvestProcessedTable
+        mutate={mutate}
+        id={row.original.id}
+        values={values}
+      />
+    );
   },
 });
 
