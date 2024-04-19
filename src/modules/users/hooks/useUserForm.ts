@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { formSchema } from '../utils';
+import { formSchema } from '../../clients/utils';
 
 export const defaultValues = {
   first_name: '',

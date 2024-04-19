@@ -5,7 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useDeleteUser } from "../hooks/useDeleteUser";
 
 import { User } from "../interfaces/User";
-import { formFields } from "../utils";
+import { formFields } from "../../clients/utils";
 
 export let columns: ColumnDef<User>[] = [
   {

@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import columns from "./ColumnsClient";
-import { useGetAllClients } from "./hooks/useGetAllClients";
+import columns from "./ColumnsTable";
+import { useGetAllClients } from "../hooks/useGetAllClients";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -14,7 +14,7 @@ import {
   SearchBar,
   ToolTipTemplate,
   DataTable,
-} from "../core/components";
+} from "../../core/components";
 
 export const ClientsModule = () => {
   const navigate = useNavigate();

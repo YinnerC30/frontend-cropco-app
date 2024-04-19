@@ -1,6 +1,6 @@
 import ErrorPage from "@/ErrorPage";
 
-import { clientRoutes } from "@/modules/clients/Routes";
+import { clientRoutes } from "@/modules/clients/routes/Routes";
 import { Home } from "@/modules/core/components";
 import { cropRoutes } from "@/modules/crops/Routes";
 import { employeeRoutes } from "@/modules/employees/Routes";

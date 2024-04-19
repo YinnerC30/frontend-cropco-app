@@ -13,20 +13,20 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
-import { defaultValues, formFields, formSchema } from "./ElementsClientForm";
-import { useGetClient } from "./hooks/useGetClient";
-import { usePatchClient } from "./hooks/usePatchClient";
+
 import {
-  Loading,
-  ErrorLoading,
   ButtonCancelRegister,
-} from "../core/components";
+  ErrorLoading,
+  Loading,
+} from "../../core/components";
+import { useClientForm } from "../hooks/useClientForm";
+import { useGetClient } from "../hooks/useGetClient";
+import { usePatchClient } from "../hooks/usePatchClient";
+import { formFields, formSchema } from "../utils";
 
 export const ModifyClient = () => {
   const { id } = useParams();
@@ -34,10 +34,7 @@ export const ModifyClient = () => {
   const { mutate, isSuccess, isPending } = usePatchClient();
   const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
+  const { form } = useClientForm();
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     mutate({ id, ...values });

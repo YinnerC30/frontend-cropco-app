@@ -13,14 +13,13 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { z } from "zod";
-import { ErrorLoading, Loading } from "../core/components";
-import { defaultValues, formFields, formSchema } from "./ElementsClientForm";
-import { useGetClient } from "./hooks/useGetClient";
+import { ErrorLoading, Loading } from "../../core/components";
+
+import { useClientForm } from "../hooks/useClientForm";
+import { useGetClient } from "../hooks/useGetClient";
+import { formFields } from "../utils";
 
 export const ViewClient = () => {
   const { id } = useParams();
@@ -28,10 +27,7 @@ export const ViewClient = () => {
 
   const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
+  const { form } = useClientForm();
 
   useEffect(() => {
     if (data) {

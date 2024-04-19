@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getClients } from '../actions/getAll';
+import { getClients } from '../services/getAll';
 import { useState } from 'react';
 import { PaginationState } from '@tanstack/react-table';
 

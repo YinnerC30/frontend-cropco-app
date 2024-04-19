@@ -26,7 +26,7 @@ import { useGetUser } from '../hooks/useGetUser';
 import { usePatchUser } from '../hooks/usePatchUser';
 import { useUserForm } from '../hooks/useUserForm';
 
-import { formFields, formSchema } from '../utils';
+import { formFields, formSchema } from '../../clients/utils';
 
 export const ModifyUser = () => {
   const { id } = useParams();

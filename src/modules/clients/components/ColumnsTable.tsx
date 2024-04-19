@@ -1,8 +1,8 @@
-import { ButtonHeaderTable, ActionsTable } from "../core/components";
-import { Client } from "@/modules/clients/Client";
+import { ButtonHeaderTable, ActionsTable } from "../../core/components";
+import { Client } from "@/modules/clients/interfaces/Client";
 import { ColumnDef } from "@tanstack/react-table";
-import { useDeleteClient } from "./hooks/useDeleteClient";
-import { formFields } from "./ElementsClientForm";
+import { useDeleteClient } from "../hooks/useDeleteClient";
+import { formFields } from "../utils";
 
 export let columns: ColumnDef<Client>[] = [
   {

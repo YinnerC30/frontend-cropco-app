@@ -15,22 +15,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../components/ui/form";
-import { defaultValues, formFields, formSchema } from "./ElementsClientForm";
-import { usePostClient } from "./hooks/usePostClient";
+} from "../../../components/ui/form";
+
+import { usePostClient } from "../hooks/usePostClient";
 
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { ButtonCancelRegister } from "../core/components";
+import { ButtonCancelRegister } from "../../core/components";
+import { useClientForm } from "../hooks/useClientForm";
+import { formSchema, formFields } from "../utils";
 
 export const CreateClient = () => {
   const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
+  const { form } = useClientForm();
 
   const { mutate, isSuccess, isPending } = usePostClient();
 

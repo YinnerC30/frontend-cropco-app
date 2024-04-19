@@ -1,7 +1,7 @@
-import ClientsModule from './ClientsModule';
-import { CreateClient } from './CreateClient';
-import { ModifyClient } from './ModifyClient';
-import { ViewClient } from './ViewClient';
+import ClientsModule from '../components/Module';
+import { CreateClient } from '../components/Create';
+import { ModifyClient } from '../components/Modify';
+import { ViewClient } from '../components/View';
 
 const clientRoutes = {
   path: 'clients',

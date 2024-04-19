@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { usePostUser } from "../hooks/usePostUser";
 import { useUserForm } from "../hooks/useUserForm";
-import { formSchema, formFields } from "../utils";
+import { formSchema, formFields } from "../../clients/utils";
 
 export const CreateUser = () => {
   const navigate = useNavigate();
