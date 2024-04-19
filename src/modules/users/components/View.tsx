@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Form, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import { useGetUser } from "../hooks/useGetUser";
 import { ErrorLoading } from "@/modules/core/components/ErrorLoading";
@@ -15,6 +15,7 @@ import {
   FormControl,
   FormDescription,
   FormMessage,
+  Form,
 } from "@/components/ui/form";
 import { formFields, formSchema } from "../utils";
 import { defaultValues } from "../hooks/useUserForm";

@@ -1,20 +1,20 @@
-import { Button, Input, Label, ScrollArea, Separator } from '@/components';
+import { Button, Input, Label, ScrollArea, Separator } from "@/components";
 import {
+  Form,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { ButtonCancelRegister } from '@/modules/core/components/ButtonCancelRegister';
-import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from '@radix-ui/react-icons';
-import { Form, useNavigate } from 'react-router-dom';
-import { z } from 'zod';
-import { usePostUser } from '../hooks/usePostUser';
-import { useUserForm } from '../hooks/useUserForm';
-import { formSchema, formFields } from '../utils';
-
+} from "@/components/ui/form";
+import { ButtonCancelRegister } from "@/modules/core/components/ButtonCancelRegister";
+import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { useNavigate } from "react-router-dom";
+import { z } from "zod";
+import { usePostUser } from "../hooks/usePostUser";
+import { useUserForm } from "../hooks/useUserForm";
+import { formSchema, formFields } from "../utils";
 
 export const CreateUser = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export const CreateUser = () => {
   };
 
   if (isSuccess) {
-    navigate('../view');
+    navigate("../view");
   }
 
   return (
@@ -65,7 +65,7 @@ export const CreateUser = () => {
             />
             <FormField
               control={form.control}
-              name={'last_name'}
+              name={"last_name"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.last_name.label}</FormLabel>
@@ -85,7 +85,7 @@ export const CreateUser = () => {
             />
             <FormField
               control={form.control}
-              name={'email'}
+              name={"email"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.email.label}</FormLabel>
@@ -105,7 +105,7 @@ export const CreateUser = () => {
             />
             <FormField
               control={form.control}
-              name={'cell_phone_number'}
+              name={"cell_phone_number"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.cell_phone_number.label}</FormLabel>
@@ -134,10 +134,10 @@ export const CreateUser = () => {
                       <Input
                         className="w-56"
                         {...field}
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword ? "text" : "password"}
                       />
                     </FormControl>
-                    <Button onClick={e => togglePasswordVisibility(e)}>
+                    <Button onClick={(e) => togglePasswordVisibility(e)}>
                       {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                     </Button>
                   </div>
@@ -159,10 +159,10 @@ export const CreateUser = () => {
                       <Input
                         className="w-56"
                         {...field}
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword ? "text" : "password"}
                       />
                     </FormControl>
-                    <Button onClick={e => togglePasswordVisibility(e)}>
+                    <Button onClick={(e) => togglePasswordVisibility(e)}>
                       {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                     </Button>
                   </div>

@@ -45,7 +45,7 @@ export const UsersModule = () => {
         <div className="w-[650px]">
           <DataTable
             columns={columns}
-            rows={query.data.rows}
+            rows={query.data?.rows}
             data={query.data}
             pagination={pagination}
             setPagination={setPagination}

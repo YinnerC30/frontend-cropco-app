@@ -1,12 +1,12 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 import {
   EyeOpenIcon,
   PaperPlaneIcon,
   Pencil2Icon,
-} from '@radix-ui/react-icons';
+} from "@radix-ui/react-icons";
 
-import { MoreHorizontal, TrashIcon } from 'lucide-react';
+import { MoreHorizontal, TrashIcon } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -15,10 +15,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
+} from "@/components/ui/dropdown-menu";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 interface Props {
   mutate: any;
@@ -53,9 +53,9 @@ export const ActionsTable = ({ mutate, id }: Props) => {
             onClick={() => {
               navigator.clipboard.writeText(id);
               setOpenDropDownMenu(false);
-              toast.success('Id copiado al portapapeles');
+              toast.success("Id copiado al portapapeles");
             }}
-            variant={'ghost'}
+            variant={"ghost"}
           >
             <PaperPlaneIcon className="w-4 h-4 mr-2" /> Copiar Id
           </Button>
@@ -67,7 +67,7 @@ export const ActionsTable = ({ mutate, id }: Props) => {
               mutate(id);
               setOpenDropDownMenu(false);
             }}
-            variant={'ghost'}
+            variant={"ghost"}
           >
             <TrashIcon className="w-4 h-4 mr-2" /> Eliminar
           </Button>
@@ -75,7 +75,7 @@ export const ActionsTable = ({ mutate, id }: Props) => {
         <DropdownMenuSeparator className="w-full" />
         <DropdownMenuItem asChild>
           <Button
-            variant={'ghost'}
+            variant={"ghost"}
             className="mr-2"
             onClick={() => navigate(`../modify/${id}`)}
           >
@@ -84,7 +84,7 @@ export const ActionsTable = ({ mutate, id }: Props) => {
         </DropdownMenuItem>
         <DropdownMenuSeparator className="w-full" />
         <DropdownMenuItem asChild>
-          <Button variant={'ghost'} onClick={() => navigate(`../view/${id}`)}>
+          <Button variant={"ghost"} onClick={() => navigate(`../view/${id}`)}>
             <EyeOpenIcon className="w-full h-4 mr-2" /> Ver
           </Button>
         </DropdownMenuItem>

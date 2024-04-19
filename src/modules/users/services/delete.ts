@@ -1,5 +1,5 @@
-import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
 
-export async function deleteUser(id: string): Promise<void> {
+export const deleteUser = async (id: string) => {
   await cropcoAPI.delete(`${pathsCropco.users}/${id}`);
-}
+};
