@@ -1,7 +1,7 @@
-import { CreateHarvest } from './CreateHarvest';
-import { HarvestModule } from './HarvestModule';
-import { ModifyHarvest } from './ModifyHarvest';
-import { ViewHarvest } from './ViewHarvest';
+import { CreateHarvest } from '../components/CreateHarvest';
+import { HarvestModule } from '../components/HarvestModule';
+import { ModifyHarvest } from '../components/ModifyHarvest';
+import { ViewHarvest } from '../components/ViewHarvest';
 
 const harvestRoutes = {
   path: 'harvests',

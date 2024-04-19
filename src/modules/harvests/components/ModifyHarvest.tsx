@@ -20,10 +20,9 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 
 import { Crop } from "@/modules/crops/interfaces/Crop";
-import { HarvestDetail } from "@/modules/harvests/Harvest";
+
 import { cn } from "@/lib/utils";
 import { AppDispatch, useAppDispatch, useAppSelector } from "@/redux/store";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CalendarIcon,
   CaretSortIcon,
@@ -32,8 +31,7 @@ import {
 } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -45,26 +43,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../components/ui/form";
-import { useGetAllCrops } from "../crops/hooks/useGetAllCrops";
+} from "../../../components/ui/form";
+import { useGetAllCrops } from "../../crops/hooks/useGetAllCrops";
 
-import { DataTableHarvestDetail } from "./DataTableHarvestDetails";
-import {
-  defaultValuesHarvest,
-  formFieldsHarvest,
-  formSchemaHarvest,
-} from "./ElementsHarvestForm";
-import { FormHarvestDetail } from "./FormHarvestDetail";
-import { add, calculateTotal, reset } from "./harvestSlice";
-import { useGetHarvest } from "./hooks/useGetHarvest";
-import { usePatchHarvest } from "./hooks/usePatchHarvest";
-import { columnsHarvestDetailActions } from "./ColumnsHarvestDetail";
-import { ModifyHarvestDetail } from "./ModifyHarvestDetail";
 import {
   ButtonCancelRegister,
   ErrorLoading,
   Loading,
-} from "../core/components";
+} from "../../core/components";
+import { useGetHarvest } from "../hooks/useGetHarvest";
+import { useHarvestForm } from "../hooks/useHarvestForm";
+import { usePatchHarvest } from "../hooks/usePatchHarvest";
+import { HarvestDetail } from "../interfaces/HarvestDetail";
+import { formFieldsHarvest, formSchemaHarvest } from "../utils";
+import { add, calculateTotal, reset } from "../utils/harvestSlice";
+import { columnsHarvestDetailActions } from "./ColumnsTableHarvestDetail";
+import { DataTableHarvestDetail } from "./DataTableHarvestDetails";
+import { FormHarvestDetail } from "./FormHarvestDetail";
+import { ModifyHarvestDetail } from "./ModifyHarvestDetail";
 
 export const ModifyHarvest = () => {
   const { id } = useParams();
@@ -72,9 +68,15 @@ export const ModifyHarvest = () => {
   const { data, isLoading, isError } = useGetHarvest(id!);
   const { mutate, isPending, isSuccess } = usePatchHarvest(id!);
 
-  const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
-  const [isOpenDialogModifyForm, setIsOpenDialogModifyForm] = useState(false);
-  const [harvestDetail, setHarvestDetail] = useState({});
+  const {
+    isOpenDialogForm,
+    setIsOpenDialogForm,
+    isOpenDialogModifyForm,
+    setIsOpenDialogModifyForm,
+    harvestDetail,
+    setHarvestDetail,
+    formHarvest,
+  } = useHarvestForm();
 
   useEffect(() => {
     dispatch(reset());
@@ -90,11 +92,6 @@ export const ModifyHarvest = () => {
   const { details, total, value_pay } = useAppSelector(
     (state: any) => state.harvest
   );
-
-  const formHarvest = useForm<z.infer<typeof formSchemaHarvest>>({
-    resolver: zodResolver(formSchemaHarvest),
-    defaultValues: defaultValuesHarvest,
-  });
 
   useEffect(() => {
     if (data) {

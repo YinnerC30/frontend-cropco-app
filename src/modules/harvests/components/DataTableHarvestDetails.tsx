@@ -7,7 +7,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -16,24 +16,24 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { useState } from 'react';
+} from "@/components/ui/table";
+import { useState } from "react";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
-} from '@radix-ui/react-icons';
+} from "@radix-ui/react-icons";
 
 interface Props {
   data: any;
@@ -82,12 +82,12 @@ export function DataTableHarvestDetail({
             placeholder="Buscar empleado por nombre..."
             value={
               (table
-                .getColumn('employee_first_name')
-                ?.getFilterValue() as string) ?? ''
+                .getColumn("employee_first_name")
+                ?.getFilterValue() as string) ?? ""
             }
-            onChange={event =>
+            onChange={(event) =>
               table
-                .getColumn('employee_first_name')
+                .getColumn("employee_first_name")
                 ?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
@@ -97,16 +97,16 @@ export function DataTableHarvestDetail({
         <div className={`w-auto border rounded-lg mt-3`}>
           <Table>
             <TableHeader>
-              {table.getHeaderGroups().map(headerGroup => (
+              {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map(header => {
+                  {headerGroup.headers.map((header) => {
                     return (
                       <TableHead key={header.id}>
                         {header.isPlaceholder
                           ? null
                           : flexRender(
                               header.column.columnDef.header,
-                              header.getContext(),
+                              header.getContext()
                             )}
                       </TableHead>
                     );
@@ -116,20 +116,20 @@ export function DataTableHarvestDetail({
             </TableHeader>
             <TableBody>
               {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map(row => (
+                table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
-                    data-state={row.getIsSelected() && 'selected'}
+                    data-state={row.getIsSelected() && "selected"}
                     onDoubleClick={() => {
                       setHarvestDetail(row.original);
                       setIsOpenDialogModifyForm(true);
                     }}
                   >
-                    {row.getVisibleCells().map(cell => (
+                    {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext(),
+                          cell.getContext()
                         )}
                       </TableCell>
                     ))}
@@ -156,7 +156,7 @@ export function DataTableHarvestDetail({
 
             <Select
               value={`${table.getState().pagination.pageSize}`}
-              onValueChange={value => {
+              onValueChange={(value) => {
                 table.setPageSize(Number(value));
               }}
             >
@@ -166,7 +166,7 @@ export function DataTableHarvestDetail({
                 />
               </SelectTrigger>
               <SelectContent side="top">
-                {[10, 20, 30, 40, 50].map(pageSize => (
+                {[10, 20, 30, 40, 50].map((pageSize) => (
                   <SelectItem key={pageSize} value={`${pageSize}`}>
                     {pageSize}
                   </SelectItem>

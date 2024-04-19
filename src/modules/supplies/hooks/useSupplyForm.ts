@@ -1,20 +1,15 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { formSchema } from '../utils';
+import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
+import { formSchema } from "../utils";
 
 export const defaultValues = {
-  name: '',
-  brand: '',
+  name: "",
+  brand: "",
   unit_of_measure: undefined,
-  observation: '',
+  observation: "",
 };
 
 export const useSupplyForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
+  const form = useCreateForm({ schema: formSchema, defaultValues });
   return {
     form,
   };

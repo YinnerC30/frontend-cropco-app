@@ -10,9 +10,9 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import { DataTable, ErrorLoading, Loading, ToolTipTemplate } from '../core/components';
-import columnsHarvest from './ColumnsHarvest';
-import { useGetAllHarvests } from './hooks/useGetAllHarvests';
+import { DataTable, ErrorLoading, Loading, ToolTipTemplate } from '../../core/components';
+import columnsHarvest from './ColumnsTableHarvest';
+import { useGetAllHarvests } from '../hooks/useGetAllHarvests';
 
 export const HarvestModule = () => {
   const navigate = useNavigate();

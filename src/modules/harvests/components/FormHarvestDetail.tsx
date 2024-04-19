@@ -1,5 +1,5 @@
-import { CaretSortIcon, CheckIcon, Cross2Icon } from '@radix-ui/react-icons';
-import { z } from 'zod';
+import { CaretSortIcon, CheckIcon, Cross2Icon } from "@radix-ui/react-icons";
+import { z } from "zod";
 
 import {
   Command,
@@ -8,12 +8,10 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
+} from "@/components/ui/command";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -22,9 +20,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../../components/ui/form';
-
-
+} from "../../../components/ui/form";
 
 import {
   Dialog,
@@ -34,25 +30,26 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Employee } from '@/modules/employees/Employee';
-import { cn } from '@/lib/utils';
-import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { toast } from 'sonner';
-import { useGetAllEmployees } from '../employees/hooks/useGetAllEmployees';
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
+
+import { cn } from "@/lib/utils";
+import { Employee } from "@/modules/employees/interfaces/Employee";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { toast } from "sonner";
+import { ErrorLoading, Loading } from "../../core/components";
+import { useGetAllEmployees } from "../../employees/hooks/useGetAllEmployees";
+import { useHarvestDetailForm } from "../hooks/useHarvestDetailForm";
 import {
-  defaultValuesHarvestDetail,
   formFieldsHarvestDetail,
-  formSchemaHarvestDetail,
-} from './ElementsHarvestDetailForm';
-import { add, calculateTotal } from './harvestSlice';
-import { Loading, ErrorLoading } from '../core/components';
+  formSchemaHarvestDetail
+} from "../utils/ElementsHarvestDetailForm";
+import { add, calculateTotal } from "../utils/harvestSlice";
 
 export const FormHarvestDetail = ({
   isOpenDialogForm,
@@ -60,22 +57,20 @@ export const FormHarvestDetail = ({
 }: any) => {
   const dispatch = useAppDispatch();
   const details: any = useAppSelector((state: any) => state.harvest.details);
+
   const { query: queryEmployees } = useGetAllEmployees({
-    searchParameter: '',
+    searchParameter: "",
     allRecords: true,
   });
-  const formHarvestDetail = useForm<z.infer<typeof formSchemaHarvestDetail>>({
-    resolver: zodResolver(formSchemaHarvestDetail),
-    defaultValues: defaultValuesHarvestDetail,
-  });
+  const { formHarvestDetail } = useHarvestDetailForm();
 
   const onSubmitHarvestDetail = async (
-    values: z.infer<typeof formSchemaHarvestDetail>,
+    values: z.infer<typeof formSchemaHarvestDetail>
   ) => {
     dispatch(add([values]));
     dispatch(calculateTotal());
     formHarvestDetail.reset();
-    toast.success('Registro añadido');
+    toast.success("Registro añadido");
     setIsOpenDialogForm(false);
   };
 
@@ -111,9 +106,9 @@ export const FormHarvestDetail = ({
               id="formDetail"
             >
               <FormField
-                key={'employee.id'}
+                key={"employee.id"}
                 control={formHarvestDetail.control}
-                name={'employee.id'}
+                name={"employee.id"}
                 render={({ field }) => (
                   <FormItem className="my-4">
                     <FormLabel className="block">
@@ -127,13 +122,13 @@ export const FormHarvestDetail = ({
                             variant="outline"
                             role="combobox"
                             className={cn(
-                              'w-[200px] justify-between',
-                              !field.value && 'text-muted-foreground',
+                              "w-[200px] justify-between",
+                              !field.value && "text-muted-foreground"
                             )}
                           >
                             {field.value
                               ? queryEmployees.data.rows.find(
-                                  (item: Employee) => item.id === field.value,
+                                  (item: Employee) => item.id === field.value
                                 )?.first_name
                               : formFieldsHarvestDetail.first_name.placeholder}
 
@@ -159,7 +154,7 @@ export const FormHarvestDetail = ({
                                     (employee: Employee | any) => {
                                       const isIncludes = details.some(
                                         (item: any) =>
-                                          item.employee.id === employee.id,
+                                          item.employee.id === employee.id
                                       );
                                       if (isIncludes) return;
                                       return (
@@ -168,26 +163,26 @@ export const FormHarvestDetail = ({
                                           key={employee.id!}
                                           onSelect={() => {
                                             formHarvestDetail.setValue(
-                                              'employee',
-                                              employee!,
+                                              "employee",
+                                              employee!
                                             );
                                             formHarvestDetail.trigger(
-                                              'employee.id',
+                                              "employee.id"
                                             );
                                           }}
                                         >
                                           {employee.first_name}
                                           <CheckIcon
                                             className={cn(
-                                              'ml-auto h-4 w-4',
+                                              "ml-auto h-4 w-4",
                                               employee.id! === field.value
-                                                ? 'opacity-100'
-                                                : 'opacity-0',
+                                                ? "opacity-100"
+                                                : "opacity-0"
                                             )}
                                           />
                                         </CommandItem>
                                       );
-                                    },
+                                    }
                                   )}
                               </CommandGroup>
                             </ScrollArea>
@@ -204,9 +199,9 @@ export const FormHarvestDetail = ({
                 )}
               />
               <FormField
-                key={'total'}
+                key={"total"}
                 control={formHarvestDetail.control}
-                name={'total'}
+                name={"total"}
                 render={({ field }) => (
                   <FormItem className="my-4">
                     <FormLabel className="block">
@@ -231,9 +226,9 @@ export const FormHarvestDetail = ({
                 )}
               />
               <FormField
-                key={'value_pay'}
+                key={"value_pay"}
                 control={formHarvestDetail.control}
-                name={'value_pay'}
+                name={"value_pay"}
                 render={({ field }) => (
                   <FormItem className="my-4">
                     <FormLabel className="block">
@@ -263,7 +258,7 @@ export const FormHarvestDetail = ({
 
           <DialogFooter>
             <Button
-              variant={'destructive'}
+              variant={"destructive"}
               onClick={() => {
                 formHarvestDetail.reset();
                 setIsOpenDialogForm(false);

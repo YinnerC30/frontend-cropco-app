@@ -19,17 +19,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 
-import { Crop } from "@/modules/crops/interfaces/Crop";
 import { cn } from "@/lib/utils";
+import { Crop } from "@/modules/crops/interfaces/Crop";
 import { AppDispatch, useAppDispatch, useAppSelector } from "@/redux/store";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -38,18 +35,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../components/ui/form";
-import { useGetAllCrops } from "../crops/hooks/useGetAllCrops";
-import { columnsHarvestDetail } from "./ColumnsHarvestDetail";
+} from "../../../components/ui/form";
+import { ErrorLoading, Loading } from "../../core/components";
+import { useGetAllCrops } from "../../crops/hooks/useGetAllCrops";
+import { useGetHarvest } from "../hooks/useGetHarvest";
+import { useHarvestForm } from "../hooks/useHarvestForm";
+import { formFieldsHarvest } from "../utils";
+import { add, calculateTotal, reset } from "../utils/harvestSlice";
+import { columnsHarvestDetail } from "./ColumnsTableHarvestDetail";
 import { DataTableHarvestDetail } from "./DataTableHarvestDetails";
-import {
-  defaultValuesHarvest,
-  formFieldsHarvest,
-  formSchemaHarvest,
-} from "./ElementsHarvestForm";
-import { add, calculateTotal, reset } from "./harvestSlice";
-import { useGetHarvest } from "./hooks/useGetHarvest";
-import { ErrorLoading, Loading } from "../core/components";
 
 export const ViewHarvest = () => {
   const { id } = useParams();
@@ -70,10 +64,7 @@ export const ViewHarvest = () => {
     (state: any) => state.harvest
   );
 
-  const formHarvest = useForm<z.infer<typeof formSchemaHarvest>>({
-    resolver: zodResolver(formSchemaHarvest),
-    defaultValues: defaultValuesHarvest,
-  });
+  const { formHarvest } = useHarvestForm();
 
   useEffect(() => {
     if (data) {

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { HarvestDetail } from '@/modules/harvests/Harvest';
+import { HarvestDetail } from '@/modules/harvests/interfaces/Harvest';
 import { ObjectWithId } from '@/modules/core/interfaces/ObjectWithId';
 
 interface HarvestState {

@@ -1,8 +1,8 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
-import { CaretSortIcon, Cross2Icon } from '@radix-ui/react-icons';
+import { CaretSortIcon, Cross2Icon } from "@radix-ui/react-icons";
 
-import { CheckIcon } from 'lucide-react';
+import { CheckIcon } from "lucide-react";
 
 import {
   Dialog,
@@ -11,7 +11,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -20,24 +20,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Employee } from '@/modules/employees/Employee';
-import { cn } from '@/lib/utils';
-import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { toast } from 'sonner';
-import { formSchemaHarvestDetail } from './ElementsHarvestDetailForm';
-import { calculateTotal, modify } from './harvestSlice';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+import { cn } from "@/lib/utils";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { toast } from "sonner";
+import { formSchemaHarvestDetail } from "../utils/ElementsHarvestDetailForm";
+import { calculateTotal, modify } from "../utils/harvestSlice";
 
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { zodResolver } from '@hookform/resolvers/zod';
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 
 import {
   Command,
@@ -46,10 +46,11 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
-import { DialogClose } from '@radix-ui/react-dialog';
-import { z } from 'zod';
-import { useGetAllEmployees } from '../employees/hooks/useGetAllEmployees';
+} from "@/components/ui/command";
+import { DialogClose } from "@radix-ui/react-dialog";
+import { z } from "zod";
+import { useGetAllEmployees } from "../../employees/hooks/useGetAllEmployees";
+import { Employee } from "@/modules/employees/interfaces/Employee";
 
 interface Props {
   defaultValues: any;
@@ -65,7 +66,7 @@ export const ModifyHarvestDetail = ({
   setOpenDropDownMenu,
 }: Props) => {
   const { query: queryEmployees } = useGetAllEmployees({
-    searchParameter: '',
+    searchParameter: "",
     allRecords: true,
   });
 
@@ -78,7 +79,7 @@ export const ModifyHarvestDetail = ({
   const dispatch = useAppDispatch();
 
   const onSubmitHarvestDetail = async (
-    values: z.infer<typeof formSchemaHarvestDetail>,
+    values: z.infer<typeof formSchemaHarvestDetail>
   ) => {
     const oldEmployee = {
       id: defaultValues.employee.id,
@@ -88,10 +89,10 @@ export const ModifyHarvestDetail = ({
       modify({
         detail: values,
         oldEmployee,
-      }),
+      })
     );
     dispatch(calculateTotal());
-    toast.success('Registro actualizado');
+    toast.success("Registro actualizado");
     setDialogOpen(false);
     setOpenDropDownMenu(false);
   };
@@ -120,12 +121,12 @@ export const ModifyHarvestDetail = ({
             id="formDetail"
           >
             <FormField
-              key={'employee'}
+              key={"employee"}
               control={formHarvestDetail.control}
-              name={'employee'}
+              name={"employee"}
               render={({ field }) => (
                 <FormItem className="my-4">
-                  <FormLabel className="block">{'Empleado:'}</FormLabel>
+                  <FormLabel className="block">{"Empleado:"}</FormLabel>
 
                   <Popover modal={true}>
                     <PopoverTrigger asChild>
@@ -134,15 +135,15 @@ export const ModifyHarvestDetail = ({
                           variant="outline"
                           role="combobox"
                           className={cn(
-                            'w-[200px] justify-between',
-                            !field.value.id && 'text-muted-foreground',
+                            "w-[200px] justify-between",
+                            !field.value.id && "text-muted-foreground"
                           )}
                         >
                           {field.value.id
                             ? queryEmployees.data.rows.find(
-                                (item: Employee) => item.id === field.value.id,
+                                (item: Employee) => item.id === field.value.id
                               )?.first_name
-                            : 'Selecciona un empleado'}
+                            : "Selecciona un empleado"}
 
                           <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                         </Button>
@@ -164,7 +165,7 @@ export const ModifyHarvestDetail = ({
                                   (employee: Employee | any) => {
                                     const isIncludes = details.some(
                                       (item: any) =>
-                                        item.employee.id === employee.id,
+                                        item.employee.id === employee.id
                                     );
                                     if (
                                       isIncludes &&
@@ -178,23 +179,23 @@ export const ModifyHarvestDetail = ({
                                         key={employee.id!}
                                         onSelect={() => {
                                           formHarvestDetail.setValue(
-                                            'employee',
-                                            employee!,
+                                            "employee",
+                                            employee!
                                           );
                                         }}
                                       >
                                         {employee.first_name}
                                         <CheckIcon
                                           className={cn(
-                                            'ml-auto h-4 w-4',
+                                            "ml-auto h-4 w-4",
                                             employee.id! === field.value.id
-                                              ? 'opacity-100'
-                                              : 'opacity-0',
+                                              ? "opacity-100"
+                                              : "opacity-0"
                                           )}
                                         />
                                       </CommandItem>
                                     );
-                                  },
+                                  }
                                 )}
                             </CommandGroup>
                           </ScrollArea>
@@ -211,21 +212,21 @@ export const ModifyHarvestDetail = ({
               )}
             />
             <FormField
-              key={'total'}
+              key={"total"}
               control={formHarvestDetail.control}
-              name={'total'}
+              name={"total"}
               render={({ field }) => (
                 <FormItem className="my-4">
-                  <FormLabel className="block">{'Total:'}</FormLabel>
+                  <FormLabel className="block">{"Total:"}</FormLabel>
 
                   <FormControl>
                     <Input
                       className="w-80"
-                      placeholder={'0'}
+                      placeholder={"0"}
                       {...field}
                       type="number"
                       min={0}
-                      onChange={e => {
+                      onChange={(e) => {
                         return !Number.isNaN(e.target.value)
                           ? field.onChange(parseFloat(e.target.value))
                           : 0;
@@ -241,22 +242,22 @@ export const ModifyHarvestDetail = ({
               )}
             />
             <FormField
-              key={'value_pay'}
+              key={"value_pay"}
               control={formHarvestDetail.control}
-              name={'value_pay'}
+              name={"value_pay"}
               render={({ field }) => (
                 <FormItem className="my-4">
-                  <FormLabel className="block">{'Valor a pagar:'}</FormLabel>
+                  <FormLabel className="block">{"Valor a pagar:"}</FormLabel>
 
                   <FormControl>
                     <Input
                       className="w-80"
-                      placeholder={'0'}
+                      placeholder={"0"}
                       {...field}
                       type="number"
                       min={0}
                       step={50}
-                      onChange={e => {
+                      onChange={(e) => {
                         return !Number.isNaN(e.target.value)
                           ? field.onChange(parseFloat(e.target.value))
                           : 0;
@@ -274,7 +275,7 @@ export const ModifyHarvestDetail = ({
 
         <DialogFooter>
           <Button
-            variant={'destructive'}
+            variant={"destructive"}
             onClick={() => {
               formHarvestDetail.reset();
               setDialogOpen(false);

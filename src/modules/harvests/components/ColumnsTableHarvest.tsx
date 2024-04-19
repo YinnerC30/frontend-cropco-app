@@ -1,14 +1,13 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
-import { ArrowUpDown } from 'lucide-react';
+import { ArrowUpDown } from "lucide-react";
 
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef } from "@tanstack/react-table";
 
-
-import { TableHarvest } from '@/modules/harvests/Harvest';
-import { formFieldsHarvest } from './ElementsHarvestForm';
-import { useDeleteHarvest } from './hooks/useDeleteHarvest';
-import { ActionsTable } from '../core/components';
+import { useDeleteHarvest } from "../hooks/useDeleteHarvest";
+import { ActionsTable } from "../../core/components";
+import { TableHarvest } from "../interfaces/TableHarvest";
+import { formFieldsHarvest } from "../utils";
 
 export let columnsHarvest: ColumnDef<TableHarvest>[] = [
   {
@@ -18,7 +17,7 @@ export let columnsHarvest: ColumnDef<TableHarvest>[] = [
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           {formFieldsHarvest.date.label}
           <ArrowUpDown className="w-4 h-4 ml-2" />
@@ -33,7 +32,7 @@ export let columnsHarvest: ColumnDef<TableHarvest>[] = [
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           {formFieldsHarvest.crop.label}
           <ArrowUpDown className="w-4 h-4 ml-2" />
@@ -48,7 +47,7 @@ export let columnsHarvest: ColumnDef<TableHarvest>[] = [
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           {formFieldsHarvest.total.label}
           <ArrowUpDown className="w-4 h-4 ml-2" />
@@ -63,7 +62,7 @@ export let columnsHarvest: ColumnDef<TableHarvest>[] = [
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           {formFieldsHarvest.value_pay.label}
           <ArrowUpDown className="w-4 h-4 ml-2" />
@@ -74,7 +73,7 @@ export let columnsHarvest: ColumnDef<TableHarvest>[] = [
 ];
 
 columnsHarvest.push({
-  id: 'actions',
+  id: "actions",
   cell: ({ row }: any) => {
     const { id } = row.original;
 

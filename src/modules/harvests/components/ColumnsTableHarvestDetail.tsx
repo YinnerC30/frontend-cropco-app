@@ -8,12 +8,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
-import { Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
+import { Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
 
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -22,58 +22,59 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useState } from 'react';
+} from "@/components/ui/dropdown-menu";
+import { useState } from "react";
 
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef } from "@tanstack/react-table";
 
-import { HarvestDetail } from '@/modules/harvests/Harvest';
-import { useAppDispatch } from '@/redux/store';
-import { toast } from 'sonner';
-import { calculateTotal, remove } from './harvestSlice';
-import { ModifyHarvestDetail } from './ModifyHarvestDetail';
+import { useAppDispatch } from "@/redux/store";
+import { toast } from "sonner";
+
+import { ModifyHarvestDetail } from "./ModifyHarvestDetail";
+import { remove, calculateTotal } from "../utils/harvestSlice";
+import { HarvestDetail } from "../interfaces/HarvestDetail";
 
 export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
   {
-    accessorKey: 'employee.first_name',
+    accessorKey: "employee.first_name",
     header: ({ column }: any) => {
       return (
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {'Empleado'}
+          {"Empleado"}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
   },
   {
-    accessorKey: 'total',
+    accessorKey: "total",
     header: ({ column }: any) => {
       return (
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {'Total'}
+          {"Total"}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
   },
   {
-    accessorKey: 'value_pay',
+    accessorKey: "value_pay",
     header: ({ column }: any) => {
       return (
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {'Valor a pagar'}
+          {"Valor a pagar"}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
@@ -84,7 +85,7 @@ export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
 export const columnsHarvestDetailActions = [
   ...columnsHarvestDetail,
   {
-    id: 'actions',
+    id: "actions",
     cell: ({ row }: any) => {
       const harvestDetail = row.original;
 
@@ -96,7 +97,7 @@ export const columnsHarvestDetailActions = [
       const handleDelete = () => {
         dispatch(remove(harvestDetail));
         toast.success(
-          `Se ha eliminado la cosecha del empleado ${harvestDetail.employee.first_name}`,
+          `Se ha eliminado la cosecha del empleado ${harvestDetail.employee.first_name}`
         );
         dispatch(calculateTotal());
         setOpenDropDownMenu(false);
@@ -125,7 +126,7 @@ export const columnsHarvestDetailActions = [
               <DropdownMenuItem asChild>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button variant={'ghost'}>
+                    <Button variant={"ghost"}>
                       <TrashIcon className="w-4 h-4 mr-2" /> Eliminar
                     </Button>
                   </AlertDialogTrigger>

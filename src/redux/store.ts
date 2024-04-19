@@ -1,4 +1,4 @@
-import { harvestReducer } from '@/modules/harvests/harvestSlice';
+import { harvestReducer } from '@/modules/harvests/utils/harvestSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
 import { useDispatch, useSelector } from 'react-redux';

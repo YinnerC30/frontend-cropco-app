@@ -1,17 +1,15 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { formSchema } from '../../clients/utils';
+import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
+import { useState } from "react";
+import { formSchema } from "../../clients/utils";
 
 export const defaultValues = {
-  first_name: '',
-  last_name: '',
-  email: '',
-  cell_phone_number: '',
+  first_name: "",
+  last_name: "",
+  email: "",
+  cell_phone_number: "",
   password: {
-    password1: '',
-    password2: '',
+    password1: "",
+    password2: "",
   },
 };
 
@@ -21,11 +19,7 @@ export const useUserForm = () => {
     event.preventDefault();
     setShowPassword(!showPassword);
   };
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
+  const form = useCreateForm({ schema: formSchema, defaultValues });
   return {
     showPassword,
     setShowPassword,
