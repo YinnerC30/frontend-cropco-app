@@ -1,14 +1,18 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import {
-  defaultValuesHarvestDetail,
-  formSchemaHarvestDetail,
-} from "../utils/ElementsHarvestDetailForm";
+import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
+import { formSchemaHarvestDetail } from "../utils/formSchemaHarvestDetail";
+
+const defaultValuesHarvestDetail = {
+  employee: {
+    id: undefined,
+    first_name: undefined,
+  },
+  total: 0,
+  value_pay: 0,
+};
 
 export const useHarvestDetailForm = () => {
-  const formHarvestDetail = useForm<z.infer<typeof formSchemaHarvestDetail>>({
-    resolver: zodResolver(formSchemaHarvestDetail),
+  const formHarvestDetail = useCreateForm({
+    schema: formSchemaHarvestDetail,
     defaultValues: defaultValuesHarvestDetail,
   });
   return {

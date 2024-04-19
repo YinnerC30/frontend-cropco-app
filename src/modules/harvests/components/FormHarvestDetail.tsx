@@ -45,10 +45,7 @@ import { toast } from "sonner";
 import { ErrorLoading, Loading } from "../../core/components";
 import { useGetAllEmployees } from "../../employees/hooks/useGetAllEmployees";
 import { useHarvestDetailForm } from "../hooks/useHarvestDetailForm";
-import {
-  formFieldsHarvestDetail,
-  formSchemaHarvestDetail
-} from "../utils/ElementsHarvestDetailForm";
+import { formFieldsHarvestDetail, formSchemaHarvestDetail } from "../utils";
 import { add, calculateTotal } from "../utils/harvestSlice";
 
 export const FormHarvestDetail = ({

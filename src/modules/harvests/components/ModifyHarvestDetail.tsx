@@ -26,7 +26,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { toast } from "sonner";
-import { formSchemaHarvestDetail } from "../utils/ElementsHarvestDetailForm";
+
 import { calculateTotal, modify } from "../utils/harvestSlice";
 
 import {
@@ -35,9 +35,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { useForm } from "react-hook-form";
 
 import {
   Command,
@@ -47,10 +44,12 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
+import { Employee } from "@/modules/employees/interfaces/Employee";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { z } from "zod";
 import { useGetAllEmployees } from "../../employees/hooks/useGetAllEmployees";
-import { Employee } from "@/modules/employees/interfaces/Employee";
+import { formSchemaHarvestDetail } from "../utils";
 
 interface Props {
   defaultValues: any;
@@ -71,14 +70,15 @@ export const ModifyHarvestDetail = ({
   });
 
   const details: any = useAppSelector((state: any) => state.harvest.details);
-  const formHarvestDetail = useForm<z.infer<typeof formSchemaHarvestDetail>>({
-    resolver: zodResolver(formSchemaHarvestDetail),
+
+  const formHarvestDetail = useCreateForm({
+    schema: formSchemaHarvestDetail,
     defaultValues,
   });
 
   const dispatch = useAppDispatch();
 
-  const onSubmitHarvestDetail = async (
+  const onSubmitHarvestDetail = (
     values: z.infer<typeof formSchemaHarvestDetail>
   ) => {
     const oldEmployee = {

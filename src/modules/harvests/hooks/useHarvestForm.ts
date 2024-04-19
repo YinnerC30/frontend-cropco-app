@@ -1,7 +1,17 @@
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { useState } from "react";
 import { formSchemaHarvest } from "../utils";
-import { defaultValuesHarvest } from "../utils/ElementsHarvestForm";
+
+export const defaultValuesHarvest = {
+  date: undefined,
+  crop: {
+    id: undefined,
+  },
+
+  total: 0,
+  value_pay: 0,
+  observation: "",
+};
 
 export const useHarvestForm = () => {
   const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);

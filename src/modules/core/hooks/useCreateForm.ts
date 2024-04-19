@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 interface Props {
-  schema: z.ZodObject<any>;
+  schema: z.ZodObject<any> | any;
   defaultValues: any;
 }
 
