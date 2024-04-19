@@ -1,13 +1,13 @@
 import { CreateEmployee } from './CreateEmployee';
-import EmployeesModule from './EmployeesModule';
 import { ModifyEmployee } from './ModifyEmployee';
 import { ViewEmployee } from './ViewEmployee';
+import EmployeesModule from "./EmployeesModule";
 
 const employeeRoutes = {
-  path: 'employees',
+  path: "employees",
   children: [
     {
-      path: 'view',
+      path: "view",
       element: <EmployeesModule />,
     },
     {
@@ -25,4 +25,4 @@ const employeeRoutes = {
   ],
 };
 
-export { employeeRoutes};
+export { employeeRoutes };

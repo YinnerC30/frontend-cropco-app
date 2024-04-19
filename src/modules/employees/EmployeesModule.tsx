@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useGetAllEmployees } from "./hooks/useGetAllEmployees";
-import { Button } from "react-day-picker";
+
 import {
   Loading,
   ErrorLoading,
@@ -15,6 +15,7 @@ import {
   ToolTipTemplate,
   DataTable,
 } from "../core/components";
+import { Button } from "@/components";
 
 export const EmployeesModule = () => {
   const navigate = useNavigate();

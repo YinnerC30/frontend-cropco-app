@@ -11,8 +11,9 @@ import {
   ToolTipTemplate,
 } from '@/modules/core/components';
 import { PlusIcon } from 'lucide-react';
-import { Button } from 'react-day-picker';
+
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Button } from '@/components';
 
 export const SuppliesModule = () => {
   const navigate = useNavigate();

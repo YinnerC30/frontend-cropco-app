@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
 import { PlusIcon } from "lucide-react";
-import { Button } from "react-day-picker";
+
 import {
   Loading,
   ErrorLoading,
@@ -14,6 +14,7 @@ import {
   ToolTipTemplate,
   DataTable,
 } from "../core/components";
+import { Button } from "@/components/ui/button";
 
 export const SuppliersModule = () => {
   const navigate = useNavigate();
