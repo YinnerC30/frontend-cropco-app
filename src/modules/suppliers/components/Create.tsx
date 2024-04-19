@@ -1,4 +1,10 @@
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { useNavigate } from "react-router-dom";
 import {
   Form,
   FormControl,
@@ -7,58 +13,27 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "../../../components/ui/form";
+
 import { Label } from "@/components/ui/label";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ReloadIcon } from "@radix-ui/react-icons";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
-import { z } from "zod";
-import {
-  ButtonCancelRegister,
-  ErrorLoading,
-  Loading,
-} from "../core/components";
-import { defaultValues, formFields, formSchema } from "./ElementsSupplierForm";
-import { useGetSupplier } from "./hooks/useGetSupplier";
-import { usePatchSupplier } from "./hooks/usePatchSupplier";
+import { ButtonCancelRegister } from "../../core/components";
+import { usePostSupplier } from "../hooks/usePostSupplier";
+import { useSupplierForm } from "../hooks/useSupplierForm";
+import { formFields } from "../utils/formFields";
+import { formSchema } from "../utils/formSchema";
 
-export const ModifySupplier = () => {
-  const { id } = useParams();
-  const { data, isLoading } = useGetSupplier(id!);
-  const { mutate, isSuccess, isPending } = usePatchSupplier();
+export const CreateSupplier = () => {
   const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
+  const { form } = useSupplierForm();
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    mutate({ id, ...values });
+  const { mutate, isSuccess, isPending } = usePostSupplier();
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    mutate(values);
   };
-
-  useEffect(() => {
-    if (data) {
-      form.reset({
-        ...data,
-        company_name: undefined,
-      });
-    }
-  }, [data]);
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (!data) {
-    return <ErrorLoading />;
-  }
 
   if (isSuccess) {
     navigate("../view");
@@ -66,7 +41,7 @@ export const ModifySupplier = () => {
 
   return (
     <>
-      <Label className="text-2xl">Modificar proveedor</Label>
+      <Label className="text-2xl">Registro de proveedor</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <Form {...form}>
@@ -197,17 +172,14 @@ export const ModifySupplier = () => {
               )}
             />
           </form>
-
-          <div className="flex w-48 gap-2 mt-2">
-            <Button type="submit" form="formUser" disabled={isPending}>
-              {isPending && (
-                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
-              )}
-              Actualizar
-            </Button>
-            <ButtonCancelRegister action={() => navigate(-1)} />
-          </div>
         </Form>
+        <div className="flex w-48 gap-2 mt-2">
+          <Button type="submit" form="formUser" disabled={isPending}>
+            {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
+            Guardar
+          </Button>
+          <ButtonCancelRegister action={() => navigate(-1)} />
+        </div>
       </ScrollArea>
     </>
   );

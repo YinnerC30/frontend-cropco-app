@@ -1,8 +1,9 @@
-import { Supplier } from "@/modules/suppliers/Supplier";
+import { Supplier } from "@/modules/suppliers/interfaces/Supplier";
 import { ColumnDef } from "@tanstack/react-table";
-import { formFields } from "./ElementsSupplierForm";
-import { useDeleteSupplier } from "./hooks/useDeleteSupplier";
-import { ActionsTable, ButtonHeaderTable } from "../core/components";
+
+import { useDeleteSupplier } from "../hooks/useDeleteSupplier";
+import { ActionsTable, ButtonHeaderTable } from "../../core/components";
+import { formFields } from "../utils/formFields";
 
 export let columns: ColumnDef<Supplier>[] = [
   {

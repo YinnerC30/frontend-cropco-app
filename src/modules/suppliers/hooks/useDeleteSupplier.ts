@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { deleteSupplier } from '../actions/delete';
+import { deleteSupplier } from '../services/delete';
 
 export const useDeleteSupplier = () => {
   const queryClient = useQueryClient();

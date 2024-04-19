@@ -1,7 +1,7 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { useGetAllSuppliers } from "./hooks/useGetAllSuppliers";
-import columns from "./ColumnsSupplier";
+import { useGetAllSuppliers } from "../hooks/useGetAllSuppliers";
+import columns from "./ColumnsTable";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
@@ -13,7 +13,7 @@ import {
   SearchBar,
   ToolTipTemplate,
   DataTable,
-} from "../core/components";
+} from "../../core/components";
 import { Button } from "@/components/ui/button";
 
 export const SuppliersModule = () => {

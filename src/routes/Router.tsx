@@ -6,7 +6,7 @@ import { cropRoutes } from "@/modules/crops/Routes";
 import { employeeRoutes } from "@/modules/employees/Routes";
 import { harvestProcessedRoutes } from "@/modules/harvest-processed/Routes";
 import { harvestRoutes } from "@/modules/harvests/Routes";
-import { supplierRoutes } from "@/modules/suppliers/Routes";
+import { supplierRoutes } from "@/modules/suppliers/routes/Routes";
 import { supplyRoutes } from "@/modules/supplies/routes/Routes";
 import { userRoutes } from "@/modules/users/routes/Routes";
 

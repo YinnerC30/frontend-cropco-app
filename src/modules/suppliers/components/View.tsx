@@ -9,18 +9,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Textarea } from "@/components/ui/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
-import { z } from "zod";
-import { defaultValues, formFields, formSchema } from "./ElementsSupplierForm";
-import { useGetSupplier } from "./hooks/useGetSupplier";
 import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { ErrorLoading, Loading } from "../core/components";
+import { Textarea } from "@/components/ui/textarea";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ErrorLoading, Loading } from "../../core/components";
+import { useGetSupplier } from "../hooks/useGetSupplier";
+import { useSupplierForm } from "../hooks/useSupplierForm";
+import { formFields } from "../utils/formFields";
 
 export const ViewSupplier = () => {
   const { id } = useParams();
@@ -28,10 +26,7 @@ export const ViewSupplier = () => {
 
   const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
+  const { form } = useSupplierForm();
 
   useEffect(() => {
     if (data) {
