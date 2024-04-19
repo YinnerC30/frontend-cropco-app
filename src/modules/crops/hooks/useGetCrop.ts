@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getCropById } from '../actions/getOne';
+import { getCropById } from '../services/getOne';
 
 
 export const useGetCrop = (id: string) => {

@@ -1,8 +1,8 @@
 import { PlusIcon } from "lucide-react";
 
 import { useNavigate, useSearchParams } from "react-router-dom";
-import columns from "./ColumnsCrop";
-import { useGetAllCrops } from "./hooks/useGetAllCrops";
+import columns from "./ColumnsTable";
+import { useGetAllCrops } from "../hooks/useGetAllCrops";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -13,7 +13,7 @@ import {
   SearchBar,
   ToolTipTemplate,
   DataTable,
-} from "../core/components";
+} from "../../core/components";
 
 export const CropsModule = () => {
   const navigate = useNavigate();

@@ -19,7 +19,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 
-import { Crop } from "@/modules/crops/Crop";
+import { Crop } from "@/modules/crops/interfaces/Crop";
 import { cn } from "@/lib/utils";
 import { AppDispatch, useAppDispatch, useAppSelector } from "@/redux/store";
 import { zodResolver } from "@hookform/resolvers/zod";

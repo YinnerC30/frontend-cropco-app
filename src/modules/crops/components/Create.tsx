@@ -1,6 +1,22 @@
+import { es } from "date-fns/locale";
+import { z } from "zod";
 
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CalendarIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import {
   Form,
   FormControl,
@@ -9,72 +25,46 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { CalendarIcon } from '@radix-ui/react-icons';
-import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import { z } from 'zod';
-import { defaultValues, formFields, formSchema } from './ElementsCropForm';
-import { useGetCrop } from './hooks/useGetCrop';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { Loading, ErrorLoading } from '../core/components';
+} from "../../../components/ui/form";
 
-export const ViewCrop = () => {
-  const { id } = useParams();
+import { usePostCrop } from "../hooks/usePostCrop";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { ButtonCancelRegister } from "../../core/components";
+
+import { formSchema, formFields } from "../utils";
+import { useCropForm } from "../hooks/useCropForm";
+
+export const CreateCrop = () => {
   const navigate = useNavigate();
-  const { data, isLoading } = useGetCrop(id!);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
+  const { form } = useCropForm();
 
-  useEffect(() => {
-    if (data) {
-      const cropData = {
-        ...data,
-        dates: {
-          date_of_creation: new Date(`${data.date_of_creation}T00:00:00-05:00`),
-          date_of_termination: data.date_of_termination
-            ? new Date(`${data.date_of_termination}T00:00:00-05:00`)
-            : undefined,
-        },
-      };
-      form.reset(cropData);
-    }
-  }, [data]);
+  const { isSuccess, mutate, isPending } = usePostCrop();
 
-  if (isLoading) return <Loading />;
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const { dates, ...rest } = values;
+    mutate({ ...rest, ...dates });
+  };
 
-  if (!data) return <ErrorLoading />;
+  if (isSuccess) {
+    navigate("../view");
+  }
 
   return (
     <>
-      <Label className="text-2xl">
-        Información del cultivo de "{data.name}"
-      </Label>
+      <Label className="text-2xl">Registro de cultivo</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <Form {...form}>
-          <form id="formCrop" className="flex flex-col gap-2 ml-1">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            id="formCrop"
+            className="flex flex-col gap-2 ml-1"
+          >
             <FormField
-              disabled
               control={form.control}
-              name={'name'}
+              name={"name"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.name.label}</FormLabel>
@@ -93,9 +83,8 @@ export const ViewCrop = () => {
               )}
             />
             <FormField
-              disabled
               control={form.control}
-              name={'description'}
+              name={"description"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.description.label}</FormLabel>
@@ -115,9 +104,8 @@ export const ViewCrop = () => {
               )}
             />
             <FormField
-              disabled
               control={form.control}
-              name={'units'}
+              name={"units"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.units.label}</FormLabel>
@@ -126,7 +114,7 @@ export const ViewCrop = () => {
                       className="w-56"
                       placeholder={formFields.units.placeholder}
                       {...field}
-                      type={'number'}
+                      type={"number"}
                       min={0}
                     />
                   </FormControl>
@@ -140,7 +128,6 @@ export const ViewCrop = () => {
             />
 
             <FormField
-              disabled
               control={form.control}
               name={`location`}
               render={({ field }) => (
@@ -175,15 +162,14 @@ export const ViewCrop = () => {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            disabled
-                            variant={'outline'}
+                            variant={"outline"}
                             className={cn(
-                              'w-[240px] pl-3 text-left font-normal',
-                              !field.value && 'text-muted-foreground',
+                              "w-[240px] pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
                             )}
                           >
                             {field.value ? (
-                              format(field.value, 'PPP', { locale: es })
+                              format(field.value, "PPP", { locale: es })
                             ) : (
                               <span>Selecciona una fecha</span>
                             )}
@@ -197,8 +183,8 @@ export const ViewCrop = () => {
                           mode="single"
                           selected={new Date(field.value)}
                           onSelect={field.onChange}
-                          disabled={date =>
-                            date > new Date() || date < new Date('1900-01-01')
+                          disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
                           }
                           initialFocus
                         />
@@ -224,15 +210,14 @@ export const ViewCrop = () => {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            disabled
-                            variant={'outline'}
+                            variant={"outline"}
                             className={cn(
-                              'w-[240px] pl-3 text-left font-normal',
-                              !field.value && 'text-muted-foreground',
+                              "w-[240px] pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
                             )}
                           >
                             {field.value ? (
-                              format(field.value, 'PPP', { locale: es })
+                              format(field.value, "PPP", { locale: es })
                             ) : (
                               <span>Selecciona una fecha</span>
                             )}
@@ -248,8 +233,8 @@ export const ViewCrop = () => {
                             !field.value ? new Date(field.value!) : undefined
                           }
                           onSelect={field.onChange}
-                          disabled={date =>
-                            date > new Date() || date < new Date('1900-01-01')
+                          disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
                           }
                           initialFocus
                         />
@@ -266,7 +251,13 @@ export const ViewCrop = () => {
           </form>
 
           <div className="flex w-48 gap-2 mt-2">
-            <Button onClick={() => navigate(-1)}>Volver</Button>
+            <Button type="submit" form="formCrop" disabled={isPending}>
+              {isPending && (
+                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
+              )}
+              Guardar
+            </Button>
+            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

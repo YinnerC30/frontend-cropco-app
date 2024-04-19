@@ -2,7 +2,7 @@ import ErrorPage from "@/ErrorPage";
 
 import { clientRoutes } from "@/modules/clients/routes/Routes";
 import { Home } from "@/modules/core/components";
-import { cropRoutes } from "@/modules/crops/Routes";
+import { cropRoutes } from "@/modules/crops/routes/Routes";
 import { employeeRoutes } from "@/modules/employees/Routes";
 import { harvestProcessedRoutes } from "@/modules/harvest-processed/Routes";
 import { harvestRoutes } from "@/modules/harvests/Routes";

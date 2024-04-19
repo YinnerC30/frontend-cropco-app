@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
@@ -16,45 +18,25 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { z } from "zod";
-import { defaultValues, formFields, formSchema } from "./ElementsCropForm";
-import { useGetCrop } from "./hooks/useGetCrop";
-import { usePatchCrop } from "./hooks/usePatchCrop";
+
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import {
-  ButtonCancelRegister,
-  ErrorLoading,
-  Loading,
-} from "../core/components";
+import { ErrorLoading, Loading } from "../../core/components";
+import { useCropForm } from "../hooks/useCropForm";
+import { useGetCrop } from "../hooks/useGetCrop";
+import { formFields } from "../utils";
 
-
-import { Button, Calendar } from "@/components";
-
-export const ModifyCrop = () => {
+export const ViewCrop = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const { mutate, isPending, isSuccess } = usePatchCrop();
-
   const { data, isLoading } = useGetCrop(id!);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
-
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    const { dates, ...rest } = values;
-    mutate({ ...rest, ...dates, id });
-  };
+  const { form } = useCropForm();
 
   useEffect(() => {
     if (data) {
@@ -75,22 +57,17 @@ export const ModifyCrop = () => {
 
   if (!data) return <ErrorLoading />;
 
-  if (isSuccess) {
-    navigate(`../view`);
-  }
-
   return (
     <>
-      <Label className="text-2xl">Modificar cultivo</Label>
+      <Label className="text-2xl">
+        Información del cultivo de "{data.name}"
+      </Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            id="formCrop"
-            className="flex flex-col gap-2 ml-1"
-          >
+          <form id="formCrop" className="flex flex-col gap-2 ml-1">
             <FormField
+              disabled
               control={form.control}
               name={"name"}
               render={({ field }) => (
@@ -111,6 +88,7 @@ export const ModifyCrop = () => {
               )}
             />
             <FormField
+              disabled
               control={form.control}
               name={"description"}
               render={({ field }) => (
@@ -132,6 +110,7 @@ export const ModifyCrop = () => {
               )}
             />
             <FormField
+              disabled
               control={form.control}
               name={"units"}
               render={({ field }) => (
@@ -156,6 +135,7 @@ export const ModifyCrop = () => {
             />
 
             <FormField
+              disabled
               control={form.control}
               name={`location`}
               render={({ field }) => (
@@ -190,6 +170,7 @@ export const ModifyCrop = () => {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
+                            disabled
                             variant={"outline"}
                             className={cn(
                               "w-[240px] pl-3 text-left font-normal",
@@ -238,6 +219,7 @@ export const ModifyCrop = () => {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
+                            disabled
                             variant={"outline"}
                             className={cn(
                               "w-[240px] pl-3 text-left font-normal",
@@ -279,13 +261,7 @@ export const ModifyCrop = () => {
           </form>
 
           <div className="flex w-48 gap-2 mt-2">
-            <Button type="submit" form="formCrop" disabled={isPending}>
-              {isPending && (
-                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
-              )}
-              Actualizar
-            </Button>
-            <ButtonCancelRegister action={() => navigate(-1)} />
+            <Button onClick={() => navigate(-1)}>Volver</Button>
           </div>
         </Form>
       </ScrollArea>

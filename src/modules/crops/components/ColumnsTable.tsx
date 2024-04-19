@@ -1,10 +1,9 @@
+import { Crop } from "@/modules/crops/interfaces/Crop";
+import { ColumnDef } from "@tanstack/react-table";
 
-
-import { Crop } from '@/modules/crops/Crop';
-import { ColumnDef } from '@tanstack/react-table';
-import { formFields } from './ElementsCropForm';
-import { useDeleteCrop } from './hooks/useDeleteCrop';
-import { ButtonHeaderTable, ActionsTable } from '../core/components';
+import { useDeleteCrop } from "../hooks/useDeleteCrop";
+import { ButtonHeaderTable, ActionsTable } from "../../core/components";
+import { formFields } from "../utils";
 
 export let columns: ColumnDef<Crop>[] = [
   {
@@ -67,7 +66,7 @@ export let columns: ColumnDef<Crop>[] = [
 ];
 
 columns.push({
-  id: 'actions',
+  id: "actions",
   cell: ({ row }: any) => {
     const { id } = row.original;
     const { mutate } = useDeleteCrop();
