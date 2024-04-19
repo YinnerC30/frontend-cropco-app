@@ -24,7 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { cn } from "@/lib/utils";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { useAppDispatch } from "@/redux/store";
 import { toast } from "sonner";
 
 import { calculateTotal, modify } from "../utils/harvestSlice";
@@ -44,39 +44,32 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { Employee } from "@/modules/employees/interfaces/Employee";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useEffect } from "react";
 import { z } from "zod";
-import { useGetAllEmployees } from "../../employees/hooks/useGetAllEmployees";
+import { useHarvestDetailForm } from "../hooks/useHarvestDetailForm";
 import { formSchemaHarvestDetail } from "../utils";
 
 interface Props {
   defaultValues: any;
   isDialogOpen: boolean;
   setDialogOpen: any;
-  setOpenDropDownMenu?: any;
+  afterEffect?: any;
 }
 
 export const ModifyHarvestDetail = ({
   isDialogOpen,
   setDialogOpen,
   defaultValues,
-  setOpenDropDownMenu,
+  afterEffect,
 }: Props) => {
-  const { query: queryEmployees } = useGetAllEmployees({
-    searchParameter: "",
-    allRecords: true,
-  });
-
-  const details: any = useAppSelector((state: any) => state.harvest.details);
-
-  const formHarvestDetail = useCreateForm({
-    schema: formSchemaHarvestDetail,
-    defaultValues,
-  });
-
   const dispatch = useAppDispatch();
+  const { details, queryEmployees, formHarvestDetail } = useHarvestDetailForm();
+
+  useEffect(() => {
+    formHarvestDetail.reset(defaultValues);
+  }, []);
 
   const onSubmitHarvestDetail = (
     values: z.infer<typeof formSchemaHarvestDetail>
@@ -94,7 +87,7 @@ export const ModifyHarvestDetail = ({
     dispatch(calculateTotal());
     toast.success("Registro actualizado");
     setDialogOpen(false);
-    setOpenDropDownMenu(false);
+    afterEffect(false);
   };
   return (
     <Dialog open={isDialogOpen}>

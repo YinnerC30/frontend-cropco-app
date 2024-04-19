@@ -22,7 +22,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Crop } from "@/modules/crops/interfaces/Crop";
 
 import { cn } from "@/lib/utils";
-import { AppDispatch, useAppDispatch, useAppSelector } from "@/redux/store";
+import { AppDispatch, useAppDispatch } from "@/redux/store";
 import {
   CalendarIcon,
   CaretSortIcon,
@@ -44,7 +44,6 @@ import {
   FormLabel,
   FormMessage,
 } from "../../../components/ui/form";
-import { useGetAllCrops } from "../../crops/hooks/useGetAllCrops";
 
 import {
   ButtonCancelRegister,
@@ -58,20 +57,24 @@ import { formFieldsHarvest, formSchemaHarvest } from "../utils";
 import { reset } from "../utils/harvestSlice";
 import { columnsHarvestDetailActions } from "./ColumnsTableHarvestDetail";
 import { DataTableHarvestDetail } from "./DataTableHarvestDetails";
-import { FormHarvestDetail } from "./FormHarvestDetail";
+import { CreateHarvestDetail } from "./CreateHarvestDetail";
 import { ModifyHarvestDetail } from "./ModifyHarvestDetail";
 
 export const CreateHarvest = () => {
   const dispatch: AppDispatch = useAppDispatch();
-
+  const { mutate, isSuccess, isPending } = usePostHarvest();
   const {
-    isOpenDialogForm,
-    setIsOpenDialogForm,
-    isOpenDialogModifyForm,
-    setIsOpenDialogModifyForm,
-    harvestDetail,
-    setHarvestDetail,
+    details,
     formHarvest,
+    harvestDetail,
+    isOpenDialogForm,
+    isOpenDialogModifyForm,
+    queryCrops,
+    setHarvestDetail,
+    setIsOpenDialogForm,
+    setIsOpenDialogModifyForm,
+    total,
+    value_pay,
   } = useHarvestForm();
 
   useEffect(() => {
@@ -79,15 +82,6 @@ export const CreateHarvest = () => {
   }, []);
 
   const navigate = useNavigate();
-  const { query: queryCrops } = useGetAllCrops({
-    searchParameter: "",
-    allRecords: true,
-  });
-
-  const { mutate, isSuccess, isPending } = usePostHarvest();
-  const { details, total, value_pay } = useAppSelector(
-    (state: any) => state.harvest
-  );
 
   const onSubmitHarvest = (values: z.infer<typeof formSchemaHarvest>) => {
     if (details.length === 0) {
@@ -106,7 +100,6 @@ export const CreateHarvest = () => {
     });
   };
 
-  // Estados
   if (isSuccess) {
     dispatch(reset());
     navigate("../view");
@@ -298,7 +291,7 @@ export const CreateHarvest = () => {
             Agregar registro
           </Button>
 
-          <FormHarvestDetail
+          <CreateHarvestDetail
             isOpenDialogForm={isOpenDialogForm}
             setIsOpenDialogForm={setIsOpenDialogForm}
           />

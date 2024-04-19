@@ -1,6 +1,9 @@
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { useState } from "react";
 import { formSchemaHarvest } from "../utils";
+import { useGetAllCrops } from "@/modules/crops/hooks/useGetAllCrops";
+import { useAppSelector } from "@/redux/store";
+import { usePostHarvest } from "./usePostHarvest";
 
 export const defaultValuesHarvest = {
   date: undefined,
@@ -22,13 +25,28 @@ export const useHarvestForm = () => {
     schema: formSchemaHarvest,
     defaultValues: defaultValuesHarvest,
   });
+
+  const { query: queryCrops } = useGetAllCrops({
+    searchParameter: "",
+    allRecords: true,
+  });
+
+  const { details, total, value_pay } = useAppSelector(
+    (state: any) => state.harvest
+  );
+
   return {
-    isOpenDialogForm,
-    setIsOpenDialogForm,
-    isOpenDialogModifyForm,
-    setIsOpenDialogModifyForm,
-    harvestDetail,
-    setHarvestDetail,
+    details,
     formHarvest,
+    harvestDetail,
+    isOpenDialogForm,
+    isOpenDialogModifyForm,
+
+    queryCrops,
+    setHarvestDetail,
+    setIsOpenDialogForm,
+    setIsOpenDialogModifyForm,
+    total,
+    value_pay,
   };
 };

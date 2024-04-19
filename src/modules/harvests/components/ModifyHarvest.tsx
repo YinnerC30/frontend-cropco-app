@@ -22,7 +22,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Crop } from "@/modules/crops/interfaces/Crop";
 
 import { cn } from "@/lib/utils";
-import { AppDispatch, useAppDispatch, useAppSelector } from "@/redux/store";
+import { AppDispatch, useAppDispatch } from "@/redux/store";
 import {
   CalendarIcon,
   CaretSortIcon,
@@ -44,7 +44,6 @@ import {
   FormLabel,
   FormMessage,
 } from "../../../components/ui/form";
-import { useGetAllCrops } from "../../crops/hooks/useGetAllCrops";
 
 import {
   ButtonCancelRegister,
@@ -59,7 +58,7 @@ import { formFieldsHarvest, formSchemaHarvest } from "../utils";
 import { add, calculateTotal, reset } from "../utils/harvestSlice";
 import { columnsHarvestDetailActions } from "./ColumnsTableHarvestDetail";
 import { DataTableHarvestDetail } from "./DataTableHarvestDetails";
-import { FormHarvestDetail } from "./FormHarvestDetail";
+import { CreateHarvestDetail } from "./CreateHarvestDetail";
 import { ModifyHarvestDetail } from "./ModifyHarvestDetail";
 
 export const ModifyHarvest = () => {
@@ -67,31 +66,25 @@ export const ModifyHarvest = () => {
   const dispatch: AppDispatch = useAppDispatch();
   const { data, isLoading, isError } = useGetHarvest(id!);
   const { mutate, isPending, isSuccess } = usePatchHarvest(id!);
+  const navigate = useNavigate();
 
   const {
-    isOpenDialogForm,
-    setIsOpenDialogForm,
-    isOpenDialogModifyForm,
-    setIsOpenDialogModifyForm,
-    harvestDetail,
-    setHarvestDetail,
+    details,
     formHarvest,
+    harvestDetail,
+    isOpenDialogForm,
+    isOpenDialogModifyForm,
+    queryCrops,
+    setHarvestDetail,
+    setIsOpenDialogForm,
+    setIsOpenDialogModifyForm,
+    total,
+    value_pay,
   } = useHarvestForm();
 
   useEffect(() => {
     dispatch(reset());
   }, []);
-
-  const navigate = useNavigate();
-
-  const { query: queryCrops } = useGetAllCrops({
-    searchParameter: "",
-    allRecords: true,
-  });
-
-  const { details, total, value_pay } = useAppSelector(
-    (state: any) => state.harvest
-  );
 
   useEffect(() => {
     if (data) {
@@ -106,7 +99,7 @@ export const ModifyHarvest = () => {
 
   const onSubmitHarvest = (values: z.infer<typeof formSchemaHarvest>) => {
     if (details.length === 0) {
-      toast.error("Debes registrar al menos 1 cosecha de algún empleado");
+      toast.error("Agregue la cosecha de almenos 1 empleado");
       return;
     }
 
@@ -123,7 +116,6 @@ export const ModifyHarvest = () => {
     });
   };
 
-  // Estados
   if (isSuccess) {
     dispatch(reset());
     navigate("../view");
@@ -316,7 +308,7 @@ export const ModifyHarvest = () => {
             Agregar registro
           </Button>
 
-          <FormHarvestDetail
+          <CreateHarvestDetail
             isOpenDialogForm={isOpenDialogForm}
             setIsOpenDialogForm={setIsOpenDialogForm}
           />

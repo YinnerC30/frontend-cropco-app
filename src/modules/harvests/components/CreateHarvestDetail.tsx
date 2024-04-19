@@ -40,26 +40,20 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { cn } from "@/lib/utils";
 import { Employee } from "@/modules/employees/interfaces/Employee";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { useAppDispatch } from "@/redux/store";
 import { toast } from "sonner";
 import { ErrorLoading, Loading } from "../../core/components";
-import { useGetAllEmployees } from "../../employees/hooks/useGetAllEmployees";
 import { useHarvestDetailForm } from "../hooks/useHarvestDetailForm";
 import { formFieldsHarvestDetail, formSchemaHarvestDetail } from "../utils";
 import { add, calculateTotal } from "../utils/harvestSlice";
 
-export const FormHarvestDetail = ({
+export const CreateHarvestDetail = ({
   isOpenDialogForm,
   setIsOpenDialogForm,
 }: any) => {
   const dispatch = useAppDispatch();
-  const details: any = useAppSelector((state: any) => state.harvest.details);
 
-  const { query: queryEmployees } = useGetAllEmployees({
-    searchParameter: "",
-    allRecords: true,
-  });
-  const { formHarvestDetail } = useHarvestDetailForm();
+  const { formHarvestDetail, details, queryEmployees } = useHarvestDetailForm();
 
   const onSubmitHarvestDetail = async (
     values: z.infer<typeof formSchemaHarvestDetail>
