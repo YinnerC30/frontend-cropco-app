@@ -1,12 +1,4 @@
-import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ReloadIcon } from "@radix-ui/react-icons";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import {
   Form,
   FormControl,
@@ -15,46 +7,56 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../components/ui/form";
-import { defaultValues, formFields, formSchema } from "./ElementsEmployeeForm";
-
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ErrorLoading, Loading } from "../../core/components";
 
-import { usePostEmployee } from "./hooks/usePostEmployee";
-import { ButtonCancelRegister } from "../core/components";
+import { useGetEmployee } from "../hooks/useGetEmployee";
+import { formFields } from "../utils";
+import { useEmployeeForm } from "../hooks/useEmployeeForm";
 
-export const CreateEmployee = () => {
+export const ViewEmployee = () => {
+  const { id } = useParams();
+  const { data, isLoading } = useGetEmployee(id!);
+
   const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
+  const { form } = useEmployeeForm();
 
-  const { mutate, isSuccess, isPending } = usePostEmployee();
+  useEffect(() => {
+    if (data) {
+      form.reset({
+        ...data,
+        password: "",
+      });
+    }
+  }, [data]);
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    mutate(values);
-  };
+  if (isLoading) {
+    return <Loading />;
+  }
 
-  if (isSuccess) {
-    navigate("../view");
+  if (!data) {
+    return <ErrorLoading />;
   }
 
   return (
     <>
-      <Label className="text-2xl">Registro de empleado</Label>
+      <Label className="text-2xl">
+        Información del empleado "{`${data.first_name} ${data.last_name}`}"
+      </Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            id="formUser"
-            className="flex flex-col gap-2 ml-1"
-          >
+          <form id="formClient" className="flex flex-col gap-2 ml-1">
             <FormField
+              disabled
               control={form.control}
               name={`first_name`}
               render={({ field }) => (
@@ -75,6 +77,7 @@ export const CreateEmployee = () => {
               )}
             />
             <FormField
+              disabled
               control={form.control}
               name={"last_name"}
               render={({ field }) => (
@@ -95,6 +98,7 @@ export const CreateEmployee = () => {
               )}
             />
             <FormField
+              disabled
               control={form.control}
               name={"email"}
               render={({ field }) => (
@@ -115,6 +119,7 @@ export const CreateEmployee = () => {
               )}
             />
             <FormField
+              disabled
               control={form.control}
               name={"cell_phone_number"}
               render={({ field }) => (
@@ -135,6 +140,7 @@ export const CreateEmployee = () => {
               )}
             />
             <FormField
+              disabled
               control={form.control}
               name={"address"}
               render={({ field }) => (
@@ -158,13 +164,7 @@ export const CreateEmployee = () => {
           </form>
 
           <div className="flex w-48 gap-2 mt-2">
-            <Button type="submit" form="formUser" disabled={isPending}>
-              {isPending && (
-                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
-              )}
-              Guardar
-            </Button>
-            <ButtonCancelRegister action={() => navigate(-1)} />
+            <Button onClick={() => navigate(-1)}>Volver</Button>
           </div>
         </Form>
       </ScrollArea>

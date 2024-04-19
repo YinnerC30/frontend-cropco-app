@@ -13,16 +13,21 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
-import { defaultValues, formFields, formSchema } from "./ElementsEmployeeForm";
-import { useGetEmployee } from "./hooks/useGetEmployee";
-import { usePatchEmployee } from "./hooks/usePatchEmployee";
-import { ButtonCancelRegister, ErrorLoading, Loading } from "../core/components";
+
+import {
+  ButtonCancelRegister,
+  ErrorLoading,
+  Loading,
+} from "../../core/components";
+
+import { formFields, formSchema } from "../utils";
+import { useGetEmployee } from "../hooks/useGetEmployee";
+import { usePatchEmployee } from "../hooks/usePatchEmployee";
+import { useEmployeeForm } from "../hooks/useEmployeeForm";
 
 export const ModifyEmployee = () => {
   const { id } = useParams();
@@ -30,10 +35,7 @@ export const ModifyEmployee = () => {
   const { mutate, isSuccess, isPending } = usePatchEmployee();
   const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-  });
+  const { form } = useEmployeeForm();
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     mutate({ id, ...values });

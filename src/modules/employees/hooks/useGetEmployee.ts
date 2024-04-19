@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getEmployeeById } from '../actions/getOne';
+import { getEmployeeById } from '../services/getOne';
 
 export const useGetEmployee = (id: string) => {
   const query = useQuery({

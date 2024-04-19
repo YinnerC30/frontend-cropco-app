@@ -1,7 +1,7 @@
-import { CreateEmployee } from './CreateEmployee';
-import { ModifyEmployee } from './ModifyEmployee';
-import { ViewEmployee } from './ViewEmployee';
-import EmployeesModule from "./EmployeesModule";
+import { CreateEmployee } from "../components/Create";
+import { ModifyEmployee } from "../components/Modify";
+import { EmployeesModule } from "../components/Module";
+import { ViewEmployee } from "../components/View";
 
 const employeeRoutes = {
   path: "employees",
@@ -11,15 +11,15 @@ const employeeRoutes = {
       element: <EmployeesModule />,
     },
     {
-      path: 'create',
+      path: "create",
       element: <CreateEmployee />,
     },
     {
-      path: 'view/:id',
+      path: "view/:id",
       element: <ViewEmployee />,
     },
     {
-      path: 'modify/:id',
+      path: "modify/:id",
       element: <ModifyEmployee />,
     },
   ],

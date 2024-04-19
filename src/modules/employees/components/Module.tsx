@@ -1,21 +1,21 @@
+import { Button } from "@/components/ui/button";
+
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import columns from "./ColumnsEmployee";
+import columns from "./ColumnsTable";
 
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useGetAllEmployees } from "./hooks/useGetAllEmployees";
-
 import {
   Loading,
   ErrorLoading,
   SearchBar,
   ToolTipTemplate,
   DataTable,
-} from "../core/components";
-import { Button } from "@/components";
+} from "../../core/components";
+import { useGetAllEmployees } from "../hooks/useGetAllEmployees";
 
 export const EmployeesModule = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export const EmployeesModule = () => {
   const searchParameter = searchParams.get("search") || "";
 
   const { query, pagination, setPagination } = useGetAllEmployees({
-    searchParameter: searchParameter,
+    searchParameter,
     allRecords: false,
   });
 
@@ -35,7 +35,7 @@ export const EmployeesModule = () => {
 
   return (
     <>
-      <Label className="text-2xl">Empleados</Label>
+      <Label className="text-2xl">Clientes</Label>
 
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">

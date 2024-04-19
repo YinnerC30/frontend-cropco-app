@@ -1,5 +1,5 @@
-import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { Employee } from '@/modules/employees/Employee';
+import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
+import { Employee } from "../interfaces/Employee";
 
 export const updateEmployee = async (employee: Employee) => {
   const { id, ...rest } = employee;

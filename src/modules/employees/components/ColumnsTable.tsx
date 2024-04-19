@@ -1,9 +1,10 @@
+import { ButtonHeaderTable, ActionsTable } from "../../core/components";
+
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Employee } from "@/modules/employees/Employee";
-import { formFields } from "./ElementsEmployeeForm";
-import { useDeleteEmployee } from "./hooks/useDeleteEmployee";
-import { ButtonHeaderTable, ActionsTable } from "../core/components";
+import { formFields } from "../utils";
+import { Employee } from "../interfaces/Employee";
+import { useDeleteEmployee } from "../hooks/useDeleteEmployee";
 
 export let columns: ColumnDef<Employee>[] = [
   {
@@ -60,6 +61,7 @@ columns.push({
     const client = row.original;
     const { id } = client;
     const { mutate } = useDeleteEmployee();
+
     return <ActionsTable mutate={mutate} id={id} />;
   },
 });

@@ -3,7 +3,8 @@ import ErrorPage from "@/ErrorPage";
 import { clientRoutes } from "@/modules/clients/routes/Routes";
 import { Home } from "@/modules/core/components";
 import { cropRoutes } from "@/modules/crops/routes/Routes";
-import { employeeRoutes } from "@/modules/employees/Routes";
+import { employeeRoutes } from "@/modules/employees/routes/Routes";
+
 import { harvestProcessedRoutes } from "@/modules/harvest-processed/Routes";
 import { harvestRoutes } from "@/modules/harvests/Routes";
 import { supplierRoutes } from "@/modules/suppliers/routes/Routes";
