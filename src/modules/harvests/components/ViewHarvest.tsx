@@ -259,8 +259,6 @@ export const ViewHarvest = () => {
           <DataTableHarvestDetail
             data={details}
             columns={columnsHarvestDetail}
-            setHarvestDetail={undefined}
-            setIsOpenDialogModifyForm={undefined}
           />
 
           <div className="flex flex-col gap-4 ml-1 w-[300px] h-[120px] justify-center">

@@ -6,7 +6,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -15,25 +15,25 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
-} from '@radix-ui/react-icons';
-import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { DataTableProps } from './interfaces/DataTableProps';
+} from "@radix-ui/react-icons";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { DataTableProps } from "./interfaces/DataTableProps";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
 export function DataTable<TData, TValue>({
   columns,
@@ -69,12 +69,10 @@ export function DataTable<TData, TValue>({
     debugTable: true,
   });
 
-  // Paginación
   const pageIndex = table.getState().pagination.pageIndex;
   const pageCount = table.getPageCount();
   const pageText = `Página ${pageIndex + 1} de ${pageCount}`;
 
-  // Si no hay páginas, muestra solo el índice de página actual
   const messageCountPage =
     pageCount > 0 ? pageText : `Página ${pageIndex} de ${pageCount}`;
 
@@ -84,16 +82,16 @@ export function DataTable<TData, TValue>({
       <div className={`w-auto border rounded-lg my-2`}>
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map(headerGroup => (
+            {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map(header => {
+                {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                     </TableHead>
                   );
@@ -103,21 +101,20 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map(row => (
+              table.getRowModel().rows.map((row) => (
                 <TableRow
                   onDoubleClick={() => {
                     const original: any = row.original;
                     navigate(`../view/${original.id}`);
-                    
                   }}
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && "selected"}
                 >
-                  {row.getVisibleCells().map(cell => (
+                  {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}
@@ -144,7 +141,7 @@ export function DataTable<TData, TValue>({
             <p className="text-sm font-medium">Filas por página</p>
             <Select
               value={`${table.getState().pagination.pageSize}`}
-              onValueChange={value => {
+              onValueChange={(value) => {
                 table.setPageSize(Number(value));
               }}
             >
@@ -154,7 +151,7 @@ export function DataTable<TData, TValue>({
                 />
               </SelectTrigger>
               <SelectContent side="top">
-                {[10, 20, 30, 40, 50].map(pageSize => (
+                {[10, 20, 30, 40, 50].map((pageSize) => (
                   <SelectItem key={pageSize} value={`${pageSize}`}>
                     {pageSize}
                   </SelectItem>

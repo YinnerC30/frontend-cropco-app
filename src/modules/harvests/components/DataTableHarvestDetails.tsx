@@ -38,8 +38,8 @@ import {
 interface Props {
   data: any;
   columns: any;
-  setHarvestDetail: any;
-  setIsOpenDialogModifyForm: any;
+  setHarvestDetail?: any;
+  setIsOpenDialogModifyForm?: any;
 }
 
 export function DataTableHarvestDetail({
@@ -65,12 +65,10 @@ export function DataTableHarvestDetail({
     },
   });
 
-  // Paginación
   const pageIndex = table.getState().pagination.pageIndex;
   const pageCount = table.getPageCount();
   const pageText = `Página ${pageIndex + 1} de ${pageCount}`;
 
-  // Si no hay páginas, muestra solo el índice de página actual
   const messageCountPage =
     pageCount > 0 ? pageText : `Página ${pageIndex} de ${pageCount}`;
 

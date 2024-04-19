@@ -143,7 +143,12 @@ export const columnsHarvestDetailActions = [
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel asChild>
-                        <Button variant="secondary">Cancelar</Button>
+                        <Button
+                          variant="secondary"
+                          onClick={() => setOpenDropDownMenu(false)}
+                        >
+                          Cancelar
+                        </Button>
                       </AlertDialogCancel>
                       <AlertDialogAction asChild>
                         <Button onClick={() => handleDelete()}>
