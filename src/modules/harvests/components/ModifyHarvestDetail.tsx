@@ -87,7 +87,7 @@ export const ModifyHarvestDetail = ({
     dispatch(calculateTotal());
     toast.success("Registro actualizado");
     setDialogOpen(false);
-    afterEffect(false);
+    afterEffect && afterEffect(false);
   };
   return (
     <Dialog open={isDialogOpen}>

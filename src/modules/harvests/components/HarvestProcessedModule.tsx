@@ -26,12 +26,15 @@ import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
+import { ModifyHarvestProcessed } from "./ModifyHarvestProcessed";
 
 export const HarvestProcessedModule = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data = {}, isLoading, isError } = useGetHarvest(id!);
   const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
+  const [isOpenDialogFormModify, setIsOpenDialogFormModify] = useState(false);
+  const [harvestProcessed, setHarvestProcessed] = useState({});
 
   if (isLoading) {
     return <Loading />;
@@ -101,8 +104,11 @@ export const HarvestProcessedModule = () => {
             />
           </div>
         </div>
-        <Separator className="my-4"/>
-        <Label>A continuación registre de forma individual la cosecha procesada que ha salido hasta el momento:</Label>
+        <Separator className="my-4" />
+        <Label>
+          A continuación registre de forma individual la cosecha procesada que
+          ha salido hasta el momento:
+        </Label>
         <div className="flex items-start justify-between gap-2 w-[800px] p-1">
           <ToolTipTemplate content={"Agregar"}>
             <Button
@@ -117,26 +123,35 @@ export const HarvestProcessedModule = () => {
               isOpenDialogForm={isOpenDialogForm}
               setIsOpenDialogForm={setIsOpenDialogForm}
               crop={{ id: data.crop.id }}
-              harvest={{ id: data.id }}
+              harvest={{ id: data.id, date: data.date }}
             />
           )}
         </div>
-        
-          <DataTableHarvestProcessed
-            data={
-              data.processed
-                ? data.processed.map((item: Harvest) => {
-                    return {
-                      ...item,
-                      crop: data.crop,
-                      harvest: { id: data.id },
-                    };
-                  })
-                : []
-            }
-            columns={columnsHarvestProcessed}
+
+        <DataTableHarvestProcessed
+          data={
+            data.processed
+              ? data.processed.map((item: Harvest) => {
+                  return {
+                    ...item,
+                    crop: data.crop,
+                    harvest: { id: data.id },
+                  };
+                })
+              : []
+          }
+          columns={columnsHarvestProcessed}
+          setHarvestProcessed={setHarvestProcessed}
+          setIsOpenDialogModifyForm={setIsOpenDialogFormModify}
+        />
+
+        {isOpenDialogFormModify && (
+          <ModifyHarvestProcessed
+            isOpenDialogForm={isOpenDialogFormModify}
+            setIsOpenDialogForm={setIsOpenDialogFormModify}
+            defaultValues={harvestProcessed}
           />
-        
+        )}
 
         <Button onClick={() => navigate(-1)}>Volver</Button>
       </ScrollArea>

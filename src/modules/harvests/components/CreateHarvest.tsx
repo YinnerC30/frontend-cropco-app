@@ -56,10 +56,9 @@ import { HarvestDetail } from "../interfaces/HarvestDetail";
 import { formFieldsHarvest, formSchemaHarvest } from "../utils";
 import { reset } from "../utils/harvestSlice";
 import { columnsHarvestDetailActions } from "./ColumnsTableHarvestDetail";
-import { DataTableHarvestDetail } from "./DataTableHarvestDetails";
 import { CreateHarvestDetail } from "./CreateHarvestDetail";
+import { DataTableHarvestDetail } from "./DataTableHarvestDetails";
 import { ModifyHarvestDetail } from "./ModifyHarvestDetail";
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 
 export const CreateHarvest = () => {
   const dispatch: AppDispatch = useAppDispatch();

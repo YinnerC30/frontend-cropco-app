@@ -33,6 +33,7 @@ import { es } from "date-fns/locale";
 import { usePatchHarvestProcessed } from "../hooks/usePatchHarvestProcessed";
 import { formFieldsHarvestProcessed } from "../utils/formFieldsHarvestProcessed";
 import { formSchemaHarvestProcessed } from "../utils/formSchemaHarvestProcessed";
+import { useEffect } from "react";
 
 export const ModifyHarvestProcessed = ({
   isOpenDialogForm,
@@ -40,7 +41,6 @@ export const ModifyHarvestProcessed = ({
   defaultValues,
   afterEffect,
 }: any) => {
-  console.log(defaultValues);
   const formProcessed = useCreateForm({
     schema: formSchemaHarvestProcessed,
     defaultValues: {
@@ -64,10 +64,12 @@ export const ModifyHarvestProcessed = ({
     });
   };
 
-  if (isSuccess) {
-    setIsOpenDialogForm(false);
-    afterEffect(false);
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      setIsOpenDialogForm(false);
+      afterEffect && afterEffect(false);
+    }
+  }, [isSuccess]);
 
   return (
     <div>
@@ -182,7 +184,7 @@ export const ModifyHarvestProcessed = ({
               onClick={() => {
                 formProcessed.reset();
                 setIsOpenDialogForm(false);
-                afterEffect(false);
+                afterEffect && afterEffect(false);
               }}
             >
               Cancelar
