@@ -32,8 +32,9 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { usePatchHarvestProcessed } from "../hooks/usePatchHarvestProcessed";
 import { formFieldsHarvestProcessed } from "../utils/formFieldsHarvestProcessed";
-import { formSchemaHarvestProcessed } from "../utils/formSchemaHarvestProcessed";
+
 import { useEffect } from "react";
+import { CreateformSchemaHarvestProcessed } from "../utils/formSchemaHarvestProcessed";
 
 export const ModifyHarvestProcessed = ({
   isOpenDialogForm,
@@ -41,6 +42,11 @@ export const ModifyHarvestProcessed = ({
   defaultValues,
   afterEffect,
 }: any) => {
+  console.log(defaultValues);
+
+  const formSchemaHarvestProcessed = CreateformSchemaHarvestProcessed(
+    defaultValues.harvest.date
+  );
   const formProcessed = useCreateForm({
     schema: formSchemaHarvestProcessed,
     defaultValues: {

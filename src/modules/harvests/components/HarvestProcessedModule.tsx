@@ -135,7 +135,7 @@ export const HarvestProcessedModule = () => {
                   return {
                     ...item,
                     crop: data.crop,
-                    harvest: { id: data.id },
+                    harvest: { id: data.id, date: data.date },
                   };
                 })
               : []

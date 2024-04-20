@@ -32,7 +32,7 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { usePostHarvestProcessed } from "../hooks/usePostHarvestProcessed";
 import { formFieldsHarvestProcessed } from "../utils/formFieldsHarvestProcessed";
-// import { formSchemaHarvestProcessed } from "../utils/formSchemaHarvestProcessed";
+import { CreateformSchemaHarvestProcessed } from "../utils/formSchemaHarvestProcessed";
 
 export const CreateHarvestProcessed = ({
   isOpenDialogForm,
@@ -40,26 +40,12 @@ export const CreateHarvestProcessed = ({
   crop,
   harvest,
 }: any) => {
-  const formSchemaHarvestProcessed2 = z.object({
-    date: z.date({ required_error: "La fecha es un campo obligatorio" }).refine(
-      (date) => {
-        console.log(new Date(date) < new Date(harvest.date));
-        return new Date(date) > new Date(harvest.date);
-      },
-      {
-        message: "La fecha debe ser superior a la de la cosecha",
-      }
-    ),
-    total: z.coerce
-      .number({
-        required_error: `El total es requerido`,
-        invalid_type_error: `Debe introducir un valor numérico`,
-      })
-      .positive({ message: `El número debe ser positivo` }),
-  });
+  const formSchemaHarvestProcessed = CreateformSchemaHarvestProcessed(
+    harvest.date
+  );
 
   const formProcessed = useCreateForm({
-    schema: formSchemaHarvestProcessed2,
+    schema: formSchemaHarvestProcessed,
     defaultValues: {
       date: undefined,
       total: 0,
@@ -69,7 +55,7 @@ export const CreateHarvestProcessed = ({
   const { mutate, isSuccess, isPending } = usePostHarvestProcessed();
 
   const onSubmitHarvestProcessed = async (
-    values: z.infer<typeof formSchemaHarvestProcessed2>
+    values: z.infer<typeof formSchemaHarvestProcessed>
   ) => {
     mutate({ ...values, crop, harvest: { id: harvest.id } });
   };
