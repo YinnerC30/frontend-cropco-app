@@ -17,7 +17,7 @@ import {
   FormMessage,
   Form,
 } from "@/components/ui/form";
-import { formFields, formSchema } from "../../clients/utils";
+import { formFields, formSchema } from "../utils";
 import { defaultValues } from "../hooks/useUserForm";
 
 export const ViewUser = () => {

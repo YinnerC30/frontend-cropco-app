@@ -1,6 +1,6 @@
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { useState } from "react";
-import { formSchema } from "../../clients/utils";
+import { formSchema } from "../utils";
 
 export const defaultValues = {
   first_name: "",
