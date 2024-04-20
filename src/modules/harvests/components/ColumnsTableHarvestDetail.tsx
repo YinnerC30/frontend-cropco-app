@@ -34,6 +34,7 @@ import { ModifyHarvestDetail } from "./ModifyHarvestDetail";
 import { remove, calculateTotal } from "../utils/harvestSlice";
 import { HarvestDetail } from "../interfaces/HarvestDetail";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
+import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
 
 export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
   {
@@ -53,6 +54,9 @@ export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
   },
   {
     accessorKey: "total",
+    cell: ({ row }) => {
+      return FormatNumber(row.getValue("total"));
+    },
     header: ({ column }: any) => {
       return (
         <Button

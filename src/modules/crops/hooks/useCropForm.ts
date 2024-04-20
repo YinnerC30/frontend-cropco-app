@@ -4,7 +4,7 @@ import { formSchema } from "../utils";
 const defaultValues = {
   name: undefined,
   description: undefined,
-  units: undefined,
+  units: 0,
   location: undefined,
   dates: {
     date_of_creation: undefined,

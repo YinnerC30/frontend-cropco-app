@@ -34,6 +34,7 @@ import { ButtonCancelRegister } from "../../core/components";
 
 import { formSchema, formFields } from "../utils";
 import { useCropForm } from "../hooks/useCropForm";
+import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
 
 export const CreateCrop = () => {
   const navigate = useNavigate();
@@ -113,9 +114,10 @@ export const CreateCrop = () => {
                     <Input
                       className="w-56"
                       placeholder={formFields.units.placeholder}
-                      {...field}
-                      type={"number"}
+                      // type={"number"}
                       min={0}
+                      {...field}
+                      pattern="[/^(0|[1-9]\d*)(\.\d+)?$/]"
                     />
                   </FormControl>
 

@@ -1,23 +1,25 @@
+import { Button } from "@/components/ui/button";
 
+import { PlusIcon } from "@radix-ui/react-icons";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { Button } from '@/components/ui/button';
-
-
-import { PlusIcon } from '@radix-ui/react-icons';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-
-
-import { Label } from '@/components/ui/label';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { DataTable, ErrorLoading, Loading, ToolTipTemplate } from '../../core/components';
-import columnsHarvest from './ColumnsTableHarvest';
-import { useGetAllHarvests } from '../hooks/useGetAllHarvests';
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import {
+  DataTable,
+  ErrorLoading,
+  Loading,
+  ToolTipTemplate,
+} from "../../core/components";
+import columnsHarvest from "./ColumnsTableHarvest";
+import { useGetAllHarvests } from "../hooks/useGetAllHarvests";
+import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
 
 export const HarvestModule = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const searchParameter = searchParams.get('search') || '';
+  const searchParameter = searchParams.get("search") || "";
 
   const { query, pagination, setPagination } =
     useGetAllHarvests(searchParameter);
@@ -33,12 +35,13 @@ export const HarvestModule = () => {
       <Label className="text-2xl">Cosechas</Label>
 
       <Separator className="my-2" />
+
       <ScrollArea className="w-full h-[80vh]">
         <div className="flex items-start justify-between gap-2 w-[800px] p-1">
-          <ToolTipTemplate content={'Crear'}>
+          <ToolTipTemplate content={"Crear"}>
             <Button
               className="bg-blue-600 rounded-full hover:bg-blue-400"
-              onClick={() => navigate('../create')}
+              onClick={() => navigate("../create")}
             >
               <PlusIcon className="w-4 h-4 mr-2" /> Crear
             </Button>

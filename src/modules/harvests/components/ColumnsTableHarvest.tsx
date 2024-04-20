@@ -11,10 +11,15 @@ import { formFieldsHarvest } from "../utils";
 
 import { ActionsHarvestTable } from "./ActionsHarvestTable";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
+import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
+import { FormatDate } from "@/modules/core/helpers/FormatDate";
 
 export let columnsHarvest: ColumnDef<TableHarvest>[] = [
   {
     accessorKey: formFieldsHarvest.date.name,
+    cell: ({ row }) => {
+      return FormatDate({ date: row.getValue("date") });
+    },
     header: ({ column }: any) => {
       return (
         <Button
@@ -45,6 +50,9 @@ export let columnsHarvest: ColumnDef<TableHarvest>[] = [
   },
   {
     accessorKey: formFieldsHarvest.total.name,
+    cell: ({ row }) => {
+      return FormatNumber(row.getValue("total"));
+    },
     header: ({ column }: any) => {
       return (
         <Button
