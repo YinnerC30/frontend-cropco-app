@@ -1,4 +1,4 @@
-import { CalendarIcon, Cross2Icon } from "@radix-ui/react-icons";
+import { CalendarIcon, Cross2Icon, ReloadIcon } from "@radix-ui/react-icons";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -48,7 +48,7 @@ export const CreateHarvestProcessed = ({
     },
   });
 
-  const { mutate, isSuccess } = usePostHarvestProcessed();
+  const { mutate, isSuccess, isPending } = usePostHarvestProcessed();
 
   const onSubmitHarvestProcessed = async (
     values: z.infer<typeof formSchemaHarvestProcessed>
@@ -177,7 +177,10 @@ export const CreateHarvestProcessed = ({
             >
               Cancelar
             </Button>
-            <Button type="submit" form="formProcessed">
+            <Button type="submit" form="formProcessed" disabled={isPending}>
+            {isPending && (
+                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
+              )}
               Guardar
             </Button>
           </DialogFooter>

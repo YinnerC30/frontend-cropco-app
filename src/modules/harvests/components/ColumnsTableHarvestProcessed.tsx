@@ -11,6 +11,7 @@ import { useDeleteHarvestProcessed } from "../hooks/useDeleteHarvestProcessed";
 import { HarvestProcessed } from "../interfaces/HarvestProcessed";
 import { formFieldsHarvestProcessed } from "../utils/formFieldsHarvestProcessed";
 import { ActionsHarvestProcessedTable } from "./ActionsHarvestProcessedTable";
+import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
 
 export let columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
   {
@@ -34,6 +35,10 @@ export let columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
   },
   {
     accessorKey: formFieldsHarvestProcessed.total.name,
+    cell: ({ row }) => {
+      const total: number = row.getValue("total");
+      return FormatNumber(total);
+    },
     header: ({ column }: any) => {
       return (
         <Button

@@ -245,7 +245,8 @@ export const ViewHarvest = () => {
             />
           </form>
 
-          <Separator className="w-full my-5" />
+          <Separator className="w-full my-2" />
+          <Label className="mb-4">Cosecha que realizo cada empleado:</Label>
 
           <DataTableHarvestDetail
             data={details}

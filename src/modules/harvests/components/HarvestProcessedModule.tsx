@@ -101,6 +101,8 @@ export const HarvestProcessedModule = () => {
             />
           </div>
         </div>
+        <Separator className="my-4"/>
+        <Label>A continuación registre de forma individual la cosecha procesada que ha salido hasta el momento:</Label>
         <div className="flex items-start justify-between gap-2 w-[800px] p-1">
           <ToolTipTemplate content={"Agregar"}>
             <Button
@@ -119,7 +121,7 @@ export const HarvestProcessedModule = () => {
             />
           )}
         </div>
-        <div className="w-[200px]">
+        
           <DataTableHarvestProcessed
             data={
               data.processed
@@ -134,7 +136,7 @@ export const HarvestProcessedModule = () => {
             }
             columns={columnsHarvestProcessed}
           />
-        </div>
+        
 
         <Button onClick={() => navigate(-1)}>Volver</Button>
       </ScrollArea>

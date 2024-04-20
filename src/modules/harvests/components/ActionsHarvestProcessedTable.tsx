@@ -76,7 +76,7 @@ export const ActionsHarvestProcessedTable = ({ mutate, id, values }: Props) => {
         </DropdownMenuItem>
         <DropdownMenuSeparator className="w-full" />
         <DropdownMenuItem asChild>
-          <div>
+          <>
             <Button variant="ghost" onClick={() => setIsOpenDialogForm(true)}>
               <Pencil2Icon className="w-full h-4 mr-2" /> Modificar
             </Button>
@@ -88,7 +88,7 @@ export const ActionsHarvestProcessedTable = ({ mutate, id, values }: Props) => {
                 afterEffect={setOpenDropDownMenu}
               />
             )}
-          </div>
+          </>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

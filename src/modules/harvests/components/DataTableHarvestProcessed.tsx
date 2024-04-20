@@ -73,7 +73,7 @@ export function DataTableHarvestProcessed({
 
   return (
     <>
-      <div className="w-[450px]">
+      <div className="w-[400px]">
         {/* Tabla */}
         <div className={`w-auto border rounded-lg mt-3`}>
           <Table>
@@ -130,6 +130,7 @@ export function DataTableHarvestProcessed({
           </Table>
         </div>
         {/* Paginación */}
+      </div>
         <div className="flex items-center justify-start gap-4 my-2">
           {/* Select de cantidad de registros por pagina */}
           <div className="flex items-center space-x-2">
@@ -203,7 +204,6 @@ export function DataTableHarvestProcessed({
             <p className="text-sm font-medium">Total: {data.length}</p>
           </div>
         </div>
-      </div>
     </>
   );
 }

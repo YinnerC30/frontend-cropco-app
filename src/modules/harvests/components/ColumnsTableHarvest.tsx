@@ -60,7 +60,7 @@ export let columnsHarvest: ColumnDef<TableHarvest>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {formFieldsHarvest.total.label}
+          Total Cosechado:
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );

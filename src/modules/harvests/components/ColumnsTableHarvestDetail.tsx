@@ -46,7 +46,7 @@ export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {"Empleado"}
+          {"Empleado:"}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
@@ -64,7 +64,7 @@ export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {"Total"}
+          {"Total cosechado:"}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
@@ -82,7 +82,7 @@ export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {"Valor a pagar"}
+          {"Valor a pagar:"}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
@@ -167,8 +167,9 @@ export const columnsHarvestDetailActions = [
                   </AlertDialogContent>
                 </AlertDialog>
               </DropdownMenuItem>
+              <DropdownMenuSeparator className="w-full" />
               <DropdownMenuItem asChild>
-                <div>
+                <>
                   <Button variant="ghost" onClick={() => setDialogOpen(true)}>
                     <Pencil2Icon className="w-full h-4 mr-2" /> Modificar
                   </Button>
@@ -178,7 +179,7 @@ export const columnsHarvestDetailActions = [
                     setDialogOpen={setDialogOpen}
                     afterEffect={setOpenDropDownMenu}
                   />
-                </div>
+                </>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

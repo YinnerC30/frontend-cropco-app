@@ -88,7 +88,6 @@ export const ActionsHarvestTable = ({ mutate, id }: Props) => {
         <DropdownMenuItem asChild>
           <Button
             variant={"ghost"}
-            className="mr-2"
             onClick={() => navigate(`../processed/view/${id}`)}
           >
             <LayersIcon className="w-full h-4 mr-2" /> Inventario
