@@ -20,7 +20,6 @@ import {
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -74,7 +73,7 @@ export function DataTableHarvestProcessed({
 
   return (
     <>
-      <div className="w-[600px]">
+      <div className="w-[450px]">
         {/* Tabla */}
         <div className={`w-auto border rounded-lg mt-3`}>
           <Table>

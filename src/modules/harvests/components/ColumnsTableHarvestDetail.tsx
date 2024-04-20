@@ -33,6 +33,7 @@ import { toast } from "sonner";
 import { ModifyHarvestDetail } from "./ModifyHarvestDetail";
 import { remove, calculateTotal } from "../utils/harvestSlice";
 import { HarvestDetail } from "../interfaces/HarvestDetail";
+import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 
 export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
   {
@@ -67,6 +68,9 @@ export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
   },
   {
     accessorKey: "value_pay",
+    cell: ({ row }) => {
+      return FormatMoneyValue(row.getValue("value_pay"));
+    },
     header: ({ column }: any) => {
       return (
         <Button

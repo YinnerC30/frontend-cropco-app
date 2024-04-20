@@ -10,6 +10,7 @@ import { TableHarvest } from "../interfaces/TableHarvest";
 import { formFieldsHarvest } from "../utils";
 
 import { ActionsHarvestTable } from "./ActionsHarvestTable";
+import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 
 export let columnsHarvest: ColumnDef<TableHarvest>[] = [
   {
@@ -59,6 +60,9 @@ export let columnsHarvest: ColumnDef<TableHarvest>[] = [
   },
   {
     accessorKey: formFieldsHarvest.value_pay.name,
+    cell: ({ row }) => {
+      return FormatMoneyValue(row.getValue("value_pay"));
+    },
     header: ({ column }: any) => {
       return (
         <Button

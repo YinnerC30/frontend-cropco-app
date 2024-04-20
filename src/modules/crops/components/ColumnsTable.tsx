@@ -1,8 +1,9 @@
 import { Crop } from "@/modules/crops/interfaces/Crop";
 import { ColumnDef } from "@tanstack/react-table";
 
+import { FormatDate } from "@/modules/core/helpers/FormatDate";
+import { ActionsTable, ButtonHeaderTable } from "../../core/components";
 import { useDeleteCrop } from "../hooks/useDeleteCrop";
-import { ButtonHeaderTable, ActionsTable } from "../../core/components";
 import { formFields } from "../utils";
 
 export let columns: ColumnDef<Crop>[] = [
@@ -43,6 +44,10 @@ export let columns: ColumnDef<Crop>[] = [
   },
   {
     accessorKey: formFields.date_of_creation.name,
+    cell: ({ row }) => {
+      const date: string = row.getValue(formFields.date_of_creation.name);
+      return FormatDate({ date });
+    },
     header: ({ column }: any) => {
       return (
         <ButtonHeaderTable
@@ -54,6 +59,10 @@ export let columns: ColumnDef<Crop>[] = [
   },
   {
     accessorKey: formFields.date_of_termination.name,
+    cell: ({ row }) => {
+      const date: string = row.getValue(formFields.date_of_termination.name);
+      return FormatDate({ date });
+    },
     header: ({ column }: any) => {
       return (
         <ButtonHeaderTable

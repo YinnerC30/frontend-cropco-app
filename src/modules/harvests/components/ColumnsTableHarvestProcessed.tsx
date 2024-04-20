@@ -4,16 +4,21 @@ import { ArrowUpDown } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
+import { FormatDate } from "@/modules/core/helpers/FormatDate";
+import { useQueryClient } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 import { useDeleteHarvestProcessed } from "../hooks/useDeleteHarvestProcessed";
 import { HarvestProcessed } from "../interfaces/HarvestProcessed";
 import { formFieldsHarvestProcessed } from "../utils/formFieldsHarvestProcessed";
-import { useParams } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
 import { ActionsHarvestProcessedTable } from "./ActionsHarvestProcessedTable";
 
 export let columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
   {
     accessorKey: formFieldsHarvestProcessed.date.name,
+    cell: ({ row }) => {
+      const date: string = row.getValue(formFieldsHarvestProcessed.date.name);
+      return FormatDate({ date });
+    },
     header: ({ column }: any) => {
       return (
         <Button

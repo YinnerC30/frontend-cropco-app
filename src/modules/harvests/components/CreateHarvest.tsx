@@ -59,6 +59,7 @@ import { columnsHarvestDetailActions } from "./ColumnsTableHarvestDetail";
 import { DataTableHarvestDetail } from "./DataTableHarvestDetails";
 import { CreateHarvestDetail } from "./CreateHarvestDetail";
 import { ModifyHarvestDetail } from "./ModifyHarvestDetail";
+import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 
 export const CreateHarvest = () => {
   const dispatch: AppDispatch = useAppDispatch();
