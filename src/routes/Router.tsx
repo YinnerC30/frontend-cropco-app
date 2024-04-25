@@ -6,6 +6,7 @@ import { cropRoutes } from "@/modules/crops/routes/Routes";
 import { employeeRoutes } from "@/modules/employees/routes/Routes";
 
 import { harvestRoutes } from "@/modules/harvests/routes/Routes";
+import { saleRoutes } from "@/modules/sales/routes/Routes";
 import { supplierRoutes } from "@/modules/suppliers/routes/Routes";
 import { supplyRoutes } from "@/modules/supplies/routes/Routes";
 import { userRoutes } from "@/modules/users/routes/Routes";
@@ -25,6 +26,7 @@ export const Router = createBrowserRouter([
       employeeRoutes,
       supplierRoutes,
       supplyRoutes,
+      saleRoutes,
     ],
   },
 ]);

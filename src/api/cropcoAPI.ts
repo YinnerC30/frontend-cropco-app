@@ -13,4 +13,5 @@ export const pathsCropco = {
   supplies: '/supplies',
   harvests: '/harvest',
   harvestsProcessed: '/harvest/processed',
+  sales: '/sales',
 };
