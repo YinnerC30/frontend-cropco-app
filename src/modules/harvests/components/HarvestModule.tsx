@@ -12,9 +12,8 @@ import {
   Loading,
   ToolTipTemplate,
 } from "../../core/components";
-import columnsHarvest from "./ColumnsTableHarvest";
 import { useGetAllHarvests } from "../hooks/useGetAllHarvests";
-import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
+import columnsHarvest from "./ColumnsTableHarvest";
 
 export const HarvestModule = () => {
   const navigate = useNavigate();

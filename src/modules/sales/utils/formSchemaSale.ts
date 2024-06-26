@@ -14,5 +14,5 @@ export const formSchemaSale = z.object({
     }),
   is_receivable: z.boolean({
     invalid_type_error: `El valor debe ser booleano`,
-  }),
+  }).default(false),
 });

@@ -1,4 +1,5 @@
 import { SaleModule } from "../components";
+import { CreateSale } from "../components/CreateSale";
 
 const saleRoutes = {
   path: "sales",
@@ -6,6 +7,10 @@ const saleRoutes = {
     {
       path: "view",
       element: <SaleModule />,
+    },
+    {
+      path: "create",
+      element: <CreateSale />,
     },
   ],
 };

@@ -1,10 +1,12 @@
-import { harvestReducer } from '@/modules/harvests/utils/harvestSlice';
-import { configureStore } from '@reduxjs/toolkit';
+import { harvestReducer } from "@/modules/harvests/utils/harvestSlice";
+import { saleReducer } from "@/modules/sales/utils/saleSlice";
+import { configureStore } from "@reduxjs/toolkit";
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 export const store = configureStore({
   reducer: {
     harvest: harvestReducer,
+    sale: saleReducer,
   },
 });
 

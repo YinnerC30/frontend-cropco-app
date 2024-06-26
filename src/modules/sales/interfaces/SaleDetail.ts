@@ -4,7 +4,7 @@ export interface SaleDetail {
   id?: string;
   quantity: number;
   total: number;
-  sale: ObjectWithId;
+  sale?: ObjectWithId;
   crop: ObjectWithId;
   client: ObjectWithId;
 }

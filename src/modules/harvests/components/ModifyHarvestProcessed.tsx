@@ -42,7 +42,7 @@ export const ModifyHarvestProcessed = ({
   defaultValues,
   afterEffect,
 }: any) => {
-  console.log(defaultValues);
+  
 
   const formSchemaHarvestProcessed = CreateformSchemaHarvestProcessed(
     defaultValues.harvest.date

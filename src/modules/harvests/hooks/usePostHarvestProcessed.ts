@@ -11,7 +11,7 @@ export const usePostHarvestProcessed = () => {
       const { id } = variables.harvest;
       queryClient.invalidateQueries({ queryKey: ["harvests_processed"] });
       queryClient.invalidateQueries({ queryKey: ["harvest", id] });
-      console.log(data, variables);
+
       toast.success(`Cosecha procesada creada`);
     },
     onError: (error: AxiosError) => {

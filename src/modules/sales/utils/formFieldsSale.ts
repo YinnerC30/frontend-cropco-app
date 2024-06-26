@@ -4,8 +4,8 @@ export const formFieldsSale: Record<string, CustomFormField> = {
   date: {
     name: "date",
     label: "Fecha:",
-    placeholder: "",
-    description: "Fecha de la venta",
+    placeholder: "Selecciona una fecha",
+    description: "Fecha en la que se realizo la venta",
   },
   quantity: {
     name: "quantity",
