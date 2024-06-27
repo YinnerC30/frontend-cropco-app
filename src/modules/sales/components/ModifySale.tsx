@@ -22,33 +22,34 @@ import {
   ErrorLoading,
   Loading,
 } from "@/modules/core/components";
-import { AppDispatch, useAppDispatch } from "@/redux/store";
+import { AppDispatch } from "@/redux/store";
 import { CalendarIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
-import { usePostSale } from "../hooks";
+import { useGetSale, usePatchSale } from "../hooks";
 import { useSaleForm } from "../hooks/useSaleForm";
 import { SaleDetail } from "../interfaces";
 import { formFieldsSale, formSchemaSale } from "../utils";
-import { reset } from "../utils/saleSlice";
+import { add, calculateTotal, reset } from "../utils/saleSlice";
 import { columnsSaleDetailActions } from "./ColumnsTableSaleDetail";
 import { CreateSaleDetail } from "./CreateSaleDetail";
 import { DataTableSaleDetail } from "./DataTableSaleDetails";
 import { ModifySaleDetail } from "./ModifySaleDetail";
-import { useEffect } from "react";
 
-export const CreateSale = () => {
-  const dispatch: AppDispatch = useAppDispatch();
-  const { mutate, isSuccess, isPending } = usePostSale();
+export const ModifySale = () => {
+  const { id } = useParams();
+  const dispatch: AppDispatch = useDispatch();
+  const { data, isLoading, isError } = useGetSale(id!);
+  const { mutate, isPending, isSuccess } = usePatchSale(id!);
   const {
     quantity,
     total,
     details,
-    queryClients,
-    queryCrops,
     formSale,
     isOpenDialogForm,
     setIsOpenDialogForm,
@@ -57,12 +58,26 @@ export const CreateSale = () => {
     saleDetail,
     setSaleDetail,
   } = useSaleForm();
-
-  useEffect(() => {
-    dispatch(reset());
-  }, []);
   const navigate = useNavigate();
 
+  // Reset state on component mount
+  useEffect(() => {
+    dispatch(reset());
+  }, [dispatch]);
+
+  // Populate form and store details when data is available
+  useEffect(() => {
+    if (data && details.length === 0) {
+      formSale.reset({
+        ...data,
+        date: new Date(`${data.date}T00:00:00-05:00`),
+      });
+      dispatch(add(data.details));
+      dispatch(calculateTotal());
+    }
+  }, [data, details.length, formSale, dispatch]);
+
+  // Handle form submission
   const onSubmitSale = (values: z.infer<typeof formSchemaSale>) => {
     if (details.length === 0) {
       toast.error("Debes registrar al menos 1 venta");
@@ -70,36 +85,33 @@ export const CreateSale = () => {
     }
 
     mutate({
+      id,
       ...values,
       total,
       quantity,
-      details: details.map((item: SaleDetail) => {
-        const { id, ...rest } = item;
-        return {
-          ...rest,
-          client: { id: rest.client.id },
-          crop: { id: rest.crop.id },
-        };
-      }),
+      details: details.map(({ id, ...rest }: SaleDetail) => ({
+        ...rest,
+        client: { id: rest.client.id },
+        crop: { id: rest.crop.id },
+      })),
     });
   };
 
-  if (isSuccess) {
-    dispatch(reset());
-    navigate("../view");
-  }
+  // Navigate on successful mutation
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(reset());
+      navigate("../view");
+    }
+  }, [isSuccess, dispatch, navigate]);
 
-  const isLoading = queryClients.isLoading || queryCrops.isLoading;
-  const isError = queryClients.isError || queryCrops.isError;
-
+  // Render loading or error states
   if (isLoading) return <Loading />;
   if (isError) return <ErrorLoading />;
 
-  console.log(formSale.getValues());
-
   return (
     <>
-      <Label className="text-2xl">Registro de venta</Label>
+      <Label className="text-2xl">Modificar venta</Label>
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
         {/* Formulario principal */}
@@ -283,13 +295,13 @@ export const CreateSale = () => {
             <Button
               type="submit"
               form="formSale"
-              //   disabled={isPending}
+              disabled={isPending}
               onClick={formSale.handleSubmit(onSubmitSale)}
             >
               {isPending && (
                 <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
               )}
-              Guardar
+              Actualizar
             </Button>
             <ButtonCancelRegister action={() => navigate(-1)} />
           </div>

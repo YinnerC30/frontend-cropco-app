@@ -99,7 +99,7 @@ export const ModifyHarvest = () => {
 
   const onSubmitHarvest = (values: z.infer<typeof formSchemaHarvest>) => {
     if (details.length === 0) {
-      toast.error("Agregue la cosecha de almenos 1 empleado");
+      toast.error("Agregue la cosecha de al menos 1 empleado");
       return;
     }
 

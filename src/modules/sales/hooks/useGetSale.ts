@@ -3,7 +3,7 @@ import { getSaleById } from "../services/getOne";
 
 export const useGetSale = (id: string) => {
   const query = useQuery({
-    queryKey: ["crop", id],
+    queryKey: ["sales", id],
     queryFn: () => getSaleById(id),
   });
   return query;
