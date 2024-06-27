@@ -13,6 +13,7 @@ import {
   Popover,
 } from "@/components";
 import { Label } from "@/components/ui/label";
+import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -21,23 +22,22 @@ import {
   ErrorLoading,
   Loading,
 } from "@/modules/core/components";
+import { AppDispatch, useAppDispatch } from "@/redux/store";
+import { CalendarIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { useSaleForm } from "../hooks/useSaleForm";
-import { formFieldsSale, formSchemaSale } from "../utils";
-import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, ReloadIcon } from "@radix-ui/react-icons";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { z } from "zod";
+import { usePostSale } from "../hooks";
+import { useSaleForm } from "../hooks/useSaleForm";
+import { SaleDetail } from "../interfaces";
+import { formFieldsSale, formSchemaSale } from "../utils";
+import { reset } from "../utils/saleSlice";
+import { columnsSaleDetailActions } from "./ColumnsTableSaleDetail";
 import { CreateSaleDetail } from "./CreateSaleDetail";
 import { DataTableSaleDetail } from "./DataTableSaleDetails";
-import { columnsSaleDetailActions } from "./ColumnsTableSaleDetail";
 import { ModifySaleDetail } from "./ModifySaleDetail";
-import { usePostSale } from "../hooks";
-import { toast } from "sonner";
-import { SaleDetail } from "../interfaces";
-import { reset } from "../utils/saleSlice";
-import { AppDispatch, useAppDispatch } from "@/redux/store";
 
 export const CreateSale = () => {
   const dispatch: AppDispatch = useAppDispatch();
@@ -84,16 +84,13 @@ export const CreateSale = () => {
     navigate("../view");
   }
 
-  if (queryClients.isLoading) return <Loading />;
+  const isLoading = queryClients.isLoading || queryCrops.isLoading;
+  const isError = queryClients.isError || queryCrops.isError;
 
-  if (queryClients.isError) {
-    return <ErrorLoading />;
-  }
-  if (queryCrops.isLoading) return <Loading />;
+  if (isLoading) return <Loading />;
+  if (isError) return <ErrorLoading />;
 
-  if (queryCrops.isError) {
-    return <ErrorLoading />;
-  }
+  console.log(formSale.getValues());
 
   return (
     <>
@@ -157,19 +154,22 @@ export const CreateSale = () => {
               control={formSale.control}
               name="is_receivable"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-start p-4 space-x-3 space-y-0 border rounded-md w-[340px]">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
+                <FormItem>
+                  <FormLabel>{formFieldsSale.is_receivable.label}</FormLabel>
 
-                  <div className="space-y-1 leading-none ">
-                    <FormLabel>{formFieldsSale.is_receivable.label}</FormLabel>
-                    <FormDescription className="py-1">
-                      La venta aun debe ir a cobrarse donde el cliente.
-                    </FormDescription>
+                  <div className="flex flex-row items-start p-4 space-x-3 space-y-0 border rounded-md w-[280px]">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+
+                    <div className="space-y-1 leading-none ">
+                      <FormDescription className="py-1">
+                        La venta aun esta pendiente de cobro
+                      </FormDescription>
+                    </div>
                   </div>
                 </FormItem>
               )}
@@ -281,9 +281,9 @@ export const CreateSale = () => {
               //   disabled={isPending}
               onClick={formSale.handleSubmit(onSubmitSale)}
             >
-              {/* {isPending && (
+              {isPending && (
                 <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
-              )} */}
+              )}
               Guardar
             </Button>
             <ButtonCancelRegister action={() => navigate(-1)} />

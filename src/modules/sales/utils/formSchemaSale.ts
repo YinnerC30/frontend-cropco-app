@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { formSchemaSaleDetail } from "./formSchemaSaleDetail";
 
 export const formSchemaSale = z.object({
   date: z.date({ required_error: "La fecha es un campo obligatorio" }),
@@ -12,7 +13,9 @@ export const formSchemaSale = z.object({
     .refine((value) => value % 50 === 0, {
       message: "El valor a pagar debe ser un número que termine en 50 o 00.",
     }),
-  is_receivable: z.boolean({
-    invalid_type_error: `El valor debe ser booleano`,
-  }).default(false),
+  is_receivable: z
+    .boolean({
+      invalid_type_error: `El valor debe ser booleano`,
+    })
+    .default(false),
 });

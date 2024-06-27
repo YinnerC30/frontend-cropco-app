@@ -21,8 +21,9 @@ export const formFieldsSale: Record<string, CustomFormField> = {
   },
   is_receivable: {
     name: "is_receivable",
-    label: "¿Pendiente de pago?",
+    label: "¿Pendiente de pago?:",
     placeholder: "",
     description: "¿Esta pendiente por cobrar?",
   },
+  
 };
