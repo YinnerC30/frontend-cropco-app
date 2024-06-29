@@ -10,6 +10,7 @@ import { saleRoutes } from "@/modules/sales/routes/Routes";
 import { supplierRoutes } from "@/modules/suppliers/routes/Routes";
 import { supplyRoutes } from "@/modules/supplies/routes/Routes";
 import { userRoutes } from "@/modules/users/routes/Routes";
+import { workRoutes } from "@/modules/work/routes/Routes";
 
 import { createBrowserRouter } from "react-router-dom";
 
@@ -27,6 +28,7 @@ export const Router = createBrowserRouter([
       supplierRoutes,
       supplyRoutes,
       saleRoutes,
+      workRoutes
     ],
   },
 ]);
