@@ -1,9 +1,9 @@
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { formSchemaSaleDetail } from "../utils/formSchemaSaleDetail";
 
-import { useAppSelector } from "@/redux/store";
 import { useGetAllClients } from "@/modules/clients/hooks/useGetAllClients";
-import { useGetAllCrops } from "@/modules/crops/hooks/useGetAllCrops";
+import { useGetAllHarvestsStock } from "@/modules/harvests/hooks/useGetAllHarvestsStock";
+import { useAppSelector } from "@/redux/store";
 
 const defaultValuesSaleDetail = {
   client: {
@@ -22,10 +22,7 @@ export const useSaleDetailForm = () => {
   const details: any = useAppSelector((state: any) => state.sale.details);
 
   const { query: queryClients } = useGetAllClients("");
-  const { query: queryCrops } = useGetAllCrops({
-    searchParameter: "",
-    allRecords: true,
-  });
+  const { query: queryHarvestStock } = useGetAllHarvestsStock("");
 
   const formSaleDetail = useCreateForm({
     schema: formSchemaSaleDetail,
@@ -35,6 +32,6 @@ export const useSaleDetailForm = () => {
     formSaleDetail,
     details,
     queryClients,
-    queryCrops,
+    queryHarvestStock,
   };
 };

@@ -49,6 +49,7 @@ import { cn } from "@/lib/utils";
 import { Client } from "@/modules/clients/interfaces/Client";
 import { Crop } from "@/modules/crops/interfaces/Crop";
 import { v4 as generateUUID } from "uuid";
+import { type HarvestStock } from "@/modules/harvests/interfaces/HarvestStock";
 
 export const CreateSaleDetail = ({
   isOpenDialogForm,
@@ -56,7 +57,7 @@ export const CreateSaleDetail = ({
 }: any) => {
   const dispatch = useAppDispatch();
 
-  const { details, formSaleDetail, queryClients, queryCrops } =
+  const { details, formSaleDetail, queryClients, queryHarvestStock } =
     useSaleDetailForm();
 
   const onSubmitSaleDetail = async (
@@ -118,8 +119,9 @@ export const CreateSaleDetail = ({
                             )}
                           >
                             {field.value
-                              ? queryCrops.data.rows.find(
-                                  (item: Crop) => item.id === field.value
+                              ? queryHarvestStock.data?.rows.find(
+                                  (item: HarvestStock) =>
+                                    item.id === field.value
                                 )?.name
                               : formFieldsSaleDetail.crop.placeholder}
 
@@ -139,17 +141,17 @@ export const CreateSaleDetail = ({
                                 Cultivo no encontrado.
                               </CommandEmpty>
                               <CommandGroup>
-                                {queryCrops.data.rows &&
-                                  Array.isArray(queryCrops.data.rows) &&
-                                  queryCrops.data.rows.map(
-                                    (crop: Crop | any) => {
+                                {queryHarvestStock.data?.rows &&
+                                  Array.isArray(queryHarvestStock.data?.rows) &&
+                                  queryHarvestStock.data?.rows.map(
+                                    (crop: HarvestStock | any) => {
                                       const isIncludes = details.some(
                                         (item: any) => item.crop.id === crop.id
                                       );
                                       if (isIncludes) return;
                                       return (
                                         <CommandItem
-                                          value={crop.name}
+                                          value={`${crop.name}`}
                                           key={crop.id!}
                                           onSelect={() => {
                                             formSaleDetail.setValue(
@@ -159,7 +161,10 @@ export const CreateSaleDetail = ({
                                             formSaleDetail.trigger("crop.id");
                                           }}
                                         >
-                                          {crop.name}
+                                          <div className="flex justify-between w-40 ">
+                                            <span>{`${crop.name}`}</span>
+                                            <span className="font-semibold">{`${crop.stock}`}</span>
+                                          </div>
                                           <CheckIcon
                                             className={cn(
                                               "ml-auto h-4 w-4",
