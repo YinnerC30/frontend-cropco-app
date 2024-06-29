@@ -39,17 +39,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useSaleDetailForm } from "../hooks/useSaleDetailForm";
-import { formSchemaSaleDetail } from "../utils/formSchemaSaleDetail";
-import { useAppDispatch } from "@/redux/store";
-import { add, calculateTotal } from "../utils/saleSlice";
-import { toast } from "sonner";
-import { formFieldsSaleDetail } from "../utils/formFieldsSaleDetail";
 import { cn } from "@/lib/utils";
 import { Client } from "@/modules/clients/interfaces/Client";
-import { Crop } from "@/modules/crops/interfaces/Crop";
-import { v4 as generateUUID } from "uuid";
 import { type HarvestStock } from "@/modules/harvests/interfaces/HarvestStock";
+import { useAppDispatch } from "@/redux/store";
+import { toast } from "sonner";
+import { v4 as generateUUID } from "uuid";
+import { useSaleDetailForm } from "../hooks/useSaleDetailForm";
+import { formFieldsSaleDetail } from "../utils/formFieldsSaleDetail";
+import { formSchemaSaleDetail } from "../utils/formSchemaSaleDetail";
+import { add, calculateTotal } from "../utils/saleSlice";
 
 export const CreateSaleDetail = ({
   isOpenDialogForm,

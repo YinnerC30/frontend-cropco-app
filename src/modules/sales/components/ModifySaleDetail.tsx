@@ -43,7 +43,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Client } from "@/modules/clients/interfaces/Client";
-import { Crop } from "@/modules/crops/interfaces/Crop";
+import { HarvestStock } from "@/modules/harvests/interfaces/HarvestStock";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useEffect } from "react";
 import { z } from "zod";
@@ -66,7 +66,7 @@ export const ModifySaleDetail = ({
   afterEffect,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const { details, queryClients, queryCrops, formSaleDetail } =
+  const { details, queryClients, queryHarvestStock, formSaleDetail } =
     useSaleDetailForm();
 
   console.log(defaultValues);
@@ -131,8 +131,8 @@ export const ModifySaleDetail = ({
                           )}
                         >
                           {field.value
-                            ? queryCrops.data.rows.find(
-                                (item: Crop) => item.id === field.value
+                            ? queryHarvestStock.data?.rows.find(
+                                (item: HarvestStock) => item.id === field.value
                               )?.name
                             : formFieldsSaleDetail.crop.placeholder}
 
@@ -150,34 +150,42 @@ export const ModifySaleDetail = ({
                           <ScrollArea className="w-auto h-56">
                             <CommandEmpty>Cultivo no encontrado.</CommandEmpty>
                             <CommandGroup>
-                              {queryCrops.data.rows &&
-                                Array.isArray(queryCrops.data.rows) &&
-                                queryCrops.data.rows.map((crop: Crop | any) => {
-                                  const isIncludes = details.some(
-                                    (item: any) => item.crop.id === crop.id
-                                  );
-                                  if (isIncludes) return;
-                                  return (
-                                    <CommandItem
-                                      value={crop.name}
-                                      key={crop.id!}
-                                      onSelect={() => {
-                                        formSaleDetail.setValue("crop", crop!);
-                                        formSaleDetail.trigger("crop.id");
-                                      }}
-                                    >
-                                      {crop.name}
-                                      <CheckIcon
-                                        className={cn(
-                                          "ml-auto h-4 w-4",
-                                          crop.id! === field.value
-                                            ? "opacity-100"
-                                            : "opacity-0"
-                                        )}
-                                      />
-                                    </CommandItem>
-                                  );
-                                })}
+                              {queryHarvestStock.data?.rows &&
+                                Array.isArray(queryHarvestStock.data?.rows) &&
+                                queryHarvestStock.data?.rows.map(
+                                  (crop: HarvestStock | any) => {
+                                    const isIncludes = details.some(
+                                      (item: any) => item.crop.id === crop.id
+                                    );
+                                    if (isIncludes) return;
+                                    return (
+                                      <CommandItem
+                                        value={`${crop.name}`}
+                                        key={crop.id!}
+                                        onSelect={() => {
+                                          formSaleDetail.setValue(
+                                            "crop",
+                                            crop!
+                                          );
+                                          formSaleDetail.trigger("crop.id");
+                                        }}
+                                      >
+                                        <div className="flex justify-between w-40 ">
+                                          <span>{`${crop.name}`}</span>
+                                          <span className="font-semibold">{`${crop.stock}`}</span>
+                                        </div>
+                                        <CheckIcon
+                                          className={cn(
+                                            "ml-auto h-4 w-4",
+                                            crop.id! === field.value
+                                              ? "opacity-100"
+                                              : "opacity-0"
+                                          )}
+                                        />
+                                      </CommandItem>
+                                    );
+                                  }
+                                )}
                             </CommandGroup>
                           </ScrollArea>
                         </CommandList>

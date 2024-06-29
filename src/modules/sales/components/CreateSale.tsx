@@ -283,7 +283,7 @@ export const CreateSale = () => {
             <Button
               type="submit"
               form="formSale"
-              //   disabled={isPending}
+              disabled={isPending}
               onClick={formSale.handleSubmit(onSubmitSale)}
             >
               {isPending && (
