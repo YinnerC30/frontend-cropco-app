@@ -10,8 +10,6 @@ interface SaleState {
 
 interface ModifySaleDetail {
   detail: SaleDetail;
-  // oldClient: ObjectWithId;
-  // oldCrop: ObjectWithId;
 }
 
 const initialState: SaleState = {

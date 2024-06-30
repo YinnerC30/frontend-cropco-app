@@ -95,8 +95,6 @@ export const CreateSale = () => {
   if (isLoading) return <Loading />;
   if (isError) return <ErrorLoading />;
 
-  console.log(formSale.getValues());
-
   return (
     <>
       <Label className="text-2xl">Registro de venta</Label>

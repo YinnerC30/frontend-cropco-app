@@ -1,3 +1,6 @@
+import { CreateWork } from "../components/CreateWork";
+import { ModifyWork } from "../components/ModifyWork";
+import { ViewWork } from "../components/ViewWork";
 import { WorkModule } from "../components/WorkModule";
 
 const workRoutes = {
@@ -7,18 +10,18 @@ const workRoutes = {
       path: "view",
       element: <WorkModule />,
     },
-    // {
-    //   path: 'create',
-    //   element: <CreateCrop />,
-    // },
-    // {
-    //   path: 'modify/:id',
-    //   element: <ModifyCrop />,
-    // },
-    // {
-    //   path: 'view/:id',
-    //   element: <ViewCrop />,
-    // },
+    {
+      path: "create",
+      element: <CreateWork />,
+    },
+    {
+      path: "modify/:id",
+      element: <ModifyWork />,
+    },
+    {
+      path: "view/:id",
+      element: <ViewWork />,
+    },
   ],
 };
 export { workRoutes };

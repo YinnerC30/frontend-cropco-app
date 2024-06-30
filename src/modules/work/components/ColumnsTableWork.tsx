@@ -31,6 +31,25 @@ export let columnsWork: ColumnDef<Work>[] = [
     },
   },
   {
+    accessorKey: formFieldsWork.crop.name,
+    cell: ({ row }) => {
+      const crop: any = row.getValue("crop");
+      return crop.name;
+    },
+    header: ({ column }: any) => {
+      return (
+        <Button
+          className="px-0 hover:bg-transparent"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          {formFieldsWork.crop.label}
+          <ArrowUpDown className="w-4 h-4 ml-2" />
+        </Button>
+      );
+    },
+  },
+  {
     accessorKey: formFieldsWork.description.name,
     cell: ({ row }) => {
       return row.getValue("description");
@@ -49,9 +68,9 @@ export let columnsWork: ColumnDef<Work>[] = [
     },
   },
   {
-    accessorKey: formFieldsWork.value_pay.name,
+    accessorKey: formFieldsWork.total.name,
     cell: ({ row }) => {
-      return FormatMoneyValue(row.getValue("value_pay"));
+      return FormatMoneyValue(row.getValue("total"));
     },
     header: ({ column }: any) => {
       return (
@@ -61,25 +80,6 @@ export let columnsWork: ColumnDef<Work>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Valor a pagar:
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: formFieldsWork.payment_is_pending.name,
-    cell: ({ row }) => {
-      const value = row.getValue("payment_is_pending");
-      return value ? "SI" : "NO";
-    },
-    header: ({ column }: any) => {
-      return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          {formFieldsWork.payment_is_pending.label}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );

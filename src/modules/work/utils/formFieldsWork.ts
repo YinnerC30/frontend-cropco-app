@@ -10,19 +10,19 @@ export const formFieldsWork: Record<string, CustomFormField> = {
   description: {
     name: "description",
     label: "Descripción:",
-    placeholder: "",
+    placeholder: "Se realizo limpieza, fumigación...",
     description: "Alguna descripción sobre el trabajo realizado",
   },
-  value_pay: {
-    name: "value_pay",
+  crop: {
+    name: "crop",
+    label: "Cultivo:",
+    placeholder: "Selecciona un cultivo",
+    description: "",
+  },
+  total: {
+    name: "total",
     label: "Valor a pagar:",
     placeholder: "",
-    description: "Dinero a pagar por el trabajo",
-  },
-  payment_is_pending: {
-    name: "payment_is_pending",
-    label: "¿Pendiente de pago?:",
-    placeholder: "",
-    description: "¿Esta pendiente por pagar?",
+    description: "Dinero total a pagar por el trabajo",
   },
 };

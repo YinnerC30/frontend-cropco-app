@@ -184,7 +184,7 @@ export const CreateSaleDetail = ({
                     </Popover>
 
                     <FormDescription>
-                      {formFieldsSaleDetail.first_name.description}
+                      {formFieldsSaleDetail.crop.description}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

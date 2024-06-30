@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { formSchemaSaleDetail } from "./formSchemaSaleDetail";
 
 export const formSchemaSale = z.object({
   date: z.date({ required_error: "La fecha es un campo obligatorio" }),
