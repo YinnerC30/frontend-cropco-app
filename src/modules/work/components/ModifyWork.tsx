@@ -109,7 +109,7 @@ export const ModifyWork = () => {
       details: details.map(({ id, ...rest }) => ({
         ...rest,
         employee: { id: rest.employee.id },
-        id
+        id,
       })),
     });
   };
@@ -136,7 +136,7 @@ export const ModifyWork = () => {
             id="formWork"
             className="flex flex-col gap-2 ml-1"
           >
-            {/* <FormField
+            <FormField
               control={formWork.control}
               name={"date"}
               render={({ field }) => (
@@ -185,7 +185,7 @@ export const ModifyWork = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
+            />
             <FormField
               key={"crop.id"}
               control={formWork.control}

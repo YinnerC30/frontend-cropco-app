@@ -47,9 +47,18 @@ import { CreateWorkDetail } from "./CreateWorkDetail";
 import { DataTableWorkDetail } from "./DataTableWorkDetails";
 import { columnsWorkDetailActions } from "./ColumnsTableWorkDetail";
 import { ModifyWorkDetail } from "./ModifyWorkDetail";
+import { toast } from "sonner";
+import { useEffect } from "react";
+import { useAppDispatch } from "@/redux/store";
+import { reset } from "../utils/workSlice";
 
 export const CreateWork = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(reset());
+  }, []);
 
   const {
     formWork,
@@ -67,6 +76,10 @@ export const CreateWork = () => {
   const { mutate, isSuccess, isPending } = usePostWork();
 
   const onSubmit = async (values: z.infer<typeof formSchemaWork>) => {
+    if (details.length === 0) {
+      toast.error("Debes registrar al menos 1 registro");
+      return;
+    }
     mutate({
       ...values,
       total,
