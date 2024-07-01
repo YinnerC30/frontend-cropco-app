@@ -14,7 +14,7 @@ export const formSchemaWorkDetails = z.object({
     .boolean({
       invalid_type_error: `El valor debe ser booleano`,
     })
-    .default(false),
+    .default(true),
 
   employee: z.object({
     id: z

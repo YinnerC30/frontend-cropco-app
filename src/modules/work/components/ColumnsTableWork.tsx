@@ -79,7 +79,7 @@ export let columnsWork: ColumnDef<Work>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Valor a pagar:
+          Total a pagar:
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );

@@ -213,41 +213,12 @@ export const CreateSale = () => {
 
           <div className="flex flex-col gap-4 ml-1 w-[300px] h-[120px] justify-center">
             <FormField
-              control={formSale.control}
-              name={"total"}
-              render={({ field }) => (
-                <FormItem className="flex items-center justify-between">
-                  <FormLabel>{"Total cosechado:"}</FormLabel>
-
-                  <FormControl>
-                    <Input
-                      disabled
-                      readOnly
-                      {...field}
-                      className="w-40 text-center"
-                      placeholder={"0"}
-                      type="number"
-                      min={0}
-                      onChange={(e) => {
-                        return !Number.isNaN(e.target.value)
-                          ? field.onChange(parseFloat(e.target.value))
-                          : 0;
-                      }}
-                      value={total}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
               key={"quantity"}
               control={formSale.control}
               name={"quantity"}
               render={({ field }) => (
                 <FormItem className="flex items-center justify-between">
-                  <FormLabel>{"Total valor a pagar:"}</FormLabel>
+                  <FormLabel>{"Total a vender:"}</FormLabel>
 
                   <FormControl>
                     <Input
@@ -265,6 +236,35 @@ export const CreateSale = () => {
                           : 0;
                       }}
                       value={quantity}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={formSale.control}
+              name={"total"}
+              render={({ field }) => (
+                <FormItem className="flex items-center justify-between">
+                  <FormLabel>{"Total a pagar:"}</FormLabel>
+
+                  <FormControl>
+                    <Input
+                      disabled
+                      readOnly
+                      {...field}
+                      className="w-40 text-center"
+                      placeholder={"0"}
+                      type="number"
+                      min={0}
+                      onChange={(e) => {
+                        return !Number.isNaN(e.target.value)
+                          ? field.onChange(parseFloat(e.target.value))
+                          : 0;
+                      }}
+                      value={total}
                     />
                   </FormControl>
 

@@ -2,9 +2,12 @@ import { z } from "zod";
 
 export const formSchemaWork = z.object({
   date: z.date({ required_error: "La fecha es un campo obligatorio" }),
-  description: z.string().max(100, {
-    message: "La descripción no puede tener más de 100 caracteres.",
-  }),
+  description: z
+    .string()
+    .min(15, "La descripción debe tener al menos 15 caracteres")
+    .max(100, {
+      message: "La descripción no puede tener más de 100 caracteres.",
+    }),
 
   crop: z.object({
     id: z

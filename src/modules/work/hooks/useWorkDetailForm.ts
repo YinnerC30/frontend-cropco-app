@@ -10,7 +10,7 @@ const defaultValuesWorkDetail = {
     first_name: undefined,
   },
   value_pay: 0,
-  payment_is_pending: false,
+  payment_is_pending: true,
 };
 
 export const useWorkDetailForm = () => {

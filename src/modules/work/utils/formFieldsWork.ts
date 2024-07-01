@@ -21,7 +21,7 @@ export const formFieldsWork: Record<string, CustomFormField> = {
   },
   total: {
     name: "total",
-    label: "Valor a pagar:",
+    label: "Total a pagar:",
     placeholder: "",
     description: "Dinero total a pagar por el trabajo",
   },
