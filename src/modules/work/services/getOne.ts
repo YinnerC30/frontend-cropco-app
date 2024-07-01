@@ -3,5 +3,5 @@ import { Work } from "../interfaces/Work";
 
 export async function getWorkById(id: string): Promise<Work> {
   const { data } = await cropcoAPI.get(`${pathsCropco.works}/${id}`);
-  return data;
+  return data[0];
 }
