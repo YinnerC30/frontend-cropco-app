@@ -1,4 +1,5 @@
 import { harvestReducer } from "@/modules/harvests/utils/harvestSlice";
+import { paymentReducer } from "@/modules/payments/utils/paymentSlice";
 import { saleReducer } from "@/modules/sales/utils/saleSlice";
 import { workReducer } from "@/modules/work/utils/workSlice";
 import { configureStore } from "@reduxjs/toolkit";
@@ -9,6 +10,7 @@ export const store = configureStore({
     harvest: harvestReducer,
     sale: saleReducer,
     work: workReducer,
+    payment: paymentReducer,
   },
 });
 

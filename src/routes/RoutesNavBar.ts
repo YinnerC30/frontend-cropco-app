@@ -40,4 +40,8 @@ export const routes: Route[] = [
     name: "Trabajos",
     path: "works/view",
   },
+  {
+    name: "Pagos",
+    path: "payments/view",
+  },
 ];
