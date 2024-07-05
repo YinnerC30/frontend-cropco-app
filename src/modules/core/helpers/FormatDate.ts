@@ -5,7 +5,5 @@ interface Props {
   date: string;
 }
 export const FormatDate = ({ date }: Props) => {
-  console.log(date);
-  console.log(typeof date);
   return format(`${date}T00:00:00-05:00`, "PPP", { locale: es });
 };

@@ -36,6 +36,7 @@ import { toast } from "sonner";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { PaymentPending } from "../interfaces/PaymentPending";
 import { removeRecordToPay } from "../utils/paymentSlice";
+import { Badge } from "@/components";
 
 export const columnsPaymentsToPay: ColumnDef<PaymentPending>[] = [
   // {
@@ -80,7 +81,11 @@ export const columnsPaymentsToPay: ColumnDef<PaymentPending>[] = [
     accessorKey: "payment_is_pending",
     cell: ({ row }) => {
       const value = row.getValue("payment_is_pending");
-      return value ? "SI" : "NO";
+      return value ? (
+        <Badge variant={"destructive"}>SI</Badge>
+      ) : (
+        <Badge variant={"success"}>NO</Badge>
+      );
     },
     header: ({ column }: any) => {
       return (
@@ -97,7 +102,14 @@ export const columnsPaymentsToPay: ColumnDef<PaymentPending>[] = [
   },
   {
     accessorKey: "type",
-
+    cell: ({ row }) => {
+      const value = row.getValue("type");
+      return value === "harvest" ? (
+        <Badge variant={"destructive"}>Harvest</Badge>
+      ) : (
+        <Badge variant={"success"}>Work</Badge>
+      );
+    },
     header: ({ column }: any) => {
       return (
         <Button
@@ -126,7 +138,7 @@ export const columnsPaymentsToPayActions = [
 
       const handleDelete = () => {
         toast.success(`Se ha eliminado el registro`);
-        dispatch(removeRecordToPay({ id: record.id }));
+        dispatch(removeRecordToPay({ ...record }));
         setOpenDropDownMenu(false);
       };
 

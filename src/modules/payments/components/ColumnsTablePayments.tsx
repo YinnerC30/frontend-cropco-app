@@ -10,6 +10,7 @@ import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { Payment } from "../interfaces/Payment";
 import { formFieldsPayment } from "../utils";
 import { useDeletePayment } from "../hooks/useDeletePayment";
+import { Badge } from "@/components";
 
 export let columnsPayment: ColumnDef<Payment>[] = [
   {
@@ -52,7 +53,22 @@ export let columnsPayment: ColumnDef<Payment>[] = [
   {
     accessorKey: formFieldsPayment.method_of_payment.name,
     cell: ({ row }) => {
-      return row.getValue("method_of_payment");
+      const methodOfPayment = row.getValue("method_of_payment");
+      let badge;
+      switch (methodOfPayment) {
+        case "EFECTIVO":
+          badge = <Badge variant={"success"}>Efectivo</Badge>;
+          break;
+        case "TRANSFERENCIA":
+          badge = <Badge variant={"destructive"}>Transferencia</Badge>;
+          break;
+        case "INTERCAMBIO":
+          badge = <Badge variant={"default"}>Intercambio</Badge>;
+          break;
+        default:
+          break;
+      }
+      return badge;
     },
     header: ({ column }: any) => {
       return (

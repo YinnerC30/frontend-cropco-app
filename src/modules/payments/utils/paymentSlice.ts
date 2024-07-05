@@ -51,9 +51,16 @@ export const paymentSlice = createSlice({
       }
     },
     removeRecordToPay: (state, action: PayloadAction<any>) => {
+      const { id, type } = action.payload;
       state.paymentsToPay = state.paymentsToPay.filter(
-        (item: { id: any }) => item.id !== action.payload.id
+        (item: { id: any }) => item.id !== id
       );
+      if (type === "harvest") {
+        state.dataEmployee.harvests_detail.push({ ...action.payload });
+      }
+      if (type === "work") {
+        state.dataEmployee.works_detail.push({ ...action.payload });
+      }
     },
     resetPaymentsToPay: (state) => {
       state.paymentsToPay = [];

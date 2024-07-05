@@ -38,7 +38,6 @@ import {
   ErrorLoading,
   Loading,
 } from "@/modules/core/components";
-import { useGetEmployee } from "@/modules/employees/hooks/useGetEmployee";
 import { Employee } from "@/modules/employees/interfaces/Employee";
 import { useAppDispatch } from "@/redux/store";
 import {
@@ -49,43 +48,36 @@ import {
 } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { usePaymentForm } from "../hooks/usePaymentForm";
 import { usePostPayment } from "../hooks/usePostPayment";
 import { MethodOfPayment } from "../interfaces/MethodOfPayment";
-import { PaymentsPending } from "../interfaces/PaymentsPending";
 import { formFieldsPayment, formSchemaPayments } from "../utils";
 import {
   calculateTotal,
   modifyEmployeeId,
   resetDataEmployee,
   resetPaymentsToPay,
-  setDataEmployee,
 } from "../utils/paymentSlice";
-import { columnsPaymentsPendingHarvestActions } from "./ColumnsTablePaymentsPendingHarvest";
-import { columnsPaymentsPendingWorkActions } from "./ColumnsTablePaymentsPendingWork";
-import { columnsPaymentsToPayActions } from "./ColumnsTablePaymentsToPay";
-import { DataTablePaymentPending } from "./DataTablePaymentPending";
+import { TablesPendingPayments } from "./TablesPendingPayments";
+import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 
 export const CreatePayment = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const {
-    formPayment,
-    queryEmployees,
-    employeeId,
-    dataEmployee,
-    paymentsToPay,
-    totalToPay,
-  } = usePaymentForm();
-
-  const { data, isLoading, isError } = useGetEmployee(employeeId);
+  const { formPayment, queryEmployees, paymentsToPay, totalToPay } =
+    usePaymentForm();
 
   const { isSuccess, isPending, mutate } = usePostPayment();
+  const [employeeId, setEmployeeId] = useState("");
 
   const onSubmit = async (values: z.infer<typeof formSchemaPayments>) => {
+    if (paymentsToPay.length === 0) {
+      return toast.warning("No se han agregado registros a pagar");
+    }
     mutate({
       ...values,
       total: totalToPay,
@@ -100,14 +92,6 @@ export const CreatePayment = () => {
     });
   };
 
-  const validateIsNotEmptyDataEmployee = (dataEmployee: PaymentsPending) => {
-    const { harvests_detail, works_detail } = dataEmployee;
-
-    if (harvests_detail.length === 0 && works_detail.length === 0) {
-      toast.warning("El empleado seleccionado NO tiene pagos pendientes");
-    }
-  };
-
   const searchPendingPayment = () => {
     const idEmployee = formPayment.getValues("employee.id");
     if (!idEmployee) {
@@ -115,18 +99,7 @@ export const CreatePayment = () => {
         "Debes seleccionar un empleado para cargar los pagos pendientes"
       );
     } else {
-      const { harvests_detail, works_detail } = data;
-      dispatch(
-        setDataEmployee({
-          harvests_detail: harvests_detail.filter(
-            (item: any) => item.payment_is_pending === true
-          ),
-          works_detail: works_detail.filter(
-            (item: any) => item.payment_is_pending === true
-          ),
-        })
-      );
-      validateIsNotEmptyDataEmployee({ harvests_detail, works_detail });
+      setEmployeeId(idEmployee);
     }
   };
 
@@ -134,14 +107,15 @@ export const CreatePayment = () => {
     navigate("../view");
   }
 
-  if (isLoading) return <Loading />;
-  if (isError) return <ErrorLoading />;
+  if (queryEmployees.isLoading) return <Loading />;
+  if (queryEmployees.isError) return <ErrorLoading />;
 
   dispatch(calculateTotal());
 
   return (
     <>
       <Label className="text-2xl">Registro de pago</Label>
+
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <Form {...formPayment}>
@@ -260,6 +234,7 @@ export const CreatePayment = () => {
                                               employeeId: employee.id,
                                             })
                                           );
+                                          setEmployeeId(employee.id!);
                                         }}
                                       >
                                         {employee.first_name}
@@ -294,7 +269,6 @@ export const CreatePayment = () => {
               onClick={(event) => {
                 event.preventDefault();
                 searchPendingPayment();
-                // validateIsNotEmptyDataEmployee(dataEmployee);
                 dispatch(calculateTotal());
               }}
             >
@@ -303,28 +277,14 @@ export const CreatePayment = () => {
 
             <Separator className="my-4" />
 
-            <Label className="text-xl">Pagos pendientes de cosecha:</Label>
-
-            <DataTablePaymentPending
-              data={dataEmployee?.harvests_detail ?? []}
-              columns={columnsPaymentsPendingHarvestActions}
-            />
-
-            <Separator className="my-4" />
-
-            <Label className="text-xl">Pagos pendientes de trabajo:</Label>
-            <DataTablePaymentPending
-              data={dataEmployee?.works_detail ?? []}
-              columns={columnsPaymentsPendingWorkActions}
-            />
-
-            <Separator className="my-4" />
-
-            <Label className="text-xl">Resumen a pagar:</Label>
-            <DataTablePaymentPending
-              data={paymentsToPay ?? []}
-              columns={columnsPaymentsToPayActions}
-            />
+            {employeeId.length <= 0 ? (
+              <Label>
+                Debes seleccionar un empleado para que se muestren los pagos
+                pendientes
+              </Label>
+            ) : (
+              <TablesPendingPayments employeeId={employeeId} />
+            )}
 
             <Separator className="my-4" />
 
@@ -379,12 +339,17 @@ export const CreatePayment = () => {
                   <FormItem className="flex items-center justify-between">
                     <FormLabel>{"Total a pagar:"}</FormLabel>
 
+                    <Input
+                      className="w-24"
+                      readOnly
+                      value={FormatMoneyValue(totalToPay)}
+                    />
                     <FormControl>
                       <Input
                         disabled
                         readOnly
                         {...field}
-                        className="w-40 text-center"
+                        className="hidden w-40 text-center"
                         placeholder={"0"}
                         type="number"
                         min={0}

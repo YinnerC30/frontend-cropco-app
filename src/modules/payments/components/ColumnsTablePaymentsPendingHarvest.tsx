@@ -39,6 +39,7 @@ import { PaymentPending } from "../interfaces/PaymentPending";
 import { FormatDate } from "@/modules/core/helpers/FormatDate";
 import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
 import { addRecordToPay } from "../utils/paymentSlice";
+import { Badge } from "@/components";
 
 export const columnsPaymentsPendingHarvest: ColumnDef<PaymentPending>[] = [
   {
@@ -49,7 +50,6 @@ export const columnsPaymentsPendingHarvest: ColumnDef<PaymentPending>[] = [
         return FormatDate({ date });
       }
       return null;
-      
     },
     header: ({ column }: any) => {
       return (
@@ -104,7 +104,11 @@ export const columnsPaymentsPendingHarvest: ColumnDef<PaymentPending>[] = [
     accessorKey: "payment_is_pending",
     cell: ({ row }) => {
       const value = row.getValue("payment_is_pending");
-      return value ? "SI" : "NO";
+      return value ? (
+        <Badge variant={"destructive"}>SI</Badge>
+      ) : (
+        <Badge variant={"success"}>NO</Badge>
+      );
     },
     header: ({ column }: any) => {
       return (

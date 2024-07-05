@@ -9,6 +9,9 @@ export const usePostPayment = () => {
     mutationFn: createPayment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payments"] });
+      queryClient.invalidateQueries({
+        queryKey: ["employee", "pending-payments"],
+      });
       toast.success(`Pago registrado`);
     },
     onError: (error: AxiosError) => {

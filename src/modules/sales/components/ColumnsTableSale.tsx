@@ -11,6 +11,7 @@ import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
 import { useDeleteSale } from "../hooks";
 import { Sale } from "../interfaces";
 import { formFieldsSale } from "../utils";
+import { Badge } from "@/components";
 
 export let columnsSale: ColumnDef<Sale>[] = [
   {
@@ -71,7 +72,11 @@ export let columnsSale: ColumnDef<Sale>[] = [
     accessorKey: formFieldsSale.is_receivable.name,
     cell: ({ row }) => {
       const value = row.getValue("is_receivable");
-      return value ? "SI" : "NO";
+      return value ? (
+        <Badge variant={"destructive"}>SI</Badge>
+      ) : (
+        <Badge variant={"success"}>NO</Badge>
+      );
     },
     header: ({ column }: any) => {
       return (
