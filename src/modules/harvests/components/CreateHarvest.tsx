@@ -76,10 +76,8 @@ export const CreateHarvest = () => {
     total,
     value_pay,
     openPopoverCrop,
-    setOpenPopoverCrop
+    setOpenPopoverCrop,
   } = useHarvestForm();
-
-   
 
   useEffect(() => {
     dispatch(reset());
@@ -114,6 +112,8 @@ export const CreateHarvest = () => {
   if (queryCrops.isError) {
     return <ErrorLoading />;
   }
+
+  console.log(formHarvest.getValues());
 
   return (
     <>
@@ -183,7 +183,10 @@ export const CreateHarvest = () => {
                     {formFieldsHarvest.crop.label}
                   </FormLabel>
 
-                  <Popover open={openPopoverCrop} onOpenChange={setOpenPopoverCrop}>
+                  <Popover
+                    open={openPopoverCrop}
+                    onOpenChange={setOpenPopoverCrop}
+                  >
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button

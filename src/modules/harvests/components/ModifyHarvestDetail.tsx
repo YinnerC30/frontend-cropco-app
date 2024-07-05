@@ -65,7 +65,13 @@ export const ModifyHarvestDetail = ({
   afterEffect,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const { details, queryEmployees, formHarvestDetail } = useHarvestDetailForm();
+  const {
+    details,
+    queryEmployees,
+    formHarvestDetail,
+    openPopoverEmployee,
+    setOpenPopoverEmployee,
+  } = useHarvestDetailForm();
 
   useEffect(() => {
     formHarvestDetail.reset(defaultValues);
@@ -74,6 +80,7 @@ export const ModifyHarvestDetail = ({
   const onSubmitHarvestDetail = (
     values: z.infer<typeof formSchemaHarvestDetail>
   ) => {
+    console.log(values);
     const oldEmployee = {
       id: defaultValues.employee.id,
     };
@@ -88,6 +95,7 @@ export const ModifyHarvestDetail = ({
     toast.success("Registro actualizado");
     setDialogOpen(false);
     afterEffect && afterEffect(false);
+    console.log(formHarvestDetail.getValues());
   };
   return (
     <Dialog open={isDialogOpen}>
@@ -114,23 +122,28 @@ export const ModifyHarvestDetail = ({
             id="formDetail"
           >
             <FormField
-              key={"employee"}
               control={formHarvestDetail.control}
               name={"employee"}
               render={({ field }) => (
                 <FormItem className="my-4">
                   <FormLabel className="block">{"Empleado:"}</FormLabel>
 
-                  <Popover modal={true}>
+                  <Popover
+                    open={openPopoverEmployee}
+                    onOpenChange={setOpenPopoverEmployee}
+                  >
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
                           variant="outline"
                           role="combobox"
+                          aria-expanded={openPopoverEmployee}
                           className={cn(
                             "w-[200px] justify-between",
                             !field.value.id && "text-muted-foreground"
                           )}
+                          ref={field.ref}
+                          onBlur={field.onBlur}
                         >
                           {field.value.id
                             ? queryEmployees.data.rows.find(
@@ -171,10 +184,24 @@ export const ModifyHarvestDetail = ({
                                         value={employee.first_name}
                                         key={employee.id!}
                                         onSelect={() => {
-                                          formHarvestDetail.setValue(
-                                            "employee",
-                                            employee!
-                                          );
+                                          if (field.value.id === employee.id) {
+                                            formHarvestDetail.setValue(
+                                              "employee",
+                                              {
+                                                id: undefined,
+                                                first_name: undefined,
+                                              }
+                                            );
+                                          } else {
+                                            formHarvestDetail.setValue(
+                                              "employee",
+                                              employee!
+                                            );
+                                            formHarvestDetail.trigger(
+                                              "employee"
+                                            );
+                                          }
+                                          setOpenPopoverEmployee(false);
                                         }}
                                       >
                                         {employee.first_name}

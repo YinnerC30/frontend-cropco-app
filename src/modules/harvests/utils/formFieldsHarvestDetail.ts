@@ -4,7 +4,7 @@ export const formFieldsHarvestDetail: Record<string, CustomFormField> = {
   first_name: {
     name: "first_name",
     label: "Empleado:",
-    placeholder: "Selecciona",
+    placeholder: "Selecciona un empleado",
     description: "Selecciona el nombre del empleado",
   },
   total: {

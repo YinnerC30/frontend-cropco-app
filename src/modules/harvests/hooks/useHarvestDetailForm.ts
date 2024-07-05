@@ -2,6 +2,7 @@ import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { formSchemaHarvestDetail } from "../utils/formSchemaHarvestDetail";
 import { useGetAllEmployees } from "@/modules/employees/hooks/useGetAllEmployees";
 import { useAppSelector } from "@/redux/store";
+import { useState } from "react";
 
 const defaultValuesHarvestDetail = {
   employee: {
@@ -24,9 +25,13 @@ export const useHarvestDetailForm = () => {
     schema: formSchemaHarvestDetail,
     defaultValues: defaultValuesHarvestDetail,
   });
+
+  const [openPopoverEmployee, setOpenPopoverEmployee] = useState(false);
   return {
     formHarvestDetail,
     details,
     queryEmployees,
+    openPopoverEmployee,
+    setOpenPopoverEmployee,
   };
 };

@@ -53,7 +53,13 @@ export const CreateHarvestDetail = ({
 }: any) => {
   const dispatch = useAppDispatch();
 
-  const { formHarvestDetail, details, queryEmployees } = useHarvestDetailForm();
+  const {
+    formHarvestDetail,
+    details,
+    queryEmployees,
+    openPopoverEmployee,
+    setOpenPopoverEmployee,
+  } = useHarvestDetailForm();
 
   const onSubmitHarvestDetail = async (
     values: z.infer<typeof formSchemaHarvestDetail>
@@ -71,9 +77,11 @@ export const CreateHarvestDetail = ({
     return <ErrorLoading />;
   }
 
+  console.log(formHarvestDetail.getValues());
+
   return (
     <div>
-      <Dialog open={isOpenDialogForm}>
+      <Dialog open={isOpenDialogForm} onOpenChange={setIsOpenDialogForm}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogClose
             onClick={() => setIsOpenDialogForm(false)}
@@ -106,22 +114,31 @@ export const CreateHarvestDetail = ({
                       {formFieldsHarvestDetail.first_name.label}
                     </FormLabel>
 
-                    <Popover modal={true}>
+                    <Popover
+                      open={openPopoverEmployee}
+                      onOpenChange={setOpenPopoverEmployee}
+                    >
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
                             variant="outline"
                             role="combobox"
+                            aria-expanded={openPopoverEmployee}
                             className={cn(
                               "w-[200px] justify-between",
                               !field.value && "text-muted-foreground"
                             )}
+                            ref={field.ref}
+                            onBlur={field.onBlur}
                           >
                             {field.value
                               ? queryEmployees.data.rows.find(
                                   (item: Employee) => item.id === field.value
                                 )?.first_name
                               : formFieldsHarvestDetail.first_name.placeholder}
+                            {console.log(
+                              formFieldsHarvestDetail.first_name.placeholder
+                            )}
 
                             <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                           </Button>
@@ -153,13 +170,24 @@ export const CreateHarvestDetail = ({
                                           value={employee.first_name}
                                           key={employee.id!}
                                           onSelect={() => {
-                                            formHarvestDetail.setValue(
-                                              "employee",
-                                              employee!
-                                            );
-                                            formHarvestDetail.trigger(
-                                              "employee.id"
-                                            );
+                                            if (field.value === employee.id) {
+                                              formHarvestDetail.setValue(
+                                                "employee",
+                                                {
+                                                  id: undefined,
+                                                  first_name: undefined,
+                                                }
+                                              );
+                                            } else {
+                                              formHarvestDetail.setValue(
+                                                "employee",
+                                                employee!
+                                              );
+                                              formHarvestDetail.trigger(
+                                                "employee.id"
+                                              );
+                                            }
+                                            setOpenPopoverEmployee(false);
                                           }}
                                         >
                                           {employee.first_name}
