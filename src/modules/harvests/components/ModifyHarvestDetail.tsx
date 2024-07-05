@@ -44,12 +44,13 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { Employee } from "@/modules/employees/interfaces/Employee";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { useEffect } from "react";
 import { z } from "zod";
 import { useHarvestDetailForm } from "../hooks/useHarvestDetailForm";
-import { formSchemaHarvestDetail } from "../utils";
+import { formFieldsHarvestDetail, formSchemaHarvestDetail } from "../utils";
+import { useEffect } from "react";
 
 interface Props {
   defaultValues: any;
@@ -68,19 +69,20 @@ export const ModifyHarvestDetail = ({
   const {
     details,
     queryEmployees,
-    formHarvestDetail,
     openPopoverEmployee,
     setOpenPopoverEmployee,
+    formHarvestDetail,
   } = useHarvestDetailForm();
 
   useEffect(() => {
-    formHarvestDetail.reset(defaultValues);
+    formHarvestDetail.setValue("employee", defaultValues.employee);
+    formHarvestDetail.setValue("total", defaultValues.total);
+    formHarvestDetail.setValue("value_pay", defaultValues.value_pay);
   }, []);
 
   const onSubmitHarvestDetail = (
     values: z.infer<typeof formSchemaHarvestDetail>
   ) => {
-    console.log(values);
     const oldEmployee = {
       id: defaultValues.employee.id,
     };
@@ -95,7 +97,6 @@ export const ModifyHarvestDetail = ({
     toast.success("Registro actualizado");
     setDialogOpen(false);
     afterEffect && afterEffect(false);
-    console.log(formHarvestDetail.getValues());
   };
   return (
     <Dialog open={isDialogOpen}>
@@ -123,12 +124,15 @@ export const ModifyHarvestDetail = ({
           >
             <FormField
               control={formHarvestDetail.control}
-              name={"employee"}
+              name={"employee.id"}
               render={({ field }) => (
                 <FormItem className="my-4">
-                  <FormLabel className="block">{"Empleado:"}</FormLabel>
+                  <FormLabel className="block">
+                    {formFieldsHarvestDetail.first_name.label}
+                  </FormLabel>
 
                   <Popover
+                    modal={true}
                     open={openPopoverEmployee}
                     onOpenChange={setOpenPopoverEmployee}
                   >
@@ -140,16 +144,16 @@ export const ModifyHarvestDetail = ({
                           aria-expanded={openPopoverEmployee}
                           className={cn(
                             "w-[200px] justify-between",
-                            !field.value.id && "text-muted-foreground"
+                            !field.value && "text-muted-foreground"
                           )}
                           ref={field.ref}
                           onBlur={field.onBlur}
                         >
-                          {field.value.id
+                          {field.value
                             ? queryEmployees.data.rows.find(
-                                (item: Employee) => item.id === field.value.id
+                                (item: Employee) => item.id === field.value
                               )?.first_name
-                            : "Selecciona un empleado"}
+                            : formFieldsHarvestDetail.first_name.placeholder}
 
                           <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                         </Button>
@@ -175,7 +179,7 @@ export const ModifyHarvestDetail = ({
                                     );
                                     if (
                                       isIncludes &&
-                                      employee.id !== field.value.id
+                                      employee.id !== field.value
                                     )
                                       return;
 
@@ -184,12 +188,12 @@ export const ModifyHarvestDetail = ({
                                         value={employee.first_name}
                                         key={employee.id!}
                                         onSelect={() => {
-                                          if (field.value.id === employee.id) {
+                                          if (field.value === employee.id) {
                                             formHarvestDetail.setValue(
                                               "employee",
                                               {
-                                                id: undefined,
-                                                first_name: undefined,
+                                                id: "",
+                                                first_name: "",
                                               }
                                             );
                                           } else {
@@ -198,7 +202,7 @@ export const ModifyHarvestDetail = ({
                                               employee!
                                             );
                                             formHarvestDetail.trigger(
-                                              "employee"
+                                              "employee.id"
                                             );
                                           }
                                           setOpenPopoverEmployee(false);
@@ -208,7 +212,7 @@ export const ModifyHarvestDetail = ({
                                         <CheckIcon
                                           className={cn(
                                             "ml-auto h-4 w-4",
-                                            employee.id! === field.value.id
+                                            employee.id! === field.value
                                               ? "opacity-100"
                                               : "opacity-0"
                                           )}
@@ -225,7 +229,7 @@ export const ModifyHarvestDetail = ({
                   </Popover>
 
                   <FormDescription>
-                    Selecciona el nombre del empleado
+                    {formFieldsHarvestDetail.first_name.description}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

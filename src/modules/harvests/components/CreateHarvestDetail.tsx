@@ -77,7 +77,6 @@ export const CreateHarvestDetail = ({
     return <ErrorLoading />;
   }
 
-  console.log(formHarvestDetail.getValues());
 
   return (
     <div>
@@ -115,6 +114,7 @@ export const CreateHarvestDetail = ({
                     </FormLabel>
 
                     <Popover
+                      modal={true}
                       open={openPopoverEmployee}
                       onOpenChange={setOpenPopoverEmployee}
                     >
@@ -136,9 +136,6 @@ export const CreateHarvestDetail = ({
                                   (item: Employee) => item.id === field.value
                                 )?.first_name
                               : formFieldsHarvestDetail.first_name.placeholder}
-                            {console.log(
-                              formFieldsHarvestDetail.first_name.placeholder
-                            )}
 
                             <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                           </Button>

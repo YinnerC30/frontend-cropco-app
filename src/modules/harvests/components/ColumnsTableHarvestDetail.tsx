@@ -170,7 +170,13 @@ export const columnsHarvestDetailActions = [
               <DropdownMenuSeparator className="w-full" />
               <DropdownMenuItem asChild>
                 <>
-                  <Button variant="ghost" onClick={() => setDialogOpen(true)}>
+                  <Button
+                    variant="ghost"
+                    onClick={() => {
+                      setDialogOpen(true);
+                      
+                    }}
+                  >
                     <Pencil2Icon className="w-full h-4 mr-2" /> Modificar
                   </Button>
                   <ModifyHarvestDetail
@@ -181,6 +187,7 @@ export const columnsHarvestDetailActions = [
                   />
                 </>
               </DropdownMenuItem>
+              
             </DropdownMenuContent>
           </DropdownMenu>
         </>

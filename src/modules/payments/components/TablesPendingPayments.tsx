@@ -25,7 +25,6 @@ export const TablesPendingPayments = ({
 
   useEffect(() => {
     if (!!data) {
-      console.log(data);
       const { harvests_detail, works_detail } = data;
       dispatch(
         setDataEmployee({

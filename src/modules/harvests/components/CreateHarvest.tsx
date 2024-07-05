@@ -113,7 +113,6 @@ export const CreateHarvest = () => {
     return <ErrorLoading />;
   }
 
-  console.log(formHarvest.getValues());
 
   return (
     <>

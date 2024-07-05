@@ -117,8 +117,6 @@ export const columnsPaymentsPendingWorkActions = [
       const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
       const handlePayRecord = () => {
-        // dispatch(remove(harvestDetail));
-        console.log({ ...workDetail, type: "work" });
         dispatch(addRecordToPay({ ...workDetail, type: "work" }));
         toast.success(`Se ha añadido el trabajo para pagarlo`);
         setOpenDropDownMenu(false);

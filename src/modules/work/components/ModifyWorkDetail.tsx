@@ -169,7 +169,6 @@ export const ModifyWorkDetail = ({
                                             value={employee.first_name}
                                             key={employee.id!}
                                             onSelect={() => {
-                                              console.log(employee);
                                               formWorkDetail.setValue(
                                                 "employee",
                                                 {

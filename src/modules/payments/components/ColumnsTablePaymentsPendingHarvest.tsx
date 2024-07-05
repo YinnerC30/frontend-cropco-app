@@ -138,7 +138,6 @@ export const columnsPaymentsPendingHarvestActions = [
 
       const handlePayRecord = () => {
         // dispatch(remove(harvestDetail));
-        console.log({ ...harvestDetail, type: "harvest" });
         dispatch(addRecordToPay({ ...harvestDetail, type: "harvest" }));
         toast.success(`Se ha añadido la cosecha para pagarla`);
         setOpenDropDownMenu(false);

@@ -69,7 +69,6 @@ export const ModifySaleDetail = ({
   const { details, queryClients, queryHarvestStock, formSaleDetail } =
     useSaleDetailForm();
 
-  console.log(defaultValues);
   useEffect(() => {
     formSaleDetail.reset(defaultValues);
   }, []);
