@@ -75,10 +75,11 @@ export const CreateHarvest = () => {
     setIsOpenDialogModifyForm,
     total,
     value_pay,
+    openPopoverCrop,
+    setOpenPopoverCrop
   } = useHarvestForm();
 
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+   
 
   useEffect(() => {
     dispatch(reset());
@@ -182,13 +183,13 @@ export const CreateHarvest = () => {
                     {formFieldsHarvest.crop.label}
                   </FormLabel>
 
-                  <Popover open={open} onOpenChange={setOpen}>
+                  <Popover open={openPopoverCrop} onOpenChange={setOpenPopoverCrop}>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
                           variant="outline"
                           role="combobox"
-                          aria-expanded={open}
+                          aria-expanded={openPopoverCrop}
                           className={cn(
                             "w-[200px] justify-between",
                             !field.value && "text-muted-foreground"
@@ -225,7 +226,10 @@ export const CreateHarvest = () => {
                                       key={crop.id!}
                                       onSelect={() => {
                                         if (field.value === crop.id) {
-                                          formHarvest.setValue("crop.id", "");
+                                          formHarvest.setValue(
+                                            "crop.id",
+                                            undefined
+                                          );
                                         } else {
                                           formHarvest.setValue(
                                             "crop.id",
@@ -233,7 +237,7 @@ export const CreateHarvest = () => {
                                           );
                                           formHarvest.trigger("crop.id");
                                         }
-                                        setOpen(false);
+                                        setOpenPopoverCrop(false);
                                       }}
                                     >
                                       {crop.name}

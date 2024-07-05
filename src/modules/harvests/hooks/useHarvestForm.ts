@@ -16,6 +16,7 @@ export const defaultValuesHarvest = {
 };
 
 export const useHarvestForm = () => {
+  const [openPopoverCrop, setOpenPopoverCrop] = useState(false);
   const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
   const [isOpenDialogModifyForm, setIsOpenDialogModifyForm] = useState(false);
   const [harvestDetail, setHarvestDetail] = useState({});
@@ -47,5 +48,8 @@ export const useHarvestForm = () => {
     setIsOpenDialogModifyForm,
     total,
     value_pay,
+
+    openPopoverCrop,
+    setOpenPopoverCrop,
   };
 };
