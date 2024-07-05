@@ -103,6 +103,13 @@ export const CreatePayment = () => {
     }
   };
 
+  const findSelectedEmployee = (id: string) => {
+    const value = queryEmployees.data.rows.find(
+      (item: Employee) => item.id === id
+    );
+    return `${value.first_name} ${value.last_name}`;
+  };
+
   if (isSuccess) {
     navigate("../view");
   }
@@ -191,9 +198,7 @@ export const CreatePayment = () => {
                           )}
                         >
                           {field.value
-                            ? queryEmployees.data.rows.find(
-                                (item: Employee) => item.id === field.value
-                              )?.first_name
+                            ? findSelectedEmployee(field.value)
                             : formFieldsPayment.employee.placeholder}
 
                           <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
@@ -237,7 +242,7 @@ export const CreatePayment = () => {
                                           setEmployeeId(employee.id!);
                                         }}
                                       >
-                                        {employee.first_name}
+                                        {`${employee.first_name} ${employee.last_name}`}
                                         <CheckIcon
                                           className={cn(
                                             "ml-auto h-4 w-4",

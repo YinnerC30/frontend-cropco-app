@@ -1,8 +1,7 @@
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
-import { useGetAllEmployees } from "@/modules/employees/hooks/useGetAllEmployees";
-import { useGetEmployee } from "@/modules/employees/hooks/useGetEmployee";
 import { RootState, useAppSelector } from "@/redux/store";
 import { formSchemaPayments } from "../utils";
+import { useGetAllEmployeesWithPendingPayments } from "./useGetAllEmployeesWithPendingPayments";
 
 export const defaultValues = {
   date: undefined,
@@ -17,10 +16,7 @@ export const usePaymentForm = () => {
     defaultValues,
   });
 
-  const { query: queryEmployees } = useGetAllEmployees({
-    searchParameter: "",
-    allRecords: true,
-  });
+  const { query: queryEmployees } = useGetAllEmployeesWithPendingPayments();
 
   const { employeeId, dataEmployee, paymentsToPay, totalToPay } =
     useAppSelector((state: RootState) => state.payment);
