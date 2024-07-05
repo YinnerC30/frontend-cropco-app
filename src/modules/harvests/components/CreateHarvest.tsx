@@ -31,7 +31,7 @@ import {
 } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -76,6 +76,9 @@ export const CreateHarvest = () => {
     total,
     value_pay,
   } = useHarvestForm();
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
 
   useEffect(() => {
     dispatch(reset());
@@ -179,12 +182,13 @@ export const CreateHarvest = () => {
                     {formFieldsHarvest.crop.label}
                   </FormLabel>
 
-                  <Popover modal={true}>
+                  <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
                           variant="outline"
                           role="combobox"
+                          aria-expanded={open}
                           className={cn(
                             "w-[200px] justify-between",
                             !field.value && "text-muted-foreground"
@@ -220,11 +224,16 @@ export const CreateHarvest = () => {
                                       value={crop.name}
                                       key={crop.id!}
                                       onSelect={() => {
-                                        formHarvest.setValue(
-                                          "crop.id",
-                                          crop.id!
-                                        );
-                                        formHarvest.trigger("crop.id");
+                                        if (field.value === crop.id) {
+                                          formHarvest.setValue("crop.id", "");
+                                        } else {
+                                          formHarvest.setValue(
+                                            "crop.id",
+                                            crop.id!
+                                          );
+                                          formHarvest.trigger("crop.id");
+                                        }
+                                        setOpen(false);
                                       }}
                                     >
                                       {crop.name}
