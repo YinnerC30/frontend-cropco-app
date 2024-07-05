@@ -26,4 +26,4 @@ export const formFieldsPayment: Record<string, CustomFormField> = {
     description: "",
   },
 };
-export default formFieldsPayment;
+export default { formFieldsPayment };
