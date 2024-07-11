@@ -35,6 +35,7 @@ export const PaymentsModule = () => {
 
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
+        {/* TODO: Agregar filtros de fecha, empleado, método de pago */}
         <div className="flex items-center justify-between gap-2 w-[750px] p-1">
           <ToolTipTemplate content={"Crear"}>
             <Button

@@ -44,4 +44,5 @@ export const routes: Route[] = [
     name: "Pagos",
     path: "payments/view",
   },
+  // TODO: Crear módulo de comprar y de consumo de insumos
 ];

@@ -21,6 +21,7 @@ import { formSchema } from "../utils/formSchema";
 import { RootState, useAppSelector } from "@/redux/store";
 import { useEffect } from "react";
 
+// TODO: Centrar y darle estilos adecuados al componentes
 export const Login = () => {
   const navigate = useNavigate();
   const { user } = useAppSelector((state: RootState) => state.authentication);

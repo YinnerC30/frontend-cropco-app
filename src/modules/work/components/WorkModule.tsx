@@ -31,6 +31,7 @@ export const WorkModule = () => {
       <Separator className="my-2" />
 
       <ScrollArea className="w-full h-[80vh]">
+        {/* Agregar filtros de fecha, cultivo */}
         <div className="flex items-start justify-between gap-2 w-[800px] p-1">
           <ToolTipTemplate content={"Crear"}>
             <Button

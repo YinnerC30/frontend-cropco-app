@@ -37,6 +37,7 @@ export const SaleModule = () => {
       <Separator className="my-2" />
 
       <ScrollArea className="w-full h-[80vh]">
+        {/* TODO: Agregar filtros de fecha, pago pendiente */}
         <div className="flex items-start justify-between gap-2 w-[800px] p-1">
           <ToolTipTemplate content={"Crear"}>
             <Button

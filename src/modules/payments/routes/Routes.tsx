@@ -1,7 +1,6 @@
 import { CreatePayment } from "../components/CreatePayment";
 import { PaymentsModule } from "../components/PaymentsModule";
 
-import { ViewClient } from "../components/View";
 
 const paymentsRoutes = {
   path: "payments",
@@ -14,9 +13,10 @@ const paymentsRoutes = {
       path: "create",
       element: <CreatePayment />,
     },
+    // TODO: Pendiente por implementar funcionalidad
     // {
     //   path: "view/:id",
-    //   element: <ViewClient />,
+    //   element: <ViewPayment />,
     // },
     
   ],

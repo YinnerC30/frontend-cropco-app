@@ -15,6 +15,7 @@ import { routes } from "@/routes/RoutesNavBar";
 import { useEffect } from "react";
 import { RootState } from "../../../redux/store";
 import { ModeToggle } from "./ModeToggle";
+import { Toaster } from "sonner";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -36,11 +37,13 @@ export const Home = () => {
   const logOut = () => {
     dispatch(removeUserActive());
     localStorage.removeItem("user-active");
+    // TODO: Eliminar rutas antiguas en el navigator
   };
 
   return (
     <>
       <div className="grid grid-cols-10">
+        {/* TODO: Mejorar header de la app */}
         <header className="flex flex-col col-span-10 col-start-1 my-3 max-h-16">
           <div className="flex items-center justify-evenly">
             <Button variant="link" asChild>
@@ -64,6 +67,7 @@ export const Home = () => {
         </header>
         <nav className="flex flex-row items-start justify-center col-span-2">
           <ul className="w-11/12 ml-5 text-base font-bold">
+          {/* TODO: Agregar iconos a cada uno de los módulos */}
             {routes.map((route) => (
               <li key={route.name}>
                 <Button
@@ -80,6 +84,7 @@ export const Home = () => {
         </nav>
         <main className="col-span-8">
           <Outlet />
+          <Toaster position="bottom-right" closeButton />
         </main>
       </div>
     </>
