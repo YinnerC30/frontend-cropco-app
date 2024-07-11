@@ -98,8 +98,9 @@ export const ModifyHarvestDetail = ({
     setDialogOpen(false);
     afterEffect && afterEffect(false);
   };
+
   return (
-    <Dialog open={isDialogOpen}>
+    <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogClose
           onClick={() => setDialogOpen(false)}
