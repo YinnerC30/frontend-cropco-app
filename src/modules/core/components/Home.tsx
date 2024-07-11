@@ -9,15 +9,33 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 
-import { ModeToggle } from "./ModeToggle";
-import { Toaster } from "@/components/ui/sonner";
+import { removeUserActive } from "@/modules/authentication/utils/authenticationSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { routes } from "@/routes/RoutesNavBar";
+import { useEffect } from "react";
+import { RootState } from "../../../redux/store";
+import { ModeToggle } from "./ModeToggle";
 
 export const Home = () => {
   const navigate = useNavigate();
 
+  const dispatch = useAppDispatch();
+
+  const { user } = useAppSelector((state: RootState) => state.authentication);
+
+  useEffect(() => {
+    if (user.token.length === 0) {
+      navigate("/authentication/login");
+    }
+  }, [user]);
+
   const handleNavigate = (endpoint: string) => {
     navigate(`${endpoint}`);
+  };
+
+  const logOut = () => {
+    dispatch(removeUserActive());
+    localStorage.removeItem("user-active");
   };
 
   return (
@@ -37,7 +55,9 @@ export const Home = () => {
               <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Log out</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => logOut()}>
+                  Cerrar sesión
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -60,8 +80,6 @@ export const Home = () => {
         </nav>
         <main className="col-span-8">
           <Outlet />
-
-          <Toaster position="bottom-right" closeButton />
         </main>
       </div>
     </>

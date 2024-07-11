@@ -1,3 +1,4 @@
+import { authenticationReducer } from "@/modules/authentication/utils/authenticationSlice";
 import { harvestReducer } from "@/modules/harvests/utils/harvestSlice";
 import { paymentReducer } from "@/modules/payments/utils/paymentSlice";
 import { saleReducer } from "@/modules/sales/utils/saleSlice";
@@ -7,10 +8,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 export const store = configureStore({
   reducer: {
+    authentication: authenticationReducer,
     harvest: harvestReducer,
+    payment: paymentReducer,
     sale: saleReducer,
     work: workReducer,
-    payment: paymentReducer,
   },
 });
 

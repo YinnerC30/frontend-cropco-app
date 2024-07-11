@@ -1,4 +1,6 @@
 import ErrorPage from "@/ErrorPage";
+import { Login } from "@/modules/authentication/components/Login";
+import { authenticationRoutes } from "@/modules/authentication/routes/Routes";
 
 import { clientRoutes } from "@/modules/clients/routes/Routes";
 import { Home } from "@/modules/core/components";
@@ -30,7 +32,12 @@ export const Router = createBrowserRouter([
       supplyRoutes,
       saleRoutes,
       workRoutes,
-      paymentsRoutes
+      paymentsRoutes,
     ],
+  },
+  {
+    path: "/authentication",
+    errorElement: <ErrorPage />,
+    children: authenticationRoutes,
   },
 ]);
