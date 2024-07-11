@@ -8,13 +8,13 @@ import { ActionsTable } from "@/modules/core/components";
 import { FormatDate } from "@/modules/core/helpers/FormatDate";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { Payment } from "../interfaces/Payment";
-import { formFieldsPayment } from "../utils";
+import { formFieldsPayments } from "../utils";
 import { useDeletePayment } from "../hooks/useDeletePayment";
 import { Badge } from "@/components";
 
 export let columnsPayment: ColumnDef<Payment>[] = [
   {
-    accessorKey: formFieldsPayment.date.name,
+    accessorKey: formFieldsPayments.date.name,
     cell: ({ row }) => {
       return FormatDate({ date: row.getValue("date") });
     },
@@ -25,14 +25,14 @@ export let columnsPayment: ColumnDef<Payment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {formFieldsPayment.date.label}
+          {formFieldsPayments.date.label}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
   },
   {
-    accessorKey: formFieldsPayment.employee.name,
+    accessorKey: formFieldsPayments.employee.name,
     cell: ({ row }) => {
       const employee: any = row.getValue("employee");
       return employee.first_name;
@@ -44,14 +44,14 @@ export let columnsPayment: ColumnDef<Payment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {formFieldsPayment.employee.label}
+          {formFieldsPayments.employee.label}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
   },
   {
-    accessorKey: formFieldsPayment.method_of_payment.name,
+    accessorKey: formFieldsPayments.method_of_payment.name,
     cell: ({ row }) => {
       const methodOfPayment = row.getValue("method_of_payment");
       let badge;
@@ -77,14 +77,14 @@ export let columnsPayment: ColumnDef<Payment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {formFieldsPayment.method_of_payment.label}
+          {formFieldsPayments.method_of_payment.label}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
   },
   {
-    accessorKey: formFieldsPayment.total.name,
+    accessorKey: formFieldsPayments.total.name,
     cell: ({ row }) => {
       return FormatMoneyValue(row.getValue("total"));
     },

@@ -1,3 +1,3 @@
-export { formFieldsPayment } from "./formFieldsPayment";
+export { formFieldsPayments } from "./formFieldsPayments";
 
 export { formSchemaPayments } from "./formSchemaPayments";

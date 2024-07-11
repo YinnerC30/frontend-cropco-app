@@ -1,6 +1,6 @@
 import { CustomFormField } from "@/modules/core/interfaces/CustomFormField";
 
-export const formFieldsPayment: Record<string, CustomFormField> = {
+export const formFieldsPayments: Record<string, CustomFormField> = {
   date: {
     name: "date",
     label: "Fecha:",
@@ -26,4 +26,4 @@ export const formFieldsPayment: Record<string, CustomFormField> = {
     description: "",
   },
 };
-export default { formFieldsPayment };
+export default { formFieldsPayments };

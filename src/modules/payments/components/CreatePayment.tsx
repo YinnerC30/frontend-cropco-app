@@ -54,7 +54,7 @@ import { z } from "zod";
 import { usePaymentForm } from "../hooks/usePaymentForm";
 import { usePostPayment } from "../hooks/usePostPayment";
 import { MethodOfPayment } from "../interfaces/MethodOfPayment";
-import { formFieldsPayment, formSchemaPayments } from "../utils";
+import { formFieldsPayments, formSchemaPayments } from "../utils";
 import {
   calculateTotal,
   modifyEmployeeId,
@@ -133,7 +133,7 @@ export const CreatePayment = () => {
               render={({ field }) => (
                 <FormItem className="my-4">
                   <FormLabel className="block">
-                    {formFieldsPayment.date.label}
+                    {formFieldsPayments.date.label}
                   </FormLabel>
 
                   <Popover>
@@ -151,7 +151,7 @@ export const CreatePayment = () => {
                           {field.value ? (
                             format(field.value, "PPP", { locale: es })
                           ) : (
-                            <span>{formFieldsPayment.date.placeholder}</span>
+                            <span>{formFieldsPayments.date.placeholder}</span>
                           )}
                           <CalendarIcon className="w-4 h-4 ml-auto opacity-50" />
                         </Button>
@@ -171,7 +171,7 @@ export const CreatePayment = () => {
                     </PopoverContent>
                   </Popover>
                   <FormDescription>
-                    {formFieldsPayment.date.description}
+                    {formFieldsPayments.date.description}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -183,7 +183,7 @@ export const CreatePayment = () => {
               render={({ field }) => (
                 <FormItem className="my-4">
                   <FormLabel className="block">
-                    {formFieldsPayment.employee.label}
+                    {formFieldsPayments.employee.label}
                   </FormLabel>
 
                   <Popover modal={true}>
@@ -199,7 +199,7 @@ export const CreatePayment = () => {
                         >
                           {field.value
                             ? findSelectedEmployee(field.value)
-                            : formFieldsPayment.employee.placeholder}
+                            : formFieldsPayments.employee.placeholder}
 
                           <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                         </Button>
@@ -263,7 +263,7 @@ export const CreatePayment = () => {
                   </Popover>
 
                   <FormDescription>
-                    {formFieldsPayment.employee.description}
+                    {formFieldsPayments.employee.description}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -299,7 +299,7 @@ export const CreatePayment = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    {formFieldsPayment.method_of_payment.label}
+                    {formFieldsPayments.method_of_payment.label}
                   </FormLabel>
                   <div className="w-40 ml-[1px]">
                     <Select
@@ -309,7 +309,7 @@ export const CreatePayment = () => {
                       <SelectTrigger>
                         <SelectValue
                           placeholder={
-                            formFieldsPayment.method_of_payment.placeholder
+                            formFieldsPayments.method_of_payment.placeholder
                           }
                         />
                       </SelectTrigger>
@@ -329,7 +329,7 @@ export const CreatePayment = () => {
                   </div>
 
                   <FormDescription>
-                    {formFieldsPayment.method_of_payment.description}
+                    {formFieldsPayments.method_of_payment.description}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
