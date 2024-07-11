@@ -101,7 +101,7 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows?.map((row) => (
                 <TableRow
                   onDoubleClick={() => {
                     const original: any = row.original;
@@ -204,7 +204,7 @@ export function DataTable<TData, TValue>({
           </div>
           {/* Total registros */}
           <div>
-            <p className="text-sm font-medium">Total: {data.rowCount}</p>
+            <p className="text-sm font-medium">Total: {data?.rowCount ?? 0}</p>
           </div>
         </div>
       </div>

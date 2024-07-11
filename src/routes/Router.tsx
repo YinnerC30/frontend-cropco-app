@@ -1,5 +1,4 @@
 import ErrorPage from "@/ErrorPage";
-import { Login } from "@/modules/authentication/components/Login";
 import { authenticationRoutes } from "@/modules/authentication/routes/Routes";
 
 import { clientRoutes } from "@/modules/clients/routes/Routes";

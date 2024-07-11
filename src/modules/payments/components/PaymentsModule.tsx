@@ -25,7 +25,7 @@ export const PaymentsModule = () => {
 
   if (query.isLoading) return <Loading />;
 
-  if (query.isError) {
+  if (query.isError || !query.data) {
     return <ErrorLoading />;
   }
 
@@ -48,7 +48,7 @@ export const PaymentsModule = () => {
         <div className="w-[750px]">
           <DataTable
             columns={columnsPayment}
-            rows={query.data.rows}
+            rows={query.data?.rows ?? 0}
             data={query.data}
             pagination={pagination}
             setPagination={setPagination}

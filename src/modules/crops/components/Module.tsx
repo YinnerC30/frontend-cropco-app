@@ -27,7 +27,7 @@ export const CropsModule = () => {
 
   if (query.isLoading) return <Loading />;
 
-  if (query.isError) {
+  if (query.isError || !query.data) {
     return <ErrorLoading />;
   }
 
@@ -51,7 +51,7 @@ export const CropsModule = () => {
         <div className="w-[1000px]">
           <DataTable
             columns={columns}
-            rows={query.data.rows}
+            rows={query.data?.rows ?? 0}
             data={query.data}
             pagination={pagination}
             setPagination={setPagination}

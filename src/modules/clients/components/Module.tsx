@@ -3,18 +3,18 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import columns from "./ColumnsTable";
-import { useGetAllClients } from "../hooks/useGetAllClients";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import {
-  Loading,
+  DataTable,
   ErrorLoading,
+  Loading,
   SearchBar,
   ToolTipTemplate,
-  DataTable,
 } from "../../core/components";
+import { useGetAllClients } from "../hooks/useGetAllClients";
+import columns from "./ColumnsTable";
 
 export const ClientsModule = () => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export const ClientsModule = () => {
 
   if (query.isLoading) return <Loading />;
 
-  if (query.isError) {
+  if (query.isError || !query.data) {
     return <ErrorLoading />;
   }
 
@@ -50,7 +50,7 @@ export const ClientsModule = () => {
         <div className="w-[750px]">
           <DataTable
             columns={columns}
-            rows={query.data.rows}
+            rows={query.data?.rows ?? 0}
             data={query.data}
             pagination={pagination}
             setPagination={setPagination}
