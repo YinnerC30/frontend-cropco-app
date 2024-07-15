@@ -10,7 +10,7 @@ export const formSchema = z.object({
 
   password: z
     .string({ required_error: "La contraseña es obligatoria" })
-
+    .min(1, "Debes ingresar la contraseña")
     .max(100, {
       message: `La contraseña debe tener máximo 100 caracteres`,
     }),

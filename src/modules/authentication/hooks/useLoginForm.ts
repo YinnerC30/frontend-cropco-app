@@ -12,10 +12,12 @@ export const useLoginForm = () => {
     defaultValues: {
       email: "pedrosilva@example.com",
       password: "123zxc",
+      // email: "",
+      // password: "",
     },
   });
 
-  const { data, isPending, isSuccess } = useLoginUser();
+  const { mutate, isSuccess, data, isError, error, isPending } = useLoginUser();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -36,5 +38,8 @@ export const useLoginForm = () => {
     showPassword,
     togglePasswordVisibility,
     saveUserInLocalStorage,
+    mutate,
+    isError,
+    error,
   };
 };
