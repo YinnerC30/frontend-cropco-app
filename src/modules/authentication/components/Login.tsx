@@ -53,17 +53,20 @@ export const Login = () => {
   }
 
   useEffect(() => {
-    const axiosError: any = error;
     if (isError) {
-      const { statusCode, message } = axiosError.response.data;
-      const fieldValue = extractValueFromParentheses(message);
-      if (statusCode === 401 && fieldValue === "email") {
-        form.setError("email", { message: "El usuario ingresado no existe" });
-      } else {
-        form.setError("password", { message: "La contraseña es incorrecta" });
-      }
+      handleLoginError(error);
     }
-  }, [error, data, isSuccess]);
+  }, [isError, error]);
+
+  const handleLoginError = (axiosError: any) => {
+    const { statusCode, message } = axiosError.response.data;
+    const fieldValue = extractValueFromParentheses(message);
+    if (statusCode === 401 && fieldValue === "email") {
+      form.setError("email", { message: "El usuario ingresado no existe" });
+    } else {
+      form.setError("password", { message: "La contraseña es incorrecta" });
+    }
+  };
 
   return (
     <div className="flex items-center justify-center h-screen ">
