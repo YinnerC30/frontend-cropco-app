@@ -26,7 +26,7 @@ export const Home = () => {
 
   useEffect(() => {
     if (user.token.length === 0) {
-      navigate("/authentication/login");
+      navigate("/authentication/login", { replace: true });
     }
   }, [user]);
 
@@ -37,7 +37,7 @@ export const Home = () => {
   const logOut = () => {
     dispatch(removeUserActive());
     localStorage.removeItem("user-active");
-    // TODO: Eliminar rutas antiguas en el navigator
+    navigate("/authentication/login", { replace: true });
   };
 
   return (
@@ -67,7 +67,7 @@ export const Home = () => {
         </header>
         <nav className="flex flex-row items-start justify-center col-span-2">
           <ul className="w-11/12 ml-5 text-base font-bold">
-          {/* TODO: Agregar iconos a cada uno de los módulos */}
+            {/* TODO: Agregar iconos a cada uno de los módulos */}
             {routes.map((route) => (
               <li key={route.name}>
                 <Button

@@ -44,5 +44,13 @@ export const routes: Route[] = [
     name: "Pagos",
     path: "payments/view",
   },
+  {
+    name: "Compras",
+    path: "shopping/view",
+  },
+  {
+    name: "Consumos",
+    path: "consumptions/view",
+  },
   // TODO: Crear módulo de comprar y de consumo de insumos
 ];

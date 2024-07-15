@@ -12,8 +12,8 @@ export const useLoginUser = () => {
       toast.success(`El usuario ha iniciado sesión`);
     },
     onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
+      const loginError: AxiosError | any = error;
+      const { data } = loginError.response;
       toast.error(
         `Hubo un problema al intentar iniciar sesión, ${data.message}`
       );
