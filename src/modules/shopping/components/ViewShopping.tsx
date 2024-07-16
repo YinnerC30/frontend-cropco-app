@@ -46,12 +46,10 @@ export const ViewShopping = () => {
   } = usePurchaseForm();
 
   useEffect(() => {
-    console.log("Esta vaina se borro");
     dispatch(reset());
   }, []);
 
   useEffect(() => {
-    console.log("Se añadio la data al state");
     if (data && details.length === 0) {
       formPurchase.reset({
         ...data,
@@ -60,7 +58,7 @@ export const ViewShopping = () => {
       dispatch(add(data.details));
       dispatch(calculateTotal());
     }
-  }, [data, dispatch]);
+  }, [data, details.length, formPurchase, dispatch]);
 
   // Render loading or error states
   if (isLoading) return <Loading />;
