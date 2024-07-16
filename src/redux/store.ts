@@ -2,6 +2,7 @@ import { authenticationReducer } from "@/modules/authentication/utils/authentica
 import { harvestReducer } from "@/modules/harvests/utils/harvestSlice";
 import { paymentReducer } from "@/modules/payments/utils/paymentSlice";
 import { saleReducer } from "@/modules/sales/utils/saleSlice";
+import { purchaseReducer } from "@/modules/shopping/utils/purchaseSlice";
 import { workReducer } from "@/modules/work/utils/workSlice";
 import { configureStore } from "@reduxjs/toolkit";
 
@@ -13,6 +14,7 @@ export const store = configureStore({
     payment: paymentReducer,
     sale: saleReducer,
     work: workReducer,
+    purchase: purchaseReducer,
   },
 });
 

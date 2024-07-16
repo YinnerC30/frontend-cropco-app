@@ -1,23 +1,22 @@
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
-import { PaginationState } from '@tanstack/react-table';
-import { useState } from 'react';
-import { getSupplies } from '../services/getAll';
-import { ResponseGetSupplies } from '../interfaces/Response';
+import { useQuery } from "@tanstack/react-query";
+import { PaginationState } from "@tanstack/react-table";
+import { useState } from "react";
+import { getSupplies } from "../services/getAll";
 
-interface Response {
-  query: UseQueryResult<ResponseGetSupplies, Error>;
-  pagination: PaginationState;
-  setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
-}
+// interface Response {
+//   query: UseQueryResult<ResponseGetSupplies, Error>;
+//   pagination: PaginationState;
+//   setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
+// }
 
-export const useGetAllSupplies = (searchParameter: string): Response => {
+export const useGetAllSupplies = (searchParameter: string) => {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
 
   const query = useQuery({
-    queryKey: ['supplies', { searchParameter, ...pagination }],
+    queryKey: ["supplies", { searchParameter, ...pagination }],
     queryFn: () =>
       getSupplies({
         search: searchParameter,
