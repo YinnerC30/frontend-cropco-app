@@ -8,7 +8,7 @@ interface Props {
   allRecords: boolean;
 }
 
-export const getSupplies = async ({
+export const getAllSuppliesStock = async ({
   search = "",
   limit = 10,
   offset = 0,
@@ -20,6 +20,6 @@ export const getSupplies = async ({
   params.append("offset", offset.toString());
   params.append("allRecords", allRecords.toString());
 
-  const { data } = await cropcoAPI.get(`${pathsCropco.supplies}?${params}`);
+  const { data } = await cropcoAPI.get(`${pathsCropco.supplies}/stock/all?${params}`);
   return data;
 };

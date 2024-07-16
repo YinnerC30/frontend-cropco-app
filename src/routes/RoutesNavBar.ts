@@ -50,7 +50,7 @@ export const routes: Route[] = [
   },
   {
     name: "Consumos",
-    path: "consumptions/view",
+    path: "consumption/view",
   },
   // TODO: Crear módulo de comprar y de consumo de insumos
 ];

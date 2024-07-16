@@ -1,14 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
-import { getSupplies } from "../services/getAll";
+import { getAllSuppliesStock } from "../services/getAllSuppliesStock";
 
 interface Props {
   searchParameter: string;
   allRecords: boolean;
 }
 
-export const useGetAllSupplies = ({ searchParameter, allRecords }: Props) => {
+export const useGetAllSuppliesStock = ({
+  searchParameter,
+  allRecords,
+}: Props) => {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -17,7 +20,7 @@ export const useGetAllSupplies = ({ searchParameter, allRecords }: Props) => {
   const query = useQuery({
     queryKey: ["supplies", { searchParameter, ...pagination }],
     queryFn: () =>
-      getSupplies({
+      getAllSuppliesStock({
         search: searchParameter,
         limit: pagination.pageSize,
         offset: pagination.pageIndex,

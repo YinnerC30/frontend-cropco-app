@@ -2,6 +2,7 @@ import ErrorPage from "@/ErrorPage";
 import { authenticationRoutes } from "@/modules/authentication/routes/Routes";
 
 import { clientRoutes } from "@/modules/clients/routes/Routes";
+import { consumptionRoutes } from "@/modules/consumption/routes/Routes";
 import { Home } from "@/modules/core/components";
 import { cropRoutes } from "@/modules/crops/routes/Routes";
 import { employeeRoutes } from "@/modules/employees/routes/Routes";
@@ -34,6 +35,7 @@ export const Router = createBrowserRouter([
       workRoutes,
       paymentsRoutes,
       shoppingRoutes,
+      consumptionRoutes
     ],
   },
   {

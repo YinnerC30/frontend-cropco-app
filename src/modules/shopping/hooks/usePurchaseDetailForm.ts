@@ -19,7 +19,10 @@ export const usePurchaseDetailForm = () => {
     },
   });
 
-  const { query: querySupplies } = useGetAllSupplies("");
+  const { query: querySupplies } = useGetAllSupplies({
+    searchParameter: "",
+    allRecords: true,
+  });
   const { query: querySuppliers } = useGetAllSuppliers("");
 
   const { details } = useAppSelector((state: RootState) => state.purchase);

@@ -19,4 +19,5 @@ export const pathsCropco = {
   payments: "/payments",
   authentication: "/auth",
   purchase: "supplies/purchase",
+  consumption: "supplies/consumption",
 };
