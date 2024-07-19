@@ -26,9 +26,8 @@ import {
 } from "@/components";
 import { cn } from "@/lib/utils";
 import {
-  ButtonCancelRegister,
   ErrorLoading,
-  Loading,
+  Loading
 } from "@/modules/core/components";
 import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 

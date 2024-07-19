@@ -13,9 +13,8 @@ import { Button } from "@/components/ui/button";
 
 import {
   ArrowUpDown,
-  CircleDollarSignIcon,
   MoreHorizontal,
-  TrashIcon,
+  TrashIcon
 } from "lucide-react";
 
 import {
@@ -33,10 +32,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useAppDispatch } from "@/redux/store";
 import { toast } from "sonner";
 
+import { Badge } from "@/components";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { PaymentPending } from "../interfaces/PaymentPending";
 import { removeRecordToPay } from "../utils/paymentSlice";
-import { Badge } from "@/components";
 
 export const columnsPaymentsToPay: ColumnDef<PaymentPending>[] = [
   // {

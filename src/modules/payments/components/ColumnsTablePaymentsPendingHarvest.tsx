@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
-import { Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
 
 import {
   ArrowUpDown,
@@ -34,12 +33,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useAppDispatch } from "@/redux/store";
 import { toast } from "sonner";
 
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
-import { PaymentPending } from "../interfaces/PaymentPending";
-import { FormatDate } from "@/modules/core/helpers/FormatDate";
-import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
-import { addRecordToPay } from "../utils/paymentSlice";
 import { Badge } from "@/components";
+import { FormatDate } from "@/modules/core/helpers/FormatDate";
+import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
+import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
+import { PaymentPending } from "../interfaces/PaymentPending";
+import { addRecordToPay } from "../utils/paymentSlice";
 
 export const columnsPaymentsPendingHarvest: ColumnDef<PaymentPending>[] = [
   {

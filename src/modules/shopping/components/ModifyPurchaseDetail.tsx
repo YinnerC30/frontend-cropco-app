@@ -34,14 +34,13 @@ import { Supplier } from "@/modules/suppliers/interfaces/Supplier";
 import { Supply } from "@/modules/supplies/interfaces/Supply";
 import { useAppDispatch } from "@/redux/store";
 import { CaretSortIcon, CheckIcon, Cross2Icon } from "@radix-ui/react-icons";
+import { useEffect } from "react";
 import { toast } from "sonner";
-import { v4 as generateUUID } from "uuid";
 import { z } from "zod";
 import { usePurchaseDetailForm } from "../hooks/usePurchaseDetailForm";
 import { formFieldsPurchaseDetail } from "../utils/formFieldsPurchaseDetail";
 import { formSchemaPurchaseDetail } from "../utils/formSchemaPurchaseDetail";
-import { add, calculateTotal, modify } from "../utils/purchaseSlice";
-import { useEffect } from "react";
+import { calculateTotal, modify } from "../utils/purchaseSlice";
 
 interface Props {
   defaultValues: any;

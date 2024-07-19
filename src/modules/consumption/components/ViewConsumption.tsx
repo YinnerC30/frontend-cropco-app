@@ -8,7 +8,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Popover
+  Popover,
 } from "@/components";
 import { Label } from "@/components/ui/label";
 import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -62,7 +62,7 @@ export const ViewConsumption = () => {
 
   return (
     <>
-      <Label className="text-2xl">Modificar consumo</Label>
+      <Label className="text-2xl">Ver registro de consumo</Label>
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
         {/* Formulario principal */}

@@ -41,7 +41,7 @@ export const ConsumptionModule = () => {
             </Button>
           </ToolTipTemplate>
         </div>
-        <div className="w-[400px]">
+        <div className="w-[550px]">
           <DataTable
             columns={columnsConsumption}
             rows={query.data?.rows ?? 0}

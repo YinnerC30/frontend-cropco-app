@@ -104,7 +104,7 @@ export const ModifyConsumption = () => {
 
   return (
     <>
-      <Label className="text-2xl">Modificar Compra</Label>
+      <Label className="text-2xl">Modificar registro de consumo</Label>
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
         {/* Formulario principal */}
