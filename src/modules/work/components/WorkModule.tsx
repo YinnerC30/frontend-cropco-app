@@ -42,6 +42,7 @@ export const WorkModule = () => {
             </Button>
           </ToolTipTemplate>
         </div>
+        {/* TODO: Agregar filtros de fecha, cultivo, total a pagar */}
         <div className="w-[800px]">
           <DataTable
             columns={columnsWork}

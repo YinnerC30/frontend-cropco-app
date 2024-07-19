@@ -50,6 +50,8 @@ export const CreateShopping = () => {
     isPending,
   } = usePurchaseForm();
 
+  // TODO: Limpiar registros de detalle
+
   const onSubmitPurchase = (values: z.infer<typeof formSchemaPurchase>) => {
     if (details.length === 0) {
       toast.error("Debes registrar al menos 1 compra");
@@ -171,6 +173,7 @@ export const CreateShopping = () => {
             columns={columnsPurchaseDetailActions}
           />
 
+          {/* TODO: Dar estilos de moneda a los valores numéricos */}
           <div className="flex flex-col gap-4 ml-1 w-[300px] h-[120px] justify-center">
             <FormField
               control={formPurchase.control}

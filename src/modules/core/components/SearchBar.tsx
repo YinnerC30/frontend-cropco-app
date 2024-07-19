@@ -1,14 +1,20 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Cross1Icon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Cross1Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { z } from 'zod';
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { z } from "zod";
 
-
-
-import { ToolTipTemplate } from './ToolTipTemplate';
-import { Button, Form, FormControl, FormField, FormItem, FormMessage, Input } from '@/components';
+import { ToolTipTemplate } from "./ToolTipTemplate";
+import {
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+  Input,
+} from "@/components";
 
 interface Props {
   search: string;
@@ -29,7 +35,7 @@ export const SearchBar = ({ search }: Props) => {
   });
 
   const onReset = () => {
-    form.reset({ search: '' });
+    form.reset({ search: "" });
     navigate(`../view`);
   };
 

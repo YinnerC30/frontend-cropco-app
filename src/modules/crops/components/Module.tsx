@@ -38,6 +38,7 @@ export const CropsModule = () => {
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
         <div className="flex items-center justify-between gap-2 w-[1000px] p-1">
+          {/* TODO: Implementar filtros por número de unidades, fecha de creación y eliminación */}
           <SearchBar search={searchParameter} />
           <ToolTipTemplate content={"Crear"}>
             <Button

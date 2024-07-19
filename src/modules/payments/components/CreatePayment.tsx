@@ -177,6 +177,7 @@ export const CreatePayment = () => {
                 </FormItem>
               )}
             />
+            {/* TODO: Arreglar select de empleado, no se quita al dar clic nuevamente en el, ni busca los registros del empleado */}
             <FormField
               control={formPayment.control}
               name={"employee.id"}
@@ -281,6 +282,7 @@ export const CreatePayment = () => {
             </Button>
 
             <Separator className="my-4" />
+            {/* TODO: Mejorar estilo de los badges */}
 
             {employeeId.length <= 0 ? (
               <Label>

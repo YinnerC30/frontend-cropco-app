@@ -93,6 +93,7 @@ export const CreateConsumptionDetail = ({
               className="mx-5"
               id="formDetail"
             >
+              {/* TODO: Arreglar selector de stock de insumo */}
               <FormField
                 key={"supply.id"}
                 control={formConsumptionDetails.control}
@@ -189,6 +190,7 @@ export const CreateConsumptionDetail = ({
                   </FormItem>
                 )}
               />
+              {/* TODO: Arreglar selector de cultivo */}
               <FormField
                 key={"crop.id"}
                 control={formConsumptionDetails.control}

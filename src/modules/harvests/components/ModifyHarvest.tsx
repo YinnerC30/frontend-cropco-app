@@ -186,6 +186,7 @@ export const ModifyHarvest = () => {
                 </FormItem>
               )}
             />
+            {/* TODO: Mejorar select de cultivo, no se cierra el popover luego de seleccionar alguno */}
             <FormField
               key={"crop.id"}
               control={formHarvest.control}

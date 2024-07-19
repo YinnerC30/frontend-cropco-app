@@ -47,6 +47,7 @@ export const HarvestModule = () => {
             </Button>
           </ToolTipTemplate>
         </div>
+        {/* TODO Agregar filtros de busqueda por fecha, cultivo, total cosechado, valor a pagar */}
         <div className="w-[800px]">
           <DataTable
             columns={columnsHarvest}

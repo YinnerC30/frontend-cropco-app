@@ -96,6 +96,7 @@ export const CreateWorkDetail = ({
               className="mx-5"
               id="formDetail"
             >
+              {/* TODO: Arreglar select de empleado */}
               <FormField
                 key={"employee.id"}
                 control={formWorkDetail.control}

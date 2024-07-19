@@ -41,6 +41,7 @@ export const ShoppingModule = () => {
             </Button>
           </ToolTipTemplate>
         </div>
+        {/* TODO: Agregar filtros de fecha y total */}
         <div className="w-[800px]">
           <DataTable
             columns={columnsPurchase}

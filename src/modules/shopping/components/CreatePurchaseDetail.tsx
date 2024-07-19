@@ -91,6 +91,7 @@ export const CreatePurchaseDetail = ({
               className="mx-5"
               id="formDetail"
             >
+              {/* TODO: Mejorar select de insumo */}
               <FormField
                 key={"supply.id"}
                 control={formPurchaseDetail.control}
@@ -186,6 +187,7 @@ export const CreatePurchaseDetail = ({
                   </FormItem>
                 )}
               />
+              {/* TODO: Mejorar select de proveedor */}
               <FormField
                 key={"supplier.id"}
                 control={formPurchaseDetail.control}

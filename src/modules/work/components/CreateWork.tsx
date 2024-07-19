@@ -76,6 +76,7 @@ export const CreateWork = () => {
   const { mutate, isSuccess, isPending } = usePostWork();
 
   const onSubmit = async (values: z.infer<typeof formSchemaWork>) => {
+    // TODO: Mejorar validación de inexistencia de registros
     if (details.length === 0) {
       toast.error("Debes registrar al menos 1 registro");
       return;
@@ -159,6 +160,7 @@ export const CreateWork = () => {
                 </FormItem>
               )}
             />
+            {/* TODO: Arreglar select de cultivo, no se oculta una vez se de clic en la opción deseada */}
             <FormField
               key={"crop.id"}
               control={formWork.control}
@@ -295,6 +297,7 @@ export const CreateWork = () => {
             />
           )}
 
+          {/* TODO: Dar formato numérico y de moneda a los valores enteros */}
           <div className="flex flex-col gap-4 ml-1 w-[300px] h-[120px] justify-center">
             <FormField
               control={formWork.control}

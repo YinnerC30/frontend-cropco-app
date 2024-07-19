@@ -46,6 +46,8 @@ export const PaymentsModule = () => {
             </Button>
           </ToolTipTemplate>
         </div>
+        {/* TODO: Agregar filtros de fecha, empleado, método de pago, total a pagar */}
+        {/* TODO: Eliminar acción de modificar registro */}
         <div className="w-[750px]">
           <DataTable
             columns={columnsPayment}

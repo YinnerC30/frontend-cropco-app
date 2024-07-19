@@ -41,6 +41,7 @@ export const ConsumptionModule = () => {
             </Button>
           </ToolTipTemplate>
         </div>
+        {/* TODO: Agregar filtros de fecha */}
         <div className="w-[550px]">
           <DataTable
             columns={columnsConsumption}

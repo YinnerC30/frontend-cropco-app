@@ -200,6 +200,7 @@ export const CreateCrop = () => {
                 </FormItem>
               )}
             />
+            {/* TODO: El check no cambia de cuadro al momento de dar clic en el número del calendario, ni se borrar al dar clic en el mismo nuevamente */}
             <FormField
               control={form.control}
               name={`dates.date_of_termination`}

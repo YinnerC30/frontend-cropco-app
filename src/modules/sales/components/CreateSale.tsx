@@ -211,6 +211,7 @@ export const CreateSale = () => {
             />
           )}
 
+          {/* TODO: Dar formato de moneda a los valores numéricos */}
           <div className="flex flex-col gap-4 ml-1 w-[300px] h-[120px] justify-center">
             <FormField
               key={"quantity"}

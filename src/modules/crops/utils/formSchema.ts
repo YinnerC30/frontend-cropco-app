@@ -9,7 +9,9 @@ export const formSchema = z.object({
     .max(100, { message: `El nombre no debe exceder los 100 caracteres` }),
   description: z
     .string({ required_error: `La descripción es requerida` })
+    .min(15, { message: `La descripción debe tener mínimo 15 caracteres` })
     .max(100, { message: `La descripción no debe exceder los 100 caracteres` }),
+    
   units: z.coerce
     .number({
       required_error: `El número de unidades es requerido`,

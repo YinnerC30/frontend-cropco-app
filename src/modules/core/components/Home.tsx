@@ -17,6 +17,7 @@ import { RootState } from "../../../redux/store";
 import { ModeToggle } from "./ModeToggle";
 import { Toaster } from "sonner";
 
+// TODO: Ubicar correcatement el Sonner o toast para que le haga efecto el cambio de color light/dark
 export const Home = () => {
   const navigate = useNavigate();
 

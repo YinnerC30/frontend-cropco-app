@@ -96,6 +96,7 @@ export const CreateSaleDetail = ({
               className="mx-5"
               id="formDetail"
             >
+              {/* TODO: Arreglar select, al seleccionar cultivo no se oculta popover */}
               <FormField
                 key={"crop.id"}
                 control={formSaleDetail.control}
@@ -190,6 +191,7 @@ export const CreateSaleDetail = ({
                   </FormItem>
                 )}
               />
+              {/* TODO: Arreglar select, al seleccionar cliente no se oculta popover */}
               <FormField
                 key={"client.id"}
                 control={formSaleDetail.control}

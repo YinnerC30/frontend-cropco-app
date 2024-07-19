@@ -89,6 +89,7 @@ export const CreateHarvestProcessed = ({
               className="mx-5"
               id="formProcessed"
             >
+              {/* TODO: Mejorar estilo de fields de formulario */}
               <FormField
                 control={formProcessed.control}
                 name={`date`}

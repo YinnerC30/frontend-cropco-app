@@ -31,7 +31,7 @@ import {
 } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -86,6 +86,7 @@ export const CreateHarvest = () => {
   const navigate = useNavigate();
 
   const onSubmitHarvest = (values: z.infer<typeof formSchemaHarvest>) => {
+    // TODO: Validar adecuadamente el hecho que no haya detalles de cosecha registrados (usando schema zod)
     if (details.length === 0) {
       toast.error("Debes registrar al menos 1 cosecha de algún empleado");
       return;
@@ -112,7 +113,6 @@ export const CreateHarvest = () => {
   if (queryCrops.isError) {
     return <ErrorLoading />;
   }
-
 
   return (
     <>
@@ -326,6 +326,7 @@ export const CreateHarvest = () => {
             />
           )}
 
+          {/* TODO: Darle formato de moneda a los valores numéricos */}
           <div className="flex flex-col gap-4 ml-1 w-[300px] h-[120px] justify-center">
             <FormField
               control={formHarvest.control}

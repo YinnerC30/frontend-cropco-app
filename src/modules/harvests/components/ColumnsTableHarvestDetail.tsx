@@ -97,6 +97,8 @@ export const columnsHarvestDetailActions = [
     cell: ({ row }: any) => {
       const harvestDetail = row.original;
 
+      // TODO: Al cancelar la modificación del registro cerrar el popover flotante en la tabla
+
       const dispatch = useAppDispatch();
 
       const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
@@ -174,7 +176,6 @@ export const columnsHarvestDetailActions = [
                     variant="ghost"
                     onClick={() => {
                       setDialogOpen(true);
-                      
                     }}
                   >
                     <Pencil2Icon className="w-full h-4 mr-2" /> Modificar
@@ -187,7 +188,6 @@ export const columnsHarvestDetailActions = [
                   />
                 </>
               </DropdownMenuItem>
-              
             </DropdownMenuContent>
           </DropdownMenu>
         </>
