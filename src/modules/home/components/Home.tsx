@@ -14,10 +14,9 @@ import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { routes } from "@/routes/RoutesNavBar";
 import { useEffect } from "react";
 import { RootState } from "../../../redux/store";
-import { ModeToggle } from "./ModeToggle";
-import { Toaster } from "sonner";
+import { ModeToggle } from "../../core/components/ModeToggle";
+import { Toaster } from "@/components/ui/sonner";
 
-// TODO: Ubicar correcatement el Sonner o toast para que le haga efecto el cambio de color light/dark
 export const Home = () => {
   const navigate = useNavigate();
 
