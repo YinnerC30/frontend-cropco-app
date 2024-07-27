@@ -30,6 +30,7 @@ import { ErrorLoading, Loading } from "../../core/components";
 import { useCropForm } from "../hooks/useCropForm";
 import { useGetCrop } from "../hooks/useGetCrop";
 import { formFields } from "../utils";
+import { BreadCrumb } from "./BreadCrumb";
 
 export const ViewCrop = () => {
   const { id } = useParams();
@@ -59,6 +60,10 @@ export const ViewCrop = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/crops/view", name: "Cultivos" }]}
+        finalItem={data.name}
+      />
       <Label className="text-2xl">
         Información del cultivo de "{data.name}"
       </Label>

@@ -1,11 +1,8 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Cross1Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
-import { ToolTipTemplate } from "./ToolTipTemplate";
 import {
   Button,
   Form,
@@ -15,20 +12,22 @@ import {
   FormMessage,
   Input,
 } from "@/components";
+import { useCreateForm } from "../../hooks/useCreateForm";
+import { ToolTipTemplate } from "../ToolTipTemplate";
 
 interface Props {
   search: string;
 }
 
-export const SearchBar = ({ search }: Props) => {
+export const SearchBar = ({ search = "" }: Props) => {
   const navigate = useNavigate();
 
   const formSchema = z.object({
     search: z.string(),
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useCreateForm({
+    schema: formSchema,
     defaultValues: {
       search,
     },
@@ -40,8 +39,7 @@ export const SearchBar = ({ search }: Props) => {
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    if (values.search.trim().length > 0)
-      navigate(`?search=${values.search.trim()}`);
+    navigate(`?search=${values.search.trim()}`);
   };
 
   return (

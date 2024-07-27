@@ -32,6 +32,7 @@ import { usePostCrop } from "../hooks/usePostCrop";
 
 import { useCropForm } from "../hooks/useCropForm";
 import { formFields, formSchema } from "../utils";
+import { BreadCrumb } from "./BreadCrumb";
 
 export const CreateCrop = () => {
   const navigate = useNavigate();
@@ -51,6 +52,10 @@ export const CreateCrop = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/crops/view", name: "Cultivos" }]}
+        finalItem={"Crear"}
+      />
       <Label className="text-2xl">Registro de cultivo</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">

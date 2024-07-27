@@ -36,6 +36,7 @@ import { usePatchCrop } from "../hooks/usePatchCrop";
 import { Button, Calendar } from "@/components";
 import { useCropForm } from "../hooks/useCropForm";
 import { formFields, formSchema } from "../utils";
+import { BreadCrumb } from "./BreadCrumb";
 
 export const ModifyCrop = () => {
   const { id } = useParams();
@@ -77,6 +78,10 @@ export const ModifyCrop = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/crops/view", name: "Cultivos" }]}
+        finalItem={data.name}
+      />
       <Label className="text-2xl">Modificar cultivo</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">

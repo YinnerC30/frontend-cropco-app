@@ -1,19 +1,20 @@
 import { PlusIcon } from "lucide-react";
 
-import { useNavigate, useSearchParams } from "react-router-dom";
-import columns from "./ColumnsTable";
-import { useGetAllCrops } from "../hooks/useGetAllCrops";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
-  Loading,
+  DataTable,
   ErrorLoading,
+  Loading,
   SearchBar,
   ToolTipTemplate,
-  DataTable,
 } from "../../core/components";
+import { useGetAllCrops } from "../hooks/useGetAllCrops";
+import { BreadCrumb } from "./BreadCrumb";
+import columns from "./ColumnsTable";
 
 export const CropsModule = () => {
   const navigate = useNavigate();
@@ -33,6 +34,10 @@ export const CropsModule = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/crops/view", name: "Cultivos" }]}
+        finalItem={"Todos los cultivos"}
+      />
       <Label className="text-2xl">Cultivos</Label>
 
       <Separator className="my-2" />

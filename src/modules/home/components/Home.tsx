@@ -16,6 +16,8 @@ import { useEffect } from "react";
 import { RootState } from "../../../redux/store";
 import { ModeToggle } from "../../core/components/ModeToggle";
 import { Toaster } from "@/components/ui/sonner";
+import { LogOut } from "lucide-react";
+import { CommandDialogApp } from "@/modules/core/components/CommandDialogApp";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -43,6 +45,7 @@ export const Home = () => {
   return (
     <>
       <div className="grid grid-cols-10">
+        <CommandDialogApp />
         {/* TODO: Mejorar header de la app */}
         <header className="flex flex-col col-span-10 col-start-1 my-3 max-h-16">
           <div className="flex items-center justify-evenly">
@@ -58,8 +61,12 @@ export const Home = () => {
               <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                {/* TODO: Agregar icono de logout */}
                 <DropdownMenuItem onClick={() => logOut()}>
-                  Cerrar sesión
+                  <div className="flex gap-2">
+                    <LogOut />
+                    <span className="font-sans font-normal">Cerrar sesión</span>
+                  </div>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -70,12 +77,15 @@ export const Home = () => {
             {/* TODO: Agregar iconos a cada uno de los módulos */}
             {routes.map((route) => (
               <li key={route.name}>
-                <Button
-                  variant={"link"}
-                  onClick={() => handleNavigate(route.path)}
-                >
-                  {route.name}
-                </Button>
+                <div className="w-[200px] flex items-center">
+                  {route.Icon}
+                  <Button
+                    variant={"link"}
+                    onClick={() => handleNavigate(route.path)}
+                  >
+                    {route.name}
+                  </Button>
+                </div>
               </li>
             ))}
           </ul>
