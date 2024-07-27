@@ -12,10 +12,8 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import {
   Form,
@@ -27,14 +25,13 @@ import {
   FormMessage,
 } from "../../../components/ui/form";
 
-import { usePostCrop } from "../hooks/usePostCrop";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { ButtonCancelRegister } from "../../core/components";
+import { usePostCrop } from "../hooks/usePostCrop";
 
-import { formSchema, formFields } from "../utils";
 import { useCropForm } from "../hooks/useCropForm";
-import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
+import { formFields, formSchema } from "../utils";
 
 export const CreateCrop = () => {
   const navigate = useNavigate();
@@ -200,7 +197,7 @@ export const CreateCrop = () => {
                 </FormItem>
               )}
             />
-            {/* TODO: El check no cambia de cuadro al momento de dar clic en el número del calendario, ni se borrar al dar clic en el mismo nuevamente */}
+
             <FormField
               control={form.control}
               name={`dates.date_of_termination`}
@@ -232,9 +229,7 @@ export const CreateCrop = () => {
                         <Calendar
                           locale={es}
                           mode="single"
-                          selected={
-                            !field.value ? new Date(field.value!) : undefined
-                          }
+                          selected={new Date(field.value)}
                           onSelect={field.onChange}
                           disabled={(date) =>
                             date > new Date() || date < new Date("1900-01-01")
