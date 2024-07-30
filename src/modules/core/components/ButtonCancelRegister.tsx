@@ -8,9 +8,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 interface Props {
   action: () => void;
@@ -20,24 +20,25 @@ export const ButtonCancelRegister = ({ action }: Props) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant={'destructive'}>Cancelar</Button>
+        <Button variant={"destructive"}>Regresar</Button>
       </AlertDialogTrigger>
 
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            ¿Estas seguro de cancelar el registro?
+            ¿Estas seguro de salir del formulario?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            No podrá recuperar la información que ha registrado hasta el momento
+            No podrá recuperar la información que ha registrado o modificado
+            hasta el momento
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel asChild>
-            <Button variant="secondary">Cancelar</Button>
+            <Button variant="secondary">Volver</Button>
           </AlertDialogCancel>
           <AlertDialogAction asChild>
-            <Button onClick={() => action()}>Continuar</Button>
+            <Button onClick={() => action()}>Salir</Button>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

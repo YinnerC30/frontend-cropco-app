@@ -1,11 +1,7 @@
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ReloadIcon } from "@radix-ui/react-icons";
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import {
   Form,
@@ -22,10 +18,10 @@ import { usePostClient } from "../hooks/usePostClient";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { ButtonCancelRegister } from "../../core/components";
-import { useClientForm } from "../hooks/useClientForm";
-import { formSchema, formFields } from "../utils";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
+import { useClientForm } from "../hooks/useClientForm";
+import { formFields, formSchema } from "../utils";
 
 export const CreateClient = () => {
   const navigate = useNavigate();
@@ -54,7 +50,7 @@ export const CreateClient = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            id="formUser"
+            id="formClient"
             className="flex flex-col gap-2 ml-1"
           >
             <FormField
@@ -160,15 +156,11 @@ export const CreateClient = () => {
             />
           </form>
 
-          <div className="flex w-48 gap-2 mt-2">
-            <ButtonCancelRegister action={() => navigate(-1)} />
-            <Button type="submit" form="formUser" disabled={isPending}>
-              {isPending && (
-                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
-              )}
-              Guardar
-            </Button>
-          </div>
+          <ButtonsForm
+            isPending={isPending}
+            formId={"formClient"}
+            className={"flex w-48 gap-2 mt-2"}
+          />
         </Form>
       </ScrollArea>
     </>
