@@ -20,6 +20,7 @@ import { ErrorLoading, Loading } from "../../core/components";
 import { useClientForm } from "../hooks/useClientForm";
 import { useGetClient } from "../hooks/useGetClient";
 import { formFields } from "../utils";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ViewClient = () => {
   const { id } = useParams();
@@ -48,6 +49,10 @@ export const ViewClient = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/clients/view", name: "Clientes" }]}
+        finalItem={`${data.first_name} ${data.last_name}`}
+      />
       <Label className="text-2xl">
         Información del cliente "{`${data.first_name} ${data.last_name}`}"
       </Label>

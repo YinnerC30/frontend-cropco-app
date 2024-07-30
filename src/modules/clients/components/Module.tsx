@@ -15,6 +15,7 @@ import {
 } from "../../core/components";
 import { useGetAllClients } from "../hooks/useGetAllClients";
 import columns from "./ColumnsTable";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ClientsModule = () => {
   const navigate = useNavigate();
@@ -32,6 +33,10 @@ export const ClientsModule = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/clients/view", name: "Clientes" }]}
+        finalItem={`Todos los clientes`}
+      />
       <Label className="text-2xl">Clientes</Label>
 
       <Separator className="my-2" />

@@ -27,6 +27,7 @@ import { useClientForm } from "../hooks/useClientForm";
 import { useGetClient } from "../hooks/useGetClient";
 import { usePatchClient } from "../hooks/usePatchClient";
 import { formFields, formSchema } from "../utils";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ModifyClient = () => {
   const { id } = useParams();
@@ -62,6 +63,10 @@ export const ModifyClient = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/clients/view", name: "Clientes" }]}
+        finalItem={`${data.first_name} ${data.last_name}`}
+      />
       <Label className="text-2xl">Modificar cliente</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
@@ -175,13 +180,13 @@ export const ModifyClient = () => {
           </form>
 
           <div className="flex w-48 gap-2 mt-2">
+            <ButtonCancelRegister action={() => navigate(-1)} />
             <Button type="submit" form="formUser" disabled={isPending}>
               {isPending && (
                 <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
               )}
               Actualizar
             </Button>
-            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

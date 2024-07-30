@@ -25,6 +25,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ButtonCancelRegister } from "../../core/components";
 import { useClientForm } from "../hooks/useClientForm";
 import { formSchema, formFields } from "../utils";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const CreateClient = () => {
   const navigate = useNavigate();
@@ -43,6 +44,10 @@ export const CreateClient = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/clientes/view", name: "Clientes" }]}
+        finalItem={`Crear`}
+      />
       <Label className="text-2xl">Registro de cliente</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
@@ -156,13 +161,13 @@ export const CreateClient = () => {
           </form>
 
           <div className="flex w-48 gap-2 mt-2">
+            <ButtonCancelRegister action={() => navigate(-1)} />
             <Button type="submit" form="formUser" disabled={isPending}>
               {isPending && (
                 <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
               )}
               Guardar
             </Button>
-            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>
