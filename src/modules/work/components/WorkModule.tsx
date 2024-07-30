@@ -9,6 +9,7 @@ import { PlusIcon } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useGetAllWorks } from "../hooks/useGetAllWorks";
 import columnsWork from "./ColumnsTableWork";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const WorkModule = () => {
   const navigate = useNavigate();
@@ -26,6 +27,10 @@ export const WorkModule = () => {
   }
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/works/view", name: "Trabajos" }]}
+        finalItem={`Todos los trabajos`}
+      />
       <Label className="text-2xl">Trabajos</Label>
 
       <Separator className="my-2" />

@@ -43,7 +43,7 @@ interface Props {
 }
 
 export function DataTableWorkDetail({
-  data,
+  data = [],
   columns,
   setWorkDetail,
   setIsOpenDialogModifyForm,

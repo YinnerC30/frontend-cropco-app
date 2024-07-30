@@ -58,8 +58,10 @@ import { columnsWorkDetailActions } from "./ColumnsTableWorkDetail";
 import { CreateWorkDetail } from "./CreateWorkDetail";
 import { DataTableWorkDetail } from "./DataTableWorkDetails";
 import { ModifyWorkDetail } from "./ModifyWorkDetail";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ModifyWork = () => {
+  // FIX: Error al cargar datos, no espera a que llegue la información y da undefined al ingresar a la data
   const { id } = useParams();
   const dispatch: AppDispatch = useDispatch();
   const { data, isLoading, isError } = useGetWork(id!);
@@ -81,7 +83,7 @@ export const ModifyWork = () => {
   // Reset state on component mount
   useEffect(() => {
     dispatch(reset());
-  }, [dispatch]);
+  }, []);
 
   // Populate form and store details when data is available
   useEffect(() => {
@@ -127,6 +129,16 @@ export const ModifyWork = () => {
   if (isError) return <ErrorLoading />;
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/works/view", name: "Trabajos" }]}
+        finalItem={`${data?.crop.name!} | ${format(
+          data?.date! + "T00:00:00-05:00",
+          "PPP",
+          {
+            locale: es,
+          }
+        )}`}
+      />
       <Label className="text-2xl">Modificar trabajo</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
@@ -210,7 +222,7 @@ export const ModifyWork = () => {
                           onBlur={field.onBlur}
                         >
                           {field.value
-                            ? queryCrops.data.rows.find(
+                            ? queryCrops?.data.rows.find(
                                 (item: Crop) => item.id === field.value
                               )?.name
                             : formFieldsWork.crop.placeholder}
@@ -229,7 +241,7 @@ export const ModifyWork = () => {
                           <ScrollArea className="w-auto h-56">
                             <CommandEmpty>Cultivo no encontrado.</CommandEmpty>
                             <CommandGroup>
-                              {queryCrops.data.rows &&
+                              {queryCrops?.data?.rows &&
                                 Array.isArray(queryCrops.data.rows) &&
                                 queryCrops.data.rows.map((crop: Crop | any) => {
                                   return (

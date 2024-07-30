@@ -25,10 +25,7 @@ import {
   Textarea,
 } from "@/components";
 import { cn } from "@/lib/utils";
-import {
-  ErrorLoading,
-  Loading
-} from "@/modules/core/components";
+import { ErrorLoading, Loading } from "@/modules/core/components";
 import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 
 import { format } from "date-fns";
@@ -46,6 +43,7 @@ import { Crop } from "@/modules/crops/interfaces/Crop";
 import { formFieldsWork } from "../utils/formFieldsWork";
 import { columnsWorkDetail } from "./ColumnsTableWorkDetail";
 import { DataTableWorkDetail } from "./DataTableWorkDetails";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ViewWork = () => {
   const { id } = useParams();
@@ -86,6 +84,16 @@ export const ViewWork = () => {
   if (isError) return <ErrorLoading />;
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/works/view", name: "Trabajos" }]}
+        finalItem={`${data?.crop.name!} | ${format(
+          data?.date! + "T00:00:00-05:00",
+          "PPP",
+          {
+            locale: es,
+          }
+        )}`}
+      />
       <Label className="text-2xl">Información del trabajo</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">

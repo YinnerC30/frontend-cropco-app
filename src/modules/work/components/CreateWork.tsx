@@ -51,6 +51,7 @@ import { toast } from "sonner";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/redux/store";
 import { reset } from "../utils/workSlice";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const CreateWork = () => {
   const navigate = useNavigate();
@@ -101,6 +102,10 @@ export const CreateWork = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/works/view", name: "Trabajos" }]}
+        finalItem={`Crear`}
+      />
       <Label className="text-2xl">Registro de trabajo</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
