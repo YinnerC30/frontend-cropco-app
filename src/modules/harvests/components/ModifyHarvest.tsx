@@ -60,6 +60,7 @@ import { columnsHarvestDetailActions } from "./ColumnsTableHarvestDetail";
 import { DataTableHarvestDetail } from "./DataTableHarvestDetails";
 import { CreateHarvestDetail } from "./CreateHarvestDetail";
 import { ModifyHarvestDetail } from "./ModifyHarvestDetail";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ModifyHarvest = () => {
   const { id } = useParams();
@@ -130,6 +131,12 @@ export const ModifyHarvest = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/harvests/view", name: "Cosechas" }]}
+        finalItem={`${data.crop.name} | ${format(data.date, "PPP", {
+          locale: es,
+        })}`}
+      />
       <Label className="text-2xl">Modificar cosecha</Label>
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">

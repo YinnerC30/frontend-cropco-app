@@ -27,6 +27,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { ModifyHarvestProcessed } from "./ModifyHarvestProcessed";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const HarvestProcessedModule = () => {
   const { id } = useParams();
@@ -46,6 +47,18 @@ export const HarvestProcessedModule = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[
+          { link: "/harvests/view", name: "Cosechas" },
+          {
+            link: `/harvests/view/${data.id}`,
+            name: `${data.crop.name} | ${format(data.date, "PPP", {
+              locale: es,
+            })}`,
+          },
+        ]}
+        finalItem={`Inventario`}
+      />
       <Label className="text-2xl">Inventario de la cosecha</Label>
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">

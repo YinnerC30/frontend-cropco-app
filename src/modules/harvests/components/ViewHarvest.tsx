@@ -43,6 +43,7 @@ import { formFieldsHarvest } from "../utils";
 import { add, calculateTotal, reset } from "../utils/harvestSlice";
 import { columnsHarvestDetail } from "./ColumnsTableHarvestDetail";
 import { DataTableHarvestDetail } from "./DataTableHarvestDetails";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ViewHarvest = () => {
   const { id } = useParams();
@@ -77,6 +78,12 @@ export const ViewHarvest = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/harvests/view", name: "Cosechas" }]}
+        finalItem={`${data.crop.name} | ${format(data.date, "PPP", {
+          locale: es,
+        })}`}
+      />
       <Label className="text-2xl">Información de la cosecha</Label>
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
@@ -316,6 +323,8 @@ export const ViewHarvest = () => {
             />
           </div>
           <Separator className="w-full my-5" />
+
+          {/* TODO: Agregar información de inventario de cosecha */}
 
           {/* Botones de guardar o cancelar */}
           <div className="flex gap-2 my-6 ">

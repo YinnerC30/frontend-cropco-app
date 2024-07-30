@@ -59,6 +59,7 @@ import { columnsHarvestDetailActions } from "./ColumnsTableHarvestDetail";
 import { CreateHarvestDetail } from "./CreateHarvestDetail";
 import { DataTableHarvestDetail } from "./DataTableHarvestDetails";
 import { ModifyHarvestDetail } from "./ModifyHarvestDetail";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const CreateHarvest = () => {
   const dispatch: AppDispatch = useAppDispatch();
@@ -116,6 +117,10 @@ export const CreateHarvest = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/harvests/view", name: "Cosechas" }]}
+        finalItem={`Crear`}
+      />
       <Label className="text-2xl">Registro de cosecha</Label>
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">

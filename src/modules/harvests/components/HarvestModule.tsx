@@ -14,6 +14,7 @@ import {
 } from "../../core/components";
 import { useGetAllHarvests } from "../hooks/useGetAllHarvests";
 import columnsHarvest from "./ColumnsTableHarvest";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const HarvestModule = () => {
   const navigate = useNavigate();
@@ -31,6 +32,10 @@ export const HarvestModule = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/harvests/view", name: "Cosechas" }]}
+        finalItem={`Todas las cosechas`}
+      />
       <Label className="text-2xl">Cosechas</Label>
 
       <Separator className="my-2" />
