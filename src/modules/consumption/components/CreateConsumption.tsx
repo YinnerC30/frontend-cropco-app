@@ -33,6 +33,7 @@ import { DataTableConsumptionDetail } from "./DataTableConsumptionDetails";
 import { ModifyConsumptionDetail } from "./ModifyConsumptionDetail";
 import { ConsumptionDetails } from "../interfaces/ConsumptionDetails";
 import { useEffect } from "react";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const CreateConsumption = () => {
   const {
@@ -83,6 +84,10 @@ export const CreateConsumption = () => {
 
   return (
     <>
+    <BreadCrumb
+        items={[{ link: "/consumption/view", name: "Consumos" }]}
+        finalItem={`Crear`}
+      />
       <Label className="text-2xl">Registro de Consumo</Label>
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">

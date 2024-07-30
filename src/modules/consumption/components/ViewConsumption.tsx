@@ -28,6 +28,7 @@ import { formFields } from "../utils/formFields";
 import { columnsConsumptionDetail } from "./ColumnsTablePurchaseDetail";
 import { CreateConsumptionDetail } from "./CreateConsumptionDetail";
 import { DataTableConsumptionDetail } from "./DataTableConsumptionDetails";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ViewConsumption = () => {
   const { id } = useParams();
@@ -62,6 +63,12 @@ export const ViewConsumption = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/consumption/view", name: "Consumos" }]}
+        finalItem={`${format(data.date + "T00:00:00-05:00", "PPP", {
+          locale: es,
+        })}`}
+      />
       <Label className="text-2xl">Ver registro de consumo</Label>
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">

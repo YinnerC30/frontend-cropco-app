@@ -39,6 +39,7 @@ import { CreateConsumptionDetail } from "./CreateConsumptionDetail";
 import { DataTableConsumptionDetail } from "./DataTableConsumptionDetails";
 import { ModifyConsumptionDetail } from "./ModifyConsumptionDetail";
 import { formSchemaConsumption } from "../utils/formSchemaConsumption";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ModifyConsumption = () => {
   const { id } = useParams();
@@ -104,6 +105,12 @@ export const ModifyConsumption = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/consumption/view", name: "Consumos" }]}
+        finalItem={`${format(data.date + "T00:00:00-05:00", "PPP", {
+          locale: es,
+        })}`}
+      />
       <Label className="text-2xl">Modificar registro de consumo</Label>
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
