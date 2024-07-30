@@ -14,6 +14,7 @@ import {
 } from "../../core/components";
 import { useGetAllSales } from "../hooks";
 import columnsSale from "./ColumnsTableSale";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const SaleModule = () => {
   const navigate = useNavigate();
@@ -32,6 +33,10 @@ export const SaleModule = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/sales/view", name: "Ventas" }]}
+        finalItem={`Todas las ventas`}
+      />
       <Label className="text-2xl">Ventas</Label>
 
       <Separator className="my-2" />

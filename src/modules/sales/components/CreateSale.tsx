@@ -39,6 +39,7 @@ import { CreateSaleDetail } from "./CreateSaleDetail";
 import { DataTableSaleDetail } from "./DataTableSaleDetails";
 import { ModifySaleDetail } from "./ModifySaleDetail";
 import { useEffect } from "react";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const CreateSale = () => {
   const dispatch: AppDispatch = useAppDispatch();
@@ -97,6 +98,10 @@ export const CreateSale = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/sales/view", name: "Ventas" }]}
+        finalItem={`Crear`}
+      />
       <Label className="text-2xl">Registro de venta</Label>
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">

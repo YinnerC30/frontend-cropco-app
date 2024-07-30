@@ -33,6 +33,7 @@ import { columnsSaleDetail } from "./ColumnsTableSaleDetail";
 import { CreateSaleDetail } from "./CreateSaleDetail";
 import { DataTableSaleDetail } from "./DataTableSaleDetails";
 import { ModifySaleDetail } from "./ModifySaleDetail";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ViewSale = () => {
   const { id } = useParams();
@@ -76,6 +77,12 @@ export const ViewSale = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/sales/view", name: "Ventas" }]}
+        finalItem={`${format(data.date + "T00:00:00-05:00", "PPP", {
+          locale: es,
+        })}`}
+      />
       <Label className="text-2xl">Información de la venta</Label>
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
