@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -7,26 +7,27 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { ScrollArea } from '@/components/ui/scroll-area';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
-import { UnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useGetSupply } from '../hooks/useGetSupply';
-import { useSupplyForm } from '../hooks/useSupplyForm';
-import { formFields } from '../utils';
-import { ErrorLoading, Loading } from '@/modules/core/components';
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
+import { ErrorLoading, Loading } from "@/modules/core/components";
+import { UnitOfMeasure } from "@/modules/supplies/interfaces/UnitOfMeasure";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetSupply } from "../hooks/useGetSupply";
+import { useSupplyForm } from "../hooks/useSupplyForm";
+import { formFields } from "../utils";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ViewSupply = () => {
   const { id } = useParams();
@@ -54,6 +55,10 @@ export const ViewSupply = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/supplies/view", name: "Insumos" }]}
+        finalItem={`${data.name}`}
+      />
       <Label className="text-2xl">Información del insumo "{data.name}"</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
@@ -62,7 +67,7 @@ export const ViewSupply = () => {
             <FormField
               disabled
               control={form.control}
-              name={'name'}
+              name={"name"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.name.label}</FormLabel>
@@ -83,7 +88,7 @@ export const ViewSupply = () => {
             <FormField
               disabled
               control={form.control}
-              name={'brand'}
+              name={"brand"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.brand.label}</FormLabel>
@@ -104,7 +109,7 @@ export const ViewSupply = () => {
             <FormField
               disabled
               control={form.control}
-              name={'unit_of_measure'}
+              name={"unit_of_measure"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.unit_of_measure.label}</FormLabel>

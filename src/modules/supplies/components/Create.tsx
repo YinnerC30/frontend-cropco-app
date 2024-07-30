@@ -32,6 +32,7 @@ import { usePostSupply } from "../hooks/usePostSupply";
 import { useSupplyForm } from "../hooks/useSupplyForm";
 import { formFields, formSchema } from "../utils";
 import { UnitOfMeasure } from "../interfaces/UnitOfMeasure";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const CreateSupply = () => {
   const navigate = useNavigate();
@@ -50,6 +51,10 @@ export const CreateSupply = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/supplies/view", name: "Insumos" }]}
+        finalItem={`Crear`}
+      />
       <Label className="text-2xl">Registro de insumo</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">

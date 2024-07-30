@@ -14,6 +14,7 @@ import { PlusIcon } from "lucide-react";
 
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const SuppliesModule = () => {
   const navigate = useNavigate();
@@ -33,6 +34,10 @@ export const SuppliesModule = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/supplies/view", name: "Insumos" }]}
+        finalItem={`Todos los insumos`}
+      />
       <Label className="text-2xl">Insumos</Label>
 
       <Separator className="my-2" />
