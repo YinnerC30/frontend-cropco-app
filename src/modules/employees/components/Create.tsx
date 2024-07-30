@@ -23,6 +23,7 @@ import { ButtonCancelRegister } from "../../core/components";
 import { useEmployeeForm } from "../hooks/useEmployeeForm";
 import { usePostEmployee } from "../hooks/usePostEmployee";
 import { formFields, formSchema } from "../utils";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const CreateEmployee = () => {
   const navigate = useNavigate();
@@ -41,6 +42,10 @@ export const CreateEmployee = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/employees/view", name: "Empleados" }]}
+        finalItem={`Crear`}
+      />
       <Label className="text-2xl">Registro de empleado</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
@@ -154,13 +159,13 @@ export const CreateEmployee = () => {
           </form>
 
           <div className="flex w-48 gap-2 mt-2">
+            <ButtonCancelRegister action={() => navigate(-1)} />
             <Button type="submit" form="formUser" disabled={isPending}>
               {isPending && (
                 <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
               )}
               Guardar
             </Button>
-            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

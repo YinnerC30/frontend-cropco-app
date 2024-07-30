@@ -28,6 +28,7 @@ import { formFields, formSchema } from "../utils";
 import { useGetEmployee } from "../hooks/useGetEmployee";
 import { usePatchEmployee } from "../hooks/usePatchEmployee";
 import { useEmployeeForm } from "../hooks/useEmployeeForm";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ModifyEmployee = () => {
   const { id } = useParams();
@@ -63,6 +64,10 @@ export const ModifyEmployee = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/employees/view", name: "Empleados" }]}
+        finalItem={`${data.first_name} ${data.last_name}`}
+      />
       <Label className="text-2xl">Modificar empleado</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
@@ -176,13 +181,13 @@ export const ModifyEmployee = () => {
           </form>
 
           <div className="flex w-48 gap-2 mt-2">
+            <ButtonCancelRegister action={() => navigate(-1)} />
             <Button type="submit" form="formUser" disabled={isPending}>
               {isPending && (
                 <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
               )}
               Actualizar
             </Button>
-            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

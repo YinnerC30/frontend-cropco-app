@@ -20,6 +20,7 @@ import { ErrorLoading, Loading } from "../../core/components";
 import { useGetEmployee } from "../hooks/useGetEmployee";
 import { formFields } from "../utils";
 import { useEmployeeForm } from "../hooks/useEmployeeForm";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ViewEmployee = () => {
   const { id } = useParams();
@@ -48,6 +49,10 @@ export const ViewEmployee = () => {
 
   return (
     <>
+     <BreadCrumb
+        items={[{ link: "/employees/view", name: "Empleados" }]}
+        finalItem={`${data.first_name} ${data.last_name}`}
+      />
       <Label className="text-2xl">
         Información del empleado "{`${data.first_name} ${data.last_name}`}"
       </Label>

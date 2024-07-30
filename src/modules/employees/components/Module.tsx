@@ -16,6 +16,7 @@ import {
   DataTable,
 } from "../../core/components";
 import { useGetAllEmployees } from "../hooks/useGetAllEmployees";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const EmployeesModule = () => {
   const navigate = useNavigate();
@@ -35,7 +36,11 @@ export const EmployeesModule = () => {
 
   return (
     <>
-      <Label className="text-2xl">Clientes</Label>
+      <BreadCrumb
+        items={[{ link: "/employees/view", name: "Empleados" }]}
+        finalItem={`Todos los empleados`}
+      />
+      <Label className="text-2xl">Empleados</Label>
 
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
