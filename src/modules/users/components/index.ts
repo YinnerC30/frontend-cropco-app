@@ -1,4 +1,4 @@
-export { CreateUser } from './Create';
-export { ModifyUser } from './Modify';
-export { UsersModule } from './Module';
-export { ViewUser } from './View';
+export { CreateUser } from './CreateUser';
+export { ModifyUser } from './ModifyUser';
+export { UsersModule } from './UsersModule';
+export { ViewUser } from './ViewUser';

@@ -1,18 +1,16 @@
 import {
-  Loading,
-  ErrorLoading,
-  SearchBar,
-  ToolTipTemplate,
   DataTable,
+  ErrorLoading,
+  Loading,
+  SearchBar,
 } from "@/modules/core/components";
 
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useGetAllUsers } from "../hooks/useGetAllUsers";
-import columns from "./ColumnsTable";
-import { Button, Label, ScrollArea, Separator } from "@/components";
-import { PlusIcon } from "lucide-react";
+import { Label, ScrollArea, Separator } from "@/components";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import { ButtonCreateRecord } from "@/modules/core/components/ButtonCreateRecord";
+import { useSearchParams } from "react-router-dom";
+import { useGetAllUsers } from "../hooks/useGetAllUsers";
+import columnsTableUsers from "./ColumnsTableUsers";
 
 export const UsersModule = () => {
   const [searchParams] = useSearchParams();
@@ -41,7 +39,7 @@ export const UsersModule = () => {
         </div>
         <div className="w-[650px]">
           <DataTable
-            columns={columns}
+            columns={columnsTableUsers}
             rows={query.data?.rows ?? 0}
             data={query.data ?? []}
             pagination={pagination}

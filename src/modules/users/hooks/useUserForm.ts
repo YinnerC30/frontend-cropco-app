@@ -15,6 +15,7 @@ export const defaultValues = {
 
 export const useUserForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  
   const togglePasswordVisibility = (event: any) => {
     event.preventDefault();
     setShowPassword(!showPassword);

@@ -20,7 +20,7 @@ export const ButtonCancelRegister = ({ action }: Props) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant={"destructive"}>Regresar</Button>
+        <Button variant={"destructive"}>Cancelar</Button>
       </AlertDialogTrigger>
 
       <AlertDialogContent>

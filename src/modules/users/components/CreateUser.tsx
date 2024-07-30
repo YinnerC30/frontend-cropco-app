@@ -16,9 +16,7 @@ export const CreateUser = () => {
     mutate({ ...rest, password: password.password1 });
   };
 
-  if (isSuccess) {
-    navigate("../view");
-  }
+  isSuccess && navigate("../view");
 
   return (
     <>

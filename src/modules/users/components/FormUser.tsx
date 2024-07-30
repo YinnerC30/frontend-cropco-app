@@ -143,7 +143,7 @@ export const FormUser = ({
 
       {readOnly && (
         <Button className="my-2" onClick={() => navigate(-1)}>
-          Regresar
+          Volver
         </Button>
       )}
     </Form>

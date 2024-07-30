@@ -6,6 +6,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { useNavigate } from "react-router-dom";
 
 interface ItemBreadCrumb {
   link: string;
@@ -17,12 +18,18 @@ interface Props {
 }
 
 export const BreadCrumb = ({ items, finalItem }: Props) => {
+  const navigate = useNavigate();
   return (
     <div className="my-2">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink
+              className="hover:cursor-pointer"
+              onClick={() => navigate("/")}
+            >
+              Home
+            </BreadcrumbLink>
           </BreadcrumbItem>
 
           {items.map((element: ItemBreadCrumb) => {
@@ -30,7 +37,10 @@ export const BreadCrumb = ({ items, finalItem }: Props) => {
               <>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbLink href={element.link}>
+                  <BreadcrumbLink
+                    className="hover:cursor-pointer"
+                    onClick={() => navigate(element.link)}
+                  >
                     {element.name}
                   </BreadcrumbLink>
                 </BreadcrumbItem>

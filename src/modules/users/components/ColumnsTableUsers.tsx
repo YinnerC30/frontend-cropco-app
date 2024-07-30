@@ -1,13 +1,11 @@
-import { ActionsTable } from "@/modules/core/components/table/ActionsTable";
 import { ButtonHeaderTable } from "@/modules/core/components/table/ButtonHeaderTable";
 import { ColumnDef } from "@tanstack/react-table";
 
-import { useDeleteUser } from "../hooks/useDeleteUser";
-
-import { User } from "../interfaces/User";
 import { formFields } from "../../clients/utils";
+import { User } from "../interfaces/User";
+import { ActionsTableUsers } from "./ActionsTableUsers";
 
-export let columns: ColumnDef<User>[] = [
+export const columnsTableUsers: ColumnDef<User>[] = [
   {
     accessorKey: formFields.first_name.name,
     header: ({ column }: any) => {
@@ -46,15 +44,10 @@ export let columns: ColumnDef<User>[] = [
       );
     },
   },
+  {
+    id: "actions",
+    cell: ActionsTableUsers,
+  },
 ];
 
-columns.push({
-  id: "actions",
-  cell: ({ row }: any) => {
-    const { id } = row.original;
-    const {mutate} = useDeleteUser();
-    return <ActionsTable mutate={mutate} id={id} />;
-  },
-});
-
-export default columns;
+export default columnsTableUsers;

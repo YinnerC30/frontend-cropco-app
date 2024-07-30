@@ -1,30 +1,20 @@
+import { ErrorLoading } from "@/modules/core/components/ErrorLoading";
+import { Loading } from "@/modules/core/components/Loading";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { useGetUser } from "../hooks/useGetUser";
-import { ErrorLoading } from "@/modules/core/components/ErrorLoading";
-import { Loading } from "@/modules/core/components/Loading";
 
-import { Button, Input, Label, ScrollArea, Separator } from "@/components";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormDescription,
-  FormMessage,
-  Form,
-} from "@/components/ui/form";
-import { formFields, formSchema } from "../utils";
-import { defaultValues } from "../hooks/useUserForm";
+import { Label, ScrollArea, Separator } from "@/components";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { defaultValues } from "../hooks/useUserForm";
+import { formSchema } from "../utils";
 import { FormUser } from "./FormUser";
 
 export const ViewUser = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
 
   const { isLoading, data } = useGetUser(id!);
 
