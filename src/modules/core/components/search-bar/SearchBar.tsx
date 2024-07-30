@@ -1,5 +1,3 @@
-
-
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
@@ -12,9 +10,10 @@ import {
   FormMessage,
   Input,
 } from "@/components";
-import { Search, X } from "lucide-react";
+import { Search, SquareX } from "lucide-react";
 import { useCreateForm } from "../../hooks/useCreateForm";
 import { ToolTipTemplate } from "../ToolTipTemplate";
+
 
 interface Props {
   search: string;
@@ -69,12 +68,12 @@ export const SearchBar = ({ search = "" }: Props) => {
         <div className="flex flex-row gap-1 ml-2">
           <ToolTipTemplate content="Buscar">
             <Button type="submit" form="formSearchBar">
-              <Search className="w-4 h-4" />
+              <Search className="w-6 h-6" />
             </Button>
           </ToolTipTemplate>
           <ToolTipTemplate content="Borrar">
             <Button onClick={() => onReset()}>
-              <X />
+              <SquareX />
             </Button>
           </ToolTipTemplate>
         </div>
