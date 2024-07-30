@@ -72,7 +72,7 @@ export const Home = () => {
             </DropdownMenu>
           </div>
         </header>
-        <nav className="flex flex-row items-start justify-center col-span-2">
+        <nav className="flex flex-row items-center justify-center col-span-2">
           <ul className="w-11/12 ml-5 text-base font-bold">
             {/* TODO: Agregar iconos a cada uno de los módulos */}
             {routes.map((route) => (
