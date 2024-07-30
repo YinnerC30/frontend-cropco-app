@@ -13,11 +13,11 @@ interface ItemBreadCrumb {
   name: string;
 }
 interface Props {
-  items: ItemBreadCrumb[];
+  items?: ItemBreadCrumb[];
   finalItem: string;
 }
 
-export const BreadCrumb = ({ items, finalItem }: Props) => {
+export const BreadCrumb = ({ items = [], finalItem }: Props) => {
   const navigate = useNavigate();
   return (
     <div className="my-2">

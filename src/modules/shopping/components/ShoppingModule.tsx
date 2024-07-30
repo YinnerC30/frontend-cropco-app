@@ -27,7 +27,7 @@ export const ShoppingModule = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/shopping/view", name: "Compras" }]}
+        items={[{ link: "/shopping/all", name: "Compras" }]}
         finalItem={`Todas las compras`}
       />
       <Label className="text-2xl">Compras</Label>

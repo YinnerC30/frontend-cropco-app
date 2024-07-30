@@ -37,13 +37,13 @@ export const CreateEmployee = () => {
   };
 
   if (isSuccess) {
-    navigate("../view");
+    navigate("../all");
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/employees/view", name: "Empleados" }]}
+        items={[{ link: "/employees/all", name: "Empleados" }]}
         finalItem={`Crear`}
       />
       <Label className="text-2xl">Registro de empleado</Label>

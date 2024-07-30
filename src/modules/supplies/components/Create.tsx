@@ -46,13 +46,13 @@ export const CreateSupply = () => {
   };
 
   if (isSuccess) {
-    navigate("../view");
+    navigate("../all");
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/supplies/view", name: "Insumos" }]}
+        items={[{ link: "/supplies/all", name: "Insumos" }]}
         finalItem={`Crear`}
       />
       <Label className="text-2xl">Registro de insumo</Label>

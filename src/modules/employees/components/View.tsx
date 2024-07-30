@@ -49,8 +49,8 @@ export const ViewEmployee = () => {
 
   return (
     <>
-     <BreadCrumb
-        items={[{ link: "/employees/view", name: "Empleados" }]}
+      <BreadCrumb
+        items={[{ link: "/employees/all", name: "Empleados" }]}
         finalItem={`${data.first_name} ${data.last_name}`}
       />
       <Label className="text-2xl">

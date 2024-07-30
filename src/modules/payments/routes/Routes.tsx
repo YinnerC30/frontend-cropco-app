@@ -1,12 +1,11 @@
 import { CreatePayment } from "../components/CreatePayment";
 import { PaymentsModule } from "../components/PaymentsModule";
 
-
 const paymentsRoutes = {
   path: "payments",
   children: [
     {
-      path: "view",
+      path: "all",
       element: <PaymentsModule />,
     },
     {
@@ -18,9 +17,7 @@ const paymentsRoutes = {
     //   path: "view/:id",
     //   element: <ViewPayment />,
     // },
-    
   ],
 };
 
 export { paymentsRoutes };
-

@@ -7,7 +7,7 @@ const consumptionRoutes = {
   path: "consumption",
   children: [
     {
-      path: "view",
+      path: "all",
       element: <ConsumptionModule />,
     },
     {

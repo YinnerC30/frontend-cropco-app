@@ -77,7 +77,7 @@ export const CreateShopping = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../view");
+    navigate("../all");
   }
 
   return (

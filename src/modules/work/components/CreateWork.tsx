@@ -93,7 +93,7 @@ export const CreateWork = () => {
   };
 
   if (isSuccess) {
-    navigate("../view");
+    navigate("../all");
   }
 
   if (queryCrops.isLoading) {
@@ -103,7 +103,7 @@ export const CreateWork = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/works/view", name: "Trabajos" }]}
+        items={[{ link: "/works/all", name: "Trabajos" }]}
         finalItem={`Crear`}
       />
       <Label className="text-2xl">Registro de trabajo</Label>

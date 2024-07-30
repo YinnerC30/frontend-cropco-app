@@ -35,13 +35,13 @@ export const CreateClient = () => {
   };
 
   if (isSuccess) {
-    navigate("../view");
+    navigate("../all");
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/clientes/view", name: "Clientes" }]}
+        items={[{ link: "/clientes/all", name: "Clientes" }]}
         finalItem={`Crear`}
       />
       <Label className="text-2xl">Registro de cliente</Label>

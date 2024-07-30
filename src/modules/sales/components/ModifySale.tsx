@@ -102,7 +102,7 @@ export const ModifySale = () => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(reset());
-      navigate("../view");
+      navigate("../all");
     }
   }, [isSuccess, dispatch, navigate]);
 
@@ -113,7 +113,7 @@ export const ModifySale = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/sales/view", name: "Ventas" }]}
+        items={[{ link: "/sales/all", name: "Ventas" }]}
         finalItem={`${format(data.date + "T00:00:00-05:00", "PPP", {
           locale: es,
         })}`}

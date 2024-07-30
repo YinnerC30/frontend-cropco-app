@@ -1,4 +1,4 @@
-import { Label, ScrollArea, Separator } from "@/components";
+import { ScrollArea, Separator } from "@/components";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -16,15 +16,14 @@ export const CreateUser = () => {
     mutate({ ...rest, password: password.password1 });
   };
 
-  isSuccess && navigate("../view");
+  isSuccess && navigate("../all");
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/users/view", name: "Usuarios" }]}
-        finalItem={"Crear"}
+        items={[{ link: "/users/all", name: "Usuarios" }]}
+        finalItem={"Registro"}
       />
-      <Label className="text-2xl">Registro de usuario</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <FormUser onSubmit={onSubmit} isPending={isPending} />

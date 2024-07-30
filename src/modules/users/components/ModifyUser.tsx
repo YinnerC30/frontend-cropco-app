@@ -46,16 +46,16 @@ export const ModifyUser = () => {
   }
 
   if (isSuccess) {
-    navigate("../view");
+    navigate("../all");
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/users/view", name: "Usuarios" }]}
-        finalItem={`${data.first_name} ${data.last_name}`}
+        items={[{ link: "/users/all", name: "Usuarios" }]}
+        finalItem={`Modificar`}
       />
-      <Label className="text-2xl">Modificar usuario</Label>
+      {/* <Label className="text-2xl">Modificar usuario</Label> */}
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[75vh] w-full  mb-10">
         <FormUser

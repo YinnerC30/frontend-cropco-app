@@ -7,7 +7,7 @@ const workRoutes = {
   path: "works",
   children: [
     {
-      path: "view",
+      path: "all",
       element: <WorkModule />,
     },
     {

@@ -7,7 +7,7 @@ const shoppingRoutes = {
   path: "shopping",
   children: [
     {
-      path: "view",
+      path: "all",
       element: <ShoppingModule />,
     },
     {

@@ -27,7 +27,7 @@ export const ConsumptionModule = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/consumption/view", name: "Consumos" }]}
+        items={[{ link: "/consumption/all", name: "Consumos" }]}
         finalItem={`Todos los consumos`}
       />
       <Label className="text-2xl">Consumo de insumos</Label>

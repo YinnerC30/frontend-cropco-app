@@ -67,13 +67,13 @@ export const ModifySupply = () => {
   }
 
   if (isSuccess) {
-    navigate("../view");
+    navigate("../all");
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/supplies/view", name: "Insumos" }]}
+        items={[{ link: "/supplies/all", name: "Insumos" }]}
         finalItem={`${data.name}`}
       />
       <Label className="text-2xl">Actualizar insumo</Label>

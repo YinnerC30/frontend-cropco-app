@@ -46,12 +46,12 @@ export const ViewUser = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/users/view", name: "Usuarios" }]}
-        finalItem={`${data.first_name} ${data.last_name}`}
+        items={[{ link: "/users/all", name: "Usuarios" }]}
+        finalItem={`Información del usuario`}
       />
-      <Label className="text-2xl">
+      {/* <Label className="text-2xl">
         Información del usuario(a) "{data.first_name + " " + data.last_name}"
-      </Label>
+      </Label> */}
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[75vh] w-full  mb-10">
         <FormUser

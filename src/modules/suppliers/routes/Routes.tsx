@@ -7,7 +7,7 @@ const supplierRoutes = {
   path: "suppliers",
   children: [
     {
-      path: "view",
+      path: "all",
       element: <SuppliersModule />,
     },
     {

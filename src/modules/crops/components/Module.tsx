@@ -35,7 +35,7 @@ export const CropsModule = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/crops/view", name: "Cultivos" }]}
+        items={[{ link: "/crops/all", name: "Cultivos" }]}
         finalItem={"Todos los cultivos"}
       />
       <Label className="text-2xl">Cultivos</Label>

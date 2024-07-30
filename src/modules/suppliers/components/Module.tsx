@@ -34,7 +34,7 @@ export const SuppliersModule = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/suppliers/view", name: "Proveedores" }]}
+        items={[{ link: "/suppliers/all", name: "Proveedores" }]}
         finalItem={`Todos los proveedores`}
       />
       <Label className="text-2xl">Proveedores</Label>

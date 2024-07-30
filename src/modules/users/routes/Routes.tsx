@@ -1,22 +1,22 @@
-import { CreateUser, ModifyUser, UsersModule, ViewUser } from '../components';
+import { CreateUser, ModifyUser, UsersModule, ViewUser } from "../components";
 
 const userRoutes = {
-  path: 'users',
+  path: "users",
   children: [
     {
-      path: 'view',
+      path: "all",
       element: <UsersModule />,
     },
     {
-      path: 'create',
+      path: "create",
       element: <CreateUser />,
     },
     {
-      path: 'view/:id',
+      path: "view/:id",
       element: <ViewUser />,
     },
     {
-      path: 'modify/:id',
+      path: "modify/:id",
       element: <ModifyUser />,
     },
   ],

@@ -47,13 +47,13 @@ export const CreateCrop = () => {
   };
 
   if (isSuccess) {
-    navigate("../view");
+    navigate("../all");
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/crops/view", name: "Cultivos" }]}
+        items={[{ link: "/crops/all", name: "Cultivos" }]}
         finalItem={"Crear"}
       />
       <Label className="text-2xl">Registro de cultivo</Label>

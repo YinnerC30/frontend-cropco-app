@@ -33,7 +33,7 @@ export const PaymentsModule = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/payments/view", name: "Pagos" }]}
+        items={[{ link: "/payments/all", name: "Pagos" }]}
         finalItem={`Todos los pagos`}
       />
       <Label className="text-2xl">Pagos</Label>

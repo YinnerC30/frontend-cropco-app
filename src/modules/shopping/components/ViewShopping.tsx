@@ -68,7 +68,7 @@ export const ViewShopping = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/shopping/view", name: "Compras" }]}
+        items={[{ link: "/shopping/all", name: "Compras" }]}
         finalItem={`${format(data?.date! + "T00:00:00-05:00", "PPP", {
           locale: es,
         })}`}

@@ -7,7 +7,7 @@ const saleRoutes = {
   path: "sales",
   children: [
     {
-      path: "view",
+      path: "all",
       element: <SaleModule />,
     },
     {

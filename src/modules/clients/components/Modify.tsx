@@ -58,13 +58,13 @@ export const ModifyClient = () => {
   }
 
   if (isSuccess) {
-    navigate("../view");
+    navigate("../all");
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/clients/view", name: "Clientes" }]}
+        items={[{ link: "/clients/all", name: "Clientes" }]}
         finalItem={`${data.first_name} ${data.last_name}`}
       />
       <Label className="text-2xl">Modificar cliente</Label>

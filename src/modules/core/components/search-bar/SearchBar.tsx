@@ -1,4 +1,4 @@
-import { Cross1Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+
 
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -12,6 +12,7 @@ import {
   FormMessage,
   Input,
 } from "@/components";
+import { Search, X } from "lucide-react";
 import { useCreateForm } from "../../hooks/useCreateForm";
 import { ToolTipTemplate } from "../ToolTipTemplate";
 
@@ -35,7 +36,7 @@ export const SearchBar = ({ search = "" }: Props) => {
 
   const onReset = () => {
     form.reset({ search: "" });
-    navigate(`../view`);
+    navigate(`../all`);
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -68,12 +69,12 @@ export const SearchBar = ({ search = "" }: Props) => {
         <div className="flex flex-row gap-1 ml-2">
           <ToolTipTemplate content="Buscar">
             <Button type="submit" form="formSearchBar">
-              <MagnifyingGlassIcon className="w-4 h-4" />
+              <Search className="w-4 h-4" />
             </Button>
           </ToolTipTemplate>
           <ToolTipTemplate content="Borrar">
             <Button onClick={() => onReset()}>
-              <Cross1Icon />
+              <X />
             </Button>
           </ToolTipTemplate>
         </div>

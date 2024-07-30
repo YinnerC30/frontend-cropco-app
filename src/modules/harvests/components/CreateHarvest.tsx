@@ -106,7 +106,7 @@ export const CreateHarvest = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../view");
+    navigate("../all");
   }
 
   if (queryCrops.isLoading) return <Loading />;
@@ -118,7 +118,7 @@ export const CreateHarvest = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/harvests/view", name: "Cosechas" }]}
+        items={[{ link: "/harvests/all", name: "Cosechas" }]}
         finalItem={`Crear`}
       />
       <Label className="text-2xl">Registro de cosecha</Label>

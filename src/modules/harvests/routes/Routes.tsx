@@ -8,7 +8,7 @@ const harvestRoutes = {
   path: "harvests",
   children: [
     {
-      path: "view",
+      path: "all",
       element: <HarvestModule />,
     },
     {

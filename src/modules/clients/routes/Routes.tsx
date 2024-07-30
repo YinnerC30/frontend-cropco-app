@@ -1,28 +1,28 @@
-import ClientsModule from '../components/Module';
-import { CreateClient } from '../components/Create';
-import { ModifyClient } from '../components/Modify';
-import { ViewClient } from '../components/View';
+import ClientsModule from "../components/Module";
+import { CreateClient } from "../components/Create";
+import { ModifyClient } from "../components/Modify";
+import { ViewClient } from "../components/View";
 
 const clientRoutes = {
-  path: 'clients',
+  path: "clients",
   children: [
     {
-      path: 'view',
+      path: "all",
       element: <ClientsModule />,
     },
     {
-      path: 'create',
+      path: "create",
       element: <CreateClient />,
     },
     {
-      path: 'view/:id',
+      path: "view/:id",
       element: <ViewClient />,
     },
     {
-      path: 'modify/:id',
+      path: "modify/:id",
       element: <ModifyClient />,
     },
   ],
 };
 
-export  { clientRoutes };
+export { clientRoutes };

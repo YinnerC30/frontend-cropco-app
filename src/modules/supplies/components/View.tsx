@@ -56,7 +56,7 @@ export const ViewSupply = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/supplies/view", name: "Insumos" }]}
+        items={[{ link: "/supplies/all", name: "Insumos" }]}
         finalItem={`${data.name}`}
       />
       <Label className="text-2xl">Información del insumo "{data.name}"</Label>

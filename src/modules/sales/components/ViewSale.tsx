@@ -78,7 +78,7 @@ export const ViewSale = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/sales/view", name: "Ventas" }]}
+        items={[{ link: "/sales/all", name: "Ventas" }]}
         finalItem={`${format(data.date + "T00:00:00-05:00", "PPP", {
           locale: es,
         })}`}

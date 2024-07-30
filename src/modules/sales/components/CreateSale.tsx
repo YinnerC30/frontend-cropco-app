@@ -87,7 +87,7 @@ export const CreateSale = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../view");
+    navigate("../all");
   }
 
   const isLoading = queryClients.isLoading || queryCrops.isLoading;
@@ -99,7 +99,7 @@ export const CreateSale = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/sales/view", name: "Ventas" }]}
+        items={[{ link: "/sales/all", name: "Ventas" }]}
         finalItem={`Crear`}
       />
       <Label className="text-2xl">Registro de venta</Label>

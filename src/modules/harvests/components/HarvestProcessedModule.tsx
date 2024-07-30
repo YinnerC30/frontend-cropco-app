@@ -49,9 +49,9 @@ export const HarvestProcessedModule = () => {
     <>
       <BreadCrumb
         items={[
-          { link: "/harvests/view", name: "Cosechas" },
+          { link: "/harvests/all", name: "Cosechas" },
           {
-            link: `/harvests/view/${data.id}`,
+            link: `/harvests/all/${data.id}`,
             name: `${data.crop.name} | ${format(data.date, "PPP", {
               locale: es,
             })}`,

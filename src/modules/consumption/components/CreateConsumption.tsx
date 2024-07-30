@@ -79,13 +79,13 @@ export const CreateConsumption = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../view");
+    navigate("../all");
   }
 
   return (
     <>
-    <BreadCrumb
-        items={[{ link: "/consumption/view", name: "Consumos" }]}
+      <BreadCrumb
+        items={[{ link: "/consumption/all", name: "Consumos" }]}
         finalItem={`Crear`}
       />
       <Label className="text-2xl">Registro de Consumo</Label>

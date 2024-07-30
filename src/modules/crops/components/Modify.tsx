@@ -73,13 +73,13 @@ export const ModifyCrop = () => {
   if (!data) return <ErrorLoading />;
 
   if (isSuccess) {
-    navigate(`../view`);
+    navigate(`../all`);
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/crops/view", name: "Cultivos" }]}
+        items={[{ link: "/crops/all", name: "Cultivos" }]}
         finalItem={data.name}
       />
       <Label className="text-2xl">Modificar cultivo</Label>

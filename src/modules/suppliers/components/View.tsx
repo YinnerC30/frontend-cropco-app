@@ -49,7 +49,7 @@ export const ViewSupplier = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/suppliers/view", name: "Proveedores" }]}
+        items={[{ link: "/suppliers/all", name: "Proveedores" }]}
         finalItem={`${data.first_name} ${data.last_name}`}
       />
       <Label className="text-2xl">

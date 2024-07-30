@@ -85,7 +85,7 @@ export const ViewWork = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/works/view", name: "Trabajos" }]}
+        items={[{ link: "/works/all", name: "Trabajos" }]}
         finalItem={`${data?.crop.name!} | ${format(
           data?.date! + "T00:00:00-05:00",
           "PPP",

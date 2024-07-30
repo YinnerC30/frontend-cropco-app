@@ -112,7 +112,7 @@ export const CreatePayment = () => {
   };
 
   if (isSuccess) {
-    navigate("../view");
+    navigate("../all");
   }
 
   if (queryEmployees.isLoading) return <Loading />;
@@ -123,7 +123,7 @@ export const CreatePayment = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/payments/view", name: "Pagos" }]}
+        items={[{ link: "/payments/all", name: "Pagos" }]}
         finalItem={`Crear`}
       />
       <Label className="text-2xl">Registro de pago</Label>

@@ -3,25 +3,25 @@ import {
   ModifySupply,
   SuppliesModule,
   ViewSupply,
-} from '../components';
+} from "../components";
 
 const supplyRoutes = {
-  path: 'supplies',
+  path: "supplies",
   children: [
     {
-      path: 'view',
+      path: "all",
       element: <SuppliesModule />,
     },
     {
-      path: 'create',
+      path: "create",
       element: <CreateSupply />,
     },
     {
-      path: 'view/:id',
+      path: "view/:id",
       element: <ViewSupply />,
     },
     {
-      path: 'modify/:id',
+      path: "modify/:id",
       element: <ModifySupply />,
     },
   ],

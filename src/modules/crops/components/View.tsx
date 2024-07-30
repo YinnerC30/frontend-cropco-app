@@ -61,7 +61,7 @@ export const ViewCrop = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/crops/view", name: "Cultivos" }]}
+        items={[{ link: "/crops/all", name: "Cultivos" }]}
         finalItem={data.name}
       />
       <Label className="text-2xl">

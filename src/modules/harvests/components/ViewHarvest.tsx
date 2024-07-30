@@ -79,7 +79,7 @@ export const ViewHarvest = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/harvests/view", name: "Cosechas" }]}
+        items={[{ link: "/harvests/all", name: "Cosechas" }]}
         finalItem={`${data.crop.name} | ${format(data.date, "PPP", {
           locale: es,
         })}`}

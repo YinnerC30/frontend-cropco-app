@@ -22,62 +22,62 @@ interface Route {
 export const routes: Route[] = [
   {
     name: "Usuarios",
-    path: "users/view",
+    path: "users/all",
     Icon: <User />,
   },
   {
     name: "Empleados",
-    path: "employees/view",
+    path: "employees/all",
     Icon: <Contact />,
   },
   {
     name: "Cultivos",
-    path: "crops/view",
+    path: "crops/all",
     Icon: <Leaf />,
   },
   {
     name: "Clientes",
-    path: "clients/view",
+    path: "clients/all",
     Icon: <BookUser />,
   },
   {
     name: "Proveedores",
-    path: "suppliers/view",
+    path: "suppliers/all",
     Icon: <Blocks />,
   },
   {
     name: "Insumos",
-    path: "supplies/view",
+    path: "supplies/all",
     Icon: <PillIcon />,
   },
   {
     name: "Cosechas",
-    path: "harvests/view",
+    path: "harvests/all",
     Icon: <Tractor />,
   },
   {
     name: "Ventas",
-    path: "sales/view",
+    path: "sales/all",
     Icon: <CircleDollarSign />,
   },
   {
     name: "Trabajos",
-    path: "works/view",
+    path: "works/all",
     Icon: <Pickaxe />,
   },
   {
     name: "Pagos",
-    path: "payments/view",
+    path: "payments/all",
     Icon: <CreditCard />,
   },
   {
     name: "Compras",
-    path: "shopping/view",
+    path: "shopping/all",
     Icon: <ShoppingBagIcon />,
   },
   {
     name: "Consumos",
-    path: "consumption/view",
-    Icon: <Cable/>,
+    path: "consumption/all",
+    Icon: <Cable />,
   },
 ];

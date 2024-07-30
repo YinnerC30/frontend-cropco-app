@@ -7,7 +7,7 @@ const employeeRoutes = {
   path: "employees",
   children: [
     {
-      path: "view",
+      path: "all",
       element: <EmployeesModule />,
     },
     {

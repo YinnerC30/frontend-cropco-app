@@ -1,27 +1,27 @@
-import { CreateCrop } from '../components/Create';
-import CropsModule from '../components/Module';
-import { ModifyCrop } from '../components/Modify';
-import { ViewCrop } from '../components/View';
+import { CreateCrop } from "../components/Create";
+import CropsModule from "../components/Module";
+import { ModifyCrop } from "../components/Modify";
+import { ViewCrop } from "../components/View";
 
 const cropRoutes = {
-  path: 'crops',
+  path: "crops",
   children: [
     {
-      path: 'view',
+      path: "all",
       element: <CropsModule />,
     },
     {
-      path: 'create',
+      path: "create",
       element: <CreateCrop />,
     },
     {
-      path: 'modify/:id',
+      path: "modify/:id",
       element: <ModifyCrop />,
     },
     {
-      path: 'view/:id',
+      path: "view/:id",
       element: <ViewCrop />,
     },
   ],
 };
-export  { cropRoutes };
+export { cropRoutes };

@@ -96,7 +96,7 @@ export const ModifyConsumption = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../view");
+    navigate("../all");
   }
 
   // Render loading or error states
@@ -106,7 +106,7 @@ export const ModifyConsumption = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/consumption/view", name: "Consumos" }]}
+        items={[{ link: "/consumption/all", name: "Consumos" }]}
         finalItem={`${format(data.date + "T00:00:00-05:00", "PPP", {
           locale: es,
         })}`}
