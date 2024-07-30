@@ -63,6 +63,7 @@ import {
 } from "../utils/paymentSlice";
 import { TablesPendingPayments } from "./TablesPendingPayments";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const CreatePayment = () => {
   const navigate = useNavigate();
@@ -121,6 +122,10 @@ export const CreatePayment = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/payments/view", name: "Pagos" }]}
+        finalItem={`Crear`}
+      />
       <Label className="text-2xl">Registro de pago</Label>
 
       <Separator className="my-2" />

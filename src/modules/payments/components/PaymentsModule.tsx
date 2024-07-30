@@ -14,6 +14,7 @@ import {
 } from "../../core/components";
 import columnsPayment from "./ColumnsTablePayments";
 import { useGetAllPayments } from "../hooks/useGetAllPayments";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const PaymentsModule = () => {
   const navigate = useNavigate();
@@ -31,6 +32,10 @@ export const PaymentsModule = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/payments/view", name: "Pagos" }]}
+        finalItem={`Todos los pagos`}
+      />
       <Label className="text-2xl">Pagos</Label>
 
       <Separator className="my-2" />
