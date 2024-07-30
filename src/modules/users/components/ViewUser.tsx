@@ -7,10 +7,10 @@ import { useParams } from "react-router-dom";
 import { z } from "zod";
 import { useGetUser } from "../hooks/useGetUser";
 
-import { Label, ScrollArea, Separator } from "@/components";
+import { ScrollArea, Separator } from "@/components";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import { defaultValues } from "../hooks/useUserForm";
-import { formSchema } from "../utils";
+import { formSchemaUser } from "../utils";
 import { FormUser } from "./FormUser";
 
 export const ViewUser = () => {
@@ -18,8 +18,8 @@ export const ViewUser = () => {
 
   const { isLoading, data } = useGetUser(id!);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof formSchemaUser>>({
+    resolver: zodResolver(formSchemaUser),
     defaultValues,
   });
 

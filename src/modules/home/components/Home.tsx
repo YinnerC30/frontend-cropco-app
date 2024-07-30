@@ -9,15 +9,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 
+import { Toaster } from "@/components/ui/sonner";
 import { removeUserActive } from "@/modules/authentication/utils/authenticationSlice";
+import { CommandDialogApp } from "@/modules/core/components/CommandDialogApp";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { routes } from "@/routes/RoutesNavBar";
+import { LogOut } from "lucide-react";
 import { useEffect } from "react";
 import { RootState } from "../../../redux/store";
 import { ModeToggle } from "../../core/components/ModeToggle";
-import { Toaster } from "@/components/ui/sonner";
-import { LogOut } from "lucide-react";
-import { CommandDialogApp } from "@/modules/core/components/CommandDialogApp";
 
 export const Home = () => {
   const navigate = useNavigate();

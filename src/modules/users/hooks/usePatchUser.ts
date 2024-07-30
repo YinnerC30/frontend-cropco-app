@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { updateUser } from '../services/update';
+import { updateUser } from '../services/updateUser';
 import { User } from '../interfaces/User';
 
 export function usePatchUser(): UseMutationResult<

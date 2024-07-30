@@ -1,5 +1,5 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
-import { getUserById } from '../services/getOne';
+import { getUserById } from '../services/getUserById';
 import { User } from '../interfaces/User';
 
 export function useGetUser(id: string): UseQueryResult<User, Error> {

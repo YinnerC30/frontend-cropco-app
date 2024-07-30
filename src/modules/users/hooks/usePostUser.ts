@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { createUser } from '../services/create';
+import { createUser } from '../services/createUser';
 import { User } from '../interfaces/User';
 
 export function usePostUser(): UseMutationResult<

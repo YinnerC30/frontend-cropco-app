@@ -2,7 +2,7 @@ import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
 import { PaginationState } from '@tanstack/react-table';
 import { useState } from 'react';
-import { getUsers } from '../services/getAll';
+import { getUsers } from '../services/getUsers';
 import { ResponseGetUsers } from '../interfaces/Response';
 
 interface Response {

@@ -9,7 +9,7 @@ import { usePatchUser } from "../hooks/usePatchUser";
 import { useUserForm } from "../hooks/useUserForm";
 
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { formSchema } from "../utils";
+import { formSchemaUser } from "../utils";
 import { FormUser } from "./FormUser";
 
 export const ModifyUser = () => {
@@ -20,7 +20,7 @@ export const ModifyUser = () => {
 
   const { form } = useUserForm();
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: z.infer<typeof formSchemaUser>) => {
     const { password, ...rest } = values;
     mutate({ ...rest, password: password.password1, id });
   };

@@ -12,7 +12,7 @@ import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import { useUserForm } from "../hooks/useUserForm";
-import { formFields } from "../utils";
+import { formFieldsUser } from "../utils";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -44,34 +44,34 @@ export const FormUser = ({
       >
         <FormFieldInput
           control={form.control}
-          description={formFields.first_name.description}
-          label={formFields.first_name.label}
+          description={formFieldsUser.first_name.description}
+          label={formFieldsUser.first_name.label}
           name={"first_name"}
-          placeholder={formFields.first_name.placeholder}
+          placeholder={formFieldsUser.first_name.placeholder}
           readOnly={readOnly}
         />
         <FormFieldInput
           control={form.control}
-          description={formFields.last_name.description}
-          label={formFields.last_name.label}
+          description={formFieldsUser.last_name.description}
+          label={formFieldsUser.last_name.label}
           name={"last_name"}
-          placeholder={formFields.last_name.placeholder}
+          placeholder={formFieldsUser.last_name.placeholder}
           readOnly={readOnly}
         />
         <FormFieldInput
           control={form.control}
-          description={formFields.email.description}
-          label={formFields.email.label}
+          description={formFieldsUser.email.description}
+          label={formFieldsUser.email.label}
           name={"email"}
-          placeholder={formFields.email.placeholder}
+          placeholder={formFieldsUser.email.placeholder}
           readOnly={readOnly}
         />
         <FormFieldInput
           control={form.control}
-          description={formFields.cell_phone_number.description}
-          label={formFields.cell_phone_number.label}
+          description={formFieldsUser.cell_phone_number.description}
+          label={formFieldsUser.cell_phone_number.label}
           name={"cell_phone_number"}
-          placeholder={formFields.cell_phone_number.placeholder}
+          placeholder={formFieldsUser.cell_phone_number.placeholder}
           readOnly={readOnly}
         />
 
@@ -82,7 +82,7 @@ export const FormUser = ({
               name={`password.password1`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{formFields.password1.label}</FormLabel>
+                  <FormLabel>{formFieldsUser.password1.label}</FormLabel>
                   <div className="flex gap-2">
                     <FormControl>
                       <Input
@@ -97,7 +97,7 @@ export const FormUser = ({
                     </Button>
                   </div>
                   <FormDescription>
-                    {formFields.password1.description}
+                    {formFieldsUser.password1.description}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -108,7 +108,7 @@ export const FormUser = ({
               name={`password.password2`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{formFields.password2.label}</FormLabel>
+                  <FormLabel>{formFieldsUser.password2.label}</FormLabel>
                   <div className="flex gap-2">
                     <FormControl>
                       <Input
@@ -123,7 +123,7 @@ export const FormUser = ({
                     </Button>
                   </div>
                   <FormDescription>
-                    {formFields.password2.description}
+                    {formFieldsUser.password2.description}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

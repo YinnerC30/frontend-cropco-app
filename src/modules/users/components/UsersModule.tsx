@@ -26,10 +26,7 @@ export const UsersModule = () => {
 
   return (
     <>
-      <BreadCrumb
-        // items={[{ link: "/users/all", name: "Usuarios" }]}
-        finalItem={"Usuarios"}
-      />
+      <BreadCrumb finalItem={"Usuarios"} />
       {/* <Label className="text-2xl">Usuarios del sistema</Label> */}
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">

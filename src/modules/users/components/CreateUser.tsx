@@ -3,7 +3,7 @@ import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { usePostUser } from "../hooks/usePostUser";
-import { formSchema } from "../utils";
+import { formSchemaUser } from "../utils";
 import { FormUser } from "./FormUser";
 
 export const CreateUser = () => {
@@ -11,7 +11,7 @@ export const CreateUser = () => {
 
   const { mutate, isSuccess, isPending } = usePostUser();
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchemaUser>) => {
     const { password, ...rest } = values;
     mutate({ ...rest, password: password.password1 });
   };

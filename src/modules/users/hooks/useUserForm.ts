@@ -1,6 +1,6 @@
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { useState } from "react";
-import { formSchema } from "../utils";
+import { formSchemaUser } from "../utils";
 
 export const defaultValues = {
   first_name: "",
@@ -15,12 +15,12 @@ export const defaultValues = {
 
 export const useUserForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-  
+
   const togglePasswordVisibility = (event: any) => {
     event.preventDefault();
     setShowPassword(!showPassword);
   };
-  const form = useCreateForm({ schema: formSchema, defaultValues });
+  const form = useCreateForm({ schema: formSchemaUser, defaultValues });
   return {
     showPassword,
     setShowPassword,
