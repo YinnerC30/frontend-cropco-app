@@ -15,19 +15,14 @@ import { useUserForm } from "../hooks/useUserForm";
 import { formFieldsUser } from "../utils";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FormProps } from "@/modules/core/interfaces/FormProps";
 
-interface Props {
-  onSubmit: any;
-  isPending: boolean;
-  defaultValues?: any;
-  readOnly?: boolean;
-}
 export const FormUser = ({
   onSubmit,
   isPending,
   defaultValues,
   readOnly = false,
-}: Props) => {
+}: FormProps) => {
   const { showPassword, togglePasswordVisibility, form } = useUserForm();
   const navigate = useNavigate();
 
@@ -135,7 +130,7 @@ export const FormUser = ({
 
       {!readOnly && (
         <ButtonsForm
-          isPending={isPending}
+          isPending={isPending ?? false}
           formId={"formUser"}
           className={"flex w-48 gap-2 mt-2"}
         />

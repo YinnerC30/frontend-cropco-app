@@ -1,12 +1,10 @@
-import { Label, ScrollArea, Separator } from "@/components";
+import { ScrollArea, Separator } from "@/components";
 
 import { ErrorLoading, Loading } from "@/modules/core/components";
-import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import { useGetUser } from "../hooks/useGetUser";
 import { usePatchUser } from "../hooks/usePatchUser";
-import { useUserForm } from "../hooks/useUserForm";
 
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import { formSchemaUser } from "../utils";
@@ -18,24 +16,10 @@ export const ModifyUser = () => {
   const { mutate, isSuccess, isPending } = usePatchUser();
   const navigate = useNavigate();
 
-  const { form } = useUserForm();
-
   const onSubmit = (values: z.infer<typeof formSchemaUser>) => {
     const { password, ...rest } = values;
     mutate({ ...rest, password: password.password1, id });
   };
-
-  useEffect(() => {
-    if (data) {
-      form.reset({
-        ...data,
-        password: {
-          password1: "",
-          password2: "",
-        },
-      });
-    }
-  }, [data]);
 
   if (isLoading) {
     return <Loading />;
@@ -55,7 +39,7 @@ export const ModifyUser = () => {
         items={[{ link: "/users/all", name: "Usuarios" }]}
         finalItem={`Modificar`}
       />
-      {/* <Label className="text-2xl">Modificar usuario</Label> */}
+
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[75vh] w-full  mb-10">
         <FormUser

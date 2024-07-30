@@ -5,11 +5,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
+  Textarea,
 } from "@/components";
 import { InputProps } from "../../interfaces/InputProps";
 
-export const FormFieldInput = ({
+export const FormFieldTextArea = ({
   control,
   description,
   label,
@@ -25,8 +25,9 @@ export const FormFieldInput = ({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input
-              className="w-56"
+            <Textarea
+              className="resize-none w-96"
+              rows={4}
               placeholder={placeholder}
               {...field}
               readOnly={readOnly}

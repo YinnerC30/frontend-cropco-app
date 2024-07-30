@@ -1,2 +1,2 @@
-export { formFields } from './formFields';
-export { formSchema } from './formSchema';
+export { formFieldsEmployee } from './formFieldsEmployee';
+export { formSchemaEmployee } from './formSchemaEmployee';

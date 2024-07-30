@@ -1,5 +1,5 @@
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
-import { formSchema } from "../utils";
+import { formSchemaEmployee } from "../utils";
 
 export const defaultValues = {
   first_name: "",
@@ -10,7 +10,7 @@ export const defaultValues = {
 };
 
 export const useEmployeeForm = () => {
-  const form = useCreateForm({ schema: formSchema, defaultValues });
+  const form = useCreateForm({ schema: formSchemaEmployee, defaultValues });
   return {
     form,
   };
