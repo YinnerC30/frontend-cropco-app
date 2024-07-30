@@ -23,6 +23,7 @@ import { usePostSupplier } from "../hooks/usePostSupplier";
 import { useSupplierForm } from "../hooks/useSupplierForm";
 import { formFields } from "../utils/formFields";
 import { formSchema } from "../utils/formSchema";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const CreateSupplier = () => {
   const navigate = useNavigate();
@@ -41,6 +42,10 @@ export const CreateSupplier = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/suppliers/view", name: "Proveedores" }]}
+        finalItem={`Crear`}
+      />
       <Label className="text-2xl">Registro de proveedor</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">

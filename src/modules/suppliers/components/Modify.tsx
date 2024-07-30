@@ -29,6 +29,7 @@ import { usePatchSupplier } from "../hooks/usePatchSupplier";
 import { formFields } from "../utils/formFields";
 import { formSchema } from "../utils/formSchema";
 import { useSupplierForm } from "../hooks/useSupplierForm";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ModifySupplier = () => {
   const { id } = useParams();
@@ -65,6 +66,10 @@ export const ModifySupplier = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/suppliers/view", name: "Proveedores" }]}
+        finalItem={`${data.first_name} ${data.last_name}`}
+      />
       <Label className="text-2xl">Modificar proveedor</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">

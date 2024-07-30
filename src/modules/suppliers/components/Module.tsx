@@ -15,6 +15,7 @@ import {
   DataTable,
 } from "../../core/components";
 import { Button } from "@/components/ui/button";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const SuppliersModule = () => {
   const navigate = useNavigate();
@@ -32,6 +33,10 @@ export const SuppliersModule = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/suppliers/view", name: "Proveedores" }]}
+        finalItem={`Todos los proveedores`}
+      />
       <Label className="text-2xl">Proveedores</Label>
 
       <Separator className="my-2" />

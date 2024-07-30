@@ -19,6 +19,7 @@ import { ErrorLoading, Loading } from "../../core/components";
 import { useGetSupplier } from "../hooks/useGetSupplier";
 import { useSupplierForm } from "../hooks/useSupplierForm";
 import { formFields } from "../utils/formFields";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ViewSupplier = () => {
   const { id } = useParams();
@@ -47,6 +48,10 @@ export const ViewSupplier = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/suppliers/view", name: "Proveedores" }]}
+        finalItem={`${data.first_name} ${data.last_name}`}
+      />
       <Label className="text-2xl">
         Información proveedor "{`${data.first_name} ${data.last_name}`}"
       </Label>
