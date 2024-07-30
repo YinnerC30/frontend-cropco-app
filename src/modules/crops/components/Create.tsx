@@ -32,7 +32,7 @@ import { usePostCrop } from "../hooks/usePostCrop";
 
 import { useCropForm } from "../hooks/useCropForm";
 import { formFields, formSchema } from "../utils";
-import { BreadCrumb } from "./BreadCrumb";
+import { BreadCrumb } from "../../core/components/BreadCrumb";
 
 export const CreateCrop = () => {
   const navigate = useNavigate();

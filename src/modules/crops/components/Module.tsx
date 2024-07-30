@@ -13,7 +13,7 @@ import {
   ToolTipTemplate,
 } from "../../core/components";
 import { useGetAllCrops } from "../hooks/useGetAllCrops";
-import { BreadCrumb } from "./BreadCrumb";
+import { BreadCrumb } from "../../core/components/BreadCrumb";
 import columns from "./ColumnsTable";
 
 export const CropsModule = () => {

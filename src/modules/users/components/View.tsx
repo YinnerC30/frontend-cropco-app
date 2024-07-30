@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/form";
 import { formFields, formSchema } from "../utils";
 import { defaultValues } from "../hooks/useUserForm";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ViewUser = () => {
   const { id } = useParams();
@@ -53,6 +54,10 @@ export const ViewUser = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/users/view", name: "Usuarios" }]}
+        finalItem={`${data.first_name} ${data.last_name}`}
+      />
       <Label className="text-2xl">
         Información del usuario(a) "{data.first_name + " " + data.last_name}"
       </Label>

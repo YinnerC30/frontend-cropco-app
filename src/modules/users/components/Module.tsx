@@ -11,6 +11,7 @@ import { useGetAllUsers } from "../hooks/useGetAllUsers";
 import columns from "./ColumnsTable";
 import { Button, Label, ScrollArea, Separator } from "@/components";
 import { PlusIcon } from "lucide-react";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const UsersModule = () => {
   const navigate = useNavigate();
@@ -27,6 +28,10 @@ export const UsersModule = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/users/view", name: "Usuarios" }]}
+        finalItem={"Todos los usuarios"}
+      />
       <Label className="text-2xl">Usuarios del sistema</Label>
 
       <Separator className="my-2" />

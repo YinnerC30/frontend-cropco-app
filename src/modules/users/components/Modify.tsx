@@ -10,23 +10,24 @@ import {
   Input,
   Label,
   ScrollArea,
-  Separator
-} from '@/components';
+  Separator,
+} from "@/components";
 
 import {
   ButtonCancelRegister,
   ErrorLoading,
   Loading,
-} from '@/modules/core/components';
-import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from '@radix-ui/react-icons';
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { z } from 'zod';
-import { useGetUser } from '../hooks/useGetUser';
-import { usePatchUser } from '../hooks/usePatchUser';
-import { useUserForm } from '../hooks/useUserForm';
+} from "@/modules/core/components";
+import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { z } from "zod";
+import { useGetUser } from "../hooks/useGetUser";
+import { usePatchUser } from "../hooks/usePatchUser";
+import { useUserForm } from "../hooks/useUserForm";
 
-import { formFields, formSchema } from '../utils';
+import { formFields, formSchema } from "../utils";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ModifyUser = () => {
   const { id } = useParams();
@@ -46,8 +47,8 @@ export const ModifyUser = () => {
       form.reset({
         ...data,
         password: {
-          password1: '',
-          password2: '',
+          password1: "",
+          password2: "",
         },
       });
     }
@@ -62,11 +63,15 @@ export const ModifyUser = () => {
   }
 
   if (isSuccess) {
-    navigate('../view');
+    navigate("../view");
   }
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/users/view", name: "Usuarios" }]}
+        finalItem={`${data.first_name} ${data.last_name}`}
+      />
       <Label className="text-2xl">Modificar usuario</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[75vh] w-full  mb-10">
@@ -98,7 +103,7 @@ export const ModifyUser = () => {
             />
             <FormField
               control={form.control}
-              name={'last_name'}
+              name={"last_name"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.last_name.label}</FormLabel>
@@ -118,7 +123,7 @@ export const ModifyUser = () => {
             />
             <FormField
               control={form.control}
-              name={'email'}
+              name={"email"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.email.label}</FormLabel>
@@ -138,7 +143,7 @@ export const ModifyUser = () => {
             />
             <FormField
               control={form.control}
-              name={'cell_phone_number'}
+              name={"cell_phone_number"}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{formFields.cell_phone_number.label}</FormLabel>
@@ -167,10 +172,10 @@ export const ModifyUser = () => {
                       <Input
                         className="w-56"
                         {...field}
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword ? "text" : "password"}
                       />
                     </FormControl>
-                    <Button onClick={e => togglePasswordVisibility(e)}>
+                    <Button onClick={(e) => togglePasswordVisibility(e)}>
                       {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                     </Button>
                   </div>
@@ -192,10 +197,10 @@ export const ModifyUser = () => {
                       <Input
                         className="w-56"
                         {...field}
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword ? "text" : "password"}
                       />
                     </FormControl>
-                    <Button onClick={e => togglePasswordVisibility(e)}>
+                    <Button onClick={(e) => togglePasswordVisibility(e)}>
                       {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                     </Button>
                   </div>
@@ -209,13 +214,13 @@ export const ModifyUser = () => {
           </form>
 
           <div className="flex w-48 gap-2 mt-2">
+            <ButtonCancelRegister action={() => navigate(-1)} />
             <Button type="submit" form="formUser" disabled={isPending}>
               {isPending && (
                 <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
               )}
               Actualizar
             </Button>
-            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

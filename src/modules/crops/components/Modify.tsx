@@ -36,7 +36,7 @@ import { usePatchCrop } from "../hooks/usePatchCrop";
 import { Button, Calendar } from "@/components";
 import { useCropForm } from "../hooks/useCropForm";
 import { formFields, formSchema } from "../utils";
-import { BreadCrumb } from "./BreadCrumb";
+import { BreadCrumb } from "../../core/components/BreadCrumb";
 
 export const ModifyCrop = () => {
   const { id } = useParams();

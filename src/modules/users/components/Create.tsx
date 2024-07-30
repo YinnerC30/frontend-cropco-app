@@ -15,6 +15,7 @@ import { z } from "zod";
 import { usePostUser } from "../hooks/usePostUser";
 import { useUserForm } from "../hooks/useUserForm";
 import { formSchema, formFields } from "../utils";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const CreateUser = () => {
   const navigate = useNavigate();
@@ -34,6 +35,10 @@ export const CreateUser = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/users/view", name: "Usuarios" }]}
+        finalItem={"Crear"}
+      />
       <Label className="text-2xl">Registro de usuario</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
@@ -176,13 +181,13 @@ export const CreateUser = () => {
           </form>
 
           <div className="flex w-48 gap-2 mt-2">
+            <ButtonCancelRegister action={() => navigate(-1)} />
             <Button type="submit" form="formUser" disabled={isPending}>
               {isPending && (
                 <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
               )}
               Guardar
             </Button>
-            <ButtonCancelRegister action={() => navigate(-1)} />
           </div>
         </Form>
       </ScrollArea>

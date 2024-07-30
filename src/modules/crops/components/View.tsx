@@ -30,7 +30,7 @@ import { ErrorLoading, Loading } from "../../core/components";
 import { useCropForm } from "../hooks/useCropForm";
 import { useGetCrop } from "../hooks/useGetCrop";
 import { formFields } from "../utils";
-import { BreadCrumb } from "./BreadCrumb";
+import { BreadCrumb } from "../../core/components/BreadCrumb";
 
 export const ViewCrop = () => {
   const { id } = useParams();
