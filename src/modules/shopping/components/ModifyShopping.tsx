@@ -39,6 +39,7 @@ import { columnsPurchaseDetailActions } from "./ColumnsTablePurchaseDetail";
 import { CreatePurchaseDetail } from "./CreatePurchaseDetail";
 import { DataTablePurchaseDetail } from "./DataTablePurchaseDetails";
 import { ModifyPurchaseDetail } from "./ModifyPurchaseDetail";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ModifyShopping = () => {
   const { id } = useParams();
@@ -106,6 +107,12 @@ export const ModifyShopping = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: "/shopping/view", name: "Compras" }]}
+        finalItem={`${format(data?.date! + "T00:00:00-05:00", "PPP", {
+          locale: es,
+        })}`}
+      />
       <Label className="text-2xl">Modificar Compra</Label>
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
