@@ -1,15 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { PropsUseGetAllRecords } from '@/modules/core/interfaces/PropsUseGetAllRecords';
+import { ResponseUseGetAllRecords } from '@/modules/core/interfaces/ResponseUseGetAllRecords';
 import { PaginationState } from '@tanstack/react-table';
 import { useState } from 'react';
+import { Employee } from '../interfaces/Employee';
 import { getEmployees } from '../services/getEmployees';
 
-interface Props {
-  searchParameter: string;
-  allRecords: boolean;
-}
-
-export const useGetAllEmployees = ({ searchParameter, allRecords }: Props) => {
+export const useGetAllEmployees = ({
+  searchParameter,
+  allRecords,
+}: PropsUseGetAllRecords): ResponseUseGetAllRecords<Employee> => {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,

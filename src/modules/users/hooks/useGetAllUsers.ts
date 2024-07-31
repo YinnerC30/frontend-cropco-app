@@ -1,24 +1,21 @@
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 
-import { PaginationState } from '@tanstack/react-table';
-import { useState } from 'react';
-import { getUsers } from '../services/getUsers';
-import { ResponseGetUsers } from '../interfaces/Response';
+import { ResponseUseGetAllRecords } from "@/modules/core/interfaces/ResponseUseGetAllRecords";
+import { PaginationState } from "@tanstack/react-table";
+import { useState } from "react";
+import { User } from "../interfaces/User";
+import { getUsers } from "../services/getUsers";
 
-interface Response {
-  query: UseQueryResult<ResponseGetUsers, Error>;
-  pagination: PaginationState;
-  setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
-}
-
-export function useGetAllUsers(searchParameter: string): Response {
+export function useGetAllUsers(
+  searchParameter: string
+): ResponseUseGetAllRecords<User> {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
 
   const query = useQuery({
-    queryKey: ['users', { searchParameter, ...pagination }],
+    queryKey: ["users", { searchParameter, ...pagination }],
     queryFn: () =>
       getUsers({
         search: searchParameter,
