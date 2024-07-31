@@ -11,15 +11,21 @@ import {
   CreditCard,
   ShoppingBagIcon,
   Cable,
+  Monitor,
 } from "lucide-react";
 
-interface Route {
+export interface Route {
   name: string;
   path: string;
   Icon: any;
 }
 
 export const routes: Route[] = [
+  {
+    name: "Panel de control",
+    path: "dashboard",
+    Icon: <Monitor />,
+  },
   {
     name: "Usuarios",
     path: "users/all",

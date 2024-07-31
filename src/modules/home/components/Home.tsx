@@ -13,7 +13,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { removeUserActive } from "@/modules/authentication/utils/authenticationSlice";
 import { CommandDialogApp } from "@/modules/core/components/CommandDialogApp";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { routes } from "@/routes/RoutesNavBar";
+import { Route, routes } from "@/routes/RoutesNavBar";
 import { LogOut } from "lucide-react";
 import { useEffect } from "react";
 import { RootState } from "../../../redux/store";
@@ -75,7 +75,7 @@ export const Home = () => {
         <nav className="flex flex-row items-center justify-center col-span-2">
           <ul className="w-11/12 ml-5 text-base font-bold">
             {/* TODO: Agregar iconos a cada uno de los módulos */}
-            {routes.map((route) => (
+            {routes.map((route: Route) => (
               <li key={route.name}>
                 <div className="w-[200px] flex items-center">
                   {route.Icon}

@@ -15,6 +15,7 @@ import { supplierRoutes } from "@/modules/suppliers/routes/Routes";
 import { supplyRoutes } from "@/modules/supplies/routes/Routes";
 import { userRoutes } from "@/modules/users/routes/Routes";
 import { workRoutes } from "@/modules/work/routes/Routes";
+import { dashboardRoutes } from "@/modules/dashboard/routes/Routes";
 
 import { createBrowserRouter } from "react-router-dom";
 
@@ -24,6 +25,7 @@ export const Router = createBrowserRouter([
     element: <Home />,
     errorElement: <ErrorPage />,
     children: [
+      dashboardRoutes,
       userRoutes,
       cropRoutes,
       clientRoutes,
@@ -35,7 +37,7 @@ export const Router = createBrowserRouter([
       workRoutes,
       paymentsRoutes,
       shoppingRoutes,
-      consumptionRoutes
+      consumptionRoutes,
     ],
   },
   {
