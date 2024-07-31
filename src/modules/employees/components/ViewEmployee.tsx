@@ -32,6 +32,7 @@ export const ViewEmployee = () => {
           defaultValues={{
             ...data,
           }}
+          readOnly
         />
       </ScrollArea>
     </>
