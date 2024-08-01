@@ -6,8 +6,8 @@ import {
   FormLabel,
   FormMessage,
   Input,
-} from "@/components";
-import { InputProps } from "../../interfaces/InputProps";
+} from '@/components';
+import { InputProps } from '../../interfaces/InputProps';
 
 export const FormFieldInput = ({
   control,
@@ -16,6 +16,7 @@ export const FormFieldInput = ({
   name,
   placeholder,
   readOnly = false,
+  type = 'text',
 }: InputProps) => {
   return (
     <FormField
@@ -30,6 +31,7 @@ export const FormFieldInput = ({
               placeholder={placeholder}
               {...field}
               readOnly={readOnly}
+              type={type}
             />
           </FormControl>
           <FormDescription>{description}</FormDescription>

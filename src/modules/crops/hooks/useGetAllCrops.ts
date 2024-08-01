@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { PaginationState } from '@tanstack/react-table';
 import { useState } from 'react';
-import { getCrops } from '../services/getAll';
+import { getCrops } from '../services/getCrops';
 
 interface Props {
   searchParameter: string;

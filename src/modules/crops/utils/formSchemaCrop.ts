@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const formSchema = z.object({
+export const formSchemaCrop = z.object({
   name: z
     .string({ required_error: `El nombre es requerido` })
     .min(4, {

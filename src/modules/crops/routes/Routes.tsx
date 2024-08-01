@@ -1,7 +1,7 @@
-import { CreateCrop } from "../components/Create";
-import CropsModule from "../components/Module";
-import { ModifyCrop } from "../components/Modify";
-import { ViewCrop } from "../components/View";
+import { CreateCrop } from "../components/CreateCrop";
+import CropsModule from "../components/CropsModule";
+import { ModifyCrop } from "../components/ModifyCrop";
+import { ViewCrop } from "../components/ViewCrop";
 
 const cropRoutes = {
   path: "crops",

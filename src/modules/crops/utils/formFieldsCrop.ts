@@ -1,6 +1,6 @@
 import { CustomFormField } from '@/modules/core/interfaces/CustomFormField';
 
-export const formFields: Record<string, CustomFormField> = {
+export const formFieldsCrop: Record<string, CustomFormField> = {
   name: {
     name: 'name',
     label: 'Nombre:',
@@ -28,13 +28,13 @@ export const formFields: Record<string, CustomFormField> = {
   date_of_creation: {
     name: 'date_of_creation',
     label: 'Fecha de creación:',
-    placeholder: '',
+    placeholder: 'Selecciona una fecha',
     description: 'Fecha en la que se creo el cultivo',
   },
   date_of_termination: {
     name: 'date_of_termination',
     label: 'Fecha de terminación:',
-    placeholder: '',
+    placeholder: 'Selecciona una fecha',
     description: 'Fecha en la que se termino el cultivo',
   },
 };

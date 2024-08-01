@@ -1,2 +1,2 @@
-export { formFields } from './formFields';
-export { formSchema } from './formSchema';
+export { formFieldsCrop } from './formFieldsCrop';
+export { formSchemaCrop } from './formSchemaCrop';
