@@ -58,7 +58,11 @@ export const FormFieldCommand = ({
           <FormItem className="my-4">
             <FormLabel className="block">{label}</FormLabel>
 
-            <Popover open={openPopover} onOpenChange={setOpenPopover}>
+            <Popover
+              open={openPopover}
+              onOpenChange={setOpenPopover}
+              modal={true}
+            >
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
