@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-import { InputProps } from '../../interfaces/InputProps';
+import { FormFieldProps } from '../../interfaces/FormFieldProps';
 
 export const FormFieldCalendar = ({
   control,
@@ -28,7 +28,7 @@ export const FormFieldCalendar = ({
   name,
   placeholder,
   readOnly = false,
-}: InputProps) => {
+}: FormFieldProps) => {
   return (
     <FormField
       control={control}

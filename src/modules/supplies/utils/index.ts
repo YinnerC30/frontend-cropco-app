@@ -1,2 +1,2 @@
-export { formFields } from './formFields';
-export { formSchema } from './formSchema';
+export { formFieldsSupply } from "./formFieldsSupply";
+export { formSchemaSupply } from "./formSchemaSupply";

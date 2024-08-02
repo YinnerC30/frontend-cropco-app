@@ -1,5 +1,5 @@
 
-export interface InputProps {
+export interface FormFieldProps {
     control: any;
     description: string;
     label: string;

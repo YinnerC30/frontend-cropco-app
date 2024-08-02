@@ -1,4 +1,4 @@
-export { CreateSupply } from './Create';
-export { ModifySupply } from './Modify';
-export { SuppliesModule } from './Module';
-export { ViewSupply } from './View';
+export { CreateSupply } from './CreateSupply';
+export { ModifySupply } from './ModifySupply';
+export { SuppliesModule } from './SuppliesModule';
+export { ViewSupply } from './ViewSupply';

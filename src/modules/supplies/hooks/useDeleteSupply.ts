@@ -2,10 +2,10 @@ import {
   UseMutationResult,
   useMutation,
   useQueryClient,
-} from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { toast } from 'sonner';
-import { deleteSupply } from '../services/delete';
+} from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
+import { deleteSupply } from "../services/deleteSupply";
 
 export const useDeleteSupply = (): UseMutationResult<
   void,
@@ -18,14 +18,14 @@ export const useDeleteSupply = (): UseMutationResult<
   const mutation = useMutation({
     mutationFn: deleteSupply,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['supplies'] });
+      queryClient.invalidateQueries({ queryKey: ["supplies"] });
       toast.success(`Insumo eliminado`);
     },
     onError: (error: AxiosError) => {
       const updateError: AxiosError | any = error;
       const { data } = updateError.response;
       toast.error(
-        `Hubo un problema durante la eliminación del insumo, ${data.message}`,
+        `Hubo un problema durante la eliminación del insumo, ${data.message}`
       );
     },
     retry: 1,

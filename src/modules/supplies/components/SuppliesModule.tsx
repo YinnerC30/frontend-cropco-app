@@ -1,4 +1,4 @@
-import columns from "./ColumnsTable";
+import columnsTableSupplies from "./ColumnsTableSupplies";
 import { useGetAllSupplies } from "../hooks/useGetAllSupplies";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
@@ -34,17 +34,13 @@ export const SuppliesModule = () => {
 
   return (
     <>
-      <BreadCrumb
-        items={[{ link: "/supplies/all", name: "Insumos" }]}
-        finalItem={`Todos los insumos`}
-      />
-      <Label className="text-2xl">Insumos</Label>
+      <BreadCrumb finalItem={`Insumos`} />
 
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
         <div className="flex items-center justify-between gap-2 w-[650px] p-1">
-          {/* TODO: Arreglar la busqueda de registros */}
-          {/* TODO: Agregar filtro de busqueda por unidad de medida y marca */}
+          {/* TODO: Arreglar la búsqueda de registros */}
+          {/* TODO: Agregar filtro de búsqueda por unidad de medida y marca */}
           {/* TODO: Arreglar paginado */}
           <SearchBar search={searchParameter} />
           <ToolTipTemplate content={"Crear"}>
@@ -58,7 +54,7 @@ export const SuppliesModule = () => {
         </div>
         <div className="w-[650px]">
           <DataTable
-            columns={columns}
+            columns={columnsTableSupplies}
             rows={query.data?.rows ?? 0}
             data={query.data}
             pagination={pagination}

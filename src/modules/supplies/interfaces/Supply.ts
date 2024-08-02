@@ -1,6 +1,5 @@
 import { UnitOfMeasure } from "./UnitOfMeasure";
 
-
 export interface Supply {
   id?: string;
   name: string;

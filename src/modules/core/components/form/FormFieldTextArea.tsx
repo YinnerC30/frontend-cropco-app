@@ -7,7 +7,7 @@ import {
   FormMessage,
   Textarea,
 } from "@/components";
-import { InputProps } from "../../interfaces/InputProps";
+import { FormFieldProps } from "../../interfaces/FormFieldProps";
 
 export const FormFieldTextArea = ({
   control,
@@ -16,7 +16,7 @@ export const FormFieldTextArea = ({
   name,
   placeholder,
   readOnly = false,
-}: InputProps) => {
+}: FormFieldProps) => {
   return (
     <FormField
       control={control}

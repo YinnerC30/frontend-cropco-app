@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
-import { getSupplies } from "../services/getAll";
+import { getSupplies } from "../services/getSupplies";
 
 interface Props {
   searchParameter: string;
