@@ -1,2 +1,2 @@
-export { formFields } from './formFields';
-export { formSchema } from './formSchema';
+export { formFieldsClient } from "./formFieldsClient";
+export { formSchemaClient } from "./formSchemaClient";

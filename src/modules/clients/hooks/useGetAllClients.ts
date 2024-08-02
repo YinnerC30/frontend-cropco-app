@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { getClients } from '../services/getAll';
-import { useState } from 'react';
 import { PaginationState } from '@tanstack/react-table';
+import { useState } from 'react';
+import { getClients } from '../services/getClients';
 
 export const useGetAllClients = (searchParameter: string) => {
   const [pagination, setPagination] = useState<PaginationState>({

@@ -1,5 +1,5 @@
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
-import { formSchema } from "../utils";
+import { formSchemaClient } from "../utils";
 
 export const defaultValues = {
   first_name: "",
@@ -10,7 +10,7 @@ export const defaultValues = {
 };
 
 export const useClientForm = () => {
-  const form = useCreateForm({ schema: formSchema, defaultValues });
+  const form = useCreateForm({ schema: formSchemaClient, defaultValues });
   return {
     form,
   };

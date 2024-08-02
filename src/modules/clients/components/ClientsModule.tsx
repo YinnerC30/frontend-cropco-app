@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import {
   DataTable,
   ErrorLoading,
@@ -14,8 +14,7 @@ import {
   ToolTipTemplate,
 } from "../../core/components";
 import { useGetAllClients } from "../hooks/useGetAllClients";
-import columns from "./ColumnsTable";
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { columnsTableClients } from "./ColumnsTableClients";
 
 export const ClientsModule = () => {
   const navigate = useNavigate();
@@ -33,11 +32,7 @@ export const ClientsModule = () => {
 
   return (
     <>
-      <BreadCrumb
-        items={[{ link: "/clients/all", name: "Clientes" }]}
-        finalItem={`Todos los clientes`}
-      />
-      <Label className="text-2xl">Clientes</Label>
+      <BreadCrumb finalItem={`Clientes`} />
 
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
@@ -54,7 +49,7 @@ export const ClientsModule = () => {
         </div>
         <div className="w-[750px]">
           <DataTable
-            columns={columns}
+            columns={columnsTableClients}
             rows={query.data?.rows ?? 0}
             data={query.data}
             pagination={pagination}

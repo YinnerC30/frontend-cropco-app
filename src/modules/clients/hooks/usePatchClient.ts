@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { updateClient } from '../services/update';
+import { updateClient } from '../services/updateClient';
 
 export const usePatchClient = () => {
   const queryClient = useQueryClient();
