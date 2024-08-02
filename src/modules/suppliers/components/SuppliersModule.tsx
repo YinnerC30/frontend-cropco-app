@@ -1,21 +1,20 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { useGetAllSuppliers } from "../hooks/useGetAllSuppliers";
-import columns from "./ColumnsTable";
-import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { PlusIcon } from "lucide-react";
+import { useGetAllSuppliers } from "../hooks/useGetAllSuppliers";
+import { columnsTableSuppliers } from "./ColumnsTableSuppliers";
 
-import {
-  Loading,
-  ErrorLoading,
-  SearchBar,
-  ToolTipTemplate,
-  DataTable,
-} from "../../core/components";
 import { Button } from "@/components/ui/button";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import {
+  DataTable,
+  ErrorLoading,
+  Loading,
+  SearchBar,
+  ToolTipTemplate,
+} from "../../core/components";
 
 export const SuppliersModule = () => {
   const navigate = useNavigate();
@@ -33,11 +32,7 @@ export const SuppliersModule = () => {
 
   return (
     <>
-      <BreadCrumb
-        items={[{ link: "/suppliers/all", name: "Proveedores" }]}
-        finalItem={`Todos los proveedores`}
-      />
-      <Label className="text-2xl">Proveedores</Label>
+      <BreadCrumb finalItem={`Proveedores`} />
 
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
@@ -54,7 +49,7 @@ export const SuppliersModule = () => {
         </div>
         <div className="w-[900px]">
           <DataTable
-            columns={columns}
+            columns={columnsTableSuppliers}
             rows={query.data?.rows ?? 0}
             data={query.data}
             pagination={pagination}

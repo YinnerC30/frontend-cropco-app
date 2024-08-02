@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getSupplierById } from '../services/getOne';
+import { getSupplierById } from '../services/getSupplierById';
 
 export const useGetSupplier = (id: string) => {
   const query = useQuery({

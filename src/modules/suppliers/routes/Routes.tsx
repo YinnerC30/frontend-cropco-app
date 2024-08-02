@@ -1,7 +1,7 @@
-import { CreateSupplier } from "../components/Create";
-import { ModifySupplier } from "../components/Modify";
-import { SuppliersModule } from "../components/Module";
-import { ViewSupplier } from "../components/View";
+import { CreateSupplier } from "../components/CreateSupplier";
+import { ModifySupplier } from "../components/ModifySupplier";
+import { SuppliersModule } from "../components/SuppliersModule";
+import { ViewSupplier } from "../components/ViewSupplier";
 
 const supplierRoutes = {
   path: "suppliers",

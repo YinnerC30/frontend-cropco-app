@@ -14,7 +14,6 @@ import { Search, SquareX } from "lucide-react";
 import { useCreateForm } from "../../hooks/useCreateForm";
 import { ToolTipTemplate } from "../ToolTipTemplate";
 
-
 interface Props {
   search: string;
 }
