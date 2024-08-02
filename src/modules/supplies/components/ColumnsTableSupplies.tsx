@@ -1,6 +1,7 @@
 import { Supply } from "@/modules/supplies/interfaces/Supply";
 import { ColumnDef } from "@tanstack/react-table";
 
+import { Badge } from "@/components";
 import { ButtonHeaderTable } from "@/modules/core/components";
 import { formFieldsSupply } from "../utils";
 import { ActionsTableSupplies } from "./ActionsTableSupplies";
@@ -30,13 +31,20 @@ export let columnsTableSupplies: ColumnDef<Supply>[] = [
   },
   {
     accessorKey: formFieldsSupply.unit_of_measure.name,
-    // TODO: Remplazar por badge
     header: ({ column }: any) => {
       return (
         <ButtonHeaderTable
           column={column}
           label={formFieldsSupply.unit_of_measure.label}
         />
+      );
+    },
+    cell: ({ row }) => {
+      const unitOfMeasure: string = row.getValue("unit_of_measure");
+      return (
+        <Badge variant={unitOfMeasure === "GRAMOS" ? "lime" : "cyan"}>
+          {unitOfMeasure}
+        </Badge>
       );
     },
   },

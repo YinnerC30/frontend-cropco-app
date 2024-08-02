@@ -1,8 +1,5 @@
-import columnsTableSupplies from "./ColumnsTableSupplies";
-import { useGetAllSupplies } from "../hooks/useGetAllSupplies";
-import { Separator } from "@/components/ui/separator";
-import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import {
   DataTable,
   ErrorLoading,
@@ -11,10 +8,12 @@ import {
   ToolTipTemplate,
 } from "@/modules/core/components";
 import { PlusIcon } from "lucide-react";
+import { useGetAllSupplies } from "../hooks/useGetAllSupplies";
+import columnsTableSupplies from "./ColumnsTableSupplies";
 
-import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export const SuppliesModule = () => {
   const navigate = useNavigate();
@@ -22,7 +21,7 @@ export const SuppliesModule = () => {
   const searchParameter = searchParams.get("search") || "";
 
   const { query, pagination, setPagination } = useGetAllSupplies({
-    searchParameter: "",
+    searchParameter,
     allRecords: true,
   });
 

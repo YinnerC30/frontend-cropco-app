@@ -1,5 +1,6 @@
 import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
-import { ResponseGetSupplies } from "../interfaces/Response";
+import { ResponseApiGetAllRecords } from "@/modules/core/interfaces";
+import { Supply } from "../interfaces/Supply";
 
 interface Props {
   search: string;
@@ -13,7 +14,7 @@ export const getSupplies = async ({
   limit = 10,
   offset = 0,
   allRecords = false,
-}: Props): Promise<ResponseGetSupplies> => {
+}: Props): Promise<ResponseApiGetAllRecords<Supply>> => {
   let params = new URLSearchParams();
   params.append("search", search);
   params.append("limit", limit.toString());

@@ -26,7 +26,7 @@ export const BreadCrumb = ({ items = [], finalItem }: Props) => {
           <BreadcrumbItem>
             <BreadcrumbLink
               className="hover:cursor-pointer"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/dashboard")}
             >
               Home
             </BreadcrumbLink>
