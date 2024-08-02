@@ -1,17 +1,12 @@
 import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
+import { ResponseApiGetAllRecords } from "@/modules/core/interfaces";
 import { HarvestStock } from "@/modules/harvests/interfaces/HarvestStock";
-
-interface ResponseHarvestProcessed {
-  rowCount: number;
-  rows: HarvestStock[];
-  pageCount: number;
-}
 
 export const getHarvestStock = async ({
   search = "",
   limit = 10,
   offset = 0,
-}): Promise<ResponseHarvestProcessed> => {
+}): Promise<ResponseApiGetAllRecords<HarvestStock>> => {
   const params = new URLSearchParams();
   params.append("search", search);
   params.append("limit", limit.toString());

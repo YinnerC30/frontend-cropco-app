@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import {
   DataTable,
   ErrorLoading,
@@ -13,8 +13,7 @@ import {
   ToolTipTemplate,
 } from "../../core/components";
 import { useGetAllHarvests } from "../hooks/useGetAllHarvests";
-import columnsHarvest from "./ColumnsTableHarvest";
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import columnsHarvest from "./columns/ColumnsTableHarvest";
 
 export const HarvestModule = () => {
   const navigate = useNavigate();
@@ -32,11 +31,7 @@ export const HarvestModule = () => {
 
   return (
     <>
-      <BreadCrumb
-        items={[{ link: "/harvests/all", name: "Cosechas" }]}
-        finalItem={`Todas las cosechas`}
-      />
-      <Label className="text-2xl">Cosechas</Label>
+      <BreadCrumb finalItem={`Cosechas`} />
 
       <Separator className="my-2" />
 
@@ -52,7 +47,7 @@ export const HarvestModule = () => {
             </Button>
           </ToolTipTemplate>
         </div>
-        {/* TODO Agregar filtros de busqueda por fecha, cultivo, total cosechado, valor a pagar */}
+        {/* TODO Agregar filtros de búsqueda por fecha, cultivo, total cosechado, valor a pagar */}
         <div className="w-[800px]">
           <DataTable
             columns={columnsHarvest}

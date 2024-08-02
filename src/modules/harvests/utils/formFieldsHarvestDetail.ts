@@ -1,8 +1,8 @@
 import { CustomFormField } from "@/modules/core/interfaces/CustomFormField";
 
 export const formFieldsHarvestDetail: Record<string, CustomFormField> = {
-  first_name: {
-    name: "first_name",
+  employee: {
+    name: "employee",
     label: "Empleado:",
     placeholder: "Selecciona un empleado",
     description: "Selecciona el nombre del empleado",
@@ -10,13 +10,13 @@ export const formFieldsHarvestDetail: Record<string, CustomFormField> = {
   total: {
     name: "total",
     label: "Total:",
-    placeholder: "",
+    placeholder: "0",
     description: "Introduce la cantidad que ha cosechado",
   },
   value_pay: {
     name: "value_pay",
     label: "Valor a pagar:",
-    placeholder: "",
+    placeholder: "0",
     description: "Introduce el valor a pagar por la cosecha",
   },
 };

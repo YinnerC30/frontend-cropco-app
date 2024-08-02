@@ -44,13 +44,13 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { Employee } from "@/modules/employees/interfaces/Employee";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useEffect } from "react";
 import { z } from "zod";
 import { useHarvestDetailForm } from "../hooks/useHarvestDetailForm";
 import { formFieldsHarvestDetail, formSchemaHarvestDetail } from "../utils";
-import { useEffect } from "react";
+import { FormHarvestDetails } from "./forms/FormHarvestDetails";
 
 interface Props {
   defaultValues: any;
@@ -66,19 +66,7 @@ export const ModifyHarvestDetail = ({
   afterEffect,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const {
-    details,
-    queryEmployees,
-    openPopoverEmployee,
-    setOpenPopoverEmployee,
-    formHarvestDetail,
-  } = useHarvestDetailForm();
-
-  useEffect(() => {
-    formHarvestDetail.setValue("employee", defaultValues.employee);
-    formHarvestDetail.setValue("total", defaultValues.total);
-    formHarvestDetail.setValue("value_pay", defaultValues.value_pay);
-  }, []);
+  const { formHarvestDetail } = useHarvestDetailForm();
 
   const onSubmitHarvestDetail = (
     values: z.infer<typeof formSchemaHarvestDetail>
@@ -117,186 +105,10 @@ export const ModifyHarvestDetail = ({
           </DialogDescription>
         </DialogHeader>
 
-        <Form {...formHarvestDetail}>
-          <form
-            onSubmit={formHarvestDetail.handleSubmit(onSubmitHarvestDetail)}
-            className="mx-5"
-            id="formDetail"
-          >
-            <FormField
-              control={formHarvestDetail.control}
-              name={"employee.id"}
-              render={({ field }) => (
-                <FormItem className="my-4">
-                  <FormLabel className="block">
-                    {formFieldsHarvestDetail.first_name.label}
-                  </FormLabel>
-
-                  <Popover
-                    modal={true}
-                    open={openPopoverEmployee}
-                    onOpenChange={setOpenPopoverEmployee}
-                  >
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          aria-expanded={openPopoverEmployee}
-                          className={cn(
-                            "w-[200px] justify-between",
-                            !field.value && "text-muted-foreground"
-                          )}
-                          ref={field.ref}
-                          onBlur={field.onBlur}
-                        >
-                          {field.value
-                            ? queryEmployees.data.rows.find(
-                                (item: Employee) => item.id === field.value
-                              )?.first_name
-                            : formFieldsHarvestDetail.first_name.placeholder}
-
-                          <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[200px] p-0">
-                      <Command>
-                        <CommandInput
-                          placeholder="Buscar empleado..."
-                          className="h-9"
-                        />
-                        <CommandList>
-                          <ScrollArea className="w-auto h-56">
-                            <CommandEmpty>Empleado no encontrado.</CommandEmpty>
-                            <CommandGroup>
-                              {queryEmployees.data.rows &&
-                                Array.isArray(queryEmployees.data.rows) &&
-                                queryEmployees.data.rows.map(
-                                  (employee: Employee | any) => {
-                                    const isIncludes = details.some(
-                                      (item: any) =>
-                                        item.employee.id === employee.id
-                                    );
-                                    if (
-                                      isIncludes &&
-                                      employee.id !== field.value
-                                    )
-                                      return;
-
-                                    return (
-                                      <CommandItem
-                                        value={employee.first_name}
-                                        key={employee.id!}
-                                        onSelect={() => {
-                                          if (field.value === employee.id) {
-                                            formHarvestDetail.setValue(
-                                              "employee",
-                                              {
-                                                id: "",
-                                                first_name: "",
-                                              }
-                                            );
-                                          } else {
-                                            formHarvestDetail.setValue(
-                                              "employee",
-                                              employee!
-                                            );
-                                            formHarvestDetail.trigger(
-                                              "employee.id"
-                                            );
-                                          }
-                                          setOpenPopoverEmployee(false);
-                                        }}
-                                      >
-                                        {employee.first_name}
-                                        <CheckIcon
-                                          className={cn(
-                                            "ml-auto h-4 w-4",
-                                            employee.id! === field.value
-                                              ? "opacity-100"
-                                              : "opacity-0"
-                                          )}
-                                        />
-                                      </CommandItem>
-                                    );
-                                  }
-                                )}
-                            </CommandGroup>
-                          </ScrollArea>
-                        </CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-
-                  <FormDescription>
-                    {formFieldsHarvestDetail.first_name.description}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              key={"total"}
-              control={formHarvestDetail.control}
-              name={"total"}
-              render={({ field }) => (
-                <FormItem className="my-4">
-                  <FormLabel className="block">{"Total:"}</FormLabel>
-
-                  <FormControl>
-                    <Input
-                      className="w-80"
-                      placeholder={"0"}
-                      {...field}
-                      type="number"
-                      min={0}
-                      onChange={(e) => {
-                        return !Number.isNaN(e.target.value)
-                          ? field.onChange(parseFloat(e.target.value))
-                          : 0;
-                      }}
-                    />
-                  </FormControl>
-
-                  <FormDescription>
-                    Introduce la cantidad que ha cosechado
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              key={"value_pay"}
-              control={formHarvestDetail.control}
-              name={"value_pay"}
-              render={({ field }) => (
-                <FormItem className="my-4">
-                  <FormLabel className="block">{"Valor a pagar:"}</FormLabel>
-
-                  <FormControl>
-                    <Input
-                      className="w-80"
-                      placeholder={"0"}
-                      {...field}
-                      type="number"
-                      min={0}
-                      step={50}
-                      onChange={(e) => {
-                        return !Number.isNaN(e.target.value)
-                          ? field.onChange(parseFloat(e.target.value))
-                          : 0;
-                      }}
-                    />
-                  </FormControl>
-
-                  <FormDescription>Introduce el valor a pagar</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </form>
-        </Form>
+        <FormHarvestDetails
+          onSubmit={onSubmitHarvestDetail}
+          defaultValues={defaultValues}
+        />
 
         <DialogFooter>
           <Button
@@ -308,7 +120,7 @@ export const ModifyHarvestDetail = ({
           >
             Cancelar
           </Button>
-          <Button type="submit" form="formDetail">
+          <Button type="submit" form="formHarvestDetail">
             Guardar
           </Button>
         </DialogFooter>

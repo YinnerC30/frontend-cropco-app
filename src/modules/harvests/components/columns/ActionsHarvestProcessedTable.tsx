@@ -15,7 +15,7 @@ import {
 import { UseMutateFunction } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ModifyHarvestProcessed } from "./ModifyHarvestProcessed";
+import { ModifyHarvestProcessed } from "../ModifyHarvestProcessed";
 
 type MutateParams = {
   id: string;

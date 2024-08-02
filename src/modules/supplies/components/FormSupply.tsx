@@ -21,11 +21,8 @@ export const FormSupply = ({
   const { form } = useSupplyForm();
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(defaultValues);
     defaultValues && form.reset(defaultValues);
   }, []);
-
-  console.log(form.getValues());
 
   return (
     <Form {...form}>

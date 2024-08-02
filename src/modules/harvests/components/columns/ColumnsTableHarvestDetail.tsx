@@ -30,11 +30,11 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useAppDispatch } from "@/redux/store";
 import { toast } from "sonner";
 
-import { ModifyHarvestDetail } from "./ModifyHarvestDetail";
-import { remove, calculateTotal } from "../utils/harvestSlice";
-import { HarvestDetail } from "../interfaces/HarvestDetail";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
+import { calculateTotal, remove } from "../../utils/harvestSlice";
+import { ModifyHarvestDetail } from "../ModifyHarvestDetail";
+import { HarvestDetail } from "../../interfaces/HarvestDetail";
 
 export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
   {

@@ -16,7 +16,7 @@ import { PlusIcon } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetHarvest } from "../hooks/useGetHarvest";
 import { DataTableHarvestProcessed } from "./DataTableHarvestProcessed";
-import columnsHarvestProcessed from "./ColumnsTableHarvestProcessed";
+import columnsHarvestProcessed from "./columns/ColumnsTableHarvestProcessed";
 import { useState } from "react";
 
 import { Harvest } from "../interfaces/Harvest";

@@ -34,7 +34,7 @@ import { usePatchHarvestProcessed } from "../hooks/usePatchHarvestProcessed";
 import { formFieldsHarvestProcessed } from "../utils/formFieldsHarvestProcessed";
 
 import { useEffect } from "react";
-import { CreateformSchemaHarvestProcessed } from "../utils/formSchemaHarvestProcessed";
+import { formSchemaHarvestProcessed } from "../utils/formSchemaHarvestProcessed";
 
 export const ModifyHarvestProcessed = ({
   isOpenDialogForm,
@@ -44,7 +44,7 @@ export const ModifyHarvestProcessed = ({
 }: any) => {
   
 
-  const formSchemaHarvestProcessed = CreateformSchemaHarvestProcessed(
+  const formSchemaHarvestProcessed = formSchemaHarvestProcessed(
     defaultValues.harvest.date
   );
   const formProcessed = useCreateForm({

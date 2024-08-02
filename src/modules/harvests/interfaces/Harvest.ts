@@ -12,5 +12,3 @@ export interface Harvest {
   value_pay: number;
   processed?: HarvestProcessed[];
 }
-
-

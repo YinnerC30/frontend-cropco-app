@@ -7,4 +7,5 @@ export interface FormFieldProps {
     placeholder: string;
     readOnly: boolean;
     type?: string;
+    value?: any,
   }

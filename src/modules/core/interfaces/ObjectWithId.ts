@@ -1,4 +1,4 @@
 export interface ObjectWithId {
   id: string;
-  [key: string]: string | undefined;
+  [key: string]: string | undefined | any;
 }

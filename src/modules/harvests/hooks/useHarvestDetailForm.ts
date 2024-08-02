@@ -6,8 +6,8 @@ import { useState } from "react";
 
 const defaultValuesHarvestDetail = {
   employee: {
-    id: undefined,
-    first_name: undefined,
+    id: "",
+    first_name: "",
   },
   total: 0,
   value_pay: 0,

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CreateformSchemaHarvestProcessed = (dateHarvest: string) => {
+export const formSchemaHarvestProcessed = (dateHarvest: string) => {
   const formSchema = z.object({
     date: z.date({ required_error: "La fecha es un campo obligatorio" }).refine(
       (date) => {

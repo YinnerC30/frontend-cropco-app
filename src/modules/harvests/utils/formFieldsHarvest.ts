@@ -11,7 +11,8 @@ export const formFieldsHarvest: Record<string, CustomFormField> = {
     name: "crop",
     label: "Cultivo:",
     placeholder: "Selecciona un cultivo",
-    description: "",
+    description:
+      "Selecciona el nombre del cultivo al cual se le realizo la cosecha",
   },
 
   total: {
