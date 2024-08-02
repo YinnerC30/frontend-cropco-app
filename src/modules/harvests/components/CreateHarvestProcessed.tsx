@@ -32,7 +32,7 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { usePostHarvestProcessed } from "../hooks/usePostHarvestProcessed";
 import { formFieldsHarvestProcessed } from "../utils/formFieldsHarvestProcessed";
-import { formSchemaHarvestProcessed } from "../utils/formSchemaHarvestProcessed";
+import { CreateformSchemaHarvestProcessed } from "../utils/formSchemaHarvestProcessed";
 
 export const CreateHarvestProcessed = ({
   isOpenDialogForm,
@@ -40,7 +40,7 @@ export const CreateHarvestProcessed = ({
   crop,
   harvest,
 }: any) => {
-  const formSchemaHarvestProcessed = formSchemaHarvestProcessed(
+  const formSchemaHarvestProcessed = CreateformSchemaHarvestProcessed(
     harvest.date
   );
 
