@@ -4,7 +4,6 @@ import { Separator } from "@/components/ui/separator";
 import { AppDispatch, useAppDispatch } from "@/redux/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 import { z } from "zod";
 
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
@@ -30,12 +29,6 @@ export const CreateHarvest = () => {
     total: number,
     value_pay: number
   ) => {
-    // TODO: Validar adecuadamente el hecho que no haya detalles de cosecha registrados (usando schema zod)
-    if (details.length === 0) {
-      toast.error("Debes registrar al menos 1 cosecha de algún empleado");
-      return;
-    }
-
     mutate({
       ...values,
       crop: { id: values.crop.id },

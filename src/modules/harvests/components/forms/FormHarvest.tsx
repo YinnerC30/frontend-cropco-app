@@ -1,4 +1,4 @@
-import { Button, Input, Separator } from "@/components";
+import { Badge, Button, Input, Separator } from "@/components";
 import { Form } from "@/components/ui/form";
 import { ErrorLoading, Loading } from "@/modules/core/components";
 import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
@@ -171,7 +171,12 @@ export const FormHarvest = ({
         readOnly={true}
         type="number"
       >
-        <Input value={FormatNumber(total)} className="ml-1 w-44" readOnly />
+        <Badge
+          className="block h-8 text-base text-center w-28"
+          variant={"cyan"}
+        >
+          {FormatNumber(total)}
+        </Badge>
       </FormFieldInput>
 
       <FormFieldInput
@@ -184,11 +189,12 @@ export const FormHarvest = ({
         readOnly={true}
         type="number"
       >
-        <Input
-          value={FormatMoneyValue(value_pay)}
-          className="ml-1 w-44"
-          readOnly
-        />
+        <Badge
+          className="block h-8 text-base text-center w-28"
+          variant={"indigo"}
+        >
+          {FormatMoneyValue(value_pay)}
+        </Badge>
       </FormFieldInput>
 
       <Separator className="w-full my-5" />
@@ -202,9 +208,16 @@ export const FormHarvest = ({
       )}
 
       {readOnly && (
-        <Button className="my-2" onClick={() => navigate(-1)}>
-          Volver
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={() => navigate(`../processed/view/${defaultValues.id}`)}
+          >
+            Ir a inventario
+          </Button>
+          <Button className="my-2" onClick={() => navigate(-1)}>
+            Volver
+          </Button>
+        </div>
       )}
     </Form>
   );

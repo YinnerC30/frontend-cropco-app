@@ -1,15 +1,13 @@
-import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 
 import { AppDispatch, useAppDispatch } from "@/redux/store";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { ConvertStringToDate } from "@/modules/core/helpers/ConvertStringToDate";
 import { ErrorLoading, Loading } from "../../core/components";
 import { useGetHarvest } from "../hooks/useGetHarvest";
 import { usePatchHarvest } from "../hooks/usePatchHarvest";
@@ -17,7 +15,6 @@ import { HarvestDetail } from "../interfaces/HarvestDetail";
 import { formSchemaHarvest } from "../utils";
 import { reset } from "../utils/harvestSlice";
 import { FormHarvest } from "./forms/FormHarvest";
-import { ConvertStringToDate } from "@/modules/core/helpers/ConvertStringToDate";
 
 export const ModifyHarvest = () => {
   const { id } = useParams();
@@ -65,15 +62,9 @@ export const ModifyHarvest = () => {
     <>
       <BreadCrumb
         items={[{ link: "/harvests/all", name: "Cosechas" }]}
-        finalItem={`${data.crop.name} | ${format(
-          ConvertStringToDate(data.date),
-          "PPP",
-          {
-            locale: es,
-          }
-        )}`}
+        finalItem={`Modificar`}
       />
-      <Label className="text-2xl">Modificar cosecha</Label>
+
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
         {/* Formulario principal */}

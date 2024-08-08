@@ -11,5 +11,5 @@ export interface Harvest {
   total: number;
   value_pay: number;
   processed?: HarvestProcessed[];
-  total_processed: number;
+  total_processed?: number;
 }

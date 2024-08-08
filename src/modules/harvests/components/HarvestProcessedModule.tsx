@@ -5,6 +5,7 @@ import {
 } from "@/modules/core/components";
 
 import {
+  Badge,
   Button,
   Input,
   Label,
@@ -186,11 +187,12 @@ export const HarvestProcessedModule = () => {
 
         <div>
           <Label>Total de cosecha procesada:</Label>
-          <Input
-            className="w-40 mt-2 text-neutral-500"
-            value={FormatMoneyValue(data.total_processed)}
-            readOnly
-          />
+          <Badge
+            className="block h-8 text-base text-center w-28"
+            variant={"cyan"}
+          >
+            {FormatNumber(data.total_processed)}
+          </Badge>
           <p className="text-[0.8rem] text-muted-foreground">
             {formFieldsHarvest.total_processed.description}
           </p>
