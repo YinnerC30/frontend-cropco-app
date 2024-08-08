@@ -29,7 +29,7 @@ export const FormFieldSelect = ({
   description,
   items,
   readOnly = false,
-}: FormFieldSelectProps<UnitOfMeasure>) => {
+}: FormFieldSelectProps<any>) => {
   return (
     <FormField
       control={control}
@@ -37,7 +37,7 @@ export const FormFieldSelect = ({
       render={({ field }: any) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <div className="w-40 ">
+          <div className="w-48 ">
             <Select
               onValueChange={field.onChange}
               defaultValue={field.value}

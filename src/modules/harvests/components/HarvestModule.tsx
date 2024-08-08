@@ -14,14 +14,37 @@ import {
 } from "../../core/components";
 import { useGetAllHarvests } from "../hooks/useGetAllHarvests";
 import columnsHarvest from "./columns/ColumnsTableHarvest";
+import { SearchBarHarvest } from "./SearchBarHarvest";
+import { DateTimeSelection } from "../interfaces/DateTimeSelection";
 
 export const HarvestModule = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const searchParameter = searchParams.get("search") || "";
+  const cropParameter = searchParams.get("crop") || "";
+  const afterDate = searchParams.get("after_date") || undefined;
+  const beforeDate = searchParams.get("before_date") || undefined;
 
-  const { query, pagination, setPagination } =
-    useGetAllHarvests(searchParameter);
+  const { query, pagination, setPagination } = useGetAllHarvests({
+    searchParameter,
+    crop: cropParameter,
+    after_date: afterDate,
+    before_date: beforeDate,
+  });
+
+  const existAfterDate = !!afterDate;
+  const existBeforeDate = !!beforeDate;
+
+  const giveDate = (stateAfterDate: boolean, stateBeforeDate: boolean) => {
+    console.log(searchParams);
+    if (stateAfterDate) {
+      return afterDate;
+    }
+    if (stateBeforeDate) {
+      return beforeDate;
+    }
+    return undefined;
+  };
 
   if (query.isLoading) return <Loading />;
 
@@ -37,6 +60,17 @@ export const HarvestModule = () => {
 
       <ScrollArea className="w-full h-[80vh]">
         {/* TODO: Agregar filtros de fecha y cultivo */}
+        <SearchBarHarvest
+          crop={cropParameter}
+          date={giveDate(existAfterDate, existBeforeDate)}
+          time_date={
+            giveDate(existAfterDate, existBeforeDate) == undefined
+              ? undefined
+              : giveDate(existAfterDate, existBeforeDate)?.includes("after")
+              ? DateTimeSelection.after
+              : DateTimeSelection.before
+          }
+        />
         <div className="flex items-start justify-between gap-2 w-[800px] p-1">
           <ToolTipTemplate content={"Crear"}>
             <Button
