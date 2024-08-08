@@ -1,4 +1,4 @@
-import { Badge, Button, Input, Separator } from "@/components";
+import { Badge, Button, Separator } from "@/components";
 import { Form } from "@/components/ui/form";
 import { ErrorLoading, Loading } from "@/modules/core/components";
 import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
