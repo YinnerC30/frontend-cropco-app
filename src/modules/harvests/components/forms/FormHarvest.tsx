@@ -170,8 +170,9 @@ export const FormHarvest = ({
         placeholder={formFieldsHarvest.total.placeholder}
         readOnly={true}
         type="number"
-      />
-      <Input value={FormatNumber(total)} className="ml-1 w-44" readOnly />
+      >
+        <Input value={FormatNumber(total)} className="ml-1 w-44" readOnly />
+      </FormFieldInput>
 
       <FormFieldInput
         className="hidden"
@@ -182,12 +183,13 @@ export const FormHarvest = ({
         placeholder={formFieldsHarvest.value_pay.placeholder}
         readOnly={true}
         type="number"
-      />
-      <Input
-        value={FormatMoneyValue(value_pay)}
-        className="ml-1 w-44"
-        readOnly
-      />
+      >
+        <Input
+          value={FormatMoneyValue(value_pay)}
+          className="ml-1 w-44"
+          readOnly
+        />
+      </FormFieldInput>
 
       <Separator className="w-full my-5" />
 

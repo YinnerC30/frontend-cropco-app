@@ -15,7 +15,6 @@ export const formSchemaHarvest = z.object({
   total: z.number({
     invalid_type_error: "Debes introducir un valor numérico",
   }),
-
   value_pay: z
     .number({
       invalid_type_error: "Debes introducir un valor numérico",

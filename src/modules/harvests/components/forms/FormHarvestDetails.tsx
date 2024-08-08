@@ -112,6 +112,7 @@ export const FormHarvestDetails = ({
           placeholder={formFieldsHarvestDetail.value_pay.placeholder}
           readOnly={readOnly}
           type="number"
+          step={50}
         />
       </form>
     </Form>

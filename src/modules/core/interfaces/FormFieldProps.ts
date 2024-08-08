@@ -8,4 +8,5 @@ export interface FormFieldProps {
   type?: string;
   value?: any;
   className?: string;
+  children?: any;
 }

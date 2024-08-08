@@ -9,6 +9,11 @@ import {
 } from "@/components";
 import { FormFieldProps } from "../../interfaces/FormFieldProps";
 
+interface FormFieldInputProps extends FormFieldProps {
+  step?: number;
+  min?: number;
+}
+
 export const FormFieldInput = ({
   control,
   description,
@@ -18,7 +23,10 @@ export const FormFieldInput = ({
   readOnly = false,
   type = "text",
   className = "",
-}: FormFieldProps) => {
+  children,
+  step = 0,
+  min = 0,
+}: FormFieldInputProps) => {
   return (
     <FormField
       control={control}
@@ -27,13 +35,18 @@ export const FormFieldInput = ({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input
-              className={`w-56 ${className}`}
-              placeholder={placeholder}
-              {...field}
-              readOnly={readOnly}
-              type={type}
-            />
+            <>
+              <Input
+                className={`w-56 ${className}`}
+                placeholder={placeholder}
+                {...field}
+                readOnly={readOnly}
+                type={type}
+                step={step}
+                min={min}
+              />
+              {children}
+            </>
           </FormControl>
           <FormDescription>{description}</FormDescription>
           <FormMessage />
