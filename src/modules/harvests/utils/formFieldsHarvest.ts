@@ -33,4 +33,10 @@ export const formFieldsHarvest: Record<string, CustomFormField> = {
     placeholder: "Se cosecho hasta...",
     description: "",
   },
+  details: {
+    name: "details",
+    label: "Cosechas realizadas por empleado:",
+    placeholder: "",
+    description: "",
+  },
 };

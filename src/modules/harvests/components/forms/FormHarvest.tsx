@@ -1,27 +1,28 @@
-import { Button, Input, Label, Separator } from "@/components";
+import { Button, Input, Separator } from "@/components";
 import { Form } from "@/components/ui/form";
 import { ErrorLoading, Loading } from "@/modules/core/components";
 import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
 import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalendar";
 import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
+import { FormFieldDataTable } from "@/modules/core/components/form/FormFieldDataTable";
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { FormFieldTextArea } from "@/modules/core/components/form/FormFieldTextArea";
+import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
+import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
+import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
 import { FormProps } from "@/modules/core/interfaces/FormProps";
+import { AppDispatch, useAppDispatch } from "@/redux/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useHarvestForm } from "../../hooks/useHarvestForm";
 import { formFieldsHarvest } from "../../utils";
+import { add, calculateTotal, reset } from "../../utils/harvestSlice";
 import {
   columnsHarvestDetail,
   columnsHarvestDetailActions,
 } from "../columns/ColumnsTableHarvestDetail";
 import { CreateHarvestDetail } from "../CreateHarvestDetail";
-import { DataTableHarvestDetail } from "../DataTableHarvestDetails";
 import { ModifyHarvestDetail } from "../ModifyHarvestDetail";
-import { add, calculateTotal, reset } from "../../utils/harvestSlice";
-import { AppDispatch, useAppDispatch } from "@/redux/store";
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
-import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
 
 export const FormHarvest = ({
   onSubmit,
@@ -67,6 +68,10 @@ export const FormHarvest = ({
       value_pay,
     });
   }, [total, value_pay]);
+
+  useEffect(() => {
+    form.setValue("details", details);
+  }, [details]);
 
   if (queryCrops.isLoading) return <Loading />;
 
@@ -114,26 +119,38 @@ export const FormHarvest = ({
       </form>
 
       <Separator className="w-full my-5" />
-      <Label className="text-sm">Cosechas realizadas por empleado:</Label>
 
-      <Button
-        onClick={() => setIsOpenDialogForm(true)}
-        className={`block my-2 ml-1 ${readOnly && "hidden"}`}
-        disabled={readOnly}
+      <FormFieldDataTable
+        control={form.control}
+        description={""}
+        label={formFieldsHarvest.details.label}
+        name={"details"}
+        placeholder={""}
+        readOnly={readOnly}
       >
-        Añadir
-      </Button>
+        <Button
+          onClick={() => setIsOpenDialogForm(true)}
+          className={`block my-2 ml-1 ${readOnly && "hidden"}`}
+          disabled={readOnly}
+        >
+          Añadir
+        </Button>
+
+        <DataTableForm
+          data={details}
+          columns={
+            readOnly ? columnsHarvestDetail : columnsHarvestDetailActions
+          }
+          setRecord={!readOnly && setHarvestDetail}
+          sideEffect={!readOnly && setIsOpenDialogModifyForm}
+          nameColumnToFilter={"employee_first_name"}
+          placeholderInputToFilter={"Buscar empleado por nose..."}
+        />
+      </FormFieldDataTable>
 
       <CreateHarvestDetail
         isOpenDialogForm={isOpenDialogForm}
         setIsOpenDialogForm={setIsOpenDialogForm}
-      />
-
-      <DataTableHarvestDetail
-        data={details}
-        columns={readOnly ? columnsHarvestDetail : columnsHarvestDetailActions}
-        setHarvestDetail={!readOnly && setHarvestDetail}
-        setIsOpenDialogModifyForm={!readOnly && setIsOpenDialogModifyForm}
       />
 
       {isOpenDialogModifyForm && (
@@ -154,7 +171,8 @@ export const FormHarvest = ({
         readOnly={true}
         type="number"
       />
-      <Input value={FormatNumber(total)} className="ml-1 w-44" readOnly/>
+      <Input value={FormatNumber(total)} className="ml-1 w-44" readOnly />
+
       <FormFieldInput
         className="hidden"
         control={form.control}
@@ -165,7 +183,11 @@ export const FormHarvest = ({
         readOnly={true}
         type="number"
       />
-      <Input value={FormatMoneyValue(value_pay)} className="ml-1 w-44" readOnly />
+      <Input
+        value={FormatMoneyValue(value_pay)}
+        className="ml-1 w-44"
+        readOnly
+      />
 
       <Separator className="w-full my-5" />
 
