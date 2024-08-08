@@ -23,7 +23,7 @@ export const formFieldsHarvestProcessed: Record<string, CustomFormField> = {
     total: {
       name: 'total',
       label: 'Total:',
-      placeholder: '',
+      placeholder: '0',
       description: 'Escribe el monto resultante de la cosecha',
     },
   };

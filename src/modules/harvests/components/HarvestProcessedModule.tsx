@@ -12,22 +12,24 @@ import {
   Separator,
   Textarea,
 } from "@/components";
-import { PlusIcon } from "lucide-react";
+import { CalendarIcon, PlusIcon } from "lucide-react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetHarvest } from "../hooks/useGetHarvest";
 import { DataTableHarvestProcessed } from "./DataTableHarvestProcessed";
 import columnsHarvestProcessed from "./columns/ColumnsTableHarvestProcessed";
-import { useState } from "react";
 
+import { cn } from "@/lib/utils";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { ConvertStringToDate } from "@/modules/core/helpers/ConvertStringToDate";
+import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
+import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 import { Harvest } from "../interfaces/Harvest";
 import { CreateHarvestProcessed } from "./CreateHarvestProcessed";
-import { es } from "date-fns/locale";
-import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { ModifyHarvestProcessed } from "./ModifyHarvestProcessed";
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { formFieldsHarvest } from "../utils";
 
 export const HarvestProcessedModule = () => {
   const { id } = useParams();
@@ -45,16 +47,22 @@ export const HarvestProcessedModule = () => {
     return <ErrorLoading />;
   }
 
+  console.log(data);
+  console.log(data.total < data.total_processed);
   return (
     <>
       <BreadCrumb
         items={[
           { link: "/harvests/all", name: "Cosechas" },
           {
-            link: `/harvests/all/${data.id}`,
-            name: `${data.crop.name} | ${format(data.date, "PPP", {
-              locale: es,
-            })}`,
+            link: `/harvests/view/${data.id}`,
+            name: `${data.crop.name} | ${format(
+              ConvertStringToDate(data.date),
+              "PPP",
+              {
+                locale: es,
+              }
+            )}`,
           },
         ]}
         finalItem={`Inventario`}
@@ -69,7 +77,7 @@ export const HarvestProcessedModule = () => {
             <Button
               variant={"outline"}
               className={cn(
-                "w-[200px] pl-3 text-left font-normal",
+                "mt-2 w-[200px] pl-3 text-left font-normal",
                 !data.date && "text-muted-foreground"
               )}
               disabled
@@ -81,42 +89,59 @@ export const HarvestProcessedModule = () => {
               )}
               <CalendarIcon className="w-4 h-4 ml-auto opacity-50" />
             </Button>
+            <p className="text-[0.8rem] text-muted-foreground">
+              {formFieldsHarvest.date.description}
+            </p>
           </div>
           <div>
             <Label>Cultivo:</Label>
             <Input
-              className="w-40 text-neutral-500"
+              className="w-40 mt-2 text-neutral-500"
               value={data.crop.name}
               readOnly
             />
+            <p className="text-[0.8rem] text-muted-foreground">
+              {formFieldsHarvest.crop.description}
+            </p>
           </div>
 
           <div>
             <Label>Total:</Label>
             <Input
-              className="w-40 text-neutral-500"
-              value={data.total}
+              className="w-40 mt-2 text-neutral-500"
+              value={FormatNumber(data.total)}
               readOnly
             />
+            <p className="text-[0.8rem] text-muted-foreground">
+              {formFieldsHarvest.total.description}
+            </p>
           </div>
           <div>
             <Label>Valor a pagar:</Label>
             <Input
-              className="w-40 text-neutral-500"
+              className="w-40 mt-2 text-neutral-500"
               value={FormatMoneyValue(data.value_pay)}
               readOnly
             />
+            <p className="text-[0.8rem] text-muted-foreground">
+              {formFieldsHarvest.value_pay.description}
+            </p>
           </div>
           <div>
             <Label>Observación:</Label>
             <Textarea
               value={data.observation}
               className="resize-none w-80 text-neutral-500"
+              placeholder="Ninguna"
               rows={3}
               readOnly
             />
+            <p className="text-[0.8rem] text-muted-foreground">
+              {formFieldsHarvest.observation.description}
+            </p>
           </div>
         </div>
+
         <Separator className="my-4" />
         <Label>
           A continuación registre de forma individual la cosecha procesada que
@@ -127,6 +152,7 @@ export const HarvestProcessedModule = () => {
             <Button
               className="mt-2 bg-blue-600 rounded-full hover:bg-blue-400"
               onClick={() => setIsOpenDialogForm(true)}
+              // disabled={data.total <= data.total_processed ? true : false}
             >
               <PlusIcon className="w-4 h-4 mr-2" /> Agregar
             </Button>
@@ -158,15 +184,30 @@ export const HarvestProcessedModule = () => {
           setIsOpenDialogModifyForm={setIsOpenDialogFormModify}
         />
 
+        <div>
+          <Label>Total de cosecha procesada:</Label>
+          <Input
+            className="w-40 mt-2 text-neutral-500"
+            value={FormatMoneyValue(data.total_processed)}
+            readOnly
+          />
+          <p className="text-[0.8rem] text-muted-foreground">
+            {formFieldsHarvest.total_processed.description}
+          </p>
+        </div>
+
         {isOpenDialogFormModify && (
           <ModifyHarvestProcessed
             isOpenDialogForm={isOpenDialogFormModify}
             setIsOpenDialogForm={setIsOpenDialogFormModify}
             defaultValues={harvestProcessed}
+            harvest={{ id: data.id, date: data.date }}
           />
         )}
 
-        <Button onClick={() => navigate(-1)}>Volver</Button>
+        <Button className="mt-2" onClick={() => navigate(-1)}>
+          Volver
+        </Button>
       </ScrollArea>
     </>
   );
