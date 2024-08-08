@@ -50,7 +50,7 @@ export const FormHarvestProcessed = ({
   }, []);
 
   return (
-    <Dialog open={isOpenDialogForm}>
+    <Dialog open={isOpenDialogForm} onOpenChange={setIsOpenDialogForm}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogClose
           onClick={() => setIsOpenDialogForm(false)}
