@@ -1,4 +1,4 @@
-import { Button, Label, Separator } from "@/components";
+import { Button, Input, Label, Separator } from "@/components";
 import { Form } from "@/components/ui/form";
 import { ErrorLoading, Loading } from "@/modules/core/components";
 import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
@@ -20,6 +20,8 @@ import { DataTableHarvestDetail } from "../DataTableHarvestDetails";
 import { ModifyHarvestDetail } from "../ModifyHarvestDetail";
 import { add, calculateTotal, reset } from "../../utils/harvestSlice";
 import { AppDispatch, useAppDispatch } from "@/redux/store";
+import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
+import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
 
 export const FormHarvest = ({
   onSubmit,
@@ -143,6 +145,7 @@ export const FormHarvest = ({
       )}
 
       <FormFieldInput
+        className="hidden"
         control={form.control}
         description={formFieldsHarvest.total.description}
         label={formFieldsHarvest.total.label}
@@ -151,7 +154,9 @@ export const FormHarvest = ({
         readOnly={true}
         type="number"
       />
+      <Input value={FormatNumber(total)} className="ml-1 w-44" readOnly/>
       <FormFieldInput
+        className="hidden"
         control={form.control}
         description={formFieldsHarvest.value_pay.description}
         label={formFieldsHarvest.value_pay.label}
@@ -160,6 +165,7 @@ export const FormHarvest = ({
         readOnly={true}
         type="number"
       />
+      <Input value={FormatMoneyValue(value_pay)} className="ml-1 w-44" readOnly />
 
       <Separator className="w-full my-5" />
 

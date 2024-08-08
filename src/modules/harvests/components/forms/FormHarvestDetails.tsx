@@ -8,6 +8,7 @@ import { Employee } from "@/modules/employees/interfaces/Employee";
 import { useHarvestDetailForm } from "../../hooks/useHarvestDetailForm";
 import { formFieldsHarvestDetail } from "../../utils";
 import { useEffect } from "react";
+import { HarvestDetail } from "../../interfaces/HarvestDetail";
 
 export const FormHarvestDetails = ({
   onSubmit,
@@ -19,6 +20,7 @@ export const FormHarvestDetails = ({
     openPopoverEmployee,
     setOpenPopoverEmployee,
     queryEmployees,
+    details,
   } = useHarvestDetailForm();
 
   useEffect(() => {
@@ -32,11 +34,16 @@ export const FormHarvestDetails = ({
     }
   }, []);
 
+  const findEmployeeName = (id: string): string => {
+    return (
+      queryEmployees?.data?.rows.find((item: Employee) => item.id === id)
+        ?.first_name || ""
+    );
+  };
+
   const onSubmitHarvestDetail = (values: any) => {
     const employeeIdForm = values.employee.id;
-    const nameEmployee = queryEmployees?.data?.rows.find(
-      (item: Employee) => item.id === employeeIdForm
-    )?.first_name;
+    const nameEmployee = findEmployeeName(employeeIdForm);
     const data = {
       ...values,
       employee: { id: employeeIdForm, first_name: nameEmployee },
@@ -44,13 +51,25 @@ export const FormHarvestDetails = ({
     onSubmit(data);
   };
 
+  const filterEmployeesToShow = (): Employee[] => {
+    return (
+      queryEmployees?.data?.rows.filter((record: Employee) => {
+        const state = details.some(
+          (item: HarvestDetail) => item.employee.id === record.id
+        );
+        if (state && record.id !== defaultValues?.employee?.id) {
+          return;
+        }
+        return record;
+      }) || []
+    );
+  };
+
   if (queryEmployees.isLoading) return <Loading />;
 
   if (queryEmployees.isError) {
     return <ErrorLoading />;
   }
-
-  console.log(formHarvestDetail.getValues());
 
   return (
     <Form {...formHarvestDetail}>
@@ -65,7 +84,7 @@ export const FormHarvestDetails = ({
         <FormFieldCommand
           openPopover={openPopoverEmployee}
           setOpenPopover={setOpenPopoverEmployee}
-          data={queryEmployees?.data?.rows || []}
+          data={filterEmployeesToShow() || []}
           form={formHarvestDetail}
           nameToShow={"first_name"}
           control={formHarvestDetail.control}

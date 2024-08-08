@@ -1,8 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 
-import { PaginationState } from '@tanstack/react-table';
-import { useState } from 'react';
-import { getHarvests } from '../services/getHarvests';
+import { PaginationState } from "@tanstack/react-table";
+import { useState } from "react";
+import { getHarvests } from "../services/getHarvests";
 
 export const useGetAllHarvests = (searchParameter: string) => {
   const [pagination, setPagination] = useState<PaginationState>({
@@ -11,7 +11,7 @@ export const useGetAllHarvests = (searchParameter: string) => {
   });
 
   const query = useQuery({
-    queryKey: ['harvests', { searchParameter, ...pagination }],
+    queryKey: ["harvests", { searchParameter, ...pagination }],
     queryFn: () =>
       getHarvests({
         search: searchParameter,

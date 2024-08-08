@@ -17,6 +17,7 @@ export const FormFieldInput = ({
   placeholder,
   readOnly = false,
   type = "text",
+  className = "",
 }: FormFieldProps) => {
   return (
     <FormField
@@ -27,7 +28,7 @@ export const FormFieldInput = ({
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <Input
-              className="w-56"
+              className={`w-56 ${className}`}
               placeholder={placeholder}
               {...field}
               readOnly={readOnly}

@@ -26,9 +26,13 @@ export const ViewHarvest = () => {
     <>
       <BreadCrumb
         items={[{ link: "/harvests/all", name: "Cosechas" }]}
-        finalItem={`${data.crop.name} | ${format(data.date, "PPP", {
-          locale: es,
-        })}`}
+        finalItem={`${data.crop.name} | ${format(
+          ConvertStringToDate(data.date),
+          "PPP",
+          {
+            locale: es,
+          }
+        )}`}
       />
       <Label className="text-2xl">Información de la cosecha</Label>
       <Separator className="my-2" />

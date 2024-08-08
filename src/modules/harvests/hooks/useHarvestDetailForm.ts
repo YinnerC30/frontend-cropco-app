@@ -3,18 +3,21 @@ import { formSchemaHarvestDetail } from "../utils/formSchemaHarvestDetail";
 import { useGetAllEmployees } from "@/modules/employees/hooks/useGetAllEmployees";
 import { useAppSelector } from "@/redux/store";
 import { useState } from "react";
+import { HarvestDetail } from "../interfaces/HarvestDetail";
 
 const defaultValuesHarvestDetail = {
   employee: {
     id: "",
     first_name: "",
   },
-  total: 0,
-  value_pay: 0,
+  total: undefined,
+  value_pay: undefined,
 };
 
 export const useHarvestDetailForm = () => {
-  const details: any = useAppSelector((state: any) => state.harvest.details);
+  const details: HarvestDetail[] = useAppSelector(
+    (state: any) => state.harvest.details
+  );
 
   const { query: queryEmployees } = useGetAllEmployees({
     searchParameter: "",

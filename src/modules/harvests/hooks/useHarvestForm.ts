@@ -10,8 +10,8 @@ export const defaultValuesHarvest = {
     id: undefined,
   },
 
-  total: 0,
-  value_pay: 0,
+  total: undefined,
+  value_pay: undefined,
   observation: "",
 };
 
