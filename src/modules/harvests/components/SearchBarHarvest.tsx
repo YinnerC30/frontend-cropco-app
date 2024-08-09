@@ -33,7 +33,7 @@ export const SearchBarHarvest = ({ crop, date, time_date }: Props) => {
     defaultValues: {
       crop: { id: crop },
       filter_by_date: !!date,
-      date: !!date ? new Date(date).toUTCString() : undefined,
+      date: !!date ? new Date(date) : undefined,
       date_time_selection: time_date || DateTimeSelection.after,
     },
   });
@@ -41,7 +41,7 @@ export const SearchBarHarvest = ({ crop, date, time_date }: Props) => {
   useEffect(() => {
     form.setValue("crop.id", crop);
     form.setValue("date_time_selection", time_date);
-    form.setValue("date", new Date(date).toUTCString());
+    form.setValue("date", !!date ? new Date(date) : undefined);
     form.setValue("filter_by_date", !!date);
   }, []);
 
