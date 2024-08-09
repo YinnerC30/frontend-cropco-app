@@ -1,15 +1,15 @@
-import { es } from 'date-fns/locale';
+import { es } from "date-fns/locale";
 
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
-import { CalendarIcon } from '@radix-ui/react-icons';
-import { format } from 'date-fns';
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
 import {
   FormControl,
   FormDescription,
@@ -17,9 +17,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 
-import { FormFieldProps } from '../../interfaces/FormFieldProps';
+import { FormFieldProps } from "../../interfaces/FormFieldProps";
 
 export const FormFieldCalendar = ({
   control,
@@ -28,13 +28,14 @@ export const FormFieldCalendar = ({
   name,
   placeholder,
   readOnly = false,
+  className = "",
 }: FormFieldProps) => {
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }: any) => (
-        <FormItem>
+        <FormItem className={className}>
           <FormLabel>{label}</FormLabel>
 
           <div className="block">
@@ -43,14 +44,14 @@ export const FormFieldCalendar = ({
                 <FormControl>
                   <Button
                     disabled={readOnly}
-                    variant={'outline'}
+                    variant={"outline"}
                     className={cn(
-                      'w-[240px] pl-3 text-left font-normal',
-                      !field.value && 'text-muted-foreground'
+                      "w-[240px] pl-3 text-left font-normal",
+                      !field.value && "text-muted-foreground" && className
                     )}
                   >
                     {field.value ? (
-                      format(field.value, 'PPP', { locale: es })
+                      format(field.value, "PPP", { locale: es })
                     ) : (
                       <span>{placeholder}</span>
                     )}
@@ -65,7 +66,7 @@ export const FormFieldCalendar = ({
                   selected={new Date(field.value)}
                   onSelect={field.onChange}
                   disabled={(date) =>
-                    date > new Date() || date < new Date('1900-01-01')
+                    date > new Date() || date < new Date("1900-01-01")
                   }
                   initialFocus
                 />

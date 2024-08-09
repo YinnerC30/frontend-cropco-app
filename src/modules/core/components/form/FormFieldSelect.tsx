@@ -29,13 +29,14 @@ export const FormFieldSelect = ({
   description,
   items,
   readOnly = false,
+  className = "",
 }: FormFieldSelectProps<any>) => {
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }: any) => (
-        <FormItem>
+        <FormItem className={className}>
           <FormLabel>{label}</FormLabel>
           <div className="w-48 ">
             <Select
