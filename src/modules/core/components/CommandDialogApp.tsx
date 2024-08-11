@@ -43,7 +43,6 @@ export function CommandDialogApp() {
               <CommandItem
                 key={item.path}
                 onSelect={() => {
-                  console.log("Se dio clic en el comando");
                   navigate(item.path);
                   setOpen(false);
                 }}

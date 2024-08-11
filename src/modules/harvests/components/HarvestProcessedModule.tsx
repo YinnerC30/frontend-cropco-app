@@ -48,8 +48,6 @@ export const HarvestProcessedModule = () => {
     return <ErrorLoading />;
   }
 
-  console.log(data);
-  console.log(data.total < data.total_processed);
   return (
     <>
       <BreadCrumb

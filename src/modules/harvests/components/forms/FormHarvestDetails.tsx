@@ -25,7 +25,6 @@ export const FormHarvestDetails = ({
 
   useEffect(() => {
     if (defaultValues) {
-      console.log(defaultValues);
       formHarvestDetail.reset({
         employee: defaultValues.employee,
         total: defaultValues.total,

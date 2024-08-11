@@ -43,7 +43,6 @@ export const HarvestModule = () => {
   if (query.isError || !query.data) return <ErrorLoading />;
 
   const { date, type } = getDateSelection();
-  console.log(date, type);
 
   return (
     <>

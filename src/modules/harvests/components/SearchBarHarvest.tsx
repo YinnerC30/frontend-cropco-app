@@ -48,9 +48,6 @@ export const SearchBarHarvest = ({ crop, date, time_date }: Props) => {
   const onSubmit = async (
     values: z.infer<typeof formSchemaSearchBarHarvest>
   ) => {
-    console.log(values);
-    toast.success("Se inició la búsqueda");
-
     const params = new URLSearchParams();
     if (values.crop?.id) {
       params.append("crop", values.crop.id);
