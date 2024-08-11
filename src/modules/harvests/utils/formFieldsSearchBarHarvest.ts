@@ -26,9 +26,39 @@ export const formFieldsSearchBarHarvest: Record<string, CustomFormField> = {
     description: "Fecha de referencia para realizar la búsqueda",
   },
   filter_by_total: {
-    name: "filter_by_date",
-    label: "Filtrar por fecha:",
+    name: "filter_by_total",
+    label: "Filtrar por total:",
     placeholder: "",
     description: "Activa la opción para filtrar por este modo",
+  },
+  minor_or_major_selection: {
+    name: "minor_or_major_selection",
+    label: "Valor menor o mayor a:",
+    placeholder: "Selecciona una opción",
+    description: "Filtrar registros por menor o mayor del valor",
+  },
+  total: {
+    name: "total",
+    label: "Total:",
+    placeholder: "100",
+    description: "Valor de referencia para realizar la búsqueda",
+  },
+  filter_by_value_pay: {
+    name: "filter_by_value_pay",
+    label: "Filtrar por total:",
+    placeholder: "",
+    description: "Activa la opción para filtrar por este modo",
+  },
+  minor_or_major_value_pay_selection: {
+    name: "minor_or_major_value_pay_selection",
+    label: "Valor menor o mayor a:",
+    placeholder: "Selecciona una opción",
+    description: "Filtrar registros por menor o mayor del valor",
+  },
+  value_pay: {
+    name: "value_pay",
+    label: "Total:",
+    placeholder: "100",
+    description: "Valor de referencia para realizar la búsqueda",
   },
 };

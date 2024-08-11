@@ -9,6 +9,10 @@ interface Props {
   crop?: string;
   after_date?: string;
   before_date?: string;
+  minor_total?: number;
+  major_total?: number;
+  minor_value_pay?: number;
+  major_value_pay?: number;
 }
 
 export const useGetAllHarvests = ({
@@ -16,6 +20,10 @@ export const useGetAllHarvests = ({
   crop = "",
   after_date = "",
   before_date = "",
+  minor_total = 0,
+  major_total = 0,
+  minor_value_pay = 0,
+  major_value_pay = 0,
 }: Props) => {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -25,7 +33,17 @@ export const useGetAllHarvests = ({
   const query = useQuery({
     queryKey: [
       "harvests",
-      { searchParameter, crop, after_date, before_date, ...pagination },
+      {
+        searchParameter,
+        crop,
+        after_date,
+        before_date,
+        minor_total,
+        major_total,
+        minor_value_pay,
+        major_value_pay,
+        ...pagination,
+      },
     ],
     queryFn: () =>
       getHarvests({
@@ -35,6 +53,10 @@ export const useGetAllHarvests = ({
         crop,
         after_date,
         before_date,
+        minor_total,
+        major_total,
+        minor_value_pay,
+        major_value_pay
       }),
   });
 
