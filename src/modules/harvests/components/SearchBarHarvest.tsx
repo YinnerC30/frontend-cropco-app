@@ -4,7 +4,7 @@ import { FormFieldCommand } from "@/modules/core/components/form/FormFieldComman
 import { FormFieldSelect } from "@/modules/core/components/form/FormFieldSelect";
 import { FormFieldSwitch } from "@/modules/core/components/form/FormFieldSwitch";
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
-import { useGetAllCrops } from "@/modules/crops/hooks/useGetAllCrops";
+import { useGetAllCropsWithHarvest } from "@/modules/crops/hooks/useGetAllCropsWithHarvest";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -23,7 +23,7 @@ export const SearchBarHarvest = ({ crop, date, time_date }: Props) => {
   const navigate = useNavigate();
   const [openPopover, setOpenPopover] = useState(false);
 
-  const { query: queryCrops } = useGetAllCrops({
+  const { query: queryCrops } = useGetAllCropsWithHarvest({
     searchParameter: "",
     allRecords: true,
   });
@@ -31,10 +31,10 @@ export const SearchBarHarvest = ({ crop, date, time_date }: Props) => {
   const form = useCreateForm({
     schema: formSchemaSearchBarHarvest,
     defaultValues: {
-      crop: { id: crop },
-      filter_by_date: !!date,
-      date: !!date ? new Date(date) : undefined,
-      date_time_selection: time_date || DateTimeSelection.after,
+      crop: { id: undefined },
+      filter_by_date: false,
+      date: undefined,
+      date_time_selection: undefined,
     },
   });
 
@@ -48,6 +48,8 @@ export const SearchBarHarvest = ({ crop, date, time_date }: Props) => {
   const onSubmit = async (
     values: z.infer<typeof formSchemaSearchBarHarvest>
   ) => {
+    toast.success("Entro al submit");
+    console.log(values);
     const params = new URLSearchParams();
     if (values.crop?.id) {
       params.append("crop", values.crop.id);
@@ -65,20 +67,23 @@ export const SearchBarHarvest = ({ crop, date, time_date }: Props) => {
   const handleReset = () => {
     form.reset({
       crop: { id: undefined },
+      filter_by_date: false,
       date: undefined,
       date_time_selection: undefined,
     });
-    navigate("../all/");
+    navigate("/harvests/all");
     toast.success("Se han limpiado los filtros");
   };
 
   const isFilterByDate = form.watch("filter_by_date");
-  console.table(form.getValues());
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit((e) => {
+          console.log(e);
+          onSubmit(e);
+        })}
         id="formSearch"
         className="flex flex-col gap-3 ml-2"
       >
@@ -132,7 +137,14 @@ export const SearchBarHarvest = ({ crop, date, time_date }: Props) => {
           <Button type="submit" form="formSearch">
             Buscar
           </Button>
-          <Button onClick={handleReset}>Borrar</Button>
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              handleReset();
+            }}
+          >
+            Borrar
+          </Button>
         </div>
       </form>
     </Form>

@@ -14,6 +14,8 @@ import { useGetAllHarvests } from "../hooks/useGetAllHarvests";
 import columnsHarvest from "./columns/ColumnsTableHarvest";
 import { SearchBarHarvest } from "./SearchBarHarvest";
 import { DateTimeSelection } from "../interfaces/DateTimeSelection";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export const HarvestModule = () => {
   const navigate = useNavigate();
@@ -31,6 +33,12 @@ export const HarvestModule = () => {
     after_date,
     before_date,
   });
+
+  useEffect(() => {
+    if (query.isSuccess) {
+      query?.data?.rows.length < 1 ? toast.success("No hay datos") : null;
+    }
+  }, [query.isSuccess]);
 
   const getDateSelection = () => {
     if (after_date) return { date: after_date, type: DateTimeSelection.after };
