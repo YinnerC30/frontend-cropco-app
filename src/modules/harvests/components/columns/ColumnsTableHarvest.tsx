@@ -9,7 +9,7 @@ import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
 import { FormatDate } from "@/modules/core/helpers/FormatDate";
 import { TableHarvest } from "../../interfaces/TableHarvest";
 import { formFieldsHarvest } from "../../utils";
-import { ActionsHarvestTable } from "./ActionsHarvestTable";
+import { ActionsTableHarvest } from "./ActionsTableHarvest";
 import { useDeleteHarvest } from "../../hooks/useDeleteHarvest";
 
 export let columnsHarvest: ColumnDef<TableHarvest>[] = [
@@ -91,7 +91,7 @@ columnsHarvest.push({
 
     const { mutate } = useDeleteHarvest();
 
-    return <ActionsHarvestTable mutate={mutate} id={id} />;
+    return <ActionsTableHarvest mutate={mutate} id={id} />;
   },
 });
 

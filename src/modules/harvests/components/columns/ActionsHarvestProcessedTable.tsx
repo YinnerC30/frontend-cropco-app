@@ -2,10 +2,7 @@ import { Button } from "@/components/ui/button";
 
 import { Pencil2Icon } from "@radix-ui/react-icons";
 
-
-import {
-  DropdownMenuItem
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { ActionsTable } from "@/modules/core/components";
 import { ItemCopyIdRecord } from "@/modules/core/components/table/actions/ItemCopyIdRecord";
 import { ItemDeleteRecord } from "@/modules/core/components/table/actions/ItemDeleteRecord";
