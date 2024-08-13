@@ -17,7 +17,7 @@ interface Props {
   id: string;
 }
 
-export const ActionsHarvestTable = ({ mutate, id }: Props) => {
+export const ActionsTableHarvest = ({ mutate, id }: Props) => {
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
   return (

@@ -116,6 +116,7 @@ export const ModifyHarvestDetail = ({
             onClick={() => {
               formHarvestDetail.reset();
               setDialogOpen(false);
+              afterEffect && afterEffect(false);
             }}
           >
             Cancelar
