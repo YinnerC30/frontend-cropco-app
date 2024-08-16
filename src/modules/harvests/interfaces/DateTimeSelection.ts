@@ -1,4 +1,4 @@
 export enum DateTimeSelection {
-    after= 'AFTER',
-    before= 'BEFORE'
+    after= 'DESPUÉS',
+    before= 'ANTES'
 }
