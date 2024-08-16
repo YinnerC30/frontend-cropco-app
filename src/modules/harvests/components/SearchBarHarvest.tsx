@@ -1,4 +1,4 @@
-import { Button, Form, Separator } from "@/components";
+import { Button, Form, Label, Separator } from "@/components";
 import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalendar";
 import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
@@ -78,8 +78,6 @@ export const SearchBarHarvest = ({
   const onSubmit = async (
     values: z.infer<typeof formSchemaSearchBarHarvest>
   ) => {
-    // toast.success("Entro al submit");
-    console.log(values);
     const params = new URLSearchParams();
     if (values.crop?.id) {
       params.append("crop", values.crop.id);
@@ -123,9 +121,9 @@ export const SearchBarHarvest = ({
 
   return (
     <Form {...form}>
+      <Label className="text-lg">Barra de filtrado de registros:</Label>
       <form
         onSubmit={form.handleSubmit((e) => {
-          console.log(e);
           onSubmit(e);
         })}
         id="formSearch"

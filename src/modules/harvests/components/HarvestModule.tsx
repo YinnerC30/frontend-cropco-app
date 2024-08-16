@@ -96,7 +96,7 @@ export const HarvestModule = () => {
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
         <div className="flex justify-between">
-          <div className="w-[350px]">
+          <div className="w-[350px] border-r">
             <ScrollArea className="w-full h-[80vh]">
               <SearchBarHarvest
                 crop={crop}
