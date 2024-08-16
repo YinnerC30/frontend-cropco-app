@@ -19,7 +19,7 @@ export const FormFieldSwitch = ({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex flex-row items-center justify-between p-3 border rounded-lg shadow-sm w-72">
+        <FormItem className="flex flex-row justify-between w-72">
           <div className="space-y-0.5">
             <FormLabel>{label}</FormLabel>
             <FormDescription>{description}</FormDescription>
