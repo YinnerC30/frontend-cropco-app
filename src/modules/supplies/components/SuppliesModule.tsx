@@ -35,7 +35,6 @@ export const SuppliesModule = () => {
     <>
       <BreadCrumb finalItem={`Insumos`} />
 
-      <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
         <div className="flex items-center justify-between gap-2 w-[650px] p-1">
           {/* TODO: Arreglar la búsqueda de registros */}

@@ -93,10 +93,10 @@ export const HarvestModule = () => {
   return (
     <>
       <BreadCrumb finalItem="Cosechas" />
-      <Separator className="my-2" />
+
       <ScrollArea className="w-full h-[80vh]">
-        <div className="flex justify-between">
-          <div className="w-[350px] border-r">
+        <div className="flex justify-evenly">
+          <div className="w-[400px] border-r px-5">
             <ScrollArea className="w-full h-[80vh]">
               <SearchBarHarvest
                 crop={crop}
@@ -110,7 +110,7 @@ export const HarvestModule = () => {
             </ScrollArea>
           </div>
           <div>
-            <div className="flex items-start justify-between gap-2 w-[800px] p-1">
+            <div className="flex  justify-end  gap-2 w-[700px] p-1">
               <ToolTipTemplate content="Crear">
                 <Button
                   className="bg-blue-600 rounded-full hover:bg-blue-400"

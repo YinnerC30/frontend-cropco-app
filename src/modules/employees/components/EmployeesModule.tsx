@@ -36,7 +36,6 @@ export const EmployeesModule = () => {
     <>
       <BreadCrumb finalItem={"Empleados"} />
 
-      <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
         <div className="flex items-center justify-between gap-2 w-[750px] p-1">
           <SearchBar search={searchParameter} />

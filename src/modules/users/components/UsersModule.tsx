@@ -27,8 +27,7 @@ export const UsersModule = () => {
   return (
     <>
       <BreadCrumb finalItem={"Usuarios"} />
-      {/* <Label className="text-2xl">Usuarios del sistema</Label> */}
-      <Separator className="my-2" />
+
       <ScrollArea className="w-full h-[80vh]">
         <div className="flex items-center justify-between gap-2 w-[650px] p-1">
           <SearchBar search={searchParameter} />

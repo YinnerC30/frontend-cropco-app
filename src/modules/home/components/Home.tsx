@@ -44,10 +44,10 @@ export const Home = () => {
 
   return (
     <>
-      <div className="grid grid-cols-10">
+      <div className="grid grid-cols-12">
         <CommandDialogApp />
         {/* TODO: Mejorar header de la app */}
-        <header className="flex flex-col col-span-10 col-start-1 my-3 max-h-16">
+        <header className="flex flex-col col-span-12 col-start-1 my-3 border-b max-h-16">
           <div className="flex items-center justify-evenly">
             <Button variant="link" asChild>
               <Link to="/">CropcoApp</Link>
@@ -72,7 +72,7 @@ export const Home = () => {
             </DropdownMenu>
           </div>
         </header>
-        <nav className="flex flex-row items-center justify-center col-span-2">
+        <nav className="flex flex-row justify-center col-span-2 border-r">
           <ul className="w-11/12 ml-5 text-base font-bold">
             {/* TODO: Agregar iconos a cada uno de los módulos */}
             {routes.map((route: Route) => (
@@ -92,7 +92,7 @@ export const Home = () => {
 
           <div className="h-full"></div>
         </nav>
-        <main className="col-span-8">
+        <main className="col-span-10 ml-5">
           <Outlet />
           <Toaster position="bottom-right" closeButton />
         </main>
