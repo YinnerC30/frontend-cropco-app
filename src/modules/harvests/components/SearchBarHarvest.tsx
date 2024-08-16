@@ -1,6 +1,7 @@
-import { Button, Form } from "@/components";
+import { Button, Form, Label, Separator } from "@/components";
 import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalendar";
 import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
+import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { FormFieldSelect } from "@/modules/core/components/form/FormFieldSelect";
 import { FormFieldSwitch } from "@/modules/core/components/form/FormFieldSwitch";
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
@@ -10,10 +11,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 import { DateTimeSelection } from "../interfaces/DateTimeSelection";
+import { MinorOrMajorSelection } from "../interfaces/MinorOrMajorSelection";
 import { formFieldsSearchBarHarvest } from "../utils/formFieldsSearchBarHarvest";
 import { formSchemaSearchBarHarvest } from "../utils/formSchemaSearchBarHarvest";
-import { MinorOrMajorSelection } from "../interfaces/MinorOrMajorSelection";
-import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 
 interface Props {
   crop?: string;
@@ -65,11 +65,11 @@ export const SearchBarHarvest = ({
     form.setValue("filter_by_date", !!date);
     form.setValue("date_time_selection", time_date);
     form.setValue("date", !!date ? new Date(date) : undefined);
-    
+
     form.setValue("filter_by_total", !!total);
     form.setValue("minor_or_major_selection", type_total);
     form.setValue("total", total);
-    
+
     form.setValue("filter_by_value_pay", !!value_pay);
     form.setValue("minor_or_major_value_pay_selection", type_value_pay);
     form.setValue("value_pay", value_pay);
@@ -78,8 +78,6 @@ export const SearchBarHarvest = ({
   const onSubmit = async (
     values: z.infer<typeof formSchemaSearchBarHarvest>
   ) => {
-    // toast.success("Entro al submit");
-    console.log(values);
     const params = new URLSearchParams();
     if (values.crop?.id) {
       params.append("crop", values.crop.id);
@@ -102,7 +100,8 @@ export const SearchBarHarvest = ({
 
     if (values.filter_by_value_pay && values.value_pay) {
       const valuePayParam =
-        values.minor_or_major_value_pay_selection === MinorOrMajorSelection.MINOR
+        values.minor_or_major_value_pay_selection ===
+        MinorOrMajorSelection.MINOR
           ? "minor_value_pay"
           : "major_value_pay";
       params.append(valuePayParam, values.value_pay.toString());
@@ -122,9 +121,9 @@ export const SearchBarHarvest = ({
 
   return (
     <Form {...form}>
+      <Label className="text-lg">Barra de filtrado de registros:</Label>
       <form
         onSubmit={form.handleSubmit((e) => {
-          console.log(e);
           onSubmit(e);
         })}
         id="formSearch"
@@ -137,135 +136,160 @@ export const SearchBarHarvest = ({
           form={form}
           nameToShow="name"
           control={form.control}
-          description={formFieldsSearchBarHarvest.crop.description}
+          description={""}
           label={formFieldsSearchBarHarvest.crop.label}
           name="crop.id"
           placeholder={formFieldsSearchBarHarvest.crop.placeholder}
           readOnly={false}
         />
-        <FormFieldSwitch
-          control={form.control}
-          description={formFieldsSearchBarHarvest.filter_by_date.description}
-          label={formFieldsSearchBarHarvest.filter_by_date.label}
-          name="filter_by_date"
-          placeholder={formFieldsSearchBarHarvest.filter_by_date.placeholder}
-          readOnly={false}
-        />
-        {isFilterByDate && (
-          <>
-            <FormFieldSelect
-              items={[DateTimeSelection.after, DateTimeSelection.before]}
+        <div className="flex flex-col gap-5">
+          <div className="p-3 border rounded-lg shadow-sm w-[320px]">
+            <FormFieldSwitch
               control={form.control}
-              description={
-                formFieldsSearchBarHarvest.date_time_selection.description
-              }
-              label={formFieldsSearchBarHarvest.date_time_selection.label}
-              name="date_time_selection"
+              description={""}
+              label={formFieldsSearchBarHarvest.filter_by_date.label}
+              name="filter_by_date"
               placeholder={
-                formFieldsSearchBarHarvest.date_time_selection.placeholder
+                formFieldsSearchBarHarvest.filter_by_date.placeholder
               }
               readOnly={false}
             />
-            <FormFieldCalendar
-              control={form.control}
-              description={formFieldsSearchBarHarvest.date.description}
-              label={formFieldsSearchBarHarvest.date.label}
-              name="date"
-              placeholder={formFieldsSearchBarHarvest.date.placeholder}
-              readOnly={false}
-            />
-          </>
-        )}
-        <FormFieldSwitch
-          control={form.control}
-          description={formFieldsSearchBarHarvest.filter_by_total.description}
-          label={formFieldsSearchBarHarvest.filter_by_total.label}
-          name="filter_by_total"
-          placeholder={formFieldsSearchBarHarvest.filter_by_total.placeholder}
-          readOnly={false}
-        />
-        {isFilterByTotal && (
-          <>
-            <FormFieldSelect
-              items={[MinorOrMajorSelection.MINOR, MinorOrMajorSelection.MAJOR]}
-              control={form.control}
-              description={
-                formFieldsSearchBarHarvest.minor_or_major_selection.description
-              }
-              label={formFieldsSearchBarHarvest.minor_or_major_selection.label}
-              name="minor_or_major_selection"
-              placeholder={
-                formFieldsSearchBarHarvest.minor_or_major_selection.placeholder
-              }
-              readOnly={false}
-            />
-            <FormFieldInput
-              control={form.control}
-              description={formFieldsSearchBarHarvest.total.description}
-              label={formFieldsSearchBarHarvest.total.label}
-              name="total"
-              placeholder={formFieldsSearchBarHarvest.total.placeholder}
-              type="number"
-              readOnly={false}
-            />
-          </>
-        )}
+            {isFilterByDate && (
+              <div className="flex flex-col gap-5">
+                <Separator className="mt-2" />
+                <FormFieldSelect
+                  items={[DateTimeSelection.after, DateTimeSelection.before]}
+                  control={form.control}
+                  description={
+                    formFieldsSearchBarHarvest.date_time_selection.description
+                  }
+                  label={formFieldsSearchBarHarvest.date_time_selection.label}
+                  name="date_time_selection"
+                  placeholder={
+                    formFieldsSearchBarHarvest.date_time_selection.placeholder
+                  }
+                  readOnly={false}
+                />
+                <FormFieldCalendar
+                  control={form.control}
+                  description={formFieldsSearchBarHarvest.date.description}
+                  label={formFieldsSearchBarHarvest.date.label}
+                  name="date"
+                  placeholder={formFieldsSearchBarHarvest.date.placeholder}
+                  readOnly={false}
+                />
+              </div>
+            )}
+          </div>
 
-        <FormFieldSwitch
-          control={form.control}
-          description={
-            formFieldsSearchBarHarvest.filter_by_value_pay.description
-          }
-          label={formFieldsSearchBarHarvest.filter_by_value_pay.label}
-          name="filter_by_value_pay"
-          placeholder={
-            formFieldsSearchBarHarvest.filter_by_value_pay.placeholder
-          }
-          readOnly={false}
-        />
-        {isFilterByValuePay && (
-          <>
-            <FormFieldSelect
-              items={[MinorOrMajorSelection.MINOR, MinorOrMajorSelection.MAJOR]}
+          <div className="p-3 border rounded-lg shadow-sm w-[320px]">
+            <FormFieldSwitch
               control={form.control}
-              description={
-                formFieldsSearchBarHarvest.minor_or_major_value_pay_selection
-                  .description
-              }
-              label={
-                formFieldsSearchBarHarvest.minor_or_major_value_pay_selection
-                  .label
-              }
-              name="minor_or_major_value_pay_selection"
+              description={""}
+              label={formFieldsSearchBarHarvest.filter_by_total.label}
+              name="filter_by_total"
               placeholder={
-                formFieldsSearchBarHarvest.minor_or_major_value_pay_selection
-                  .placeholder
+                formFieldsSearchBarHarvest.filter_by_total.placeholder
               }
               readOnly={false}
             />
-            <FormFieldInput
+            {isFilterByTotal && (
+              <div className="flex flex-col gap-5">
+                <Separator className="mt-2" />
+                <FormFieldSelect
+                  items={[
+                    MinorOrMajorSelection.MINOR,
+                    MinorOrMajorSelection.MAJOR,
+                  ]}
+                  control={form.control}
+                  description={
+                    formFieldsSearchBarHarvest.minor_or_major_selection
+                      .description
+                  }
+                  label={
+                    formFieldsSearchBarHarvest.minor_or_major_selection.label
+                  }
+                  name="minor_or_major_selection"
+                  placeholder={
+                    formFieldsSearchBarHarvest.minor_or_major_selection
+                      .placeholder
+                  }
+                  readOnly={false}
+                />
+                <FormFieldInput
+                  control={form.control}
+                  description={formFieldsSearchBarHarvest.total.description}
+                  label={formFieldsSearchBarHarvest.total.label}
+                  name="total"
+                  placeholder={formFieldsSearchBarHarvest.total.placeholder}
+                  type="number"
+                  readOnly={false}
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="p-3 border rounded-lg shadow-sm w-[320px]">
+            <FormFieldSwitch
               control={form.control}
-              description={formFieldsSearchBarHarvest.value_pay.description}
-              label={formFieldsSearchBarHarvest.value_pay.label}
-              name="value_pay"
-              placeholder={formFieldsSearchBarHarvest.value_pay.placeholder}
-              type="number"
+              description={""}
+              label={formFieldsSearchBarHarvest.filter_by_value_pay.label}
+              name="filter_by_value_pay"
+              placeholder={
+                formFieldsSearchBarHarvest.filter_by_value_pay.placeholder
+              }
               readOnly={false}
             />
-          </>
-        )}
-        <div className="flex items-center justify-center gap-4">
-          <Button type="submit" form="formSearch">
-            Buscar
-          </Button>
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              handleReset();
-            }}
-          >
-            Borrar
-          </Button>
+            {isFilterByValuePay && (
+              <div className="flex flex-col gap-5">
+                <Separator className="mt-2" />
+                <FormFieldSelect
+                  items={[
+                    MinorOrMajorSelection.MINOR,
+                    MinorOrMajorSelection.MAJOR,
+                  ]}
+                  control={form.control}
+                  description={
+                    formFieldsSearchBarHarvest
+                      .minor_or_major_value_pay_selection.description
+                  }
+                  label={
+                    formFieldsSearchBarHarvest
+                      .minor_or_major_value_pay_selection.label
+                  }
+                  name="minor_or_major_value_pay_selection"
+                  placeholder={
+                    formFieldsSearchBarHarvest
+                      .minor_or_major_value_pay_selection.placeholder
+                  }
+                  readOnly={false}
+                />
+                <FormFieldInput
+                  control={form.control}
+                  description={formFieldsSearchBarHarvest.value_pay.description}
+                  label={formFieldsSearchBarHarvest.value_pay.label}
+                  name="value_pay"
+                  placeholder={formFieldsSearchBarHarvest.value_pay.placeholder}
+                  type="number"
+                  readOnly={false}
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="flex items-center gap-4">
+            <Button type="submit" form="formSearch">
+              Buscar
+            </Button>
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                handleReset();
+              }}
+            >
+              Borrar
+            </Button>
+          </div>
         </div>
       </form>
     </Form>

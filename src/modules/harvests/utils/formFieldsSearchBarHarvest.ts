@@ -3,7 +3,7 @@ import { CustomFormField } from "@/modules/core/interfaces/CustomFormField";
 export const formFieldsSearchBarHarvest: Record<string, CustomFormField> = {
   crop: {
     name: "crop",
-    label: "Cultivo:",
+    label: "Filtrar por cultivo:",
     placeholder: "Selecciona un cultivo",
     description: "Nombre del cultivo al cual se le realizo la cosecha",
   },
@@ -27,7 +27,7 @@ export const formFieldsSearchBarHarvest: Record<string, CustomFormField> = {
   },
   filter_by_total: {
     name: "filter_by_total",
-    label: "Filtrar por total:",
+    label: "Filtrar por total cosechado:",
     placeholder: "",
     description: "Activa la opción para filtrar por este modo",
   },
@@ -45,7 +45,7 @@ export const formFieldsSearchBarHarvest: Record<string, CustomFormField> = {
   },
   filter_by_value_pay: {
     name: "filter_by_value_pay",
-    label: "Filtrar por total:",
+    label: "Filtrar por valor a pagar:",
     placeholder: "",
     description: "Activa la opción para filtrar por este modo",
   },

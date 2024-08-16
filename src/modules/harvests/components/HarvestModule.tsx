@@ -17,6 +17,7 @@ import { DateTimeSelection } from "../interfaces/DateTimeSelection";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { MinorOrMajorSelection } from "../interfaces/MinorOrMajorSelection";
+import { Label } from "@/components";
 
 export const HarvestModule = () => {
   const navigate = useNavigate();
@@ -94,33 +95,41 @@ export const HarvestModule = () => {
       <BreadCrumb finalItem="Cosechas" />
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
-        <SearchBarHarvest
-          crop={crop}
-          date={date}
-          time_date={type}
-          total={total}
-          type_total={typeTotal}
-          value_pay={value_pay}
-          type_value_pay={typeValuePay}
-        />
-        <div className="flex items-start justify-between gap-2 w-[800px] p-1">
-          <ToolTipTemplate content="Crear">
-            <Button
-              className="bg-blue-600 rounded-full hover:bg-blue-400"
-              onClick={() => navigate("../create")}
-            >
-              <PlusIcon className="w-4 h-4 mr-2" /> Crear
-            </Button>
-          </ToolTipTemplate>
-        </div>
-        <div className="w-[800px]">
-          <DataTable
-            columns={columnsHarvest}
-            rows={query.data?.rows ?? 0}
-            data={query.data}
-            pagination={pagination}
-            setPagination={setPagination}
-          />
+        <div className="flex justify-between">
+          <div className="w-[350px] border-r">
+            <ScrollArea className="w-full h-[80vh]">
+              <SearchBarHarvest
+                crop={crop}
+                date={date}
+                time_date={type}
+                total={total}
+                type_total={typeTotal}
+                value_pay={value_pay}
+                type_value_pay={typeValuePay}
+              />
+            </ScrollArea>
+          </div>
+          <div>
+            <div className="flex items-start justify-between gap-2 w-[800px] p-1">
+              <ToolTipTemplate content="Crear">
+                <Button
+                  className="bg-blue-600 rounded-full hover:bg-blue-400"
+                  onClick={() => navigate("../create")}
+                >
+                  <PlusIcon className="w-4 h-4 mr-2" /> Crear
+                </Button>
+              </ToolTipTemplate>
+            </div>
+            <div className="w-[700px]">
+              <DataTable
+                columns={columnsHarvest}
+                rows={query.data?.rows ?? 0}
+                data={query.data}
+                pagination={pagination}
+                setPagination={setPagination}
+              />
+            </div>
+          </div>
         </div>
       </ScrollArea>
     </>
