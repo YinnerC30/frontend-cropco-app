@@ -21,7 +21,7 @@ export const ModifySale = () => {
   const dispatch: AppDispatch = useDispatch();
   const { data, isLoading, isError } = useGetSale(id!);
   const { mutate, isPending, isSuccess } = usePatchSale(id!);
-  const { quantity, total, details,  } = useSaleForm();
+  const { quantity, total, details } = useSaleForm();
   const navigate = useNavigate();
 
   // Handle form submission
