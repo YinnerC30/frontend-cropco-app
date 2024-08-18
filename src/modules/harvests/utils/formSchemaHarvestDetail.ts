@@ -3,7 +3,7 @@ import { z } from "zod";
 export const formSchemaHarvestDetail = z.object({
   employee: z.object({
     id: z
-      .string()
+      .string({ required_error: "El empleado es un campo obligatorio" })
       .min(36, {
         message: "El empleado es un campo obligatorio",
       })

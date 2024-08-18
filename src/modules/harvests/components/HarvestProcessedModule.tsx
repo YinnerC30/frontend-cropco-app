@@ -66,7 +66,7 @@ export const HarvestProcessedModule = () => {
         ]}
         finalItem={`Inventario`}
       />
-      <Label className="text-2xl">Inventario de la cosecha</Label>
+
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
         <div className="flex flex-col gap-2 ml-1">
