@@ -1,4 +1,4 @@
-import { SaleModule } from "../components";
+import { SaleModule } from "../components/SaleModule";
 import { CreateSale } from "../components/CreateSale";
 import { ModifySale } from "../components/ModifySale";
 import { ViewSale } from "../components/ViewSale";
