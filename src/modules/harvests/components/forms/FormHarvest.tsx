@@ -73,7 +73,9 @@ export const FormHarvest = ({
     form.setValue("details", details);
   }, [details]);
 
-  if (queryCrops.isLoading) return <Loading />;
+  if (queryCrops.isLoading) {
+    return <Loading />;
+  }
 
   if (queryCrops.isError) {
     return <ErrorLoading />;

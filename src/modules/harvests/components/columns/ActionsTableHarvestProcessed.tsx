@@ -19,7 +19,7 @@ interface Props {
   values: any;
 }
 
-export const ActionsHarvestProcessedTable = ({ mutate, id, values }: Props) => {
+export const ActionsTableHarvestProcessed = ({ mutate, id, values }: Props) => {
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
   const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
 

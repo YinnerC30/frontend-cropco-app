@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import { useDeleteHarvestProcessed } from "../../hooks/useDeleteHarvestProcessed";
 import { HarvestProcessed } from "../../interfaces/HarvestProcessed";
 import { formFieldsHarvestProcessed } from "../../utils/formFieldsHarvestProcessed";
-import { ActionsHarvestProcessedTable } from "./ActionsHarvestProcessedTable";
+import { ActionsTableHarvestProcessed } from "./ActionsTableHarvestProcessed";
 import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
 
 export let columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
@@ -70,7 +70,7 @@ columnsHarvestProcessed.push({
     }
 
     return (
-      <ActionsHarvestProcessedTable
+      <ActionsTableHarvestProcessed
         mutate={mutate}
         id={row.original.id}
         values={values}

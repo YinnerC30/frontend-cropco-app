@@ -64,7 +64,9 @@ export const FormHarvestDetails = ({
     );
   };
 
-  if (queryEmployees.isLoading) return <Loading />;
+  if (queryEmployees.isLoading) {
+    return <Loading />;
+  }
 
   if (queryEmployees.isError) {
     return <ErrorLoading />;

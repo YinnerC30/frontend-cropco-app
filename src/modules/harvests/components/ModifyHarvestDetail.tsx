@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
 
-import { CaretSortIcon, Cross2Icon } from "@radix-ui/react-icons";
-
-import { CheckIcon } from "lucide-react";
+import { Cross2Icon } from "@radix-ui/react-icons";
 
 import {
   Dialog,
@@ -12,44 +10,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 
-import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/redux/store";
 import { toast } from "sonner";
 
 import { calculateTotal, modify } from "../utils/harvestSlice";
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { ScrollArea } from "@/components/ui/scroll-area";
-
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import { Employee } from "@/modules/employees/interfaces/Employee";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { useEffect } from "react";
 import { z } from "zod";
 import { useHarvestDetailForm } from "../hooks/useHarvestDetailForm";
-import { formFieldsHarvestDetail, formSchemaHarvestDetail } from "../utils";
+import { formSchemaHarvestDetail } from "../utils";
 import { FormHarvestDetails } from "./forms/FormHarvestDetails";
 
 interface Props {
