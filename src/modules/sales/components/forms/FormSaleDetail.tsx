@@ -1,12 +1,12 @@
+import { Form } from "@/components";
+import { Client } from "@/modules/clients/interfaces/Client";
+import { ErrorLoading, Loading } from "@/modules/core/components";
+import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
+import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { FormProps } from "@/modules/core/interfaces/FormProps";
 import { useEffect } from "react";
 import { useSaleDetailForm } from "../../hooks/useSaleDetailForm";
-import { Client } from "@/modules/clients/interfaces/Client";
 import { SaleDetail } from "../../interfaces";
-import { ErrorLoading, Loading } from "@/modules/core/components";
-import { Form } from "@/components";
-import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
-import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { formFieldsSaleDetail } from "../../utils";
 
 export const FormSaleDetail = ({
@@ -63,6 +63,19 @@ export const FormSaleDetail = ({
     onSubmit(data);
   };
 
+  const filterCropsToShow = (): any[] => {
+    return (
+      queryHarvestStock?.data?.rows.filter((record: any) => {
+        const state = details.some(
+          (item: SaleDetail) => item.crop.id === record.id
+        );
+        if (state && record.id !== defaultValues?.crop?.id) {
+          return;
+        }
+        return record;
+      }) || []
+    );
+  };
   const filterClientsToShow = (): Client[] => {
     return (
       queryClients?.data?.rows.filter((record: Client) => {
@@ -95,7 +108,7 @@ export const FormSaleDetail = ({
           <FormFieldCommand
             openPopover={openPopoverHarvestStock}
             setOpenPopover={setOpenPopoverHarvestStock}
-            data={queryHarvestStock?.data?.rows ?? []}
+            data={filterCropsToShow() ?? []}
             form={formSaleDetail}
             nameToShow={"name"}
             control={formSaleDetail.control}

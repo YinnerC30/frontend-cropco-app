@@ -9,6 +9,7 @@ import { formSchemaSale } from "../utils";
 import { reset } from "../utils/saleSlice";
 
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { useEffect } from "react";
 import { FormSale } from "./forms/FormSale";
 
 export const CreateSale = () => {
@@ -16,6 +17,10 @@ export const CreateSale = () => {
   const { mutate, isSuccess, isPending } = usePostSale();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(reset());
+  }, []);
 
   const onSubmitSale = (
     values: z.infer<typeof formSchemaSale>,

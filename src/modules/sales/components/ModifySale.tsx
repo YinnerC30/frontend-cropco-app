@@ -5,13 +5,12 @@ import { AppDispatch } from "@/redux/store";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "sonner";
 import { z } from "zod";
 import { useGetSale, usePatchSale } from "../hooks";
 import { useSaleForm } from "../hooks/useSaleForm";
 import { SaleDetail } from "../interfaces";
 import { formSchemaSale } from "../utils";
-import { add, calculateTotal, reset } from "../utils/saleSlice";
+import { reset } from "../utils/saleSlice";
 
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import { ConvertStringToDate } from "@/modules/core/helpers/ConvertStringToDate";
@@ -22,33 +21,11 @@ export const ModifySale = () => {
   const dispatch: AppDispatch = useDispatch();
   const { data, isLoading, isError } = useGetSale(id!);
   const { mutate, isPending, isSuccess } = usePatchSale(id!);
-  const { quantity, total, details, formSale } = useSaleForm();
+  const { quantity, total, details,  } = useSaleForm();
   const navigate = useNavigate();
-
-  // Reset state on component mount
-  useEffect(() => {
-    dispatch(reset());
-  }, [dispatch]);
-
-  // Populate form and store details when data is available
-  useEffect(() => {
-    if (data && details.length === 0) {
-      formSale.reset({
-        ...data,
-        date: new Date(`${data.date}T00:00:00-05:00`),
-      });
-      dispatch(add(data.details));
-      dispatch(calculateTotal());
-    }
-  }, [data, details.length, formSale, dispatch]);
 
   // Handle form submission
   const onSubmitSale = (values: z.infer<typeof formSchemaSale>) => {
-    if (details.length === 0) {
-      toast.error("Debes registrar al menos 1 venta");
-      return;
-    }
-
     mutate({
       id,
       ...values,

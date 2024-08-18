@@ -76,6 +76,8 @@ export function DataTableForm({
   const messageCountPage =
     pageCount > 0 ? pageText : `Página ${pageIndex} de ${pageCount}`;
 
+  
+
   return (
     <>
       <div className="w-[600px]">
@@ -89,7 +91,7 @@ export function DataTableForm({
             }
             onChange={(event) =>
               table
-                .getColumn("employee_first_name")
+                .getColumn(nameColumnToFilter)
                 ?.setFilterValue(event.target.value)
             }
             className="max-w-sm"

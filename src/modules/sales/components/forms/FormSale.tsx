@@ -44,14 +44,12 @@ export const FormSale = ({
 
   useEffect(() => {
     dispatch(reset());
-  }, []);
-
-  useEffect(() => {
     if (defaultValues) {
+      const { details, ...rest } = defaultValues;
       formSale.reset({
-        ...defaultValues,
+        ...rest,
       });
-      dispatch(add(defaultValues.details));
+      dispatch(add(details));
       dispatch(calculateTotal());
     }
   }, []);
