@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { formSchemaSaleDetail } from "./formSchemaSaleDetail";
 
 export const formSchemaSale = z.object({
   date: z.date({ required_error: "La fecha es un campo obligatorio" }),
@@ -17,4 +18,12 @@ export const formSchemaSale = z.object({
       invalid_type_error: `El valor debe ser booleano`,
     })
     .default(false),
+  details: z
+    .array(formSchemaSaleDetail, {
+      required_error:
+        "Debes registrar las ventas que se han hecho a los clientes",
+    })
+    .nonempty({
+      message: "Debes registrar la venta de al menos a 1 cliente",
+    }),
 });

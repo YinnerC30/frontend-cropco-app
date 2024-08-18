@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import {
   DataTable,
   ErrorLoading,
@@ -13,8 +13,7 @@ import {
   ToolTipTemplate,
 } from "../../core/components";
 import { useGetAllSales } from "../hooks";
-import columnsSale from "./ColumnsTableSale";
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import columnsSale from "./columns/ColumnsTableSale";
 
 export const SaleModule = () => {
   const navigate = useNavigate();
@@ -37,7 +36,6 @@ export const SaleModule = () => {
         items={[{ link: "/sales/all", name: "Ventas" }]}
         finalItem={`Todas las ventas`}
       />
-      <Label className="text-2xl">Ventas</Label>
 
       <Separator className="my-2" />
 

@@ -4,14 +4,14 @@ import { ArrowUpDown } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { ActionsTable } from "@/modules/core/components";
+import { Badge } from "@/components";
 import { FormatDate } from "@/modules/core/helpers/FormatDate";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
-import { useDeleteSale } from "../hooks";
-import { Sale } from "../interfaces";
-import { formFieldsSale } from "../utils";
-import { Badge } from "@/components";
+import { useDeleteSale } from "../../hooks";
+import { Sale } from "../../interfaces";
+import { formFieldsSale } from "../../utils";
+import { ActionsTableSale } from "./ActionsTableSale";
 
 export let columnsSale: ColumnDef<Sale>[] = [
   {
@@ -100,7 +100,7 @@ columnsSale.push({
 
     const { mutate } = useDeleteSale();
 
-    return <ActionsTable mutate={mutate} id={id} />;
+    return <ActionsTableSale mutate={mutate} id={id} />;
   },
 });
 

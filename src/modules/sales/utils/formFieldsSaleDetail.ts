@@ -1,8 +1,8 @@
 import { CustomFormField } from "@/modules/core/interfaces/CustomFormField";
 
 export const formFieldsSaleDetail: Record<string, CustomFormField> = {
-  first_name: {
-    name: "first_name",
+  client: {
+    name: "client",
     label: "Cliente:",
     placeholder: "Selecciona",
     description: "Selecciona el nombre del cliente",
@@ -16,13 +16,13 @@ export const formFieldsSaleDetail: Record<string, CustomFormField> = {
   total: {
     name: "total",
     label: "Total:",
-    placeholder: "",
+    placeholder: "0",
     description: "Introduce la cantidad de dinero a recibir",
   },
   quantity: {
     name: "quantity",
     label: "Cantidad:",
-    placeholder: "",
+    placeholder: "0",
     description: "Introduce la cantidad a vender",
   },
 };

@@ -4,6 +4,7 @@ import { formSchemaSaleDetail } from "../utils/formSchemaSaleDetail";
 import { useGetAllClients } from "@/modules/clients/hooks/useGetAllClients";
 import { useGetAllHarvestsStock } from "@/modules/harvests/hooks/useGetAllHarvestsStock";
 import { useAppSelector } from "@/redux/store";
+import { useState } from "react";
 
 const defaultValuesSaleDetail = {
   client: {
@@ -14,8 +15,8 @@ const defaultValuesSaleDetail = {
     id: undefined,
     name: undefined,
   },
-  total: 0,
-  quantity: 0,
+  total: undefined,
+  quantity: undefined,
 };
 
 export const useSaleDetailForm = () => {
@@ -28,10 +29,17 @@ export const useSaleDetailForm = () => {
     schema: formSchemaSaleDetail,
     defaultValues: defaultValuesSaleDetail,
   });
+
+  const [openPopoverHarvestStock, setOpenPopoverHarvestStock] = useState(false);
+  const [openPopoverClient, setOpenPopoverClient] = useState(false);
   return {
     formSaleDetail,
     details,
     queryClients,
     queryHarvestStock,
+    openPopoverClient,
+    setOpenPopoverClient,
+    openPopoverHarvestStock,
+    setOpenPopoverHarvestStock,
   };
 };

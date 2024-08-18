@@ -25,5 +25,11 @@ export const formFieldsSale: Record<string, CustomFormField> = {
     placeholder: "",
     description: "¿Esta pendiente por cobrar?",
   },
+  details: {
+    name: "details",
+    label: "Ventas realizadas por cliente:",
+    placeholder: "",
+    description: "",
+  },
   
 };

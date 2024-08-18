@@ -1,4 +1,4 @@
-import { es } from "date-fns/locale";
+import { es, fi } from "date-fns/locale";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -43,6 +43,7 @@ export const FormFieldCalendar = ({
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
+                    ref={field.ref}
                     disabled={readOnly}
                     variant={"outline"}
                     className={cn(
