@@ -1,8 +1,9 @@
+import { DateTimeSelection } from "@/modules/core/interfaces/DateTimeSelection";
+import { MinorOrMajorSelection } from "@/modules/core/interfaces/MinorOrMajorSelection";
+import { YesORNotSelection } from "@/modules/core/interfaces/YesORNotSelection";
 import { z } from "zod";
-import { DateTimeSelection } from "../../core/interfaces/DateTimeSelection";
-import { MinorOrMajorSelection } from "../../core/interfaces/MinorOrMajorSelection";
 
-export const formSchemaSearchBarHarvest = z.object({
+export const formSchemaSearchBarSale = z.object({
   crop: z
     .object({
       id: z.string().optional(),
@@ -40,9 +41,9 @@ export const formSchemaSearchBarHarvest = z.object({
       },
     })
     .optional(),
-  filter_by_value_pay: z.boolean().default(false).optional(),
-  value_pay: z.coerce.number().optional(),
-  minor_or_major_value_pay_selection: z
+  filter_by_quantity: z.boolean().default(false).optional(),
+  quantity: z.coerce.number().optional(),
+  minor_or_major_quantity_selection: z
     .nativeEnum(MinorOrMajorSelection, {
       errorMap: (issue, _ctx) => {
         switch (issue.code) {
@@ -50,6 +51,21 @@ export const formSchemaSearchBarHarvest = z.object({
             return { message: "Debe seleccionar una opción." };
           case "invalid_enum_value":
             return { message: "Debe seleccionar MENOR o MAYOR." };
+          default:
+            return { message: "Error en la selección de tipo." };
+        }
+      },
+    })
+    .optional(),
+  filter_by_is_receivable: z.boolean().default(false).optional(),
+  is_receivable: z
+    .nativeEnum(YesORNotSelection, {
+      errorMap: (issue, _ctx) => {
+        switch (issue.code) {
+          case "invalid_type":
+            return { message: "Debe seleccionar una opción." };
+          case "invalid_enum_value":
+            return { message: "Debe seleccionar SI o NO." };
           default:
             return { message: "Error en la selección de tipo." };
         }

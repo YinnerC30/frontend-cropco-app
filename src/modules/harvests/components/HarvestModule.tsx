@@ -1,23 +1,21 @@
 import { Button } from "@/components/ui/button";
-import { PlusIcon } from "@radix-ui/react-icons";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { PlusIcon } from "@radix-ui/react-icons";
+import { useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
 import {
   DataTable,
   ErrorLoading,
   Loading,
   ToolTipTemplate,
 } from "../../core/components";
+import { DateTimeSelection } from "../../core/interfaces/DateTimeSelection";
+import { MinorOrMajorSelection } from "../../core/interfaces/MinorOrMajorSelection";
 import { useGetAllHarvests } from "../hooks/useGetAllHarvests";
 import columnsHarvest from "./columns/ColumnsTableHarvest";
 import { SearchBarHarvest } from "./SearchBarHarvest";
-import { DateTimeSelection } from "../interfaces/DateTimeSelection";
-import { useEffect } from "react";
-import { toast } from "sonner";
-import { MinorOrMajorSelection } from "../interfaces/MinorOrMajorSelection";
-import { Label } from "@/components";
 
 export const HarvestModule = () => {
   const navigate = useNavigate();
