@@ -5,15 +5,15 @@ import { ArrowUpDown } from "lucide-react";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { FormatDate } from "@/modules/core/helpers/FormatDate";
+import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { useDeleteHarvestProcessed } from "../../hooks/useDeleteHarvestProcessed";
 import { HarvestProcessed } from "../../interfaces/HarvestProcessed";
 import { formFieldsHarvestProcessed } from "../../utils/formFieldsHarvestProcessed";
 import { ActionsTableHarvestProcessed } from "./ActionsTableHarvestProcessed";
-import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
 
-export let columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
+export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
   {
     accessorKey: formFieldsHarvestProcessed.date.name,
     cell: ({ row }) => {
@@ -52,31 +52,30 @@ export let columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
       );
     },
   },
-];
+  {
+    id: "actions",
+    cell: ({ row }: any) => {
+      const { id } = useParams();
 
-columnsHarvestProcessed.push({
-  id: "actions",
-  cell: ({ row }: any) => {
-    const { id } = useParams();
+      const values = row.original;
 
-    const values = row.original;
+      const queryClient = useQueryClient();
 
-    const queryClient = useQueryClient();
+      const { mutate, isSuccess } = useDeleteHarvestProcessed();
 
-    const { mutate, isSuccess } = useDeleteHarvestProcessed();
+      if (isSuccess) {
+        queryClient.invalidateQueries({ queryKey: ["harvest", id] });
+      }
 
-    if (isSuccess) {
-      queryClient.invalidateQueries({ queryKey: ["harvest", id] });
-    }
-
-    return (
-      <ActionsTableHarvestProcessed
-        mutate={mutate}
-        id={row.original.id}
-        values={values}
-      />
-    );
+      return (
+        <ActionsTableHarvestProcessed
+          mutate={mutate}
+          id={row.original.id}
+          values={values}
+        />
+      );
+    },
   },
-});
+];
 
 export default columnsHarvestProcessed;

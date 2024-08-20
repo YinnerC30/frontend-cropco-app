@@ -4,15 +4,15 @@ import { ArrowUpDown } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
+import { FormatDate } from "@/modules/core/helpers/FormatDate";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
-import { FormatDate } from "@/modules/core/helpers/FormatDate";
+import { useDeleteHarvest } from "../../hooks/useDeleteHarvest";
 import { TableHarvest } from "../../interfaces/TableHarvest";
 import { formFieldsHarvest } from "../../utils";
 import { ActionsTableHarvest } from "./ActionsTableHarvest";
-import { useDeleteHarvest } from "../../hooks/useDeleteHarvest";
 
-export let columnsHarvest: ColumnDef<TableHarvest>[] = [
+export const columnsHarvest: ColumnDef<TableHarvest>[] = [
   {
     accessorKey: formFieldsHarvest.date.name,
     cell: ({ row }) => {
@@ -82,17 +82,16 @@ export let columnsHarvest: ColumnDef<TableHarvest>[] = [
       );
     },
   },
-];
+  {
+    id: "actions",
+    cell: ({ row }: any) => {
+      const { id } = row.original;
 
-columnsHarvest.push({
-  id: "actions",
-  cell: ({ row }: any) => {
-    const { id } = row.original;
+      const { mutate } = useDeleteHarvest();
 
-    const { mutate } = useDeleteHarvest();
-
-    return <ActionsTableHarvest mutate={mutate} id={id} />;
+      return <ActionsTableHarvest mutate={mutate} id={id} />;
+    },
   },
-});
+];
 
 export default columnsHarvest;
