@@ -76,6 +76,7 @@ export const ModifySaleDetail = ({
             variant={"destructive"}
             onClick={() => {
               setDialogOpen(false);
+              afterEffect(false);
             }}
           >
             Cancelar
