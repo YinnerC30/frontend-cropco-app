@@ -87,6 +87,7 @@ export const ModifyWorkDetail = ({
                 onClick={() => {
                   formWorkDetail.reset();
                   setDialogOpen(false);
+                  afterEffect(false);
                 }}
               >
                 Cancelar

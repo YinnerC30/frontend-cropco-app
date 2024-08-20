@@ -16,6 +16,10 @@ interface Props {
 
 export const ActionsTableWorks = ({ mutate, id }: Props) => {
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
+
+  const handleDelete = () => {
+    mutate(id);
+  };
   return (
     <ActionsTable
       openDropDownMenu={openDropDownMenu}
@@ -23,9 +27,8 @@ export const ActionsTableWorks = ({ mutate, id }: Props) => {
     >
       <ItemCopyIdRecord id={id} setOpenDropDownMenu={setOpenDropDownMenu} />
       <ItemDeleteRecord
-        id={id}
         setOpenDropDownMenu={setOpenDropDownMenu}
-        mutate={mutate}
+        action={handleDelete}
       />
       <ItemModifyRecord id={id} />
       <ItemViewRecord id={id} />
