@@ -2,6 +2,7 @@ import { ActionsTable } from "@/modules/core/components";
 import { ItemCopyIdRecord } from "@/modules/core/components/table/actions/ItemCopyIdRecord";
 import { ItemDeleteRecord } from "@/modules/core/components/table/actions/ItemDeleteRecord";
 import { ItemModifyRecord } from "@/modules/core/components/table/actions/ItemModifyRecord";
+import { ItemViewRecord } from "@/modules/core/components/table/actions/ItemViewRecord";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -27,6 +28,7 @@ export const ActionsTableWorks = ({ mutate, id }: Props) => {
         mutate={mutate}
       />
       <ItemModifyRecord id={id} />
+      <ItemViewRecord id={id} />
     </ActionsTable>
   );
 };

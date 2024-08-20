@@ -32,11 +32,7 @@ export const FormWork = ({
   const navigate = useNavigate();
   const {
     formWork,
-    queryCrops: {
-      data: { rows },
-      isLoading,
-      isError,
-    },
+    queryCrops,
     details,
     total,
     isOpenDialogForm,
@@ -74,11 +70,11 @@ export const FormWork = ({
     formWork.setValue("details", details);
   }, [details]);
 
-  if (isLoading) {
+  if (queryCrops.isLoading) {
     return <Loading />;
   }
 
-  if (isError) {
+  if (queryCrops.isError) {
     return <ErrorLoading />;
   }
 
@@ -102,7 +98,7 @@ export const FormWork = ({
         <FormFieldCommand
           openPopover={openPopoverCommand}
           setOpenPopover={setOpenPopoverCommand}
-          data={rows ?? []}
+          data={queryCrops?.data?.rows ?? []}
           form={formWork}
           nameToShow={"name"}
           control={formWork.control}

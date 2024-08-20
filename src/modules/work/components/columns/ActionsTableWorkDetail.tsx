@@ -32,15 +32,17 @@ import { calculateTotal, remove } from "../../utils/workSlice";
 import { ModifyWorkDetail } from "../ModifyWorkDetail";
 
 export const ActionsTableWorkDetail = (workDetail: any) => {
+  console.log(workDetail);
   const dispatch = useAppDispatch();
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleDelete = () => {
+    console.log("Se dio clic");
     dispatch(remove(workDetail));
     toast.success(
-      `Se ha eliminado el trabajo del empleado ${workDetail.employee.first_name}`
+      `Se ha eliminado el trabajo del empleado ${workDetail?.employee?.first_name}`
     );
     dispatch(calculateTotal());
     setOpenDropDownMenu(false);
