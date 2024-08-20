@@ -1,6 +1,6 @@
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { Work } from "../interfaces/Work";
-import { getWorkById } from "../services/getOne";
+import { getWorkById } from "../services/getWorkById";
 
 export function useGetWork(id: string): UseQueryResult<Work, Error> {
   const query = useQuery({

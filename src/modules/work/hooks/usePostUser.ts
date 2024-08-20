@@ -6,7 +6,7 @@ import {
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { Work } from "../interfaces/Work";
-import { createWork } from "../services/create";
+import { createWork } from "../services/createWork";
 
 export function usePostWork(): UseMutationResult<
   Work,

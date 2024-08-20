@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
-import { getWorks } from "../services/getAll";
+import { getWorks } from "../services/getWorks";
 
 interface Props {
   searchParameter: string;

@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
-import { updateWork } from "../services/update";
+import { updateWork } from "../services/updateWork";
 import { Work } from "../interfaces/Work";
 
 export function usePatchWork(
