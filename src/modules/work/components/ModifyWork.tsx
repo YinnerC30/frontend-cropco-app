@@ -57,13 +57,7 @@ export const ModifyWork = () => {
     <>
       <BreadCrumb
         items={[{ link: "/works/all", name: "Trabajos" }]}
-        finalItem={`${data?.crop.name!} | ${format(
-          data?.date! + "T00:00:00-05:00",
-          "PPP",
-          {
-            locale: es,
-          }
-        )}`}
+        finalItem={`Modificar`}
       />
 
       <Separator className="my-2" />

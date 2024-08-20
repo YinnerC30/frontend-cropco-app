@@ -4,7 +4,6 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import {
   DataTable,

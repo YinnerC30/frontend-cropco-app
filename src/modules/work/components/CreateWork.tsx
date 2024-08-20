@@ -46,7 +46,7 @@ export const CreateWork = () => {
     <>
       <BreadCrumb
         items={[{ link: "/works/all", name: "Trabajos" }]}
-        finalItem={`Crear`}
+        finalItem={`Registro`}
       />
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">

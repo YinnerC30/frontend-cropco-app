@@ -27,11 +27,7 @@ export const WorkModule = () => {
   }
   return (
     <>
-      <BreadCrumb
-        items={[{ link: "/works/all", name: "Trabajos" }]}
-        finalItem={`Todos los trabajos`}
-      />
-      <Label className="text-2xl">Trabajos</Label>
+      <BreadCrumb finalItem={`Trabajos`} />
 
       <Separator className="my-2" />
 
