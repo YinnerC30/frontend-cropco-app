@@ -1,13 +1,11 @@
 import { AppDispatch } from "@/redux/store";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import { useGetWork } from "../hooks/useGetWork";
 import { usePatchWork } from "../hooks/usePatchUser";
-import { useWorkForm } from "../hooks/useWorkForm";
 import { formSchemaWork } from "../utils/formSchemaWork";
-import { add, calculateTotal, reset } from "../utils/workSlice";
+import { reset } from "../utils/workSlice";
 
 import { ScrollArea, Separator } from "@/components";
 import { ErrorLoading, Loading } from "@/modules/core/components";
@@ -16,9 +14,9 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { ConvertStringToDate } from "../../core/helpers/ConvertStringToDate";
 import { WorkDetail } from "../interfaces/WorkDetail";
 import { FormWork } from "./form/FormWork";
-import { ConvertStringToDate } from "../../core/helpers/ConvertStringToDate";
 
 export const ModifyWork = () => {
   // FIX: Error al cargar datos, no espera a que llegue la información y da undefined al ingresar a la data
