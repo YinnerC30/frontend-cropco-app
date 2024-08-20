@@ -20,7 +20,7 @@ const saleRoutes = {
     },
     {
       path: "view/:id",
-      element: <ViewSale />, //TODO: Cambiar este componente por el correcto
+      element: <ViewSale />,
     },
   ],
 };

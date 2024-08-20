@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
-import { createSale } from "../services/create";
+import { createSale } from "../services/createSale";
 
 export const usePostSale = () => {
   const queryClient = useQueryClient();
