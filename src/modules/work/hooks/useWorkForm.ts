@@ -21,6 +21,7 @@ export const useWorkForm = () => {
 
   const { details, total } = useAppSelector((state: RootState) => state.work);
 
+  const [openPopoverCommand, setOpenPopoverCommand] = useState(false);
   const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
   const [isOpenDialogModifyForm, setIsOpenDialogModifyForm] = useState(false);
   const [workDetail, setWorkDetail] = useState({});
@@ -40,5 +41,7 @@ export const useWorkForm = () => {
     setIsOpenDialogModifyForm,
     workDetail,
     setWorkDetail,
+    openPopoverCommand,
+    setOpenPopoverCommand
   };
 };
