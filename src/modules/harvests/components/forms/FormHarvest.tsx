@@ -146,7 +146,7 @@ export const FormHarvest = ({
           setRecord={!readOnly && setHarvestDetail}
           sideEffect={!readOnly && setIsOpenDialogModifyForm}
           nameColumnToFilter={"employee_first_name"}
-          placeholderInputToFilter={"Buscar empleado por nose..."}
+          placeholderInputToFilter={"Buscar empleado por nombre..."}
         />
       </FormFieldDataTable>
 

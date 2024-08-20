@@ -1,11 +1,9 @@
-import { Button } from "@/components/ui/button";
 
-import { Pencil2Icon } from "@radix-ui/react-icons";
 
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { ActionsTable } from "@/modules/core/components";
 import { ItemCopyIdRecord } from "@/modules/core/components/table/actions/ItemCopyIdRecord";
 import { ItemDeleteRecord } from "@/modules/core/components/table/actions/ItemDeleteRecord";
+import { ItemModifyRecordDetail } from "@/modules/core/components/table/actions/ItemModifyRecordDetail";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { useState } from "react";
 import { ModifyHarvestProcessed } from "../ModifyHarvestProcessed";
@@ -35,21 +33,16 @@ export const ActionsTableHarvestProcessed = ({ mutate, id, values }: Props) => {
         action={handleDelete}
         setOpenDropDownMenu={setOpenDropDownMenu}
       />
-      <DropdownMenuItem asChild>
-        <>
-          <Button variant="ghost" onClick={() => setIsOpenDialogForm(true)}>
-            <Pencil2Icon className="w-full h-4 mr-2" /> Modificar
-          </Button>
-          {isOpenDialogForm && (
-            <ModifyHarvestProcessed
-              isOpenDialogForm={isOpenDialogForm}
-              setIsOpenDialogForm={setIsOpenDialogForm}
-              defaultValues={values}
-              afterEffect={setOpenDropDownMenu}
-            />
-          )}
-        </>
-      </DropdownMenuItem>
+      <ItemModifyRecordDetail>
+        {isOpenDialogForm && (
+          <ModifyHarvestProcessed
+            isOpenDialogForm={isOpenDialogForm}
+            setIsOpenDialogForm={setIsOpenDialogForm}
+            defaultValues={values}
+            afterEffect={setOpenDropDownMenu}
+          />
+        )}
+      </ItemModifyRecordDetail>
     </ActionsTable>
   );
 };
