@@ -35,7 +35,8 @@ export const CreateHarvest = () => {
       total,
       value_pay,
       details: details.map((item: HarvestDetail) => {
-        return { ...item, employee: { id: item.employee.id } };
+        const {id, ...rest} = item;
+        return { ...rest, employee: { id: rest.employee.id } };
       }),
     });
   };

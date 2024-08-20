@@ -41,14 +41,9 @@ export const ModifyHarvestDetail = ({
   const onSubmitHarvestDetail = (
     values: z.infer<typeof formSchemaHarvestDetail>
   ) => {
-    const oldEmployee = {
-      id: defaultValues.employee.id,
-    };
-
     dispatch(
       modify({
-        detail: values,
-        oldEmployee,
+        detail: { ...values, id: defaultValues.id },
       })
     );
     dispatch(calculateTotal());

@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { ObjectWithId } from "@/modules/core/interfaces/ObjectWithId";
 import { HarvestDetail } from "../interfaces/HarvestDetail";
 import { HarvestProcessed } from "../interfaces/HarvestProcessed";
 
@@ -13,7 +12,6 @@ interface HarvestState {
 
 interface ModifyHarvestDetail {
   detail: HarvestDetail;
-  oldEmployee: ObjectWithId;
 }
 
 const initialState: HarvestState = {
@@ -31,26 +29,14 @@ export const harvestSlice = createSlice({
       state.details.push(...action.payload);
     },
     modify: (state, action: PayloadAction<ModifyHarvestDetail>) => {
-      const { detail, oldEmployee } = action.payload;
-      const isDifferentEmployee = detail.employee.id !== oldEmployee.id;
-
-      if (isDifferentEmployee) {
-        state.details = [
-          ...state.details.filter(
-            (detail: HarvestDetail) => oldEmployee.id !== detail.employee.id
-          ),
-          detail,
-        ];
-      } else {
-        state.details = state.details.map((detailState: HarvestDetail) =>
-          detailState.employee.id === detail.employee.id ? detail : detailState
-        );
-      }
+      const { detail } = action.payload;
+      state.details = state.details.map((item) =>
+        item.id !== detail.id ? item : detail
+      );
     },
     remove: (state, action: PayloadAction<HarvestDetail>) => {
       state.details = state.details.filter(
-        (detail: HarvestDetail) =>
-          detail.employee.id !== action.payload.employee.id
+        (detail: HarvestDetail) => detail.id !== action.payload.id
       );
     },
     reset: (state) => {

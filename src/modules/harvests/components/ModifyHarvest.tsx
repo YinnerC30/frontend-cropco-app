@@ -29,11 +29,6 @@ export const ModifyHarvest = () => {
     total: number,
     value_pay: number
   ) => {
-    if (details.length === 0) {
-      toast.error("Agregue la cosecha de al menos 1 empleado");
-      return;
-    }
-
     mutate({
       id,
       ...values,

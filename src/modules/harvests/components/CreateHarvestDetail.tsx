@@ -19,7 +19,7 @@ import { useHarvestDetailForm } from "../hooks/useHarvestDetailForm";
 import { formSchemaHarvestDetail } from "../utils";
 import { add, calculateTotal } from "../utils/harvestSlice";
 import { FormHarvestDetails } from "./forms/FormHarvestDetails";
-
+import { v4 as generateUUID } from "uuid";
 export const CreateHarvestDetail = ({
   isOpenDialogForm,
   setIsOpenDialogForm,
@@ -35,6 +35,7 @@ export const CreateHarvestDetail = ({
       add([
         {
           ...values,
+          id: generateUUID(),
         },
       ])
     );
