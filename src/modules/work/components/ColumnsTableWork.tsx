@@ -4,14 +4,15 @@ import { ArrowUpDown } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { ActionsTable } from "@/modules/core/components";
 import { FormatDate } from "@/modules/core/helpers/FormatDate";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
+
 import { useDeleteWork } from "../hooks/useDeleteWork";
 import { Work } from "../interfaces/Work";
 import { formFieldsWork } from "../utils/formFieldsWork";
+import { ActionsTableSales } from "./ActionsTableSales";
 
-export let columnsWork: ColumnDef<Work>[] = [
+export const columnsWork: ColumnDef<Work>[] = [
   {
     accessorKey: formFieldsWork.date.name,
     cell: ({ row }) => {
@@ -85,17 +86,16 @@ export let columnsWork: ColumnDef<Work>[] = [
       );
     },
   },
-];
+  {
+    id: "actions",
+    cell: ({ row }: any) => {
+      const { id } = row.original;
 
-columnsWork.push({
-  id: "actions",
-  cell: ({ row }: any) => {
-    const { id } = row.original;
+      const { mutate } = useDeleteWork();
 
-    const { mutate } = useDeleteWork();
-
-    return <ActionsTable mutate={mutate} id={id} />;
+      return <ActionsTableSales mutate={mutate} id={id} />;
+    },
   },
-});
+];
 
 export default columnsWork;
