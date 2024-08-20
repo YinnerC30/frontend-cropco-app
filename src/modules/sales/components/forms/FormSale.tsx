@@ -120,7 +120,7 @@ export const FormSale = ({
           setRecord={!readOnly && setSaleDetail}
           sideEffect={!readOnly && setIsOpenDialogModifyForm}
           nameColumnToFilter={"client_first_name"}
-          placeholderInputToFilter={"Buscar cliente por nose..."}
+          placeholderInputToFilter={"Buscar cliente por nombre..."}
         />
       </FormFieldDataTable>
 
