@@ -39,11 +39,11 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import { Crop } from "@/modules/crops/interfaces/Crop";
 import { formFieldsWork } from "../utils/formFieldsWork";
 import { columnsWorkDetail } from "./columns/ColumnsTableWorkDetail";
 import { DataTableWorkDetail } from "./DataTableWorkDetails";
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ViewWork = () => {
   const { id } = useParams();
@@ -94,7 +94,7 @@ export const ViewWork = () => {
           }
         )}`}
       />
-      <Label className="text-2xl">Información del trabajo</Label>
+
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <Form {...formWork}>

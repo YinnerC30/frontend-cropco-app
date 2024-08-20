@@ -33,9 +33,6 @@ import { usePostWork } from "../hooks/usePostUser";
 import { useWorkForm } from "../hooks/useWorkForm";
 import { formSchemaWork } from "../utils/formSchemaWork";
 
-import { Crop } from "@/modules/crops/interfaces/Crop";
-import { formFieldsWork } from "../utils/formFieldsWork";
-import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   CommandEmpty,
   CommandGroup,
@@ -43,15 +40,18 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { Crop } from "@/modules/crops/interfaces/Crop";
+import { useAppDispatch } from "@/redux/store";
+import { useEffect } from "react";
+import { toast } from "sonner";
+import { formFieldsWork } from "../utils/formFieldsWork";
+import { reset } from "../utils/workSlice";
+import { columnsWorkDetailActions } from "./columns/ColumnsTableWorkDetail";
 import { CreateWorkDetail } from "./CreateWorkDetail";
 import { DataTableWorkDetail } from "./DataTableWorkDetails";
-import { columnsWorkDetailActions } from "./columns/ColumnsTableWorkDetail";
 import { ModifyWorkDetail } from "./ModifyWorkDetail";
-import { toast } from "sonner";
-import { useEffect } from "react";
-import { useAppDispatch } from "@/redux/store";
-import { reset } from "../utils/workSlice";
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const CreateWork = () => {
   const navigate = useNavigate();
@@ -106,7 +106,7 @@ export const CreateWork = () => {
         items={[{ link: "/works/all", name: "Trabajos" }]}
         finalItem={`Crear`}
       />
-      <Label className="text-2xl">Registro de trabajo</Label>
+      
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <Form {...formWork}>

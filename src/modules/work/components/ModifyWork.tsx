@@ -139,7 +139,7 @@ export const ModifyWork = () => {
           }
         )}`}
       />
-      <Label className="text-2xl">Modificar trabajo</Label>
+      
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <Form {...formWork}>
