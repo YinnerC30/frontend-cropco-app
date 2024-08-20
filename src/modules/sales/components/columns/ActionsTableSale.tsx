@@ -7,6 +7,9 @@ import { useState } from "react";
 
 export const ActionsTableSale = ({ mutate, id }: any) => {
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
+  const handleDelete = () => {
+    mutate(id);
+  };
   return (
     <ActionsTable
       openDropDownMenu={openDropDownMenu}
@@ -14,8 +17,7 @@ export const ActionsTableSale = ({ mutate, id }: any) => {
     >
       <ItemCopyIdRecord id={id} setOpenDropDownMenu={setOpenDropDownMenu} />
       <ItemDeleteRecord
-        mutate={mutate}
-        id={id}
+        action={handleDelete}
         setOpenDropDownMenu={setOpenDropDownMenu}
       />
       <ItemModifyRecord id={id} />

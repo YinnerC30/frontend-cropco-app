@@ -19,7 +19,9 @@ interface Props {
 
 export const ActionsTableHarvest = ({ mutate, id }: Props) => {
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
-
+  const handleDelete = () => {
+    mutate(id);
+  };
   return (
     <ActionsTable
       openDropDownMenu={openDropDownMenu}
@@ -27,8 +29,7 @@ export const ActionsTableHarvest = ({ mutate, id }: Props) => {
     >
       <ItemCopyIdRecord id={id} setOpenDropDownMenu={setOpenDropDownMenu} />
       <ItemDeleteRecord
-        id={id}
-        mutate={mutate}
+        action={handleDelete}
         setOpenDropDownMenu={setOpenDropDownMenu}
       />
       <ItemModifyRecord id={id} />

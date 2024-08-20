@@ -12,6 +12,9 @@ export const ActionsTableUsers = ({ row }: any) => {
   const { id } = row.original;
   const { mutate } = useDeleteUser();
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
+  const handleDelete = () => {
+    mutate(id);
+  };
   return (
     <>
       <ActionsTable
@@ -20,8 +23,7 @@ export const ActionsTableUsers = ({ row }: any) => {
       >
         <ItemCopyIdRecord id={id} setOpenDropDownMenu={setOpenDropDownMenu} />
         <ItemDeleteRecord
-          id={id}
-          mutate={mutate}
+          action={handleDelete}
           setOpenDropDownMenu={setOpenDropDownMenu}
         />
         <ItemModifyRecord id={id} />

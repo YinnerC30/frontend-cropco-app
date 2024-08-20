@@ -15,15 +15,10 @@ import {
 import { Button } from "@/components";
 import { TrashIcon } from "@radix-ui/react-icons";
 interface Props {
-  id: string;
-  mutate: any;
+  action: any;
   setOpenDropDownMenu: (state: boolean) => void;
 }
-export const ItemDeleteRecord = ({
-  id,
-  mutate,
-  setOpenDropDownMenu,
-}: Props) => {
+export const ItemDeleteRecord = ({ action, setOpenDropDownMenu }: Props) => {
   return (
     <DropdownMenuItem asChild>
       <AlertDialog>
@@ -54,7 +49,7 @@ export const ItemDeleteRecord = ({
             <AlertDialogAction asChild>
               <Button
                 onClick={() => {
-                  mutate(id);
+                  action();
                   setOpenDropDownMenu(false);
                 }}
               >
