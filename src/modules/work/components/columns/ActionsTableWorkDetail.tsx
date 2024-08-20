@@ -1,8 +1,5 @@
-import { Button } from "@/components/ui/button";
 
-import { Pencil2Icon } from "@radix-ui/react-icons";
 
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 
 import { useAppDispatch } from "@/redux/store";
@@ -11,9 +8,9 @@ import { toast } from "sonner";
 import { ActionsTable } from "@/modules/core/components";
 import { ItemCopyIdRecord } from "@/modules/core/components/table/actions/ItemCopyIdRecord";
 import { ItemDeleteRecord } from "@/modules/core/components/table/actions/ItemDeleteRecord";
+import { ItemModifyRecordDetail } from "@/modules/core/components/table/actions/ItemModifyRecordDetail";
 import { calculateTotal, remove } from "../../utils/workSlice";
 import { ModifyWorkDetail } from "../ModifyWorkDetail";
-import { ItemModifyRecordDetail } from "@/modules/core/components/table/actions/ItemModifyRecordDetail";
 
 export const ActionsTableWorkDetail = ({ workDetail }: any) => {
   const dispatch = useAppDispatch();
