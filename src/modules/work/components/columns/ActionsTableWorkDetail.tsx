@@ -31,8 +31,7 @@ import { toast } from "sonner";
 import { calculateTotal, remove } from "../../utils/workSlice";
 import { ModifyWorkDetail } from "../ModifyWorkDetail";
 
-export const ActionsTableWorkDetail = (workDetail: any) => {
-  console.log(workDetail);
+export const ActionsTableWorkDetail = ({ workDetail }: any) => {
   const dispatch = useAppDispatch();
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);

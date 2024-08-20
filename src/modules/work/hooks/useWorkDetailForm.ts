@@ -3,13 +3,14 @@ import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { useGetAllEmployees } from "@/modules/employees/hooks/useGetAllEmployees";
 import { RootState, useAppSelector } from "@/redux/store";
 import { formSchemaWorkDetails } from "../utils/formSchemaWorkDetails";
+import { useState } from "react";
 
 const defaultValuesWorkDetail = {
   employee: {
-    id: undefined,
-    first_name: undefined,
+    id: "",
+    first_name: "",
   },
-  value_pay: 0,
+  value_pay: undefined,
   payment_is_pending: true,
 };
 
@@ -21,6 +22,8 @@ export const useWorkDetailForm = () => {
     allRecords: true,
   });
 
+  const [openPopoverCommand, setOpenPopoverCommand] = useState(false);
+
   const formWorkDetail = useCreateForm({
     schema: formSchemaWorkDetails,
     defaultValues: defaultValuesWorkDetail,
@@ -29,5 +32,7 @@ export const useWorkDetailForm = () => {
     formWorkDetail,
     details,
     queryEmployees,
+    openPopoverCommand,
+    setOpenPopoverCommand,
   };
 };

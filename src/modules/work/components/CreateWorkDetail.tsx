@@ -1,32 +1,5 @@
-import { CaretSortIcon, CheckIcon, Cross2Icon } from "@radix-ui/react-icons";
+import { Cross2Icon } from "@radix-ui/react-icons";
 import { z } from "zod";
-
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-
-import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../../../components/ui/form";
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { Button } from "@/components/ui/button";
 
@@ -39,8 +12,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
-import { Client } from "@/modules/clients/interfaces/Client";
 import { useAppDispatch } from "@/redux/store";
 import { toast } from "sonner";
 import { v4 as generateUUID } from "uuid";
@@ -48,8 +19,7 @@ import { useWorkDetailForm } from "../hooks/useWorkDetailForm";
 
 import { formSchemaWorkDetails } from "../utils/formSchemaWorkDetails";
 import { add, calculateTotal } from "../utils/workSlice";
-import { formFieldsWorkDetails } from "../utils/formFieldsWorkDetails";
-import { Employee } from "@/modules/employees/interfaces/Employee";
+import { FormWorkDetail } from "./form/FormWorkDetail";
 
 export const CreateWorkDetail = ({
   isOpenDialogForm,
@@ -57,7 +27,7 @@ export const CreateWorkDetail = ({
 }: any) => {
   const dispatch = useAppDispatch();
 
-  const { queryEmployees, formWorkDetail, details } = useWorkDetailForm();
+  const { formWorkDetail } = useWorkDetailForm();
 
   const onSubmitWorkDetail = async (
     values: z.infer<typeof formSchemaWorkDetails>
@@ -90,144 +60,7 @@ export const CreateWorkDetail = ({
 
           {/* Formulario */}
 
-          <Form {...formWorkDetail}>
-            <form
-              onSubmit={formWorkDetail.handleSubmit(onSubmitWorkDetail)}
-              className="mx-5"
-              id="formDetail"
-            >
-              {/* TODO: Arreglar select de empleado */}
-              <FormField
-                key={"employee.id"}
-                control={formWorkDetail.control}
-                name={"employee.id"}
-                render={({ field }) => (
-                  <FormItem className="my-4">
-                    <FormLabel className="block">
-                      {formFieldsWorkDetails.first_name.label}
-                    </FormLabel>
-
-                    <Popover modal={true}>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className={cn(
-                              "w-[200px] justify-between",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value
-                              ? queryEmployees?.data?.rows.find(
-                                  (item: Client) => item.id === field.value
-                                )?.first_name
-                              : formFieldsWorkDetails.first_name.placeholder}
-
-                            <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-0">
-                        <Command>
-                          <CommandInput
-                            placeholder="Buscar cliente..."
-                            className="h-9"
-                          />
-                          <CommandList>
-                            <ScrollArea className="w-auto h-56">
-                              <CommandEmpty>
-                                Cliente no encontrado.
-                              </CommandEmpty>
-                              <CommandGroup>
-                                {queryEmployees?.data?.rows &&
-                                  Array.isArray(queryEmployees?.data?.rows) &&
-                                  queryEmployees.data.rows.map(
-                                    (employee: Employee) => {
-                                      const isIncludes = details.some(
-                                        (item: any) =>
-                                          item.employee.id === employee.id
-                                      );
-                                      if (isIncludes) return;
-                                      return (
-                                        <CommandItem
-                                          value={employee.first_name}
-                                          key={employee.id!}
-                                          onSelect={() => {
-                                            formWorkDetail.setValue(
-                                              "employee",
-                                              {
-                                                id: employee.id,
-                                                first_name: employee.first_name,
-                                              }!
-                                            );
-                                            formWorkDetail.trigger(
-                                              "employee.id"
-                                            );
-                                          }}
-                                        >
-                                          {employee.first_name}
-                                          <CheckIcon
-                                            className={cn(
-                                              "ml-auto h-4 w-4",
-                                              employee.id! === field.value
-                                                ? "opacity-100"
-                                                : "opacity-0"
-                                            )}
-                                          />
-                                        </CommandItem>
-                                      );
-                                    }
-                                  )}
-                              </CommandGroup>
-                            </ScrollArea>
-                          </CommandList>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-
-                    <FormDescription>
-                      {formFieldsWorkDetails.first_name.description}
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                key={"value_pay"}
-                control={formWorkDetail.control}
-                name={"value_pay"}
-                render={({ field }) => (
-                  <FormItem className="my-4">
-                    <FormLabel className="block">
-                      {formFieldsWorkDetails.value_pay.label}
-                    </FormLabel>
-
-                    <FormControl>
-                      <Input
-                        className="w-80"
-                        placeholder={formFieldsWorkDetails.value_pay.label}
-                        min={0}
-                        type="number"
-                        {...field}
-                        onChange={(e) => {
-                          return !Number.isNaN(e.target.value)
-                            ? field.onChange(parseFloat(e.target.value))
-                            : 0;
-                        }}
-                        step={50}
-                      />
-                    </FormControl>
-
-                    <FormDescription>
-                      {formFieldsWorkDetails.value_pay.description}
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </form>
-          </Form>
+          <FormWorkDetail onSubmit={onSubmitWorkDetail} />
 
           <DialogFooter>
             <Button
@@ -239,7 +72,7 @@ export const CreateWorkDetail = ({
             >
               Cancelar
             </Button>
-            <Button type="submit" form="formDetail">
+            <Button type="submit" form="formWorkDetail">
               Guardar
             </Button>
           </DialogFooter>

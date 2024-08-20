@@ -4,7 +4,7 @@ export const formFieldsWorkDetails: Record<string, CustomFormField> = {
   value_pay: {
     name: "value_pay",
     label: "Valor a pagar:",
-    placeholder: "",
+    placeholder: "0",
     description: "Dinero a pagar por el trabajo",
   },
   payment_is_pending: {
@@ -13,10 +13,10 @@ export const formFieldsWorkDetails: Record<string, CustomFormField> = {
     placeholder: "",
     description: "¿Esta pendiente por pagar?",
   },
-  first_name: {
-    name: "first_name",
+  employee: {
+    name: "employee",
     label: "Empleado:",
     placeholder: "Selecciona un empleado",
-    description: "",
+    description: "Empleado que realizo el trabajo",
   },
 };

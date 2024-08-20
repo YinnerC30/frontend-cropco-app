@@ -50,8 +50,7 @@ export const columnsWorkDetailActions = [
     id: "actions",
     cell: ({ row }: any) => {
       const workDetail = row.original;
-
-      return <ActionsTableWorkDetail workDetail={workDetail} />;
+      return <ActionsTableWorkDetail workDetail={{ ...workDetail }} />;
     },
   },
 ];
