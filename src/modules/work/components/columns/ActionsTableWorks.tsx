@@ -13,7 +13,7 @@ interface Props {
   id: string;
 }
 
-export const ActionsTableSales = ({ mutate, id }: Props) => {
+export const ActionsTableWorks = ({ mutate, id }: Props) => {
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
   return (
     <ActionsTable

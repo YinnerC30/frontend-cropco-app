@@ -54,7 +54,7 @@ import {
 import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Crop } from "@/modules/crops/interfaces/Crop";
 import { formFieldsWork } from "../utils/formFieldsWork";
-import { columnsWorkDetailActions } from "./ColumnsTableWorkDetail";
+import { columnsWorkDetailActions } from "./columns/ColumnsTableWorkDetail";
 import { CreateWorkDetail } from "./CreateWorkDetail";
 import { DataTableWorkDetail } from "./DataTableWorkDetails";
 import { ModifyWorkDetail } from "./ModifyWorkDetail";

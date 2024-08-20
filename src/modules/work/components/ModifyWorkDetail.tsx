@@ -134,7 +134,7 @@ export const ModifyWorkDetail = ({
                               )}
                             >
                               {field.value
-                                ? queryEmployees.data.rows.find(
+                                ? queryEmployees?.data?.rows.find(
                                     (item: Client) => item.id === field.value
                                   )?.first_name
                                 : formFieldsWorkDetails.first_name.placeholder}
@@ -155,7 +155,7 @@ export const ModifyWorkDetail = ({
                                   Cliente no encontrado.
                                 </CommandEmpty>
                                 <CommandGroup>
-                                  {queryEmployees.data.rows &&
+                                  {queryEmployees?.data?.rows &&
                                     Array.isArray(queryEmployees.data.rows) &&
                                     queryEmployees.data.rows.map(
                                       (employee: Employee) => {

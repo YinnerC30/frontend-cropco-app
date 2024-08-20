@@ -7,10 +7,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import { FormatDate } from "@/modules/core/helpers/FormatDate";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 
-import { useDeleteWork } from "../hooks/useDeleteWork";
-import { Work } from "../interfaces/Work";
-import { formFieldsWork } from "../utils/formFieldsWork";
-import { ActionsTableSales } from "./ActionsTableSales";
+import { useDeleteWork } from "../../hooks/useDeleteWork";
+import { Work } from "../../interfaces/Work";
+import { formFieldsWork } from "../../utils/formFieldsWork";
+import { ActionsTableWorks } from "./ActionsTableWorks";
 
 export const columnsWork: ColumnDef<Work>[] = [
   {
@@ -93,7 +93,7 @@ export const columnsWork: ColumnDef<Work>[] = [
 
       const { mutate } = useDeleteWork();
 
-      return <ActionsTableSales mutate={mutate} id={id} />;
+      return <ActionsTableWorks mutate={mutate} id={id} />;
     },
   },
 ];

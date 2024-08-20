@@ -8,7 +8,7 @@ import {
 import { PlusIcon } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useGetAllWorks } from "../hooks/useGetAllWorks";
-import columnsWork from "./ColumnsTableWork";
+import columnsWork from "./columns/ColumnsTableWork";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const WorkModule = () => {

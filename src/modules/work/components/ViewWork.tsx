@@ -41,7 +41,7 @@ import {
 import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Crop } from "@/modules/crops/interfaces/Crop";
 import { formFieldsWork } from "../utils/formFieldsWork";
-import { columnsWorkDetail } from "./ColumnsTableWorkDetail";
+import { columnsWorkDetail } from "./columns/ColumnsTableWorkDetail";
 import { DataTableWorkDetail } from "./DataTableWorkDetails";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 

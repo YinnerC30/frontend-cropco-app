@@ -45,7 +45,7 @@ import {
 } from "@/components/ui/command";
 import { CreateWorkDetail } from "./CreateWorkDetail";
 import { DataTableWorkDetail } from "./DataTableWorkDetails";
-import { columnsWorkDetailActions } from "./ColumnsTableWorkDetail";
+import { columnsWorkDetailActions } from "./columns/ColumnsTableWorkDetail";
 import { ModifyWorkDetail } from "./ModifyWorkDetail";
 import { toast } from "sonner";
 import { useEffect } from "react";
