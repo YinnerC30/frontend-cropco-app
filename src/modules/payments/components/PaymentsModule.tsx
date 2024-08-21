@@ -12,9 +12,10 @@ import {
   Loading,
   ToolTipTemplate,
 } from "../../core/components";
-import columnsPayment from "./ColumnsTablePayments";
+
 import { useGetAllPayments } from "../hooks/useGetAllPayments";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import columnsPayment from "./columns/ColumnsTablePayments";
 
 export const PaymentsModule = () => {
   const navigate = useNavigate();

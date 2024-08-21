@@ -1,32 +1,9 @@
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
-
 import {
-  ArrowUpDown,
-  CircleDollarSignIcon,
-  MoreHorizontal,
+  ArrowUpDown
 } from "lucide-react";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useState } from "react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -37,8 +14,9 @@ import { Badge } from "@/components";
 import { FormatDate } from "@/modules/core/helpers/FormatDate";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
-import { PaymentPending } from "../interfaces/PaymentPending";
-import { addRecordToPay } from "../utils/paymentSlice";
+import { PaymentPending } from "../../interfaces/PaymentPending";
+import { addRecordToPay } from "../../utils/paymentSlice";
+import { ActionsTablePaymentsPendingHarvest } from "./ActionsTablePaymentsPendingHarvest";
 
 export const columnsPaymentsPendingHarvest: ColumnDef<PaymentPending>[] = [
   {
@@ -133,73 +111,17 @@ export const columnsPaymentsPendingHarvestActions = [
 
       const dispatch = useAppDispatch();
 
-      const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
-
       const handlePayRecord = () => {
         // dispatch(remove(harvestDetail));
         dispatch(addRecordToPay({ ...harvestDetail, type: "harvest" }));
         toast.success(`Se ha añadido la cosecha para pagarla`);
-        setOpenDropDownMenu(false);
       };
 
       return (
-        <>
-          <DropdownMenu open={openDropDownMenu} modal={openDropDownMenu}>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="w-8 h-8 p-0"
-                onClick={() => setOpenDropDownMenu(!openDropDownMenu)}
-              >
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="w-4 h-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              onPointerDownOutside={() => setOpenDropDownMenu(false)}
-              align="center"
-              className="flex flex-col items-center"
-            >
-              <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-              <DropdownMenuSeparator className="w-full" />
-              <DropdownMenuItem asChild>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant={"ghost"}>
-                      <CircleDollarSignIcon className="w-4 h-4 mr-2" /> Pagar
-                    </Button>
-                  </AlertDialogTrigger>
-
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        ¿Estas seguro de agregar el registro?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Esta acción es reversible y podrá recuperar su registro
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel asChild>
-                        <Button
-                          variant="secondary"
-                          onClick={() => setOpenDropDownMenu(false)}
-                        >
-                          Cancelar
-                        </Button>
-                      </AlertDialogCancel>
-                      <AlertDialogAction asChild>
-                        <Button onClick={() => handlePayRecord()}>
-                          Continuar
-                        </Button>
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </>
+        <ActionsTablePaymentsPendingHarvest
+          id={harvestDetail.id}
+          handlePayRecord={handlePayRecord}
+        />
       );
     },
   },

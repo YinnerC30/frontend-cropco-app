@@ -4,11 +4,12 @@ import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect } from "react";
 import { useGetEmployeePendingPayments } from "../hooks/useGetEmployeePendingPayments";
 import { setDataEmployee } from "../utils/paymentSlice";
-import { columnsPaymentsPendingHarvestActions } from "./ColumnsTablePaymentsPendingHarvest";
-import { columnsPaymentsPendingWorkActions } from "./ColumnsTablePaymentsPendingWork";
-import { columnsPaymentsToPayActions } from "./ColumnsTablePaymentsToPay";
+
 import { DataTablePaymentPending } from "./DataTablePaymentPending";
 import { toast } from "sonner";
+import { columnsPaymentsPendingHarvestActions } from "./columns/ColumnsTablePaymentsPendingHarvest";
+import { columnsPaymentsPendingWorkActions } from "./columns/ColumnsTablePaymentsPendingWork";
+import { columnsPaymentsToPayActions } from "./columns/ColumnsTablePaymentsToPay";
 
 export const TablesPendingPayments = ({
   employeeId,
