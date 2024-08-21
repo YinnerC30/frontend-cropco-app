@@ -17,7 +17,7 @@ export const formFieldsPayments: Record<string, CustomFormField> = {
     name: "method_of_payment",
     label: "Método de pago:",
     placeholder: "Selecciona",
-    description: "",
+    description: "Medio por el cual se pagara al empleado",
   },
   total: {
     name: "total",
@@ -26,4 +26,3 @@ export const formFieldsPayments: Record<string, CustomFormField> = {
     description: "",
   },
 };
-export default { formFieldsPayments };

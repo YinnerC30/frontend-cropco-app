@@ -5,36 +5,47 @@ import { useEffect } from "react";
 import { useGetEmployeePendingPayments } from "../hooks/useGetEmployeePendingPayments";
 import { setDataEmployee } from "../utils/paymentSlice";
 
-import { DataTablePaymentPending } from "./DataTablePaymentPending";
+import { FormFieldDataTable } from "@/modules/core/components/form/FormFieldDataTable";
+import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
 import { toast } from "sonner";
 import { columnsPaymentsPendingHarvestActions } from "./columns/ColumnsTablePaymentsPendingHarvest";
 import { columnsPaymentsPendingWorkActions } from "./columns/ColumnsTablePaymentsPendingWork";
 import { columnsPaymentsToPayActions } from "./columns/ColumnsTablePaymentsToPay";
+import { UseFormReturn } from "react-hook-form";
 
-export const TablesPendingPayments = ({
-  employeeId,
-}: {
+interface Props {
   employeeId: string;
-}) => {
+  form: UseFormReturn<any, any, undefined>;
+}
+
+export const TablesPendingPayments = ({ employeeId, form }: Props) => {
   const { data, isLoading, isError } =
     useGetEmployeePendingPayments(employeeId);
 
-  const dispatch = useAppDispatch();
   const { dataEmployee, paymentsToPay } = useAppSelector(
     (state: RootState) => state.payment
   );
+
+  const getHarvestsToShow = () => {
+    const { harvests_detail = [] } = data;
+    return harvests_detail.filter(
+      (item: any) => item.payment_is_pending === true
+    );
+  };
+  const getWorksToShow = () => {
+    const { works_detail = [] } = data;
+    return works_detail.filter((item: any) => item.payment_is_pending === true);
+  };
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!!data) {
       const { harvests_detail, works_detail } = data;
       dispatch(
         setDataEmployee({
-          harvests_detail: harvests_detail.filter(
-            (item: any) => item.payment_is_pending === true
-          ),
-          works_detail: works_detail.filter(
-            (item: any) => item.payment_is_pending === true
-          ),
+          harvests_detail: getHarvestsToShow(),
+          works_detail: getWorksToShow(),
         })
       );
       if (harvests_detail.length < 1 && works_detail.length < 1) {
@@ -48,45 +59,41 @@ export const TablesPendingPayments = ({
 
   return (
     <>
-      {dataEmployee?.works_detail.length < 1 &&
-        dataEmployee?.harvests_detail.length < 1 &&
-        paymentsToPay.length < 1 && (
-          <Label>El empleado NO tiene pagos pendientes</Label>
-        )}
+      <Label className="text-xl">Pagos pendientes de cosecha:</Label>
 
-      {dataEmployee?.harvests_detail.length > 0 && (
-        <>
-          <Label className="text-xl">Pagos pendientes de cosecha:</Label>
-          <DataTablePaymentPending
-            data={dataEmployee?.harvests_detail ?? []}
-            columns={columnsPaymentsPendingHarvestActions}
-          />
-          <Separator className="my-4" />
-        </>
-      )}
+      <DataTableForm
+        data={dataEmployee?.harvests_detail ?? []}
+        columns={columnsPaymentsPendingHarvestActions}
+        nameColumnToFilter={"value_pay"}
+        placeholderInputToFilter={""}
+      />
+      <Separator className="my-4" />
 
-      {dataEmployee?.works_detail.length > 0 && (
-        <>
-          <Label className="text-xl">Pagos pendientes de trabajo:</Label>
-          <DataTablePaymentPending
-            data={dataEmployee?.works_detail ?? []}
-            columns={columnsPaymentsPendingWorkActions}
-          />
-          <Separator className="my-4" />
-        </>
-      )}
+      <Label className="text-xl">Pagos pendientes de trabajo:</Label>
+      <DataTableForm
+        data={dataEmployee?.works_detail ?? []}
+        columns={columnsPaymentsPendingWorkActions}
+        nameColumnToFilter={""}
+        placeholderInputToFilter={""}
+      />
 
-      {dataEmployee?.works_detail.length > 0 ||
-      dataEmployee?.harvests_detail.length > 0 ||
-      paymentsToPay.length > 0 ? (
-        <>
-          <Label className="text-xl">Resumen a pagar:</Label>
-          <DataTablePaymentPending
-            data={paymentsToPay ?? []}
-            columns={columnsPaymentsToPayActions}
-          />
-        </>
-      ) : null}
+      <Separator className="my-4" />
+
+      <FormFieldDataTable
+        control={form.control}
+        description={"Aquí se muestran los pagos que finalmente se liquidaran "}
+        label={"Resumen a pagar:"}
+        name={"categories"}
+        placeholder={"placeholder"}
+        readOnly={false}
+      >
+        <DataTableForm
+          data={paymentsToPay ?? []}
+          columns={columnsPaymentsToPayActions}
+          nameColumnToFilter={""}
+          placeholderInputToFilter={""}
+        />
+      </FormFieldDataTable>
     </>
   );
 };
