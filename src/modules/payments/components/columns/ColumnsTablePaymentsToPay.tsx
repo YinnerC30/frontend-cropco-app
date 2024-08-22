@@ -139,8 +139,6 @@ export const columnsPaymentsToPayActionsView = [
     cell: ({ row }: any) => {
       const record = row.original;
 
-      console.log({ record });
-
       return <ActionsTablePaymentsToPayView record={record} />;
     },
   },

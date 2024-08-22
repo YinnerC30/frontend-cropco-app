@@ -7,7 +7,7 @@ import { useState } from "react";
 export const ActionsTablePaymentsToPayView = ({ record }: any) => {
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
-  console.log({ record });
+  
 
   return (
     <ActionsTable

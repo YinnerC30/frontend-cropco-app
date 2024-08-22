@@ -38,7 +38,6 @@ export const formSchemaPayments = z
     (data: any) => {
       const { harvests, works } = data.categories;
       if (harvests.length === 0 && works.length === 0) {
-        console.log("No hay registros para pagar");
         return false;
       }
       return true;

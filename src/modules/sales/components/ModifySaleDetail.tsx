@@ -47,7 +47,7 @@ export const ModifySaleDetail = ({
     afterEffect && afterEffect(false);
   };
 
-  console.log(defaultValues);
+  
   return (
     <Dialog open={isDialogOpen}>
       <DialogContent className="sm:max-w-[425px]">

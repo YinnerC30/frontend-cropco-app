@@ -50,7 +50,7 @@ export const FormSaleDetail = ({
   };
 
   const onSubmitSaleDetail = (values: any) => {
-    console.log(values);
+    
     const clientIdForm = values.client.id;
     const cropIdForm = values.crop.id;
     const nameClient = findClientName(clientIdForm);

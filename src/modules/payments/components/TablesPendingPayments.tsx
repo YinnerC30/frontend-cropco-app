@@ -1,4 +1,4 @@
-import { FormLabel, Label, Separator } from "@/components";
+import { Label, Separator } from "@/components";
 import { ErrorLoading, Loading } from "@/modules/core/components";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect } from "react";
@@ -7,6 +7,7 @@ import { setDataEmployee } from "../utils/paymentSlice";
 
 import { FormFieldDataTable } from "@/modules/core/components/form/FormFieldDataTable";
 import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
+import { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 import { columnsPaymentsPendingHarvestActions } from "./columns/ColumnsTablePaymentsPendingHarvest";
 import { columnsPaymentsPendingWorkActions } from "./columns/ColumnsTablePaymentsPendingWork";
@@ -14,7 +15,6 @@ import {
   columnsPaymentsToPayActions,
   columnsPaymentsToPayActionsView,
 } from "./columns/ColumnsTablePaymentsToPay";
-import { UseFormReturn } from "react-hook-form";
 
 interface Props {
   employeeId: string;
