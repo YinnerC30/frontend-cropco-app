@@ -35,13 +35,6 @@ export const SaleModule = () => {
     is_receivable = "false",
   } = Object.fromEntries(searchParams.entries());
 
-  console.log("Sale module");
-  console.log({ filter_by_is_receivable, is_receivable });
-  console.log({
-    filter_by_is_receivable: !!filter_by_is_receivable,
-    is_receivable: !!is_receivable,
-  });
-
   const minor_total_value = parseInt(minor_total ?? "0", 10);
   const major_total_value = parseInt(major_total ?? "0", 10);
 

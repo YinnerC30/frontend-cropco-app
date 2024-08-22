@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 interface Props {
   path: string;
   Icon: React.ForwardRefExoticComponent<
-    IconProps & React.RefAttributes<SVGSVGElement>
+    IconProps & React.RefAttributes<SVGSVGElement> | any
   >;
   name: string;
 }

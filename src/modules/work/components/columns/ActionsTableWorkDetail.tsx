@@ -1,5 +1,3 @@
-
-
 import { useState } from "react";
 
 import { useAppDispatch } from "@/redux/store";
@@ -19,7 +17,6 @@ export const ActionsTableWorkDetail = ({ workDetail }: any) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleDelete = () => {
-    console.log("Se dio clic");
     dispatch(remove(workDetail));
     toast.success(
       `Se ha eliminado el trabajo del empleado ${workDetail?.employee?.first_name}`

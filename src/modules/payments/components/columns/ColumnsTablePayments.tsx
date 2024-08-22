@@ -4,15 +4,16 @@ import { ArrowUpDown } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { ActionsTable } from "@/modules/core/components";
 import { FormatDate } from "@/modules/core/helpers/FormatDate";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
-import { Payment } from "../interfaces/Payment";
-import { formFieldsPayments } from "../utils";
-import { useDeletePayment } from "../hooks/useDeletePayment";
-import { Badge } from "@/components";
 
-export let columnsPayment: ColumnDef<Payment>[] = [
+import { Badge } from "@/components";
+import { useDeletePayment } from "../../hooks/useDeletePayment";
+import { Payment } from "../../interfaces/Payment";
+import { formFieldsPayments } from "../../utils";
+import { ActionsTablePayment } from "./ActionsTablePayment";
+
+export const columnsPayment: ColumnDef<Payment>[] = [
   {
     accessorKey: formFieldsPayments.date.name,
     cell: ({ row }) => {
@@ -101,17 +102,16 @@ export let columnsPayment: ColumnDef<Payment>[] = [
       );
     },
   },
-];
+  {
+    id: "actions",
+    cell: ({ row }: any) => {
+      const { id } = row.original;
 
-columnsPayment.push({
-  id: "actions",
-  cell: ({ row }: any) => {
-    const { id } = row.original;
+      const { mutate } = useDeletePayment();
 
-    const { mutate } = useDeletePayment();
-
-    return <ActionsTable mutate={mutate} id={id} />;
+      return <ActionsTablePayment mutate={mutate} id={id} />;
+    },
   },
-});
+];
 
 export default columnsPayment;

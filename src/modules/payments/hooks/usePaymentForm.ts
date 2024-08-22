@@ -2,6 +2,7 @@ import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { RootState, useAppSelector } from "@/redux/store";
 import { formSchemaPayments } from "../utils";
 import { useGetAllEmployeesWithPendingPayments } from "./useGetAllEmployeesWithPendingPayments";
+import { useState } from "react";
 
 export const defaultValues = {
   date: undefined,
@@ -18,6 +19,8 @@ export const usePaymentForm = () => {
 
   const { query: queryEmployees } = useGetAllEmployeesWithPendingPayments();
 
+  const [openPopoverEmployee, setOpenPopoverEmployee] = useState(false);
+
   const { employeeId, dataEmployee, paymentsToPay, totalToPay } =
     useAppSelector((state: RootState) => state.payment);
 
@@ -28,5 +31,7 @@ export const usePaymentForm = () => {
     dataEmployee,
     paymentsToPay,
     totalToPay,
+    openPopoverEmployee,
+    setOpenPopoverEmployee,
   };
 };

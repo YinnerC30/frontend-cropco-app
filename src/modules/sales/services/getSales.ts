@@ -27,20 +27,6 @@ export const getSales = async ({
   filter_by_is_receivable,
   is_receivable,
 }: Props) => {
-  console.log({
-    message: "Parametros en GetSales",
-    search,
-    limit,
-    offset,
-    after_date,
-    before_date,
-    minor_total,
-    major_total,
-    minor_quantity,
-    major_quantity,
-    filter_by_is_receivable,
-    is_receivable,
-  });
   let params = new URLSearchParams();
   params.append("search", search);
   params.append("limit", limit.toString());
@@ -68,9 +54,6 @@ export const getSales = async ({
     params.append("filter_by_is_receivable", "true");
     params.append("is_receivable", is_receivable.toString());
   }
-
-  console.log(is_receivable.toString());
-  console.log(is_receivable);
 
   const { data } = await cropcoAPI.get(`${pathsCropco.sales}?${params}`);
   return data;
