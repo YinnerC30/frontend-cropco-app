@@ -42,6 +42,7 @@ interface Props {
   sideEffect?: any;
   nameColumnToFilter: string;
   placeholderInputToFilter: string;
+  showFilter?: boolean;
 }
 
 export function DataTableForm({
@@ -51,6 +52,7 @@ export function DataTableForm({
   sideEffect,
   placeholderInputToFilter,
   nameColumnToFilter,
+  showFilter = true,
 }: Props) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -76,12 +78,14 @@ export function DataTableForm({
   const messageCountPage =
     pageCount > 0 ? pageText : `Página ${pageIndex} de ${pageCount}`;
 
-  
-
   return (
     <>
       <div className="w-[600px]">
-        <div className="flex flex-col items-start justify-between gap-2 my-2 ml-1">
+        <div
+          className={`flex flex-col items-start justify-between gap-2 my-2 ml-1 ${
+            showFilter ? "" : "hidden"
+          }`}
+        >
           <Input
             placeholder={placeholderInputToFilter}
             value={

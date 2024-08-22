@@ -1,14 +1,14 @@
-import { Badge, Button, Form, Label, Separator } from "@/components";
+import { Alert, Badge, Button, Form, Separator } from "@/components";
+import { AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
 import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalendar";
 import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
-import { FormFieldDataTable } from "@/modules/core/components/form/FormFieldDataTable";
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { FormFieldSelect } from "@/modules/core/components/form/FormFieldSelect";
-import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { FormProps } from "@/modules/core/interfaces/FormProps";
 import { useAppDispatch } from "@/redux/store";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -20,7 +20,6 @@ import {
   calculateTotal,
   resetAll,
 } from "../../utils/paymentSlice";
-import { columnsPaymentsToPay } from "../columns/ColumnsTablePaymentsToPay";
 import { TablesPendingPayments } from "../TablesPendingPayments";
 
 export const FormPayment = ({
@@ -42,8 +41,6 @@ export const FormPayment = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // dispatch(resetDataEmployee());
-    // dispatch(resetPaymentsToPay());
     if (defaultValues) {
       const {
         payments_harvest = [],
@@ -52,14 +49,10 @@ export const FormPayment = ({
       } = defaultValues;
       const data = {
         ...rest,
-        // categories: {
-        //   harvests: payments_harvest,
-        //   works: payments_work,
-        // },
       };
-      // console.log(data);
-      formPayment.reset(data);
 
+      formPayment.reset(data);
+      dispatch(resetAll());
       dispatch(
         addRecordsToPay(
           defaultValues.payments_harvest.map((item: any) => {
@@ -69,6 +62,7 @@ export const FormPayment = ({
               payment_is_pending: item?.harvests_detail?.payment_is_pending,
               type: "harvest",
               date: item?.harvests_detail?.harvest?.date,
+              harvest: { id: item?.harvests_detail?.harvest?.id },
             };
           })
         )
@@ -82,11 +76,13 @@ export const FormPayment = ({
               payment_is_pending: item?.works_detail?.payment_is_pending,
               type: "work",
               date: item?.works_detail?.work?.date,
+              work: { id: item?.works_detail?.work?.id },
             };
           })
         )
       );
       dispatch(calculateTotal());
+      setEmployeeId(defaultValues.employee.id);
     }
   }, []);
 
@@ -136,8 +132,6 @@ export const FormPayment = ({
     return [...employees];
   };
 
-  // Table components
-
   return (
     <Form {...formPayment}>
       <form
@@ -170,48 +164,38 @@ export const FormPayment = ({
         />
 
         {/* Tablas */}
-        <Button
-          onClick={(event) => {
-            event.preventDefault();
-            searchPendingPayment();
-            dispatch(calculateTotal());
-          }}
-        >
-          Buscar pagos pendientes
-        </Button>
+        {!readOnly && (
+          <Button
+            onClick={(event) => {
+              event.preventDefault();
+              searchPendingPayment();
+              dispatch(calculateTotal());
+            }}
+          >
+            Buscar
+          </Button>
+        )}
 
         <Separator className="my-4" />
         {/* TODO: Mejorar estilo de los badges */}
 
         {employeeId.length <= 0 ? (
-          <Label>
-            Debes seleccionar un empleado para que se muestren los pagos
-            pendientes
-          </Label>
+          <Alert variant="default" className="w-[500px]">
+            <ExclamationTriangleIcon className="w-4 h-4" />
+            <AlertTitle>Aviso</AlertTitle>
+            <AlertDescription>
+              Debes seleccionar un empleado para que se muestren los pagos
+              pendientes.
+            </AlertDescription>
+          </Alert>
         ) : (
-          <TablesPendingPayments employeeId={employeeId} form={formPayment} />
+          <TablesPendingPayments
+            employeeId={employeeId}
+            form={formPayment}
+            readOnly={readOnly}
+          />
         )}
         {/* Fin Tablas */}
-
-        {defaultValues && (
-          <FormFieldDataTable
-            control={formPayment.control}
-            description={
-              "Aquí se muestran los pagos que finalmente se liquidaran "
-            }
-            label={"Resumen a pagar:"}
-            name={"categories"}
-            placeholder={"placeholder"}
-            readOnly={false}
-          >
-            <DataTableForm
-              data={paymentsToPay ?? []}
-              columns={columnsPaymentsToPay}
-              nameColumnToFilter={""}
-              placeholderInputToFilter={""}
-            />
-          </FormFieldDataTable>
-        )}
 
         <Separator className="my-4" />
         <FormFieldSelect

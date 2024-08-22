@@ -125,6 +125,7 @@ export const columnsPaymentsPendingHarvestActions = [
             value_pay,
             payment_is_pending,
             type: "harvest",
+            harvest: { id: harvestDetail?.harvest?.id },
           })
         );
         dispatch(calculateTotal());

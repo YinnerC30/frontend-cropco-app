@@ -36,7 +36,7 @@ export const FormFieldSelect = ({
       control={control}
       name={name}
       render={({ field }: any) => (
-        <FormItem className={className}>
+        <FormItem className={className + "ml-1"}>
           <FormLabel>{label}</FormLabel>
           <div className="w-48 ">
             <Select

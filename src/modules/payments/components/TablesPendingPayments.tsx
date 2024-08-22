@@ -1,4 +1,4 @@
-import { Label, Separator } from "@/components";
+import { FormLabel, Label, Separator } from "@/components";
 import { ErrorLoading, Loading } from "@/modules/core/components";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect } from "react";
@@ -10,15 +10,23 @@ import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
 import { toast } from "sonner";
 import { columnsPaymentsPendingHarvestActions } from "./columns/ColumnsTablePaymentsPendingHarvest";
 import { columnsPaymentsPendingWorkActions } from "./columns/ColumnsTablePaymentsPendingWork";
-import { columnsPaymentsToPayActions } from "./columns/ColumnsTablePaymentsToPay";
+import {
+  columnsPaymentsToPayActions,
+  columnsPaymentsToPayActionsView,
+} from "./columns/ColumnsTablePaymentsToPay";
 import { UseFormReturn } from "react-hook-form";
 
 interface Props {
   employeeId: string;
   form: UseFormReturn<any, any, undefined>;
+  readOnly?: boolean;
 }
 
-export const TablesPendingPayments = ({ employeeId, form }: Props) => {
+export const TablesPendingPayments = ({
+  employeeId,
+  form,
+  readOnly = false,
+}: Props) => {
   const { data, isLoading, isError } =
     useGetEmployeePendingPayments(employeeId);
 
@@ -59,29 +67,37 @@ export const TablesPendingPayments = ({ employeeId, form }: Props) => {
 
   return (
     <>
-      <Label className="text-xl">Pagos pendientes de cosecha:</Label>
+      {!readOnly && (
+        <>
+          <Label className="">Pagos pendientes de cosecha:</Label>
+          <DataTableForm
+            data={dataEmployee?.harvests_detail ?? []}
+            columns={columnsPaymentsPendingHarvestActions}
+            nameColumnToFilter={"value_pay"}
+            placeholderInputToFilter={""}
+            showFilter={false}
+          />
+          <Separator className="my-4" />
+        </>
+      )}
 
-      <DataTableForm
-        data={dataEmployee?.harvests_detail ?? []}
-        columns={columnsPaymentsPendingHarvestActions}
-        nameColumnToFilter={"value_pay"}
-        placeholderInputToFilter={""}
-      />
-      <Separator className="my-4" />
-
-      <Label className="text-xl">Pagos pendientes de trabajo:</Label>
-      <DataTableForm
-        data={dataEmployee?.works_detail ?? []}
-        columns={columnsPaymentsPendingWorkActions}
-        nameColumnToFilter={""}
-        placeholderInputToFilter={""}
-      />
-
-      <Separator className="my-4" />
+      {!readOnly && (
+        <>
+          <Label className="">Pagos pendientes de trabajo:</Label>
+          <DataTableForm
+            data={dataEmployee?.works_detail ?? []}
+            columns={columnsPaymentsPendingWorkActions}
+            nameColumnToFilter={""}
+            placeholderInputToFilter={""}
+            showFilter={false}
+          />
+          <Separator className="my-4" />
+        </>
+      )}
 
       <FormFieldDataTable
         control={form.control}
-        description={"Aquí se muestran los pagos que finalmente se liquidaran "}
+        description={""}
         label={"Resumen a pagar:"}
         name={"categories"}
         placeholder={"placeholder"}
@@ -89,9 +105,14 @@ export const TablesPendingPayments = ({ employeeId, form }: Props) => {
       >
         <DataTableForm
           data={paymentsToPay ?? []}
-          columns={columnsPaymentsToPayActions}
+          columns={
+            readOnly
+              ? columnsPaymentsToPayActionsView
+              : columnsPaymentsToPayActions
+          }
           nameColumnToFilter={""}
           placeholderInputToFilter={""}
+          showFilter={false}
         />
       </FormFieldDataTable>
     </>

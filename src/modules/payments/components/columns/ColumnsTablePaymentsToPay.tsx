@@ -13,6 +13,7 @@ import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { PaymentPending } from "../../interfaces/PaymentPending";
 import { calculateTotal, removeRecordToPay } from "../../utils/paymentSlice";
 import { ActionsTablePaymentsToPay } from "./ActionsTablePaymentsToPay";
+import { ActionsTablePaymentsToPayView } from "./ActionsTablePaymentsToPayView";
 
 export const columnsPaymentsToPay: ColumnDef<PaymentPending>[] = [
   {
@@ -79,9 +80,9 @@ export const columnsPaymentsToPay: ColumnDef<PaymentPending>[] = [
     cell: ({ row }) => {
       const value = row.getValue("type");
       return value === "harvest" ? (
-        <Badge variant={"lime"}>Harvest</Badge>
+        <Badge variant={"lime"}>Cosecha</Badge>
       ) : (
-        <Badge variant={"orange"}>Work</Badge>
+        <Badge variant={"orange"}>Trabajo</Badge>
       );
     },
     header: ({ column }: any) => {
@@ -109,8 +110,18 @@ export const columnsPaymentsToPayActions = [
       const dispatch = useAppDispatch();
 
       const handleDelete = () => {
+        const { date, ...rest } = record;
+
+        const data = {
+          ...rest,
+          [rest.type === "harvest" ? "harvest" : "work"]: {
+            id: rest[rest.type === "harvest" ? "harvest" : "work"].id,
+            date,
+          },
+        };
+
+        dispatch(removeRecordToPay({ ...data }));
         dispatch(calculateTotal());
-        dispatch(removeRecordToPay({ ...record }));
         toast.success(`Se ha eliminado el registro`);
       };
 
@@ -121,7 +132,22 @@ export const columnsPaymentsToPayActions = [
   },
 ];
 
+export const columnsPaymentsToPayActionsView = [
+  ...columnsPaymentsToPay,
+  {
+    id: "actions",
+    cell: ({ row }: any) => {
+      const record = row.original;
+
+      console.log({ record });
+
+      return <ActionsTablePaymentsToPayView record={record} />;
+    },
+  },
+];
+
 export default {
   columnsPaymentsToPay,
   columnsPaymentsToPayActions,
+  columnsPaymentsToPayActionsView,
 };

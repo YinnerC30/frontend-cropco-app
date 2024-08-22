@@ -108,6 +108,7 @@ export const columnsPaymentsPendingWorkActions = [
             value_pay,
             payment_is_pending,
             type: "work",
+            work: { id: workDetail?.work?.id },
           })
         );
         dispatch(calculateTotal());

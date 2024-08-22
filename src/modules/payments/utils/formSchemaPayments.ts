@@ -44,8 +44,7 @@ export const formSchemaPayments = z
       return true;
     },
     {
-      message:
-        "Debes registrar al menos 1 cosecha o 1 trabajo, no puede quedar vacio",
+      message: "Debes añadir 1 registro de cosecha o 1 registro de trabajo",
       path: ["categories"],
     }
   );
