@@ -1,6 +1,7 @@
 import { ActionsTable } from "@/modules/core/components";
 import { ItemCopyIdRecord } from "@/modules/core/components/table/actions/ItemCopyIdRecord";
-import { ItemDeleteRecord } from "@/modules/core/components/table/actions/ItemDeleteRecord";
+import { ItemTemplate } from "@/modules/core/components/table/actions/ItemTemplate";
+import { Trash } from "lucide-react";
 import { useState } from "react";
 
 export const ActionsTablePaymentsToPay = ({ record, action }: any) => {
@@ -18,9 +19,11 @@ export const ActionsTablePaymentsToPay = ({ record, action }: any) => {
         id={record.id}
         setOpenDropDownMenu={setOpenDropDownMenu}
       ></ItemCopyIdRecord>
-      <ItemDeleteRecord
-        action={handleDelete}
+      <ItemTemplate
         setOpenDropDownMenu={setOpenDropDownMenu}
+        action={handleDelete}
+        message="Eliminar"
+        Icon={Trash}
       />
     </ActionsTable>
   );
