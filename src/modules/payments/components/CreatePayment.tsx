@@ -7,11 +7,19 @@ import { z } from "zod";
 import { usePostPayment } from "../hooks/usePostPayment";
 import { formSchemaPayments } from "../utils";
 import { FormPayment } from "./forms/FormPayment";
+import { useEffect } from "react";
+import { useAppDispatch } from "@/redux/store";
+import { resetAll } from "../utils/paymentSlice";
 
 export const CreatePayment = () => {
   const navigate = useNavigate();
 
   const { isSuccess, isPending, mutate } = usePostPayment();
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(resetAll());
+  }, []);
 
   const onSubmit = async (
     values: z.infer<typeof formSchemaPayments>,

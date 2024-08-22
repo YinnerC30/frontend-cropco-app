@@ -1,9 +1,6 @@
 import { Button } from "@/components/ui/button";
 
-import {
-  ArrowUpDown
-} from "lucide-react";
-
+import { ArrowUpDown } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -15,7 +12,7 @@ import { FormatDate } from "@/modules/core/helpers/FormatDate";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
 import { PaymentPending } from "../../interfaces/PaymentPending";
-import { addRecordToPay } from "../../utils/paymentSlice";
+import { addRecordToPay, calculateTotal } from "../../utils/paymentSlice";
 import { ActionsTablePaymentsPendingHarvest } from "./ActionsTablePaymentsPendingHarvest";
 
 export const columnsPaymentsPendingHarvest: ColumnDef<PaymentPending>[] = [
@@ -109,11 +106,28 @@ export const columnsPaymentsPendingHarvestActions = [
     cell: ({ row }: any) => {
       const harvestDetail = row.original;
 
+      const {
+        harvest: { date },
+        id,
+        total,
+        value_pay,
+        payment_is_pending,
+      } = harvestDetail;
+
       const dispatch = useAppDispatch();
 
       const handlePayRecord = () => {
-        // dispatch(remove(harvestDetail));
-        dispatch(addRecordToPay({ ...harvestDetail, type: "harvest" }));
+        dispatch(
+          addRecordToPay({
+            date,
+            id,
+            total,
+            value_pay,
+            payment_is_pending,
+            type: "harvest",
+          })
+        );
+        dispatch(calculateTotal());
         toast.success(`Se ha añadido la cosecha para pagarla`);
       };
 

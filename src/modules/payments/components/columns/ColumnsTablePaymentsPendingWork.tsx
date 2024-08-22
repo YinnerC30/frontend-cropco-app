@@ -1,9 +1,6 @@
 import { Button } from "@/components/ui/button";
 
-import {
-  ArrowUpDown
-} from "lucide-react";
-
+import { ArrowUpDown } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -15,7 +12,7 @@ import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 
 import { Badge } from "@/components";
 import { PaymentPending } from "../../interfaces/PaymentPending";
-import { addRecordToPay } from "../../utils/paymentSlice";
+import { addRecordToPay, calculateTotal } from "../../utils/paymentSlice";
 import { ActionsTablePaymentsPendingWork } from "./ActionsTablePaymentsPendingWork";
 
 export const columnsPaymentsPendingWork: ColumnDef<PaymentPending>[] = [
@@ -92,10 +89,28 @@ export const columnsPaymentsPendingWorkActions = [
     cell: ({ row }: any) => {
       const workDetail = row.original;
 
+      const {
+        work: { date },
+        id,
+        total,
+        value_pay,
+        payment_is_pending,
+      } = workDetail;
+
       const dispatch = useAppDispatch();
 
       const handlePayRecord = () => {
-        dispatch(addRecordToPay({ ...workDetail, type: "work" }));
+        dispatch(
+          addRecordToPay({
+            date,
+            id,
+            total,
+            value_pay,
+            payment_is_pending,
+            type: "work",
+          })
+        );
+        dispatch(calculateTotal());
         toast.success(`Se ha añadido el trabajo para pagarlo`);
       };
 

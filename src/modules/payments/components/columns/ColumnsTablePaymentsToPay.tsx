@@ -2,19 +2,37 @@ import { Button } from "@/components/ui/button";
 
 import { ArrowUpDown } from "lucide-react";
 
-
 import { ColumnDef } from "@tanstack/react-table";
 
 import { useAppDispatch } from "@/redux/store";
 import { toast } from "sonner";
 
 import { Badge } from "@/components";
+import { FormatDate } from "@/modules/core/helpers/FormatDate";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { PaymentPending } from "../../interfaces/PaymentPending";
-import { removeRecordToPay } from "../../utils/paymentSlice";
+import { calculateTotal, removeRecordToPay } from "../../utils/paymentSlice";
 import { ActionsTablePaymentsToPay } from "./ActionsTablePaymentsToPay";
 
 export const columnsPaymentsToPay: ColumnDef<PaymentPending>[] = [
+  {
+    accessorKey: "date",
+    cell: ({ row }) => {
+      return FormatDate({ date: row.getValue("date") });
+    },
+    header: ({ column }: any) => {
+      return (
+        <Button
+          className="px-0 hover:bg-transparent"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Fecha:
+          <ArrowUpDown className="w-4 h-4 ml-2" />
+        </Button>
+      );
+    },
+  },
   {
     accessorKey: "value_pay",
     cell: ({ row }) => {
@@ -61,9 +79,9 @@ export const columnsPaymentsToPay: ColumnDef<PaymentPending>[] = [
     cell: ({ row }) => {
       const value = row.getValue("type");
       return value === "harvest" ? (
-        <Badge variant={"destructive"}>Harvest</Badge>
+        <Badge variant={"lime"}>Harvest</Badge>
       ) : (
-        <Badge variant={"success"}>Work</Badge>
+        <Badge variant={"orange"}>Work</Badge>
       );
     },
     header: ({ column }: any) => {
@@ -91,8 +109,9 @@ export const columnsPaymentsToPayActions = [
       const dispatch = useAppDispatch();
 
       const handleDelete = () => {
-        toast.success(`Se ha eliminado el registro`);
+        dispatch(calculateTotal());
         dispatch(removeRecordToPay({ ...record }));
+        toast.success(`Se ha eliminado el registro`);
       };
 
       return (

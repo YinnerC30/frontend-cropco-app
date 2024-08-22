@@ -2,8 +2,10 @@ import { Badge, Button, Form, Label, Separator } from "@/components";
 import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
 import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalendar";
 import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
+import { FormFieldDataTable } from "@/modules/core/components/form/FormFieldDataTable";
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { FormFieldSelect } from "@/modules/core/components/form/FormFieldSelect";
+import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { FormProps } from "@/modules/core/interfaces/FormProps";
 import { useAppDispatch } from "@/redux/store";
@@ -13,11 +15,16 @@ import { toast } from "sonner";
 import { usePaymentForm } from "../../hooks/usePaymentForm";
 import { MethodOfPayment } from "../../interfaces/MethodOfPayment";
 import { formFieldsPayments } from "../../utils";
-import { calculateTotal } from "../../utils/paymentSlice";
+import {
+  addRecordsToPay,
+  calculateTotal,
+  resetAll,
+} from "../../utils/paymentSlice";
+import { columnsPaymentsToPay } from "../columns/ColumnsTablePaymentsToPay";
 import { TablesPendingPayments } from "../TablesPendingPayments";
 
 export const FormPayment = ({
-  // defaultValues,
+  defaultValues,
   isPending,
   onSubmit,
   readOnly = false,
@@ -30,6 +37,58 @@ export const FormPayment = ({
     openPopoverEmployee,
     setOpenPopoverEmployee,
   } = usePaymentForm();
+
+  const [employeeId, setEmployeeId] = useState("");
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    // dispatch(resetDataEmployee());
+    // dispatch(resetPaymentsToPay());
+    if (defaultValues) {
+      const {
+        payments_harvest = [],
+        payments_work = [],
+        ...rest
+      } = defaultValues;
+      const data = {
+        ...rest,
+        // categories: {
+        //   harvests: payments_harvest,
+        //   works: payments_work,
+        // },
+      };
+      // console.log(data);
+      formPayment.reset(data);
+
+      dispatch(
+        addRecordsToPay(
+          defaultValues.payments_harvest.map((item: any) => {
+            return {
+              id: item?.harvests_detail?.id,
+              value_pay: item?.harvests_detail?.value_pay,
+              payment_is_pending: item?.harvests_detail?.payment_is_pending,
+              type: "harvest",
+              date: item?.harvests_detail?.harvest?.date,
+            };
+          })
+        )
+      );
+      dispatch(
+        addRecordsToPay(
+          defaultValues.payments_work.map((item: any) => {
+            return {
+              id: item?.works_detail?.id,
+              value_pay: item?.works_detail?.value_pay,
+              payment_is_pending: item?.works_detail?.payment_is_pending,
+              type: "work",
+              date: item?.works_detail?.work?.date,
+            };
+          })
+        )
+      );
+      dispatch(calculateTotal());
+    }
+  }, []);
 
   const getHarvestToPay = () => {
     const harvests =
@@ -58,8 +117,6 @@ export const FormPayment = ({
 
   const navigate = useNavigate();
 
-  const [employeeId, setEmployeeId] = useState("");
-
   const searchPendingPayment = () => {
     const idEmployee = formPayment.getValues("employee.id");
     if (!idEmployee) {
@@ -71,8 +128,13 @@ export const FormPayment = ({
     }
   };
 
-  const dispatch = useAppDispatch();
-  dispatch(calculateTotal());
+  const getEmployeesToShow = () => {
+    const employees = queryEmployees?.data?.rows ?? [];
+    if (defaultValues) {
+      return [...employees, defaultValues.employee];
+    }
+    return [...employees];
+  };
 
   // Table components
 
@@ -92,10 +154,11 @@ export const FormPayment = ({
           placeholder={formFieldsPayments.date.placeholder}
           readOnly={readOnly}
         />
+
         <FormFieldCommand
           openPopover={openPopoverEmployee}
           setOpenPopover={setOpenPopoverEmployee}
-          data={queryEmployees?.data?.rows ?? []}
+          data={getEmployeesToShow() ?? []}
           form={formPayment}
           nameToShow={"first_name"}
           control={formPayment.control}
@@ -129,6 +192,26 @@ export const FormPayment = ({
           <TablesPendingPayments employeeId={employeeId} form={formPayment} />
         )}
         {/* Fin Tablas */}
+
+        {defaultValues && (
+          <FormFieldDataTable
+            control={formPayment.control}
+            description={
+              "Aquí se muestran los pagos que finalmente se liquidaran "
+            }
+            label={"Resumen a pagar:"}
+            name={"categories"}
+            placeholder={"placeholder"}
+            readOnly={false}
+          >
+            <DataTableForm
+              data={paymentsToPay ?? []}
+              columns={columnsPaymentsToPay}
+              nameColumnToFilter={""}
+              placeholderInputToFilter={""}
+            />
+          </FormFieldDataTable>
+        )}
 
         <Separator className="my-4" />
         <FormFieldSelect
@@ -175,7 +258,13 @@ export const FormPayment = ({
 
         {readOnly && (
           <div className="flex items-center gap-2">
-            <Button className="my-2" onClick={() => navigate(-1)}>
+            <Button
+              className="my-2"
+              onClick={() => {
+                dispatch(resetAll());
+                navigate(-1);
+              }}
+            >
               Volver
             </Button>
           </div>

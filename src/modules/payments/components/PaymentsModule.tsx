@@ -33,11 +33,7 @@ export const PaymentsModule = () => {
 
   return (
     <>
-      <BreadCrumb
-        items={[{ link: "/payments/all", name: "Pagos" }]}
-        finalItem={`Todos los pagos`}
-      />
-      <Label className="text-2xl">Pagos</Label>
+      <BreadCrumb finalItem={`Pagos`} />
 
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
