@@ -1,12 +1,13 @@
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
-import { formSchemaPurchaseDetail } from "../utils/formSchemaPurchaseDetail";
+import { formSchemaShoppingDetail } from "../utils/formSchemaShoppingDetail";
 import { useGetAllSupplies } from "@/modules/supplies/hooks/useGetAllSupplies";
 import { useGetAllSuppliers } from "@/modules/suppliers/hooks/useGetAllSuppliers";
 import { RootState, useAppSelector } from "@/redux/store";
+import { useState } from "react";
 
-export const usePurchaseDetailForm = () => {
-  const formPurchaseDetail = useCreateForm({
-    schema: formSchemaPurchaseDetail,
+export const useShoppingDetailForm = () => {
+  const formShoppingDetail = useCreateForm({
+    schema: formSchemaShoppingDetail,
     defaultValues: {
       supply: {
         id: undefined,
@@ -14,8 +15,8 @@ export const usePurchaseDetailForm = () => {
       supplier: {
         id: undefined,
       },
-      total: 0,
-      amount: 0,
+      total: undefined,
+      amount: undefined,
     },
   });
 
@@ -25,11 +26,18 @@ export const usePurchaseDetailForm = () => {
   });
   const { query: querySuppliers } = useGetAllSuppliers("");
 
-  const { details } = useAppSelector((state: RootState) => state.purchase);
+  const { details } = useAppSelector((state: RootState) => state.shopping);
+
+  const [openPopoverSupply, setOpenPopoverSupply] = useState(false);
+  const [openPopoverSupplier, setOpenPopoverSupplier] = useState(false);
   return {
-    formPurchaseDetail,
+    formShoppingDetail,
     querySupplies,
     querySuppliers,
     details,
+    openPopoverSupply,
+    setOpenPopoverSupply,
+    openPopoverSupplier,
+    setOpenPopoverSupplier,
   };
 };

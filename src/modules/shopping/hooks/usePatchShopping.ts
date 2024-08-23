@@ -1,15 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
-import { updatePurchase } from "../services/updatePurchase";
+import { updateShopping } from "../services/updateShopping";
 
-export const usePatchPurchase = (id: string) => {
+
+export const usePatchShopping = (id: string) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: updatePurchase,
+    mutationFn: updateShopping,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["purchases"] });
-      queryClient.invalidateQueries({ queryKey: ["purchases", id] });
+      queryClient.invalidateQueries({ queryKey: ["shoppings"] });
+      queryClient.invalidateQueries({ queryKey: ["shoppings", id] });
       toast.success(`Compra actualizada`);
     },
     onError: (error: AxiosError) => {

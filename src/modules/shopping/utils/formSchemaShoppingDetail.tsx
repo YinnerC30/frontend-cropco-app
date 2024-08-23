@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const formSchemaPurchaseDetail = z.object({
+export const formSchemaShoppingDetail = z.object({
   supply: z.object({
     id: z
       .string({

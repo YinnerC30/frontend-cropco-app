@@ -1,29 +1,29 @@
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { useAppSelector, RootState, useAppDispatch } from "@/redux/store";
 import { useState } from "react";
-import { formSchemaPurchase } from "../utils/formSchemaPurchase";
-import { usePostPurchase } from "./usePostPurchase";
+import { formSchemaShopping } from "../utils/formSchemaShopping";
+import { usePostShopping } from "./usePostShopping";
 
-export const usePurchaseForm = () => {
-  const formPurchase = useCreateForm({
-    schema: formSchemaPurchase,
+export const useShoppingForm = () => {
+  const formShopping = useCreateForm({
+    schema: formSchemaShopping,
     defaultValues: { date: undefined, total: 0 },
   });
 
-  const { details } = useAppSelector((state: RootState) => state.purchase);
+  const { details } = useAppSelector((state: RootState) => state.shopping);
 
   const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
   const [isOpenDialogModifyForm, setIsOpenDialogModifyForm] = useState(false);
 
-  const { total } = useAppSelector((state: RootState) => state.purchase);
+  const { total } = useAppSelector((state: RootState) => state.shopping);
 
   const dispatch = useAppDispatch();
 
-  const [purchaseDetail, setPurchaseDetail] = useState({});
+  const [shoppingDetail, setShoppingDetail] = useState({});
 
-  const { mutate, isSuccess, isPending } = usePostPurchase();
+  const { mutate, isSuccess, isPending } = usePostShopping();
   return {
-    formPurchase,
+    formShopping,
     details,
     isOpenDialogForm,
     setIsOpenDialogForm,
@@ -31,8 +31,8 @@ export const usePurchaseForm = () => {
     setIsOpenDialogModifyForm,
     total,
     dispatch,
-    purchaseDetail,
-    setPurchaseDetail,
+    shoppingDetail,
+    setShoppingDetail,
     mutate,
     isSuccess,
     isPending,

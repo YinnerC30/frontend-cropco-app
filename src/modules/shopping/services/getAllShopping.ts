@@ -1,11 +1,11 @@
 import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
-import { ResponseGetPurchases } from "../interfaces/ResponseGetPurchases";
+import { ResponseGetShopping } from "../interfaces/ResponseGetShopping";
 
-export async function getPurchases({
+export async function getAllShopping({
   search = "",
   limit = 10,
   offset = 0,
-}): Promise<ResponseGetPurchases> {
+}): Promise<ResponseGetShopping> {
   const params = new URLSearchParams();
   params.append("search", search);
   params.append("limit", limit.toString());

@@ -42,7 +42,7 @@ interface Props {
   setIsOpenDialogModifyForm?: any;
 }
 
-export function DataTablePurchaseDetail({
+export function DataTableShoppingDetail({
   data,
   columns,
   setSaleDetail,

@@ -7,9 +7,10 @@ import {
 } from "@/modules/core/components";
 import { PlusIcon } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useGetAllPurchases } from "../hooks/useGetAllPurchases";
-import columnsPurchase from "./ColumnsTablePurchase";
+import { useGetAllShopping } from "../hooks/useGetAllShopping";
+
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import columnsShopping from "./columns/ColumnsTableShopping";
 
 export const ShoppingModule = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export const ShoppingModule = () => {
   const searchParameter = searchParams.get("search") || "";
 
   const { query, pagination, setPagination } =
-    useGetAllPurchases(searchParameter);
+    useGetAllShopping(searchParameter);
 
   if (query.isLoading) return <Loading />;
 
@@ -26,11 +27,7 @@ export const ShoppingModule = () => {
   }
   return (
     <>
-      <BreadCrumb
-        items={[{ link: "/shopping/all", name: "Compras" }]}
-        finalItem={`Todas las compras`}
-      />
-      <Label className="text-2xl">Compras</Label>
+      <BreadCrumb finalItem={`Compras`} />
 
       <Separator className="my-2" />
 
@@ -49,7 +46,7 @@ export const ShoppingModule = () => {
         {/* TODO: Agregar filtros de fecha y total */}
         <div className="w-[800px]">
           <DataTable
-            columns={columnsPurchase}
+            columns={columnsShopping}
             rows={query.data?.rows ?? 0}
             data={query.data}
             pagination={pagination}

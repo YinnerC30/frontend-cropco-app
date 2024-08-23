@@ -1,17 +1,18 @@
-import { ActionsTable } from "@/modules/core/components/table/ActionsTable";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Button } from "@/components";
 import { FormatDate } from "@/modules/core/helpers/FormatDate";
 import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { ArrowUpDown } from "lucide-react";
-import { useDeletePurchase } from "../hooks/useDeletePurchase";
-import { PurchaseSupplies } from "../interfaces/PurchaseSupplies";
-import { formFields } from "../utils/formFields";
 
-export let columnsPurchase: ColumnDef<PurchaseSupplies>[] = [
+import { ShoppingSupplies } from "../../interfaces/ShoppingSupplies";
+import { formFieldsShopping } from "../../utils/formFieldsShopping";
+import { ActionsTableShopping } from "./ActionsTableShopping";
+import { useDeleteShopping } from "../../hooks/useDeleteShopping";
+
+export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
   {
-    accessorKey: formFields.date.name,
+    accessorKey: formFieldsShopping.date.name,
     cell: ({ row }) => {
       return FormatDate({ date: row.getValue("date") });
     },
@@ -22,14 +23,14 @@ export let columnsPurchase: ColumnDef<PurchaseSupplies>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {formFields.date.label}
+          {formFieldsShopping.date.label}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
   },
   {
-    accessorKey: formFields.total.name,
+    accessorKey: formFieldsShopping.total.name,
     cell: ({ row }) => {
       return FormatMoneyValue(row.getValue("total"));
     },
@@ -46,15 +47,14 @@ export let columnsPurchase: ColumnDef<PurchaseSupplies>[] = [
       );
     },
   },
+  {
+    id: "actions",
+    cell: ({ row }: any) => {
+      const { id } = row.original;
+      const { mutate } = useDeleteShopping();
+      return <ActionsTableShopping id={id} mutate={mutate} />;
+    },
+  },
 ];
 
-columnsPurchase.push({
-  id: "actions",
-  cell: ({ row }: any) => {
-    const { id } = row.original;
-    const { mutate } = useDeletePurchase();
-    return <ActionsTable mutate={mutate} id={id} />;
-  },
-});
-
-export default columnsPurchase;
+export default columnsShopping;

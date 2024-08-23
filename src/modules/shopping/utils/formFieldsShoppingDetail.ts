@@ -1,6 +1,6 @@
 import { CustomFormField } from "@/modules/core/interfaces/CustomFormField";
 
-export const formFieldsPurchaseDetail: Record<string, CustomFormField> = {
+export const formFieldsShoppingDetail: Record<string, CustomFormField> = {
   supply: {
     name: "supply",
     label: "Insumo:",

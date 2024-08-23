@@ -1,6 +1,6 @@
 import { CustomFormField } from "@/modules/core/interfaces/CustomFormField";
 
-export const formFields: Record<string, CustomFormField> = {
+export const formFieldsShopping: Record<string, CustomFormField> = {
   date: {
     name: "date",
     label: "Fecha:",
@@ -12,5 +12,11 @@ export const formFields: Record<string, CustomFormField> = {
     label: "Total:",
     placeholder: "0",
     description: "Total a pagar por la compra",
+  },
+  details: {
+    name: "details",
+    label: "Compras realizadas por proveedor:",
+    placeholder: "",
+    description: "",
   },
 };

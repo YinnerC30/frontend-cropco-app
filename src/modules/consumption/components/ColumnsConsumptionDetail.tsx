@@ -30,13 +30,13 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useAppDispatch } from "@/redux/store";
 import { toast } from "sonner";
 
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
 import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
-import { PurchaseDetails } from "../interfaces/PurchaseDetails";
-import { calculateTotal, remove } from "../utils/purchaseSlice";
-import { ModifyPurchaseDetail } from "./ModifyPurchaseDetail";
 
-export const columnsPurchaseDetail: ColumnDef<PurchaseDetails>[] = [
+import { ConsumptionDetails } from "../interfaces/ConsumptionDetails";
+import { remove } from "../utils/consumptionSlice";
+import { ModifyConsumptionDetail } from "./ModifyConsumptionDetail";
+
+export const columnsConsumptionDetail: ColumnDef<ConsumptionDetails>[] = [
   {
     accessorKey: "supply.name",
     header: ({ column }: any) => {
@@ -53,7 +53,7 @@ export const columnsPurchaseDetail: ColumnDef<PurchaseDetails>[] = [
     },
   },
   {
-    accessorKey: "supplier.first_name",
+    accessorKey: "crop.name",
     header: ({ column }: any) => {
       return (
         <Button
@@ -61,7 +61,7 @@ export const columnsPurchaseDetail: ColumnDef<PurchaseDetails>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {"Proveedor:"}
+          {"Cultivo:"}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
@@ -85,32 +85,14 @@ export const columnsPurchaseDetail: ColumnDef<PurchaseDetails>[] = [
       );
     },
   },
-  {
-    accessorKey: "total",
-    cell: ({ row }) => {
-      return FormatMoneyValue(row.getValue("total"));
-    },
-    header: ({ column }: any) => {
-      return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          {"Total a pagar:"}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      );
-    },
-  },
 ];
 
-export const columnsPurchaseDetailActions = [
-  ...columnsPurchaseDetail,
+export const columnsConsumptionDetailActions = [
+  ...columnsConsumptionDetail,
   {
     id: "actions",
     cell: ({ row }: any) => {
-      const purchaseDetail = row.original;
+      const consumptionDetail = row.original;
 
       const dispatch = useAppDispatch();
 
@@ -118,11 +100,11 @@ export const columnsPurchaseDetailActions = [
       const [isDialogOpen, setDialogOpen] = useState(false);
 
       const handleDelete = () => {
-        dispatch(remove(purchaseDetail));
+        dispatch(remove(consumptionDetail));
         toast.success(
-          `Se ha eliminado la compra del proveedor ${purchaseDetail.supplier.first_name}`
+          `Se ha eliminado el registro de consumo del cultivo ${consumptionDetail.crop.name}`
         );
-        dispatch(calculateTotal());
+
         setOpenDropDownMenu(false);
       };
 
@@ -188,8 +170,8 @@ export const columnsPurchaseDetailActions = [
                   <Button variant="ghost" onClick={() => setDialogOpen(true)}>
                     <Pencil2Icon className="w-full h-4 mr-2" /> Modificar
                   </Button>
-                  <ModifyPurchaseDetail
-                    defaultValues={purchaseDetail}
+                  <ModifyConsumptionDetail
+                    defaultValues={consumptionDetail}
                     isDialogOpen={isDialogOpen}
                     setDialogOpen={setDialogOpen}
                     afterEffect={setOpenDropDownMenu}
@@ -205,6 +187,6 @@ export const columnsPurchaseDetailActions = [
 ];
 
 export default {
-  columnsPurchaseDetail,
-  columnsPurchaseDetailActions,
+  columnsShoppingDetail: columnsConsumptionDetail,
+  columnsShoppingDetailActions: columnsConsumptionDetailActions,
 };

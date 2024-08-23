@@ -34,12 +34,13 @@ import { ConsumptionDetails } from "../interfaces/ConsumptionDetails";
 import { add, reset } from "../utils/consumptionSlice";
 import { formFields } from "../utils/formFields";
 
-import { columnsPurchaseDetailActions } from "./ColumnsTablePurchaseDetail";
+
 import { CreateConsumptionDetail } from "./CreateConsumptionDetail";
 import { DataTableConsumptionDetail } from "./DataTableConsumptionDetails";
 import { ModifyConsumptionDetail } from "./ModifyConsumptionDetail";
 import { formSchemaConsumption } from "../utils/formSchemaConsumption";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { columnsConsumptionDetailActions } from "./ColumnsConsumptionDetail";
 
 export const ModifyConsumption = () => {
   const { id } = useParams();
@@ -73,7 +74,7 @@ export const ModifyConsumption = () => {
     }
   }, [data, details.length, formConsumption, dispatch]);
 
-  const onSubmitPurchase = (values: z.infer<typeof formSchemaConsumption>) => {
+  const onSubmitShopping = (values: z.infer<typeof formSchemaConsumption>) => {
     if (details.length === 0) {
       toast.error("Debes registrar al menos 1 compra");
       return;
@@ -199,7 +200,7 @@ export const ModifyConsumption = () => {
             data={details}
             setSaleDetail={setConsumptionDetail}
             setIsOpenDialogModifyForm={setIsOpenDialogModifyForm}
-            columns={columnsPurchaseDetailActions}
+            columns={columnsConsumptionDetailActions}
           />
 
           <Separator className="w-full my-5" />
@@ -210,7 +211,7 @@ export const ModifyConsumption = () => {
               type="submit"
               form="formSale"
               disabled={isPending}
-              onClick={formConsumption.handleSubmit(onSubmitPurchase)}
+              onClick={formConsumption.handleSubmit(onSubmitShopping)}
             >
               {isPending && (
                 <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />

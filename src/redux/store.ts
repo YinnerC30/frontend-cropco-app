@@ -3,7 +3,7 @@ import { consumptionReducer } from "@/modules/consumption/utils/consumptionSlice
 import { harvestReducer } from "@/modules/harvests/utils/harvestSlice";
 import { paymentReducer } from "@/modules/payments/utils/paymentSlice";
 import { saleReducer } from "@/modules/sales/utils/saleSlice";
-import { purchaseReducer } from "@/modules/shopping/utils/purchaseSlice";
+import { shoppingReducer } from "@/modules/shopping/utils/shoppingSlice";
 import { workReducer } from "@/modules/work/utils/workSlice";
 import { configureStore } from "@reduxjs/toolkit";
 
@@ -15,7 +15,7 @@ export const store = configureStore({
     payment: paymentReducer,
     sale: saleReducer,
     work: workReducer,
-    purchase: purchaseReducer,
+    shopping: shoppingReducer,
     consumption: consumptionReducer,
   },
 });

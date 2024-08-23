@@ -25,10 +25,11 @@ import { useConsumptionForm } from "../hooks/useConsumptionForm";
 import { useGetConsumption } from "../hooks/useGetConsumption";
 import { add, reset } from "../utils/consumptionSlice";
 import { formFields } from "../utils/formFields";
-import { columnsConsumptionDetail } from "./ColumnsTablePurchaseDetail";
+
 import { CreateConsumptionDetail } from "./CreateConsumptionDetail";
 import { DataTableConsumptionDetail } from "./DataTableConsumptionDetails";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { columnsConsumptionDetail } from "./ColumnsConsumptionDetail";
 
 export const ViewConsumption = () => {
   const { id } = useParams();
