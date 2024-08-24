@@ -12,19 +12,23 @@ interface Response {
   setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
 }
 
-export function useGetAllConsumptions(searchParameter: string): Response {
+export function useGetAllConsumptions({
+  before_date,
+  after_date,
+}: any): Response {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
 
   const query = useQuery({
-    queryKey: ["consumptions", { searchParameter, ...pagination }],
+    queryKey: ["consumptions", { before_date, after_date, ...pagination }],
     queryFn: () =>
       getAllConsumptions({
-        search: searchParameter,
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
+        before_date,
+        after_date,
       }),
   });
 
