@@ -2,6 +2,7 @@ import { ActionsTable } from "@/modules/core/components";
 import { ItemCopyIdRecord } from "@/modules/core/components/table/actions/ItemCopyIdRecord";
 import { ItemDeleteRecord } from "@/modules/core/components/table/actions/ItemDeleteRecord";
 import { ItemModifyRecord } from "@/modules/core/components/table/actions/ItemModifyRecord";
+import { ItemViewRecord } from "@/modules/core/components/table/actions/ItemViewRecord";
 import { useState } from "react";
 
 export const ActionsTableShopping = ({ id, mutate }: any) => {
@@ -21,6 +22,7 @@ export const ActionsTableShopping = ({ id, mutate }: any) => {
         action={handleDelete}
         setOpenDropDownMenu={setOpenPopover}
       />
+      <ItemViewRecord id={id} />
     </ActionsTable>
   );
 };

@@ -51,7 +51,7 @@ export const FormShopping = ({
       dispatch(add(defaultValues.details));
       dispatch(calculateTotal());
     }
-  }, [defaultValues]);
+  }, []);
 
   useEffect(() => {
     formShopping.reset({
@@ -64,7 +64,7 @@ export const FormShopping = ({
     formShopping.setValue("details", details);
   }, [details]);
 
-  console.log(shoppingDetail)
+  console.log(shoppingDetail);
   return (
     <Form {...formShopping}>
       <form
