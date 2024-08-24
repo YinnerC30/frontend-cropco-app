@@ -10,7 +10,9 @@ import { formSchemaConsumption } from "../utils/formSchemaConsumption";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import { useEffect } from "react";
 import { ConsumptionDetails } from "../interfaces/ConsumptionDetails";
-import { FormConsumption } from "./FormConsumption";
+import { FormConsumption } from "./forms/FormConsumption";
+
+
 
 export const CreateConsumption = () => {
   const { mutate, dispatch, isSuccess, isPending } = useConsumptionForm();

@@ -4,10 +4,11 @@ import { FormFieldCommand } from "@/modules/core/components/form/FormFieldComman
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { FormProps } from "@/modules/core/interfaces";
 import { useEffect } from "react";
-import { useConsumptionDetailForm } from "../hooks/useConsumptionDetailForm";
-import { formFieldsConsumptionDetail } from "../utils/formFieldsConsumptionDetail";
+
 import { Crop } from "@/modules/crops/interfaces/Crop";
 import { Supply } from "@/modules/supplies/interfaces/Supply";
+import { useConsumptionDetailForm } from "../../hooks/useConsumptionDetailForm";
+import { formFieldsConsumptionDetail } from "../../utils/formFieldsConsumptionDetail";
 
 export interface Props {
   isOpenDialogForm: boolean;

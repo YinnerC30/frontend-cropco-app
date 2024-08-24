@@ -1,8 +1,6 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { ErrorLoading, Loading } from "@/modules/core/components";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
@@ -15,7 +13,7 @@ import { reset } from "../utils/consumptionSlice";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import { ConvertStringToDate } from "@/modules/core/helpers/ConvertStringToDate";
 import { formSchemaConsumption } from "../utils/formSchemaConsumption";
-import { FormConsumption } from "./FormConsumption";
+import { FormConsumption } from "./forms/FormConsumption";
 
 export const ModifyConsumption = () => {
   const { id } = useParams();
@@ -59,9 +57,7 @@ export const ModifyConsumption = () => {
     <>
       <BreadCrumb
         items={[{ link: "/consumption/all", name: "Consumos" }]}
-        finalItem={`${format(data.date + "T00:00:00-05:00", "PPP", {
-          locale: es,
-        })}`}
+        finalItem={`Modificar`}
       />
 
       <Separator className="my-2" />

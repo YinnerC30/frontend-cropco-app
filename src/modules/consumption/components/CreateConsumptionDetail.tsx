@@ -17,7 +17,8 @@ import { z } from "zod";
 import { useConsumptionDetailForm } from "../hooks/useConsumptionDetailForm";
 import { add } from "../utils/consumptionSlice";
 import { formSchemaConsumptionDetail } from "../utils/formSchemaConsumptionDetail";
-import { FormConsumptionDetail } from "./FormConsumptionDetail";
+import { FormConsumptionDetail } from "./forms/FormConsumptionDetail";
+
 
 export interface Props {
   isOpenDialogForm: boolean;

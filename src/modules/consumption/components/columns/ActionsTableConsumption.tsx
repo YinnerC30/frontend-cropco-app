@@ -1,10 +1,8 @@
-import { LayersIcon } from "@radix-ui/react-icons";
 
 import { ActionsTable } from "@/modules/core/components";
 import { ItemCopyIdRecord } from "@/modules/core/components/table/actions/ItemCopyIdRecord";
 import { ItemDeleteRecord } from "@/modules/core/components/table/actions/ItemDeleteRecord";
 import { ItemModifyRecord } from "@/modules/core/components/table/actions/ItemModifyRecord";
-import { ItemNavigate } from "@/modules/core/components/table/actions/ItemNavigate";
 import { ItemViewRecord } from "@/modules/core/components/table/actions/ItemViewRecord";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { useState } from "react";

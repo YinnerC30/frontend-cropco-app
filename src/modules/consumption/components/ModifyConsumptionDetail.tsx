@@ -1,24 +1,4 @@
-import {
-  Button,
-  Command,
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Input,
-  Popover,
-  ScrollArea,
-} from "@/components";
-import {
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
+import { Button } from "@/components";
 import {
   Dialog,
   DialogClose,
@@ -28,20 +8,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { Crop } from "@/modules/crops/interfaces/Crop";
-import { Supply } from "@/modules/supplies/interfaces/Supply";
 import { useAppDispatch } from "@/redux/store";
-import { CaretSortIcon, CheckIcon, Cross2Icon } from "@radix-ui/react-icons";
+import { Cross2Icon } from "@radix-ui/react-icons";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { useConsumptionDetailForm } from "../hooks/useConsumptionDetailForm";
 import { modify } from "../utils/consumptionSlice";
-import { formFieldsConsumptionDetail } from "../utils/formFieldsConsumptionDetail";
 import { formSchemaConsumptionDetail } from "../utils/formSchemaConsumptionDetail";
-import { FormConsumptionDetail } from "./FormConsumptionDetail";
+import { FormConsumptionDetail } from "./forms/FormConsumptionDetail";
 
 interface Props {
   defaultValues: any;

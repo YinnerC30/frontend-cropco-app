@@ -1,15 +1,12 @@
 import { Button } from "@/components/ui/button";
 
-
 import { ArrowUpDown } from "lucide-react";
-
 
 import { ColumnDef } from "@tanstack/react-table";
 
-
 import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
 
-import { ConsumptionDetails } from "../interfaces/ConsumptionDetails";
+import { ConsumptionDetails } from "../../interfaces/ConsumptionDetails";
 import { ActionsTableConsumptionDetail } from "./ActionsTableConsumptionDetail";
 
 export const columnsConsumptionDetail: ColumnDef<ConsumptionDetails>[] = [

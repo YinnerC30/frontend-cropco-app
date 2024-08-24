@@ -9,7 +9,8 @@ import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import { PlusIcon } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useGetAllConsumptions } from "../hooks/useGetAllConsumptions";
-import columnsConsumption from "./ColumnsTableConsumption";
+import columnsConsumption from "./columns/ColumnsTableConsumption";
+
 
 export const ConsumptionModule = () => {
   const navigate = useNavigate();
@@ -26,10 +27,7 @@ export const ConsumptionModule = () => {
   }
   return (
     <>
-      <BreadCrumb
-        items={[{ link: "/consumption/all", name: "Consumos" }]}
-        finalItem={`Todos los consumos`}
-      />
+      <BreadCrumb finalItem={`Consumos`} />
 
       <Separator className="my-2" />
 

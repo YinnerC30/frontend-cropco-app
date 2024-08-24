@@ -3,10 +3,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components";
 import { FormatDate } from "@/modules/core/helpers/FormatDate";
 import { ArrowUpDown } from "lucide-react";
-import { useDeleteConsumption } from "../hooks/useDeleteConsumption";
-import { ConsumptionSupplies } from "../interfaces/ConsuptionSupplies";
-import { formFieldsConsumption } from "../utils/formFieldsConsumption";
+import { ConsumptionSupplies } from "../../interfaces/ConsuptionSupplies";
+import { formFieldsConsumption } from "../../utils/formFieldsConsumption";
 import { ActionsTableConsumption } from "./ActionsTableConsumption";
+import { useDeleteConsumption } from "../../hooks/useDeleteConsumption";
 
 export let columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
   {

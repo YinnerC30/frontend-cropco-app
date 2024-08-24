@@ -1,10 +1,6 @@
 import { Button, Form } from "@/components";
 import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
-import { useConsumptionForm } from "../hooks/useConsumptionForm";
-
-import { add, reset } from "../utils/consumptionSlice";
-import { formFieldsConsumption } from "../utils/formFieldsConsumption";
 
 import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
 import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalendar";
@@ -12,13 +8,15 @@ import { FormFieldDataTable } from "@/modules/core/components/form/FormFieldData
 import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
 import { FormProps } from "@/modules/core/interfaces/FormProps";
 import { useEffect } from "react";
+import { useConsumptionForm } from "../../hooks/useConsumptionForm";
+import { add, reset } from "../../utils/consumptionSlice";
+import { formFieldsConsumption } from "../../utils/formFieldsConsumption";
+import { CreateConsumptionDetail } from "../CreateConsumptionDetail";
+import { ModifyConsumptionDetail } from "../ModifyConsumptionDetail";
 import {
   columnsConsumptionDetail,
   columnsConsumptionDetailActions,
-} from "./ColumnsTableConsumptionDetail";
-import { CreateConsumptionDetail } from "./CreateConsumptionDetail";
-import { ModifyConsumptionDetail } from "./ModifyConsumptionDetail";
-import { read } from "fs";
+} from "../columns/ColumnsTableConsumptionDetail";
 
 export const FormConsumption = ({
   onSubmit,
@@ -51,7 +49,10 @@ export const FormConsumption = ({
   }, []);
 
   useEffect(() => {
-    formConsumption.setValue("details", details);
+    if (details.length > 0) {
+      formConsumption.setValue("details", details);
+      formConsumption.trigger("details");
+    }
   }, [details]);
 
   const navigate = useNavigate();

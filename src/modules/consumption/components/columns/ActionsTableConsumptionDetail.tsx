@@ -6,8 +6,10 @@ import { ActionsTable } from "@/modules/core/components";
 import { ItemCopyIdRecord } from "@/modules/core/components/table/actions/ItemCopyIdRecord";
 import { ItemDeleteRecord } from "@/modules/core/components/table/actions/ItemDeleteRecord";
 import { ItemModifyRecordDetail } from "@/modules/core/components/table/actions/ItemModifyRecordDetail";
-import { remove } from "../utils/consumptionSlice";
-import { ModifyConsumptionDetail } from "./ModifyConsumptionDetail";
+import { remove } from "../../utils/consumptionSlice";
+import { ModifyConsumptionDetail } from "../ModifyConsumptionDetail";
+
+
 
 export const ActionsTableConsumptionDetail = ({ consumptionDetail }: any) => {
   const dispatch = useAppDispatch();

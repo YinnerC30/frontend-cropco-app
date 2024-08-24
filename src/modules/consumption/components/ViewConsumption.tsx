@@ -1,8 +1,6 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { ErrorLoading, Loading } from "@/modules/core/components";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useConsumptionForm } from "../hooks/useConsumptionForm";
@@ -11,7 +9,7 @@ import { reset } from "../utils/consumptionSlice";
 
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import { ConvertStringToDate } from "@/modules/core/helpers/ConvertStringToDate";
-import { FormConsumption } from "./FormConsumption";
+import { FormConsumption } from "./forms/FormConsumption";
 
 export const ViewConsumption = () => {
   const { id } = useParams();
