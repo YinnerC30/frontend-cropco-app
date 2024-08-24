@@ -2,10 +2,10 @@ import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { useGetAllCrops } from "@/modules/crops/hooks/useGetAllCrops";
 import { useGetAllSuppliesStock } from "@/modules/supplies/hooks/useGetAllSuppliesStock";
 import { RootState, useAppSelector } from "@/redux/store";
+import { useState } from "react";
 import { formSchemaConsumptionDetail } from "../utils/formSchemaConsumptionDetail";
 
 export const useConsumptionDetailForm = () => {
-  // TODO: Por implementar
   const formConsumptionDetails = useCreateForm({
     schema: formSchemaConsumptionDetail,
     defaultValues: {
@@ -15,7 +15,7 @@ export const useConsumptionDetailForm = () => {
       crop: {
         id: undefined,
       },
-      amount: 0,
+      amount: undefined,
     },
   });
 
@@ -23,17 +23,24 @@ export const useConsumptionDetailForm = () => {
     searchParameter: "",
     allRecords: true,
   });
-  
+
   const { query: queryCrops } = useGetAllCrops({
     searchParameter: "",
     allRecords: true,
   });
 
-  const { details } = useAppSelector((state: RootState) => state.purchase);
+  const [openPopoverCrop, setOpenPopoverCrop] = useState(false);
+  const [openPopoverSupply, setOpenPopoverSupply] = useState(false);
+
+  const { details } = useAppSelector((state: RootState) => state.consumption);
   return {
     formConsumptionDetails,
     querySupplies,
     queryCrops,
     details,
+    openPopoverCrop,
+    setOpenPopoverCrop,
+    openPopoverSupply,
+    setOpenPopoverSupply,
   };
 };

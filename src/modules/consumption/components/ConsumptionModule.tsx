@@ -1,15 +1,15 @@
-import { Button, Label, ScrollArea, Separator } from "@/components";
+import { Button, ScrollArea, Separator } from "@/components";
 import {
   DataTable,
   ErrorLoading,
   Loading,
   ToolTipTemplate,
 } from "@/modules/core/components";
+import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import { PlusIcon } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useGetAllConsumptions } from "../hooks/useGetAllConsumptions";
 import columnsConsumption from "./ColumnsTableConsumption";
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 
 export const ConsumptionModule = () => {
   const navigate = useNavigate();
@@ -30,7 +30,6 @@ export const ConsumptionModule = () => {
         items={[{ link: "/consumption/all", name: "Consumos" }]}
         finalItem={`Todos los consumos`}
       />
-      <Label className="text-2xl">Consumo de insumos</Label>
 
       <Separator className="my-2" />
 

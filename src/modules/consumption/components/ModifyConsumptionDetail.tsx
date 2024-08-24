@@ -41,6 +41,7 @@ import { useConsumptionDetailForm } from "../hooks/useConsumptionDetailForm";
 import { modify } from "../utils/consumptionSlice";
 import { formFieldsConsumptionDetail } from "../utils/formFieldsConsumptionDetail";
 import { formSchemaConsumptionDetail } from "../utils/formSchemaConsumptionDetail";
+import { FormConsumptionDetail } from "./FormConsumptionDetail";
 
 interface Props {
   defaultValues: any;
@@ -56,8 +57,7 @@ export const ModifyConsumptionDetail = ({
 }: Props) => {
   const dispatch = useAppDispatch();
 
-  const { details, formConsumptionDetails, queryCrops, querySupplies } =
-    useConsumptionDetailForm();
+  const { formConsumptionDetails } = useConsumptionDetailForm();
 
   useEffect(() => {
     formConsumptionDetails.reset(defaultValues);
@@ -96,232 +96,10 @@ export const ModifyConsumptionDetail = ({
 
           {/* Formulario */}
 
-          <Form {...formConsumptionDetails}>
-            <form
-              onSubmit={formConsumptionDetails.handleSubmit(
-                onSubmitConsumptionDetail
-              )}
-              className="mx-5"
-              id="formDetail"
-            >
-              <FormField
-                key={"supply.id"}
-                control={formConsumptionDetails.control}
-                name={"supply.id"}
-                render={({ field }) => (
-                  <FormItem className="my-4">
-                    <FormLabel className="block">
-                      {formFieldsConsumptionDetail.supply.label}
-                    </FormLabel>
-
-                    <Popover modal={true}>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className={cn(
-                              "w-[200px] justify-between",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value
-                              ? querySupplies.data?.rows.find(
-                                  (item: Supply) => item.id === field.value
-                                )?.name
-                              : formFieldsConsumptionDetail.supply.placeholder}
-
-                            <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-0">
-                        <Command>
-                          <CommandInput
-                            placeholder="Buscar cultivo..."
-                            className="h-9"
-                          />
-                          <CommandList>
-                            <ScrollArea className="w-auto h-56">
-                              <CommandEmpty>
-                                Cultivo no encontrado.
-                              </CommandEmpty>
-                              <CommandGroup>
-                                {querySupplies.data?.rows &&
-                                  Array.isArray(querySupplies.data?.rows) &&
-                                  querySupplies.data?.rows.map(
-                                    (supply: Supply | any) => {
-                                      const isIncludes = details.some(
-                                        (item: any) =>
-                                          item.supply.id === supply.id
-                                      );
-                                      if (isIncludes) return;
-                                      return (
-                                        <CommandItem
-                                          value={`${supply.name}`}
-                                          key={supply.id!}
-                                          onSelect={() => {
-                                            formConsumptionDetails.setValue(
-                                              "supply",
-                                              supply!
-                                            );
-                                            formConsumptionDetails.trigger(
-                                              "supply.id"
-                                            );
-                                          }}
-                                        >
-                                          <div className="flex justify-between w-40 ">
-                                            <span>{`${supply.name}`}</span>
-                                          </div>
-                                          <CheckIcon
-                                            className={cn(
-                                              "ml-auto h-4 w-4",
-                                              supply.id! === field.value
-                                                ? "opacity-100"
-                                                : "opacity-0"
-                                            )}
-                                          />
-                                        </CommandItem>
-                                      );
-                                    }
-                                  )}
-                              </CommandGroup>
-                            </ScrollArea>
-                          </CommandList>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-
-                    <FormDescription>
-                      {formFieldsConsumptionDetail.supply.description}
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                key={"crop.id"}
-                control={formConsumptionDetails.control}
-                name={"crop.id"}
-                render={({ field }) => (
-                  <FormItem className="my-4">
-                    <FormLabel className="block">
-                      {formFieldsConsumptionDetail.crop.label}
-                    </FormLabel>
-
-                    <Popover modal={true}>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className={cn(
-                              "w-[200px] justify-between",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value
-                              ? queryCrops.data.rows.find(
-                                  (item: Crop) => item.id === field.value
-                                )?.name
-                              : formFieldsConsumptionDetail.crop.placeholder}
-
-                            <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-0">
-                        <Command>
-                          <CommandInput
-                            placeholder="Buscar proveedor..."
-                            className="h-9"
-                          />
-                          <CommandList>
-                            <ScrollArea className="w-auto h-56">
-                              <CommandEmpty>
-                                Cultivo no encontrado.
-                              </CommandEmpty>
-                              <CommandGroup>
-                                {queryCrops.data.rows &&
-                                  Array.isArray(queryCrops.data.rows) &&
-                                  queryCrops.data.rows.map(
-                                    (crop: Crop | any) => {
-                                      const isIncludes = details.some(
-                                        (item: any) => item.crop.id === crop.id
-                                      );
-                                      if (isIncludes) return;
-                                      return (
-                                        <CommandItem
-                                          value={crop.name}
-                                          key={crop.id!}
-                                          onSelect={() => {
-                                            formConsumptionDetails.setValue(
-                                              "crop",
-                                              crop!
-                                            );
-                                            formConsumptionDetails.trigger(
-                                              "crop.id"
-                                            );
-                                          }}
-                                        >
-                                          {crop.name}
-                                          <CheckIcon
-                                            className={cn(
-                                              "ml-auto h-4 w-4",
-                                              crop.id! === field.value
-                                                ? "opacity-100"
-                                                : "opacity-0"
-                                            )}
-                                          />
-                                        </CommandItem>
-                                      );
-                                    }
-                                  )}
-                              </CommandGroup>
-                            </ScrollArea>
-                          </CommandList>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-
-                    <FormDescription>
-                      {formFieldsConsumptionDetail.crop.description}
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                key={"amount"}
-                control={formConsumptionDetails.control}
-                name={"amount"}
-                render={({ field }) => (
-                  <FormItem className="my-4">
-                    <FormLabel className="block">
-                      {formFieldsConsumptionDetail.amount.label}
-                    </FormLabel>
-
-                    <FormControl>
-                      <Input
-                        className="w-80"
-                        placeholder={
-                          formFieldsConsumptionDetail.amount.placeholder
-                        }
-                        min={0}
-                        type="number"
-                        {...field}
-                      />
-                    </FormControl>
-
-                    <FormDescription>
-                      {formFieldsConsumptionDetail.amount.description}
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </form>
-          </Form>
+          <FormConsumptionDetail
+            onSubmit={onSubmitConsumptionDetail}
+            defaultValues={{ ...defaultValues }}
+          />
 
           <DialogFooter>
             <Button
@@ -329,11 +107,12 @@ export const ModifyConsumptionDetail = ({
               onClick={() => {
                 formConsumptionDetails.reset();
                 setDialogOpen(false);
+                afterEffect(false);
               }}
             >
               Cancelar
             </Button>
-            <Button type="submit" form="formDetail">
+            <Button type="submit" form="formConsumptionDetail">
               Guardar
             </Button>
           </DialogFooter>
