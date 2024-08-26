@@ -14,7 +14,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
-import { DataTableColumnHeaderProps } from './interfaces/DataTableColumnHeaderProps';
+import { DataTableColumnHeaderProps } from '../../interfaces/table/DataTableColumnHeaderProps';
+
 
 export function DataTableColumnHeader<TData, TValue>({
   column,
@@ -36,11 +37,11 @@ export function DataTableColumnHeader<TData, TValue>({
           >
             <span>{title}</span>
             {column.getIsSorted() === 'desc' ? (
-              <ArrowDownIcon className="ml-2 h-4 w-4" />
+              <ArrowDownIcon className="w-4 h-4 ml-2" />
             ) : column.getIsSorted() === 'asc' ? (
-              <ArrowUpIcon className="ml-2 h-4 w-4" />
+              <ArrowUpIcon className="w-4 h-4 ml-2" />
             ) : (
-              <CaretSortIcon className="ml-2 h-4 w-4" />
+              <CaretSortIcon className="w-4 h-4 ml-2" />
             )}
           </Button>
         </DropdownMenuTrigger>

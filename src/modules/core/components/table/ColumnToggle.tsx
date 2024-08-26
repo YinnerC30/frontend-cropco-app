@@ -11,7 +11,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import { DataTableViewOptionsProps } from './interfaces/DataTableViewOptionsProps';
+import { DataTableViewOptionsProps } from '../../interfaces/table/DataTableViewOptionsProps';
+
 
 export function DataTableViewOptions<TData>({
   table,

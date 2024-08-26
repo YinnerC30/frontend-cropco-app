@@ -1,7 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import { PlusIcon } from "lucide-react";
 import { useGetAllSuppliers } from "../hooks/useGetAllSuppliers";
 import { columnsTableSuppliers } from "./ColumnsTableSuppliers";

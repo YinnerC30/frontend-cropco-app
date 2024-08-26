@@ -3,7 +3,6 @@ import { Separator } from "@/components/ui/separator";
 
 import { AppDispatch, useAppDispatch } from "@/redux/store";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "sonner";
 import { z } from "zod";
 
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";

@@ -1,6 +1,5 @@
 "use client";
 
-import { CalendarIcon, FaceIcon, RocketIcon } from "@radix-ui/react-icons";
 import * as React from "react";
 
 import {
@@ -13,7 +12,6 @@ import {
 } from "@/components/ui/command";
 import { routes } from "@/routes/RoutesNavBar";
 import { useNavigate } from "react-router-dom";
-import path from "path";
 
 export function CommandDialogApp() {
   const [open, setOpen] = React.useState(false);

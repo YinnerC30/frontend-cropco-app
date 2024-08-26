@@ -3,7 +3,6 @@ import { z } from 'zod';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useNavigate } from 'react-router-dom';
 
-import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { usePostCrop } from '../hooks/usePostCrop';
 

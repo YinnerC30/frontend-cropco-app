@@ -5,7 +5,7 @@ import {
   SearchBar,
 } from "@/modules/core/components";
 
-import { ScrollArea, Separator } from "@/components";
+import { ScrollArea } from "@/components";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import { ButtonCreateRecord } from "@/modules/core/components/ButtonCreateRecord";
 import { useSearchParams } from "react-router-dom";

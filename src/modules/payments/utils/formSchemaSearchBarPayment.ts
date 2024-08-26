@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { DateTimeSelection } from "../../core/interfaces/DateTimeSelection";
 import { MinorOrMajorSelection } from "../../core/interfaces/MinorOrMajorSelection";
-import { YesORNotSelection } from "@/modules/core/interfaces/YesORNotSelection";
 import { MethodOfPayment } from "../interfaces/MethodOfPayment";
 
 export const formSchemaSearchBarPayment = z.object({

@@ -2,7 +2,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 
-import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { ErrorLoading, Loading } from '../../core/components';
 import { useGetCrop } from '../hooks/useGetCrop';

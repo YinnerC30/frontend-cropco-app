@@ -9,10 +9,10 @@ export const chartConfig = {
     // A color like 'hsl(220, 98%, 61%)' or 'var(--color-name)'
     color: "#2563eb",
     // OR a theme object with 'light' and 'dark' keys
-    theme: {
-      light: "#2563eb",
-      dark: "#dc2626",
-    },
+    // theme: {
+    //   light: "#2563eb",
+    //   dark: "#dc2626",
+    // },
   },
   mobile: {
     label: "Mobile",
