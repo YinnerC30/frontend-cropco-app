@@ -8,9 +8,15 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Label,
-  Separator,
 } from "@/components";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { RootState, useAppSelector } from "@/redux/store";
 import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { useEffect } from "react";
@@ -26,10 +32,11 @@ export const Login = () => {
   const { user } = useAppSelector((state: RootState) => state.authentication);
 
   useEffect(() => {
-    if (user.token.length > 0) {
+    if (user?.token.length > 0) {
       navigate("/");
     }
   }, [user]);
+
   const {
     form,
     mutate,
@@ -68,75 +75,81 @@ export const Login = () => {
     }
   };
 
+  const { email, password } = formFields;
+
   return (
-    <div className="flex items-center justify-center h-screen ">
-      <div>
-        <Label className="text-2xl">Iniciar sesión</Label>
-        <Separator className="my-2" />
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            id="formLogin"
-            className="flex flex-col gap-2 ml-1"
-          >
-            <FormField
-              control={form.control}
-              name={"email"}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{formFields.email.label}</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="w-56"
-                      placeholder={formFields.email.placeholder}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    {formFields.email.description}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name={`password`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{formFields.password.label}</FormLabel>
-                  <div className="flex gap-2">
+    <div className="flex items-center justify-center h-screen max-w-sm mx-auto space-y-6">
+      <Card className="w-[350px]">
+        <CardHeader>
+          <CardTitle className="text-3xl font-bold text-center">
+            Inicio de sesión
+          </CardTitle>
+          <CardDescription className="text-gray-500">
+            Ingresa tu usuario y contraseña para acceder a tu cuenta
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              id="formLogin"
+              className="flex flex-col gap-4 mt-4"
+            >
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{email.label}</FormLabel>
                     <FormControl>
-                      <Input
-                        className="w-56"
-                        type={showPassword ? "text" : "password"}
-                        {...field}
-                      />
+                      <Input placeholder={email.placeholder} {...field} />
                     </FormControl>
-                    <Button onClick={(e) => togglePasswordVisibility(e)}>
-                      {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
-                    </Button>
-                  </div>
-                  <FormDescription>
-                    {formFields.password.description}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </form>
-
-          <div className="flex w-48 gap-2 mt-2">
-            <Button type="submit" form="formLogin" disabled={isPending}>
-              {isPending && (
-                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
-              )}
-              Ingresar
-            </Button>
-          </div>
-        </Form>
-      </div>
+                    <FormDescription>{email.description}</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{password.label}</FormLabel>
+                    <div className="flex items-center gap-2">
+                      <FormControl>
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          {...field}
+                        />
+                      </FormControl>
+                      <Button
+                        type="button"
+                        onClick={togglePasswordVisibility}
+                        className="p-2"
+                      >
+                        {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                      </Button>
+                    </div>
+                    <FormDescription>{password.description}</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </form>
+          </Form>
+        </CardContent>
+        <CardFooter className="flex justify-between">
+          <Button
+            type="submit"
+            form="formLogin"
+            className="w-full mt-4"
+            disabled={isPending}
+          >
+            {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
+            Ingresar
+          </Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 };

@@ -4,7 +4,7 @@ export const formFields: Record<string, CustomFormField> = {
   email: {
     name: "email",
     label: "Correo electrónico:",
-    placeholder: "stivgome@google.com",
+    placeholder: "email@google.com",
     description: "Su correo electrónico personal",
   },
 
