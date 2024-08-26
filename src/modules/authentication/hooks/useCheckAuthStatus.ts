@@ -1,19 +1,19 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { loginUser } from "../services/loginUser";
+import { checkAuthStatus } from "../services/checkAuthStatus";
 
-export const useLoginUser = () => {
+export const useCheckAuthStatus = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: loginUser,
+    mutationFn: checkAuthStatus,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user-active"] });
+      queryClient.invalidateQueries({ queryKey: ["user-sesion-status"] });
     },
     onError: (error: AxiosError) => {
       const loginError: AxiosError | any = error;
       const { data } = loginError.response;
       console.error(
-        `Hubo un problema al intentar iniciar sesión, ${data.message}`
+        `Hubo un problema al intentar verificar la  sesión, ${data.message}`
       );
     },
     retry: 1,

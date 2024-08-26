@@ -35,7 +35,7 @@ export const FormFieldInput = ({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <>
+            <div className="flex gap-4">
               <Input
                 className={`w-56 ${className}`}
                 placeholder={placeholder}
@@ -46,7 +46,7 @@ export const FormFieldInput = ({
                 min={min}
               />
               {children}
-            </>
+            </div>
           </FormControl>
           <FormDescription>{description}</FormDescription>
           <FormMessage />

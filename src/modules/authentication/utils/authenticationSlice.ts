@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserActive } from "../interfaces/UserActive";
-import { getUserInLocalStorage } from "./get-user-local-storage";
+import { getUserInLocalStorage } from "./getUserInLocalStorage";
 
 interface authenticationState {
   user: UserActive;

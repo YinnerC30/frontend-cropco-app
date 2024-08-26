@@ -1,6 +1,6 @@
 import { CustomFormField } from "@/modules/core/interfaces/CustomFormField";
 
-export const formFields: Record<string, CustomFormField> = {
+export const formFieldsLogin: Record<string, CustomFormField> = {
   email: {
     name: "email",
     label: "Correo electrónico:",

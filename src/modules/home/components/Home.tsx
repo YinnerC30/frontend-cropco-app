@@ -9,37 +9,28 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 
-import { Toaster } from "@/components/ui/sonner";
-import { removeUserActive } from "@/modules/authentication/utils/authenticationSlice";
+import { useAuthenticationUser } from "@/modules/authentication/hooks/useAuthenticationUser";
 import { CommandDialogApp } from "@/modules/core/components/CommandDialogApp";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { Route, routes } from "@/routes/RoutesNavBar";
 import { LogOut } from "lucide-react";
-import { useEffect } from "react";
-import { RootState } from "../../../redux/store";
 import { ModeToggle } from "../../core/components/ModeToggle";
+import { useEffect } from "react";
 
 export const Home = () => {
   const navigate = useNavigate();
 
-  const dispatch = useAppDispatch();
-
-  const { user } = useAppSelector((state: RootState) => state.authentication);
+  const { LogOutUser, isActiveSesion, getTokenSesion, user } =
+    useAuthenticationUser();
 
   useEffect(() => {
-    if (user.token.length === 0) {
-      navigate("/authentication/login", { replace: true });
+    if (isActiveSesion()) {
+      const token = getTokenSesion();
+      console.log({ token });
     }
   }, [user]);
 
   const handleNavigate = (endpoint: string) => {
     navigate(`${endpoint}`);
-  };
-
-  const logOut = () => {
-    dispatch(removeUserActive());
-    localStorage.removeItem("user-active");
-    navigate("/authentication/login", { replace: true });
   };
 
   return (
@@ -62,7 +53,7 @@ export const Home = () => {
                 <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {/* TODO: Agregar icono de logout */}
-                <DropdownMenuItem onClick={() => logOut()}>
+                <DropdownMenuItem onClick={() => LogOutUser()}>
                   <div className="flex gap-2">
                     <LogOut />
                     <span className="font-sans font-normal">Cerrar sesión</span>
@@ -94,7 +85,6 @@ export const Home = () => {
         </nav>
         <main className="col-span-10 ml-5">
           <Outlet />
-          <Toaster position="bottom-right" closeButton />
         </main>
       </div>
     </>
