@@ -9,7 +9,7 @@ export const useCheckAuthStatus = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user-sesion-status"] });
     },
-    onError: (error: AxiosError) => {
+    onError: (error: AxiosError | any) => {
       const loginError: AxiosError | any = error;
       const { data } = loginError.response;
       console.error(

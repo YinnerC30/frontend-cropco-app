@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { UserActive } from "../interfaces";
 import { removeUserActive, setUserActive } from "../utils";
+import { setToken } from "../utils/authenticationSlice";
 
 export const useAuthenticationUser = () => {
   const { user } = useAppSelector((state: RootState) => state.authentication);
@@ -27,8 +28,16 @@ export const useAuthenticationUser = () => {
     return user?.token;
   };
 
+  const getTimeStartSesionUser = () => {
+    return user?.timeStartSesion;
+  };
+
   const redirectToLogin = () => {
     navigate("/authentication/login");
+  };
+
+  const redirectToDashboard = () => {
+    navigate("/");
   };
 
   const LogOutUser = () => {
@@ -37,6 +46,13 @@ export const useAuthenticationUser = () => {
     navigate("/authentication/login", { replace: true });
   };
 
+  const renewJWT = (token: string) => {
+    dispatch(setToken(token));
+  };
+
+  const TIME_ACTIVE_TOKEN = 15 * 1000;
+  const TIME_QUESTION_RENEW_TOKEN = 10 * 1000;
+
   return {
     LogOutUser,
     user,
@@ -44,5 +60,10 @@ export const useAuthenticationUser = () => {
     isActiveSesion,
     getTokenSesion,
     redirectToLogin,
+    TIME_ACTIVE_TOKEN,
+    TIME_QUESTION_RENEW_TOKEN,
+    getTimeStartSesionUser,
+    renewJWT,
+    redirectToDashboard,
   };
 };

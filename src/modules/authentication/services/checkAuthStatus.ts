@@ -5,7 +5,8 @@ interface CheckAuthStatusData {
 }
 
 export const checkAuthStatus = async (authData: CheckAuthStatusData) => {
-  return await cropcoAPI.post(`${pathsCropco.authentication}/check-status`,{
+  return await cropcoAPI.post(
+    `${pathsCropco.authentication}/check-status`,
     authData
-  });
+  );
 };

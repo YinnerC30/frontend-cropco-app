@@ -5,7 +5,8 @@ import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "./modules/core/components";
 import { store } from "./redux/store";
 import { Router } from "./routes/Router";
-import { Toaster } from "sonner";
+import { Toaster as ToasterSonner } from "./components/ui/sonner";
+import { Toaster } from "./components/ui/toaster";
 
 const queryClient = new QueryClient();
 
@@ -16,7 +17,8 @@ export const App = () => {
         <QueryClientProvider client={queryClient}>
           <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <RouterProvider router={Router} />
-            <Toaster position="bottom-right" closeButton />
+            <ToasterSonner position="bottom-right" closeButton />
+            <Toaster />
           </ThemeProvider>
           <ReactQueryDevtools />
         </QueryClientProvider>

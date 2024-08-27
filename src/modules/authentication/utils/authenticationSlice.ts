@@ -23,12 +23,16 @@ export const authenticationSlice = createSlice({
         email: "",
         id: "",
         token: "",
+        timeStartSesion: 0,
       };
+    },
+    setToken: (state, action: PayloadAction<string>) => {
+      state.user.token = action.payload;
     },
   },
 });
 
-export const { setUserActive, removeUserActive } = authenticationSlice.actions;
+export const { setUserActive, removeUserActive, setToken } = authenticationSlice.actions;
 
 export const authenticationReducer = authenticationSlice.reducer;
 export default { authenticationReducer };

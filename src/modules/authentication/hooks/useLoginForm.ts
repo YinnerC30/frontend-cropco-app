@@ -40,9 +40,14 @@ export const useLoginForm = () => {
   // Acción a ejecutar en caso de que el Login sea exitoso
   useEffect(() => {
     if (isSuccess) {
-      saveUserInLocalStorage(data?.data);
+      saveUserInLocalStorage({
+        ...data?.data,
+        timeStartSesion: new Date().getTime(),
+      });
       navigate("/");
       toast.success(`El usuario ha iniciado sesión`);
+      console.log("Se logeo");
+      console.log(new Date().getTime());
     }
   }, [isSuccess]);
 
