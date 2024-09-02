@@ -13,24 +13,22 @@ import { CommandDialogApp } from "@/modules/core/components/CommandDialogApp";
 import { Route, routes } from "@/routes/RoutesNavBar";
 
 import { useAuthenticationUser } from "@/modules/authentication/hooks/useAuthenticationUser";
-import { Loading } from "@/modules/core/components";
 import { LogOut } from "lucide-react";
-import { toast } from "sonner";
 import { ModeToggle } from "../../core/components/ModeToggle";
 
 export const Home = () => {
   const navigate = useNavigate();
 
-  const { LogOutUser, isPendingValidateToken, isErrorValidateToken } =
+  const { LogOutUser /* , isPendingValidateToken, isErrorValidateToken */ } =
     useAuthenticationUser();
 
-  if (isPendingValidateToken) {
-    return <Loading />;
-  }
+  // if (isPendingValidateToken) {
+  //   return <Loading />;
+  // }
 
-  if (isErrorValidateToken) {
-    toast.error("Sesion expirada");
-  }
+  // if (isErrorValidateToken) {
+  //   toast.error("La sesión del usuario ha terminado");
+  // }
 
   return (
     <>

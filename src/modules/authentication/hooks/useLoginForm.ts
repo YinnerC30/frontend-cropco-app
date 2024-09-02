@@ -46,8 +46,6 @@ export const useLoginForm = () => {
       });
       navigate("/");
       toast.success(`El usuario ha iniciado sesión`);
-      console.log("Se logeo");
-      console.log(new Date().getTime());
     }
   }, [isSuccess]);
 

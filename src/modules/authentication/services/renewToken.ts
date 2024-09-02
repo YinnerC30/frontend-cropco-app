@@ -1,13 +1,18 @@
 import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
 
-export async function renewToken(token: string): Promise<any> {
-  const { data } = await cropcoAPI.get(
+interface CheckAuthStatusData {
+  token: string;
+}
+
+export const renewToken = async (authData: CheckAuthStatusData) => {
+  
+  return await cropcoAPI.post(
     `${pathsCropco.authentication}/renew-token`,
+    authData,
     {
       headers: {
-        Authorization: `Bearer ${token}`, // Aquí se añade el token en el encabezado
+        Authorization: `Bearer ${authData.token}`,
       },
     }
   );
-  return data;
-}
+};

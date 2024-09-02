@@ -1,10 +1,24 @@
-import { UseQueryResult, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { renewToken } from "../services/renewToken";
 
-export function useRenewToken(token: string): UseQueryResult<any, Error> {
-  const query = useQuery({
-    queryKey: ["renew-token"],
-    queryFn: () => renewToken(token),
+export const useRenewToken = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: renewToken,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-sesion-status"] });
+    },
+    onError: (error: AxiosError | any) => {
+      const loginError: AxiosError | any = error;
+      const { data } = loginError.response;
+      console.error(
+        `Hubo un problema al intentar renovar el token de la  sesión, ${data.message}`
+      );
+    },
+    retry: 1,
+    
   });
-  return query;
-}
+
+  return mutation;
+};
