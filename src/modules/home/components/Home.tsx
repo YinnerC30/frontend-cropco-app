@@ -9,112 +9,28 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 
-import { useAuthenticationUser } from "@/modules/authentication/hooks/useAuthenticationUser";
-import { useCheckAuthStatus } from "@/modules/authentication/hooks/useCheckAuthStatus";
-import { Loading } from "@/modules/core/components";
 import { CommandDialogApp } from "@/modules/core/components/CommandDialogApp";
 import { Route, routes } from "@/routes/RoutesNavBar";
+
+import { useAuthenticationUser } from "@/modules/authentication/hooks/useAuthenticationUser";
+import { Loading } from "@/modules/core/components";
 import { LogOut } from "lucide-react";
-import { useEffect } from "react";
-// import { toast } from "sonner";
-import { useToast } from "@/components/ui/use-toast";
-import { renewToken } from "@/modules/authentication/services/renewToken";
-import { ToastAction } from "@radix-ui/react-toast";
+import { toast } from "sonner";
 import { ModeToggle } from "../../core/components/ModeToggle";
 
 export const Home = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
-  const {
-    LogOutUser,
-    isActiveSesion,
-    getTokenSesion,
-    TIME_ACTIVE_TOKEN,
-    TIME_QUESTION_RENEW_TOKEN,
-    renewJWT,
-    redirectToLogin,
-  } = useAuthenticationUser();
 
-  const { mutate, isPending, error, isError } = useCheckAuthStatus();
+  const { LogOutUser, isPendingValidateToken, isErrorValidateToken } =
+    useAuthenticationUser();
 
-  const setupAuthCheckInterval = () => {
-    return setInterval(() => {
-      mutate({ token: getTokenSesion() });
-    }, TIME_ACTIVE_TOKEN);
-  };
-
-  const handleTokenRenewal = () => {
-    renewToken(getTokenSesion())
-      .then((data) => {
-        console.log("Token renovado con éxito:", data);
-        const { token } = data;
-        renewJWT(token);
-      })
-      .catch((error) => {
-        console.error("Error al renovar el token:", error);
-      });
-  };
-
-  // const setupRenewTokenInterval = () => {
-  //   return setInterval(() => {
-  //     toast({
-  //       title: "Scheduled: Catch up ",
-  //       description: "Friday, February 10, 2023 at 5:57 PM",
-  //       action: (
-  //         <ToastAction
-  //           altText="Goto schedule to undo"
-  //           onClick={() =>
-  //             renewToken(getTokenSesion())
-  //               .then((data) => {
-  //                 console.log("Token renovado con éxito:", data);
-  //                 const { token } = data;
-  //                 renewJWT(token);
-  //               })
-  //               .catch((error) => {
-  //                 console.error("Error al renovar el token:", error);
-  //               })
-  //           }
-  //         >
-  //           Undo
-  //         </ToastAction>
-  //       ),
-  //       duration: 2000,
-  //     });
-  //   }, TIME_QUESTION_RENEW_TOKEN);
-  // };
-
-  useEffect(() => {
-    if (isActiveSesion()) {
-      const intervalId1 = setupAuthCheckInterval();
-
-      return () => {
-        clearInterval(intervalId1);
-      };
-    } else {
-      redirectToLogin();
-    }
-  }, []);
-
-  if (isPending) {
+  if (isPendingValidateToken) {
     return <Loading />;
   }
 
-  if (isError) {
-    const {
-      response: {
-        data: { statusCode },
-      },
-    } = error;
-    if (statusCode === 401) {
-      LogOutUser();
-    }
+  if (isErrorValidateToken) {
+    toast.error("Sesion expirada");
   }
-
-  // Remplazar por componente Link de React Router Dom
-
-  const handleNavigate = (endpoint: string) => {
-    navigate(`${endpoint}`);
-  };
 
   return (
     <>
@@ -139,7 +55,6 @@ export const Home = () => {
                 <DropdownMenuItem
                   onClick={() => {
                     LogOutUser();
-                    // toast.success("El usuario ha cerrado la sesión");
                   }}
                 >
                   <div className="flex gap-2">
@@ -158,10 +73,7 @@ export const Home = () => {
               <li key={route.name}>
                 <div className="w-[200px] flex items-center">
                   {route.Icon}
-                  <Button
-                    variant={"link"}
-                    onClick={() => handleNavigate(route.path)}
-                  >
+                  <Button variant={"link"} onClick={() => navigate(route.path)}>
                     {route.name}
                   </Button>
                 </div>

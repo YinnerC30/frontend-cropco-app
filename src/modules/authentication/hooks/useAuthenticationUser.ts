@@ -1,9 +1,11 @@
 import { RootState, useAppSelector } from "@/redux/store";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { UserActive } from "../interfaces";
 import { removeUserActive, setUserActive } from "../utils";
 import { setToken } from "../utils/authenticationSlice";
+import { useCheckAuthStatus } from "./useCheckAuthStatus";
 
 export const useAuthenticationUser = () => {
   const { user } = useAppSelector((state: RootState) => state.authentication);
@@ -32,10 +34,6 @@ export const useAuthenticationUser = () => {
     return user?.timeStartSesion;
   };
 
-  const redirectToLogin = () => {
-    navigate("/authentication/login");
-  };
-
   const redirectToDashboard = () => {
     navigate("/");
   };
@@ -46,12 +44,48 @@ export const useAuthenticationUser = () => {
     navigate("/authentication/login", { replace: true });
   };
 
+  const redirectToLogin = () => {
+    navigate("/authentication/login");
+  };
+
   const renewJWT = (token: string) => {
     dispatch(setToken(token));
   };
 
-  const TIME_ACTIVE_TOKEN = 15 * 1000;
+  const TIME_ACTIVE_TOKEN = 20 * 1000;
   const TIME_QUESTION_RENEW_TOKEN = 10 * 1000;
+
+  const { mutate, isPending, isError, error } = useCheckAuthStatus();
+
+  const validateToken = () => {
+    console.log("Enviando mutacion al backend");
+    mutate({ token: getTokenSesion() });
+  };
+
+  const setupAuthCheckInterval = () => {
+    return setInterval(() => {
+      validateToken();
+    }, TIME_ACTIVE_TOKEN);
+  };
+
+  useEffect(() => {
+    if (isActiveSesion()) {
+      console.log("Validando token");
+      const intervalId = setupAuthCheckInterval();
+      return () => {
+        clearInterval(intervalId);
+      };
+    } else {
+      redirectToLogin();
+    }
+  }, []);
+
+  if (isError) {
+    const { statusCode } = error.response.data;
+    if (statusCode === 401) {
+      LogOutUser();
+    }
+  }
 
   return {
     LogOutUser,
@@ -65,5 +99,8 @@ export const useAuthenticationUser = () => {
     getTimeStartSesionUser,
     renewJWT,
     redirectToDashboard,
+    validateToken,
+    isPendingValidateToken: isPending,
+    isErrorValidateToken: isError,
   };
 };

@@ -1,17 +1,17 @@
 import {
-  User,
-  Contact,
-  Leaf,
-  BookUser,
   Blocks,
-  PillIcon,
-  Tractor,
-  CircleDollarSign,
-  Pickaxe,
-  CreditCard,
-  ShoppingBagIcon,
+  BookUser,
   Cable,
+  CircleDollarSign,
+  Contact,
+  CreditCard,
+  Leaf,
   Monitor,
+  Pickaxe,
+  PillIcon,
+  ShoppingBagIcon,
+  Tractor,
+  User,
 } from "lucide-react";
 
 export interface Route {
