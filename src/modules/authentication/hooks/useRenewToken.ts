@@ -16,7 +16,7 @@ export const useRenewToken = () => {
         `Hubo un problema al intentar renovar el token de la  sesión, ${data.message}`
       );
     },
-    retry: 1,
+    retry: 0,
     
   });
 

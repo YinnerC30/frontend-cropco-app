@@ -7,15 +7,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 import { CommandDialogApp } from "@/modules/core/components/CommandDialogApp";
 import { Route, routes } from "@/routes/RoutesNavBar";
 
 import { useAuthenticationUser } from "@/modules/authentication/hooks/useAuthenticationUser";
 import { LogOut } from "lucide-react";
+import { useEffect, useState } from "react";
 import { ModeToggle } from "../../core/components/ModeToggle";
-import { useEffect } from "react";
 
 export const Home = () => {
   const {
@@ -23,8 +23,14 @@ export const Home = () => {
     isActiveSesion,
     validateToken,
     mutationCheckAuthStatus,
+    mutationRenewToken,
     redirectToLogin,
+    renewToken,
+    TIME_QUESTION_RENEW_TOKEN,
+    renewTokenInState,
   } = useAuthenticationUser();
+
+  const [hasUpdateToken, setHasUpdateToken] = useState(false);
 
   useEffect(() => {
     if (isActiveSesion()) {
@@ -41,7 +47,29 @@ export const Home = () => {
         LogOutUser();
       }
     }
-  }, [mutationCheckAuthStatus]);
+  }, [mutationCheckAuthStatus.isError, mutationCheckAuthStatus.error]);
+
+  useEffect(() => {
+    if (isActiveSesion()) {
+      setTimeout(renewToken, TIME_QUESTION_RENEW_TOKEN);
+    }
+  }, []);
+
+  const handleTokenUpdate = () => {
+    setHasUpdateToken(true);
+  };
+
+  useEffect(() => {
+    if (mutationRenewToken.isSuccess) {
+      const { token } = mutationRenewToken.data.data;
+      renewTokenInState(token);
+      handleTokenUpdate(); // Llamada correcta a la función
+    }
+  }, [
+    mutationRenewToken.isSuccess,
+    mutationRenewToken.data,
+    renewTokenInState, // Incluye todas las dependencias
+  ]);
 
   return (
     <>
@@ -99,3 +127,6 @@ export const Home = () => {
     </>
   );
 };
+function useEffectEvent(arg0: (token: any) => void) {
+  throw new Error("Function not implemented.");
+}
