@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 import { CommandDialogApp } from "@/modules/core/components/CommandDialogApp";
 import { Route, routes } from "@/routes/RoutesNavBar";
@@ -17,18 +17,7 @@ import { LogOut } from "lucide-react";
 import { ModeToggle } from "../../core/components/ModeToggle";
 
 export const Home = () => {
-  const navigate = useNavigate();
-
-  const { LogOutUser /* , isPendingValidateToken, isErrorValidateToken */ } =
-    useAuthenticationUser();
-
-  // if (isPendingValidateToken) {
-  //   return <Loading />;
-  // }
-
-  // if (isErrorValidateToken) {
-  //   toast.error("La sesión del usuario ha terminado");
-  // }
+  const { LogOutUser } = useAuthenticationUser();
 
   return (
     <>
@@ -69,11 +58,9 @@ export const Home = () => {
             {/* TODO: Agregar iconos a cada uno de los módulos */}
             {routes.map((route: Route) => (
               <li key={route.name}>
-                <div className="w-[200px] flex items-center">
+                <div className="w-[200px] flex items-center gap-4">
                   {route.Icon}
-                  <Button variant={"link"} onClick={() => navigate(route.path)}>
-                    {route.name}
-                  </Button>
+                  <Link to={route.path}>{route.name}</Link>
                 </div>
               </li>
             ))}

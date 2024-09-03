@@ -21,15 +21,12 @@ export const useAuthenticationUser = () => {
     dispatch(setUserActive(values));
   };
 
-  const [currentToken, setCurrentToken] = useState("");
-
   const getTokenSesion = () => {
     return user?.token;
   };
 
   const isActiveSesion = () => {
     if (user.token.length > 0) {
-      setCurrentToken(getTokenSesion());
       return true;
     }
     return false;
@@ -61,14 +58,15 @@ export const useAuthenticationUser = () => {
   const TIME_QUESTION_RENEW_TOKEN = 10 * 1000;
 
   const { mutate, isPending, isError, error } = useCheckAuthStatus();
+
   const mutationRenewToken = useRenewToken();
 
   const validateToken = () => {
-    mutate({ token: currentToken });
+    mutate({ token: getTokenSesion() });
   };
 
   const renewToken = () => {
-    mutationRenewToken.mutate({ token: currentToken });
+    mutationRenewToken.mutate({ token: getTokenSesion() });
   };
 
   const setupAuthCheckInterval = () => {
@@ -87,11 +85,11 @@ export const useAuthenticationUser = () => {
 
   useEffect(() => {
     if (isActiveSesion()) {
-      const intervalId1 = setupRenewTokenInterval();
       const intervalId2 = setupAuthCheckInterval();
+      const intervalId1 = setupRenewTokenInterval();
       return () => {
-        clearInterval(intervalId1);
         clearInterval(intervalId2);
+        clearInterval(intervalId1);
       };
     } else {
       redirectToLogin();
@@ -109,9 +107,7 @@ export const useAuthenticationUser = () => {
   useEffect(() => {
     if (mutationRenewToken.isSuccess) {
       const { data } = mutationRenewToken;
-
       renewJWT(data.data.token);
-      setCurrentToken(data.data.token);
     }
   }, []);
 
