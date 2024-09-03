@@ -50,6 +50,9 @@ export const useAuthenticationUser = () => {
   const renewTokenInState = (token: string) => {
     dispatch(setToken(token));
   };
+  const renewTokenInLocalStorage = (token: string) => {
+    localStorage.setItem("user-active", JSON.stringify({ ...user, token }));
+  };
 
   const TIME_ACTIVE_TOKEN = 20 * 1000;
   const TIME_QUESTION_RENEW_TOKEN = 10 * 1000;
@@ -84,5 +87,6 @@ export const useAuthenticationUser = () => {
     mutationRenewToken,
     validateToken,
     renewToken,
+    renewTokenInLocalStorage,
   };
 };

@@ -14,7 +14,7 @@ import { Route, routes } from "@/routes/RoutesNavBar";
 
 import { useAuthenticationUser } from "@/modules/authentication/hooks/useAuthenticationUser";
 import { LogOut } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ModeToggle } from "../../core/components/ModeToggle";
 
 export const Home = () => {
@@ -26,11 +26,13 @@ export const Home = () => {
     mutationRenewToken,
     redirectToLogin,
     renewToken,
+
     TIME_QUESTION_RENEW_TOKEN,
     renewTokenInState,
+    renewTokenInLocalStorage,
   } = useAuthenticationUser();
 
-  const [hasUpdateToken, setHasUpdateToken] = useState(false);
+  // const [hasUpdateToken, setHasUpdateToken] = useState(false);
 
   useEffect(() => {
     if (isActiveSesion()) {
@@ -51,19 +53,21 @@ export const Home = () => {
 
   useEffect(() => {
     if (isActiveSesion()) {
-      setTimeout(renewToken, TIME_QUESTION_RENEW_TOKEN);
+      const id = setTimeout(renewToken, TIME_QUESTION_RENEW_TOKEN);
+      return () => clearTimeout(id);
     }
-  }, []);
+  }, [mutationCheckAuthStatus]);
 
-  const handleTokenUpdate = () => {
-    setHasUpdateToken(true);
-  };
+  // const handleTokenUpdate = () => {
+  //   setHasUpdateToken(true);
+  // };
 
   useEffect(() => {
     if (mutationRenewToken.isSuccess) {
       const { token } = mutationRenewToken.data.data;
       renewTokenInState(token);
-      handleTokenUpdate(); // Llamada correcta a la función
+      renewTokenInLocalStorage(token);
+      // handleTokenUpdate(); // Llamada correcta a la función
     }
   }, [
     mutationRenewToken.isSuccess,
