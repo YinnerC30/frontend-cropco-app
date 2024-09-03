@@ -23,16 +23,29 @@ export const useLoginForm = () => {
   });
 
   // Obtener estado de autenticación del usuario actual
-  const { user, saveUserInLocalStorage } = useAuthenticationUser();
+  const {
+    saveUserInLocalStorage,
+    validateToken,
+    mutationCheckAuthStatus,
+    isActiveSesion,
+    redirectToDashboard,
+  } = useAuthenticationUser();
 
   const navigate = useNavigate();
 
   // Validación de autenticación existente
   useEffect(() => {
-    if (user?.token.length > 0) {
-      navigate("/");
+    if (isActiveSesion()) {
+      validateToken();
     }
-  }, [user]);
+  }, []);
+
+  useEffect(() => {
+    if (mutationCheckAuthStatus.isSuccess) {
+      const { statusCode } = mutationCheckAuthStatus.data.data;
+      statusCode === 200 && redirectToDashboard();
+    }
+  }, [mutationCheckAuthStatus]);
 
   // Información del hook de LoginUser
   const { mutate, isSuccess, data, isError, error, isPending } = useLoginUser();

@@ -12,15 +12,8 @@ import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { z } from "zod";
 import { useLoginForm } from "../hooks/useLoginForm";
 import { formFieldsLogin, formSchemaLogin } from "../utils";
-import { useAuthenticationUser } from "../hooks/useAuthenticationUser";
 
 export const Login = () => {
-  const { isActiveSesion, redirectToDashboard } = useAuthenticationUser();
-
-  if (isActiveSesion()) {
-    redirectToDashboard();
-  }
-
   const {
     formLogin,
     mutate,

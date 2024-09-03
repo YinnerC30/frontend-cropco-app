@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 import { CommandDialogApp } from "@/modules/core/components/CommandDialogApp";
 import { Route, routes } from "@/routes/RoutesNavBar";
@@ -15,9 +15,33 @@ import { Route, routes } from "@/routes/RoutesNavBar";
 import { useAuthenticationUser } from "@/modules/authentication/hooks/useAuthenticationUser";
 import { LogOut } from "lucide-react";
 import { ModeToggle } from "../../core/components/ModeToggle";
+import { useEffect } from "react";
 
 export const Home = () => {
-  const { LogOutUser } = useAuthenticationUser();
+  const {
+    LogOutUser,
+    isActiveSesion,
+    validateToken,
+    mutationCheckAuthStatus,
+    redirectToLogin,
+  } = useAuthenticationUser();
+
+  useEffect(() => {
+    if (isActiveSesion()) {
+      validateToken();
+    } else {
+      redirectToLogin();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (mutationCheckAuthStatus.isError) {
+      const { statusCode } = mutationCheckAuthStatus.error.response.data;
+      if (statusCode === 401) {
+        LogOutUser();
+      }
+    }
+  }, [mutationCheckAuthStatus]);
 
   return (
     <>
