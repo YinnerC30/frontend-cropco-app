@@ -18,8 +18,14 @@ import { ModeToggle } from "../../core/components/ModeToggle";
 import { useEffect, useLayoutEffect, useState } from "react";
 
 export const Home = () => {
-  const { LogOutUser, redirectToLogin, isActiveSesion, renewToken } =
-    useAuthenticationUser();
+  const {
+    LogOutUser,
+    redirectToLogin,
+    isActiveSesion,
+    renewToken,
+    validateToken,
+    mutationCheckAuthStatus,
+  } = useAuthenticationUser();
 
   const [visibleButtonExtendSesion, setVisibleButtonExtendSesion] =
     useState(false);
@@ -31,13 +37,24 @@ export const Home = () => {
   useEffect(() => {
     // Configura un temporizador para ocultar el botón después de 10 segundos
     const timer = setTimeout(() => {
-      console.log("Hola soy un timeout");
+      console.log("Hola soy un timeout de mostrar el boton");
       setVisibleButtonExtendSesion(true);
-    }, 15 * 1000); // 10000 ms = 10 segundos
+    }, 10 * 1000); // 10000 ms = 10 segundos
 
     // Limpia el temporizador si el componente se desmonta antes de que pase el tiempo
     return () => clearTimeout(timer);
   }, [visibleButtonExtendSesion]);
+
+  useEffect(() => {
+    // Configura un temporizador para ocultar el botón después de 10 segundos
+    const timer = setTimeout(() => {
+      console.log("Soy el time out del verify token actual");
+      validateToken();
+    }, 20 * 1000); // 10000 ms = 10 segundos
+
+    // Limpia el temporizador si el componente se desmonta antes de que pase el tiempo
+    return () => clearTimeout(timer);
+  }, [mutationCheckAuthStatus, validateToken, visibleButtonExtendSesion]);
 
   const handleLogout = () => {
     LogOutUser();
