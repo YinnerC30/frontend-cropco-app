@@ -22,7 +22,12 @@ export const useLoginForm = () => {
   });
 
   // Obtener estado de autenticación del usuario actual
-  const { saveUserInLocalStorage, redirectToHome } = useAuthenticationUser();
+  const { saveUserInLocalStorage, redirectToHome, isActiveSesion } =
+    useAuthenticationUser();
+
+  useEffect(() => {
+    isActiveSesion() && redirectToHome();
+  }, [isActiveSesion]);
 
   // Información del hook de LoginUser
   const { mutate, isSuccess, data, isError, error, isPending } = useLoginUser();

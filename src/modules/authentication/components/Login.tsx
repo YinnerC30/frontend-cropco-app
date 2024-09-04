@@ -9,20 +9,12 @@ import {
 } from "@/components/ui/card";
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { z } from "zod";
-import { useAuthenticationUser } from "../hooks/useAuthenticationUser";
 import { useLoginForm } from "../hooks/useLoginForm";
 import { formFieldsLogin, formSchemaLogin } from "../utils";
 
 export const Login = () => {
-  const { redirectToHome, isActiveSesion } = useAuthenticationUser();
-
-  useEffect(() => {
-    isActiveSesion() && redirectToHome();
-  }, []);
-
   const {
     formLogin,
     mutate,
