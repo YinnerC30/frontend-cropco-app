@@ -18,62 +18,62 @@ import { useEffect } from "react";
 import { ModeToggle } from "../../core/components/ModeToggle";
 
 export const Home = () => {
-  const {
-    LogOutUser,
-    isActiveSesion,
-    validateToken,
-    mutationCheckAuthStatus,
-    mutationRenewToken,
-    redirectToLogin,
-    renewToken,
+  // const {
+  //   LogOutUser,
+  //   isActiveSesion,
+  //   validateToken,
+  //   mutationCheckAuthStatus,
+  //   mutationRenewToken,
+  //   redirectToLogin,
+  //   renewToken,
 
-    TIME_QUESTION_RENEW_TOKEN,
-    renewTokenInState,
-    renewTokenInLocalStorage,
-  } = useAuthenticationUser();
+  //   TIME_QUESTION_RENEW_TOKEN,
+  //   renewTokenInState,
+  //   renewTokenInLocalStorage,
+  // } = useAuthenticationUser();
 
-  // const [hasUpdateToken, setHasUpdateToken] = useState(false);
+  // // const [hasUpdateToken, setHasUpdateToken] = useState(false);
 
-  useEffect(() => {
-    if (isActiveSesion()) {
-      validateToken();
-    } else {
-      redirectToLogin();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (isActiveSesion()) {
+  //     validateToken();
+  //   } else {
+  //     redirectToLogin();
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    if (mutationCheckAuthStatus.isError) {
-      const { statusCode } = mutationCheckAuthStatus.error.response.data;
-      if (statusCode === 401) {
-        LogOutUser();
-      }
-    }
-  }, [mutationCheckAuthStatus.isError, mutationCheckAuthStatus.error]);
+  // useEffect(() => {
+  //   if (mutationCheckAuthStatus.isError) {
+  //     const { statusCode } = mutationCheckAuthStatus.error.response.data;
+  //     if (statusCode === 401) {
+  //       LogOutUser();
+  //     }
+  //   }
+  // }, [mutationCheckAuthStatus.isError, mutationCheckAuthStatus.error]);
 
-  useEffect(() => {
-    if (isActiveSesion()) {
-      const id = setTimeout(renewToken, TIME_QUESTION_RENEW_TOKEN);
-      return () => clearTimeout(id);
-    }
-  }, [mutationCheckAuthStatus]);
+  // useEffect(() => {
+  //   if (isActiveSesion()) {
+  //     const id = setTimeout(renewToken, TIME_QUESTION_RENEW_TOKEN);
+  //     return () => clearTimeout(id);
+  //   }
+  // }, [mutationCheckAuthStatus]);
 
-  // const handleTokenUpdate = () => {
-  //   setHasUpdateToken(true);
-  // };
+  // // const handleTokenUpdate = () => {
+  // //   setHasUpdateToken(true);
+  // // };
 
-  useEffect(() => {
-    if (mutationRenewToken.isSuccess) {
-      const { token } = mutationRenewToken.data.data;
-      renewTokenInState(token);
-      renewTokenInLocalStorage(token);
-      // handleTokenUpdate(); // Llamada correcta a la función
-    }
-  }, [
-    mutationRenewToken.isSuccess,
-    mutationRenewToken.data,
-    renewTokenInState, // Incluye todas las dependencias
-  ]);
+  // useEffect(() => {
+  //   if (mutationRenewToken.isSuccess) {
+  //     const { token } = mutationRenewToken.data.data;
+  //     renewTokenInState(token);
+  //     renewTokenInLocalStorage(token);
+  //     // handleTokenUpdate(); // Llamada correcta a la función
+  //   }
+  // }, [
+  //   mutationRenewToken.isSuccess,
+  //   mutationRenewToken.data,
+  //   renewTokenInState, // Incluye todas las dependencias
+  // ]);
 
   return (
     <>
@@ -97,7 +97,7 @@ export const Home = () => {
                 {/* TODO: Agregar icono de logout */}
                 <DropdownMenuItem
                   onClick={() => {
-                    LogOutUser();
+                    // LogOutUser();
                   }}
                 >
                   <div className="flex gap-2">
@@ -131,6 +131,3 @@ export const Home = () => {
     </>
   );
 };
-function useEffectEvent(arg0: (token: any) => void) {
-  throw new Error("Function not implemented.");
-}

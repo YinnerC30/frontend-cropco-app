@@ -34,18 +34,18 @@ export const useLoginForm = () => {
   const navigate = useNavigate();
 
   // Validación de autenticación existente
-  useEffect(() => {
-    if (isActiveSesion()) {
-      validateToken();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (isActiveSesion()) {
+  //     validateToken();
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    if (mutationCheckAuthStatus.isSuccess) {
-      const { statusCode } = mutationCheckAuthStatus.data.data;
-      statusCode === 200 && redirectToDashboard();
-    }
-  }, [mutationCheckAuthStatus]);
+  // useEffect(() => {
+  //   if (mutationCheckAuthStatus.isSuccess) {
+  //     const { statusCode } = mutationCheckAuthStatus.data.data;
+  //     statusCode === 200 && redirectToDashboard();
+  //   }
+  // }, [mutationCheckAuthStatus]);
 
   // Información del hook de LoginUser
   const { mutate, isSuccess, data, isError, error, isPending } = useLoginUser();
@@ -57,7 +57,7 @@ export const useLoginForm = () => {
         ...data?.data,
         timeStartSesion: new Date().getTime(),
       });
-      navigate("/");
+      navigate("../../home");
       toast.success(`El usuario ha iniciado sesión`);
     }
   }, [isSuccess]);

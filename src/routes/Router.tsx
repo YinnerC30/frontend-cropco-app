@@ -7,6 +7,7 @@ import { Home } from "@/modules/core/components";
 import { cropRoutes } from "@/modules/crops/routes/Routes";
 import { employeeRoutes } from "@/modules/employees/routes/Routes";
 
+import { dashboardRoutes } from "@/modules/dashboard/routes/Routes";
 import { harvestRoutes } from "@/modules/harvests/routes/Routes";
 import { paymentsRoutes } from "@/modules/payments/routes/Routes";
 import { saleRoutes } from "@/modules/sales/routes/Routes";
@@ -15,34 +16,46 @@ import { supplierRoutes } from "@/modules/suppliers/routes/Routes";
 import { supplyRoutes } from "@/modules/supplies/routes/Routes";
 import { userRoutes } from "@/modules/users/routes/Routes";
 import { workRoutes } from "@/modules/work/routes/Routes";
-import { dashboardRoutes } from "@/modules/dashboard/routes/Routes";
 
+import { LandingPage } from "@/components/common/LandingPage";
 import { createBrowserRouter } from "react-router-dom";
+import { Layout } from "./Layout";
 
 export const Router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <LandingPage />,
     errorElement: <ErrorPage />,
     children: [
-      dashboardRoutes,
-      userRoutes,
-      cropRoutes,
-      clientRoutes,
-      harvestRoutes,
-      employeeRoutes,
-      supplierRoutes,
-      supplyRoutes,
-      saleRoutes,
-      workRoutes,
-      paymentsRoutes,
-      shoppingRoutes,
-      consumptionRoutes,
+      {
+        path: "app",
+        element: <Layout />,
+        children: [
+          {
+            path: "authentication",
+            children: authenticationRoutes,
+          },
+          {
+            path: "home",
+            element: <Home />,
+            children: [
+              dashboardRoutes,
+              userRoutes,
+              cropRoutes,
+              clientRoutes,
+              harvestRoutes,
+              employeeRoutes,
+              supplierRoutes,
+              supplyRoutes,
+              saleRoutes,
+              workRoutes,
+              paymentsRoutes,
+              shoppingRoutes,
+              consumptionRoutes,
+            ],
+          },
+        ],
+      },
     ],
-  },
-  {
-    path: "/authentication",
-    errorElement: <ErrorPage />,
-    children: authenticationRoutes,
   },
 ]);
