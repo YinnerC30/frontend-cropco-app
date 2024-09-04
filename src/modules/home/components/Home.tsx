@@ -16,8 +16,11 @@ import { useAuthenticationUser } from "@/modules/authentication/hooks/useAuthent
 import { LogOut } from "lucide-react";
 import { ModeToggle } from "../../core/components/ModeToggle";
 import { useEffect, useLayoutEffect, useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 export const Home = () => {
+  const { toast } = useToast();
   const {
     LogOutUser,
     redirectToLogin,
@@ -25,9 +28,11 @@ export const Home = () => {
     renewToken,
     validateToken,
     mutationCheckAuthStatus,
+    TIME_ACTIVE_TOKEN,
+    TIME_QUESTION_RENEW_TOKEN,
   } = useAuthenticationUser();
 
-  const [visibleButtonExtendSesion, setVisibleButtonExtendSesion] =
+  const [visibleToastExtendSesion, setVisibleToastExtendSesion] =
     useState(false);
 
   useLayoutEffect(() => {
@@ -35,25 +40,20 @@ export const Home = () => {
   }, [isActiveSesion]);
 
   useEffect(() => {
-    // Configura un temporizador para ocultar el botón después de 10 segundos
     const timer = setTimeout(() => {
-      console.log("Hola soy un timeout de mostrar el boton");
-      setVisibleButtonExtendSesion(true);
-    }, 10 * 1000); // 10000 ms = 10 segundos
-    // Limpia el temporizador si el componente se desmonta antes de que pase el tiempo
+      setVisibleToastExtendSesion(true);
+    }, TIME_QUESTION_RENEW_TOKEN);
+
     return () => clearTimeout(timer);
-  }, [visibleButtonExtendSesion]);
+  }, [visibleToastExtendSesion]);
 
   useEffect(() => {
-    // Configura un temporizador para ocultar el botón después de 10 segundos
     const timer = setTimeout(() => {
-      console.log("Soy el time out del verify token actual");
       validateToken();
-    }, 20 * 1000); // 10000 ms = 10 segundos
+    }, TIME_ACTIVE_TOKEN);
 
-    // Limpia el temporizador si el componente se desmonta antes de que pase el tiempo
     return () => clearTimeout(timer);
-  }, [mutationCheckAuthStatus, validateToken, visibleButtonExtendSesion]);
+  }, [mutationCheckAuthStatus, validateToken, visibleToastExtendSesion]);
 
   const handleLogout = () => {
     LogOutUser();
@@ -61,9 +61,34 @@ export const Home = () => {
 
   const handleAumentarSesion = () => {
     renewToken();
-    setVisibleButtonExtendSesion(false);
-    console.log("Sesión aumentada");
+    setVisibleToastExtendSesion(false);
   };
+
+  const showToast = () => {
+    return toast({
+      title: "Aumentar tiempo de sesión",
+      duration: 2000,
+      description:
+        "La sesión esta por expirar, si desea continuar por favor presione Clic",
+      action: (
+        <ToastAction
+          onClick={() => {
+            console.log("Diste clic en el toast");
+            handleAumentarSesion();
+          }}
+          altText="Extender sesión"
+        >
+          Aumentar
+        </ToastAction>
+      ),
+    });
+  };
+
+  useEffect(() => {
+    if (visibleToastExtendSesion) {
+      showToast();
+    }
+  }, [visibleToastExtendSesion]);
 
   return (
     <>
@@ -101,14 +126,6 @@ export const Home = () => {
             </DropdownMenu>
 
             <Link to={"/"}>Ir a LandingPage</Link>
-
-            <Button
-              className={`${!visibleButtonExtendSesion && "hidden"}`}
-              onClick={handleAumentarSesion}
-              variant="destructive"
-            >
-              Aumentar sesión
-            </Button>
           </div>
         </header>
         <nav className="flex flex-row justify-center col-span-2 border-r">

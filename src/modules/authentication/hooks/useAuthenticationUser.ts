@@ -67,8 +67,8 @@ export const useAuthenticationUser = () => {
     renewTokenInState(token);
   };
 
-  const TIME_ACTIVE_TOKEN = 20 * 1000;
-  const TIME_QUESTION_RENEW_TOKEN = 10 * 1000;
+  const TIME_ACTIVE_TOKEN = 60 * 1000 * 2;
+  const TIME_QUESTION_RENEW_TOKEN = 60 * 1000 * 1;
 
   const mutationCheckAuthStatus = useCheckAuthStatus();
 
