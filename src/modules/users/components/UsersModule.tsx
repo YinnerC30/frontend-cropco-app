@@ -28,12 +28,12 @@ export const UsersModule = () => {
     <>
       <BreadCrumb finalItem={"Usuarios"} />
 
-      <ScrollArea className="w-full h-[80vh]">
+      <ScrollArea className="w-full h-[80vh] ">
         <div className="flex items-center justify-between gap-2 w-[650px] p-1">
           <SearchBar search={searchParameter} />
           <ButtonCreateRecord route={"../create"} />
         </div>
-        <div className="w-[650px]">
+        <div className="w-[90%]">
           <DataTable
             columns={columnsTableUsers}
             rows={query.data?.rows ?? 0}

@@ -9,7 +9,7 @@ export { FilterByColumn } from "./table/FilterByColumn";
 export { ButtonCancelRegister } from "./ButtonCancelRegister";
 export { DeleteRecord } from "./DeleteRecord";
 export { ErrorLoading } from "./ErrorLoading";
-export { Home } from "../../home/components/Home";
+export { Home } from "../../../Home";
 export { Loading } from "./Loading";
 export { ModeToggle } from "./ModeToggle";
 

@@ -34,17 +34,19 @@ export const BreadCrumb = ({ items = [], finalItem }: Props) => {
 
           {items.map((element: ItemBreadCrumb) => {
             return (
+              //<div key={element.link} className="flex items-center w-20">
               <>
-                <BreadcrumbSeparator />
+                <BreadcrumbSeparator className="mx-1" />
                 <BreadcrumbItem>
                   <BreadcrumbLink
-                    className="hover:cursor-pointer"
+                    className="font-normal hover:cursor-pointer"
                     onClick={() => navigate(element.link)}
                   >
                     {element.name}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
               </>
+              //</div>
             );
           })}
           <BreadcrumbSeparator />

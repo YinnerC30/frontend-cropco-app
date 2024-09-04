@@ -31,27 +31,25 @@ export function CommandDialogApp() {
   const navigate = useNavigate();
 
   return (
-    <>
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Escribe el nombre de un módulo..." />
-        <CommandList>
-          <CommandEmpty>No se encontraron resultados</CommandEmpty>
-          <CommandGroup heading="Módulos">
-            {routes.map((item: any) => (
-              <CommandItem
-                key={item.path}
-                onSelect={() => {
-                  navigate(item.path);
-                  setOpen(false);
-                }}
-              >
-                {item.Icon}
-                <span className="ml-2">{item.name}</span>
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </CommandList>
-      </CommandDialog>
-    </>
+    <CommandDialog open={open} onOpenChange={setOpen}>
+      <CommandInput placeholder="Escribe el nombre de un módulo..." />
+      <CommandList>
+        <CommandEmpty>No se encontraron resultados</CommandEmpty>
+        <CommandGroup heading="Módulos">
+          {routes.map((item: any) => (
+            <CommandItem
+              key={item.path}
+              onSelect={() => {
+                navigate(item.path);
+                setOpen(false);
+              }}
+            >
+              {item.Icon}
+              <span className="ml-2 font-medium">{item.name}</span>
+            </CommandItem>
+          ))}
+        </CommandGroup>
+      </CommandList>
+    </CommandDialog>
   );
 }

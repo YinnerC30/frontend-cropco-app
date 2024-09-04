@@ -3,7 +3,7 @@ import { authenticationRoutes } from "@/modules/authentication/routes/Routes";
 
 import { clientRoutes } from "@/modules/clients/routes/Routes";
 import { consumptionRoutes } from "@/modules/consumption/routes/Routes";
-import { Home } from "@/modules/core/components";
+
 import { cropRoutes } from "@/modules/crops/routes/Routes";
 import { employeeRoutes } from "@/modules/employees/routes/Routes";
 
@@ -20,6 +20,7 @@ import { workRoutes } from "@/modules/work/routes/Routes";
 import { LandingPage } from "@/components/common/LandingPage";
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "./Layout";
+import { Home } from "../Home";
 
 export const Router = createBrowserRouter([
   {

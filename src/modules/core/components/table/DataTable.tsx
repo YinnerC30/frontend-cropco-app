@@ -81,7 +81,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="flex flex-col my-1">
       {/* Tabla */}
-      <div className={`w-auto border rounded-lg my-2`}>
+      <div className={`w-auto my-2`}>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
