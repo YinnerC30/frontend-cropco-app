@@ -15,15 +15,29 @@ import { Route, routes } from "@/routes/RoutesNavBar";
 import { useAuthenticationUser } from "@/modules/authentication/hooks/useAuthenticationUser";
 import { LogOut } from "lucide-react";
 import { ModeToggle } from "../../core/components/ModeToggle";
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 export const Home = () => {
   const { LogOutUser, redirectToLogin, isActiveSesion, renewToken } =
     useAuthenticationUser();
 
+  const [visibleButtonExtendSesion, setVisibleButtonExtendSesion] =
+    useState(false);
+
   useLayoutEffect(() => {
     !isActiveSesion() && redirectToLogin();
   }, [isActiveSesion]);
+
+  useEffect(() => {
+    // Configura un temporizador para ocultar el botón después de 10 segundos
+    const timer = setTimeout(() => {
+      console.log("Hola soy un timeout");
+      setVisibleButtonExtendSesion(true);
+    }, 15 * 1000); // 10000 ms = 10 segundos
+
+    // Limpia el temporizador si el componente se desmonta antes de que pase el tiempo
+    return () => clearTimeout(timer);
+  }, [visibleButtonExtendSesion]);
 
   const handleLogout = () => {
     LogOutUser();
@@ -31,6 +45,7 @@ export const Home = () => {
 
   const handleAumentarSesion = () => {
     renewToken();
+    setVisibleButtonExtendSesion(false);
     console.log("Sesión aumentada");
   };
 
@@ -71,7 +86,11 @@ export const Home = () => {
 
             <Link to={"/"}>Ir a LandingPage</Link>
 
-            <Button onClick={handleAumentarSesion} variant="destructive">
+            <Button
+              className={`${!visibleButtonExtendSesion && "hidden"}`}
+              onClick={handleAumentarSesion}
+              variant="destructive"
+            >
               Aumentar sesión
             </Button>
           </div>
