@@ -6,7 +6,6 @@ import { ThemeProvider } from "./modules/core/components";
 import { store } from "./redux/store";
 import { Router } from "./routes/Router";
 
-import { Toaster } from "./components/ui/toaster";
 const queryClient = new QueryClient();
 
 interface Props {
@@ -21,7 +20,6 @@ export const ProvidersApp = ({ children }: Props) => {
           <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <RouterProvider router={Router} />
             {children}
-            <Toaster />
           </ThemeProvider>
           <ReactQueryDevtools />
         </QueryClientProvider>
