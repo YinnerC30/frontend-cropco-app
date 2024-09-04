@@ -62,6 +62,11 @@ export const useAuthenticationUser = () => {
     localStorage.setItem("user-active", JSON.stringify({ ...user, token }));
   };
 
+  const updateTokenInClient = (token: string) => {
+    renewTokenInLocalStorage(token);
+    renewTokenInState(token);
+  };
+
   const TIME_ACTIVE_TOKEN = 20 * 1000;
   const TIME_QUESTION_RENEW_TOKEN = 10 * 1000;
 
@@ -92,6 +97,19 @@ export const useAuthenticationUser = () => {
       statusCode === 401 && LogOutUser();
     }
   }, [mutationCheckAuthStatus]);
+
+  useEffect(() => {
+    const { isSuccess, isError, error, data } = mutationRenewToken;
+
+    if (isSuccess) {
+      const { token } = data.data;
+      updateTokenInClient(token);
+    }
+    if (isError) {
+      const { statusCode } = error.response.data;
+      statusCode === 401 && console.log("No se pudo actualizar el token");
+    }
+  }, [mutationRenewToken]);
 
   return {
     user,

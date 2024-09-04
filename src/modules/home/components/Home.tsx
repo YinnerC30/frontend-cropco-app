@@ -18,7 +18,7 @@ import { ModeToggle } from "../../core/components/ModeToggle";
 import { useLayoutEffect } from "react";
 
 export const Home = () => {
-  const { LogOutUser, redirectToLogin, isActiveSesion } =
+  const { LogOutUser, redirectToLogin, isActiveSesion, renewToken } =
     useAuthenticationUser();
 
   useLayoutEffect(() => {
@@ -27,6 +27,11 @@ export const Home = () => {
 
   const handleLogout = () => {
     LogOutUser();
+  };
+
+  const handleAumentarSesion = () => {
+    renewToken();
+    console.log("Sesión aumentada");
   };
 
   return (
@@ -65,6 +70,10 @@ export const Home = () => {
             </DropdownMenu>
 
             <Link to={"/"}>Ir a LandingPage</Link>
+
+            <Button onClick={handleAumentarSesion} variant="destructive">
+              Aumentar sesión
+            </Button>
           </div>
         </header>
         <nav className="flex flex-row justify-center col-span-2 border-r">
