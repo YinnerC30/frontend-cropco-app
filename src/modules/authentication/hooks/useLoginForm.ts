@@ -1,6 +1,5 @@
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 import { extractValueFromParentheses, formSchemaLogin } from "../utils";
@@ -23,29 +22,7 @@ export const useLoginForm = () => {
   });
 
   // Obtener estado de autenticación del usuario actual
-  const {
-    saveUserInLocalStorage,
-    validateToken,
-    mutationCheckAuthStatus,
-    isActiveSesion,
-    redirectToDashboard,
-  } = useAuthenticationUser();
-
-  const navigate = useNavigate();
-
-  // Validación de autenticación existente
-  // useEffect(() => {
-  //   if (isActiveSesion()) {
-  //     validateToken();
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (mutationCheckAuthStatus.isSuccess) {
-  //     const { statusCode } = mutationCheckAuthStatus.data.data;
-  //     statusCode === 200 && redirectToDashboard();
-  //   }
-  // }, [mutationCheckAuthStatus]);
+  const { saveUserInLocalStorage, redirectToHome } = useAuthenticationUser();
 
   // Información del hook de LoginUser
   const { mutate, isSuccess, data, isError, error, isPending } = useLoginUser();
@@ -57,7 +34,7 @@ export const useLoginForm = () => {
         ...data?.data,
         timeStartSesion: new Date().getTime(),
       });
-      navigate("../../home");
+      redirectToHome();
       toast.success(`El usuario ha iniciado sesión`);
     }
   }, [isSuccess]);

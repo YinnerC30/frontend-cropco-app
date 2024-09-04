@@ -1,6 +1,7 @@
 import { RootState, useAppSelector } from "@/redux/store";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { UserActive } from "../interfaces";
 import { removeUserActive, setUserActive } from "../utils";
 import { setToken } from "../utils/authenticationSlice";
@@ -13,6 +14,8 @@ export const useAuthenticationUser = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
+  const [validToken, setValidToken] = useState(false);
 
   const saveUserInLocalStorage = (values: UserActive) => {
     localStorage.setItem("user-active", JSON.stringify(values));
@@ -33,17 +36,22 @@ export const useAuthenticationUser = () => {
 
   const getTimeStartSesionUser = () => user?.timeStartSesion;
 
-  const redirectToDashboard = () => {
-    navigate("/");
-  };
+  const URL_LOGIN = "/app/authentication/login";
+  const URL_HOME = "/app/home";
+  const URL_LOGOUT = "/app/authentication/logout";
 
   const redirectToLogin = () => {
-    navigate("/authentication/login", { replace: true });
+    navigate(URL_LOGIN, { replace: true });
+  };
+
+  const redirectToHome = () => {
+    navigate(URL_HOME, { replace: true });
   };
 
   const LogOutUser = () => {
     removeUserInState();
     removeUserInLocalStorage();
+    setValidToken(false);
     redirectToLogin();
   };
 
@@ -69,6 +77,22 @@ export const useAuthenticationUser = () => {
     mutationRenewToken.mutate({ token: getTokenSesion() });
   };
 
+  // Efects
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const { isSuccess, isError, error } = mutationCheckAuthStatus;
+
+    if (isSuccess && pathname === "/app") {
+      setValidToken(true);
+      redirectToHome();
+    }
+    if (isError) {
+      const { statusCode } = error.response.data;
+      statusCode === 401 && LogOutUser();
+    }
+  }, [mutationCheckAuthStatus]);
+
   return {
     user,
     saveUserInLocalStorage,
@@ -77,16 +101,20 @@ export const useAuthenticationUser = () => {
     getTokenSesion,
     isActiveSesion,
     getTimeStartSesionUser,
-    redirectToDashboard,
-    redirectToLogin,
     LogOutUser,
     renewTokenInState,
     TIME_ACTIVE_TOKEN,
     TIME_QUESTION_RENEW_TOKEN,
+    URL_LOGIN,
+    URL_HOME,
+    URL_LOGOUT,
     mutationCheckAuthStatus,
     mutationRenewToken,
     validateToken,
     renewToken,
     renewTokenInLocalStorage,
+    redirectToHome,
+    redirectToLogin,
+    validToken,
   };
 };

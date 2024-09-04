@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
     debugTable: true,
   });
 
-  console.clear();
+  // console.clear();
 
   const pageIndex = table.getState().pagination.pageIndex;
   const pageCount = table.getPageCount();

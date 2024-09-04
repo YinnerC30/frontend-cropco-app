@@ -1,14 +1,21 @@
-import { Outlet, Link } from "react-router-dom";
+import { useAuthenticationUser } from "@/modules/authentication/hooks/useAuthenticationUser";
+import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 
 export const Layout = () => {
-  console.log("Paso primero por el layout");
+  const { isActiveSesion, validateToken, redirectToLogin } =
+    useAuthenticationUser();
+
+  useEffect(() => {
+    if (isActiveSesion()) {
+      validateToken();
+    } else {
+      redirectToLogin();
+    }
+  }, []);
 
   return (
     <>
-      <h1 className="text-blue-800">Layout</h1>
-      <Link to={"authentication/login"}>Login</Link>
-      <br />
-      <Link to={"home"}>Home</Link>
       <Outlet />
     </>
   );
