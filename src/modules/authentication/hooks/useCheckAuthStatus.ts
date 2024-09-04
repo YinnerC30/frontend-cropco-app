@@ -16,7 +16,7 @@ export const useCheckAuthStatus = () => {
         `Hubo un problema al intentar verificar la  sesión, ${data.message}`
       );
     },
-    retry: 1,
+    retry: 0,
   });
 
   return mutation;

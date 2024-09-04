@@ -17,7 +17,6 @@ export const useRenewToken = () => {
       );
     },
     retry: 0,
-    
   });
 
   return mutation;

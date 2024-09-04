@@ -40,7 +40,6 @@ export const Home = () => {
       console.log("Hola soy un timeout de mostrar el boton");
       setVisibleButtonExtendSesion(true);
     }, 10 * 1000); // 10000 ms = 10 segundos
-
     // Limpia el temporizador si el componente se desmonta antes de que pase el tiempo
     return () => clearTimeout(timer);
   }, [visibleButtonExtendSesion]);
