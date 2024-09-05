@@ -97,6 +97,7 @@ export const Home = () => {
       <NavBar className="flex flex-col col-span-2 gap-1 py-2 pl-4 border-r">
         {routes.map((route: Route) => (
           <NavElement
+            key={route.path}
             route={route}
             className="w-[180px] hover:bg-blue-500 hover:rounded-md hover:text-white transition-all duration-75"
           />

@@ -19,6 +19,7 @@ interface Props {
 
 export const BreadCrumb = ({ items = [], finalItem }: Props) => {
   const navigate = useNavigate();
+  const PATH = "/app/home";
   return (
     <div className="my-2">
       <Breadcrumb>
@@ -26,7 +27,7 @@ export const BreadCrumb = ({ items = [], finalItem }: Props) => {
           <BreadcrumbItem>
             <BreadcrumbLink
               className="hover:cursor-pointer"
-              onClick={() => navigate("/dashboard")}
+              onClick={() => navigate(PATH + "/dashboard")}
             >
               Home
             </BreadcrumbLink>
@@ -34,19 +35,17 @@ export const BreadCrumb = ({ items = [], finalItem }: Props) => {
 
           {items.map((element: ItemBreadCrumb) => {
             return (
-              //<div key={element.link} className="flex items-center w-20">
-              <>
-                <BreadcrumbSeparator className="mx-1" />
+              <div key={element.link} className="flex items-center w-auto">
+                <BreadcrumbSeparator className="mx-2" />
                 <BreadcrumbItem>
                   <BreadcrumbLink
-                    className="font-normal hover:cursor-pointer"
-                    onClick={() => navigate(element.link)}
+                    className="w-auto font-normal hover:cursor-pointer"
+                    onClick={() => navigate(`${PATH}${element.link}`)}
                   >
                     {element.name}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
-              </>
-              //</div>
+              </div>
             );
           })}
           <BreadcrumbSeparator />
