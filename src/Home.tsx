@@ -4,12 +4,14 @@ import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuthenticationUser } from "@/modules/authentication/hooks/useAuthenticationUser";
 import { useEffect, useLayoutEffect, useState } from "react";
+import { Link, Outlet } from "react-router-dom";
 import { Header } from "./components/Home/Header";
 import { Main } from "./components/Home/Main";
+import { MyAccount } from "./components/Home/MyAccount";
 import { NavBar } from "./components/Home/NavBar";
-import { Route, routes } from "./routes/RoutesNavBar";
 import { NavElement } from "./components/Home/NavElement";
-import { Link, Outlet } from "react-router-dom";
+import { ModeToggle } from "./modules/core/components";
+import { Route, routes } from "./routes/RoutesNavBar";
 
 export const Home = () => {
   const { toast } = useToast();
@@ -81,17 +83,22 @@ export const Home = () => {
     <div className="grid grid-cols-12 ">
       <CommandDialogApp />
 
-      <Header className="flex flex-col items-center col-span-12 col-start-1 py-4 border-b">
-        <Link className="text-2xl font-medium" to="/app/home">
-          CropcoApp
+      <Header className="flex flex-row items-center col-span-12 col-start-1 py-4 border-b justify-evenly">
+        <Link
+          className="mx-4 text-3xl font-medium hover:text-blue-500"
+          to="/app/home"
+        >
+          Cropco
         </Link>
+        <ModeToggle />
+        <MyAccount />
       </Header>
 
       <NavBar className="flex flex-col col-span-2 gap-1 py-2 pl-4 border-r">
         {routes.map((route: Route) => (
           <NavElement
             route={route}
-            className="w-[180px]  hover:bg-blue-500 hover:rounded-md hover:text-white "
+            className="w-[180px] hover:bg-blue-500 hover:rounded-md hover:text-white transition-all duration-75"
           />
         ))}
       </NavBar>
