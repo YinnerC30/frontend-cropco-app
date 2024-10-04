@@ -3,4 +3,5 @@ export interface UserActive {
   token: string;
   email: string;
   timeStartSesion: number;
+  modules: any;
 }

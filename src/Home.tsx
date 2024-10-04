@@ -23,6 +23,7 @@ export const Home = () => {
     mutationCheckAuthStatus,
     TIME_ACTIVE_TOKEN,
     TIME_QUESTION_RENEW_TOKEN,
+    modulesUser,
   } = useAuthenticationUser();
 
   const [visibleToastExtendSesion, setVisibleToastExtendSesion] =
@@ -95,13 +96,17 @@ export const Home = () => {
       </Header>
 
       <NavBar className="flex flex-col col-span-2 gap-1 py-2 pl-4 border-r">
-        {routes.map((route: Route) => (
-          <NavElement
-            key={route.path}
-            route={route}
-            className="w-[180px] hover:bg-blue-500 hover:rounded-md hover:text-white transition-all duration-75"
-          />
-        ))}
+        {routes.map((route: Route) => {
+          if (modulesUser.includes(route.name_module)) {
+            return (
+              <NavElement
+                key={route.path}
+                route={route}
+                className="w-[180px] hover:bg-blue-500 hover:rounded-md hover:text-white transition-all duration-75"
+              />
+            );
+          }
+        })}
       </NavBar>
 
       <Main className="col-span-10 ml-5">

@@ -15,75 +15,89 @@ import {
 } from "lucide-react";
 
 export interface Route {
-  name: string;
+  label: string;
+  name_module: string;
   path: string;
   Icon: any;
 }
 
 export const routes: Route[] = [
   {
-    name: "Panel de control",
+    label: "Panel de control",
     path: "dashboard",
     Icon: <Monitor />,
+    name_module: "N/A",
   },
   {
-    name: "Usuarios",
+    label: "Usuarios",
     path: "users/all",
     Icon: <User />,
+    name_module: "users",
   },
   {
-    name: "Empleados",
+    label: "Empleados",
     path: "employees/all",
     Icon: <Contact />,
+    name_module: "employees",
   },
   {
-    name: "Cultivos",
+    label: "Cultivos",
     path: "crops/all",
     Icon: <Leaf />,
+    name_module: "crops",
   },
   {
-    name: "Clientes",
+    label: "Clientes",
     path: "clients/all",
     Icon: <BookUser />,
+    name_module: "clients",
   },
   {
-    name: "Proveedores",
+    label: "Proveedores",
     path: "suppliers/all",
     Icon: <Blocks />,
+    name_module: "suppliers",
   },
   {
-    name: "Insumos",
+    label: "Insumos",
     path: "supplies/all",
     Icon: <PillIcon />,
+    name_module: "supplies",
   },
   {
-    name: "Cosechas",
+    label: "Cosechas",
     path: "harvests/all",
     Icon: <Tractor />,
+    name_module: "harvests",
   },
   {
-    name: "Ventas",
+    label: "Ventas",
     path: "sales/all",
     Icon: <CircleDollarSign />,
+    name_module: "sales",
   },
   {
-    name: "Trabajos",
+    label: "Trabajos",
     path: "works/all",
     Icon: <Pickaxe />,
+    name_module: "works",
   },
   {
-    name: "Pagos",
+    label: "Pagos",
     path: "payments/all",
     Icon: <CreditCard />,
+    name_module: "payments",
   },
   {
-    name: "Compras",
+    label: "Compras",
     path: "shopping/all",
     Icon: <ShoppingBagIcon />,
+    name_module: "sales",
   },
   {
-    name: "Consumos",
+    label: "Consumos",
     path: "consumption/all",
     Icon: <Cable />,
+    name_module: "supplies",
   },
 ];

@@ -11,6 +11,10 @@ import { useRenewToken } from "./useRenewToken";
 export const useAuthenticationUser = () => {
   const { user } = useAppSelector((state: RootState) => state.authentication);
 
+  const { modules = [] } = user;
+
+  const modulesUser = modules.map( (module: any) => module?.name );
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -136,5 +140,6 @@ export const useAuthenticationUser = () => {
     redirectToHome,
     redirectToLogin,
     validToken,
+    modulesUser,
   };
 };
