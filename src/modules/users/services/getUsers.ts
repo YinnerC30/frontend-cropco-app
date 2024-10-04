@@ -12,6 +12,6 @@ export async function getUsers({
   params.append("limit", limit.toString());
   params.append("offset", offset.toString());
 
-  const { data } = await cropcoAPI.get(`${pathsCropco.users}?${params}`);
+  const { data } = await cropcoAPI.get(`${pathsCropco.users}/all?${params}`);
   return data;
 }

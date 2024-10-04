@@ -55,6 +55,6 @@ export const getSales = async ({
     params.append("is_receivable", is_receivable.toString());
   }
 
-  const { data } = await cropcoAPI.get(`${pathsCropco.sales}?${params}`);
+  const { data } = await cropcoAPI.get(`${pathsCropco.sales}/all?${params}`);
   return data;
 };

@@ -21,6 +21,6 @@ export const getEmployees = async ({
   params.append("offset", offset.toString());
   params.append("allRecords", allRecords.toString());
 
-  const { data } = await cropcoAPI.get(`${pathsCropco.employees}?${params}`);
+  const { data } = await cropcoAPI.get(`${pathsCropco.employees}/all?${params}`);
   return data;
 };

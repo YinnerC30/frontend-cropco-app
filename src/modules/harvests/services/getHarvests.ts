@@ -37,6 +37,6 @@ export const getHarvests = async ({
     params.append("major_value_pay", major_value_pay.toString());
   }
 
-  const { data } = await cropcoAPI.get(`${pathsCropco.harvests}?${params}`);
+  const { data } = await cropcoAPI.get(`${pathsCropco.harvests}/all?${params}`);
   return data;
 };

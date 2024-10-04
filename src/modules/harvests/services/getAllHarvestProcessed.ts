@@ -13,7 +13,7 @@ export const getHarvestsProcessed = async ({
   params.append("offset", offset.toString());
 
   const { data } = await cropcoAPI.get(
-    `${pathsCropco.harvestsProcessed}?${params}`
+    `${pathsCropco.harvestsProcessed}/all?${params}`
   );
   return data;
 };

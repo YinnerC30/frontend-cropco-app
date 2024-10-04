@@ -20,7 +20,7 @@ export const getCropsWithWork = async ({
   params.append("allRecords", allRecords.toString());
 
   const { data } = await cropcoAPI.get(
-    `${pathsCropco.crops}/with-work?${params}`
+    `${pathsCropco.crops}/with-work/all?${params}`
   );
   return data;
 };

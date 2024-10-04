@@ -40,6 +40,6 @@ export const getWorks = async ({
     params.append("major_total", major_total.toString());
   }
 
-  const { data } = await cropcoAPI.get(`${pathsCropco.works}?${params}`);
+  const { data } = await cropcoAPI.get(`${pathsCropco.works}/all?${params}`);
   return data;
 };

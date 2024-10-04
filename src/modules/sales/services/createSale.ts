@@ -2,4 +2,4 @@ import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
 import { Sale } from "../interfaces";
 
 export const createSale = async (sale: Sale) =>
-  await cropcoAPI.post(`${pathsCropco.sales}`, sale);
+  await cropcoAPI.post(`${pathsCropco.sales}/create`, sale);

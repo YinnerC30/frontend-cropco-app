@@ -3,4 +3,4 @@ import { HarvestProcessed } from "@/modules/harvests/interfaces/HarvestProcessed
 
 export const createHarvestProcessed = async (
   harvestProcessed: HarvestProcessed
-) => await cropcoAPI.post(`${pathsCropco.harvestsProcessed}`, harvestProcessed);
+) => await cropcoAPI.post(`${pathsCropco.harvestsProcessed}/create`, harvestProcessed);

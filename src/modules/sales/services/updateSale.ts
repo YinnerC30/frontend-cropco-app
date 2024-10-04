@@ -3,5 +3,5 @@ import { type Sale } from "../interfaces";
 
 export const updateSale = async (sale: Sale) => {
   const { id, ...rest } = sale;
-  await cropcoAPI.patch(`${pathsCropco.sales}/${id}`, rest);
+  await cropcoAPI.patch(`${pathsCropco.sales}/update/one/${id}`, rest);
 };

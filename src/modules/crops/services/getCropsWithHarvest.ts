@@ -20,7 +20,7 @@ export const getCropsWithHarvest = async ({
   params.append("allRecords", allRecords.toString());
 
   const { data } = await cropcoAPI.get(
-    `${pathsCropco.crops}/with-harvest?${params}`
+    `${pathsCropco.crops}/with-harvest/all?${params}`
   );
   return data;
 };

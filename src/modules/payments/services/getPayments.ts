@@ -36,6 +36,6 @@ export const getPayments = async ({
     params.append("major_total", major_total.toString());
   }
 
-  const { data } = await cropcoAPI.get(`${pathsCropco.payments}?${params}`);
+  const { data } = await cropcoAPI.get(`${pathsCropco.payments}/all?${params}`);
   return data;
 };

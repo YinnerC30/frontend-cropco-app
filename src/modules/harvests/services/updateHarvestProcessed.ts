@@ -5,5 +5,8 @@ export const updateHarvestProcessed = async (
   harvestProcessed: HarvestProcessed
 ) => {
   const { id, ...rest } = harvestProcessed;
-  await cropcoAPI.patch(`${pathsCropco.harvestsProcessed}/${id}`, rest);
+  await cropcoAPI.patch(
+    `${pathsCropco.harvestsProcessed}/update/one/${id}`,
+    rest
+  );
 };

@@ -5,7 +5,7 @@ export const getHarvestProcessedById = async (
   id: string
 ): Promise<HarvestProcessed> => {
   const { data } = await cropcoAPI.get(
-    `${pathsCropco.harvestsProcessed}/${id}`
+    `${pathsCropco.harvestsProcessed}/one/${id}`
   );
   return data;
 };

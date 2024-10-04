@@ -3,4 +3,4 @@ import { Employee } from '../interfaces/Employee';
 
 
 export const createEmployee = async (employee: Employee) =>
-  await cropcoAPI.post(`${pathsCropco.employees}`, employee);
+  await cropcoAPI.post(`${pathsCropco.employees}/create`, employee);
