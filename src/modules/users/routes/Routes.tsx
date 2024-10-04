@@ -1,4 +1,5 @@
 import { CreateUser, ModifyUser, UsersModule, ViewUser } from "../components";
+import { UpdateUserActions } from "../components/UpdateUserActions";
 
 const userRoutes = {
   path: "users",
@@ -18,6 +19,10 @@ const userRoutes = {
     {
       path: "modify/:id",
       element: <ModifyUser />,
+    },
+    {
+      path: "update/actions/:id",
+      element: <UpdateUserActions />,
     },
   ],
 };
