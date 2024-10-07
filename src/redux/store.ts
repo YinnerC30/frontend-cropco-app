@@ -1,13 +1,14 @@
-import { authenticationReducer } from "@/modules/authentication/utils/authenticationSlice";
-import { consumptionReducer } from "@/modules/consumption/utils/consumptionSlice";
-import { harvestReducer } from "@/modules/harvests/utils/harvestSlice";
-import { paymentReducer } from "@/modules/payments/utils/paymentSlice";
-import { saleReducer } from "@/modules/sales/utils/saleSlice";
-import { shoppingReducer } from "@/modules/shopping/utils/shoppingSlice";
-import { workReducer } from "@/modules/work/utils/workSlice";
-import { configureStore } from "@reduxjs/toolkit";
+import { authenticationReducer } from '@/modules/authentication/utils/authenticationSlice';
+import { consumptionReducer } from '@/modules/consumption/utils/consumptionSlice';
+import { harvestReducer } from '@/modules/harvests/utils/harvestSlice';
+import { paymentReducer } from '@/modules/payments/utils/paymentSlice';
+import { saleReducer } from '@/modules/sales/utils/saleSlice';
+import { shoppingReducer } from '@/modules/shopping/utils/shoppingSlice';
+import { workReducer } from '@/modules/work/utils/workSlice';
+import { configureStore } from '@reduxjs/toolkit';
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
+
 export const store = configureStore({
   reducer: {
     authentication: authenticationReducer,

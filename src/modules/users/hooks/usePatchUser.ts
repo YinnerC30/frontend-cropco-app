@@ -25,7 +25,7 @@ export function usePatchUser(): UseMutationResult<
       const updateError: AxiosError | any = error;
       const { data } = updateError.response;
       toast.error(
-        `Hubo un problema durante la actualización del usuario, ${data.message}`,
+        `Hubo un problema durante la actualización del usuario, ${data.message}`
       );
     },
     retry: 1,
