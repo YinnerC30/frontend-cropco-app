@@ -1,4 +1,4 @@
-import { Button, Input } from "@/components";
+import { Button, Input, ScrollArea } from "@/components";
 import {
   Form,
   FormControl,
@@ -31,103 +31,107 @@ export const FormUser = ({
   }, []);
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        id="formUser"
-        className="flex flex-col gap-2 ml-1"
-      >
-        <FormFieldInput
-          control={form.control}
-          description={formFieldsUser.first_name.description}
-          label={formFieldsUser.first_name.label}
-          name={"first_name"}
-          placeholder={formFieldsUser.first_name.placeholder}
-          readOnly={readOnly}
-        />
-        <FormFieldInput
-          control={form.control}
-          description={formFieldsUser.last_name.description}
-          label={formFieldsUser.last_name.label}
-          name={"last_name"}
-          placeholder={formFieldsUser.last_name.placeholder}
-          readOnly={readOnly}
-        />
-        <FormFieldInput
-          control={form.control}
-          description={formFieldsUser.email.description}
-          label={formFieldsUser.email.label}
-          name={"email"}
-          placeholder={formFieldsUser.email.placeholder}
-          readOnly={readOnly}
-        />
-        <FormFieldInput
-          control={form.control}
-          description={formFieldsUser.cell_phone_number.description}
-          label={formFieldsUser.cell_phone_number.label}
-          name={"cell_phone_number"}
-          placeholder={formFieldsUser.cell_phone_number.placeholder}
-          readOnly={readOnly}
-        />
-
-        {!readOnly && (
-          <>
-            <FormField
+    <div className="flex flex-col items-center w-full ">
+      <ScrollArea type="auto" className="h-[75vh] w-2/4">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            id="formUser"
+            className="flex flex-row flex-wrap gap-4 p-2 justify-stretch"
+          >
+            <FormFieldInput
               control={form.control}
-              name={`password.password1`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{formFieldsUser.password1.label}</FormLabel>
-                  <div className="flex gap-2">
-                    <FormControl>
-                      <Input
-                        className="w-56"
-                        {...field}
-                        type={showPassword ? "text" : "password"}
-                        readOnly={readOnly}
-                      />
-                    </FormControl>
-                    <Button onClick={(e) => togglePasswordVisibility(e)}>
-                      {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
-                    </Button>
-                  </div>
-                  <FormDescription>
-                    {formFieldsUser.password1.description}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
+              description={formFieldsUser.first_name.description}
+              label={formFieldsUser.first_name.label}
+              name={"first_name"}
+              placeholder={formFieldsUser.first_name.placeholder}
+              readOnly={readOnly}
             />
-            <FormField
+            <FormFieldInput
               control={form.control}
-              name={`password.password2`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{formFieldsUser.password2.label}</FormLabel>
-                  <div className="flex gap-2">
-                    <FormControl>
-                      <Input
-                        className="w-56"
-                        {...field}
-                        type={showPassword ? "text" : "password"}
-                        readOnly={readOnly}
-                      />
-                    </FormControl>
-                    <Button onClick={(e) => togglePasswordVisibility(e)}>
-                      {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
-                    </Button>
-                  </div>
-                  <FormDescription>
-                    {formFieldsUser.password2.description}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
+              description={formFieldsUser.last_name.description}
+              label={formFieldsUser.last_name.label}
+              name={"last_name"}
+              placeholder={formFieldsUser.last_name.placeholder}
+              readOnly={readOnly}
             />
-          </>
-        )}
-      </form>
+            <FormFieldInput
+              control={form.control}
+              description={formFieldsUser.email.description}
+              label={formFieldsUser.email.label}
+              name={"email"}
+              placeholder={formFieldsUser.email.placeholder}
+              readOnly={readOnly}
+            />
+            <FormFieldInput
+              className="w-full"
+              control={form.control}
+              description={formFieldsUser.cell_phone_number.description}
+              label={formFieldsUser.cell_phone_number.label}
+              name={"cell_phone_number"}
+              placeholder={formFieldsUser.cell_phone_number.placeholder}
+              readOnly={readOnly}
+            />
 
+            {!readOnly && (
+              <>
+                <FormField
+                  control={form.control}
+                  name={`password.password1`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{formFieldsUser.password1.label}</FormLabel>
+                      <div className="flex gap-2">
+                        <FormControl>
+                          <Input
+                            className="w-56"
+                            {...field}
+                            type={showPassword ? "text" : "password"}
+                            readOnly={readOnly}
+                          />
+                        </FormControl>
+                        <Button onClick={(e) => togglePasswordVisibility(e)}>
+                          {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                        </Button>
+                      </div>
+                      <FormDescription>
+                        {formFieldsUser.password1.description}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`password.password2`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{formFieldsUser.password2.label}</FormLabel>
+                      <div className="flex gap-2">
+                        <FormControl>
+                          <Input
+                            className="w-56"
+                            {...field}
+                            type={showPassword ? "text" : "password"}
+                            readOnly={readOnly}
+                          />
+                        </FormControl>
+                        <Button onClick={(e) => togglePasswordVisibility(e)}>
+                          {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                        </Button>
+                      </div>
+                      <FormDescription>
+                        {formFieldsUser.password2.description}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
+          </form>
+        </Form>
+      </ScrollArea>
       {!readOnly && (
         <ButtonsForm
           isPending={isPending ?? false}
@@ -141,6 +145,6 @@ export const FormUser = ({
           Volver
         </Button>
       )}
-    </Form>
+    </div>
   );
 };

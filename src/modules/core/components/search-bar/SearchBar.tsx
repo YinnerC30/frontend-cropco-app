@@ -43,7 +43,7 @@ export const SearchBar = ({ search = "" }: Props) => {
 
   return (
     <>
-      <div className="flex flex-row w-full">
+      <div className="flex flex-row ">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} id="formSearchBar">
             <FormField

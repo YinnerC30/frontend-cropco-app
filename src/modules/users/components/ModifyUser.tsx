@@ -41,19 +41,18 @@ export const ModifyUser = () => {
       />
 
       <Separator className="my-2" />
-      <ScrollArea type="auto" className="h-[75vh] w-full  mb-10">
-        <FormUser
-          onSubmit={onSubmit}
-          isPending={isPending}
-          defaultValues={{
-            ...data,
-            password: {
-              password1: "",
-              password2: "",
-            },
-          }}
-        />
-      </ScrollArea>
+
+      <FormUser
+        onSubmit={onSubmit}
+        isPending={isPending}
+        defaultValues={{
+          ...data,
+          password: {
+            password1: "",
+            password2: "",
+          },
+        }}
+      />
     </>
   );
 };

@@ -53,7 +53,7 @@ export const ViewUser = () => {
         Información del usuario(a) "{data.first_name + " " + data.last_name}"
       </Label> */}
       <Separator className="my-2" />
-      <ScrollArea type="auto" className="h-[75vh] w-full  mb-10">
+      
         <FormUser
           onSubmit={undefined}
           isPending={false}
@@ -66,7 +66,7 @@ export const ViewUser = () => {
           }}
           readOnly={true}
         />
-      </ScrollArea>
+      
     </>
   );
 };

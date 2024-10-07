@@ -32,12 +32,12 @@ export const FormFieldInput = ({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={className}>
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <div className="flex gap-4">
               <Input
-                className={`w-56 ${className}`}
+                className={`w-56 `}
                 placeholder={placeholder}
                 {...field}
                 readOnly={readOnly}
