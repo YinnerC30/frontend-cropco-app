@@ -1,4 +1,4 @@
-import { ScrollArea, Separator } from "@/components";
+import { Separator } from "@/components";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";

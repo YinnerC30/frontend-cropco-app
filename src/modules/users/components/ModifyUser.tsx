@@ -1,4 +1,4 @@
-import { ScrollArea, Separator } from "@/components";
+import { Separator } from "@/components";
 
 import { ErrorLoading, Loading } from "@/modules/core/components";
 import { useNavigate, useParams } from "react-router-dom";
