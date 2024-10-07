@@ -37,7 +37,7 @@ export const EmployeesModule = () => {
 
       <ScrollArea className="w-full h-[80vh]">
         <div className="flex items-center justify-between gap-2 w-[750px] p-1">
-          <SearchBar search={searchParameter} />
+          <SearchBar query={searchParameter} />
           <ToolTipTemplate content={"Crear"}>
             <Button
               className="bg-blue-600 rounded-full hover:bg-blue-400"

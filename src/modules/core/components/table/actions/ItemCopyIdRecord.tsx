@@ -5,16 +5,16 @@ import { toast } from "sonner";
 
 interface Props {
   id: string;
-  setOpenDropDownMenu: (state: boolean) => void;
+  onChange: (state: boolean) => void;
 }
 
-export const ItemCopyIdRecord = ({ id, setOpenDropDownMenu }: Props) => {
+export const ItemCopyIdRecord = ({ id, onChange }: Props) => {
   return (
     <DropdownMenuItem asChild>
       <Button
         onClick={() => {
           navigator.clipboard.writeText(id);
-          setOpenDropDownMenu(false);
+          onChange(false);
           toast.success("Id copiado al portapapeles");
         }}
         variant={"ghost"}

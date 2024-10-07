@@ -16,9 +16,9 @@ import { Button } from "@/components";
 import { TrashIcon } from "@radix-ui/react-icons";
 interface Props {
   action: any;
-  setOpenDropDownMenu: (state: boolean) => void;
+  onChange: (state: boolean) => void;
 }
-export const ItemDeleteRecord = ({ action, setOpenDropDownMenu }: Props) => {
+export const ItemDeleteRecord = ({ action, onChange }: Props) => {
   return (
     <DropdownMenuItem asChild>
       <AlertDialog>
@@ -39,10 +39,7 @@ export const ItemDeleteRecord = ({ action, setOpenDropDownMenu }: Props) => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel asChild>
-              <Button
-                onClick={() => setOpenDropDownMenu(false)}
-                variant="secondary"
-              >
+              <Button onClick={() => onChange(false)} variant="secondary">
                 Cancelar
               </Button>
             </AlertDialogCancel>
@@ -50,7 +47,7 @@ export const ItemDeleteRecord = ({ action, setOpenDropDownMenu }: Props) => {
               <Button
                 onClick={() => {
                   action();
-                  setOpenDropDownMenu(false);
+                  onChange(false);
                 }}
               >
                 Continuar

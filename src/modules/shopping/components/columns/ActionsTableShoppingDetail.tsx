@@ -25,12 +25,12 @@ export const ActionsTableShoppingDetail = ({ shoppingDetail }: any) => {
 
   return (
     <ActionsTable
-      openDropDownMenu={openDropDownMenu}
-      setOpenDropDownMenu={setOpenDropDownMenu}
+      open={openDropDownMenu}
+      onChange={setOpenDropDownMenu}
     >
       <ItemCopyIdRecord
         id={shoppingDetail.id}
-        setOpenDropDownMenu={setOpenDropDownMenu}
+        onChange={setOpenDropDownMenu}
       />
       <ItemModifyRecordDetail setOpenDialog={setDialogOpen}>
         <ModifyShoppingDetail
@@ -42,7 +42,7 @@ export const ActionsTableShoppingDetail = ({ shoppingDetail }: any) => {
       </ItemModifyRecordDetail>
       <ItemDeleteRecord
         action={handleDelete}
-        setOpenDropDownMenu={setOpenDropDownMenu}
+        onChange={setOpenDropDownMenu}
       />
     </ActionsTable>
   );

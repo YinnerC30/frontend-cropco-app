@@ -8,21 +8,20 @@ import {
 import { ScrollArea } from "@/components";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import { ButtonCreateRecord } from "@/modules/core/components/ButtonCreateRecord";
-import { useSearchParams } from "react-router-dom";
+import { useBasicQueryData } from "@/modules/core/hooks/useBasicQueryData";
 import { useGetAllUsers } from "../hooks/useGetAllUsers";
 import columnsTableUsers from "./ColumnsTableUsers";
 
 export const UsersModule = () => {
-  const [searchParams] = useSearchParams();
-  const searchParameter = searchParams.get("search") || "";
+  const { value } = useBasicQueryData();
 
-  const { query, pagination, setPagination } = useGetAllUsers(searchParameter);
+  const { query, pagination, setPagination } = useGetAllUsers({
+    value: value,
+  });
 
   if (query.isLoading) return <Loading />;
 
-  if (query.isError || !query.data) {
-    return <ErrorLoading />;
-  }
+  if (query.isError) return <ErrorLoading />;
 
   return (
     <>
@@ -30,7 +29,7 @@ export const UsersModule = () => {
 
       <ScrollArea className="w-full h-[80vh] ">
         <div className="flex items-center justify-center w-full py-2">
-          <SearchBar search={searchParameter} />
+          <SearchBar query={value} />
         </div>
         <div className="flex items-center justify-end w-full py-2">
           <ButtonCreateRecord route={"../create"} />
@@ -38,7 +37,7 @@ export const UsersModule = () => {
         <div>
           <DataTable
             columns={columnsTableUsers}
-            rows={query.data?.rows ?? 0}
+            rows={query.data?.rows ?? []}
             data={query.data ?? []}
             pagination={pagination}
             setPagination={setPagination}

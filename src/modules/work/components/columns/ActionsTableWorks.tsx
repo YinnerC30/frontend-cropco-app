@@ -22,12 +22,12 @@ export const ActionsTableWorks = ({ mutate, id }: Props) => {
   };
   return (
     <ActionsTable
-      openDropDownMenu={openDropDownMenu}
-      setOpenDropDownMenu={setOpenDropDownMenu}
+      open={openDropDownMenu}
+      onChange={setOpenDropDownMenu}
     >
-      <ItemCopyIdRecord id={id} setOpenDropDownMenu={setOpenDropDownMenu} />
+      <ItemCopyIdRecord id={id} onChange={setOpenDropDownMenu} />
       <ItemDeleteRecord
-        setOpenDropDownMenu={setOpenDropDownMenu}
+        onChange={setOpenDropDownMenu}
         action={handleDelete}
       />
       <ItemModifyRecord id={id} />

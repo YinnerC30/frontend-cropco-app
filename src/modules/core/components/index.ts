@@ -1,4 +1,4 @@
-export { SearchBar } from "./search-bar/SearchBar";
+export { BasicSearchBar as SearchBar } from "./search-bar/SearchBar";
 
 export { ActionsTable } from "./table/ActionsTable";
 export { ButtonHeaderTable } from "./table/ButtonHeaderTable";

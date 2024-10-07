@@ -27,16 +27,16 @@ export const ActionsTableConsumptionDetail = ({ consumptionDetail }: any) => {
   };
   return (
     <ActionsTable
-      openDropDownMenu={openDropDownMenu}
-      setOpenDropDownMenu={setOpenDropDownMenu}
+      open={openDropDownMenu}
+      onChange={setOpenDropDownMenu}
     >
       <ItemCopyIdRecord
         id={consumptionDetail.id}
-        setOpenDropDownMenu={setOpenDropDownMenu}
+        onChange={setOpenDropDownMenu}
       />
       <ItemDeleteRecord
         action={handleDelete}
-        setOpenDropDownMenu={setOpenDropDownMenu}
+        onChange={setOpenDropDownMenu}
       />
       <ItemModifyRecordDetail setOpenDialog={setDialogOpen}>
         <ModifyConsumptionDetail

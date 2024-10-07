@@ -12,16 +12,16 @@ export const ActionsTablePayment = ({ id, mutate }: any) => {
   };
   return (
     <ActionsTable
-      openDropDownMenu={openDropDownMenu}
-      setOpenDropDownMenu={setOpenDropDownMenu}
+      open={openDropDownMenu}
+      onChange={setOpenDropDownMenu}
     >
       <ItemCopyIdRecord
         id={id}
-        setOpenDropDownMenu={setOpenDropDownMenu}
+        onChange={setOpenDropDownMenu}
       ></ItemCopyIdRecord>
       <ItemDeleteRecord
         action={handleDelete}
-        setOpenDropDownMenu={setOpenDropDownMenu}
+        onChange={setOpenDropDownMenu}
       ></ItemDeleteRecord>
       <ItemViewRecord id={id}></ItemViewRecord>
     </ActionsTable>

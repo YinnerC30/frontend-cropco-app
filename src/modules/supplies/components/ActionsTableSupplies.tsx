@@ -17,13 +17,13 @@ export const ActionsTableSupplies = ({ row }: any) => {
   return (
     <>
       <ActionsTable
-        openDropDownMenu={openDropDownMenu}
-        setOpenDropDownMenu={setOpenDropDownMenu}
+        open={openDropDownMenu}
+        onChange={setOpenDropDownMenu}
       >
-        <ItemCopyIdRecord id={id} setOpenDropDownMenu={setOpenDropDownMenu} />
+        <ItemCopyIdRecord id={id} onChange={setOpenDropDownMenu} />
         <ItemDeleteRecord
           action={handleDelete}
-          setOpenDropDownMenu={setOpenDropDownMenu}
+          onChange={setOpenDropDownMenu}
         />
         <ItemModifyRecord id={id} />
         <ItemViewRecord id={id} />

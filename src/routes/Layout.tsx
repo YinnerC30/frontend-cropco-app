@@ -20,14 +20,14 @@ export const Layout = () => {
   }, []);
 
   if (mutationCheckAuthStatus.isPending) {
-    console.log('Se mostro loading 😁')
+    console.log("Se mostro loading 😁");
     return <Loading />;
   }
 
   return (
-    <>
+    <main className="w-full h-full">
       <Outlet />
-    </>
+    </main>
   );
 };
 export default { Layout };

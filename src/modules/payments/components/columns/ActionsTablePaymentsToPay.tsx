@@ -12,12 +12,12 @@ export const ActionsTablePaymentsToPay = ({ record, action }: any) => {
   };
   return (
     <ActionsTable
-      setOpenDropDownMenu={setOpenDropDownMenu}
-      openDropDownMenu={openDropDownMenu}
+      onChange={setOpenDropDownMenu}
+      open={openDropDownMenu}
     >
       <ItemCopyIdRecord
         id={record.id}
-        setOpenDropDownMenu={setOpenDropDownMenu}
+        onChange={setOpenDropDownMenu}
       ></ItemCopyIdRecord>
       <ItemTemplate
         setOpenDropDownMenu={setOpenDropDownMenu}

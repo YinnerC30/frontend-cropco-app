@@ -13,10 +13,10 @@ export const ActionsTablePaymentsPendingWork = ({
 
   return (
     <ActionsTable
-      openDropDownMenu={openDropDownMenu}
-      setOpenDropDownMenu={setOpenDropDownMenu}
+      open={openDropDownMenu}
+      onChange={setOpenDropDownMenu}
     >
-      <ItemCopyIdRecord id={id} setOpenDropDownMenu={setOpenDropDownMenu} />
+      <ItemCopyIdRecord id={id} onChange={setOpenDropDownMenu} />
       <ItemTemplate
         setOpenDropDownMenu={setOpenDropDownMenu}
         action={handlePayRecord}

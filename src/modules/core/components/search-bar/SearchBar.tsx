@@ -15,30 +15,30 @@ import { useCreateForm } from "../../hooks/useCreateForm";
 import { ToolTipTemplate } from "../ToolTipTemplate";
 
 interface Props {
-  search: string;
+  query: string;
 }
 
-export const SearchBar = ({ search = "" }: Props) => {
+export const BasicSearchBar = ({ query = "" }: Props) => {
   const navigate = useNavigate();
 
   const formSchema = z.object({
-    search: z.string(),
+    query: z.string(),
   });
 
   const form = useCreateForm({
     schema: formSchema,
     defaultValues: {
-      search,
+      query,
     },
   });
 
   const onReset = () => {
-    form.reset({ search: "" });
+    form.reset({ query: "" });
     navigate(`../all`);
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    navigate(`?search=${values.search.trim()}`);
+    navigate(`?query=${values.query.trim()}`);
   };
 
   return (
@@ -48,13 +48,13 @@ export const SearchBar = ({ search = "" }: Props) => {
           <form onSubmit={form.handleSubmit(onSubmit)} id="formSearchBar">
             <FormField
               control={form.control}
-              name="search"
+              name="query"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       className="w-80"
-                      placeholder="Introduce algún parámetro de búsqueda"
+                      placeholder="Escribe algo..."
                       {...field}
                     />
                   </FormControl>

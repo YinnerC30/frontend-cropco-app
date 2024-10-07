@@ -39,7 +39,7 @@ export const SuppliesModule = () => {
           {/* TODO: Arreglar la búsqueda de registros */}
           {/* TODO: Agregar filtro de búsqueda por unidad de medida y marca */}
           {/* TODO: Arreglar paginado */}
-          <SearchBar search={searchParameter} />
+          <SearchBar query={searchParameter} />
           <ToolTipTemplate content={"Crear"}>
             <Button
               className="bg-blue-600 rounded-full hover:bg-blue-400"

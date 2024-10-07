@@ -11,12 +11,12 @@ export const ActionsTablePaymentsToPayView = ({ record }: any) => {
 
   return (
     <ActionsTable
-      setOpenDropDownMenu={setOpenDropDownMenu}
-      openDropDownMenu={openDropDownMenu}
+      onChange={setOpenDropDownMenu}
+      open={openDropDownMenu}
     >
       <ItemCopyIdRecord
         id={record.id}
-        setOpenDropDownMenu={setOpenDropDownMenu}
+        onChange={setOpenDropDownMenu}
       ></ItemCopyIdRecord>
       <ItemNavigate
         path={`/${record.type === "harvest" ? "harvests" : "works"}/view/${

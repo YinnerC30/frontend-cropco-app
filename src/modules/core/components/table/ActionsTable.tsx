@@ -11,36 +11,31 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 interface Props {
-  openDropDownMenu: boolean;
-  setOpenDropDownMenu: any;
+  open: boolean;
+  onChange: any;
   children: any;
 }
 
-export const ActionsTable = ({
-  openDropDownMenu,
-  setOpenDropDownMenu,
-  children,
-}: Props) => {
+export const ActionsTable = ({ open, onChange, children }: Props) => {
   return (
-    <DropdownMenu open={openDropDownMenu} modal={openDropDownMenu}>
+    <DropdownMenu open={open} modal={onChange}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
           className="w-8 h-8 p-0"
-          onClick={() => setOpenDropDownMenu(!openDropDownMenu)}
+          onClick={() => onChange(!open)}
         >
           <span className="sr-only">Abrir menu</span>
           <MoreHorizontal className="w-4 h-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        onPointerDownOutside={() => setOpenDropDownMenu(false)}
+        onPointerDownOutside={() => onChange(false)}
         align="center"
         className="flex flex-col items-center"
       >
         <DropdownMenuLabel>Acciones</DropdownMenuLabel>
         <DropdownMenuSeparator className="w-full" />
-
         {children}
       </DropdownMenuContent>
     </DropdownMenu>

@@ -13,14 +13,14 @@ export const ActionsTableShopping = ({ id, mutate }: any) => {
   };
   return (
     <ActionsTable
-      openDropDownMenu={openPopover}
-      setOpenDropDownMenu={setOpenPopover}
+      open={openPopover}
+      onChange={setOpenPopover}
     >
-      <ItemCopyIdRecord id={id} setOpenDropDownMenu={setOpenPopover} />
+      <ItemCopyIdRecord id={id} onChange={setOpenPopover} />
       <ItemModifyRecord id={id} />
       <ItemDeleteRecord
         action={handleDelete}
-        setOpenDropDownMenu={setOpenPopover}
+        onChange={setOpenPopover}
       />
       <ItemViewRecord id={id} />
     </ActionsTable>

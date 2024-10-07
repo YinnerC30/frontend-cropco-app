@@ -26,16 +26,16 @@ export const ActionsTableHarvestDetail = ({ harvestDetail }: any) => {
   };
   return (
     <ActionsTable
-      openDropDownMenu={openDropDownMenu}
-      setOpenDropDownMenu={setOpenDropDownMenu}
+      open={openDropDownMenu}
+      onChange={setOpenDropDownMenu}
     >
       <ItemCopyIdRecord
         id={harvestDetail.id}
-        setOpenDropDownMenu={setOpenDropDownMenu}
+        onChange={setOpenDropDownMenu}
       />
       <ItemDeleteRecord
         action={handleDelete}
-        setOpenDropDownMenu={setOpenDropDownMenu}
+        onChange={setOpenDropDownMenu}
       />
       <ItemModifyRecordDetail setOpenDialog={setDialogOpen}>
         <ModifyHarvestDetail
