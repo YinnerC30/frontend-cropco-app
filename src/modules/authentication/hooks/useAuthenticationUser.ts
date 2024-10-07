@@ -13,7 +13,7 @@ export const useAuthenticationUser = () => {
 
   const { modules = [] } = user;
 
-  const modulesUser = modules.map( (module: any) => module?.name );
+  const modulesUser = modules.map((module: any) => module?.name);
 
   const navigate = useNavigate();
 
@@ -92,15 +92,19 @@ export const useAuthenticationUser = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const { isSuccess, isError, error } = mutationCheckAuthStatus;
+    const { isSuccess, isError, /* error */ } = mutationCheckAuthStatus;
 
     if (isSuccess && pathname === "/app") {
       setValidToken(true);
       redirectToHome();
     }
     if (isError) {
-      const { statusCode } = error.response.data;
-      statusCode === 401 && LogOutUser();
+      LogOutUser();
+      // const { statusCode } = error.response?.data;
+
+      // if (!!statusCode || statusCode === 401) {
+
+      // }
     }
   }, [mutationCheckAuthStatus]);
 

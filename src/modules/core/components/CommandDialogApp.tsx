@@ -45,7 +45,7 @@ export function CommandDialogApp() {
               }}
             >
               {item.Icon}
-              <span className="ml-2 font-medium">{item.name}</span>
+              <span className="ml-2 font-medium">{item.label}</span>
             </CommandItem>
           ))}
         </CommandGroup>

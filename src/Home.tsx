@@ -97,7 +97,10 @@ export const Home = () => {
 
       <NavBar className="flex flex-col col-span-2 gap-1 py-2 pl-4 border-r">
         {routes.map((route: Route) => {
-          if (modulesUser.includes(route.name_module)) {
+          if (
+            modulesUser.includes(route.name_module) ||
+            route.name_module === "N/A"
+          ) {
             return (
               <NavElement
                 key={route.path}
@@ -109,7 +112,7 @@ export const Home = () => {
         })}
       </NavBar>
 
-      <Main className="col-span-10 ml-5">
+      <Main className="col-span-10 mx-5 ">
         <Outlet />
       </Main>
     </div>

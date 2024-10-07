@@ -1,15 +1,22 @@
+import { Button } from "@/components";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
+import { CapitalizeFirstWord } from "@/modules/authentication/helpers/CapitalizeFirstWord";
 import { ErrorLoading, Loading } from "@/modules/core/components";
 import { useGetAllModules } from "@/modules/core/hooks/useGetAllModules";
-
-const ModuleTitle = ({ children }: any) => {
-  return <h2 className="text-2xl capitalize">{children}</h2>;
-};
+import { useNavigate } from "react-router-dom";
 
 const ModuleAction = ({ name_action }: any) => {
   return (
-    <div className="flex items-center justify-between gap-2 m-2 w-60 ">
-      <span className="capitalize">{name_action}</span>
+    <div className="flex justify-between gap-2 ">
+      <span className="text-xs ">{name_action}</span>
       <Switch />
     </div>
   );
@@ -17,6 +24,8 @@ const ModuleAction = ({ name_action }: any) => {
 
 export const UpdateUserActions = () => {
   const { data, isLoading, isError } = useGetAllModules();
+
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <Loading />;
@@ -26,22 +35,49 @@ export const UpdateUserActions = () => {
     return <ErrorLoading />;
   }
 
+  const handleCancel = () => {
+    navigate("../all");
+  };
+
+  
+  
+
   return (
-    <div className="w-4/5">
-      {data.map(({ name, actions }: any) => {
-        return (
-          <>
-            <ModuleTitle>{name}</ModuleTitle>
-            <div className="flex flex-row flex-wrap gap-4 m-2 bg-gray-300 rounded-md">
-              {actions.map((act: any) => {
-                return (
-                  <ModuleAction name_action={act.name.replaceAll("-", " ")} />
-                );
-              })}
-            </div>
-          </>
-        );
-      })}
-    </div>
+    <>
+      <ScrollArea className="w-full h-[80vh] mt-2">
+        {/* <div className="flex flex-wrap justify-evenly"> */}
+        {/* <div> */}
+        {data.map(({ label, actions, name }: any) => {
+          return (
+            <Card key={name} className="w-2/4 mb-2">
+              <CardHeader className="border-b">
+                <CardTitle className="underline capitalize underline-offset-4">
+                  {label}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-col flex-wrap gap-4 m-2 rounded-md">
+                {actions.map((act: any) => {
+                  return (
+                    <div key={act.name}>
+                      <ModuleAction name_action={CapitalizeFirstWord(act.name)} />
+                    </div>
+                  );
+                })}
+              </CardContent>
+              <CardFooter>
+                {/* <Button variant={"link"}>Marcar todas</Button> */}
+                {/* <Button variant={"ghost"}>Desmarcar todas</Button> */}
+              </CardFooter>
+            </Card>
+          );
+        })}
+        {/* </div> */}
+        {/* </div> */}
+      </ScrollArea>
+      <div className="flex gap-2 mt-4 ">
+        <Button>Guardar</Button>
+        <Button onClick={handleCancel}>Cancelar</Button>
+      </div>
+    </>
   );
 };
