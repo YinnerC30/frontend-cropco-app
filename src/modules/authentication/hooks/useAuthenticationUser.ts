@@ -1,5 +1,5 @@
 import { RootState, useAppSelector } from "@/redux/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UserActive } from "../interfaces";
@@ -9,6 +9,8 @@ import { useCheckAuthStatus } from "./useCheckAuthStatus";
 import { useRenewToken } from "./useRenewToken";
 
 export const useAuthenticationUser = () => {
+  const KEY_USER_LOCAL_STORAGE = "user-active";
+
   const { user } = useAppSelector((state: RootState) => state.authentication);
 
   const { modules = [] } = user;
@@ -19,26 +21,36 @@ export const useAuthenticationUser = () => {
 
   const dispatch = useDispatch();
 
-  const [validToken, setValidToken] = useState(false);
-
-  const saveUserInLocalStorage = (values: UserActive) => {
-    localStorage.setItem("user-active", JSON.stringify(values));
-    dispatch(setUserActive(values));
+  const saveUserInState = (user: UserActive) => {
+    dispatch(setUserActive(user));
   };
 
+  const saveUserInLocalStorage = (user: UserActive) => {
+    localStorage.setItem(KEY_USER_LOCAL_STORAGE, JSON.stringify(user));
+  };
+
+  const saveUser = (user: UserActive) => {
+    saveUserInLocalStorage(user);
+    saveUserInState(user);
+  };
+
+  // Eliminar usuario
   const removeUserInState = () => {
     dispatch(removeUserActive());
   };
 
   const removeUserInLocalStorage = () => {
-    localStorage.removeItem("user-active");
+    localStorage.removeItem(KEY_USER_LOCAL_STORAGE);
+  };
+
+  const removeUser = () => {
+    removeUserInLocalStorage();
+    removeUserInState();
   };
 
   const getTokenSesion = () => user?.token;
 
   const isActiveSesion = () => user.token.length > 0;
-
-  const getTimeStartSesionUser = () => user?.timeStartSesion;
 
   const URL_LOGIN = "/app/authentication/login";
   const URL_HOME = "/app/home";
@@ -53,9 +65,7 @@ export const useAuthenticationUser = () => {
   };
 
   const LogOutUser = () => {
-    removeUserInState();
-    removeUserInLocalStorage();
-    setValidToken(false);
+    removeUser();
     redirectToLogin();
   };
 
@@ -63,7 +73,10 @@ export const useAuthenticationUser = () => {
     dispatch(setToken(token));
   };
   const renewTokenInLocalStorage = (token: string) => {
-    localStorage.setItem("user-active", JSON.stringify({ ...user, token }));
+    localStorage.setItem(
+      KEY_USER_LOCAL_STORAGE,
+      JSON.stringify({ ...user, token })
+    );
   };
 
   const updateTokenInClient = (token: string) => {
@@ -88,23 +101,17 @@ export const useAuthenticationUser = () => {
     mutationRenewToken.mutate({ token: getTokenSesion() });
   };
 
-  // Efects
+  // Effects
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const { isSuccess, isError, /* error */ } = mutationCheckAuthStatus;
+    const { isSuccess, isError } = mutationCheckAuthStatus;
 
     if (isSuccess && pathname === "/app") {
-      setValidToken(true);
       redirectToHome();
     }
     if (isError) {
       LogOutUser();
-      // const { statusCode } = error.response?.data;
-
-      // if (!!statusCode || statusCode === 401) {
-
-      // }
     }
   }, [mutationCheckAuthStatus]);
 
@@ -123,27 +130,18 @@ export const useAuthenticationUser = () => {
 
   return {
     user,
-    saveUserInLocalStorage,
-    removeUserInLocalStorage,
-    removeUserInState,
-    getTokenSesion,
+    saveUser,
     isActiveSesion,
-    getTimeStartSesionUser,
     LogOutUser,
-    renewTokenInState,
     TIME_ACTIVE_TOKEN,
     TIME_QUESTION_RENEW_TOKEN,
-    URL_LOGIN,
-    URL_HOME,
     URL_LOGOUT,
     mutationCheckAuthStatus,
     mutationRenewToken,
     validateToken,
     renewToken,
-    renewTokenInLocalStorage,
     redirectToHome,
     redirectToLogin,
-    validToken,
     modulesUser,
   };
 };

@@ -1,10 +1,15 @@
 import { useAuthenticationUser } from "@/modules/authentication/hooks/useAuthenticationUser";
+import { Loading } from "@/modules/core/components";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 export const Layout = () => {
-  const { isActiveSesion, validateToken, redirectToLogin } =
-    useAuthenticationUser();
+  const {
+    isActiveSesion,
+    validateToken,
+    redirectToLogin,
+    mutationCheckAuthStatus,
+  } = useAuthenticationUser();
 
   useEffect(() => {
     if (isActiveSesion()) {
@@ -13,6 +18,11 @@ export const Layout = () => {
       redirectToLogin();
     }
   }, []);
+
+  if (mutationCheckAuthStatus.isPending) {
+    console.log('Se mostro loading 😁')
+    return <Loading />;
+  }
 
   return (
     <>

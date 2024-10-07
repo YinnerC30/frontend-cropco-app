@@ -23,7 +23,7 @@ export const authenticationSlice = createSlice({
         email: "",
         id: "",
         token: "",
-        timeStartSesion: 0,
+        modules: [],
       };
     },
     setToken: (state, action: PayloadAction<string>) => {
@@ -32,7 +32,8 @@ export const authenticationSlice = createSlice({
   },
 });
 
-export const { setUserActive, removeUserActive, setToken } = authenticationSlice.actions;
+export const { setUserActive, removeUserActive, setToken } =
+  authenticationSlice.actions;
 
 export const authenticationReducer = authenticationSlice.reducer;
 export default { authenticationReducer };

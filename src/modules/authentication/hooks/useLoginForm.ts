@@ -22,8 +22,7 @@ export const useLoginForm = () => {
   });
 
   // Obtener estado de autenticación del usuario actual
-  const { saveUserInLocalStorage, redirectToHome, isActiveSesion } =
-    useAuthenticationUser();
+  const { saveUser, redirectToHome, isActiveSesion } = useAuthenticationUser();
 
   useEffect(() => {
     isActiveSesion() && redirectToHome();
@@ -35,9 +34,8 @@ export const useLoginForm = () => {
   // Acción a ejecutar en caso de que el Login sea exitoso
   useEffect(() => {
     if (isSuccess) {
-      saveUserInLocalStorage({
+      saveUser({
         ...data?.data,
-        timeStartSesion: new Date().getTime(),
       });
       redirectToHome();
       toast.success(`El usuario ha iniciado sesión`);
@@ -88,7 +86,7 @@ export const useLoginForm = () => {
     isSuccess,
     showPassword,
     togglePasswordVisibility,
-    saveUserInLocalStorage,
+    // saveUserInLocalStorage,
     mutate,
     isError,
     error,
