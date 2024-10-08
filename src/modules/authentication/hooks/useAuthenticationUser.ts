@@ -1,15 +1,15 @@
-import { RootState, useAppSelector } from "@/redux/store";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import { UserActive } from "../interfaces";
-import { removeUserActive, setUserActive } from "../utils";
-import { setToken } from "../utils/authenticationSlice";
-import { useCheckAuthStatus } from "./useCheckAuthStatus";
-import { useRenewToken } from "./useRenewToken";
+import { RootState, useAppSelector } from '@/redux/store';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { UserActive } from '../interfaces';
+import { removeUserActive, setUserActive } from '../utils';
+import { setToken } from '../utils/authenticationSlice';
+import { useCheckAuthStatus } from './useCheckAuthStatus';
+import { useRenewToken } from './useRenewToken';
 
 export const useAuthenticationUser = () => {
-  const KEY_USER_LOCAL_STORAGE = "user-active";
+  const KEY_USER_LOCAL_STORAGE = 'user-active';
 
   const { user } = useAppSelector((state: RootState) => state.authentication);
 
@@ -48,13 +48,19 @@ export const useAuthenticationUser = () => {
     removeUserInState();
   };
 
+  const updateUserActions = (modules: any) => {
+    console.log(modules);
+    saveUserInLocalStorage({ ...user, modules });
+    saveUserInState({ ...user, modules });
+  };
+
   const getTokenSesion = () => user?.token;
 
   const isActiveSesion = () => user.token.length > 0;
 
-  const URL_LOGIN = "/app/authentication/login";
-  const URL_HOME = "/app/home";
-  const URL_LOGOUT = "/app/authentication/logout";
+  const URL_LOGIN = '/app/authentication/login';
+  const URL_HOME = '/app/home';
+  const URL_LOGOUT = '/app/authentication/logout';
 
   const redirectToLogin = () => {
     navigate(URL_LOGIN, { replace: true });
@@ -107,7 +113,7 @@ export const useAuthenticationUser = () => {
   useEffect(() => {
     const { isSuccess, isError } = mutationCheckAuthStatus;
 
-    if (isSuccess && pathname === "/app") {
+    if (isSuccess && pathname === '/app') {
       redirectToHome();
     }
     if (isError) {
@@ -124,7 +130,7 @@ export const useAuthenticationUser = () => {
     }
     if (isError) {
       const { statusCode } = error.response.data;
-      statusCode === 401 && console.log("No se pudo actualizar el token");
+      statusCode === 401 && console.error('No se pudo actualizar el token');
     }
   }, [mutationRenewToken]);
 
@@ -143,5 +149,7 @@ export const useAuthenticationUser = () => {
     redirectToHome,
     redirectToLogin,
     modulesUser,
+    removeUser,
+    updateUserActions,
   };
 };

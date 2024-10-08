@@ -1,17 +1,17 @@
-import { CommandDialogApp } from "@/modules/core/components/CommandDialogApp";
+import { CommandDialogApp } from '@/modules/core/components/CommandDialogApp';
 
-import { ToastAction } from "@/components/ui/toast";
-import { useToast } from "@/components/ui/use-toast";
-import { useAuthenticationUser } from "@/modules/authentication/hooks/useAuthenticationUser";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
-import { Header } from "./components/Home/Header";
-import { Main } from "./components/Home/Main";
-import { MyAccount } from "./components/Home/MyAccount";
-import { NavBar } from "./components/Home/NavBar";
-import { NavElement } from "./components/Home/NavElement";
-import { ModeToggle } from "./modules/core/components";
-import { Route, routes } from "./routes/RoutesNavBar";
+import { ToastAction } from '@/components/ui/toast';
+import { useToast } from '@/components/ui/use-toast';
+import { useAuthenticationUser } from '@/modules/authentication/hooks/useAuthenticationUser';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { Link, Outlet } from 'react-router-dom';
+import { Header } from './components/Home/Header';
+import { Main } from './components/Home/Main';
+import { MyAccount } from './components/Home/MyAccount';
+import { NavBar } from './components/Home/NavBar';
+import { NavElement } from './components/Home/NavElement';
+import { ModeToggle } from './modules/core/components';
+import { Route, routes } from './routes/RoutesNavBar';
 
 export const Home = () => {
   const { toast } = useToast();
@@ -56,14 +56,13 @@ export const Home = () => {
 
   const showToast = () => {
     return toast({
-      title: "Aumentar tiempo de sesión",
+      title: 'Aumentar tiempo de sesión',
       duration: 2000,
       description:
-        "La sesión esta por expirar, si desea continuar por favor presione Clic",
+        'La sesión esta por expirar, si desea continuar por favor presione Clic',
       action: (
         <ToastAction
           onClick={() => {
-            console.log("Diste clic en el toast");
             handleAumentarSesion();
           }}
           altText="Extender sesión"
@@ -99,7 +98,7 @@ export const Home = () => {
         {routes.map((route: Route) => {
           if (
             modulesUser.includes(route.name_module) ||
-            route.name_module === "N/A"
+            route.name_module === 'N/A'
           ) {
             return (
               <NavElement

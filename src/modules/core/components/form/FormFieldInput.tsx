@@ -6,12 +6,13 @@ import {
   FormLabel,
   FormMessage,
   Input,
-} from "@/components";
-import { FormFieldProps } from "../../interfaces/FormFieldProps";
+} from '@/components';
+import { FormFieldProps } from '../../interfaces/FormFieldProps';
 
 interface FormFieldInputProps extends FormFieldProps {
   step?: number;
   min?: number;
+  autoFocus?: boolean;
 }
 
 export const FormFieldInput = ({
@@ -21,11 +22,12 @@ export const FormFieldInput = ({
   name,
   placeholder,
   readOnly = false,
-  type = "text",
-  className = "",
+  type = 'text',
+  className = '',
   children,
   step = 0,
   min = 0,
+  autoFocus = false,
 }: FormFieldInputProps) => {
   return (
     <FormField
@@ -44,6 +46,7 @@ export const FormFieldInput = ({
                 type={type}
                 step={step}
                 min={min}
+                autoFocus={autoFocus}
               />
               {children}
             </div>

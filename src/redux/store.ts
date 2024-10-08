@@ -4,6 +4,7 @@ import { harvestReducer } from '@/modules/harvests/utils/harvestSlice';
 import { paymentReducer } from '@/modules/payments/utils/paymentSlice';
 import { saleReducer } from '@/modules/sales/utils/saleSlice';
 import { shoppingReducer } from '@/modules/shopping/utils/shoppingSlice';
+import { userReducer } from '@/modules/users/utils/userSlice';
 import { workReducer } from '@/modules/work/utils/workSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
@@ -18,6 +19,7 @@ export const store = configureStore({
     work: workReducer,
     shopping: shoppingReducer,
     consumption: consumptionReducer,
+    user: userReducer,
   },
 });
 

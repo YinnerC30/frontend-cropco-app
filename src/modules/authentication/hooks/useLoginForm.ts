@@ -16,8 +16,8 @@ export const useLoginForm = () => {
   const formLogin = useCreateForm({
     schema: formSchemaLogin,
     defaultValues: {
-      email: "pedrosilva@example.com",
-      password: "123zxc",
+      email: "carmenortega@example.com",
+      password: "qwe789",
     },
   });
 

@@ -64,7 +64,7 @@ export const FormShopping = ({
     formShopping.setValue("details", details);
   }, [details]);
 
-  console.log(shoppingDetail);
+  
   return (
     <Form {...formShopping}>
       <form

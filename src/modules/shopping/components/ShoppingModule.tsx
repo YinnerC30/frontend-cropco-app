@@ -27,9 +27,9 @@ export const ShoppingModule = () => {
     major_total = "",
   } = Object.fromEntries(searchParams.entries());
 
-  console.log(minor_total, major_total);
+  
 
-  console.log(minor_total ?? "0");
+  
   const minor_total_value = parseInt(
     minor_total.length > 0 ? minor_total : "0",
     10

@@ -1,80 +1,77 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
+import { ArrowUpDown } from 'lucide-react';
 
-import { ArrowUpDown } from "lucide-react";
+import { ColumnDef } from '@tanstack/react-table';
 
+import { FormatMoneyValue } from '@/modules/core/helpers/FormatMoneyValue';
+import { FormatNumber } from '@/modules/core/helpers/FormatNumber';
 
-import { ColumnDef } from "@tanstack/react-table";
-
-
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
-import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
-
-import { ShoppingDetails } from "../../interfaces/ShoppingDetails";
-import { ActionsTableShoppingDetail } from "./ActionsTableShoppingDetail";
+import { ShoppingDetails } from '../../interfaces/ShoppingDetails';
+import { ActionsTableShoppingDetail } from './ActionsTableShoppingDetail';
 
 export const columnsShoppingDetail: ColumnDef<ShoppingDetails>[] = [
   {
-    accessorKey: "supply.name",
+    accessorKey: 'supply.name',
     header: ({ column }: any) => {
       return (
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          {"Insumo:"}
+          {'Insumo:'}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "supplier.first_name",
+    accessorKey: 'supplier.first_name',
     header: ({ column }: any) => {
       return (
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          {"Proveedor:"}
+          {'Proveedor:'}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "amount",
+    accessorKey: 'amount',
     cell: ({ row }) => {
-      return FormatNumber(row.getValue("amount"));
+      return FormatNumber(row.getValue('amount'));
     },
     header: ({ column }: any) => {
       return (
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          {"Valor a comprar:"}
+          {'Valor a comprar:'}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "total",
+    accessorKey: 'total',
     cell: ({ row }) => {
-      return FormatMoneyValue(row.getValue("total"));
+      return FormatMoneyValue(row.getValue('total'));
     },
     header: ({ column }: any) => {
       return (
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          {"Total a pagar:"}
+          {'Total a pagar:'}
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
@@ -85,11 +82,9 @@ export const columnsShoppingDetail: ColumnDef<ShoppingDetails>[] = [
 export const columnsShoppingDetailActions = [
   ...columnsShoppingDetail,
   {
-    id: "actions",
+    id: 'actions',
     cell: ({ row }: any) => {
       const shoppingDetail = row.original;
-
-      console.log(shoppingDetail);
 
       return <ActionsTableShoppingDetail shoppingDetail={shoppingDetail} />;
     },

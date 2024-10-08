@@ -1,4 +1,5 @@
 import { Button, Input, ScrollArea } from '@/components';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -8,15 +9,22 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Switch } from '@/components/ui/switch';
+import { ErrorLoading, Loading } from '@/modules/core/components';
 import { ButtonsForm } from '@/modules/core/components/ButtonsForm';
 import { FormFieldInput } from '@/modules/core/components/form/FormFieldInput';
+import { useGetAllModules } from '@/modules/core/hooks/useGetAllModules';
 import { FormProps } from '@/modules/core/interfaces/FormProps';
+import { useAppDispatch } from '@/redux/store';
+import { loadActions, updateActions } from '../utils/userSlice';
+
+import { CapitalizeFirstWord } from '@/modules/authentication/helpers/CapitalizeFirstWord';
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserForm } from '../hooks/useUserForm';
 import { formFieldsUser } from '../utils';
-import { UpdateUserActions } from './UpdateUserActions';
+import { removeAllActions } from '../utils/userSlice';
 
 export const FormUser = ({
   onSubmit,
@@ -26,10 +34,39 @@ export const FormUser = ({
 }: FormProps) => {
   const { showPassword, togglePasswordVisibility, form } = useUserForm();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    defaultValues && form.reset(defaultValues);
+    if (defaultValues) {
+      form.reset(defaultValues);
+      dispatch(
+        loadActions(
+          defaultValues?.modules
+            ?.map((i: any) => {
+              return i.actions.map((ac: any) => ac.id);
+            })
+            .flat(1) ?? []
+        )
+      );
+    }
   }, []);
+
+  const idActionsUser =
+    defaultValues?.modules
+      ?.map((i: any) => {
+        return i.actions.map((ac: any) => ac.id);
+      })
+      .flat(1) ?? [];
+
+  const { data, isLoading, isError } = useGetAllModules();
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <ErrorLoading />;
+  }
 
   return (
     <div className="flex flex-col items-center w-full ">
@@ -44,6 +81,7 @@ export const FormUser = ({
               className="flex flex-row flex-wrap gap-4 p-2 justify-stretch"
             >
               <FormFieldInput
+                autoFocus
                 control={form.control}
                 description={formFieldsUser.first_name.description}
                 label={formFieldsUser.first_name.label}
@@ -68,7 +106,6 @@ export const FormUser = ({
                 readOnly={readOnly}
               />
               <FormFieldInput
-                // className="w-full"
                 control={form.control}
                 description={formFieldsUser.cell_phone_number.description}
                 label={formFieldsUser.cell_phone_number.label}
@@ -139,12 +176,46 @@ export const FormUser = ({
 
         <ScrollArea className="w-2/4 h-[70vh] mt-2">
           <h3 className="text-xl ">Permisos:</h3>
-          <UpdateUserActions className={'mt-2'} />
+          <div className={'my-2'}>
+            {data.map(({ label, actions, name }: any) => {
+              return (
+                <Card key={name + defaultValues.id} className="w-2/4 mb-2">
+                  <CardHeader className="border-b">
+                    <CardTitle className="capitalize ">{label}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex flex-col flex-wrap gap-4 m-2 rounded-md">
+                    {actions.map((act: any) => {
+                      return (
+                        <div key={act.name}>
+                          <div className="flex justify-between gap-2 ">
+                            <span className="text-xs ">
+                              {CapitalizeFirstWord(act.name)}
+                            </span>
+                            <Switch
+                              defaultChecked={idActionsUser.includes(act.id)}
+                              onCheckedChange={(value: boolean) => {
+                                dispatch(
+                                  updateActions({ id: act.id, state: value })
+                                );
+                              }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
         </ScrollArea>
       </div>
 
       {!readOnly && (
         <ButtonsForm
+          actionToCancel={() => {
+            dispatch(removeAllActions());
+          }}
           isPending={isPending ?? false}
           formId={'formUser'}
           className={'flex w-48 gap-2 mt-2'}
@@ -152,7 +223,13 @@ export const FormUser = ({
       )}
 
       {readOnly && (
-        <Button className="my-2" onClick={() => navigate(-1)}>
+        <Button
+          className="my-2"
+          onClick={() => {
+            dispatch(removeAllActions());
+            navigate(-1);
+          }}
+        >
           Volver
         </Button>
       )}

@@ -55,6 +55,7 @@ export const BasicSearchBar = ({ query = "" }: Props) => {
                     <Input
                       className="w-80"
                       placeholder="Escribe algo..."
+                      autoFocus
                       {...field}
                     />
                   </FormControl>

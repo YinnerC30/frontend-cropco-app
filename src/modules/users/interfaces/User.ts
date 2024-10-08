@@ -5,6 +5,8 @@ export interface User {
   email: string;
   cell_phone_number: string;
   password: string;
+  actions: any[];
+  modules?: any[];
 }
 
 

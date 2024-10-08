@@ -1,13 +1,13 @@
-import { Form } from "@/components";
-import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
-import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
-import { FormProps } from "@/modules/core/interfaces";
-import { useShoppingDetailForm } from "../../hooks/useShoppingDetailForm";
-import { formFieldsShoppingDetail } from "../../utils/formFieldsShoppingDetail";
-import { useEffect } from "react";
-import { Supplier } from "@/modules/suppliers/interfaces/Supplier";
-import { Supply } from "@/modules/supplies/interfaces/Supply";
-import { ErrorLoading, Loading } from "@/modules/core/components";
+import { Form } from '@/components';
+import { FormFieldCommand } from '@/modules/core/components/form/FormFieldCommand';
+import { FormFieldInput } from '@/modules/core/components/form/FormFieldInput';
+import { FormProps } from '@/modules/core/interfaces';
+import { useShoppingDetailForm } from '../../hooks/useShoppingDetailForm';
+import { formFieldsShoppingDetail } from '../../utils/formFieldsShoppingDetail';
+import { useEffect } from 'react';
+import { Supplier } from '@/modules/suppliers/interfaces/Supplier';
+import { Supply } from '@/modules/supplies/interfaces/Supply';
+import { ErrorLoading, Loading } from '@/modules/core/components';
 
 export const FormShoppingDetail = ({ onSubmit, defaultValues }: FormProps) => {
   const {
@@ -22,7 +22,6 @@ export const FormShoppingDetail = ({ onSubmit, defaultValues }: FormProps) => {
 
   useEffect(() => {
     if (defaultValues) {
-      console.log(defaultValues);
       formShoppingDetail.reset({
         supply: defaultValues.supply,
         supplier: defaultValues.supplier,
@@ -35,13 +34,13 @@ export const FormShoppingDetail = ({ onSubmit, defaultValues }: FormProps) => {
   const findSupplierName = (id: string): string => {
     return (
       querySuppliers?.data?.rows.find((item: Supplier) => item.id === id)
-        ?.first_name || ""
+        ?.first_name || ''
     );
   };
   const findSupplyName = (id: string): string => {
     return (
       querySupplies?.data?.rows.find((item: Supply) => item.id === id)?.name ||
-      ""
+      ''
     );
   };
 
@@ -74,7 +73,6 @@ export const FormShoppingDetail = ({ onSubmit, defaultValues }: FormProps) => {
     return <ErrorLoading />;
   }
 
-  console.log(defaultValues);
   return (
     <Form {...formShoppingDetail}>
       <form
@@ -88,11 +86,11 @@ export const FormShoppingDetail = ({ onSubmit, defaultValues }: FormProps) => {
           setOpenPopover={setOpenPopoverSupply}
           data={querySupplies?.data?.rows ?? []}
           form={formShoppingDetail}
-          nameToShow={"name"}
+          nameToShow={'name'}
           control={formShoppingDetail.control}
           description={formFieldsShoppingDetail.supply.description}
           label={formFieldsShoppingDetail.supply.label}
-          name={"supply.id"}
+          name={'supply.id'}
           placeholder={formFieldsShoppingDetail.supply.placeholder}
           readOnly={false}
         />
@@ -102,11 +100,11 @@ export const FormShoppingDetail = ({ onSubmit, defaultValues }: FormProps) => {
           setOpenPopover={setOpenPopoverSupplier}
           data={querySuppliers?.data?.rows ?? []}
           form={formShoppingDetail}
-          nameToShow={"first_name"}
+          nameToShow={'first_name'}
           control={formShoppingDetail.control}
           description={formFieldsShoppingDetail.supplier.description}
           label={formFieldsShoppingDetail.supplier.label}
-          name={"supplier.id"}
+          name={'supplier.id'}
           placeholder={formFieldsShoppingDetail.supplier.placeholder}
           readOnly={false}
         />
@@ -115,7 +113,7 @@ export const FormShoppingDetail = ({ onSubmit, defaultValues }: FormProps) => {
           control={formShoppingDetail.control}
           description={formFieldsShoppingDetail.amount.description}
           label={formFieldsShoppingDetail.amount.label}
-          name={"amount"}
+          name={'amount'}
           placeholder={formFieldsShoppingDetail.amount.placeholder}
           readOnly={false}
           type="number"
@@ -124,7 +122,7 @@ export const FormShoppingDetail = ({ onSubmit, defaultValues }: FormProps) => {
           control={formShoppingDetail.control}
           description={formFieldsShoppingDetail.total.description}
           label={formFieldsShoppingDetail.total.label}
-          name={"total"}
+          name={'total'}
           placeholder={formFieldsShoppingDetail.total.placeholder}
           readOnly={false}
           type="number"
