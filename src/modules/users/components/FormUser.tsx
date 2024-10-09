@@ -63,6 +63,10 @@ export const FormUser = ({
     }
   };
 
+  const handleInselectAllActions = () => {
+    dispatch(removeAllActions());
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -183,6 +187,7 @@ export const FormUser = ({
           </div> */}
           <h3 className="text-xl ">Permisos:</h3>
           <Button onClick={handleSelectAllActions}>Marcar todo</Button>
+          <Button onClick={handleInselectAllActions}>Desmarcar todo</Button>
           <div className={'my-2'}>
             {data?.map(({ label, actions, name }: any) => {
               return (

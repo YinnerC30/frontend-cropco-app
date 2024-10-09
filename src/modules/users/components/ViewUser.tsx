@@ -1,17 +1,17 @@
-import { ErrorLoading } from "@/modules/core/components/ErrorLoading";
-import { Loading } from "@/modules/core/components/Loading";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
-import { z } from "zod";
-import { useGetUser } from "../hooks/useGetUser";
+import { ErrorLoading } from '@/modules/core/components/ErrorLoading';
+import { Loading } from '@/modules/core/components/Loading';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
+import { z } from 'zod';
+import { useGetUser } from '../hooks/useGetUser';
 
-import { ScrollArea, Separator } from "@/components";
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { defaultValues } from "../hooks/useUserForm";
-import { formSchemaUser } from "../utils";
-import { FormUser } from "./FormUser";
+import { Separator } from '@/components';
+import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { defaultValues } from '../hooks/useUserForm';
+import { formSchemaUser } from '../utils';
+import { FormUser } from './FormUser';
 
 export const ViewUser = () => {
   const { id } = useParams();
@@ -28,8 +28,8 @@ export const ViewUser = () => {
       form.reset({
         ...data,
         password: {
-          password1: "",
-          password2: "",
+          password1: '',
+          password2: '',
         },
       });
     }
@@ -46,27 +46,24 @@ export const ViewUser = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/users/all", name: "Usuarios" }]}
+        items={[{ link: '/users/all', name: 'Usuarios' }]}
         finalItem={`Información del usuario`}
       />
-      {/* <Label className="text-2xl">
-        Información del usuario(a) "{data.first_name + " " + data.last_name}"
-      </Label> */}
+
       <Separator className="my-2" />
-      
-        <FormUser
-          onSubmit={undefined}
-          isPending={false}
-          defaultValues={{
-            ...data,
-            password: {
-              password1: "",
-              password2: "",
-            },
-          }}
-          readOnly={true}
-        />
-      
+
+      <FormUser
+        onSubmit={undefined}
+        isPending={false}
+        defaultValues={{
+          ...data,
+          password: {
+            password1: '',
+            password2: '',
+          },
+        }}
+        readOnly={true}
+      />
     </>
   );
 };
