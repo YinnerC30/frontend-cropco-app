@@ -1,6 +1,7 @@
 import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
 import { useState } from 'react';
 import { formSchemaUser } from '../utils';
+import { useAppSelector } from '@/redux/store';
 // import { useAppSelector } from '@/redux/store';
 
 export const defaultValues = {
@@ -23,7 +24,11 @@ export const useUserForm = () => {
     setShowPassword(!showPassword);
   };
 
-  // const { actions } = useAppSelector((state: any) => state.user);
+  const { actions } = useAppSelector((state: any): any => state.user);
+
+  const userHaveAction = ({ id }: any) => {
+    return actions.includes(id);
+  };
 
   const form = useCreateForm({ schema: formSchemaUser, defaultValues });
   return {
@@ -31,7 +36,7 @@ export const useUserForm = () => {
     setShowPassword,
     togglePasswordVisibility,
     form,
-    // userActions: actions,
-    // updateActionsUser,
+    userActions: actions,
+    userHaveAction,
   };
 };

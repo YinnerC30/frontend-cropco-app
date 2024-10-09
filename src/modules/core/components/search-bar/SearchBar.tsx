@@ -16,9 +16,10 @@ import { ToolTipTemplate } from "../ToolTipTemplate";
 
 interface Props {
   query: string;
+  autoFocus?: boolean;
 }
 
-export const BasicSearchBar = ({ query = "" }: Props) => {
+export const BasicSearchBar = ({ query = "", autoFocus = false, }: Props) => {
   const navigate = useNavigate();
 
   const formSchema = z.object({
@@ -55,7 +56,7 @@ export const BasicSearchBar = ({ query = "" }: Props) => {
                     <Input
                       className="w-80"
                       placeholder="Escribe algo..."
-                      autoFocus
+                      autoFocus={autoFocus}
                       {...field}
                     />
                   </FormControl>

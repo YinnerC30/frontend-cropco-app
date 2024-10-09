@@ -2,7 +2,7 @@ import {
   ErrorLoading,
   Loading,
   ToolTipTemplate,
-} from "@/modules/core/components";
+} from '@/modules/core/components';
 
 import {
   Badge,
@@ -12,25 +12,25 @@ import {
   ScrollArea,
   Separator,
   Textarea,
-} from "@/components";
-import { CalendarIcon, PlusIcon } from "lucide-react";
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useGetHarvest } from "../hooks/useGetHarvest";
-import { DataTableHarvestProcessed } from "./DataTableHarvestProcessed";
-import columnsHarvestProcessed from "./columns/ColumnsTableHarvestProcessed";
+} from '@/components';
+import { CalendarIcon, PlusIcon } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGetHarvest } from '../hooks/useGetHarvest';
+import { DataTableHarvestProcessed } from './DataTableHarvestProcessed';
+import columnsHarvestProcessed from './columns/ColumnsTableHarvestProcessed';
 
-import { cn } from "@/lib/utils";
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { ConvertStringToDate } from "@/modules/core/helpers/ConvertStringToDate";
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
-import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
-import { Harvest } from "../interfaces/Harvest";
-import { CreateHarvestProcessed } from "./CreateHarvestProcessed";
-import { ModifyHarvestProcessed } from "./ModifyHarvestProcessed";
-import { formFieldsHarvest } from "../utils";
+import { cn } from '@/lib/utils';
+import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { ConvertStringToDate } from '@/modules/core/helpers/ConvertStringToDate';
+import { FormatMoneyValue } from '@/modules/core/helpers/FormatMoneyValue';
+import { FormatNumber } from '@/modules/core/helpers/FormatNumber';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+import { Harvest } from '../interfaces/Harvest';
+import { CreateHarvestProcessed } from './CreateHarvestProcessed';
+import { ModifyHarvestProcessed } from './ModifyHarvestProcessed';
+import { formFieldsHarvest } from '../utils';
 
 export const HarvestProcessedModule = () => {
   const { id } = useParams();
@@ -52,12 +52,12 @@ export const HarvestProcessedModule = () => {
     <>
       <BreadCrumb
         items={[
-          { link: "/harvests/all", name: "Cosechas" },
+          { link: '/harvests/all', name: 'Cosechas' },
           {
             link: `/harvests/view/${data.id}`,
             name: `${data.crop.name} | ${format(
               ConvertStringToDate(data.date),
-              "PPP",
+              'PPP',
               {
                 locale: es,
               }
@@ -71,18 +71,18 @@ export const HarvestProcessedModule = () => {
       <ScrollArea className="w-full h-[80vh]">
         <div className="flex flex-col gap-2 ml-1">
           <div>
-            <Label className="block mb-1">Fecha de la cosecha:</Label>
+            <h3 className="block mb-1">Fecha de la cosecha:</h3>
 
             <Button
-              variant={"outline"}
+              variant={'outline'}
               className={cn(
-                "mt-2 w-[200px] pl-3 text-left font-normal",
-                !data.date && "text-muted-foreground"
+                'mt-2 w-[200px] pl-3 text-left font-normal',
+                !data.date && 'text-muted-foreground'
               )}
               disabled
             >
               {data.date ? (
-                format(`${data.date}T00:00:00-05:00`, "PPP", { locale: es })
+                format(`${data.date}T00:00:00-05:00`, 'PPP', { locale: es })
               ) : (
                 <span>Selecciona una fecha</span>
               )}
@@ -93,7 +93,7 @@ export const HarvestProcessedModule = () => {
             </p>
           </div>
           <div>
-            <Label>Cultivo:</Label>
+            <h3>Cultivo:</h3>
             <Input
               className="w-40 mt-2 text-neutral-500"
               value={data.crop.name}
@@ -105,7 +105,7 @@ export const HarvestProcessedModule = () => {
           </div>
 
           <div>
-            <Label>Total:</Label>
+            <h3>Total:</h3>
             <Input
               className="w-40 mt-2 text-neutral-500"
               value={FormatNumber(data.total)}
@@ -116,7 +116,7 @@ export const HarvestProcessedModule = () => {
             </p>
           </div>
           <div>
-            <Label>Valor a pagar:</Label>
+            <h3>Valor a pagar:</h3>
             <Input
               className="w-40 mt-2 text-neutral-500"
               value={FormatMoneyValue(data.value_pay)}
@@ -127,7 +127,7 @@ export const HarvestProcessedModule = () => {
             </p>
           </div>
           <div>
-            <Label>Observación:</Label>
+            <h3>Observación:</h3>
             <Textarea
               value={data.observation}
               className="resize-none w-80 text-neutral-500"
@@ -142,12 +142,12 @@ export const HarvestProcessedModule = () => {
         </div>
 
         <Separator className="my-4" />
-        <Label>
+        <h3>
           A continuación registre de forma individual la cosecha procesada que
           ha salido hasta el momento:
-        </Label>
+        </h3>
         <div className="flex items-start justify-between gap-2 w-[800px] p-1">
-          <ToolTipTemplate content={"Agregar"}>
+          <ToolTipTemplate content={'Agregar'}>
             <Button
               className="mt-2 bg-blue-600 rounded-full hover:bg-blue-400"
               onClick={() => setIsOpenDialogForm(true)}
@@ -184,10 +184,10 @@ export const HarvestProcessedModule = () => {
         />
 
         <div>
-          <Label>Total de cosecha procesada:</Label>
+          <h3>Total de cosecha procesada:</h3>
           <Badge
             className="block h-8 text-base text-center w-28"
-            variant={"cyan"}
+            variant={'cyan'}
           >
             {FormatNumber(data.total_processed)}
           </Badge>

@@ -9,7 +9,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Switch } from '@/components/ui/switch';
 import { ErrorLoading, Loading } from '@/modules/core/components';
 import { ButtonsForm } from '@/modules/core/components/ButtonsForm';
 import { FormFieldInput } from '@/modules/core/components/form/FormFieldInput';
@@ -18,13 +17,13 @@ import { FormProps } from '@/modules/core/interfaces/FormProps';
 import { useAppDispatch } from '@/redux/store';
 import { loadActions, updateActions } from '../utils/userSlice';
 
-import { CapitalizeFirstWord } from '@/modules/authentication/helpers/CapitalizeFirstWord';
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserForm } from '../hooks/useUserForm';
 import { formFieldsUser } from '../utils';
 import { removeAllActions } from '../utils/userSlice';
+import { ActionUser } from './ActionUser';
 
 export const FormUser = ({
   onSubmit,
@@ -32,7 +31,8 @@ export const FormUser = ({
   defaultValues,
   readOnly = false,
 }: FormProps) => {
-  const { showPassword, togglePasswordVisibility, form } = useUserForm();
+  const { showPassword, togglePasswordVisibility, form, userHaveAction } =
+    useUserForm();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -51,14 +51,17 @@ export const FormUser = ({
     }
   }, []);
 
-  const idActionsUser =
-    defaultValues?.modules
-      ?.map((i: any) => {
-        return i.actions.map((ac: any) => ac.id);
-      })
-      .flat(1) ?? [];
+  const { data = [], isLoading, isError } = useGetAllModules();
 
-  const { data, isLoading, isError } = useGetAllModules();
+  const handleSelectAllActions = () => {
+    const idsActionsModules = data
+      .map((item: any) => item.actions.map((act: any) => act.id))
+      .flat(1);
+
+    for (const element of idsActionsModules) {
+      dispatch(updateActions({ id: element, state: true }));
+    }
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -175,32 +178,27 @@ export const FormUser = ({
         </ScrollArea>
 
         <ScrollArea className="w-2/4 h-[70vh] mt-2">
+          {/* <div className="w-[200px]">
+            {<pre className="w-[300px">{JSON.stringify(userActions)}</pre>}
+          </div> */}
           <h3 className="text-xl ">Permisos:</h3>
+          <Button onClick={handleSelectAllActions}>Marcar todo</Button>
           <div className={'my-2'}>
-            {data.map(({ label, actions, name }: any) => {
+            {data?.map(({ label, actions, name }: any) => {
               return (
-                <Card key={name + defaultValues.id} className="w-2/4 mb-2">
+                <Card key={name} className="w-2/4 mb-2">
                   <CardHeader className="border-b">
                     <CardTitle className="capitalize ">{label}</CardTitle>
                   </CardHeader>
                   <CardContent className="flex flex-col flex-wrap gap-4 m-2 rounded-md">
                     {actions.map((act: any) => {
                       return (
-                        <div key={act.name}>
-                          <div className="flex justify-between gap-2 ">
-                            <span className="text-xs ">
-                              {CapitalizeFirstWord(act.name)}
-                            </span>
-                            <Switch
-                              defaultChecked={idActionsUser.includes(act.id)}
-                              onCheckedChange={(value: boolean) => {
-                                dispatch(
-                                  updateActions({ id: act.id, state: value })
-                                );
-                              }}
-                            />
-                          </div>
-                        </div>
+                        <ActionUser
+                          key={act.id}
+                          action={act}
+                          readOnly={readOnly}
+                          isChecked={userHaveAction({ id: act.id })}
+                        />
                       );
                     })}
                   </CardContent>
