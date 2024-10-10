@@ -1,14 +1,12 @@
-import { ActionsTable } from "@/modules/core/components/table/ActionsTable";
+import { ActionsTable } from '@/modules/core/components/table/ActionsTable';
 
-import { useDeleteUser } from "../hooks/useDeleteUser";
+import { useDeleteUser } from '../hooks/useDeleteUser';
 
-import { ItemCopyIdRecord } from "@/modules/core/components/table/actions/ItemCopyIdRecord";
-import { ItemDeleteRecord } from "@/modules/core/components/table/actions/ItemDeleteRecord";
-import { ItemModifyRecord } from "@/modules/core/components/table/actions/ItemModifyRecord";
-import { ItemViewRecord } from "@/modules/core/components/table/actions/ItemViewRecord";
-import { useState } from "react";
-import { ItemNavigate } from "@/modules/core/components/table/actions/ItemNavigate";
-import { Pencil2Icon } from "@radix-ui/react-icons";
+import { ItemCopyIdRecord } from '@/modules/core/components/table/actions/ItemCopyIdRecord';
+import { ItemDeleteRecord } from '@/modules/core/components/table/actions/ItemDeleteRecord';
+import { ItemModifyRecord } from '@/modules/core/components/table/actions/ItemModifyRecord';
+import { ItemViewRecord } from '@/modules/core/components/table/actions/ItemViewRecord';
+import { useState } from 'react';
 
 export const ActionsTableUsers = ({ row }: any) => {
   const { id } = row.original;
@@ -21,10 +19,7 @@ export const ActionsTableUsers = ({ row }: any) => {
 
   return (
     <>
-      <ActionsTable
-        open={openDropDownMenu}
-        onChange={setOpenDropDownMenu}
-      >
+      <ActionsTable open={openDropDownMenu} onChange={setOpenDropDownMenu}>
         <ItemCopyIdRecord id={id} onChange={setOpenDropDownMenu} />
         <ItemDeleteRecord
           action={handleDelete}
@@ -32,13 +27,6 @@ export const ActionsTableUsers = ({ row }: any) => {
         />
         <ItemModifyRecord id={id} />
         <ItemViewRecord id={id} />
-        <ItemNavigate
-          key={`update/actions/${id}`}
-          name="Acciones"
-          path={`../update/actions/${id}`}
-          // TODO: Cambiar Icono
-          Icon={Pencil2Icon}
-        />
       </ActionsTable>
     </>
   );
