@@ -12,19 +12,23 @@ import { NavBar } from './components/Home/NavBar';
 import { NavElement } from './components/Home/NavElement';
 import { ModeToggle } from './modules/core/components';
 import { Route, routes } from './routes/RoutesNavBar';
+import { useCheckAuthStatus } from './modules/authentication/hooks/useCheckAuthStatus';
+import { useRenewToken } from './modules/authentication/hooks/useRenewToken';
 
 export const Home = () => {
   const { toast } = useToast();
   const {
     redirectToLogin,
     isActiveSesion,
-    renewToken,
-    validateToken,
-    mutationCheckAuthStatus,
     TIME_ACTIVE_TOKEN,
     TIME_QUESTION_RENEW_TOKEN,
     modulesUser,
+    getTokenSesion,
   } = useAuthenticationUser();
+
+  const mutationCheckAuthStatus = useCheckAuthStatus();
+
+  const mutationRenewToken = useRenewToken();
 
   const [visibleToastExtendSesion, setVisibleToastExtendSesion] =
     useState(false);
@@ -43,21 +47,21 @@ export const Home = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      validateToken();
+      mutationCheckAuthStatus.mutate({ token: getTokenSesion() });
     }, TIME_ACTIVE_TOKEN);
 
     return () => clearTimeout(timer);
-  }, [mutationCheckAuthStatus, validateToken, visibleToastExtendSesion]);
+  }, [mutationCheckAuthStatus, visibleToastExtendSesion]);
 
   const handleAumentarSesion = () => {
-    renewToken();
+    mutationRenewToken.mutate({ token: getTokenSesion() });
     setVisibleToastExtendSesion(false);
   };
 
   const showToast = () => {
     return toast({
       title: 'Aumentar tiempo de sesión',
-      duration: 2000,
+      duration: 4000,
       description:
         'La sesión esta por expirar, si desea continuar por favor presione Clic',
       action: (

@@ -1,12 +1,11 @@
-import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
 interface CheckAuthStatusData {
   token: string;
 }
 
 export const renewToken = async (authData: CheckAuthStatusData) => {
-  
-  return await cropcoAPI.post(
+  const { data } = await cropcoAPI.post(
     `${pathsCropco.authentication}/renew-token`,
     authData,
     {
@@ -15,4 +14,5 @@ export const renewToken = async (authData: CheckAuthStatusData) => {
       },
     }
   );
+  return data;
 };

@@ -1,19 +1,18 @@
 import { useAuthenticationUser } from '@/modules/authentication/hooks/useAuthenticationUser';
+import { useCheckAuthStatus } from '@/modules/authentication/hooks/useCheckAuthStatus';
 import { Loading } from '@/modules/core/components';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
 export const Layout = () => {
-  const {
-    isActiveSesion,
-    validateToken,
-    redirectToLogin,
-    mutationCheckAuthStatus,
-  } = useAuthenticationUser();
+  const mutationCheckAuthStatus = useCheckAuthStatus();
+
+  const { getTokenSesion, isActiveSesion, redirectToLogin } =
+    useAuthenticationUser();
 
   useEffect(() => {
     if (isActiveSesion()) {
-      validateToken();
+      mutationCheckAuthStatus.mutate({ token: getTokenSesion() });
     } else {
       redirectToLogin();
     }

@@ -1,12 +1,9 @@
 import { RootState, useAppSelector } from '@/redux/store';
-import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UserActive } from '../interfaces';
 import { removeUserActive, setUserActive } from '../utils';
 import { setToken } from '../utils/authenticationSlice';
-import { useCheckAuthStatus } from './useCheckAuthStatus';
-import { useRenewToken } from './useRenewToken';
 
 export const useAuthenticationUser = () => {
   const KEY_USER_LOCAL_STORAGE = 'user-active';
@@ -49,7 +46,6 @@ export const useAuthenticationUser = () => {
   };
 
   const updateUserActions = (modules: any) => {
-    console.log(modules);
     saveUserInLocalStorage({ ...user, modules });
     saveUserInState({ ...user, modules });
   };
@@ -92,47 +88,10 @@ export const useAuthenticationUser = () => {
 
   const MINUTE = 60 * 1000;
   const HOUR = MINUTE * 60;
-  const TIME_ACTIVE_TOKEN = 6 * HOUR;
-  const TIME_QUESTION_RENEW_TOKEN = 5.5 * HOUR;
-
-  const mutationCheckAuthStatus = useCheckAuthStatus();
-
-  const mutationRenewToken = useRenewToken();
-
-  const validateToken = () => {
-    mutationCheckAuthStatus.mutate({ token: getTokenSesion() });
-  };
-
-  const renewToken = () => {
-    mutationRenewToken.mutate({ token: getTokenSesion() });
-  };
-
-  // Effects
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    const { isSuccess, isError } = mutationCheckAuthStatus;
-
-    if (isSuccess && pathname === '/app') {
-      redirectToHome();
-    }
-    if (isError) {
-      LogOutUser();
-    }
-  }, [mutationCheckAuthStatus]);
-
-  useEffect(() => {
-    const { isSuccess, isError, error, data } = mutationRenewToken;
-
-    if (isSuccess) {
-      const { token } = data.data;
-      updateTokenInClient(token);
-    }
-    if (isError) {
-      const { statusCode } = error.response.data;
-      statusCode === 401 && console.error('No se pudo actualizar el token');
-    }
-  }, [mutationRenewToken]);
+  // const TIME_ACTIVE_TOKEN = 6 * HOUR;
+  // const TIME_QUESTION_RENEW_TOKEN = 5.5 * HOUR;
+  const TIME_ACTIVE_TOKEN = 30 * 1000;
+  const TIME_QUESTION_RENEW_TOKEN = 15 * 1000;
 
   return {
     user,
@@ -142,14 +101,12 @@ export const useAuthenticationUser = () => {
     TIME_ACTIVE_TOKEN,
     TIME_QUESTION_RENEW_TOKEN,
     URL_LOGOUT,
-    mutationCheckAuthStatus,
-    mutationRenewToken,
-    validateToken,
-    renewToken,
     redirectToHome,
     redirectToLogin,
     modulesUser,
     removeUser,
     updateUserActions,
+    updateTokenInClient,
+    getTokenSesion,
   };
 };
