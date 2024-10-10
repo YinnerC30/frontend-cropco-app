@@ -1,20 +1,20 @@
-import { AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { z } from "zod";
-import { useGetWork } from "../hooks/useGetWork";
-import { usePatchWork } from "../hooks/usePatchUser";
-import { formSchemaWork } from "../utils/formSchemaWork";
-import { reset } from "../utils/workSlice";
+import { AppDispatch } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { z } from 'zod';
+import { useGetWork } from '../hooks/useGetWork';
 
-import { ScrollArea, Separator } from "@/components";
-import { ErrorLoading, Loading } from "@/modules/core/components";
+import { formSchemaWork } from '../utils/formSchemaWork';
+import { reset } from '../utils/workSlice';
 
+import { ScrollArea, Separator } from '@/components';
+import { ErrorLoading, Loading } from '@/modules/core/components';
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { ConvertStringToDate } from "../../core/helpers/ConvertStringToDate";
-import { WorkDetail } from "../interfaces/WorkDetail";
-import { FormWork } from "./form/FormWork";
+import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { ConvertStringToDate } from '../../core/helpers/ConvertStringToDate';
+import { usePatchWork } from '../hooks/usePatchWork';
+import { WorkDetail } from '../interfaces/WorkDetail';
+import { FormWork } from './form/FormWork';
 
 export const ModifyWork = () => {
   // FIX: Error al cargar datos, no espera a que llegue la información y da undefined al ingresar a la data
@@ -45,7 +45,7 @@ export const ModifyWork = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../all");
+    navigate('../all');
   }
 
   // Render loading or error states
@@ -54,7 +54,7 @@ export const ModifyWork = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/works/all", name: "Trabajos" }]}
+        items={[{ link: '/works/all', name: 'Trabajos' }]}
         finalItem={`Modificar`}
       />
 

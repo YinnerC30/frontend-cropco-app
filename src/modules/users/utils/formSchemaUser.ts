@@ -31,7 +31,7 @@ export const formSchemaUser = z.object({
         message: "El número celular es incorrecto",
       }
     ),
-  password: z
+  passwords: z
     .object({
       password1: z
         .string({ required_error: "La contraseña es obligatoria" })

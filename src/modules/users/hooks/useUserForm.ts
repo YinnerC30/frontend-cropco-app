@@ -9,7 +9,7 @@ export const defaultValues = {
   last_name: '',
   email: '',
   cell_phone_number: '',
-  password: {
+  passwords: {
     password1: '',
     password2: '',
   },

@@ -126,7 +126,7 @@ export const FormUser = ({
                   <>
                     <FormField
                       control={form.control}
-                      name={`password.password1`}
+                      name={`passwords.password1`}
                       render={({ field }) => (
                         <FormItem className="w-full">
                           <FormLabel>
@@ -160,7 +160,7 @@ export const FormUser = ({
                     />
                     <FormField
                       control={form.control}
-                      name={`password.password2`}
+                      name={`passwords.password2`}
                       render={({ field }) => (
                         <FormItem className="w-full">
                           <FormLabel>

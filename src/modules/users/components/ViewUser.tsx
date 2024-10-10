@@ -27,7 +27,7 @@ export const ViewUser = () => {
     if (data) {
       form.reset({
         ...data,
-        password: {
+        passwords: {
           password1: '',
           password2: '',
         },
