@@ -14,7 +14,9 @@ export function usePatchUser(): any {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       queryClient.invalidateQueries({ queryKey: ['user', variables.id] });
 
-      if (!(variables.id === user.id)) {
+      if (variables.id === user.id) {
+        toast.success(`Tus permisos han sido actualizados 😁`);
+      } else {
         toast.success(`Usuario actualizado`);
       }
     },
