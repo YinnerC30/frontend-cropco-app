@@ -2,7 +2,6 @@ import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
 import { useState } from 'react';
 import { formSchemaUser } from '../utils';
 import { useAppSelector } from '@/redux/store';
-// import { useAppSelector } from '@/redux/store';
 
 export const defaultValues = {
   first_name: '',

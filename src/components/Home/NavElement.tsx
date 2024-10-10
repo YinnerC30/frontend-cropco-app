@@ -1,5 +1,5 @@
-import { Route } from "@/routes/RoutesNavBar";
-import { NavLink } from "react-router-dom";
+import { Route } from '@/routes/RoutesNavBar';
+import { NavLink } from 'react-router-dom';
 
 interface Props {
   route: Route;
@@ -11,14 +11,7 @@ export const NavElement = ({ route, className }: Props) => {
 
   return (
     <div key={path} className={className}>
-      <NavLink
-        to={path}
-        className={({ isActive }) =>
-          `flex gap-1 p-1 ${
-            isActive ? "bg-blue-500 rounded-md text-white" : ""
-          }`
-        }
-      >
+      <NavLink to={path} className={({ isActive }) => `flex gap-1 p-1 `}>
         <span>{Icon}</span>
         <span>{label}</span>
       </NavLink>

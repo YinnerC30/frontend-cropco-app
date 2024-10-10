@@ -39,7 +39,7 @@ export const FormFieldInput = ({
           <FormControl>
             <div className="flex gap-4">
               <Input
-                className={`w-56 `}
+                className={`w-60 `}
                 placeholder={placeholder}
                 {...field}
                 readOnly={readOnly}

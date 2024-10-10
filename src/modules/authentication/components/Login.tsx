@@ -1,4 +1,4 @@
-import { Button, Form } from "@/components";
+import { Button, Form } from '@/components';
 import {
   Card,
   CardContent,
@@ -6,22 +6,18 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
-import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
-import { Link } from "react-router-dom";
-import { z } from "zod";
-import { useLoginForm } from "../hooks/useLoginForm";
-import { formFieldsLogin, formSchemaLogin } from "../utils";
+} from '@/components/ui/card';
+import { FormFieldInput } from '@/modules/core/components/form/FormFieldInput';
+import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from '@radix-ui/react-icons';
+import { z } from 'zod';
+import { useLoginForm } from '../hooks/useLoginForm';
+import { formFieldsLogin, formSchemaLogin } from '../utils';
+import { useLoginUser } from '../hooks/useLoginUser';
 
 export const Login = () => {
-  const {
-    formLogin,
-    mutate,
-    isPending,
-    showPassword,
-    togglePasswordVisibility,
-  } = useLoginForm();
+  const { formLogin, showPassword, togglePasswordVisibility } = useLoginForm();
+
+  const { mutate, isPending } = useLoginUser();
 
   const onSubmit = async (values: z.infer<typeof formSchemaLogin>) => {
     mutate(values);
@@ -36,7 +32,7 @@ export const Login = () => {
           <CardTitle className="text-3xl font-bold text-center">
             Inicio de sesión
           </CardTitle>
-          <CardDescription className="text-gray-500">
+          <CardDescription className="text-center text-gray-500">
             Ingresa tu usuario y contraseña para acceder a tu cuenta
           </CardDescription>
         </CardHeader>
@@ -51,7 +47,7 @@ export const Login = () => {
                 control={formLogin.control}
                 description={email.description}
                 label={email.label}
-                name={"email"}
+                name={'email'}
                 placeholder={email.placeholder}
                 readOnly={false}
               />
@@ -60,10 +56,10 @@ export const Login = () => {
                 control={formLogin.control}
                 description={password.description}
                 label={password.label}
-                name={"password"}
+                name={'password'}
                 placeholder={password.placeholder}
                 readOnly={false}
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
               >
                 <Button
                   type="button"
@@ -86,8 +82,6 @@ export const Login = () => {
             {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
             Ingresar
           </Button>
-          <br />
-          <Link to={"/"}>Ir a landing Page</Link>
         </CardFooter>
       </Card>
     </div>

@@ -101,11 +101,7 @@ export const Home = () => {
             route.name_module === 'N/A'
           ) {
             return (
-              <NavElement
-                key={route.path}
-                route={route}
-                className="w-[180px] hover:bg-blue-500 hover:rounded-md hover:text-white transition-all duration-75"
-              />
+              <NavElement key={route.path} route={route} className="w-auto " />
             );
           }
         })}

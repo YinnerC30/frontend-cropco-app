@@ -30,7 +30,7 @@ export const UsersModule = () => {
 
       <ScrollArea className="w-full h-[80vh] ">
         <div className="flex items-center justify-center w-full py-2">
-          <SearchBar query={value} autoFocus />
+          <SearchBar query={value} />
         </div>
         <div className="flex items-center justify-end w-full py-2">
           <ButtonCreateRecord route={'../create'} />

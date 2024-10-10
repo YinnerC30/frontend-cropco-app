@@ -69,12 +69,12 @@ export const BasicSearchBar = ({ query = "", autoFocus = false, }: Props) => {
         <div className="flex flex-row gap-1 ml-2">
           <ToolTipTemplate content="Buscar">
             <Button type="submit" form="formSearchBar">
-              <Search className="w-6 h-6" />
+              Buscar
             </Button>
           </ToolTipTemplate>
           <ToolTipTemplate content="Borrar">
             <Button onClick={() => onReset()}>
-              <SquareX />
+              Limpiar
             </Button>
           </ToolTipTemplate>
         </div>
