@@ -1,4 +1,8 @@
-export { CreateUser } from './CreateUser';
-export { ModifyUser } from './ModifyUser';
-export { UsersModule } from './UsersModule';
-export { ViewUser } from './ViewUser';
+export * from './ActionsTableUsers';
+export * from './ActionUser';
+export * from './ColumnsTableUsers';
+export * from './CreateUser';
+export * from './FormUser';
+export * from './ModifyUser';
+export * from './UsersModule';
+export * from './ViewUser';

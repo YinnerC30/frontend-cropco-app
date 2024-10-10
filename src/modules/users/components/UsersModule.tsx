@@ -8,6 +8,7 @@ import {
 import { ScrollArea } from '@/components';
 import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
 import { ButtonCreateRecord } from '@/modules/core/components/ButtonCreateRecord';
+import { ButtonRefetchData } from '@/modules/core/components/ButtonRefetchData';
 import { useBasicQueryData } from '@/modules/core/hooks/useBasicQueryData';
 import { useGetAllUsers } from '../hooks/useGetAllUsers';
 import columnsTableUsers from './ColumnsTableUsers';
@@ -35,6 +36,7 @@ export const UsersModule = () => {
           <ButtonCreateRecord route={'../create'} />
         </div>
         <div>
+          <ButtonRefetchData onClick={query.refetch} />
           <DataTable
             columns={columnsTableUsers}
             rows={query.data?.rows ?? []}

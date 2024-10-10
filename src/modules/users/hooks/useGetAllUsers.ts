@@ -1,10 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-import { ResponseUseGetAllRecords } from "@/modules/core/interfaces/ResponseUseGetAllRecords";
-import { PaginationState } from "@tanstack/react-table";
-import { useState } from "react";
-import { User } from "../interfaces/User";
-import { getUsers } from "../services/getUsers";
+import { ResponseUseGetAllRecords } from '@/modules/core/interfaces/ResponseUseGetAllRecords';
+import { PaginationState } from '@tanstack/react-table';
+import { useState } from 'react';
+import { User } from '../interfaces/User';
+import { getUsers } from '../services/getUsers';
 
 interface Props {
   value: string;
@@ -19,7 +19,7 @@ export function useGetAllUsers({
   });
 
   const query = useQuery({
-    queryKey: ["users", { value, ...pagination }],
+    queryKey: ['users', { value, ...pagination }],
     queryFn: () =>
       getUsers({
         query: value,

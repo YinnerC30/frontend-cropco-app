@@ -80,10 +80,10 @@ export const Home = () => {
   }, [visibleToastExtendSesion]);
 
   return (
-    <div className="grid grid-cols-12 ">
+    <div className="grid h-screen grid-cols-12 grid-rows-12">
       <CommandDialogApp />
 
-      <Header className="flex flex-row items-center col-span-12 col-start-1 py-4 border-b justify-evenly">
+      <Header className="flex flex-row items-center col-span-12 col-start-1 row-span-1 py-4 border-b justify-evenly">
         <Link
           className="mx-4 text-3xl font-medium hover:text-blue-500"
           to="/app/home"
@@ -94,7 +94,7 @@ export const Home = () => {
         <MyAccount />
       </Header>
 
-      <NavBar className="flex flex-col col-span-2 gap-1 py-2 pl-4 border-r">
+      <NavBar className="flex flex-col col-span-2 gap-1 py-2 pl-4 border-r row-span-11">
         {routes.map((route: Route) => {
           if (
             modulesUser.includes(route.name_module) ||
@@ -111,7 +111,7 @@ export const Home = () => {
         })}
       </NavBar>
 
-      <Main className="col-span-10 mx-5 ">
+      <Main className="col-span-10 mx-5 row-span-11">
         <Outlet />
       </Main>
     </div>

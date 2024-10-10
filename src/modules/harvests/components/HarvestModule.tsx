@@ -1,28 +1,28 @@
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { PlusIcon } from "@radix-ui/react-icons";
-import { useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { toast } from "sonner";
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { PlusIcon } from '@radix-ui/react-icons';
+import { useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { toast } from 'sonner';
 import {
   DataTable,
   ErrorLoading,
   Loading,
   ToolTipTemplate,
-} from "../../core/components";
-import { DateTimeSelection } from "../../core/interfaces/DateTimeSelection";
-import { MinorOrMajorSelection } from "../../core/interfaces/MinorOrMajorSelection";
-import { useGetAllHarvests } from "../hooks/useGetAllHarvests";
-import columnsHarvest from "./columns/ColumnsTableHarvest";
-import { SearchBarHarvest } from "./SearchBarHarvest";
+} from '../../core/components';
+import { DateTimeSelection } from '../../core/interfaces/DateTimeSelection';
+import { MinorOrMajorSelection } from '../../core/interfaces/MinorOrMajorSelection';
+import { useGetAllHarvests } from '../hooks/useGetAllHarvests';
+import columnsHarvest from './columns/ColumnsTableHarvest';
+import { SearchBarHarvest } from './SearchBarHarvest';
 
 export const HarvestModule = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const {
-    search = "",
-    crop = "",
+    search = '',
+    crop = '',
     after_date,
     before_date,
     minor_total,
@@ -31,11 +31,11 @@ export const HarvestModule = () => {
     major_value_pay,
   } = Object.fromEntries(searchParams.entries());
 
-  const minor_total_value = parseInt(minor_total ?? "0", 10);
-  const major_total_value = parseInt(major_total ?? "0", 10);
+  const minor_total_value = parseInt(minor_total ?? '0', 10);
+  const major_total_value = parseInt(major_total ?? '0', 10);
 
-  const minor_value_pay_value = parseInt(minor_value_pay ?? "0", 10);
-  const major_value_pay_value = parseInt(major_value_pay ?? "0", 10);
+  const minor_value_pay_value = parseInt(minor_value_pay ?? '0', 10);
+  const major_value_pay_value = parseInt(major_value_pay ?? '0', 10);
 
   const { query, pagination, setPagination } = useGetAllHarvests({
     searchParameter: search,
@@ -50,7 +50,7 @@ export const HarvestModule = () => {
 
   useEffect(() => {
     if (query.isSuccess) {
-      query?.data?.rows.length < 1 ? toast.success("No hay datos") : null;
+      query?.data?.rows.length < 1 ? toast.success('No hay datos') : null;
     }
   }, [query.isSuccess]);
 
@@ -81,7 +81,10 @@ export const HarvestModule = () => {
     return { value_pay: undefined, type: undefined };
   };
 
-  if (query.isLoading) return <Loading />;
+  if (query.isLoading) {
+    return <Loading />;
+  }
+
   if (query.isError || !query.data) return <ErrorLoading />;
 
   const { date, type } = getDateSelection();
@@ -112,7 +115,7 @@ export const HarvestModule = () => {
               <ToolTipTemplate content="Crear">
                 <Button
                   className="bg-blue-600 rounded-full hover:bg-blue-400"
-                  onClick={() => navigate("../create")}
+                  onClick={() => navigate('../create')}
                 >
                   <PlusIcon className="w-4 h-4 mr-2" /> Crear
                 </Button>
