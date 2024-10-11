@@ -4,10 +4,14 @@ import { checkAuthStatus } from '../services/checkAuthStatus';
 import { useAuthenticationUser } from './useAuthenticationUser';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'sonner';
+import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
 
 export const useCheckAuthStatus = () => {
   const { pathname } = useLocation();
-  const { LogOutUser, redirectToHome } = useAuthenticationUser();
+
+  const { removeUser } = useAuthenticationUser();
+  const { redirectToHome, redirectToLogin } = useRoutesManager();
+
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: checkAuthStatus,
@@ -24,7 +28,8 @@ export const useCheckAuthStatus = () => {
       console.error(
         `Hubo un problema al intentar verificar la  sesión, ${data.message}`
       );
-      LogOutUser();
+      removeUser();
+      redirectToLogin();
       toast.error('Tu sesión ha expirado 😢');
     },
     retry: 0,

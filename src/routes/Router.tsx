@@ -19,7 +19,7 @@ import { workRoutes } from "@/modules/work/routes/Routes";
 
 import { LandingPage } from "@/components/common/LandingPage";
 import { createBrowserRouter } from "react-router-dom";
-import { Layout } from "./Layout";
+import { RoutesController } from "./RoutesController";
 import { Home } from "../Home";
 
 export const Router = createBrowserRouter([
@@ -30,7 +30,11 @@ export const Router = createBrowserRouter([
   },
   {
     path: "/app",
-    element: <Layout />,
+    action: () => {
+      console.log('Paso por app')
+      return true;
+    },
+    element: <RoutesController />,
     errorElement: <ErrorPage />,
     children: [
       {

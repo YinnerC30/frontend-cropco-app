@@ -5,11 +5,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useAuthenticationUser } from "@/modules/authentication/hooks/useAuthenticationUser";
-import { Bolt } from "lucide-react";
+} from '@/components/ui/dropdown-menu';
+import { useAuthenticationUser } from '@/modules/authentication/hooks/useAuthenticationUser';
+import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
+import { Bolt } from 'lucide-react';
 export const MyAccount = () => {
-  const { LogOutUser } = useAuthenticationUser();
+  const { removeUser } = useAuthenticationUser();
+
+  const { redirectToLogin } = useRoutesManager();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -20,7 +24,8 @@ export const MyAccount = () => {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
-            LogOutUser();
+            removeUser();
+            redirectToLogin();
           }}
         >
           Salir

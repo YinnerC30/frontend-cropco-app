@@ -4,9 +4,19 @@ import { toast } from 'sonner';
 import { CapitalizeFirstWord } from '../helpers/CapitalizeFirstWord';
 import { loginUser } from '../services/loginUser';
 import { useAuthenticationUser } from './useAuthenticationUser';
+import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
+import { useEffect } from 'react';
 
 export const useLoginUser = () => {
-  const { saveUser, redirectToHome } = useAuthenticationUser();
+  const { saveUser, isLogin } = useAuthenticationUser();
+
+  const { redirectToHome } = useRoutesManager();
+
+  useEffect(() => {
+    if (isLogin) {
+      redirectToHome();
+    }
+  }, []);
 
   const queryClient = useQueryClient();
   const mutation = useMutation({

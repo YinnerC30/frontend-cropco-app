@@ -1,15 +1,9 @@
 import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { formSchemaLogin } from '../utils';
-import { useAuthenticationUser } from './useAuthenticationUser';
 
 export const useLoginForm = () => {
-  // Modificación de meta etiquetas
-  useEffect(() => {
-    document.title = 'Login - Cropco';
-  }, []);
-
   // Creación formulario de validación
   const formLogin = useCreateForm({
     schema: formSchemaLogin,
@@ -18,13 +12,6 @@ export const useLoginForm = () => {
       password: '123456',
     },
   });
-
-  // Obtener estado de autenticación del usuario actual
-  const { redirectToHome, isActiveSesion } = useAuthenticationUser();
-
-  useEffect(() => {
-    isActiveSesion() && redirectToHome();
-  }, [isActiveSesion]);
 
   // Control de visibilidad del campo de contraseña
   const [showPassword, setShowPassword] = useState(false);

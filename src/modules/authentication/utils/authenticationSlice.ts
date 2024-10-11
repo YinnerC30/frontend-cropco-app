@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserActive } from "../interfaces/UserActive";
-import { getUserInLocalStorage } from "./getUserInLocalStorage";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { UserActive } from '../interfaces/UserActive';
+import { getUserInLocalStorage } from './manageUserInLocalStorage';
 
 interface authenticationState {
   user: UserActive;
@@ -11,7 +11,7 @@ const initialState: authenticationState = {
 };
 
 export const authenticationSlice = createSlice({
-  name: "authentication",
+  name: 'authentication',
   initialState,
   reducers: {
     setUserActive: (state, action: PayloadAction<UserActive>) => {
@@ -20,9 +20,9 @@ export const authenticationSlice = createSlice({
     },
     removeUserActive: (state) => {
       state.user = {
-        email: "",
-        id: "",
-        token: "",
+        email: '',
+        id: '',
+        token: '',
         modules: [],
       };
     },

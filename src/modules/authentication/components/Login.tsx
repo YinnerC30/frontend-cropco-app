@@ -13,6 +13,7 @@ import { z } from 'zod';
 import { useLoginForm } from '../hooks/useLoginForm';
 import { formFieldsLogin, formSchemaLogin } from '../utils';
 import { useLoginUser } from '../hooks/useLoginUser';
+import { Link } from 'react-router-dom';
 
 export const Login = () => {
   const { formLogin, showPassword, togglePasswordVisibility } = useLoginForm();
@@ -82,6 +83,7 @@ export const Login = () => {
             {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
             Ingresar
           </Button>
+          <Link to={'../../home'}>Ir a Home</Link>
         </CardFooter>
       </Card>
     </div>
