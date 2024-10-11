@@ -12,6 +12,7 @@ export const useRenewToken = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['user-sesion-status'] });
       updateTokenInClient(data.token);
+      console.log(data.token);
       toast.success('Tu sesión se ha extendido un poco más 😊');
     },
     onError: (error: AxiosError | any) => {

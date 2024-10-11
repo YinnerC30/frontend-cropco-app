@@ -25,6 +25,7 @@ export const useLoginUser = () => {
       queryClient.invalidateQueries({ queryKey: ['user-active'] });
       saveUser(data);
       redirectToHome();
+      console.log(data.token);
       toast.success(`Bienvenido, ${CapitalizeFirstWord(data.first_name)}`);
     },
     onError: (error: AxiosError | any) => {
