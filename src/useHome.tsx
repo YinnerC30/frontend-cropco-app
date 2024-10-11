@@ -1,11 +1,25 @@
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { ToastAction } from './components/ui/toast';
 import { useToast } from './components/ui/use-toast';
 import { useAuthenticationUser } from './modules/authentication/hooks/useAuthenticationUser';
 import { useRenewToken } from './modules/authentication/hooks/useRenewToken';
+import { useRoutesManager } from './routes/hooks/useRoutesManager';
+import { RootState, useAppSelector } from './redux/store';
 
 export const useHome = () => {
-  const { tokenSesion } = useAuthenticationUser();
+  const { user } = useAppSelector((state: RootState) => state.authentication);
+  const modulesUser = user?.modules?.map((module: any) => module?.name) ?? [];
+
+  const { isLogin, tokenSesion } = useAuthenticationUser();
+
+  const { redirectToLogin } = useRoutesManager();
+
+  useLayoutEffect(() => {
+    if (!isLogin) {
+      redirectToLogin();
+    }
+  }, []);
+
   const mutationRenewToken = useRenewToken();
 
   const handleExtendedSesion = () => {
@@ -13,6 +27,7 @@ export const useHome = () => {
   };
 
   const { toast } = useToast();
+
   const showToast = () => {
     return toast({
       title: 'Aumentar tiempo de sesión',
@@ -35,12 +50,13 @@ export const useHome = () => {
   useEffect(() => {
     const timeOut = setTimeout(() => {
       console.log('Mostrando timeout desde hook');
-    }, 5000);
+      showToast();
+    }, 15_000);
 
-    return clearTimeout(timeOut);
-  }, []);
+    return () => clearTimeout(timeOut);
+  }, [mutationRenewToken]);
 
   return {
-    showToast,
+    modulesUser,
   };
 };
