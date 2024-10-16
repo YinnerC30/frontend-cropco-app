@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import { z } from "zod";
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 
 import {
   Button,
@@ -9,17 +9,16 @@ import {
   FormItem,
   FormMessage,
   Input,
-} from "@/components";
-import { Search, SquareX } from "lucide-react";
-import { useCreateForm } from "../../hooks/useCreateForm";
-import { ToolTipTemplate } from "../ToolTipTemplate";
+} from '@/components';
+import { useCreateForm } from '../../hooks/useCreateForm';
+import { ToolTipTemplate } from '../ToolTipTemplate';
 
 interface Props {
   query: string;
   autoFocus?: boolean;
 }
 
-export const BasicSearchBar = ({ query = "", autoFocus = false, }: Props) => {
+export const BasicSearchBar = ({ query = '', autoFocus = false }: Props) => {
   const navigate = useNavigate();
 
   const formSchema = z.object({
@@ -34,12 +33,15 @@ export const BasicSearchBar = ({ query = "", autoFocus = false, }: Props) => {
   });
 
   const onReset = () => {
-    form.reset({ query: "" });
+    form.reset({ query: '' });
     navigate(`../all`);
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    navigate(`?query=${values.query.trim()}`);
+    const query = values.query.trim();
+    if (query.length > 0) {
+      navigate(`?query=${query}`);
+    }
   };
 
   return (
@@ -73,9 +75,7 @@ export const BasicSearchBar = ({ query = "", autoFocus = false, }: Props) => {
             </Button>
           </ToolTipTemplate>
           <ToolTipTemplate content="Borrar">
-            <Button onClick={() => onReset()}>
-              Limpiar
-            </Button>
+            <Button onClick={() => onReset()}>Limpiar</Button>
           </ToolTipTemplate>
         </div>
       </div>
