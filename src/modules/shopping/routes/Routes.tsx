@@ -7,6 +7,10 @@ const shoppingRoutes = {
   path: "shopping",
   children: [
     {
+      index: true,
+      element: <ShoppingModule />,
+    },
+    {
       path: "all",
       element: <ShoppingModule />,
     },

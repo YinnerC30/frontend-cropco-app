@@ -1,5 +1,5 @@
-import { Button } from "@/components";
-import { ReloadIcon } from "@radix-ui/react-icons";
+import { Button } from '@/components';
+import { ReloadIcon } from '@radix-ui/react-icons';
 
 export const Loading = () => {
   return (

@@ -6,6 +6,10 @@ const paymentsRoutes = {
   path: "payments",
   children: [
     {
+      index: true,
+      element: <PaymentsModule />,
+    },
+    {
       path: "all",
       element: <PaymentsModule />,
     },

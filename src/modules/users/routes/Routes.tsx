@@ -4,6 +4,10 @@ const userRoutes = {
   path: 'users',
   children: [
     {
+      index: true,
+      element: <UsersModule />,
+    },
+    {
       path: 'all',
       element: <UsersModule />,
     },

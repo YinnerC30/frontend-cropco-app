@@ -1,25 +1,29 @@
-import { CreateConsumption } from "../components/CreateConsumption";
-import { ModifyConsumption } from "../components/ModifyConsumption";
-import ConsumptionModule from "../components/ConsumptionModule";
-import { ViewConsumption } from "../components/ViewConsumption";
+import { CreateConsumption } from '../components/CreateConsumption';
+import { ModifyConsumption } from '../components/ModifyConsumption';
+import ConsumptionModule from '../components/ConsumptionModule';
+import { ViewConsumption } from '../components/ViewConsumption';
 
 const consumptionRoutes = {
-  path: "consumption",
+  path: 'consumption',
   children: [
     {
-      path: "all",
+      index: true,
       element: <ConsumptionModule />,
     },
     {
-      path: "create",
+      path: 'all',
+      element: <ConsumptionModule />,
+    },
+    {
+      path: 'create',
       element: <CreateConsumption />,
     },
     {
-      path: "modify/:id",
+      path: 'modify/:id',
       element: <ModifyConsumption />,
     },
     {
-      path: "view/:id",
+      path: 'view/:id',
       element: <ViewConsumption />,
     },
   ],

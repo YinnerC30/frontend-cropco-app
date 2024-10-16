@@ -7,6 +7,10 @@ const saleRoutes = {
   path: "sales",
   children: [
     {
+      index: true,
+      element: <SaleModule />,
+    },
+    {
       path: "all",
       element: <SaleModule />,
     },

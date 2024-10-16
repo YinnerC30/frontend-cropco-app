@@ -8,6 +8,10 @@ const harvestRoutes = {
   path: "harvests",
   children: [
     {
+      index: true,
+      element: <HarvestModule />,
+    },
+    {
       path: "all",
       element: <HarvestModule />,
     },

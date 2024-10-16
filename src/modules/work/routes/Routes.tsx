@@ -7,6 +7,10 @@ const workRoutes = {
   path: "works",
   children: [
     {
+      index: true,
+      element: <WorkModule />,
+    },
+    {
       path: "all",
       element: <WorkModule />,
     },

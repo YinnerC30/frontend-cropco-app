@@ -9,6 +9,10 @@ const supplyRoutes = {
   path: "supplies",
   children: [
     {
+      index: true,
+      element: <SuppliesModule />,
+    },
+    {
       path: "all",
       element: <SuppliesModule />,
     },

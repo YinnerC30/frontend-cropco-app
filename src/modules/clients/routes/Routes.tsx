@@ -7,6 +7,10 @@ const clientRoutes = {
   path: "clients",
   children: [
     {
+      index: true,
+      element: <ClientsModule />,
+    },
+    {
       path: "all",
       element: <ClientsModule />,
     },

@@ -7,6 +7,10 @@ const cropRoutes = {
   path: "crops",
   children: [
     {
+      index: true,
+      element: <CropsModule />,
+    },
+    {
       path: "all",
       element: <CropsModule />,
     },

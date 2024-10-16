@@ -1,25 +1,30 @@
-import { CreateSupplier } from "../components/CreateSupplier";
-import { ModifySupplier } from "../components/ModifySupplier";
-import { SuppliersModule } from "../components/SuppliersModule";
-import { ViewSupplier } from "../components/ViewSupplier";
+import { CreateSupplier } from '../components/CreateSupplier';
+import { ModifySupplier } from '../components/ModifySupplier';
+import { SuppliersModule } from '../components/SuppliersModule';
+import { ViewSupplier } from '../components/ViewSupplier';
 
 const supplierRoutes = {
-  path: "suppliers",
+  path: 'suppliers',
+
   children: [
     {
-      path: "all",
+      index: true,
       element: <SuppliersModule />,
     },
     {
-      path: "create",
+      path: 'all',
+      element: <SuppliersModule />,
+    },
+    {
+      path: 'create',
       element: <CreateSupplier />,
     },
     {
-      path: "view/:id",
+      path: 'view/:id',
       element: <ViewSupplier />,
     },
     {
-      path: "modify/:id",
+      path: 'modify/:id',
       element: <ModifySupplier />,
     },
   ],
