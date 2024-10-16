@@ -200,7 +200,7 @@ export const FormUser = ({
 
           <ScrollArea className="w-[60%] h-[70vh] mt-2">
             <h3 className="text-xl ">Permisos:</h3>
-            <div className="flex gap-2 my-2">
+            <div className={`flex gap-2 my-2 ${readOnly && 'hidden'}`}>
               <Button onClick={handleSelectAllActions}>Marcar todo</Button>
               <Button onClick={handleInselectAllActions}>Desmarcar todo</Button>
             </div>
