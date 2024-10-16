@@ -1,11 +1,9 @@
 import { useAuthenticationUser } from '@/modules/authentication/hooks/useAuthenticationUser';
+import { useCheckAuthStatus } from '@/modules/authentication/hooks/useCheckAuthStatus';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useRoutesManager } from './hooks/useRoutesManager';
-import { useCheckAuthStatus } from '@/modules/authentication/hooks/useCheckAuthStatus';
 
 export const RoutesController = () => {
-  const { redirectToLogin } = useRoutesManager();
   const { isLogin, tokenSesion } = useAuthenticationUser();
 
   const { mutate } = useCheckAuthStatus();
@@ -13,8 +11,6 @@ export const RoutesController = () => {
   useEffect(() => {
     if (isLogin) {
       mutate({ token: tokenSesion });
-    } else {
-      redirectToLogin();
     }
   }, []);
 

@@ -22,6 +22,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { Home } from '../Home';
 import { RoutesController } from './RoutesController';
 import Chart from '@/modules/dashboard/Chart';
+import { Login } from '@/modules/authentication/components/Login';
 
 export const Router = createBrowserRouter([
   {
@@ -34,9 +35,13 @@ export const Router = createBrowserRouter([
     element: <RoutesController />,
     errorElement: <ErrorPage />,
     children: [
+      { index: true, element: <Login /> },
       {
         path: 'authentication',
-        children: authenticationRoutes,
+        children: [
+          { index: true, element: <Login /> },
+          ...authenticationRoutes,
+        ],
       },
       {
         path: 'home',

@@ -11,6 +11,7 @@ import { Route, routes } from './routes/RoutesNavBar';
 import { useHome } from './useHome';
 
 export const Home = () => {
+  console.log('intento pasar por aqui');
   const { modulesUser } = useHome();
 
   return (
@@ -27,6 +28,7 @@ export const Home = () => {
         <ModeToggle />
         <MyAccount />
         <Link to={'../authentication/login'}>Ir Login</Link>
+        <Link to={'/'}>Ir a Root</Link>
       </Header>
 
       <NavBar className="flex flex-col col-span-2 gap-1 py-2 pl-4 border-r row-span-11">

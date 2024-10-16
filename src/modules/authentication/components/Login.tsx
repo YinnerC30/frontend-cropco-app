@@ -84,6 +84,7 @@ export const Login = () => {
             Ingresar
           </Button>
           <Link to={'../../home'}>Ir a Home</Link>
+          <Link to={'/'}>Ir a Root</Link>
         </CardFooter>
       </Card>
     </div>

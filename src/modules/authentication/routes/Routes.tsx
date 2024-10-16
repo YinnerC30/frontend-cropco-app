@@ -1,14 +1,9 @@
-import { Login } from "../components/Login";
-import { LogOut } from "../components/LogOut";
+import { Login } from '../components/Login';
 
 const authenticationRoutes = [
   {
-    path: "login",
+    path: 'login',
     element: <Login />,
-  },
-  {
-    path: "logout",
-    element: <LogOut />,
   },
 ];
 
