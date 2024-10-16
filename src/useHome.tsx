@@ -2,13 +2,12 @@ import { useEffect, useLayoutEffect } from 'react';
 import { ToastAction } from './components/ui/toast';
 import { useToast } from './components/ui/use-toast';
 import { useAuthenticationUser } from './modules/authentication/hooks/useAuthenticationUser';
+import { useAuthorizationUser } from './modules/authentication/hooks/useAuthorizationUser';
 import { useRenewToken } from './modules/authentication/hooks/useRenewToken';
 import { useRoutesManager } from './routes/hooks/useRoutesManager';
-import { RootState, useAppSelector } from './redux/store';
 
 export const useHome = () => {
-  const { user } = useAppSelector((state: RootState) => state.authentication);
-  const modulesUser = user?.modules?.map((module: any) => module?.name) ?? [];
+  const { modulesUser } = useAuthorizationUser();
 
   const { isLogin, tokenSesion, TIME_QUESTION_RENEW_TOKEN } =
     useAuthenticationUser();

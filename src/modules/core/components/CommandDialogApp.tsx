@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import * as React from "react";
+import * as React from 'react';
 
 import {
   CommandDialog,
@@ -9,23 +9,26 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
-import { routes } from "@/routes/RoutesNavBar";
-import { useNavigate } from "react-router-dom";
+} from '@/components/ui/command';
+import { routes } from '@/routes/RoutesNavBar';
+import { useNavigate } from 'react-router-dom';
+import { useAuthorizationUser } from '@/modules/authentication/hooks/useAuthorizationUser';
 
 export function CommandDialogApp() {
   const [open, setOpen] = React.useState(false);
 
+  const { modulesUser } = useAuthorizationUser();
+
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 'j' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setOpen((open) => !open);
       }
     };
 
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
+    document.addEventListener('keydown', down);
+    return () => document.removeEventListener('keydown', down);
   }, []);
 
   const navigate = useNavigate();
@@ -36,18 +39,25 @@ export function CommandDialogApp() {
       <CommandList>
         <CommandEmpty>No se encontraron resultados</CommandEmpty>
         <CommandGroup heading="Módulos">
-          {routes.map((item: any) => (
-            <CommandItem
-              key={item.path}
-              onSelect={() => {
-                navigate(item.path);
-                setOpen(false);
-              }}
-            >
-              {item.Icon}
-              <span className="ml-2 font-medium">{item.label}</span>
-            </CommandItem>
-          ))}
+          {routes.map((route: any) => {
+            if (
+              modulesUser.includes(route.name_module) ||
+              route.name_module === 'N/A'
+            ) {
+              return (
+                <CommandItem
+                  key={route.path}
+                  onSelect={() => {
+                    navigate(route.path);
+                    setOpen(false);
+                  }}
+                >
+                  {route.Icon}
+                  <span className="ml-2 font-medium">{route.label}</span>
+                </CommandItem>
+              );
+            }
+          })}
         </CommandGroup>
       </CommandList>
     </CommandDialog>
