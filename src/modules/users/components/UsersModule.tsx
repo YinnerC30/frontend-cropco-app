@@ -12,6 +12,7 @@ import { ButtonRefetchData } from '@/modules/core/components/ButtonRefetchData';
 import { useBasicQueryData } from '@/modules/core/hooks/useBasicQueryData';
 import { useGetAllUsers } from '../hooks/useGetAllUsers';
 import columnsTableUsers from './ColumnsTableUsers';
+import { useUserAuthorizationActions } from '../hooks/useUserAuthorizationActions';
 
 export const UsersModule = () => {
   const { value } = useBasicQueryData();
@@ -20,31 +21,41 @@ export const UsersModule = () => {
     value: value,
   });
 
-  if (query.isLoading) return <Loading />;
+  const { authorizationActions, isLoading } = useUserAuthorizationActions();
+
+  if (query.isLoading || isLoading) return <Loading />;
 
   if (query.isError) return <ErrorLoading />;
+
+  console.log(authorizationActions);
 
   return (
     <>
       <BreadCrumb finalItem={'Usuarios'} />
 
       <ScrollArea className="w-full h-[80vh] ">
-        <div className="flex items-center justify-center w-full py-2">
-          <SearchBar query={value} />
-        </div>
-        <div className="flex items-center justify-end w-full py-2">
-          <ButtonCreateRecord route={'../create'} />
-        </div>
-        <div>
-          <ButtonRefetchData onClick={query.refetch} />
-          <DataTable
-            columns={columnsTableUsers}
-            rows={query.data?.rows ?? []}
-            data={query.data ?? []}
-            pagination={pagination}
-            setPagination={setPagination}
-          />
-        </div>
+        {authorizationActions.find_all_users.visible && (
+          <div className="flex items-center justify-center w-full py-2">
+            <SearchBar query={value} />
+          </div>
+        )}
+        {authorizationActions.create_user.visible && (
+          <div className="flex items-center justify-end w-full py-2">
+            <ButtonCreateRecord route={'../create'} />
+          </div>
+        )}
+        {authorizationActions.find_all_users.visible && (
+          <div>
+            <ButtonRefetchData onClick={query.refetch} />
+            <DataTable
+              columns={columnsTableUsers}
+              rows={query.data?.rows ?? []}
+              data={query.data ?? []}
+              pagination={pagination}
+              setPagination={setPagination}
+            />
+          </div>
+        )}
       </ScrollArea>
     </>
   );

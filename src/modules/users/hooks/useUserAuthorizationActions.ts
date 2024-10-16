@@ -2,6 +2,7 @@ import { useGetModuleActions } from '@/modules/authentication/hooks/useGetModule
 import { RootState, useAppSelector } from '@/redux/store';
 
 export const useUserAuthorizationActions = () => {
+  const { data, isLoading } = useGetModuleActions('users');
   const { modules } = useAppSelector(
     (state: RootState) => state.authentication.user
   );
@@ -13,8 +14,6 @@ export const useUserAuthorizationActions = () => {
           module.name === 'users'
       )
       ?.actions.map((action: any) => action.id) || [];
-
-  const { data } = useGetModuleActions('users');
 
   const moduleActions = data?.actions || [];
 
@@ -33,5 +32,6 @@ export const useUserAuthorizationActions = () => {
 
   return {
     authorizationActions,
+    isLoading
   };
 };
