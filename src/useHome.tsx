@@ -10,7 +10,8 @@ export const useHome = () => {
   const { user } = useAppSelector((state: RootState) => state.authentication);
   const modulesUser = user?.modules?.map((module: any) => module?.name) ?? [];
 
-  const { isLogin, tokenSesion } = useAuthenticationUser();
+  const { isLogin, tokenSesion, TIME_QUESTION_RENEW_TOKEN } =
+    useAuthenticationUser();
 
   const { redirectToLogin } = useRoutesManager();
 
@@ -51,7 +52,7 @@ export const useHome = () => {
     const timeOut = setTimeout(() => {
       console.log('Mostrando timeout desde hook');
       showToast();
-    }, 15_000);
+    }, TIME_QUESTION_RENEW_TOKEN);
 
     return () => clearTimeout(timeOut);
   }, [mutationRenewToken]);

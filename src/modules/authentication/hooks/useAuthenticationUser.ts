@@ -52,8 +52,8 @@ export const useAuthenticationUser = () => {
     renewTokenInState(token);
   };
 
-  const TIME_ACTIVE_TOKEN = 20 * 1000;
-  const TIME_QUESTION_RENEW_TOKEN = 10 * 1000;
+  const TIME_ACTIVE_TOKEN = 60 * 1000 * 60 * 6;
+  const TIME_QUESTION_RENEW_TOKEN = 60 * 1000 * 60 * 5.6;
 
   return {
     saveUser,

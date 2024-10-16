@@ -47,7 +47,7 @@ export const ModifyUser = () => {
         isPending={isPending}
         defaultValues={{
           ...data,
-          password: {
+          passwords: {
             password1: '123456',
             password2: '123456',
           },

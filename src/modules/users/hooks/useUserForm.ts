@@ -9,8 +9,8 @@ export const defaultValues = {
   email: '',
   cell_phone_number: '',
   passwords: {
-    password1: '',
-    password2: '',
+    password1: '123456',
+    password2: '123456',
   },
   modules: [],
 };

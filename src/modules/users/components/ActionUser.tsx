@@ -8,7 +8,7 @@ export const ActionUser = ({ action, readOnly, isChecked }: any) => {
 
   return (
     <div className="flex justify-between gap-2 ">
-      <span className="text-xs ">{CapitalizeFirstWord(action.name)}</span>
+      <span className="text-xs ">{CapitalizeFirstWord(action.description)}</span>
       <Switch
         disabled={readOnly}
         checked={isChecked}
