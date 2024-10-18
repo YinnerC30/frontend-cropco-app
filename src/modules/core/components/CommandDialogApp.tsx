@@ -12,12 +12,12 @@ import {
 } from '@/components/ui/command';
 import { routes } from '@/routes/RoutesNavBar';
 import { useNavigate } from 'react-router-dom';
-import { useAuthorizationUser } from '@/modules/authentication/hooks/useAuthorizationUser';
+import { useAuthorizationActions } from '@/modules/authentication/hooks/useAuthorizationActions';
 
 export function CommandDialogApp() {
   const [open, setOpen] = React.useState(false);
 
-  const { modulesUser } = useAuthorizationUser();
+  const { modulesUser } = useAuthorizationActions();
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {

@@ -2,12 +2,13 @@ import { useEffect, useLayoutEffect } from 'react';
 import { ToastAction } from './components/ui/toast';
 import { useToast } from './components/ui/use-toast';
 import { useAuthenticationUser } from './modules/authentication/hooks/useAuthenticationUser';
-import { useAuthorizationUser } from './modules/authentication/hooks/useAuthorizationUser';
+
 import { useRenewToken } from './modules/authentication/hooks/useRenewToken';
 import { useRoutesManager } from './routes/hooks/useRoutesManager';
+import { useAuthorizationActions } from './modules/authentication/hooks/useAuthorizationActions';
 
 export const useHome = () => {
-  const { modulesUser } = useAuthorizationUser();
+  const { modulesUser } = useAuthorizationActions();
 
   const { isLogin, tokenSesion, TIME_QUESTION_RENEW_TOKEN } =
     useAuthenticationUser();

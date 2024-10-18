@@ -19,11 +19,12 @@ import { loadActions, updateActions } from '../utils/userSlice';
 
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { useUserForm } from '../hooks/useUserForm';
 import { formFieldsUser } from '../utils';
 import { removeAllActions } from '../utils/userSlice';
 import { ActionUser } from './ActionUser';
+import { useAuthorizationActions } from '@/modules/authentication/hooks/useAuthorizationActions';
 
 export const FormUser = ({
   onSubmit,
@@ -31,12 +32,23 @@ export const FormUser = ({
   defaultValues,
   readOnly = false,
 }: FormProps) => {
+  const { authorizationActions = null } = useAuthorizationActions();
   const { showPassword, togglePasswordVisibility, form, userHaveAction } =
     useUserForm();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const actionActive: any = useLoaderData();
 
   useEffect(() => {
+    console.log(authorizationActions);
+    console.log(!!authorizationActions);
+    if (
+      !!authorizationActions &&
+      !authorizationActions.users[actionActive].visible
+    ) {
+      navigate(-1);
+    }
+
     if (defaultValues) {
       form.reset(defaultValues);
       dispatch(

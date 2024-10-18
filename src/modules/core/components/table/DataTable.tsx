@@ -6,7 +6,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 
 import {
   Table,
@@ -15,25 +15,25 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
-} from "@radix-ui/react-icons";
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+} from '@radix-ui/react-icons';
+import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { DataTableProps } from "../../interfaces/table/DataTableProps";
+} from '@/components/ui/select';
+import { DataTableProps } from '../../interfaces/table/DataTableProps';
 
 export function DataTable<TData, TValue>({
   columns,
@@ -41,6 +41,7 @@ export function DataTable<TData, TValue>({
   rows,
   pagination,
   setPagination,
+  errorMessage = 'No hay registros.',
 }: DataTableProps<TData, TValue>) {
   const defaultData = useMemo(() => [], []);
   const navigate = useNavigate();
@@ -108,7 +109,7 @@ export function DataTable<TData, TValue>({
                     navigate(`../view/${original.id}`);
                   }}
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -126,7 +127,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No hay registros.
+                  {errorMessage}
                 </TableCell>
               </TableRow>
             )}

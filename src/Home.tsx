@@ -11,7 +11,6 @@ import { Route, routes } from './routes/RoutesNavBar';
 import { useHome } from './useHome';
 
 export const Home = () => {
-  console.log('intento pasar por aqui');
   const { modulesUser } = useHome();
 
   return (

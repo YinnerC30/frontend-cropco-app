@@ -11,8 +11,8 @@ import { ButtonCreateRecord } from '@/modules/core/components/ButtonCreateRecord
 import { ButtonRefetchData } from '@/modules/core/components/ButtonRefetchData';
 import { useBasicQueryData } from '@/modules/core/hooks/useBasicQueryData';
 import { useGetAllUsers } from '../hooks/useGetAllUsers';
-import columnsTableUsers from './ColumnsTableUsers';
 import { useUserAuthorizationActions } from '../hooks/useUserAuthorizationActions';
+import columnsTableUsers from './ColumnsTableUsers';
 
 export const UsersModule = () => {
   const { value } = useBasicQueryData();
@@ -42,18 +42,25 @@ export const UsersModule = () => {
             <ButtonCreateRecord route={'../create'} />
           </div>
         )}
-        {authorizationActions.find_all_users.visible && (
-          <div>
-            <ButtonRefetchData onClick={query.refetch} />
-            <DataTable
-              columns={columnsTableUsers}
-              rows={query.data?.rows ?? []}
-              data={query.data ?? []}
-              pagination={pagination}
-              setPagination={setPagination}
-            />
-          </div>
-        )}
+
+        <div>
+          <ButtonRefetchData onClick={query.refetch} />
+          <DataTable
+            columns={columnsTableUsers}
+            rows={
+              (authorizationActions.find_all_users.visible &&
+                query.data?.rows) ??
+              []
+            }
+            data={query.data ?? []}
+            pagination={pagination}
+            setPagination={setPagination}
+            errorMessage={`${
+              !authorizationActions.find_all_users.visible &&
+              'No tienes permiso para ver el listado de usuarios 😢'
+            }`}
+          />
+        </div>
       </ScrollArea>
     </>
   );
