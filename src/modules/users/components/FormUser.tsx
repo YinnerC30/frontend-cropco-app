@@ -18,7 +18,7 @@ import { useAppDispatch } from '@/redux/store';
 import { loadActions, updateActions } from '../utils/userSlice';
 
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { useUserForm } from '../hooks/useUserForm';
 import { formFieldsUser } from '../utils';
@@ -39,16 +39,16 @@ export const FormUser = ({
   const dispatch = useAppDispatch();
   const actionActive: any = useLoaderData();
 
-  useEffect(() => {
-    console.log(authorizationActions);
-    console.log(!!authorizationActions);
+  useLayoutEffect(() => {
     if (
       !!authorizationActions &&
       !authorizationActions.users[actionActive].visible
     ) {
       navigate(-1);
     }
+  }, []);
 
+  useEffect(() => {
     if (defaultValues) {
       form.reset(defaultValues);
       dispatch(
