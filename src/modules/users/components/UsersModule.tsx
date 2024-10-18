@@ -27,8 +27,6 @@ export const UsersModule = () => {
 
   if (query.isError) return <ErrorLoading />;
 
-  console.log(authorizationActions);
-
   return (
     <>
       <BreadCrumb finalItem={'Usuarios'} />

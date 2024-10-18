@@ -1,5 +1,6 @@
 import { useGetModuleActions } from '@/modules/authentication/hooks/useGetModuleActions';
 import { RootState, useAppSelector } from '@/redux/store';
+import { useMemo } from 'react';
 
 export const useUserAuthorizationActions = () => {
   const { data, isLoading } = useGetModuleActions('users');
@@ -17,21 +18,23 @@ export const useUserAuthorizationActions = () => {
 
   const moduleActions = data?.actions || [];
 
-  const authorizationActions = moduleActions.reduce(
-    (
-      authorizationMap: Record<string, { visible: boolean }>,
-      action: { id: string; name: string }
-    ) => {
-      authorizationMap[action.name] = {
-        visible: userActionsIds.includes(action.id),
-      };
-      return authorizationMap;
-    },
-    {}
-  );
+  const authorizationActions = useMemo(() => {
+    return moduleActions.reduce(
+      (
+        authorizationMap: Record<string, { visible: boolean }>,
+        action: { id: string; name: string }
+      ) => {
+        authorizationMap[action.name] = {
+          visible: userActionsIds.includes(action.id),
+        };
+        return authorizationMap;
+      },
+      {}
+    );
+  }, [moduleActions, userActionsIds]); // Dependencias
 
   return {
     authorizationActions,
-    isLoading
+    isLoading,
   };
 };
