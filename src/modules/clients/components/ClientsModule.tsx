@@ -5,6 +5,9 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { dowloadPDF } from '@/modules/core/helpers/dowloadPDF';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import {
   DataTable,
   ErrorLoading,
@@ -13,33 +16,45 @@ import {
   ToolTipTemplate,
 } from '../../core/components';
 import { useGetAllClients } from '../hooks/useGetAllClients';
-import { columnsTableClients } from './ColumnsTableClients';
 import { useGetReportClients } from '../hooks/useGetReportClients';
+import { columnsTableClients } from './ColumnsTableClients';
+import { ExportInformation } from './ExportInformation';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const ClientsModule = () => {
-  const { data, isSuccess } = useGetReportClients();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const searchParameter = searchParams.get('search') || '';
 
-  const handleExportAll = () => {
-    console.log('Se hizo Click');
-    console.log({ data, isSuccess });
+  const [executeQueryReport, setExecuteQueryReport] = useState(false);
 
-    if (isSuccess) {
-      const url = window.URL.createObjectURL(
-        new Blob([data], { type: 'application/pdf' })
-      );
-      window.open(url, '_blank');
-    }
+  const queryClient = useQueryClient();
+
+  const queryReport = useGetReportClients();
+
+  if (executeQueryReport && queryReport.isSuccess) {
+    dowloadPDF(queryReport.data, 'clients-report');
+    queryClient.invalidateQueries({ queryKey: ['report'] });
+    setExecuteQueryReport(false);
+    toast.success('Se ha descargado el documento');
+  }
+  if (queryReport.isError) {
+    toast.error('Hubo un problema, no se pudo descargar el documento 😢');
+  }
+
+  const handleDownload = () => {
+    setExecuteQueryReport(true);
   };
 
-  const { query, pagination, setPagination } =
-    useGetAllClients(searchParameter);
+  const {
+    query: queryClients,
+    pagination,
+    setPagination,
+  } = useGetAllClients(searchParameter);
 
-  if (query.isLoading) return <Loading />;
+  if (queryClients.isLoading || queryReport.isLoading) return <Loading />;
 
-  if (query.isError || !query.data) {
+  if (queryClients.isError || !queryClients.data) {
     return <ErrorLoading />;
   }
 
@@ -58,13 +73,17 @@ export const ClientsModule = () => {
               <PlusIcon className="w-4 h-4 mr-2" /> Crear
             </Button>
           </ToolTipTemplate>
-          <Button onClick={handleExportAll}>Exportar todo</Button>
+
+          <ExportInformation
+            actionDowloadPDF={handleDownload}
+            isLoading={queryReport.isLoading}
+          />
         </div>
         <div className="w-[750px]">
           <DataTable
             columns={columnsTableClients}
-            rows={query.data?.rows ?? 0}
-            data={query.data}
+            rows={queryClients.data?.rows ?? 0}
+            data={queryClients.data}
             pagination={pagination}
             setPagination={setPagination}
           />
