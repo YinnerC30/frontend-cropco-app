@@ -18,12 +18,15 @@ export const Home = () => {
       <CommandDialogApp />
 
       <Header className="flex flex-row items-center col-span-12 col-start-1 row-span-1 py-4 border-b justify-evenly">
-        <Link
-          className="mx-4 text-3xl font-medium hover:text-blue-500"
-          to="/app/home"
-        >
-          Cropco
-        </Link>
+        <div className="flex items-center w-auto">
+          <img src="/public/icon.png" width={50} />
+          <Link
+            className="mx-4 text-3xl font-medium hover:text-blue-500"
+            to="/app/home"
+          >
+            Cropco
+          </Link>
+        </div>
         <ModeToggle />
         <MyAccount />
         <Link to={'../authentication/login'}>Ir Login</Link>
