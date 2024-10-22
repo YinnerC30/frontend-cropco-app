@@ -78,9 +78,9 @@ export function DataTable<TData, TValue>({
     pageCount > 0 ? pageText : `Página ${pageIndex} de ${pageCount}`;
 
   return (
-    <div className="flex flex-col my-1">
+    <div className="flex flex-col w-full my-1">
       {/* Tabla */}
-      <div className={`w-auto my-2  `}>
+      <div className={`w-full my-2  `}>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

@@ -18,6 +18,7 @@ export const getUserInLocalStorage = () => {
     email: '',
     id: '',
     token: '',
+    modules: [],
   };
   const data = localStorage.getItem(KEY_USER_LOCAL_STORAGE);
   if (!data) {

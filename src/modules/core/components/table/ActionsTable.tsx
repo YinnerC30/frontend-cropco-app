@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -8,7 +8,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 
 interface Props {
   open: boolean;
@@ -22,7 +22,7 @@ export const ActionsTable = ({ open, onChange, children }: Props) => {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="w-8 h-8 p-0"
+          className="w-8 h-8 p-0 "
           onClick={() => onChange(!open)}
         >
           <span className="sr-only">Abrir menu</span>

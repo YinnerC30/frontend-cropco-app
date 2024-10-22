@@ -1,7 +1,3 @@
-'use client';
-
-import * as React from 'react';
-
 import {
   CommandDialog,
   CommandEmpty,
@@ -10,16 +6,17 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import { routes } from '@/routes/RoutesNavBar';
-import { useNavigate } from 'react-router-dom';
 import { useAuthorizationActions } from '@/modules/authentication/hooks/useAuthorizationActions';
+import { routes } from '@/routes/RoutesNavBar';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function CommandDialogApp() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const { modulesUser } = useAuthorizationActions();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === 'j' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
@@ -34,7 +31,7 @@ export function CommandDialogApp() {
   const navigate = useNavigate();
 
   return (
-    <CommandDialog open={open} onOpenChange={setOpen}>
+    <CommandDialog open={open} onOpenChange={setOpen} modal={false}>
       <CommandInput placeholder="Escribe el nombre de un módulo..." />
       <CommandList>
         <CommandEmpty>No se encontraron resultados</CommandEmpty>

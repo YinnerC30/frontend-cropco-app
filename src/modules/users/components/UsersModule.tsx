@@ -13,6 +13,7 @@ import { useBasicQueryData } from '@/modules/core/hooks/useBasicQueryData';
 import { useGetAllUsers } from '../hooks/useGetAllUsers';
 import { useUserAuthorizationActions } from '../hooks/useUserAuthorizationActions';
 import columnsTableUsers from './ColumnsTableUsers';
+import { ScrollBar } from '@/components/ui/scroll-area';
 
 export const UsersModule = () => {
   const { value } = useBasicQueryData();
@@ -28,23 +29,26 @@ export const UsersModule = () => {
   if (query.isError) return <ErrorLoading />;
 
   return (
-    <>
+    <div>
       <BreadCrumb finalItem={'Usuarios'} />
 
-      <ScrollArea className="w-full h-[80vh] ">
-        {authorizationActions.find_all_users.visible && (
-          <div className="flex items-center justify-center w-full py-2">
-            <SearchBar query={value} />
-          </div>
-        )}
-        {authorizationActions.create_user.visible && (
-          <div className="flex items-center justify-end w-full py-2">
-            <ButtonCreateRecord route={'../create'} />
-          </div>
-        )}
+      {authorizationActions.find_all_users.visible && (
+        <div className="flex items-center justify-center w-full py-2">
+          <SearchBar query={value} />
+        </div>
+      )}
 
-        <div>
+      <div className="pt-5">
+        <div className="flex items-center w-[100%] justify-between">
           <ButtonRefetchData onClick={query.refetch} />
+          {authorizationActions.create_user.visible && (
+            <ButtonCreateRecord
+              className="flex items-center justify-end py-2 "
+              route={'../create'}
+            />
+          )}
+        </div>
+        <ScrollArea className="w-[95%] md:h-auto pb-4" type="auto">
           <DataTable
             columns={columnsTableUsers}
             rows={
@@ -55,14 +59,17 @@ export const UsersModule = () => {
             data={query.data ?? []}
             pagination={pagination}
             setPagination={setPagination}
+            // TODO: Arreglar errorMessage
             errorMessage={`${
-              !authorizationActions.find_all_users.visible &&
-              'No tienes permiso para ver el listado de usuarios 😢'
+              !authorizationActions.find_all_users.visible
+                ? 'No tienes permiso para ver el listado de usuarios 😢'
+                : null
             }`}
           />
-        </div>
-      </ScrollArea>
-    </>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      </div>
+    </div>
   );
 };
 

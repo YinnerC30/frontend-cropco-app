@@ -9,9 +9,9 @@ export const useAuthorizationActions = () => {
 
   const userActionsIds = useMemo(
     () =>
-      user.modules
-        .map((module: any) => module.actions.map((action: any) => action.id))
-        .flat(),
+      user?.modules
+        .map((module: any) => module?.actions?.map((action: any) => action?.id))
+        .flat() ?? [],
     [user]
   );
 
