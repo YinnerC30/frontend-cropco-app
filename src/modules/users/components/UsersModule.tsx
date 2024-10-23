@@ -1,11 +1,7 @@
-import {
-  DataTable,
-  ErrorLoading,
-  Loading,
-  SearchBar,
-} from '@/modules/core/components';
+import { DataTable, Loading, SearchBar } from '@/modules/core/components';
 
 import { ScrollArea } from '@/components';
+import { ScrollBar } from '@/components/ui/scroll-area';
 import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
 import { ButtonCreateRecord } from '@/modules/core/components/ButtonCreateRecord';
 import { ButtonRefetchData } from '@/modules/core/components/ButtonRefetchData';
@@ -13,7 +9,6 @@ import { useBasicQueryData } from '@/modules/core/hooks/useBasicQueryData';
 import { useGetAllUsers } from '../hooks/useGetAllUsers';
 import { useUserAuthorizationActions } from '../hooks/useUserAuthorizationActions';
 import columnsTableUsers from './ColumnsTableUsers';
-import { ScrollBar } from '@/components/ui/scroll-area';
 
 export const UsersModule = () => {
   const { value } = useBasicQueryData();
@@ -21,34 +16,35 @@ export const UsersModule = () => {
   const { query, pagination, setPagination } = useGetAllUsers({
     value: value,
   });
-
   const { authorizationActions, isLoading } = useUserAuthorizationActions();
 
   if (query.isLoading || isLoading) return <Loading />;
-
-  if (query.isError) return <ErrorLoading />;
 
   return (
     <div>
       <BreadCrumb finalItem={'Usuarios'} />
 
-      {authorizationActions.find_all_users.visible && (
-        <div className="flex items-center justify-center w-full py-2">
-          <SearchBar query={value} />
-        </div>
-      )}
+      <div className="flex items-center justify-center w-full py-2">
+        <SearchBar
+          query={value}
+          disabled={!authorizationActions.find_all_users.visible}
+        />
+      </div>
 
       <div className="pt-5">
         <div className="flex items-center w-[100%] justify-between">
-          <ButtonRefetchData onClick={query.refetch} />
-          {authorizationActions.create_user.visible && (
-            <ButtonCreateRecord
-              className="flex items-center justify-end py-2 "
-              route={'../create'}
-            />
-          )}
+          <ButtonRefetchData
+            onClick={query.refetch}
+            disabled={!authorizationActions.find_all_users.visible}
+          />
+
+          <ButtonCreateRecord
+            className="flex items-center justify-end py-2 "
+            route={'../create'}
+            disabled={!authorizationActions.create_user.visible}
+          />
         </div>
-        <ScrollArea className="w-[95%] md:h-auto pb-4" type="auto">
+        <ScrollArea className="w-[95%] pb-4" type="auto">
           <DataTable
             columns={columnsTableUsers}
             rows={
@@ -63,8 +59,9 @@ export const UsersModule = () => {
             errorMessage={`${
               !authorizationActions.find_all_users.visible
                 ? 'No tienes permiso para ver el listado de usuarios 😢'
-                : null
+                : 'No hay registros.'
             }`}
+            disabledDoubleClick={!authorizationActions.find_all_users.visible}
           />
           <ScrollBar orientation="horizontal" />
         </ScrollArea>

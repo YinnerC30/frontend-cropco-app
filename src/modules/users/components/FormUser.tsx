@@ -17,7 +17,7 @@ import { FormProps } from '@/modules/core/interfaces/FormProps';
 import { useAppDispatch } from '@/redux/store';
 import { loadActions, updateActions } from '../utils/userSlice';
 
-import { useAuthorizationActions } from '@/modules/authentication/hooks/useAuthorizationActions';
+import { useAuthorization } from '@/modules/authentication/hooks/useAuthorization';
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { useEffect, useLayoutEffect } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
@@ -37,7 +37,7 @@ export const FormUser = ({
   readOnly = false,
   hiddenPassword = false,
 }: FormUserProps) => {
-  const { authorizationActions = null } = useAuthorizationActions();
+  const { authorizationActions = null } = useAuthorization();
   const { showPassword, togglePasswordVisibility, form, userHaveAction } =
     useUserForm({ hiddenPassword });
   const navigate = useNavigate();
@@ -45,9 +45,11 @@ export const FormUser = ({
   const actionActive: any = useLoaderData();
 
   useLayoutEffect(() => {
+    console.log(authorizationActions);
     if (
-      !!authorizationActions &&
-      !authorizationActions?.users[actionActive].visible
+      (!!authorizationActions &&
+        !authorizationActions?.users[actionActive]?.visible) ??
+      true
     ) {
       navigate(-1);
     }
@@ -86,10 +88,6 @@ export const FormUser = ({
 
   if (isLoading) {
     return <Loading />;
-  }
-
-  if (isError) {
-    return <ErrorLoading />;
   }
 
   return (

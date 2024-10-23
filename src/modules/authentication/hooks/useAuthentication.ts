@@ -10,7 +10,7 @@ import {
   saveUserInLocalStorage,
 } from '../utils/manageUserInLocalStorage';
 
-export const useAuthenticationUser = () => {
+export const useAuthentication = () => {
   const { user } = useAppSelector((state: RootState) => state.authentication);
 
   const tokenSesion = user?.token;

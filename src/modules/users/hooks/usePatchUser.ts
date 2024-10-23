@@ -1,18 +1,21 @@
+import { manageErrorAuthorization } from '@/modules/authentication/helpers/manageErrorAuthorization';
+import { useAuthentication } from '@/modules/authentication/hooks/useAuthentication';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { toast } from 'sonner';
-import { updateUser } from '../services/updateUser';
-import { useAuthenticationUser } from '@/modules/authentication/hooks/useAuthenticationUser';
 import { useNavigate } from 'react-router-dom';
-import { removeAllActions } from '../utils/userSlice';
+import { toast } from 'sonner';
 import { User } from '../interfaces/User';
+import { updateUser } from '../services/updateUser';
+import { removeAllActions } from '../utils/userSlice';
+import { useManageErrorAuthorization } from '@/modules/authentication/hooks/useManageErrorAuthorization';
 
 export function usePatchUser(): any {
   const navigate = useNavigate();
   const user = useAppSelector((state: any): any => state.authentication.user);
   const dispatch = useAppDispatch();
-  const { updateUserActions } = useAuthenticationUser();
+  const { updateUserActions } = useAuthentication();
+  const { handleError } = useManageErrorAuthorization();
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -38,6 +41,10 @@ export function usePatchUser(): any {
       toast.error(
         `Hubo un problema durante la actualización del usuario, ${data.message}`
       );
+      handleError({
+        error: mutation.error as AxiosError,
+        messageUnauthoraizedError: 'No tienes permiso para eliminar el usuario',
+      });
     },
 
     retry: 1,

@@ -1,5 +1,14 @@
 import { Button } from '@/components';
 
-export const ButtonRefetchData = ({ onClick }: any) => {
-  return <Button onClick={onClick}>Recargar</Button>;
+interface Props {
+  onClick: any;
+  disabled: boolean;
+}
+
+export const ButtonRefetchData = ({ onClick, disabled = false }: Props) => {
+  return (
+    <Button onClick={onClick} disabled={disabled}>
+      Recargar
+    </Button>
+  );
 };

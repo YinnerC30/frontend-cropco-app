@@ -16,9 +16,14 @@ import { ToolTipTemplate } from '../ToolTipTemplate';
 interface Props {
   query: string;
   autoFocus?: boolean;
+  disabled?: boolean;
 }
 
-export const BasicSearchBar = ({ query = '', autoFocus = false }: Props) => {
+export const BasicSearchBar = ({
+  query = '',
+  autoFocus = false,
+  disabled = false,
+}: Props) => {
   const navigate = useNavigate();
 
   const formSchema = z.object({
@@ -60,6 +65,7 @@ export const BasicSearchBar = ({ query = '', autoFocus = false }: Props) => {
                         className="w-full"
                         placeholder="Escribe algo..."
                         autoFocus={autoFocus}
+                        disabled={disabled}
                         {...field}
                       />
                     </FormControl>
@@ -72,12 +78,14 @@ export const BasicSearchBar = ({ query = '', autoFocus = false }: Props) => {
         </div>
         <div className="flex flex-row items-center justify-end gap-1 ">
           <ToolTipTemplate content="Buscar">
-            <Button type="submit" form="formSearchBar">
+            <Button type="submit" form="formSearchBar" disabled={disabled}>
               Buscar
             </Button>
           </ToolTipTemplate>
           <ToolTipTemplate content="Borrar">
-            <Button onClick={() => onReset()}>Limpiar</Button>
+            <Button onClick={() => onReset()} disabled={disabled}>
+              Limpiar
+            </Button>
           </ToolTipTemplate>
         </div>
       </div>

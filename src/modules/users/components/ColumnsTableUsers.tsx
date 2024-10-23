@@ -1,11 +1,15 @@
-import { ButtonHeaderTable } from "@/modules/core/components/table/ButtonHeaderTable";
-import { ColumnDef } from "@tanstack/react-table";
+import { ButtonHeaderTable } from '@/modules/core/components/table/ButtonHeaderTable';
+import { ColumnDef } from '@tanstack/react-table';
 
-import { User } from "../interfaces/User";
-import { ActionsTableUsers } from "./ActionsTableUsers";
-import { formFieldsUser } from "../utils";
+import { User } from '../interfaces/User';
+import { ActionsTableUsers } from './ActionsTableUsers';
+import { formFieldsUser } from '../utils';
 
 export const columnsTableUsers: ColumnDef<User>[] = [
+  {
+    id: 'actions',
+    cell: ActionsTableUsers,
+  },
   {
     accessorKey: formFieldsUser.first_name.name,
     header: ({ column }: any) => {
@@ -46,10 +50,6 @@ export const columnsTableUsers: ColumnDef<User>[] = [
         />
       );
     },
-  },
-  {
-    id: "actions",
-    cell: ActionsTableUsers,
   },
 ];
 

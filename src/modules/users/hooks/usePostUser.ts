@@ -1,14 +1,15 @@
+import { useManageErrorAuthorization } from '@/modules/authentication/hooks/useManageErrorAuthorization';
+import { useAppDispatch } from '@/redux/store';
 import {
   UseMutationResult,
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { toast } from 'sonner';
-import { createUser } from '../services/createUser';
-import { User } from '../interfaces/User';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '@/redux/store';
+import { toast } from 'sonner';
+import { User } from '../interfaces/User';
+import { createUser } from '../services/createUser';
 import { removeAllActions } from '../utils/userSlice';
 
 export function usePostUser(): UseMutationResult<
@@ -20,6 +21,7 @@ export function usePostUser(): UseMutationResult<
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
+  const { handleError } = useManageErrorAuthorization();
   const mutation = useMutation({
     mutationFn: createUser,
     onSuccess: () => {
@@ -34,6 +36,10 @@ export function usePostUser(): UseMutationResult<
       toast.error(
         `Hubo un problema durante la creación del usuario, ${data.message}`
       );
+      handleError({
+        error: mutation.error as AxiosError,
+        messageUnauthoraizedError: 'No tienes permiso para eliminar el usuario',
+      });
     },
     retry: 1,
   });

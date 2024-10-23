@@ -10,13 +10,13 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAuthenticationUser } from '@/modules/authentication/hooks/useAuthenticationUser';
+import { useAuthentication } from '@/modules/authentication/hooks/useAuthentication';
 import { useTheme } from '@/modules/core/components/ThemeProvider';
 import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
 import { Bolt } from 'lucide-react';
 
 export const MyAccount = () => {
-  const { removeUser } = useAuthenticationUser();
+  const { removeUser } = useAuthentication();
   const { setTheme } = useTheme();
 
   const { redirectToLogin } = useRoutesManager();

@@ -6,7 +6,7 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import { useAuthorizationActions } from '@/modules/authentication/hooks/useAuthorizationActions';
+import { useAuthorization } from '@/modules/authentication/hooks/useAuthorization';
 import { routes } from '@/routes/RoutesNavBar';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 export function CommandDialogApp() {
   const [open, setOpen] = useState(false);
 
-  const { modulesUser } = useAuthorizationActions();
+  const { modulesUser } = useAuthorization();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {

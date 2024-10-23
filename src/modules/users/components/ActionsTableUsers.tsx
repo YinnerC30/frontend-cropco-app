@@ -9,7 +9,11 @@ import { ItemViewRecord } from '@/modules/core/components/table/actions/ItemView
 import { useState } from 'react';
 import { useUserAuthorizationActions } from '../hooks/useUserAuthorizationActions';
 
-export const ActionsTableUsers = ({ row }: any) => {
+interface Props {
+  row: any;
+}
+
+export const ActionsTableUsers = ({ row }: Props) => {
   const { authorizationActions } = useUserAuthorizationActions();
   const { id } = row.original;
   const { mutate } = useDeleteUser();
@@ -27,14 +31,15 @@ export const ActionsTableUsers = ({ row }: any) => {
       <ActionsTable open={openDropDownMenu} onChange={setOpenDropDownMenu}>
         <ItemCopyIdRecord id={id} onChange={setOpenDropDownMenu} />
 
-        {remove_one_user.visible && (
-          <ItemDeleteRecord
-            action={handleDelete}
-            onChange={setOpenDropDownMenu}
-          />
-        )}
-        {update_one_user.visible && <ItemModifyRecord id={id} />}
-        {find_one_user.visible && <ItemViewRecord id={id} />}
+        <ItemDeleteRecord
+          action={handleDelete}
+          onChange={setOpenDropDownMenu}
+          disabled={!remove_one_user.visible}
+        />
+
+        <ItemModifyRecord id={id} disabled={!update_one_user.visible} />
+
+        <ItemViewRecord id={id} disabled={!find_one_user.visible} />
       </ActionsTable>
     </>
   );

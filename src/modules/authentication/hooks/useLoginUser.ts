@@ -3,12 +3,12 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { CapitalizeFirstWord } from '../helpers/CapitalizeFirstWord';
 import { loginUser } from '../services/loginUser';
-import { useAuthenticationUser } from './useAuthenticationUser';
+import { useAuthentication } from './useAuthentication';
 import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
 import { useEffect } from 'react';
 
 export const useLoginUser = () => {
-  const { saveUser, isLogin } = useAuthenticationUser();
+  const { saveUser, isLogin } = useAuthentication();
 
   const { redirectToHome } = useRoutesManager();
 

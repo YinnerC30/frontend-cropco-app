@@ -42,6 +42,7 @@ export function DataTable<TData, TValue>({
   pagination,
   setPagination,
   errorMessage = 'No hay registros.',
+  disabledDoubleClick = false,
 }: DataTableProps<TData, TValue>) {
   const defaultData = useMemo(() => [], []);
   const navigate = useNavigate();
@@ -105,8 +106,10 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows?.map((row) => (
                 <TableRow
                   onDoubleClick={() => {
-                    const original: any = row.original;
-                    navigate(`../view/${original.id}`);
+                    if (!disabledDoubleClick) {
+                      const original: any = row.original;
+                      navigate(`../view/${original.id}`);
+                    }
                   }}
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}

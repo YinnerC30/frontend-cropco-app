@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { checkAuthStatus } from '../services/checkAuthStatus';
-import { useAuthenticationUser } from './useAuthenticationUser';
+import { useAuthentication } from './useAuthentication';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
@@ -9,7 +9,7 @@ import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
 export const useCheckAuthStatus = () => {
   const { pathname } = useLocation();
 
-  const { removeUser } = useAuthenticationUser();
+  const { removeUser } = useAuthentication();
   const { redirectToHome, redirectToLogin } = useRoutesManager();
 
   const queryClient = useQueryClient();

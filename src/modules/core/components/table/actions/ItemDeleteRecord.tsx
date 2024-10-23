@@ -1,4 +1,4 @@
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
 import {
   AlertDialog,
@@ -10,20 +10,21 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+} from '@/components/ui/alert-dialog';
 
-import { Button } from "@/components";
-import { TrashIcon } from "@radix-ui/react-icons";
+import { Button } from '@/components';
+import { TrashIcon } from '@radix-ui/react-icons';
 interface Props {
   action: any;
   onChange: (state: boolean) => void;
+  disabled?: boolean;
 }
-export const ItemDeleteRecord = ({ action, onChange }: Props) => {
+export const ItemDeleteRecord = ({ action, onChange, disabled }: Props) => {
   return (
     <DropdownMenuItem asChild>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant={"ghost"}>
+          <Button variant={'ghost'} disabled={disabled}>
             <TrashIcon className="w-4 h-4 mr-2" /> Eliminar
           </Button>
         </AlertDialogTrigger>
