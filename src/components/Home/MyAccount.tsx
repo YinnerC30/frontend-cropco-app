@@ -3,14 +3,21 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuthenticationUser } from '@/modules/authentication/hooks/useAuthenticationUser';
+import { useTheme } from '@/modules/core/components/ThemeProvider';
 import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
 import { Bolt } from 'lucide-react';
+
 export const MyAccount = () => {
   const { removeUser } = useAuthenticationUser();
+  const { setTheme } = useTheme();
 
   const { redirectToLogin } = useRoutesManager();
 
@@ -30,6 +37,22 @@ export const MyAccount = () => {
         >
           Salir
         </DropdownMenuItem>
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>Modo</DropdownMenuSubTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem onClick={() => setTheme('light')}>
+                Claro
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme('dark')}>
+                Oscuro
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme('system')}>
+                Sistema
+              </DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuPortal>
+        </DropdownMenuSub>
       </DropdownMenuContent>
     </DropdownMenu>
   );

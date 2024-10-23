@@ -83,7 +83,7 @@ export const Login = () => {
             {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
             Ingresar
           </Button>
-          <Link to={'../../home'}>Ir a Home</Link>
+          <Link to={'http://localhost:5173/app/home'}>Ir a Home</Link>
           <Link to={'/'}>Ir a Root</Link>
         </CardFooter>
       </Card>
