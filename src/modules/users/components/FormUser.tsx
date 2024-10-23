@@ -17,6 +17,7 @@ import { FormProps } from '@/modules/core/interfaces/FormProps';
 import { useAppDispatch } from '@/redux/store';
 import { loadActions, updateActions } from '../utils/userSlice';
 
+import { useAuthorizationActions } from '@/modules/authentication/hooks/useAuthorizationActions';
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { useEffect, useLayoutEffect } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
@@ -24,17 +25,21 @@ import { useUserForm } from '../hooks/useUserForm';
 import { formFieldsUser } from '../utils';
 import { removeAllActions } from '../utils/userSlice';
 import { ActionUser } from './ActionUser';
-import { useAuthorizationActions } from '@/modules/authentication/hooks/useAuthorizationActions';
+
+interface FormUserProps extends FormProps {
+  hiddenPassword?: boolean;
+}
 
 export const FormUser = ({
   onSubmit,
   isPending,
   defaultValues,
   readOnly = false,
-}: FormProps) => {
+  hiddenPassword = false,
+}: FormUserProps) => {
   const { authorizationActions = null } = useAuthorizationActions();
   const { showPassword, togglePasswordVisibility, form, userHaveAction } =
-    useUserForm();
+    useUserForm({ hiddenPassword });
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const actionActive: any = useLoaderData();
@@ -42,7 +47,7 @@ export const FormUser = ({
   useLayoutEffect(() => {
     if (
       !!authorizationActions &&
-      !authorizationActions.users[actionActive].visible
+      !authorizationActions?.users[actionActive].visible
     ) {
       navigate(-1);
     }
@@ -90,7 +95,7 @@ export const FormUser = ({
   return (
     isSuccess && (
       <div className="flex flex-col items-center ">
-        <ScrollArea className="h-[75vh] w-full pb-5">
+        <ScrollArea className="h-[72vh] w-full pb-2">
           <h3 className="text-xl ">Datos personales:</h3>
 
           <Form {...form}>
@@ -133,7 +138,7 @@ export const FormUser = ({
                 readOnly={readOnly}
               />
 
-              {!readOnly && (
+              {!hiddenPassword && (
                 <>
                   <FormField
                     control={form.control}

@@ -19,10 +19,8 @@ export const ModifyUser = () => {
   const { actions } = useAppSelector((state: any): any => state.user);
 
   const onSubmit = (values: z.infer<typeof formSchemaUser>) => {
-    const { passwords: password, ...rest } = values;
     mutate({
-      ...rest,
-      password: password.password1,
+      ...values,
       id,
       actions: actions.map((ac: any) => ({
         id: ac,
@@ -48,10 +46,11 @@ export const ModifyUser = () => {
         defaultValues={{
           ...data,
           passwords: {
-            password1: '123456',
-            password2: '123456',
+            password1: '',
+            password2: '',
           },
         }}
+        hiddenPassword
       />
     </>
   );

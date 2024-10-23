@@ -1,6 +1,6 @@
 import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
 import { useState } from 'react';
-import { formSchemaUser } from '../utils';
+import { formSchemaUser, formSchemaUserWithPassword } from '../utils';
 import { useAppSelector } from '@/redux/store';
 
 export const defaultValues = {
@@ -15,7 +15,11 @@ export const defaultValues = {
   modules: [],
 };
 
-export const useUserForm = () => {
+interface Props {
+  hiddenPassword?: boolean;
+}
+
+export const useUserForm = ({ hiddenPassword = false }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = (event: any) => {
@@ -29,7 +33,10 @@ export const useUserForm = () => {
     return actions.includes(id);
   };
 
-  const form = useCreateForm({ schema: formSchemaUser, defaultValues });
+  const form = useCreateForm({
+    schema: hiddenPassword ? formSchemaUser : formSchemaUserWithPassword,
+    defaultValues,
+  });
   return {
     showPassword,
     setShowPassword,

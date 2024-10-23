@@ -27,10 +27,6 @@ export const ViewUser = () => {
     if (data) {
       form.reset({
         ...data,
-        passwords: {
-          password1: '',
-          password2: '',
-        },
       });
     }
   }, [data]);
@@ -63,6 +59,7 @@ export const ViewUser = () => {
           },
         }}
         readOnly={true}
+        hiddenPassword
       />
     </>
   );
