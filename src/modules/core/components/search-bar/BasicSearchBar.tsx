@@ -12,6 +12,7 @@ import {
 } from '@/components';
 import { useCreateForm } from '../../hooks/useCreateForm';
 import { ToolTipTemplate } from '../ToolTipTemplate';
+import { toast } from 'sonner';
 
 interface Props {
   query: string;
@@ -46,6 +47,7 @@ export const BasicSearchBar = ({
     const query = values.query.trim();
     if (query.length > 0) {
       navigate(`?query=${query}`);
+      toast.info('La consulta fue realizada');
     }
   };
 

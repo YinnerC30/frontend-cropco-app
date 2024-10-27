@@ -29,14 +29,7 @@ export const MyAccount = () => {
       <DropdownMenuContent className="">
         <DropdownMenuLabel className="text-center">Mi cuenta</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => {
-            removeUser();
-            redirectToLogin();
-          }}
-        >
-          Salir
-        </DropdownMenuItem>
+
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Modo</DropdownMenuSubTrigger>
           <DropdownMenuPortal>
@@ -53,6 +46,14 @@ export const MyAccount = () => {
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
+        <DropdownMenuItem
+          onClick={() => {
+            removeUser();
+            redirectToLogin();
+          }}
+        >
+          Salir
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

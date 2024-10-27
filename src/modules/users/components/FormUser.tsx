@@ -9,7 +9,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { ErrorLoading, Loading } from '@/modules/core/components';
+import { Loading } from '@/modules/core/components';
 import { ButtonsForm } from '@/modules/core/components/ButtonsForm';
 import { FormFieldInput } from '@/modules/core/components/form/FormFieldInput';
 import { useGetAllModules } from '@/modules/core/hooks/useGetAllModules';
@@ -37,7 +37,7 @@ export const FormUser = ({
   readOnly = false,
   hiddenPassword = false,
 }: FormUserProps) => {
-  const { authorizationActions = null } = useAuthorization();
+  const { authorizationActions = undefined } = useAuthorization();
   const { showPassword, togglePasswordVisibility, form, userHaveAction } =
     useUserForm({ hiddenPassword });
   const navigate = useNavigate();
@@ -45,12 +45,12 @@ export const FormUser = ({
   const actionActive: any = useLoaderData();
 
   useLayoutEffect(() => {
-    console.log(authorizationActions);
-    if (
-      (!!authorizationActions &&
+    const validation =
+      (!authorizationActions &&
         !authorizationActions?.users[actionActive]?.visible) ??
-      true
-    ) {
+      false;
+
+    if (validation) {
       navigate(-1);
     }
   }, []);
@@ -70,7 +70,7 @@ export const FormUser = ({
     }
   }, []);
 
-  const { data = [], isLoading, isError, isSuccess } = useGetAllModules();
+  const { data = [], isLoading, isSuccess } = useGetAllModules();
 
   const handleSelectAllActions = () => {
     const idsActionsModules = data

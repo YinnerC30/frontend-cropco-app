@@ -1,6 +1,6 @@
 import { RootState, useAppSelector } from '@/redux/store';
 import { useDispatch } from 'react-redux';
-// import { useNavigate } from 'react-router-dom';
+
 import { UserActive } from '../interfaces';
 import { removeUserActive, setUserActive } from '../utils';
 import { setToken } from '../utils/authenticationSlice';
