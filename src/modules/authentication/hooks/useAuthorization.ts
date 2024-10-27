@@ -24,7 +24,7 @@ export const useAuthorization = () => {
           (acu: any, cuv: any) => {
             const { name, id } = cuv;
             acu[name] = {
-              visible: true,
+              visible: userActionsIds.includes(id),
             };
             return acu;
           },
