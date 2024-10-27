@@ -8,17 +8,28 @@ import { ButtonRefetchData } from '@/modules/core/components/ButtonRefetchData';
 import { useBasicQueryData } from '@/modules/core/hooks/useBasicQueryData';
 import { useGetAllUsers } from '../hooks/useGetAllUsers';
 import { useUserAuthorizationActions } from '../hooks/useUserAuthorizationActions';
-import columnsTableUsers from './ColumnsTableUsers';
+import { createColumnsTableUsers } from './ColumnsTableUsers';
+
+import { useWindowSize } from 'react-use';
 
 export const UsersModule = () => {
   const { value } = useBasicQueryData();
+  const { width } = useWindowSize();
+
+  const showActionsInFirstColumn = width < 1024;
+
+  console.log(showActionsInFirstColumn);
 
   const { query, pagination, setPagination } = useGetAllUsers({
     value: value,
   });
   const { authorizationActions, isLoading } = useUserAuthorizationActions();
 
-  if (query.isLoading || isLoading) return <Loading />;
+  if (query.isLoading || isLoading || query.isRefetching) return <Loading />;
+
+
+
+
 
   return (
     <div>
@@ -46,7 +57,7 @@ export const UsersModule = () => {
         </div>
         <ScrollArea className="w-[95%] pb-4" type="auto">
           <DataTable
-            columns={columnsTableUsers}
+            columns={createColumnsTableUsers(showActionsInFirstColumn)}
             rows={
               (authorizationActions.find_all_users.visible &&
                 query.data?.rows) ??
@@ -55,12 +66,10 @@ export const UsersModule = () => {
             data={query.data ?? []}
             pagination={pagination}
             setPagination={setPagination}
-            // TODO: Arreglar errorMessage
-            errorMessage={`${
-              !authorizationActions.find_all_users.visible
-                ? 'No tienes permiso para ver el listado de usuarios 😢'
-                : 'No hay registros.'
-            }`}
+            errorMessage={`${!authorizationActions.find_all_users.visible
+              ? 'No tienes permiso para ver el listado de usuarios 😢'
+              : 'No hay registros.'
+              }`}
             disabledDoubleClick={!authorizationActions.find_all_users.visible}
           />
           <ScrollBar orientation="horizontal" />

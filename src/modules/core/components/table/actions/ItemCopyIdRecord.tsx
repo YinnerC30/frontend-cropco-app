@@ -1,7 +1,7 @@
-import { Button } from "@/components";
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { PaperPlaneIcon } from "@radix-ui/react-icons";
-import { toast } from "sonner";
+import { Button } from '@/components';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { PaperPlaneIcon } from '@radix-ui/react-icons';
+import { toast } from 'sonner';
 
 interface Props {
   id: string;
@@ -15,9 +15,9 @@ export const ItemCopyIdRecord = ({ id, onChange }: Props) => {
         onClick={() => {
           navigator.clipboard.writeText(id);
           onChange(false);
-          toast.success("Id copiado al portapapeles");
+          toast.success(`Id copiado al portapapeles ${id}`);
         }}
-        variant={"ghost"}
+        variant={'ghost'}
       >
         <PaperPlaneIcon className="w-4 h-4 mr-2" /> Copiar Id
       </Button>
