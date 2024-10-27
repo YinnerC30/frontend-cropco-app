@@ -1,4 +1,4 @@
-import { DataTable, Loading, SearchBar } from '@/modules/core/components';
+import { Loading, SearchBar } from '@/modules/core/components';
 
 import { ScrollArea } from '@/components';
 import { ScrollBar } from '@/components/ui/scroll-area';
@@ -10,6 +10,8 @@ import { useGetAllUsers } from '../hooks/useGetAllUsers';
 import { useUserAuthorizationActions } from '../hooks/useUserAuthorizationActions';
 import { createColumnsTableUsers } from './ColumnsTableUsers';
 
+import { DataTableHook } from '@/modules/core/components/table/DataTableHook';
+import { useDataTable } from '@/modules/core/hooks/useDataTable';
 import { useWindowSize } from 'react-use';
 
 export const UsersModule = () => {
@@ -18,14 +20,23 @@ export const UsersModule = () => {
 
   const showActionsInFirstColumn = width < 1024;
 
-  console.log(showActionsInFirstColumn);
-
   const { query, pagination, setPagination } = useGetAllUsers({
     value: value,
   });
   const { authorizationActions, isLoading } = useUserAuthorizationActions();
 
-  if (query.isLoading || isLoading || query.isRefetching) return <Loading />;
+  const { table, lengthColumns, getIdsToRowsSelected } = useDataTable({
+    columns: createColumnsTableUsers(showActionsInFirstColumn),
+    data: query.data ?? [],
+    rows: (authorizationActions?.find_all_users?.visible &&
+      query.data?.rows) ??
+      [],
+    pagination,
+    setPagination,
+  })
+
+
+  if (query.isLoading || isLoading) return <Loading />;
 
 
 
@@ -56,22 +67,14 @@ export const UsersModule = () => {
           />
         </div>
         <ScrollArea className="w-[95%] pb-4" type="auto">
-          <DataTable
-            columns={createColumnsTableUsers(showActionsInFirstColumn)}
-            rows={
-              (authorizationActions.find_all_users.visible &&
-                query.data?.rows) ??
-              []
-            }
-            data={query.data ?? []}
-            pagination={pagination}
-            setPagination={setPagination}
+          <DataTableHook
             errorMessage={`${!authorizationActions.find_all_users.visible
               ? 'No tienes permiso para ver el listado de usuarios 😢'
-              : 'No hay registros.'
-              }`}
+              : 'No hay registros.'}`}
             disabledDoubleClick={!authorizationActions.find_all_users.visible}
-          />
+            table={table}
+            lengthColumns={lengthColumns}
+            rowCount={query.data?.rowCount ?? 0} />
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>

@@ -1,11 +1,6 @@
 import {
-  SortingState,
-  VisibilityState,
   flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useReactTable,
+  Table as TableType
 } from '@tanstack/react-table';
 
 import {
@@ -22,7 +17,6 @@ import {
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
 } from '@radix-ui/react-icons';
-import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
@@ -33,43 +27,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { DataTableProps } from '../../interfaces/table/DataTableProps';
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-  rows,
-  pagination,
-  setPagination,
-  errorMessage = 'No hay registros.',
+interface Props {
+  table: TableType<any>
+  disabledDoubleClick: boolean
+  errorMessage: string
+  lengthColumns: number
+  rowCount: number
+}
+
+export function DataTableHook({
+  table,
   disabledDoubleClick = false,
-}: DataTableProps<TData, TValue>) {
-  const defaultData = useMemo(() => [], []);
-  const navigate = useNavigate();
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = useState({});
-  const table = useReactTable({
-    data: rows ?? defaultData,
-    columns,
-    pageCount: data?.pageCount ?? -1,
-    rowCount: data?.rowCount,
-    getCoreRowModel: getCoreRowModel(),
-    onPaginationChange: setPagination,
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnVisibility,
-      rowSelection,
-      pagination,
-    },
-    manualPagination: true,
+  errorMessage = 'No hay registros.',
+  lengthColumns,
+  rowCount
+}: Props) {
 
-  });
+  const navigate = useNavigate();
 
   const pageIndex = table.getState().pagination.pageIndex;
   const pageCount = table.getPageCount();
@@ -128,7 +103,7 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={lengthColumns}
                   className="h-24 text-center"
                 >
                   {errorMessage}
@@ -207,7 +182,7 @@ export function DataTable<TData, TValue>({
         </div>
         {/* Total registros */}
         <div>
-          <p className="text-sm font-medium">Total: {data?.rowCount ?? 0}</p>
+          <p className="text-sm font-medium">Total: {rowCount ?? 0}</p>
         </div>
       </div>
     </div>
