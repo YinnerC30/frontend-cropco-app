@@ -14,7 +14,7 @@ export const ButtonHeaderTable = React.forwardRef<HTMLButtonElement, Props>(
     return (
       <Button
         ref={ref}
-        className={`px-0 hover:bg-transparent ${className}`}
+        className={`px-0 hover:bg-transparent ${className} -ml-2`}
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >

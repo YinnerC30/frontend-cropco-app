@@ -21,6 +21,7 @@ export const createColumnsTableUsers = (actionsInFirstColumn: boolean): ColumnDe
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
+          className='-ml-[6px] mr-2'
 
         />
       ),
