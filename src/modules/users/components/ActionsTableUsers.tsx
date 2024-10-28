@@ -29,6 +29,7 @@ export const ActionsTableUsers = ({ row }: Props) => {
   return (
     <>
       <ActionsTable open={openDropDownMenu} onChange={setOpenDropDownMenu}>
+
         <ItemCopyIdRecord id={id} onChange={setOpenDropDownMenu} />
 
         <ItemDeleteRecord

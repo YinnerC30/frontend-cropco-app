@@ -30,11 +30,11 @@ export const Home = () => {
         </div>
 
         <MyAccount />
-        {/* <Link to={'../authentication/login'}>Ir Login</Link> */}
-        {/* <Link to={'/'}>Ir a Root</Link> */}
+        <Link to={'../authentication/login'}>Ir Login</Link>
+        <Link to={'/'}>Ir a Root</Link>
       </Header>
 
-      <NavBar className="flex flex-col hidden gap-1 py-2 pl-4 border-r lg:col-span-2 row-span-11 lg:block min-w-44 ">
+      <NavBar className="flex-col hidden gap-1 py-2 pl-4 border-r lg:flex lg:col-span-2 row-span-11 min-w-44 ">
         {routes.map((route: Route) => {
           if (
             modulesUser.includes(route.name_module) ||

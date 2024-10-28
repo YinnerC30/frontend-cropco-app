@@ -21,7 +21,7 @@ interface Props {
 }
 export const ItemDeleteRecord = ({ action, onChange, disabled }: Props) => {
   return (
-    <DropdownMenuItem asChild>
+    <DropdownMenuItem >
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button variant={'ghost'} disabled={disabled}>
