@@ -10,9 +10,12 @@ import { useGetAllUsers } from '../hooks/useGetAllUsers';
 import { useUserAuthorizationActions } from '../hooks/useUserAuthorizationActions';
 import { createColumnsTableUsers } from './ColumnsTableUsers';
 
+import { ButtonDeleteBulk } from '@/modules/core/components/ButtonDeleteBulk';
 import { DataTableHook } from '@/modules/core/components/table/DataTableHook';
 import { useDataTable } from '@/modules/core/hooks/useDataTable';
+import { useEffect } from 'react';
 import { useWindowSize } from 'react-use';
+import { useDeleteBulkUsers } from '../hooks/useDeleteBulkUsers';
 
 export const UsersModule = () => {
   const { value } = useBasicQueryData();
@@ -23,24 +26,33 @@ export const UsersModule = () => {
   const { query, pagination, setPagination } = useGetAllUsers({
     value: value,
   });
-  const { authorizationActions, isLoading } = useUserAuthorizationActions();
+  const { authorizationActions, isLoading: isLoadingActions } =
+    useUserAuthorizationActions();
 
-  const { table, lengthColumns, getIdsToRowsSelected } = useDataTable({
-    columns: createColumnsTableUsers(showActionsInFirstColumn),
-    data: query.data ?? [],
-    rows: (authorizationActions?.find_all_users?.visible &&
-      query.data?.rows) ??
-      [],
-    pagination,
-    setPagination,
-  })
+  const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
+    useDataTable({
+      columns: createColumnsTableUsers(showActionsInFirstColumn),
+      data: query.data ?? [],
+      rows:
+        (authorizationActions?.find_all_users?.visible && query.data?.rows) ??
+        [],
+      pagination,
+      setPagination,
+    });
 
+  const { mutate, isPending, isSuccess } = useDeleteBulkUsers();
 
-  if (query.isLoading || isLoading) return <Loading />;
+  const handleDeleteBulkUsers = () => {
+    mutate({ userIds: getIdsToRowsSelected() });
+  };
 
+  useEffect(() => {
+    if (isSuccess) {
+      resetSelectionRows();
+    }
+  }, [isSuccess]);
 
-
-
+  if (query.isLoading || isLoadingActions) return <Loading />;
 
   return (
     <div>
@@ -60,21 +72,31 @@ export const UsersModule = () => {
             disabled={!authorizationActions.find_all_users.visible}
           />
 
-          <ButtonCreateRecord
-            className="flex items-center justify-end py-2 "
-            route={'../create'}
-            disabled={!authorizationActions.create_user.visible}
-          />
+          <div className='flex flex-row gap-2'>
+            <ButtonDeleteBulk
+              disabled={isPending}
+              onClick={handleDeleteBulkUsers}
+              visible={getIdsToRowsSelected().length > 0}
+            />
+
+            <ButtonCreateRecord
+              className="flex items-center justify-end py-2 "
+              route={'../create'}
+              disabled={!authorizationActions.create_user.visible}
+            />
+          </div>
         </div>
         <ScrollArea className="w-[95%] pb-4" type="auto">
           <DataTableHook
             errorMessage={`${!authorizationActions.find_all_users.visible
               ? 'No tienes permiso para ver el listado de usuarios 😢'
-              : 'No hay registros.'}`}
+              : 'No hay registros.'
+              }`}
             disabledDoubleClick={!authorizationActions.find_all_users.visible}
             table={table}
             lengthColumns={lengthColumns}
-            rowCount={query.data?.rowCount ?? 0} />
+            rowCount={query.data?.rowCount ?? 0}
+          />
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>

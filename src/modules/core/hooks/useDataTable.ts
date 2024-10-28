@@ -50,14 +50,19 @@ export const useDataTable = ({
     return arrayIndexRowsSelected.map((index: number) => {
       const { rows } = table.getRowModel();
       const user: any = rows[index].original;
-      return user.id;
+      return { id: user.id };
     });
   };
+
+  const resetSelectionRows = () => {
+    setRowSelection({});
+  }
 
   return {
     table,
     rowSelection,
     lengthColumns: columns.length,
     getIdsToRowsSelected,
+    resetSelectionRows
   };
 };
