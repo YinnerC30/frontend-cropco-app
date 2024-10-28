@@ -64,5 +64,6 @@ export const useAuthentication = () => {
     updateUserActions,
     updateTokenInClient,
     tokenSesion,
+    user
   };
 };

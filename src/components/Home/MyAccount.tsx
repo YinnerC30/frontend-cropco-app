@@ -19,7 +19,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 export const MyAccount = () => {
-  const { removeUser } = useAuthentication();
+  const { removeUser, user } = useAuthentication();
   const { setTheme } = useTheme();
 
   const { redirectToLogin } = useRoutesManager();
@@ -42,6 +42,9 @@ export const MyAccount = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="">
         <DropdownMenuLabel className="text-center">Mi cuenta</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel className="text-center">{user.first_name}</DropdownMenuLabel>
+        <DropdownMenuLabel className="text-center">{user.email}</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
         <DropdownMenuSub>
