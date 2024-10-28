@@ -197,7 +197,7 @@ export const FormUser = ({
 
           <Separator className="my-5" />
           <h3 className="text-xl ">Permisos:</h3>
-          <div className={`flex gap-2 my-2 ${readOnly && 'hidden'}`}>
+          <div className={`flex gap-2 my-2  items-center justify-center ${readOnly && 'hidden'}`}>
             <Button onClick={handleSelectAllActions}>Marcar todo</Button>
             <Button onClick={handleInselectAllActions}>Desmarcar todo</Button>
           </div>

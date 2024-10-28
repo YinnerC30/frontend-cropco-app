@@ -25,6 +25,7 @@ export const useDeleteBulkUsers = () => {
         `Hubo un problema durante la eliminación de los usuarios, ${data.message}`
       );
     },
+
     retry: 1,
   });
 

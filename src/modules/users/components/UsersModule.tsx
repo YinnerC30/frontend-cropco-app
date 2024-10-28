@@ -65,7 +65,7 @@ export const UsersModule = () => {
         />
       </div>
 
-      <div className="pt-5">
+      <div className="pt-5 ">
         <div className="flex items-center w-[100%] justify-between">
           <ButtonRefetchData
             onClick={query.refetch}
@@ -86,7 +86,7 @@ export const UsersModule = () => {
             />
           </div>
         </div>
-        <ScrollArea className="w-[95%] pb-4" type="auto">
+        <ScrollArea className={`w-[95%] pb-4 ${isPending && 'blur-sm'}`} type="auto">
           <DataTableHook
             errorMessage={`${!authorizationActions.find_all_users.visible
               ? 'No tienes permiso para ver el listado de usuarios 😢'
