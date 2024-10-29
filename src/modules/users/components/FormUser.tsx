@@ -17,10 +17,9 @@ import { FormProps } from '@/modules/core/interfaces/FormProps';
 import { useAppDispatch } from '@/redux/store';
 import { loadActions, updateActions } from '../utils/userSlice';
 
-import { useAuthorization } from '@/modules/authentication/hooks/useAuthorization';
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
-import { useEffect, useLayoutEffect } from 'react';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useUserForm } from '../hooks/useUserForm';
 import { formFieldsUser } from '../utils';
 import { removeAllActions } from '../utils/userSlice';
@@ -37,23 +36,10 @@ export const FormUser = ({
   readOnly = false,
   hiddenPassword = false,
 }: FormUserProps) => {
-  const { authorizationActions = undefined } = useAuthorization();
   const { showPassword, togglePasswordVisibility, form, userHaveAction } =
     useUserForm({ hiddenPassword });
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const actionActive: any = useLoaderData();
-
-  useLayoutEffect(() => {
-    const validation =
-      (!authorizationActions &&
-        !authorizationActions?.users[actionActive]?.visible) ??
-      false;
-
-    if (validation) {
-      navigate(-1);
-    }
-  }, []);
 
   useEffect(() => {
     if (defaultValues) {
@@ -197,7 +183,11 @@ export const FormUser = ({
 
           <Separator className="my-5" />
           <h3 className="text-xl ">Permisos:</h3>
-          <div className={`flex gap-2 my-2  items-center justify-center ${readOnly && 'hidden'}`}>
+          <div
+            className={`flex gap-2 my-2  items-center justify-center ${
+              readOnly && 'hidden'
+            }`}
+          >
             <Button onClick={handleSelectAllActions}>Marcar todo</Button>
             <Button onClick={handleInselectAllActions}>Desmarcar todo</Button>
           </div>

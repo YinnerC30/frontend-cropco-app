@@ -1,32 +1,54 @@
+import ProtectedRoute from '@/modules/authentication/components/ProtectedRoute';
 import { CreateUser, ModifyUser, UsersModule, ViewUser } from '../components';
+import { Navigate } from 'react-router-dom';
 
 const userRoutes = {
   path: 'users',
   children: [
     {
       index: true,
-      loader: () => 'find_all_users',
-      element: <UsersModule />,
+      element: <Navigate to="all" />,
     },
     {
       path: 'all',
-      loader: () => 'find_all_users',
-      element: <UsersModule />,
+      element: (
+        <ProtectedRoute
+          module="users"
+          action="find_all_users"
+          element={<UsersModule />}
+        />
+      ),
     },
     {
       path: 'create',
-      loader: () => 'create_user',
-      element: <CreateUser />,
+
+      element: (
+        <ProtectedRoute
+          module="users"
+          action="create_user"
+          element={<CreateUser />}
+        />
+      ),
     },
     {
       path: 'view/:id',
-      loader: () => 'find_one_user',
-      element: <ViewUser />,
+      element: (
+        <ProtectedRoute
+          module="users"
+          action="find_one_user"
+          element={<ViewUser />}
+        />
+      ),
     },
     {
       path: 'modify/:id',
-      loader: () => 'update_one_user',
-      element: <ModifyUser />,
+      element: (
+        <ProtectedRoute
+          module="users"
+          action="update_one_user"
+          element={<ModifyUser />}
+        />
+      ),
     },
   ],
 };

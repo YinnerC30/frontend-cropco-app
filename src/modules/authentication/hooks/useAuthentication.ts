@@ -17,6 +17,11 @@ export const useAuthentication = () => {
 
   const isLogin = user?.token?.length > 0;
 
+  const getModuleActions = (nameModule: string) => {
+    return user.modules.find((module: any) => module.name === nameModule)
+      .actions;
+  };
+
   const dispatch = useDispatch();
 
   const saveUserInState = (user: UserActive) => {
@@ -64,6 +69,7 @@ export const useAuthentication = () => {
     updateUserActions,
     updateTokenInClient,
     tokenSesion,
-    user
+    user,
+    getModuleActions,
   };
 };
