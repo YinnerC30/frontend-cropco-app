@@ -29,7 +29,6 @@ export const ModifyUser = () => {
   };
 
   if (isLoading) return <Loading />;
-  if (!data) return <ErrorLoading />;
 
   return (
     <>

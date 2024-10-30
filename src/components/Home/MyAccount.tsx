@@ -12,32 +12,40 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuthentication } from '@/modules/authentication/hooks/useAuthentication';
 import { useImplantSeed } from '@/modules/authentication/hooks/useImplantSeed';
-import { ItemCopyIdRecord } from '@/modules/core/components/table/actions/ItemCopyIdRecord';
 import { useTheme } from '@/modules/core/components/ThemeProvider';
+import { useGetConvertToAdmin } from '@/modules/users/hooks/useGetConvertToAdmin';
 import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
 import { Bolt } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
-import { Button } from '../ui/button';
-import { PaperPlaneIcon } from '@radix-ui/react-icons';
 import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 
 export const MyAccount = () => {
-  const { removeUser, user } = useAuthentication();
+  const { removeUser, user, updateUserActions } = useAuthentication();
   const { setTheme } = useTheme();
 
   const { redirectToLogin } = useRoutesManager();
 
   const [isRunningSeed, setIsRunningSeed] = useState(false);
+  const [isConvertToAdmin, setIsConvertToAdmin] = useState(false);
 
-  const query = useImplantSeed(isRunningSeed);
+  const queryImplantedSeed = useImplantSeed(isRunningSeed);
+  const queryConvertToAdmin = useGetConvertToAdmin(user.id, isConvertToAdmin);
 
   useEffect(() => {
-    if (query.isSuccess) {
+    if (queryImplantedSeed.isSuccess) {
       toast.success('La semilla fue plantada con exito 🌱');
       setIsRunningSeed(false);
     }
-  }, [query]);
+  }, [queryImplantedSeed.isSuccess]);
+
+  useEffect(() => {
+    if (queryConvertToAdmin.isSuccess) {
+      toast.success('Ya te volviste admin');
+      updateUserActions(queryConvertToAdmin.data?.modules);
+      setIsConvertToAdmin(false);
+    }
+  }, [queryConvertToAdmin.isSuccess]);
 
   return (
     <DropdownMenu>
@@ -100,6 +108,13 @@ export const MyAccount = () => {
           }}
         >
           Implantar semilla 🌱
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            setIsConvertToAdmin(true);
+          }}
+        >
+          Volverte Admin 🤖
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -35,10 +35,6 @@ export const ViewUser = () => {
     return <Loading />;
   }
 
-  if (!data) {
-    return <ErrorLoading />;
-  }
-
   return (
     <>
       <BreadCrumb

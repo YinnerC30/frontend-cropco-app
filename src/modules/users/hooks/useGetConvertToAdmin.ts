@@ -2,20 +2,24 @@ import { useManageErrorAuthorization } from '@/modules/authentication/hooks/useM
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { User } from '../interfaces/User';
-import { getUserById } from '../services/getUserById';
+import { convertToAdmin } from '../services/convertToAdmin';
 
-export function useGetUser(id: string): UseQueryResult<User, Error> {
+export function useGetConvertToAdmin(
+  id: string,
+  isRunning: boolean
+): UseQueryResult<User, Error> {
   const { handleError } = useManageErrorAuthorization();
   const query = useQuery({
-    queryKey: ['user', id],
-    queryFn: () => getUserById(id),
+    queryKey: ['convert-to-admin-user', id],
+    queryFn: () => convertToAdmin(id),
+    enabled: isRunning,
+    gcTime: 60 * 1000 * 60,
   });
 
   if (query.isError) {
     handleError({
       error: query.error as AxiosError,
-      messageUnauthoraizedError:
-        'No tienes permiso para obtener la información del usuario',
+      messageUnauthoraizedError: 'No tienes permiso para convertirte en admin',
     });
   }
   return query;
