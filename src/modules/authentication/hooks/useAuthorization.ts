@@ -1,42 +1,18 @@
-import { useGetAllModules } from '@/modules/core/hooks/useGetAllModules';
-import { RootState, useAppSelector } from '@/redux/store';
-import { useMemo } from 'react';
+import useAuthentication from './useAuthentication';
 
 export const useAuthorization = () => {
-  const { user } = useAppSelector((state: RootState) => state.authentication);
+  const { getModuleActions, user } = useAuthentication();
 
   const modulesUser = user?.modules?.map((module: any) => module?.name) ?? [];
 
-  const userActionsIds = useMemo(
-    () =>
-      user?.modules
-        .map((module: any) => module?.actions?.map((action: any) => action?.id))
-        .flat() ?? [],
-    [user]
-  );
-
-  const { data = [] } = useGetAllModules();
-
-  const authorizationActions = useMemo(
-    () =>
-      data.reduce((acumulator: any, currentValue: any) => {
-        acumulator[currentValue.name] = currentValue.actions.reduce(
-          (acu: any, cuv: any) => {
-            const { name, id } = cuv;
-            acu[name] = {
-              visible: userActionsIds.includes(id),
-            };
-            return acu;
-          },
-          {}
-        );
-        return acumulator;
-      }, {}),
-    [data, userActionsIds]
-  );
+  const hasPermission = (moduleName: string, actionName: string) => {
+    const actions = getModuleActions(moduleName);
+    return actions.some((action: any) => action.name === actionName);
+  };
 
   return {
     modulesUser,
-    authorizationActions,
+    hasPermission,
+    user,
   };
 };

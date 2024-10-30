@@ -1,5 +1,4 @@
-import { useAuthentication } from '@/modules/authentication/hooks/useAuthentication';
-import { useHasPermission } from '@/modules/authentication/hooks/useHasPermission';
+import { useAuthorization } from '@/modules/authentication/hooks/useAuthorization';
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({
@@ -8,15 +7,13 @@ const ProtectedRoute = ({
   action,
   viewComponent = false,
 }: any) => {
-  const { user } = useAuthentication();
-
-  const hasPermission = useHasPermission(module, action);
+  const { user, hasPermission } = useAuthorization();
 
   if (viewComponent) {
     return element;
   }
 
-  if (!user || !hasPermission) {
+  if (!user || !hasPermission(module, action)) {
     return <Navigate to="/app/home" replace />;
   }
 

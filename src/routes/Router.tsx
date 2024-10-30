@@ -18,11 +18,10 @@ import { userRoutes } from '@/modules/users/routes/Routes';
 import { workRoutes } from '@/modules/work/routes/Routes';
 
 import { LandingPage } from '@/components/common/LandingPage';
-import Chart from '@/modules/dashboard/Chart';
+import AuthenticationLayout from '@/modules/authentication/components/AuthenticationLayout';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { HomeLayout } from '../HomeLayout';
 import { RoutesController } from './components/RoutesController';
-import AuthenticationLayout from '@/modules/authentication/components/AuthenticationLayout';
 
 export const Router = createBrowserRouter([
   {

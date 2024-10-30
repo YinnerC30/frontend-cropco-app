@@ -7,9 +7,9 @@ import { ButtonCreateRecord } from '@/modules/core/components/ButtonCreateRecord
 import { ButtonRefetchData } from '@/modules/core/components/ButtonRefetchData';
 import { useBasicQueryData } from '@/modules/core/hooks/useBasicQueryData';
 import { useGetAllUsers } from '../hooks/useGetAllUsers';
-import { useUserAuthorizationActions } from '../hooks/useUserAuthorizationActions';
 import { createColumnsTableUsers } from './ColumnsTableUsers';
 
+import { useAuthorization } from '@/modules/authentication/hooks/useAuthorization';
 import { ButtonDeleteBulk } from '@/modules/core/components/ButtonDeleteBulk';
 import { DataTableHook } from '@/modules/core/components/table/DataTableHook';
 import { useDataTable } from '@/modules/core/hooks/useDataTable';
@@ -26,16 +26,15 @@ export const UsersModule = () => {
   const { query, pagination, setPagination } = useGetAllUsers({
     value: value,
   });
-  const { authorizationActions, isLoading: isLoadingActions } =
-    useUserAuthorizationActions();
+
+  const { hasPermission } = useAuthorization();
 
   const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
     useDataTable({
       columns: createColumnsTableUsers(showActionsInFirstColumn),
       data: query.data ?? [],
       rows:
-        (authorizationActions?.find_all_users?.visible && query.data?.rows) ??
-        [],
+        (hasPermission('users', 'find_all_users') && query.data?.rows) ?? [],
       pagination,
       setPagination,
     });
@@ -52,7 +51,7 @@ export const UsersModule = () => {
     }
   }, [isSuccess]);
 
-  if (query.isLoading || isLoadingActions) return <Loading />;
+  if (query.isLoading) return <Loading />;
 
   return (
     <div>
@@ -61,7 +60,7 @@ export const UsersModule = () => {
       <div className="flex items-center justify-center w-full py-2">
         <SearchBar
           query={value}
-          disabled={!authorizationActions.find_all_users.visible}
+          disabled={!hasPermission('users', 'find_all_users')}
         />
       </div>
 
@@ -69,7 +68,7 @@ export const UsersModule = () => {
         <div className="flex items-center w-[100%] justify-between">
           <ButtonRefetchData
             onClick={query.refetch}
-            disabled={!authorizationActions.find_all_users.visible}
+            disabled={!hasPermission('users', 'find_all_users')}
           />
 
           <div className="flex flex-row gap-2">
@@ -82,7 +81,7 @@ export const UsersModule = () => {
             <ButtonCreateRecord
               className="flex items-center justify-end py-2 "
               route={'../create'}
-              disabled={!authorizationActions.create_user.visible}
+              disabled={!hasPermission('users', 'create_user')}
             />
           </div>
         </div>
@@ -92,11 +91,11 @@ export const UsersModule = () => {
         >
           <DataTableHook
             errorMessage={`${
-              !authorizationActions.find_all_users.visible
+              !hasPermission('users', 'find_all_users')
                 ? 'No tienes permiso para ver el listado de usuarios 😢'
                 : 'No hay registros.'
             }`}
-            disabledDoubleClick={!authorizationActions.find_all_users.visible}
+            disabledDoubleClick={!hasPermission('users', 'find_one_user')}
             table={table}
             lengthColumns={lengthColumns}
             rowCount={query.data?.rowCount ?? 0}
