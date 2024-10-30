@@ -1,5 +1,5 @@
-import { manageErrorAuthorization } from '@/modules/authentication/helpers/manageErrorAuthorization';
 import { useAuthentication } from '@/modules/authentication/hooks/useAuthentication';
+import { useManageErrorAuthorization } from '@/modules/authentication/hooks/useManageErrorAuthorization';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -8,7 +8,6 @@ import { toast } from 'sonner';
 import { User } from '../interfaces/User';
 import { updateUser } from '../services/updateUser';
 import { removeAllActions } from '../utils/userSlice';
-import { useManageErrorAuthorization } from '@/modules/authentication/hooks/useManageErrorAuthorization';
 
 export function usePatchUser(): any {
   const navigate = useNavigate();

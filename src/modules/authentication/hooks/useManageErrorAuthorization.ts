@@ -1,6 +1,7 @@
 import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
+import useAuthentication from './useAuthentication';
 
 interface HandleErrorProps {
   error: AxiosError;
@@ -8,6 +9,7 @@ interface HandleErrorProps {
 }
 
 export const useManageErrorAuthorization = () => {
+  const { removeUser } = useAuthentication();
   const { redirectToLogin } = useRoutesManager();
   const handleError = ({
     error,
@@ -17,6 +19,7 @@ export const useManageErrorAuthorization = () => {
 
     switch (response?.status) {
       case 401:
+        removeUser();
         redirectToLogin();
         toast.error('Su sesión ha expirado, sera redireccionado al Login 😉');
         break;

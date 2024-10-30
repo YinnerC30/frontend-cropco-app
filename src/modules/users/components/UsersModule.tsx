@@ -73,7 +73,9 @@ export const UsersModule = () => {
 
           <div className="flex flex-row gap-2">
             <ButtonDeleteBulk
-              disabled={isPending}
+              disabled={
+                isPending || !hasPermission('users', 'remove_bulk_users')
+              }
               onClick={handleDeleteBulkUsers}
               visible={getIdsToRowsSelected().length > 0}
             />
