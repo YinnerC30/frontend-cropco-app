@@ -1,4 +1,4 @@
-import ProtectedRoute from '@/modules/authentication/components/ProtectedRoute';
+import ProtectedRoute from '@/routes/components/ProtectedRoute';
 import { CreateUser, ModifyUser, UsersModule, ViewUser } from '../components';
 import { Navigate } from 'react-router-dom';
 
@@ -16,6 +16,7 @@ const userRoutes = {
           module="users"
           action="find_all_users"
           element={<UsersModule />}
+          viewComponent={true}
         />
       ),
     },

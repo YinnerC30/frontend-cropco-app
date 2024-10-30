@@ -1,22 +1,15 @@
+import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { CapitalizeFirstWord } from '../helpers/CapitalizeFirstWord';
 import { loginUser } from '../services/loginUser';
 import { useAuthentication } from './useAuthentication';
-import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
-import { useEffect } from 'react';
 
 export const useLoginUser = () => {
-  const { saveUser, isLogin } = useAuthentication();
+  const { saveUser } = useAuthentication();
 
   const { redirectToHome } = useRoutesManager();
-
-  useEffect(() => {
-    if (isLogin) {
-      redirectToHome();
-    }
-  }, []);
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -25,7 +18,6 @@ export const useLoginUser = () => {
       queryClient.invalidateQueries({ queryKey: ['user-active'] });
       saveUser(data);
       redirectToHome();
-      console.log(data.token);
       toast.success(`Bienvenido, ${CapitalizeFirstWord(data.first_name)}`);
     },
     onError: (error: AxiosError | any) => {

@@ -3,7 +3,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/s
 import { Menu } from 'lucide-react';
 import { NavBar } from './components/Home/NavBar';
 import { NavElement } from './components/Home/NavElement';
-import { Route, routes } from './routes/RoutesNavBar';
+import { Route, routes } from './routes/components/RoutesNavBar';
 import { useState } from 'react';
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 

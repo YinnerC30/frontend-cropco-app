@@ -7,7 +7,7 @@ import {
   CommandList,
 } from '@/components/ui/command';
 import { useAuthorization } from '@/modules/authentication/hooks/useAuthorization';
-import { routes } from '@/routes/RoutesNavBar';
+import { routes } from '@/routes/components/RoutesNavBar';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

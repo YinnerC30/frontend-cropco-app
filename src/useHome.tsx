@@ -1,25 +1,14 @@
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 import { ToastAction } from './components/ui/toast';
 import { useToast } from './components/ui/use-toast';
 import { useAuthentication } from './modules/authentication/hooks/useAuthentication';
-
-import { useRenewToken } from './modules/authentication/hooks/useRenewToken';
-import { useRoutesManager } from './routes/hooks/useRoutesManager';
 import { useAuthorization } from './modules/authentication/hooks/useAuthorization';
+import { useRenewToken } from './modules/authentication/hooks/useRenewToken';
 
 export const useHome = () => {
   const { modulesUser } = useAuthorization();
 
-  const { isLogin, tokenSesion, TIME_QUESTION_RENEW_TOKEN } =
-    useAuthentication();
-
-  const { redirectToLogin } = useRoutesManager();
-
-  useLayoutEffect(() => {
-    if (!isLogin) {
-      redirectToLogin();
-    }
-  }, []);
+  const { tokenSesion, TIME_QUESTION_RENEW_TOKEN } = useAuthentication();
 
   const mutationRenewToken = useRenewToken();
 

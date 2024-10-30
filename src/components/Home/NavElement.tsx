@@ -1,4 +1,4 @@
-import { Route } from '@/routes/RoutesNavBar';
+import { Route } from '@/routes/components/RoutesNavBar';
 import { NavLink } from 'react-router-dom';
 
 interface Props {

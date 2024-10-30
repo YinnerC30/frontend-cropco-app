@@ -72,7 +72,7 @@ export const UsersModule = () => {
             disabled={!authorizationActions.find_all_users.visible}
           />
 
-          <div className='flex flex-row gap-2'>
+          <div className="flex flex-row gap-2">
             <ButtonDeleteBulk
               disabled={isPending}
               onClick={handleDeleteBulkUsers}
@@ -86,12 +86,16 @@ export const UsersModule = () => {
             />
           </div>
         </div>
-        <ScrollArea className={`w-[95%] pb-4 ${isPending && 'blur-sm'}`} type="auto">
+        <ScrollArea
+          className={`w-[95%] pb-4 ${isPending && 'blur-sm'}`}
+          type="auto"
+        >
           <DataTableHook
-            errorMessage={`${!authorizationActions.find_all_users.visible
-              ? 'No tienes permiso para ver el listado de usuarios 😢'
-              : 'No hay registros.'
-              }`}
+            errorMessage={`${
+              !authorizationActions.find_all_users.visible
+                ? 'No tienes permiso para ver el listado de usuarios 😢'
+                : 'No hay registros.'
+            }`}
             disabledDoubleClick={!authorizationActions.find_all_users.visible}
             table={table}
             lengthColumns={lengthColumns}

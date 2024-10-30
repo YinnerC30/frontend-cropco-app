@@ -18,11 +18,11 @@ import { userRoutes } from '@/modules/users/routes/Routes';
 import { workRoutes } from '@/modules/work/routes/Routes';
 
 import { LandingPage } from '@/components/common/LandingPage';
-import { createBrowserRouter } from 'react-router-dom';
-import { Home } from '../Home';
-import { RoutesController } from './RoutesController';
 import Chart from '@/modules/dashboard/Chart';
-import { Login } from '@/modules/authentication/components/Login';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { HomeLayout } from '../HomeLayout';
+import { RoutesController } from './components/RoutesController';
+import AuthenticationLayout from '@/modules/authentication/components/AuthenticationLayout';
 
 export const Router = createBrowserRouter([
   {
@@ -35,19 +35,20 @@ export const Router = createBrowserRouter([
     element: <RoutesController />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <Login /> },
+      { index: true, element: <Navigate to={'authentication/login'} /> },
       {
         path: 'authentication',
+        element: <AuthenticationLayout />,
         children: [
-          { index: true, element: <Login /> },
+          { index: true, element: <Navigate to={'login'} /> },
           ...authenticationRoutes,
         ],
       },
       {
         path: 'home',
-        element: <Home />,
+        element: <HomeLayout />,
         children: [
-          { index: true, element: <Chart /> },
+          { index: true, element: <Navigate to={'dashboard'} /> },
           dashboardRoutes,
           userRoutes,
           cropRoutes,

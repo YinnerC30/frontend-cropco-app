@@ -18,8 +18,10 @@ export const useAuthentication = () => {
   const isLogin = user?.token?.length > 0;
 
   const getModuleActions = (nameModule: string) => {
-    return user.modules.find((module: any) => module.name === nameModule)
-      .actions;
+    return (
+      user.modules.find((module: any) => module.name === nameModule)?.actions ??
+      []
+    );
   };
 
   const dispatch = useDispatch();
@@ -73,3 +75,5 @@ export const useAuthentication = () => {
     getModuleActions,
   };
 };
+
+export default useAuthentication;

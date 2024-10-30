@@ -1,16 +1,23 @@
 import { CommandDialogApp } from '@/modules/core/components/CommandDialogApp';
 
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Navigate, Outlet } from 'react-router-dom';
 import { Header } from './components/Home/Header';
 import { Main } from './components/Home/Main';
 import { MyAccount } from './components/Home/MyAccount';
 import { NavBar } from './components/Home/NavBar';
 import { NavElement } from './components/Home/NavElement';
-import { Route, routes } from './routes/RoutesNavBar';
+import { Route, routes } from './routes/components/RoutesNavBar';
 import { SheetNavBar } from './SheetNavBar';
 import { useHome } from './useHome';
+import useAuthentication from './modules/authentication/hooks/useAuthentication';
 
-export const Home = () => {
+export const HomeLayout = () => {
+  const { isLogin } = useAuthentication();
+
+  if (!isLogin) {
+    return <Navigate to={'../authentication'} replace />;
+  }
+
   const { modulesUser } = useHome();
 
   return (
