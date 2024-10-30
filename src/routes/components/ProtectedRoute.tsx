@@ -1,5 +1,6 @@
 import { useAuthorization } from '@/modules/authentication/hooks/useAuthorization';
 import { Navigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const ProtectedRoute = ({
   element,
@@ -14,6 +15,10 @@ const ProtectedRoute = ({
   }
 
   if (!user || !hasPermission(module, action)) {
+    setTimeout(
+      () => toast.error('No tienes permiso para esta acción, seras redirigido'),
+      1000
+    );
     return <Navigate to="/app/home" replace />;
   }
 

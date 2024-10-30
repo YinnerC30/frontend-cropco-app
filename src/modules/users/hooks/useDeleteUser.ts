@@ -15,14 +15,11 @@ export const useDeleteUser = () => {
     },
     onError: (error: AxiosError) => {
       const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
+
       handleError({
-        error: mutation.error as AxiosError,
+        error: updateError,
         messageUnauthoraizedError: 'No tienes permiso para eliminar el usuario',
       });
-      toast.error(
-        `Hubo un problema durante la eliminación del usuario, ${data.message}`
-      );
     },
     retry: 1,
   });
