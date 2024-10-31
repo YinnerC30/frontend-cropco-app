@@ -1,4 +1,3 @@
-import { ErrorLoading } from '@/modules/core/components/ErrorLoading';
 import { Loading } from '@/modules/core/components/Loading';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
@@ -60,3 +59,5 @@ export const ViewUser = () => {
     </>
   );
 };
+
+export default ViewUser

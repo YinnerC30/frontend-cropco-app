@@ -54,3 +54,5 @@ export const ModifyUser = () => {
     </>
   );
 };
+
+export default ModifyUser;
