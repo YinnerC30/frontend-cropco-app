@@ -8,18 +8,21 @@ const ProtectedRoute = ({
   action,
   viewComponent = false,
 }: any) => {
-  const { user, hasPermission } = useAuthorization();
+  const { user, hasPermission, hasMoreThanOnePermission } = useAuthorization();
 
-  if (viewComponent) {
+  if (viewComponent && hasMoreThanOnePermission(module) >= 1) {
     return element;
   }
 
   if (!user || !hasPermission(module, action)) {
     setTimeout(
-      () => toast.error('No tienes permiso para esta acción, seras redirigido'),
+      () =>
+        toast.error(
+          'No tienes permiso para esta acción, seras redirigido a la pagina principal'
+        ),
       1000
     );
-    return <Navigate to={`/app/home/${module}`} replace />;
+    return <Navigate to={`/app/home`} replace />;
   }
 
   return element;

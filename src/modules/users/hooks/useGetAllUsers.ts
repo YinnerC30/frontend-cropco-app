@@ -7,6 +7,7 @@ import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { User } from '../interfaces/User';
 import { getUsers } from '../services/getUsers';
+import { toast } from 'sonner';
 
 interface Props {
   value: string;
@@ -29,7 +30,12 @@ export function useGetAllUsers({
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
       }),
+    staleTime: 10 * 1000,
   });
+
+  if (query.isRefetching) {
+    toast.info('Cargando nuevamente la información...');
+  }
 
   if (query.isError) {
     handleError({

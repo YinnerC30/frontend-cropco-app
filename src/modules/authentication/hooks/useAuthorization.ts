@@ -10,9 +10,15 @@ export const useAuthorization = () => {
     return actions.some((action: any) => action.name === actionName);
   };
 
+  const hasMoreThanOnePermission = (moduleName: string) => {
+    const actions = getModuleActions(moduleName);
+    return actions.length;
+  };
+
   return {
     modulesUser,
     hasPermission,
     user,
+    hasMoreThanOnePermission,
   };
 };

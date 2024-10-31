@@ -51,10 +51,11 @@ export const UsersModule = () => {
     }
   }, [isSuccess]);
 
-  if (query.isLoading) return <Loading />;
+  if (query.isLoading && hasPermission('users', 'find_all_users'))
+    return <Loading />;
 
   return (
-    <div>
+    <div className="select-none">
       <BreadCrumb finalItem={'Usuarios'} />
 
       <div className="flex items-center justify-center w-full py-2">
@@ -88,7 +89,9 @@ export const UsersModule = () => {
           </div>
         </div>
         <ScrollArea
-          className={`w-[95%] pb-4 ${isPending && 'blur-sm'}`}
+          className={`w-[95%] pb-4 ${
+            (isPending || query.isRefetching) && 'blur-sm'
+          }`}
           type="auto"
         >
           <DataTableHook

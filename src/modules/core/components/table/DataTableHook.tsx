@@ -1,7 +1,4 @@
-import {
-  flexRender,
-  Table as TableType
-} from '@tanstack/react-table';
+import { flexRender, Table as TableType } from '@tanstack/react-table';
 
 import {
   Table,
@@ -29,11 +26,11 @@ import {
 } from '@/components/ui/select';
 
 interface Props {
-  table: TableType<any>
-  disabledDoubleClick: boolean
-  errorMessage: string
-  lengthColumns: number
-  rowCount: number
+  table: TableType<any>;
+  disabledDoubleClick: boolean;
+  errorMessage: string;
+  lengthColumns: number;
+  rowCount: number;
 }
 
 export function DataTableHook({
@@ -41,9 +38,8 @@ export function DataTableHook({
   disabledDoubleClick = false,
   errorMessage = 'No hay registros.',
   lengthColumns,
-  rowCount
+  rowCount,
 }: Props) {
-
   const navigate = useNavigate();
 
   const pageIndex = table.getState().pagination.pageIndex;
@@ -52,7 +48,6 @@ export function DataTableHook({
 
   const messageCountPage =
     pageCount > 0 ? pageText : `Página ${pageIndex} de ${pageCount}`;
-
 
   return (
     <div className="flex flex-col w-full my-1">
@@ -68,9 +63,9 @@ export function DataTableHook({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
                   );
                 })}
@@ -102,10 +97,7 @@ export function DataTableHook({
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={lengthColumns}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={lengthColumns} className="h-24 text-center">
                   {errorMessage}
                 </TableCell>
               </TableRow>
