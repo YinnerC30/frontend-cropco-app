@@ -28,6 +28,9 @@ export const useUserForm = ({ hiddenPassword = false }: Props) => {
   };
 
   const { actions } = useAppSelector((state: any): any => state.user);
+  const { modules } = useAppSelector(
+    (state: any): any => state.authentication.user
+  );
 
   const userHaveAction = ({ id }: any) => {
     return actions.includes(id);
@@ -44,5 +47,6 @@ export const useUserForm = ({ hiddenPassword = false }: Props) => {
     form,
     userActions: actions,
     userHaveAction,
+    modules,
   };
 };

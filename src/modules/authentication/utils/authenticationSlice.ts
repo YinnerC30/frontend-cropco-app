@@ -20,6 +20,7 @@ export const authenticationSlice = createSlice({
     },
     removeUserActive: (state) => {
       state.user = {
+        first_name: '',
         email: '',
         id: '',
         token: '',

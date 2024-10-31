@@ -36,8 +36,13 @@ export const FormUser = ({
   readOnly = false,
   hiddenPassword = false,
 }: FormUserProps) => {
-  const { showPassword, togglePasswordVisibility, form, userHaveAction } =
-    useUserForm({ hiddenPassword });
+  const {
+    showPassword,
+    togglePasswordVisibility,
+    form,
+    userHaveAction,
+    modules,
+  } = useUserForm({ hiddenPassword });
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -70,6 +75,26 @@ export const FormUser = ({
 
   const handleInselectAllActions = () => {
     dispatch(removeAllActions());
+  };
+
+  const handleSelectAllActionInModule = (nameModule: string) => {
+    const moduleActionsIds = modules
+      .find((module: any) => module.name === nameModule)
+      .actions.map((action: any) => action.id);
+
+    for (const element of moduleActionsIds) {
+      dispatch(updateActions({ id: element, state: true }));
+    }
+  };
+
+  const handleInselectAllActionsInModule = (nameModule: string) => {
+    const moduleActionsIds = modules
+      .find((module: any) => module.name === nameModule)
+      .actions.map((action: any) => action.id);
+
+    for (const element of moduleActionsIds) {
+      dispatch(updateActions({ id: element, state: false }));
+    }
   };
 
   if (isLoading) {
@@ -199,6 +224,18 @@ export const FormUser = ({
                     <CardTitle className="capitalize ">{label}</CardTitle>
                   </CardHeader>
                   <CardContent className="flex flex-col flex-wrap gap-4 m-2 rounded-md">
+                    <Button
+                      variant={'ghost'}
+                      onClick={() => handleSelectAllActionInModule(name)}
+                    >
+                      Marcar todo
+                    </Button>
+                    <Button
+                      variant={'outline'}
+                      onClick={() => handleInselectAllActionsInModule(name)}
+                    >
+                      Desmarcar todo
+                    </Button>
                     {actions.map((act: any) => {
                       return (
                         <ActionUser
