@@ -19,7 +19,7 @@ const ProtectedRoute = ({
       () => toast.error('No tienes permiso para esta acción, seras redirigido'),
       1000
     );
-    return <Navigate to="/app/home" replace />;
+    return <Navigate to={`/app/home/${module}`} replace />;
   }
 
   return element;
