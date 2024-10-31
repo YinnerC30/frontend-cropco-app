@@ -1,4 +1,6 @@
-import { CustomFormField } from '@/modules/core/interfaces/CustomFormField';
+import { CustomFormField } from "@/modules/core/interfaces";
+
+
 
 export const formFieldsUser: Record<string, CustomFormField> = {
   first_name: {

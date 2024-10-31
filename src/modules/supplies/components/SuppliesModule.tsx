@@ -3,7 +3,7 @@ import {
   DataTable,
   ErrorLoading,
   Loading,
-  SearchBar,
+  BasicSearchBar,
   ToolTipTemplate,
 } from "@/modules/core/components";
 import { PlusIcon } from "lucide-react";
@@ -39,7 +39,7 @@ export const SuppliesModule = () => {
           {/* TODO: Arreglar la búsqueda de registros */}
           {/* TODO: Agregar filtro de búsqueda por unidad de medida y marca */}
           {/* TODO: Arreglar paginado */}
-          <SearchBar query={searchParameter} />
+          <BasicSearchBar query={searchParameter} />
           <ToolTipTemplate content={"Crear"}>
             <Button
               className="bg-blue-600 rounded-full hover:bg-blue-400"

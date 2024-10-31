@@ -2,7 +2,7 @@ import { useAuthorization } from '@/modules/authentication/hooks/useAuthorizatio
 import { Navigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-const ProtectedRoute = ({
+export const ProtectedRoute = ({
   element,
   module,
   action,

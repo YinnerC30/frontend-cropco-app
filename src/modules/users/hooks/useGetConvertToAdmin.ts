@@ -1,4 +1,4 @@
-import { useManageErrorAuthorization } from '@/modules/authentication/hooks/useManageErrorAuthorization';
+import { useManageErrorAuthorization } from '@/modules/authentication/hooks';
 import {
   UseQueryResult,
   useQuery,

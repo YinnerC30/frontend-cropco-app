@@ -1,4 +1,4 @@
-import { useGetModuleActions } from '@/modules/authentication/hooks/useGetModuleActions';
+import { useGetModuleActions } from '@/modules/authentication/hooks';
 import { RootState, useAppSelector } from '@/redux/store';
 import { useMemo } from 'react';
 

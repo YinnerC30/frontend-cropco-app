@@ -4,11 +4,11 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
-import { useGetUser } from '../hooks/useGetUser';
+import { useGetUser } from '../hooks';
 
 import { Separator } from '@/components';
-import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
-import { defaultValues } from '../hooks/useUserForm';
+import { BreadCrumb } from '@/modules/core/components';
+import { defaultValues } from '../hooks';
 import { formSchemaUser } from '../utils';
 import { FormUser } from './FormUser';
 
@@ -60,4 +60,4 @@ export const ViewUser = () => {
   );
 };
 
-export default ViewUser
+export default ViewUser;

@@ -1,5 +1,6 @@
 import { Loading } from '@/modules/core/components';
-import ProtectedRoute from '@/routes/components/ProtectedRoute';
+import { ProtectedRoute } from '@/routes/components';
+
 import { lazy, Suspense } from 'react';
 import { Navigate } from 'react-router-dom';
 
@@ -69,4 +70,3 @@ const userRoutes = {
 };
 
 export { userRoutes };
-

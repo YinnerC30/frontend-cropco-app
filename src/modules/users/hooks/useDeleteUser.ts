@@ -1,8 +1,8 @@
-import { useManageErrorAuthorization } from '@/modules/authentication/hooks/useManageErrorAuthorization';
+import { useManageErrorAuthorization } from '@/modules/authentication/hooks';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { deleteUser } from '../services/deleteUser';
+import { deleteUser } from '../services';
 
 export const useDeleteUser = () => {
   const queryClient = useQueryClient();

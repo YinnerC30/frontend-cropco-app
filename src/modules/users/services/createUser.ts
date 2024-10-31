@@ -1,5 +1,5 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { User } from '../interfaces/User';
+import { User } from '../interfaces';
 
 export async function createUser(user: User): Promise<User> {
   return await cropcoAPI.post(`${pathsCropco.users}/create`, user);

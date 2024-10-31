@@ -9,20 +9,21 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Loading } from '@/modules/core/components';
-import { ButtonsForm } from '@/modules/core/components/ButtonsForm';
-import { FormFieldInput } from '@/modules/core/components/form/FormFieldInput';
-import { useGetAllModules } from '@/modules/core/hooks/useGetAllModules';
-import { FormProps } from '@/modules/core/interfaces/FormProps';
+import {
+  ButtonsForm,
+  FormFieldInput,
+  Loading,
+} from '@/modules/core/components';
+import { useGetAllModules } from '@/modules/core/hooks';
+import { FormProps } from '@/modules/core/interfaces';
 import { useAppDispatch } from '@/redux/store';
-import { loadActions, updateActions } from '../utils/userSlice';
+import { loadActions, updateActions } from '../utils';
 
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUserForm } from '../hooks/useUserForm';
-import { formFieldsUser } from '../utils';
-import { removeAllActions } from '../utils/userSlice';
+import { useUserForm } from '../hooks';
+import { formFieldsUser, removeAllActions } from '../utils';
 import { ActionUser } from './ActionUser';
 
 interface FormUserProps extends FormProps {

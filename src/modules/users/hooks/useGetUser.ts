@@ -1,4 +1,4 @@
-import { useManageErrorAuthorization } from '@/modules/authentication/hooks/useManageErrorAuthorization';
+import { useManageErrorAuthorization } from '@/modules/authentication/hooks';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { User } from '../interfaces/User';

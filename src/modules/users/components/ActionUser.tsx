@@ -1,14 +1,16 @@
 import { Switch } from '@/components/ui/switch';
-import { CapitalizeFirstWord } from '@/modules/authentication/helpers/CapitalizeFirstWord';
+import { CapitalizeFirstWord } from '@/modules/authentication/helpers';
 import { useAppDispatch } from '@/redux/store';
-import { updateActions } from '../utils/userSlice';
+import { updateActions } from '../utils';
 
 export const ActionUser = ({ action, readOnly, isChecked }: any) => {
   const dispatch = useAppDispatch();
 
   return (
     <div className="flex justify-between gap-2 ">
-      <span className="text-xs ">{CapitalizeFirstWord(action.description)}</span>
+      <span className="text-xs ">
+        {CapitalizeFirstWord(action.description)}
+      </span>
       <Switch
         disabled={readOnly}
         checked={isChecked}

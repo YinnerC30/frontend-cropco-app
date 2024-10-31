@@ -1,12 +1,13 @@
-import { ActionsTable } from '@/modules/core/components/table/ActionsTable';
+import { useDeleteUser } from '../hooks';
 
-import { useDeleteUser } from '../hooks/useDeleteUser';
-
-import { useAuthorization } from '@/modules/authentication/hooks/useAuthorization';
-import { ItemCopyIdRecord } from '@/modules/core/components/table/actions/ItemCopyIdRecord';
-import { ItemDeleteRecord } from '@/modules/core/components/table/actions/ItemDeleteRecord';
-import { ItemModifyRecord } from '@/modules/core/components/table/actions/ItemModifyRecord';
-import { ItemViewRecord } from '@/modules/core/components/table/actions/ItemViewRecord';
+import { useAuthorization } from '@/modules/authentication/hooks';
+import {
+  ActionsTable,
+  ItemCopyIdRecord,
+  ItemDeleteRecord,
+  ItemModifyRecord,
+  ItemViewRecord,
+} from '@/modules/core/components';
 import { useState } from 'react';
 
 interface Props {

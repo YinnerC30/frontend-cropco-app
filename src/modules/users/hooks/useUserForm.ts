@@ -1,4 +1,4 @@
-import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
+import { useCreateForm } from '@/modules/core/hooks';
 import { useState } from 'react';
 import { formSchemaUser, formSchemaUserWithPassword } from '../utils';
 import { useAppSelector } from '@/redux/store';

@@ -1,12 +1,11 @@
 import { Separator } from '@/components';
 
-import { ErrorLoading, Loading } from '@/modules/core/components';
+import { Loading } from '@/modules/core/components';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
-import { useGetUser } from '../hooks/useGetUser';
-import { usePatchUser } from '../hooks/usePatchUser';
+import { useGetUser, usePatchUser } from '../hooks/';
 
-import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { BreadCrumb } from '@/modules/core/components/';
 import { useAppSelector } from '@/redux/store';
 import { formSchemaUser } from '../utils';
 import { FormUser } from './FormUser';

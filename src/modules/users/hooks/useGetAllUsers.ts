@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { useManageErrorAuthorization } from '@/modules/authentication/hooks/useManageErrorAuthorization';
-import { ResponseUseGetAllRecords } from '@/modules/core/interfaces/ResponseUseGetAllRecords';
+import { ResponseUseGetAllRecords } from '@/modules/core/interfaces';
 import { PaginationState } from '@tanstack/react-table';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { User } from '../interfaces/User';
-import { getUsers } from '../services/getUsers';
+import { User } from '../interfaces';
+import { getUsers } from '../services';
 import { toast } from 'sonner';
 
 interface Props {

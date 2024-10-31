@@ -1,21 +1,21 @@
-import { Loading, SearchBar } from '@/modules/core/components';
+import { BasicSearchBar, Loading } from '@/modules/core/components';
 
-import { ScrollArea } from '@/components';
-import { ScrollBar } from '@/components/ui/scroll-area';
-import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
-import { ButtonCreateRecord } from '@/modules/core/components/ButtonCreateRecord';
-import { ButtonRefetchData } from '@/modules/core/components/ButtonRefetchData';
-import { useBasicQueryData } from '@/modules/core/hooks/useBasicQueryData';
+import { ScrollArea, ScrollBar } from '@/components';
+import { BreadCrumb } from '@/modules/core/components';
+import {
+  ButtonCreateRecord,
+  ButtonRefetchData,
+} from '@/modules/core/components/';
+import { useBasicQueryData } from '@/modules/core/hooks/';
 import { useGetAllUsers } from '../hooks/useGetAllUsers';
 import { createColumnsTableUsers } from './ColumnsTableUsers';
 
-import { useAuthorization } from '@/modules/authentication/hooks/useAuthorization';
-import { ButtonDeleteBulk } from '@/modules/core/components/ButtonDeleteBulk';
-import { DataTableHook } from '@/modules/core/components/table/DataTableHook';
-import { useDataTable } from '@/modules/core/hooks/useDataTable';
+import { useAuthorization } from '@/modules/authentication/hooks';
+import { ButtonDeleteBulk, DataTableHook } from '@/modules/core/components';
+import { useDataTable } from '@/modules/core/hooks';
 import { useEffect } from 'react';
 import { useWindowSize } from 'react-use';
-import { useDeleteBulkUsers } from '../hooks/useDeleteBulkUsers';
+import { useDeleteBulkUsers } from '../hooks';
 
 export const UsersModule = () => {
   const { value } = useBasicQueryData();
@@ -59,7 +59,7 @@ export const UsersModule = () => {
       <BreadCrumb finalItem={'Usuarios'} />
 
       <div className="flex items-center justify-center w-full py-2">
-        <SearchBar
+        <BasicSearchBar
           query={value}
           disabled={!hasPermission('users', 'find_all_users')}
         />

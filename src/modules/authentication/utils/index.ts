@@ -1,9 +1,6 @@
-export {
-  authenticationReducer,
-  setUserActive,
-  removeUserActive,
-} from "./authenticationSlice";
-export { extractValueFromParentheses } from "./extractValueFromParentheses";
-export { formFieldsLogin } from "./formFieldsLogin";
-export { formSchemaLogin } from "./formSchemaLogin";
-
+export * from './authenticationSlice';
+export * from './extractValueFromParentheses';
+export * from './formFieldsLogin';
+export * from './formSchemaLogin';
+export * from './manageUserInLocalStorage';
+export * from './pathsActions';

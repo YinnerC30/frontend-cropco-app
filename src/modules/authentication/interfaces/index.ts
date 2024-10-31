@@ -1,2 +1,2 @@
-export { type LoginUserData } from "./LoginUserData";
-export { type UserActive } from "./UserActive";
+export * from './LoginUserData';
+export * from './UserActive';

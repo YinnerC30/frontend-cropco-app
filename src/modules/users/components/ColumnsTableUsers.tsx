@@ -1,4 +1,4 @@
-import { ButtonHeaderTable } from '@/modules/core/components/table/ButtonHeaderTable';
+import { ButtonHeaderTable } from '@/modules/core/components';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { User } from '../interfaces/User';
@@ -6,23 +6,21 @@ import { formFieldsUser } from '../utils';
 import { ActionsTableUsers } from './ActionsTableUsers';
 import { Checkbox } from '@/components';
 
-
-
-export const createColumnsTableUsers = (actionsInFirstColumn: boolean): ColumnDef<User>[] => {
-
+export const createColumnsTableUsers = (
+  actionsInFirstColumn: boolean
+): ColumnDef<User>[] => {
   const columns: any = [
     {
-      id: "select",
+      id: 'select',
       header: ({ table }: any) => (
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
-          className='-ml-[6px] mr-2'
-
+          className="-ml-[6px] mr-2"
         />
       ),
       cell: ({ row }: any) => (
@@ -30,7 +28,6 @@ export const createColumnsTableUsers = (actionsInFirstColumn: boolean): ColumnDe
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
           aria-label="Select row"
-
         />
       ),
       enableSorting: false,
@@ -63,7 +60,10 @@ export const createColumnsTableUsers = (actionsInFirstColumn: boolean): ColumnDe
       accessorKey: formFieldsUser.email.name,
       header: ({ column }: any) => {
         return (
-          <ButtonHeaderTable column={column} label={formFieldsUser.email.label} />
+          <ButtonHeaderTable
+            column={column}
+            label={formFieldsUser.email.label}
+          />
         );
       },
     },
@@ -78,21 +78,20 @@ export const createColumnsTableUsers = (actionsInFirstColumn: boolean): ColumnDe
         );
       },
     },
-
-  ]
+  ];
 
   const actions = {
     id: 'actions',
     cell: ActionsTableUsers,
-  }
+  };
 
   if (actionsInFirstColumn) {
-    columns.unshift(actions)
+    columns.unshift(actions);
   } else {
-    columns.push(actions,)
+    columns.push(actions);
   }
 
   return columns;
-}
+};
 
 export default createColumnsTableUsers;

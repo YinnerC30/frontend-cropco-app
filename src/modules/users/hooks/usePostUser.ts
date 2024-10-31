@@ -1,4 +1,4 @@
-import { useManageErrorAuthorization } from '@/modules/authentication/hooks/useManageErrorAuthorization';
+import { useManageErrorAuthorization } from '@/modules/authentication/hooks';
 import { useAppDispatch } from '@/redux/store';
 import {
   UseMutationResult,
@@ -8,9 +8,9 @@ import {
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { User } from '../interfaces/User';
-import { createUser } from '../services/createUser';
-import { removeAllActions } from '../utils/userSlice';
+import { User } from '../interfaces';
+import { createUser } from '../services';
+import { removeAllActions } from '../utils';
 
 export function usePostUser(): UseMutationResult<
   User,

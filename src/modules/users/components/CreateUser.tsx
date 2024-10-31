@@ -1,8 +1,8 @@
 import { Separator } from '@/components';
-import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { BreadCrumb } from '@/modules/core/components';
 import { useAppSelector } from '@/redux/store';
 import { z } from 'zod';
-import { usePostUser } from '../hooks/usePostUser';
+import { usePostUser } from '../hooks';
 import { formSchemaUserWithPassword } from '../utils';
 import { FormUser } from './FormUser';
 
@@ -34,4 +34,4 @@ export const CreateUser = () => {
   );
 };
 
-export default CreateUser
+export default CreateUser;

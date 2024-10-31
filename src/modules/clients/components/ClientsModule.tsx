@@ -6,20 +6,20 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
 import { dowloadPDF } from '@/modules/core/helpers/dowloadPDF';
-import { useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import {
+  BasicSearchBar,
   DataTable,
   ErrorLoading,
   Loading,
-  SearchBar,
   ToolTipTemplate,
 } from '../../core/components';
 import { useGetAllClients } from '../hooks/useGetAllClients';
 import { useGetReportClients } from '../hooks/useGetReportClients';
 import { columnsTableClients } from './ColumnsTableClients';
 import { ExportInformation } from './ExportInformation';
-import { useQueryClient } from '@tanstack/react-query';
 
 export const ClientsModule = () => {
   const navigate = useNavigate();
@@ -64,7 +64,7 @@ export const ClientsModule = () => {
 
       <ScrollArea className="w-full h-[80vh]">
         <div className="flex items-center justify-between gap-2 w-[750px] p-1">
-          <SearchBar query={searchParameter} />
+          <BasicSearchBar query={searchParameter} />
           <ToolTipTemplate content={'Crear'}>
             <Button
               className="bg-blue-600 rounded-full hover:bg-blue-400"

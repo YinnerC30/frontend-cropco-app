@@ -1,5 +1,5 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { User } from '../interfaces/User';
+import { User } from '../interfaces';
 
 export async function updateUser({ id, ...rest }: User): Promise<void> {
   const { data } = await cropcoAPI.patch(
