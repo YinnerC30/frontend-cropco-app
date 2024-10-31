@@ -8,6 +8,9 @@ import {
 } from '@/components/ui/command';
 import { useAuthorization } from '@/modules/authentication/hooks/useAuthorization';
 import { routes } from '@/routes/components/RoutesNavBar';
+import { DialogTitle } from '@radix-ui/react-dialog';
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -32,6 +35,9 @@ export function CommandDialogApp() {
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen} modal={false}>
+      <DialogTitle>
+        <VisuallyHidden.Root>Menu</VisuallyHidden.Root>
+      </DialogTitle>
       <CommandInput placeholder="Escribe el nombre de un módulo..." />
       <CommandList>
         <CommandEmpty>No se encontraron resultados</CommandEmpty>
