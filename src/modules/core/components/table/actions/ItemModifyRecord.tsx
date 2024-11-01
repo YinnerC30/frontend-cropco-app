@@ -4,12 +4,17 @@ import { ItemNavigate } from './ItemNavigate';
 interface Props {
   id: string;
   disabled?: boolean;
+  path?: string;
 }
 
-export const ItemModifyRecord = ({ id, disabled = false }: Props) => {
+export const ItemModifyRecord = ({
+  id,
+  disabled = false,
+  path = `../modify/${id}`,
+}: Props) => {
   return (
     <ItemNavigate
-      path={`../modify/${id}`}
+      path={path}
       Icon={Pencil2Icon}
       name={'Modificar'}
       disabled={disabled}

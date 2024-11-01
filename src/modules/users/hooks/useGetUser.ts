@@ -1,11 +1,11 @@
-import { useManageErrorAuthorization } from '@/modules/authentication/hooks';
+import { useManageErrorApp } from '@/modules/authentication/hooks';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { User } from '../interfaces/User';
 import { getUserById } from '../services/getUserById';
 
 export function useGetUser(id: string): UseQueryResult<User, Error> {
-  const { handleError } = useManageErrorAuthorization();
+  const { handleError } = useManageErrorApp();
   const query = useQuery({
     queryKey: ['user', id],
     queryFn: () => getUserById(id),

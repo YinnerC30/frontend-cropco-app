@@ -1,4 +1,4 @@
-import { useManageErrorAuthorization } from '@/modules/authentication/hooks';
+import { useManageErrorApp } from '@/modules/authentication/hooks';
 import { useAppDispatch } from '@/redux/store';
 import {
   UseMutationResult,
@@ -21,7 +21,7 @@ export function usePostUser(): UseMutationResult<
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
-  const { handleError } = useManageErrorAuthorization();
+  const { handleError } = useManageErrorApp();
   const mutation = useMutation({
     mutationFn: createUser,
     onSuccess: () => {

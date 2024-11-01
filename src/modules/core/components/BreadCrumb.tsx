@@ -5,8 +5,8 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { useNavigate } from "react-router-dom";
+} from '@/components/ui/breadcrumb';
+import { useNavigate } from 'react-router-dom';
 
 interface ItemBreadCrumb {
   link: string;
@@ -19,7 +19,7 @@ interface Props {
 
 export const BreadCrumb = ({ items = [], finalItem }: Props) => {
   const navigate = useNavigate();
-  const PATH = "/app/home";
+  const PATH = '/app/home';
   return (
     <div className="my-2">
       <Breadcrumb>
@@ -27,7 +27,7 @@ export const BreadCrumb = ({ items = [], finalItem }: Props) => {
           <BreadcrumbItem>
             <BreadcrumbLink
               className="hover:cursor-pointer"
-              onClick={() => navigate(PATH + "/dashboard")}
+              onClick={() => navigate(PATH + '/dashboard')}
             >
               Home
             </BreadcrumbLink>

@@ -5,5 +5,5 @@ export * from './useGetModuleActions';
 export * from './useImplantSeed';
 export * from './useLoginForm';
 export * from './useLoginUser';
-export * from './useManageErrorAuthorization';
+export * from './useManageErrorApp';
 export * from './useRenewToken';

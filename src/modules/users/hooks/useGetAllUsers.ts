@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { useManageErrorAuthorization } from '@/modules/authentication/hooks/useManageErrorAuthorization';
+import { useManageErrorApp } from '@/modules/authentication/hooks/useManageErrorApp';
+import { usePaginationDataTable } from '@/modules/core/hooks';
 import { ResponseUseGetAllRecords } from '@/modules/core/interfaces';
-import { PaginationState } from '@tanstack/react-table';
 import { AxiosError } from 'axios';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 import { User } from '../interfaces';
 import { getUsers } from '../services';
-import { toast } from 'sonner';
 
 interface Props {
   value: string;
@@ -16,34 +16,37 @@ interface Props {
 export function useGetAllUsers({
   value,
 }: Props): ResponseUseGetAllRecords<User> {
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
+  const { pagination, setPagination, pageIndex, pageSize } =
+    usePaginationDataTable();
 
-  const { handleError } = useManageErrorAuthorization();
+  const { handleError } = useManageErrorApp();
+
   const query = useQuery({
     queryKey: ['users', { value, ...pagination }],
     queryFn: () =>
       getUsers({
         query: value,
-        limit: pagination.pageSize,
-        offset: pagination.pageIndex,
+        limit: pageSize,
+        offset: pageIndex,
       }),
     staleTime: 10 * 1000,
   });
 
-  if (query.isRefetching) {
-    toast.info('Cargando nuevamente la información...');
-  }
+  useEffect(() => {
+    if (query.isRefetching) {
+      toast.info('Cargando nuevamente la información...');
+    }
+  }, [query.isRefetching]);
 
-  if (query.isError) {
-    handleError({
-      error: query.error as AxiosError,
-      messageUnauthoraizedError:
-        'No tienes permiso para ver el listado de usuarios 😑',
-    });
-  }
+  useEffect(() => {
+    if (query.isError) {
+      handleError({
+        error: query.error as AxiosError,
+        messageUnauthoraizedError:
+          'No tienes permiso para ver el listado de usuarios 😑',
+      });
+    }
+  }, [query.isError, query.error]);
 
   return { query, pagination, setPagination };
 }

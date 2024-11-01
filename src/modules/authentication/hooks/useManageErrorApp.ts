@@ -9,9 +9,10 @@ interface HandleErrorProps {
   messageUnauthoraizedError: string;
 }
 
-export const useManageErrorAuthorization = () => {
+export const useManageErrorApp = () => {
   const { removeUser } = useAuthentication();
   const { redirectToLogin } = useRoutesManager();
+
   const handleError = ({
     error,
     messageUnauthoraizedError,
@@ -19,6 +20,9 @@ export const useManageErrorAuthorization = () => {
     const { response } = error;
 
     switch (response?.status) {
+      case 400:
+        toast.error('Existe un error en la solicitud');
+        return;
       case 401:
         removeUser();
         redirectToLogin();
@@ -26,6 +30,9 @@ export const useManageErrorAuthorization = () => {
         return;
       case 403:
         toast.error(messageUnauthoraizedError);
+        return;
+      case 404:
+        toast.error('No se ha encontrado el registro solicitado 🥲');
         return;
 
       default:

@@ -16,6 +16,7 @@ import { useDataTable } from '@/modules/core/hooks';
 import { useEffect } from 'react';
 import { useWindowSize } from 'react-use';
 import { useDeleteBulkUsers } from '../hooks';
+import { PATH_ROUTES_MODULE_USERS } from '../utils/pathsRoutes';
 
 export const UsersModule = () => {
   const { value } = useBasicQueryData();
@@ -83,7 +84,7 @@ export const UsersModule = () => {
 
             <ButtonCreateRecord
               className="flex items-center justify-end py-2 "
-              route={'../create'}
+              route={PATH_ROUTES_MODULE_USERS.Create}
               disabled={!hasPermission('users', 'create_user')}
             />
           </div>

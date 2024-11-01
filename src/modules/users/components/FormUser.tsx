@@ -25,6 +25,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUserForm } from '../hooks';
 import { formFieldsUser, removeAllActions } from '../utils';
 import { ActionUser } from './ActionUser';
+import { PATH_ROUTES_MODULE_USERS } from '../utils/pathsRoutes';
 
 interface FormUserProps extends FormProps {
   hiddenPassword?: boolean;
@@ -270,7 +271,7 @@ export const FormUser = ({
             className="my-2"
             onClick={() => {
               dispatch(removeAllActions());
-              navigate(-1);
+              navigate(PATH_ROUTES_MODULE_USERS.Home);
             }}
           >
             Volver

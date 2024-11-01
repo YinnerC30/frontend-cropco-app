@@ -1,4 +1,3 @@
-import { User } from '@/modules/users/interfaces/User';
 import {
   SortingState,
   VisibilityState,
@@ -9,6 +8,10 @@ import {
 } from '@tanstack/react-table';
 
 import { useMemo, useState } from 'react';
+
+interface RowData {
+  id: string;
+}
 
 export const useDataTable = ({
   columns,
@@ -46,23 +49,24 @@ export const useDataTable = ({
   const arrayIndexRowsSelected: number[] =
     Object.keys(rowSelection).map(Number);
 
-  const getIdsToRowsSelected = (): any => {
-    return arrayIndexRowsSelected.map((index: number) => {
-      const { rows } = table.getRowModel();
-      const user: any = rows[index].original;
-      return { id: user.id };
-    });
+  const getIdsToRowsSelected = (): RowData[] => {
+    return arrayIndexRowsSelected
+      .map((index: number) => {
+        const user = table.getRowModel().rows[index]?.original as RowData;
+        return user ? { id: user.id } : null;
+      })
+      .filter((item): item is RowData => item !== null);
   };
 
   const resetSelectionRows = () => {
     setRowSelection({});
-  }
+  };
 
   return {
     table,
     rowSelection,
     lengthColumns: columns.length,
     getIdsToRowsSelected,
-    resetSelectionRows
+    resetSelectionRows,
   };
 };

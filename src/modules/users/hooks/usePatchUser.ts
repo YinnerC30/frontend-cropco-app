@@ -1,6 +1,6 @@
 import {
   useAuthentication,
-  useManageErrorAuthorization,
+  useManageErrorApp,
 } from '@/modules/authentication/hooks';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -16,7 +16,7 @@ export function usePatchUser(): any {
   const user = useAppSelector((state: any): any => state.authentication.user);
   const dispatch = useAppDispatch();
   const { updateUserActions } = useAuthentication();
-  const { handleError } = useManageErrorAuthorization();
+  const { handleError } = useManageErrorApp();
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
