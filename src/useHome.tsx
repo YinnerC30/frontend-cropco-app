@@ -39,7 +39,6 @@ export const useHome = () => {
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      console.log('Mostrando timeout desde hook');
       showToast();
     }, TIME_QUESTION_RENEW_TOKEN);
 

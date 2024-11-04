@@ -80,7 +80,7 @@ export const FormUser = ({
   };
 
   const handleSelectAllActionInModule = (nameModule: string) => {
-    const moduleActionsIds = modules
+    const moduleActionsIds = data
       .find((module: any) => module.name === nameModule)
       .actions.map((action: any) => action.id);
 
@@ -90,7 +90,7 @@ export const FormUser = ({
   };
 
   const handleInselectAllActionsInModule = (nameModule: string) => {
-    const moduleActionsIds = modules
+    const moduleActionsIds = data
       .find((module: any) => module.name === nameModule)
       .actions.map((action: any) => action.id);
 
