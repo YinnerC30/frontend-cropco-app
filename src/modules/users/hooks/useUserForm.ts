@@ -1,7 +1,8 @@
 import { useCreateForm } from '@/modules/core/hooks';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formSchemaUser, formSchemaUserWithPassword } from '../utils';
 import { useAppSelector } from '@/redux/store';
+import { useFormChange } from '@/modules/core/components/form/FormChangeContext';
 
 export const defaultValues = {
   first_name: '',
@@ -40,6 +41,19 @@ export const useUserForm = ({ hiddenPassword = false }: Props) => {
     schema: hiddenPassword ? formSchemaUser : formSchemaUserWithPassword,
     defaultValues,
   });
+
+  const { isDirty } = form.formState;
+
+  const { markChanges } = useFormChange();
+
+  useEffect(() => {
+    if (isDirty) {
+      markChanges(true);
+    } else {
+      markChanges(false);
+    }
+  }, [isDirty]);
+
   return {
     showPassword,
     setShowPassword,

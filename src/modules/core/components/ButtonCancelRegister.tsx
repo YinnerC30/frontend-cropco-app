@@ -1,47 +1,26 @@
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
+import { useFormChange } from './form/FormChangeContext';
+import { useToastDiscardChanges } from './useToastDiscardChanges';
 
 interface Props {
   action: () => void;
 }
 
 export const ButtonCancelRegister = ({ action }: Props) => {
+  const { hasUnsavedChanges } = useFormChange();
+  const { showToast } = useToastDiscardChanges();
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant={"destructive"}>Cancelar</Button>
-      </AlertDialogTrigger>
-
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>
-            ¿Estas seguro de salir del formulario?
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            No podrá recuperar la información que ha registrado o modificado
-            hasta el momento
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel asChild>
-            <Button variant="secondary">Volver</Button>
-          </AlertDialogCancel>
-          <AlertDialogAction asChild>
-            <Button onClick={() => action()}>Salir</Button>
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <Button
+      variant={'destructive'}
+      onClick={() => {
+        if (hasUnsavedChanges) {
+          showToast('../');
+        } else {
+          action();
+        }
+      }}
+    >
+      Cancelar
+    </Button>
   );
 };
