@@ -14,18 +14,17 @@ import {
   FormFieldInput,
   Loading,
 } from '@/modules/core/components';
-import { useGetAllModules } from '@/modules/core/hooks';
 import { FormProps } from '@/modules/core/interfaces';
 import { useAppDispatch } from '@/redux/store';
-import { loadActions, updateActions } from '../utils';
+import { loadActions } from '../utils';
 
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserForm } from '../hooks';
 import { formFieldsUser, removeAllActions } from '../utils';
-import { ActionUser } from './ActionUser';
 import { PATH_ROUTES_MODULE_USERS } from '../utils/pathsRoutes';
+import { ActionUser } from './ActionUser';
 
 interface FormUserProps extends FormProps {
   hiddenPassword?: boolean;
@@ -43,7 +42,13 @@ export const FormUser = ({
     togglePasswordVisibility,
     form,
     userHaveAction,
-    modules,
+    isLoading,
+    isSuccess,
+    handleInselectAllActions,
+    handleInselectAllActionsInModule,
+    handleSelectAllActionInModule,
+    handleSelectAllActions,
+    data,
   } = useUserForm({ hiddenPassword });
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -62,42 +67,6 @@ export const FormUser = ({
       );
     }
   }, []);
-
-  const { data = [], isLoading, isSuccess } = useGetAllModules();
-
-  const handleSelectAllActions = () => {
-    const idsActionsModules = data
-      .map((item: any) => item.actions.map((act: any) => act.id))
-      .flat(1);
-
-    for (const element of idsActionsModules) {
-      dispatch(updateActions({ id: element, state: true }));
-    }
-  };
-
-  const handleInselectAllActions = () => {
-    dispatch(removeAllActions());
-  };
-
-  const handleSelectAllActionInModule = (nameModule: string) => {
-    const moduleActionsIds = data
-      .find((module: any) => module.name === nameModule)
-      .actions.map((action: any) => action.id);
-
-    for (const element of moduleActionsIds) {
-      dispatch(updateActions({ id: element, state: true }));
-    }
-  };
-
-  const handleInselectAllActionsInModule = (nameModule: string) => {
-    const moduleActionsIds = data
-      .find((module: any) => module.name === nameModule)
-      .actions.map((action: any) => action.id);
-
-    for (const element of moduleActionsIds) {
-      dispatch(updateActions({ id: element, state: false }));
-    }
-  };
 
   if (isLoading) {
     return <Loading />;

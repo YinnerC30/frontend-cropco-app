@@ -1,7 +1,12 @@
-import { useCreateForm } from '@/modules/core/hooks';
+import { useCreateForm, useGetAllModules } from '@/modules/core/hooks';
 import { useEffect, useState } from 'react';
-import { formSchemaUser, formSchemaUserWithPassword } from '../utils';
-import { useAppSelector } from '@/redux/store';
+import {
+  formSchemaUser,
+  formSchemaUserWithPassword,
+  removeAllActions,
+  updateActions,
+} from '../utils';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useFormChange } from '@/modules/core/components/form/FormChangeContext';
 
 export const defaultValues = {
@@ -21,17 +26,18 @@ interface Props {
 }
 
 export const useUserForm = ({ hiddenPassword = false }: Props) => {
+  const { data = [], isLoading, isSuccess } = useGetAllModules();
+  const { actions } = useAppSelector((state: any): any => state.user);
+  const { modules } = useAppSelector(
+    (state: any): any => state.authentication.user
+  );
   const [showPassword, setShowPassword] = useState(false);
+  const { markChanges } = useFormChange();
 
   const togglePasswordVisibility = (event: any) => {
     event.preventDefault();
     setShowPassword(!showPassword);
   };
-
-  const { actions } = useAppSelector((state: any): any => state.user);
-  const { modules } = useAppSelector(
-    (state: any): any => state.authentication.user
-  );
 
   const userHaveAction = ({ id }: any) => {
     return actions.includes(id);
@@ -42,9 +48,43 @@ export const useUserForm = ({ hiddenPassword = false }: Props) => {
     defaultValues,
   });
 
-  const { isDirty } = form.formState;
+  const dispatch = useAppDispatch();
 
-  const { markChanges } = useFormChange();
+  const handleSelectAllActions = () => {
+    const idsActionsModules = data
+      .map((item: any) => item.actions.map((act: any) => act.id))
+      .flat(1);
+
+    for (const element of idsActionsModules) {
+      dispatch(updateActions({ id: element, state: true }));
+    }
+  };
+
+  const handleInselectAllActions = () => {
+    dispatch(removeAllActions());
+  };
+
+  const handleSelectAllActionInModule = (nameModule: string) => {
+    const moduleActionsIds = data
+      .find((module: any) => module.name === nameModule)
+      .actions.map((action: any) => action.id);
+
+    for (const element of moduleActionsIds) {
+      dispatch(updateActions({ id: element, state: true }));
+    }
+  };
+
+  const handleInselectAllActionsInModule = (nameModule: string) => {
+    const moduleActionsIds = data
+      .find((module: any) => module.name === nameModule)
+      .actions.map((action: any) => action.id);
+
+    for (const element of moduleActionsIds) {
+      dispatch(updateActions({ id: element, state: false }));
+    }
+  };
+
+  const { isDirty } = form.formState;
 
   useEffect(() => {
     if (isDirty) {
@@ -62,5 +102,12 @@ export const useUserForm = ({ hiddenPassword = false }: Props) => {
     userActions: actions,
     userHaveAction,
     modules,
+    data,
+    isLoading,
+    isSuccess,
+    handleInselectAllActions,
+    handleInselectAllActionsInModule,
+    handleSelectAllActionInModule,
+    handleSelectAllActions,
   };
 };
