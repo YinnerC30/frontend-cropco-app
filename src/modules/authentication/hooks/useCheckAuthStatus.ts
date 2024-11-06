@@ -1,22 +1,38 @@
 import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { checkAuthStatus } from '../services/checkAuthStatus';
 import { useAuthentication } from './useAuthentication';
 
-export const useCheckAuthStatus = () => {
+interface Props {
+  executeQuery: boolean;
+  onErrorAction: any;
+}
+
+export const useCheckAuthStatus = ({ executeQuery, onErrorAction }: Props) => {
   const { removeUser } = useAuthentication();
   const { redirectToLogin } = useRoutesManager();
 
-  const queryClient = useQueryClient();
-  const mutation = useMutation({
-    mutationFn: checkAuthStatus,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user-sesion-status'] });
+  const query = useQuery({
+    queryKey: ['valid-sesion-user'],
+    queryFn: checkAuthStatus,
+    enabled: executeQuery,
+    refetchInterval: 10000,
+    retry: 2,
+  });
+
+  const { isError, error, isSuccess } = query;
+
+  useEffect(() => {
+    if (isSuccess) {
       toast.success('El token es valido 😁');
-    },
-    onError: (error: AxiosError | any) => {
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
       const loginError: AxiosError | any = error;
       const { data } = loginError.response;
       console.error(
@@ -25,9 +41,9 @@ export const useCheckAuthStatus = () => {
       removeUser();
       redirectToLogin();
       toast.error('Tu sesión ha expirado 😢');
-    },
-    retry: 0,
-  });
+      onErrorAction();
+    }
+  }, [isError]);
 
-  return mutation;
+  return query;
 };
