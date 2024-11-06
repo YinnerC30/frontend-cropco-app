@@ -17,7 +17,12 @@ export const useManageErrorApp = () => {
     error,
     messageUnauthoraizedError,
   }: HandleErrorProps) => {
-    const { response } = error;
+    const { response, message, code } = error;
+
+    if (message === 'Network Error' || code === 'ERR_NETWORK') {
+      toast.error('No tienes conexión a internet');
+      return;
+    }
 
     switch (response?.status) {
       case 400:

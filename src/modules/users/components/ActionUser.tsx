@@ -2,8 +2,19 @@ import { Switch } from '@/components/ui/switch';
 import { CapitalizeFirstWord } from '@/modules/authentication/helpers';
 import { useAppDispatch } from '@/redux/store';
 import { updateActions } from '../utils';
+import { Action } from '@/modules/core/interfaces/ResponseGetAllModules';
 
-export const ActionUser = ({ action, readOnly, isChecked }: any) => {
+interface ActionUserProps {
+  action: Action;
+  readOnly: boolean;
+  isChecked: boolean;
+}
+
+export const ActionUser = ({
+  action,
+  readOnly,
+  isChecked,
+}: ActionUserProps) => {
   const dispatch = useAppDispatch();
 
   return (
@@ -16,7 +27,7 @@ export const ActionUser = ({ action, readOnly, isChecked }: any) => {
         checked={isChecked}
         defaultChecked={isChecked}
         onCheckedChange={(value: boolean) => {
-          dispatch(updateActions({ id: action.id, state: value }));
+          dispatch(updateActions([{ id: action.id, state: value }]));
         }}
       />
     </div>

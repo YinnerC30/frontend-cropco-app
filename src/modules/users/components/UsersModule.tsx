@@ -1,4 +1,4 @@
-import { BasicSearchBar, Loading } from '@/modules/core/components';
+import { BasicSearchBar } from '@/modules/core/components';
 
 import { ScrollArea, ScrollBar } from '@/components';
 import { BreadCrumb } from '@/modules/core/components';
@@ -13,10 +13,9 @@ import { createColumnsTableUsers } from './ColumnsTableUsers';
 import { useAuthorization } from '@/modules/authentication/hooks';
 import { ButtonDeleteBulk, DataTableHook } from '@/modules/core/components';
 import { useDataTable } from '@/modules/core/hooks';
-import { useEffect } from 'react';
 import { useWindowSize } from 'react-use';
 import { useDeleteBulkUsers } from '../hooks';
-import { PATH_ROUTES_MODULE_USERS } from '../utils/pathsRoutes';
+import { MODULE_USER_PATHS } from '../utils/pathsRoutes';
 
 export const UsersModule = () => {
   const { value } = useBasicQueryData();
@@ -40,20 +39,15 @@ export const UsersModule = () => {
       setPagination,
     });
 
-  const { mutate, isPending, isSuccess } = useDeleteBulkUsers();
+  const showButtonDeleteBulk = getIdsToRowsSelected().length > 0;
+
+  const { mutate, isPending } = useDeleteBulkUsers({
+    actionOnSuccess: resetSelectionRows,
+  });
 
   const handleDeleteBulkUsers = () => {
     mutate({ userIds: getIdsToRowsSelected() });
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      resetSelectionRows();
-    }
-  }, [isSuccess]);
-
-  if (query.isLoading && hasPermission('users', 'find_all_users'))
-    return <Loading />;
 
   return (
     <div className="select-none">
@@ -79,22 +73,17 @@ export const UsersModule = () => {
                 isPending || !hasPermission('users', 'remove_bulk_users')
               }
               onClick={handleDeleteBulkUsers}
-              visible={getIdsToRowsSelected().length > 0}
+              visible={showButtonDeleteBulk}
             />
 
             <ButtonCreateRecord
               className="flex items-center justify-end py-2 "
-              route={PATH_ROUTES_MODULE_USERS.Create}
+              route={MODULE_USER_PATHS.Create}
               disabled={!hasPermission('users', 'create_user')}
             />
           </div>
         </div>
-        <ScrollArea
-          className={`w-[95%] pb-4 ${
-            (isPending || query.isRefetching) && 'blur-sm'
-          }`}
-          type="auto"
-        >
+        <ScrollArea className={`w-[95%] pb-4 `} type="auto">
           <DataTableHook
             errorMessage={`${
               !hasPermission('users', 'find_all_users')
@@ -105,6 +94,7 @@ export const UsersModule = () => {
             table={table}
             lengthColumns={lengthColumns}
             rowCount={query.data?.rowCount ?? 0}
+            isLoading={query.isLoading || query.isRefetching}
           />
           <ScrollBar orientation="horizontal" />
         </ScrollArea>

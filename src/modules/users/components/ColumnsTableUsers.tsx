@@ -9,7 +9,7 @@ import { Checkbox } from '@/components';
 export const createColumnsTableUsers = (
   actionsInFirstColumn: boolean
 ): ColumnDef<User>[] => {
-  const columns: any = [
+  const columns: ColumnDef<User>[] = [
     {
       id: 'select',
       header: ({ table }: any) => (
@@ -85,11 +85,7 @@ export const createColumnsTableUsers = (
     cell: ActionsTableUsers,
   };
 
-  if (actionsInFirstColumn) {
-    columns.unshift(actions);
-  } else {
-    columns.push(actions);
-  }
+  actionsInFirstColumn ? columns.unshift(actions) : columns.push(actions);
 
   return columns;
 };

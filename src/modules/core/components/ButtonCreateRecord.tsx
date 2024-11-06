@@ -19,7 +19,7 @@ export const ButtonCreateRecord = ({
       <ToolTipTemplate content={'Crear'}>
         <Button
           className={`${className}`}
-          onClick={() => navigate(route)}
+          onClick={() => navigate(route, { relative: 'route' })}
           disabled={disabled}
         >
           Crear

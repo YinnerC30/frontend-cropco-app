@@ -15,15 +15,17 @@ import {
   Loading,
 } from '@/modules/core/components';
 import { FormProps } from '@/modules/core/interfaces';
-import { useAppDispatch } from '@/redux/store';
-import { loadActions } from '../utils';
 
+import {
+  Action,
+  Module,
+} from '@/modules/core/interfaces/ResponseGetAllModules';
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserForm } from '../hooks';
-import { formFieldsUser, removeAllActions } from '../utils';
-import { PATH_ROUTES_MODULE_USERS } from '../utils/pathsRoutes';
+import { formFieldsUser } from '../utils';
+import { MODULE_USER_PATHS } from '../utils/pathsRoutes';
 import { ActionUser } from './ActionUser';
 
 interface FormUserProps extends FormProps {
@@ -31,40 +33,41 @@ interface FormUserProps extends FormProps {
 }
 
 export const FormUser = ({
-  onSubmit,
-  isPending,
   defaultValues,
-  readOnly = false,
   hiddenPassword = false,
+  isPending,
+  onSubmit,
+  readOnly = false,
 }: FormUserProps) => {
   const {
-    showPassword,
-    togglePasswordVisibility,
+    data,
     form,
-    userHaveAction,
-    isLoading,
-    isSuccess,
     handleInselectAllActions,
     handleInselectAllActionsInModule,
     handleSelectAllActionInModule,
     handleSelectAllActions,
-    data,
+    isLoading,
+    isSuccess,
+    loadActionsUser,
+    removeAllActionsUser,
+    showPassword,
+    togglePasswordVisibility,
+    userHasAction,
   } = useUserForm({ hiddenPassword });
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (defaultValues) {
+      const { modules = [] } = defaultValues;
+
       form.reset(defaultValues);
-      dispatch(
-        loadActions(
-          defaultValues?.modules
-            ?.map((i: any) => {
-              return i.actions.map((ac: any) => ac.id);
-            })
-            .flat(1) ?? []
-        )
-      );
+
+      const actionIds =
+        modules?.flatMap((module: Module) =>
+          module.actions.map((action: Action) => action.id)
+        ) ?? [];
+
+      loadActionsUser(actionIds);
     }
   }, []);
 
@@ -135,7 +138,7 @@ export const FormUser = ({
                               readOnly={readOnly}
                             />
                           </FormControl>
-                          <Button onClick={(e) => togglePasswordVisibility(e)}>
+                          <Button onClick={togglePasswordVisibility}>
                             {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                           </Button>
                         </div>
@@ -161,7 +164,7 @@ export const FormUser = ({
                               readOnly={readOnly}
                             />
                           </FormControl>
-                          <Button onClick={(e) => togglePasswordVisibility(e)}>
+                          <Button onClick={togglePasswordVisibility}>
                             {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                           </Button>
                         </div>
@@ -202,7 +205,7 @@ export const FormUser = ({
                       Marcar todo
                     </Button>
                     <Button
-                      variant={'outline'}
+                      variant={'ghost'}
                       onClick={() => handleInselectAllActionsInModule(name)}
                     >
                       Desmarcar todo
@@ -213,7 +216,7 @@ export const FormUser = ({
                           key={act.id}
                           action={act}
                           readOnly={readOnly}
-                          isChecked={userHaveAction({ id: act.id })}
+                          isChecked={userHasAction({ id: act.id })}
                         />
                       );
                     })}
@@ -227,7 +230,7 @@ export const FormUser = ({
         {!readOnly && (
           <ButtonsForm
             actionToCancel={() => {
-              dispatch(removeAllActions());
+              removeAllActionsUser();
             }}
             isPending={isPending ?? false}
             formId={'formUser'}
@@ -239,8 +242,8 @@ export const FormUser = ({
           <Button
             className="my-2"
             onClick={() => {
-              dispatch(removeAllActions());
-              navigate(PATH_ROUTES_MODULE_USERS.Home);
+              removeAllActionsUser();
+              navigate(MODULE_USER_PATHS.ViewAll);
             }}
           >
             Volver

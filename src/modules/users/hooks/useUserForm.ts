@@ -1,13 +1,19 @@
+import { useFormChange } from '@/modules/core/components/form/FormChangeContext';
 import { useCreateForm, useGetAllModules } from '@/modules/core/hooks';
+import {
+  Action,
+  Module,
+} from '@/modules/core/interfaces/ResponseGetAllModules';
+import { RootState, useAppDispatch, useAppSelector } from '@/redux/store';
 import { useEffect, useState } from 'react';
 import {
   formSchemaUser,
   formSchemaUserWithPassword,
+  loadActions,
   removeAllActions,
   updateActions,
+  UpdateActionsPayload,
 } from '../utils';
-import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { useFormChange } from '@/modules/core/components/form/FormChangeContext';
 
 export const defaultValues = {
   first_name: '',
@@ -27,19 +33,21 @@ interface Props {
 
 export const useUserForm = ({ hiddenPassword = false }: Props) => {
   const { data = [], isLoading, isSuccess } = useGetAllModules();
-  const { actions } = useAppSelector((state: any): any => state.user);
+  const { actions } = useAppSelector((state: RootState) => state.user);
   const { modules } = useAppSelector(
-    (state: any): any => state.authentication.user
+    (state: RootState) => state.authentication.user
   );
   const [showPassword, setShowPassword] = useState(false);
   const { markChanges } = useFormChange();
 
-  const togglePasswordVisibility = (event: any) => {
+  const togglePasswordVisibility = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
     setShowPassword(!showPassword);
   };
 
-  const userHaveAction = ({ id }: any) => {
+  const userHasAction = ({ id }: { id: string }) => {
     return actions.includes(id);
   };
 
@@ -50,14 +58,26 @@ export const useUserForm = ({ hiddenPassword = false }: Props) => {
 
   const dispatch = useAppDispatch();
 
-  const handleSelectAllActions = () => {
-    const idsActionsModules = data
-      .map((item: any) => item.actions.map((act: any) => act.id))
-      .flat(1);
+  const loadActionsUser = (actions: string[]) => {
+    dispatch(loadActions(actions));
+  };
 
-    for (const element of idsActionsModules) {
-      dispatch(updateActions({ id: element, state: true }));
-    }
+  const removeAllActionsUser = () => {
+    dispatch(removeAllActions());
+  };
+
+  const updateActionsInState = (actions: UpdateActionsPayload[]) => {
+    dispatch(updateActions(actions));
+  };
+
+  const handleSelectAllActions = () => {
+    const actions = data.flatMap((item: Module): UpdateActionsPayload[] =>
+      item.actions.map(
+        (act: Action): UpdateActionsPayload => ({ id: act.id, state: true })
+      )
+    );
+
+    updateActionsInState(actions);
   };
 
   const handleInselectAllActions = () => {
@@ -65,23 +85,19 @@ export const useUserForm = ({ hiddenPassword = false }: Props) => {
   };
 
   const handleSelectAllActionInModule = (nameModule: string) => {
-    const moduleActionsIds = data
-      .find((module: any) => module.name === nameModule)
-      .actions.map((action: any) => action.id);
+    const actions = data
+      .find((module: Module) => module.name === nameModule)
+      .actions.map((action: Action) => ({ id: action.id, state: true }));
 
-    for (const element of moduleActionsIds) {
-      dispatch(updateActions({ id: element, state: true }));
-    }
+    updateActionsInState(actions);
   };
 
   const handleInselectAllActionsInModule = (nameModule: string) => {
-    const moduleActionsIds = data
-      .find((module: any) => module.name === nameModule)
-      .actions.map((action: any) => action.id);
+    const actions = data
+      .find((module: Module) => module.name === nameModule)
+      .actions.map((action: Action) => ({ id: action.id, state: false }));
 
-    for (const element of moduleActionsIds) {
-      dispatch(updateActions({ id: element, state: false }));
-    }
+    updateActionsInState(actions);
   };
 
   const { isDirty } = form.formState;
@@ -100,7 +116,7 @@ export const useUserForm = ({ hiddenPassword = false }: Props) => {
     togglePasswordVisibility,
     form,
     userActions: actions,
-    userHaveAction,
+    userHasAction,
     modules,
     data,
     isLoading,
@@ -109,5 +125,7 @@ export const useUserForm = ({ hiddenPassword = false }: Props) => {
     handleInselectAllActionsInModule,
     handleSelectAllActionInModule,
     handleSelectAllActions,
+    loadActionsUser,
+    removeAllActionsUser
   };
 };

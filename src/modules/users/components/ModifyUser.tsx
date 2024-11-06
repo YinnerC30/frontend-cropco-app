@@ -6,23 +6,24 @@ import { z } from 'zod';
 import { useGetUser, usePatchUser } from '../hooks/';
 
 import { BreadCrumb } from '@/modules/core/components/';
-import { useAppSelector } from '@/redux/store';
+import { RootState, useAppSelector } from '@/redux/store';
 import { formSchemaUser } from '../utils';
 import { FormUser } from './FormUser';
+import { MODULE_USER_PATHS } from '../utils/pathsRoutes';
 
 export const ModifyUser = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetUser(id!);
   const { mutate, isPending } = usePatchUser();
 
-  const { actions } = useAppSelector((state: any): any => state.user);
+  const { actions } = useAppSelector((state: RootState): any => state.user);
 
   const onSubmit = (values: z.infer<typeof formSchemaUser>) => {
     mutate({
       ...values,
       id,
-      actions: actions.map((ac: any) => ({
-        id: ac,
+      actions: actions.map((actionId: string) => ({
+        id: actionId,
       })),
     });
   };
@@ -32,7 +33,7 @@ export const ModifyUser = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: '/users/all', name: 'Usuarios' }]}
+        items={[{ link: MODULE_USER_PATHS.ViewAll, name: 'Usuarios' }]}
         finalItem={`Modificar`}
       />
 
@@ -41,13 +42,7 @@ export const ModifyUser = () => {
       <FormUser
         onSubmit={onSubmit}
         isPending={isPending}
-        defaultValues={{
-          ...data,
-          passwords: {
-            password1: '',
-            password2: '',
-          },
-        }}
+        defaultValues={data}
         hiddenPassword
       />
     </>

@@ -4,12 +4,19 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { deleteBulkUsers } from '../services';
 
-export const useDeleteBulkUsers = () => {
+interface DeleteBulkUsersProps {
+  actionOnSuccess: () => void;
+}
+
+export const useDeleteBulkUsers = ({
+  actionOnSuccess,
+}: DeleteBulkUsersProps) => {
   const queryClient = useQueryClient();
   const { handleError } = useManageErrorApp();
   const mutation = useMutation({
     mutationFn: deleteBulkUsers,
     onSuccess: () => {
+      actionOnSuccess();
       queryClient.invalidateQueries({ queryKey: ['users'] });
       toast.success(`Usuarios eliminados`);
     },

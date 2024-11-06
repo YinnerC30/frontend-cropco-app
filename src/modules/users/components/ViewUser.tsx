@@ -25,13 +25,7 @@ export const ViewUser = () => {
       <FormUser
         onSubmit={undefined}
         isPending={false}
-        defaultValues={{
-          ...data,
-          password: {
-            password1: '',
-            password2: '',
-          },
-        }}
+        defaultValues={data}
         readOnly={true}
         hiddenPassword
       />

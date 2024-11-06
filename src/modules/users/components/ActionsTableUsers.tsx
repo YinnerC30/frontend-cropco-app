@@ -8,10 +8,11 @@ import {
   ItemModifyRecord,
   ItemViewRecord,
 } from '@/modules/core/components';
+import { Row } from '@tanstack/react-table';
 import { useState } from 'react';
 
 interface Props {
-  row: any;
+  row: Row<any>;
 }
 
 export const ActionsTableUsers = ({ row }: Props) => {

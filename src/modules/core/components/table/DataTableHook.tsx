@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Loading } from '../Loading';
 
 interface Props {
   table: TableType<any>;
@@ -31,6 +32,7 @@ interface Props {
   errorMessage: string;
   lengthColumns: number;
   rowCount: number;
+  isLoading?: boolean;
 }
 
 export function DataTableHook({
@@ -39,15 +41,13 @@ export function DataTableHook({
   errorMessage = 'No hay registros.',
   lengthColumns,
   rowCount,
+  isLoading = false,
 }: Props) {
   const navigate = useNavigate();
 
   const pageIndex = table.getState().pagination.pageIndex;
-  const pageCount = table.getPageCount();
+  const pageCount = table.getPageCount() > 0 ? table.getPageCount() : 0;
   const pageText = `Página ${pageIndex + 1} de ${pageCount}`;
-
-  const messageCountPage =
-    pageCount > 0 ? pageText : `Página ${pageIndex} de ${pageCount}`;
 
   return (
     <div className="flex flex-col w-full my-1">
@@ -73,7 +73,13 @@ export function DataTableHook({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={lengthColumns} className="h-24 text-center">
+                  <Loading />
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows?.map((row) => (
                 <TableRow
                   onDoubleClick={() => {
@@ -131,7 +137,7 @@ export function DataTableHook({
         </div>
         {/* Cantidad de paginas */}
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          {messageCountPage}
+          {pageText}
         </div>
         {/* Flechas de Paginación */}
         <div className="flex items-center space-x-2">

@@ -2,10 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useManageErrorApp } from '@/modules/authentication/hooks/useManageErrorApp';
 import { usePaginationDataTable } from '@/modules/core/hooks';
-import { ResponseUseGetAllRecords } from '@/modules/core/interfaces';
+import {
+  ResponseApiGetAllRecords,
+  ResponseUseGetAllRecords,
+} from '@/modules/core/interfaces';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
-import { toast } from 'sonner';
 import { User } from '../interfaces';
 import { getUsers } from '../services';
 
@@ -29,14 +31,9 @@ export function useGetAllUsers({
         limit: pageSize,
         offset: pageIndex,
       }),
+
     staleTime: 10 * 1000,
   });
-
-  useEffect(() => {
-    if (query.isRefetching) {
-      toast.info('Cargando nuevamente la información...');
-    }
-  }, [query.isRefetching]);
 
   useEffect(() => {
     if (query.isError) {

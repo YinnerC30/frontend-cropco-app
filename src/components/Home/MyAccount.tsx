@@ -72,6 +72,14 @@ export const MyAccount = () => {
         >
           Copiar mi Id
         </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            navigator.clipboard.writeText(user.token);
+            toast.success(`Id copiado al portapapeles ${user.token}`);
+          }}
+        >
+          Copiar mi Token
+        </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link to={`http://localhost:5173/app/home/users/modify/${user.id}`}>
             Modificar mis permisos
