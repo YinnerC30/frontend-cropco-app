@@ -1,22 +1,45 @@
 import { getTokenToLocalStorage } from '@/modules/authentication/utils/manageUserInLocalStorage';
-import axios from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
-export const cropcoAPI = axios.create({
-  baseURL: `${import.meta.env.VITE_HOST_API_CROPCO}`,
+interface PathsCropco {
+  users: string;
+  crops: string;
+  clients: string;
+  employees: string;
+  suppliers: string;
+  supplies: string;
+  harvests: string;
+  harvestsProcessed: string;
+  harvestsStock: string;
+  sales: string;
+  works: string;
+  payments: string;
+  authentication: string;
+  purchase: string;
+  consumption: string;
+}
+
+// Crear una instancia de Axios con la URL base y encabezados configurados
+export const cropcoAPI: AxiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_HOST_API_CROPCO as string,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-cropcoAPI.interceptors.request.use((config) => {
-  const token = getTokenToLocalStorage();
-  if (token) {
-    config.headers['Authorization'] = `Bearer ${token}`;
+// Añadir el interceptor de solicitud para agregar el token de autorización
+cropcoAPI.interceptors.request.use(
+  (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
+    const token = getTokenToLocalStorage();
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
   }
-  return config;
-});
+);
 
-export const pathsCropco = {
+// Definir las rutas como constantes tipadas
+export const pathsCropco: PathsCropco = {
   users: '/users',
   crops: '/crops',
   clients: '/clients',
