@@ -4,11 +4,11 @@ import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
 export const RoutesController = () => {
-  const { isLogin, tokenSesion } = useAuthentication();
+  const { isLogin } = useAuthentication();
   const { mutate } = useCheckAuthStatus();
 
   useEffect(() => {
-    isLogin && mutate({ token: tokenSesion });
+    isLogin && mutate();
   }, []);
 
   return (

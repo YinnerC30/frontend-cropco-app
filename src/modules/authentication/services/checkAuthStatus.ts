@@ -1,13 +1,8 @@
-import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
-interface CheckAuthStatusData {
-  token: string;
-}
-
-export const checkAuthStatus = async (authData: CheckAuthStatusData) => {
+export const checkAuthStatus = async () => {
   const response = await cropcoAPI.post(
-    `${pathsCropco.authentication}/check-status`,
-    authData
+    `${pathsCropco.authentication}/check-status`
   );
 
   return response;
