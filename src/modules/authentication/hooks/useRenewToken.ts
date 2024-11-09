@@ -1,26 +1,27 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { toast } from 'sonner';
 import { renewToken } from '../services/renewToken';
 import { useAuthentication } from './useAuthentication';
-import { toast } from 'sonner';
+import { useManageErrorApp } from './useManageErrorApp';
 
 export const useRenewToken = () => {
   const { updateTokenInClient } = useAuthentication();
+  const { handleError } = useManageErrorApp();
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: renewToken,
-    onSuccess: (data) => {
+    onSuccess: ({ data }) => {
       queryClient.invalidateQueries({ queryKey: ['user-sesion-status'] });
       updateTokenInClient(data.token);
       toast.success('Tu sesión se ha extendido un poco más 😊');
     },
     onError: (error: AxiosError | any) => {
       const loginError: AxiosError | any = error;
-      const { data } = loginError.response;
-      console.error(
-        `Hubo un problema al intentar renovar el token de la  sesión, ${data.message}`
-      );
-      toast.error('No se pudo extender la sesión 😢');
+      handleError({
+        error: loginError,
+        messageUnauthoraizedError: 'Su sesión es invalida',
+      });
     },
     retry: 0,
   });

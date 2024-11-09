@@ -10,6 +10,9 @@ import {
   saveUserInLocalStorage,
 } from '../utils/manageUserInLocalStorage';
 
+export const TIME_ACTIVE_TOKEN = 15_000;
+export const TIME_QUESTION_RENEW_TOKEN = 6_000;
+
 export const useAuthentication = () => {
   const { user } = useAppSelector((state: RootState) => state.authentication);
 
@@ -59,14 +62,9 @@ export const useAuthentication = () => {
     renewTokenInState(token);
   };
 
-  const TIME_ACTIVE_TOKEN = 60 * 1000 * 60 * 6;
-  const TIME_QUESTION_RENEW_TOKEN = 60 * 1000 * 60 * 5.6;
-
   return {
     saveUser,
     isLogin,
-    TIME_ACTIVE_TOKEN,
-    TIME_QUESTION_RENEW_TOKEN,
     removeUser,
     updateUserActions,
     updateTokenInClient,

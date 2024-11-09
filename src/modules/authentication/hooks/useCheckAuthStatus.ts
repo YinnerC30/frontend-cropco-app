@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { checkAuthStatus } from '../services/checkAuthStatus';
-import { useAuthentication } from './useAuthentication';
+import { TIME_ACTIVE_TOKEN, useAuthentication } from './useAuthentication';
 
 interface Props {
   executeQuery: boolean;
@@ -19,17 +19,11 @@ export const useCheckAuthStatus = ({ executeQuery, onErrorAction }: Props) => {
     queryKey: ['valid-sesion-user'],
     queryFn: checkAuthStatus,
     enabled: executeQuery,
-    refetchInterval: 10000,
+    refetchInterval: TIME_ACTIVE_TOKEN,
     retry: 2,
   });
 
-  const { isError, error, isSuccess } = query;
-
-  useEffect(() => {
-    if (isSuccess) {
-      toast.success('El token es valido 😁');
-    }
-  }, [isSuccess]);
+  const { isError, error } = query;
 
   useEffect(() => {
     if (isError) {
@@ -38,11 +32,13 @@ export const useCheckAuthStatus = ({ executeQuery, onErrorAction }: Props) => {
       console.error(
         `Hubo un problema al intentar verificar la  sesión, ${data.message}`
       );
-      removeUser();
-      redirectToLogin();
       toast.error('Tu sesión ha expirado 😢');
-      onErrorAction();
     }
+    return () => {
+      onErrorAction();
+      redirectToLogin();
+      removeUser();
+    };
   }, [isError]);
 
   return query;

@@ -1,19 +1,17 @@
 import { useEffect } from 'react';
 import { ToastAction } from './components/ui/toast';
 import { useToast } from './components/ui/use-toast';
-import { useAuthentication } from './modules/authentication/hooks/useAuthentication';
+import { TIME_QUESTION_RENEW_TOKEN } from './modules/authentication/hooks';
 import { useAuthorization } from './modules/authentication/hooks/useAuthorization';
 import { useRenewToken } from './modules/authentication/hooks/useRenewToken';
 
 export const useHome = () => {
   const { modulesUser } = useAuthorization();
 
-  const { tokenSesion, TIME_QUESTION_RENEW_TOKEN } = useAuthentication();
-
   const mutationRenewToken = useRenewToken();
 
   const handleExtendedSesion = () => {
-    mutationRenewToken.mutate({ token: tokenSesion });
+    mutationRenewToken.mutate();
   };
 
   const { toast } = useToast();
@@ -21,6 +19,7 @@ export const useHome = () => {
   const showToast = () => {
     return toast({
       title: 'Aumentar tiempo de sesión',
+
       duration: 3000,
       description:
         'La sesión esta por expirar, si desea continuar por favor presione Clic',

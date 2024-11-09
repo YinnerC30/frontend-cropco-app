@@ -10,9 +10,26 @@ import { Route, routes } from './routes/components/RoutesNavBar';
 import { SheetNavBar } from './SheetNavBar';
 import { useHome } from './useHome';
 import useAuthentication from './modules/authentication/hooks/useAuthentication';
+import { useCheckAuthStatus } from './modules/authentication/hooks';
+import { useEffect, useState } from 'react';
 
 export const HomeLayout = () => {
   const { isLogin } = useAuthentication();
+
+  const [executeQuery, setExecuteQuery] = useState(false);
+
+  const disabledQuery = () => {
+    setExecuteQuery(false);
+  };
+
+  useCheckAuthStatus({
+    executeQuery: executeQuery,
+    onErrorAction: disabledQuery,
+  });
+
+  useEffect(() => {
+    isLogin && setExecuteQuery(true);
+  }, []);
 
   if (!isLogin) {
     return <Navigate to={'../authentication'} replace />;
