@@ -1,26 +1,28 @@
-import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
-import { toast } from 'sonner';
 import { checkAuthStatus } from '../services/checkAuthStatus';
-import { TIME_ACTIVE_TOKEN, useAuthentication } from './useAuthentication';
+import { TIME_ACTIVE_TOKEN } from './useAuthentication';
+import { useManageErrorApp } from './useManageErrorApp';
 
 interface Props {
+  token: string;
   executeQuery: boolean;
   onErrorAction: any;
 }
 
-export const useCheckAuthStatus = ({ executeQuery, onErrorAction }: Props) => {
-  const { removeUser } = useAuthentication();
-  const { redirectToLogin } = useRoutesManager();
-
+export const useCheckAuthStatus = ({
+  executeQuery,
+  onErrorAction,
+  token = '',
+}: Props) => {
+  const { handleError } = useManageErrorApp();
   const query = useQuery({
     queryKey: ['valid-sesion-user'],
-    queryFn: checkAuthStatus,
-    enabled: executeQuery,
+    queryFn: () => checkAuthStatus(token),
+    enabled: executeQuery && token.length > 1,
     refetchInterval: TIME_ACTIVE_TOKEN,
-    retry: 2,
+    retry: 0,
   });
 
   const { isError, error } = query;
@@ -28,17 +30,12 @@ export const useCheckAuthStatus = ({ executeQuery, onErrorAction }: Props) => {
   useEffect(() => {
     if (isError) {
       const loginError: AxiosError | any = error;
-      const { data } = loginError.response;
-      console.error(
-        `Hubo un problema al intentar verificar la  sesión, ${data.message}`
-      );
-      toast.error('Tu sesión ha expirado 😢');
+      handleError({
+        error: loginError,
+        messageUnauthoraizedError: 'Tu token ha expirado',
+      });
     }
-    return () => {
-      onErrorAction();
-      redirectToLogin();
-      removeUser();
-    };
+    return () => onErrorAction();
   }, [isError]);
 
   return query;

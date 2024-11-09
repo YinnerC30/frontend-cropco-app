@@ -14,7 +14,6 @@ import { useAuthentication } from '@/modules/authentication/hooks/useAuthenticat
 import { useImplantSeed } from '@/modules/authentication/hooks/useImplantSeed';
 import { useTheme } from '@/modules/core/components/ThemeProvider';
 import { useGetConvertToAdmin } from '@/modules/users/hooks/useGetConvertToAdmin';
-import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
 import { Bolt } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -23,8 +22,6 @@ import { toast } from 'sonner';
 export const MyAccount = () => {
   const { removeUser, user, updateUserActions } = useAuthentication();
   const { setTheme } = useTheme();
-
-  const { redirectToLogin } = useRoutesManager();
 
   const [isRunningSeed, setIsRunningSeed] = useState(false);
   const [isConvertToAdmin, setIsConvertToAdmin] = useState(false);
@@ -105,7 +102,6 @@ export const MyAccount = () => {
         <DropdownMenuItem
           onClick={() => {
             removeUser();
-            redirectToLogin();
           }}
         >
           Salir

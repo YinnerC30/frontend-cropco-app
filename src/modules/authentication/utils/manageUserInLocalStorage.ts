@@ -4,11 +4,12 @@ const KEY_USER_LOCAL_STORAGE = 'user-active';
 
 export const getTokenToLocalStorage = () => {
   const defaultValues = {
-    token: '',
+    token: null,
   };
   const data = localStorage.getItem(KEY_USER_LOCAL_STORAGE);
+
   if (!data) {
-    return defaultValues;
+    return defaultValues.token;
   }
   return JSON.parse(data).token;
 };
@@ -19,6 +20,7 @@ export const getUserInLocalStorage = () => {
     id: '',
     token: '',
     modules: [],
+    isLogin: false,
   };
   const data = localStorage.getItem(KEY_USER_LOCAL_STORAGE);
   if (!data) {

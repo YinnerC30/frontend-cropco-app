@@ -1,9 +1,21 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
-export const checkAuthStatus = async () => {
+declare module 'axios' {
+  export interface AxiosRequestConfig {
+    skipInterceptor?: boolean; // Agrega esta propiedad opcional
+  }
+}
+
+export const checkAuthStatus = async (token: string) => {
+  console.log(token);
   const response = await cropcoAPI.get(
-    `${pathsCropco.authentication}/check-status`
+    `${pathsCropco.authentication}/check-status`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      skipInterceptor: true,
+    }
   );
-  console.log('Se ejecuto la query');
   return response;
 };

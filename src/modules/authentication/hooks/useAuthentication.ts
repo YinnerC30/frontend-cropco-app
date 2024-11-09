@@ -1,6 +1,7 @@
 import { RootState, useAppSelector } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 
+import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
 import { UserActive } from '../interfaces';
 import { removeUserActive, setUserActive } from '../utils';
 import { setToken } from '../utils/authenticationSlice';
@@ -9,16 +10,18 @@ import {
   renewTokenInLocalStorage,
   saveUserInLocalStorage,
 } from '../utils/manageUserInLocalStorage';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const TIME_ACTIVE_TOKEN = 15_000;
 export const TIME_QUESTION_RENEW_TOKEN = 6_000;
 
 export const useAuthentication = () => {
   const { user } = useAppSelector((state: RootState) => state.authentication);
+  const queryClient = useQueryClient();
+
+  const { redirectToLogin } = useRoutesManager();
 
   const tokenSesion = user?.token;
-
-  const isLogin = user?.token?.length > 0;
 
   const getModuleActions = (nameModule: string) => {
     return (
@@ -46,6 +49,8 @@ export const useAuthentication = () => {
   const removeUser = () => {
     removeUserInLocalStorage();
     removeUserInState();
+    redirectToLogin();
+    queryClient.clear();
   };
 
   const updateUserActions = (modules: any) => {
@@ -64,7 +69,7 @@ export const useAuthentication = () => {
 
   return {
     saveUser,
-    isLogin,
+    isLogin: user.isLogin,
     removeUser,
     updateUserActions,
     updateTokenInClient,

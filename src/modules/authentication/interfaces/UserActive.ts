@@ -3,6 +3,6 @@ export interface UserActive {
   token: string;
   email: string;
   first_name: string;
-  
   modules: any;
+  isLogin: boolean;
 }

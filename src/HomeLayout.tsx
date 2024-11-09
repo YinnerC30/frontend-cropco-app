@@ -1,20 +1,21 @@
 import { CommandDialogApp } from '@/modules/core/components/CommandDialogApp';
 
-import { Link, Navigate, Outlet } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, Outlet } from 'react-router-dom';
 import { Header } from './components/Home/Header';
 import { Main } from './components/Home/Main';
 import { MyAccount } from './components/Home/MyAccount';
 import { NavBar } from './components/Home/NavBar';
 import { NavElement } from './components/Home/NavElement';
+import { useCheckAuthStatus } from './modules/authentication/hooks';
+import useAuthentication from './modules/authentication/hooks/useAuthentication';
 import { Route, routes } from './routes/components/RoutesNavBar';
 import { SheetNavBar } from './SheetNavBar';
 import { useHome } from './useHome';
-import useAuthentication from './modules/authentication/hooks/useAuthentication';
-import { useCheckAuthStatus } from './modules/authentication/hooks';
-import { useEffect, useState } from 'react';
 
 export const HomeLayout = () => {
-  const { isLogin } = useAuthentication();
+  const { isLogin, tokenSesion = '' } = useAuthentication();
+  const { modulesUser } = useHome();
 
   const [executeQuery, setExecuteQuery] = useState(false);
 
@@ -23,19 +24,16 @@ export const HomeLayout = () => {
   };
 
   useCheckAuthStatus({
+    token: tokenSesion,
     executeQuery: executeQuery,
     onErrorAction: disabledQuery,
   });
 
   useEffect(() => {
-    isLogin && setExecuteQuery(true);
-  }, []);
-
-  if (!isLogin) {
-    return <Navigate to={'../authentication'} replace />;
-  }
-
-  const { modulesUser } = useHome();
+    if (isLogin) {
+      setExecuteQuery(true);
+    }
+  }, [isLogin]);
 
   return (
     <div className="grid h-screen grid-cols-12 grid-rows-12">

@@ -1,6 +1,12 @@
 import { getTokenToLocalStorage } from '@/modules/authentication/utils/manageUserInLocalStorage';
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
+declare module 'axios' {
+  export interface InternalAxiosRequestConfig {
+    skipInterceptor?: boolean; // Agrega esta propiedad opcional
+  }
+}
+
 interface PathsCropco {
   users: string;
   crops: string;
@@ -30,8 +36,12 @@ export const cropcoAPI: AxiosInstance = axios.create({
 // Añadir el interceptor de solicitud para agregar el token de autorización
 cropcoAPI.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
+    if (config.skipInterceptor) {
+      console.log('Se ignoro el interceptor');
+      return config; // Ignora el interceptor y devuelve la configuración
+    }
     const token = getTokenToLocalStorage();
-    if (token) {
+    if (!!token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config;

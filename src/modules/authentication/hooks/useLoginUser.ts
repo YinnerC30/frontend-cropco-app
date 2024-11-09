@@ -1,4 +1,3 @@
-import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
@@ -9,15 +8,12 @@ import { useAuthentication } from './useAuthentication';
 export const useLoginUser = () => {
   const { saveUser } = useAuthentication();
 
-  const { redirectToHome } = useRoutesManager();
-
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['user-active'] });
-      saveUser(data);
-      redirectToHome();
+      saveUser({ ...data, isLogin: true });
       toast.success(`Bienvenido, ${CapitalizeFirstWord(data.first_name)}`);
     },
     onError: (error: AxiosError | any) => {
