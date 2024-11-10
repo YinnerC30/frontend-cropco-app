@@ -7,20 +7,14 @@ import { useManageErrorApp } from './useManageErrorApp';
 
 interface Props {
   token: string;
-  executeQuery: boolean;
-  onErrorAction: any;
 }
 
-export const useCheckAuthStatus = ({
-  executeQuery,
-  onErrorAction,
-  token = '',
-}: Props) => {
+export const useCheckAuthStatus = ({ token = '' }: Props) => {
   const { handleError } = useManageErrorApp();
   const query = useQuery({
     queryKey: ['valid-sesion-user'],
     queryFn: () => checkAuthStatus(token),
-    enabled: executeQuery && token.length > 1,
+    enabled: token.length > 0,
     refetchInterval: TIME_ACTIVE_TOKEN,
     retry: 0,
   });
@@ -35,7 +29,6 @@ export const useCheckAuthStatus = ({
         messageUnauthoraizedError: 'Tu token ha expirado',
       });
     }
-    return () => onErrorAction();
   }, [isError]);
 
   return query;

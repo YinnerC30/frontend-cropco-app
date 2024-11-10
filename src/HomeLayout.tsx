@@ -1,6 +1,5 @@
 import { CommandDialogApp } from '@/modules/core/components/CommandDialogApp';
 
-import { useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { Header } from './components/Home/Header';
 import { Main } from './components/Home/Main';
@@ -9,31 +8,22 @@ import { NavBar } from './components/Home/NavBar';
 import { NavElement } from './components/Home/NavElement';
 import { useCheckAuthStatus } from './modules/authentication/hooks';
 import useAuthentication from './modules/authentication/hooks/useAuthentication';
+import { Loading } from './modules/core/components';
 import { Route, routes } from './routes/components/RoutesNavBar';
 import { SheetNavBar } from './SheetNavBar';
 import { useHome } from './useHome';
 
 export const HomeLayout = () => {
-  const { isLogin, tokenSesion = '' } = useAuthentication();
+  const { tokenSesion = '' } = useAuthentication();
   const { modulesUser } = useHome();
 
-  const [executeQuery, setExecuteQuery] = useState(false);
-
-  const disabledQuery = () => {
-    setExecuteQuery(false);
-  };
-
-  useCheckAuthStatus({
+  const query = useCheckAuthStatus({
     token: tokenSesion,
-    executeQuery: executeQuery,
-    onErrorAction: disabledQuery,
   });
 
-  useEffect(() => {
-    if (isLogin) {
-      setExecuteQuery(true);
-    }
-  }, [isLogin]);
+  if (query.isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="grid h-screen grid-cols-12 grid-rows-12">

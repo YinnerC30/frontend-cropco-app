@@ -11,6 +11,7 @@ import {
   saveUserInLocalStorage,
 } from '../utils/manageUserInLocalStorage';
 import { useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 export const TIME_ACTIVE_TOKEN = 15_000;
 export const TIME_QUESTION_RENEW_TOKEN = 6_000;
@@ -49,7 +50,6 @@ export const useAuthentication = () => {
   const removeUser = () => {
     removeUserInLocalStorage();
     removeUserInState();
-    redirectToLogin();
     queryClient.clear();
   };
 
@@ -66,6 +66,12 @@ export const useAuthentication = () => {
     renewTokenInLocalStorage(user, token);
     renewTokenInState(token);
   };
+
+  useEffect(() => {
+    if (!user.isLogin) {
+      redirectToLogin();
+    }
+  }, [user]);
 
   return {
     saveUser,

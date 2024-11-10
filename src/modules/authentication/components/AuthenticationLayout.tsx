@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import useAuthentication from '../hooks/useAuthentication';
+import { useAuthentication } from '../hooks';
 
 export const AuthenticationLayout = () => {
   const { isLogin } = useAuthentication();

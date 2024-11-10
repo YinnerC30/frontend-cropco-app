@@ -2,10 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useManageErrorApp } from '@/modules/authentication/hooks/useManageErrorApp';
 import { usePaginationDataTable } from '@/modules/core/hooks';
-import {
-  ResponseApiGetAllRecords,
-  ResponseUseGetAllRecords,
-} from '@/modules/core/interfaces';
+import { ResponseUseGetAllRecords } from '@/modules/core/interfaces';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { User } from '../interfaces';
@@ -31,7 +28,6 @@ export function useGetAllUsers({
         limit: pageSize,
         offset: pageIndex,
       }),
-
     staleTime: 10 * 1000,
   });
 

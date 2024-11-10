@@ -17,11 +17,13 @@ export const ProtectedRoute = ({
   if (!user || !hasPermission(module, action)) {
     setTimeout(
       () =>
+        user.isLogin &&
         toast.error(
           'No tienes permiso para esta acción, seras redirigido a la pagina principal'
         ),
       1000
     );
+
     return <Navigate to={`/app/home`} replace />;
   }
 
