@@ -11,12 +11,14 @@ export const ButtonCreateRecord = ({
   className,
   disabled = false,
 }: Props) => {
-  console.log({ route });
   return (
-    <>
-      <Link to={route} className={`${className}`}>
-        Crear
-      </Link>
-    </>
+    <Link
+      to={!disabled && route}
+      className={`${className} px-5 py-1 dark:text-black dark:bg-white rounded-sm bg-black text-white font-medium text-sm ${
+        disabled && 'opacity-50'
+      }`}
+    >
+      Crear
+    </Link>
   );
 };

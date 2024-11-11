@@ -75,7 +75,7 @@ export const UsersModule = () => {
             />
 
             <ButtonCreateRecord
-              className="px-5 py-1 text-black bg-white rounded-sm "
+              className=""
               route={MODULE_USER_PATHS.Create}
               disabled={!hasPermission('users', 'create_user')}
             />

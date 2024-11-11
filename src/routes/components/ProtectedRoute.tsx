@@ -1,3 +1,4 @@
+import { PATH_HOME_APP } from '@/config';
 import { useAuthorization } from '@/modules/authentication/hooks/useAuthorization';
 import { Navigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -18,13 +19,11 @@ export const ProtectedRoute = ({
     setTimeout(
       () =>
         user.isLogin &&
-        toast.error(
-          'No tienes permiso para esta acción, seras redirigido a la pagina principal'
-        ),
+        toast.error('No tienes permiso para esta acción, seras redirigido'),
       1000
     );
 
-    return <Navigate to={`/app/home`} replace />;
+    return <Navigate to={PATH_HOME_APP} replace />;
   }
 
   return element;

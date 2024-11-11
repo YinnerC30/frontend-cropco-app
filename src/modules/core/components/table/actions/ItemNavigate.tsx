@@ -14,8 +14,11 @@ interface Props {
 export const ItemNavigate = ({ path, Icon, name, disabled = false }: Props) => {
   return (
     <DropdownMenuItem asChild>
-      <Link to={path}>
-        <Icon className="w-full h-4 mr-2 "  /> {name}
+      <Link
+        to={`${!disabled ? path : ''}`}
+        className={`${disabled && 'opacity-50'} hover:bg-blue-600`}
+      >
+        <Icon className="w-full h-4 mr-2 " /> {name}
       </Link>
     </DropdownMenuItem>
   );

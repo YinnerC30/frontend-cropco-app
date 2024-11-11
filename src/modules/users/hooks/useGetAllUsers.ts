@@ -12,6 +12,8 @@ interface Props {
   value: string;
 }
 
+const STALE_TIME_DATA = 60_000 * 60;
+
 export function useGetAllUsers({
   value,
 }: Props): ResponseUseGetAllRecords<User> {
@@ -28,7 +30,7 @@ export function useGetAllUsers({
         limit: pageSize,
         offset: pageIndex,
       }),
-    staleTime: 10 * 1000,
+    staleTime: STALE_TIME_DATA,
   });
 
   useEffect(() => {
