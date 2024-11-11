@@ -25,7 +25,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserForm } from '../hooks';
 import { formFieldsUser } from '../utils';
-import { MODULE_USER_PATHS } from '../utils/pathsRoutes';
+import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
 import { ActionUser } from './ActionUser';
 
 interface FormUserProps extends FormProps {

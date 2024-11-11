@@ -21,7 +21,7 @@ export const ViewSupplier = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/suppliers/all", name: "Proveedores" }]}
+        items={[{ link: "/suppliers/view/all", name: "Proveedores" }]}
         finalItem={`Información del proveedor`}
       />
 

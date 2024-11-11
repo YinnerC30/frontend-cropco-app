@@ -20,13 +20,13 @@ export const CreateClient = () => {
   };
 
   if (isSuccess) {
-    navigate("../all");
+    navigate("../view/all");
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/clients/all", name: "Clientes" }]}
+        items={[{ link: "/clients/view/all", name: "Clientes" }]}
         finalItem={`Registro`}
       />
 

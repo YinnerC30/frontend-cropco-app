@@ -1,5 +1,3 @@
-import { Separator } from '@/components';
-import { BreadCrumb } from '@/modules/core/components';
 import { Loading } from '@/modules/core/components/Loading';
 import { useParams } from 'react-router-dom';
 import { useGetUser } from '../hooks';
@@ -15,13 +13,6 @@ export const ViewUser = () => {
 
   return (
     <>
-      <BreadCrumb
-        items={[{ link: '/users/all', name: 'Usuarios' }]}
-        finalItem={`Información del usuario`}
-      />
-
-      <Separator className="my-2" />
-
       <FormUser
         onSubmit={undefined}
         isPending={false}

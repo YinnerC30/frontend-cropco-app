@@ -21,13 +21,13 @@ export const CreateCrop = () => {
   };
 
   if (isSuccess) {
-    navigate('../all');
+    navigate('../view/all');
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: '/crops/all', name: 'Cultivos' }]}
+        items={[{ link: '/crops/view/all', name: 'Cultivos' }]}
         finalItem={'Registro'}
       />
 

@@ -45,13 +45,13 @@ export const CreateSale = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../all");
+    navigate("../view/all");
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/sales/all", name: "Ventas" }]}
+        items={[{ link: "/sales/view/all", name: "Ventas" }]}
         finalItem={`Registro`}
       />
 

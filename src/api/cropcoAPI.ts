@@ -1,3 +1,4 @@
+import { BASE_PATH_API_CROPCO } from '@/config';
 import { getTokenToLocalStorage } from '@/modules/authentication/utils/manageUserInLocalStorage';
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
@@ -27,7 +28,7 @@ interface PathsCropco {
 
 // Crear una instancia de Axios con la URL base y encabezados configurados
 export const cropcoAPI: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_HOST_API_CROPCO as string,
+  baseURL: BASE_PATH_API_CROPCO,
   headers: {
     'Content-Type': 'application/json',
   },

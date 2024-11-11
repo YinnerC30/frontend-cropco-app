@@ -43,7 +43,7 @@ export const ModifySale = () => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(reset());
-      navigate("../all");
+      navigate("../view/all");
     }
   }, [isSuccess, dispatch, navigate]);
 
@@ -54,7 +54,7 @@ export const ModifySale = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/sales/all", name: "Ventas" }]}
+        items={[{ link: "/sales/view/all", name: "Ventas" }]}
         finalItem={`Modificar`}
       />
 

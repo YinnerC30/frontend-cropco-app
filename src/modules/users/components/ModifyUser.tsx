@@ -9,7 +9,7 @@ import { BreadCrumb } from '@/modules/core/components/';
 import { RootState, useAppSelector } from '@/redux/store';
 import { formSchemaUser } from '../utils';
 import { FormUser } from './FormUser';
-import { MODULE_USER_PATHS } from '../utils/pathsRoutes';
+import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
 
 export const ModifyUser = () => {
   const { id } = useParams();
@@ -32,13 +32,6 @@ export const ModifyUser = () => {
 
   return (
     <>
-      <BreadCrumb
-        items={[{ link: MODULE_USER_PATHS.ViewAll, name: 'Usuarios' }]}
-        finalItem={`Modificar`}
-      />
-
-      <Separator className="my-2" />
-
       <FormUser
         onSubmit={onSubmit}
         isPending={isPending}

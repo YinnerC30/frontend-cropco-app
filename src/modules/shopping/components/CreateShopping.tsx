@@ -39,13 +39,13 @@ export const CreateShopping = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../all");
+    navigate("../view/all");
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/shopping/all", name: "Compras" }]}
+        items={[{ link: "/shopping/view/all", name: "Compras" }]}
         finalItem={`Registro`}
       />
       <Separator className="my-2" />

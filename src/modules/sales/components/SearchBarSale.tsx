@@ -116,7 +116,7 @@ export const SearchBarSale = ({
 
   const handleReset = () => {
     form.reset(defaultValues);
-    navigate("/sales/all");
+    navigate("/sales/view/all");
     toast.success("Se han limpiado los filtros");
   };
 

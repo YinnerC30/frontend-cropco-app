@@ -20,13 +20,13 @@ export const CreateSupplier = () => {
   };
 
   if (isSuccess) {
-    navigate("../all");
+    navigate("../view/all");
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/suppliers/all", name: "Proveedores" }]}
+        items={[{ link: "/suppliers/view/all", name: "Proveedores" }]}
         finalItem={`Registro`}
       />
 

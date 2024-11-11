@@ -68,7 +68,6 @@ export function DataTable<TData, TValue>({
       pagination,
     },
     manualPagination: true,
-
   });
 
   const pageIndex = table.getState().pagination.pageIndex;
@@ -77,7 +76,6 @@ export function DataTable<TData, TValue>({
 
   const messageCountPage =
     pageCount > 0 ? pageText : `Página ${pageIndex} de ${pageCount}`;
-
 
   return (
     <div className="flex flex-col w-full my-1">
@@ -93,9 +91,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
                   );
                 })}

@@ -33,7 +33,7 @@ export function usePatchUser(): any {
       }
 
       dispatch(removeAllActions());
-      navigate('../all');
+      navigate('../view/all');
     },
     onError: (error: AxiosError) => {
       const updateError: AxiosError | any = error;

@@ -13,8 +13,8 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
-export const TIME_ACTIVE_TOKEN = 15_000;
-export const TIME_QUESTION_RENEW_TOKEN = 6_000;
+export const TIME_ACTIVE_TOKEN = 60_000 * 6;
+export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
 
 export const useAuthentication = () => {
   const { user } = useAppSelector((state: RootState) => state.authentication);

@@ -22,7 +22,7 @@ export const ViewClient = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/clients/all", name: "Clientes" }]}
+        items={[{ link: "/clients/view/all", name: "Clientes" }]}
         finalItem={`Información del cliente`}
       />
 

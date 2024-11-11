@@ -112,7 +112,7 @@ export const SearchBarHarvest = ({
 
   const handleReset = () => {
     form.reset(defaultValues);
-    navigate("/harvests/all");
+    navigate("/harvests/view/all");
     toast.success("Se han limpiado los filtros");
   };
 

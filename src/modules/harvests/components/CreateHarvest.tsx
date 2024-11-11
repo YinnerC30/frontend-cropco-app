@@ -43,13 +43,13 @@ export const CreateHarvest = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../all");
+    navigate("../view/all");
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/harvests/all", name: "Cosechas" }]}
+        items={[{ link: "/harvests/view/all", name: "Cosechas" }]}
         finalItem={`Registro`}
       />
 

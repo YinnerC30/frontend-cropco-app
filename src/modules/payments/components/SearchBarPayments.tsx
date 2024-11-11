@@ -111,7 +111,7 @@ export const SearchBarPayments = ({
 
   const handleReset = () => {
     form.reset(defaultValues);
-    navigate("/payments/all");
+    navigate("/payments/view/all");
     toast.success("Se han limpiado los filtros");
   };
 

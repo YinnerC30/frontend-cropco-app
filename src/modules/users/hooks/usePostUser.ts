@@ -26,7 +26,7 @@ export function usePostUser(): UseMutationResult<
     mutationFn: createUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
-      navigate('../all');
+      navigate('../view/all');
       dispatch(removeAllActions());
       toast.success(`Usuario creado`);
     },

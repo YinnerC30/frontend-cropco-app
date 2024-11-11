@@ -22,7 +22,7 @@ export const ViewHarvest = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/harvests/all", name: "Cosechas" }]}
+        items={[{ link: "/harvests/view/all", name: "Cosechas" }]}
         finalItem={` Información de la cosecha`}
       />
 

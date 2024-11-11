@@ -10,10 +10,12 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+
 import { useAuthentication } from '@/modules/authentication/hooks/useAuthentication';
 import { useImplantSeed } from '@/modules/authentication/hooks/useImplantSeed';
 import { useTheme } from '@/modules/core/components/ThemeProvider';
 import { useGetConvertToAdmin } from '@/modules/users/hooks/useGetConvertToAdmin';
+import { MODULE_USER_PATHS } from '@/modules/users/routes/pathsRoutes';
 import { Bolt } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -78,7 +80,7 @@ export const MyAccount = () => {
           Copiar mi Token
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link to={`http://localhost:5173/app/home/users/modify/${user.id}`}>
+          <Link to={`${MODULE_USER_PATHS.Update}${user.id}`}>
             Modificar mis permisos
           </Link>
         </DropdownMenuItem>

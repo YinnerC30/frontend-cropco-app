@@ -40,7 +40,7 @@ export const BasicSearchBar = ({
 
   const onReset = () => {
     form.reset({ query: '' });
-    navigate(`../all`);
+    navigate(`../view/all`);
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {

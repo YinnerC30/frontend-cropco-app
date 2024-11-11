@@ -55,7 +55,7 @@ export const SearchBarConsumption = ({ date, time_date }: Props) => {
 
   const handleReset = () => {
     form.reset(defaultValues);
-    navigate("/consumption/all");
+    navigate("/consumption/view/all");
     toast.success("Se han limpiado los filtros");
   };
 

@@ -85,7 +85,7 @@ export function DataTableHook({
                   onDoubleClick={() => {
                     if (!disabledDoubleClick) {
                       const original: any = row.original;
-                      navigate(`../view/${original.id}`);
+                      navigate(`../view/one/${original.id}`);
                     }
                   }}
                   key={row.id}

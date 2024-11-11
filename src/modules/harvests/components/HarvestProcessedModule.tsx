@@ -52,7 +52,7 @@ export const HarvestProcessedModule = () => {
     <>
       <BreadCrumb
         items={[
-          { link: '/harvests/all', name: 'Cosechas' },
+          { link: '/harvests/view/all', name: 'Cosechas' },
           {
             link: `/harvests/view/${data.id}`,
             name: `${data.crop.name} | ${format(

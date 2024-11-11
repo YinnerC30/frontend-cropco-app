@@ -21,7 +21,7 @@ export const ViewWork = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/works/all", name: "Trabajos" }]}
+        items={[{ link: "/works/view/all", name: "Trabajos" }]}
         finalItem={`Información del trabajo`}
       />
 

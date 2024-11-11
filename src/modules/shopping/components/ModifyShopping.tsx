@@ -46,7 +46,7 @@ export const ModifyShopping = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../all");
+    navigate("../view/all");
   }
 
   // Render loading or error states
@@ -56,7 +56,7 @@ export const ModifyShopping = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/shopping/all", name: "Compras" }]}
+        items={[{ link: "/shopping/view/all", name: "Compras" }]}
         finalItem={`Modificar`}
       />
       <Separator className="my-2" />

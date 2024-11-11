@@ -42,13 +42,13 @@ export const CreateConsumption = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../all");
+    navigate("../view/all");
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/consumption/all", name: "Consumos" }]}
+        items={[{ link: "/consumption/view/all", name: "Consumos" }]}
         finalItem={`Crear`}
       />
 

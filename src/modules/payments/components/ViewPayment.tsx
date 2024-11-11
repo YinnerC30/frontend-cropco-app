@@ -20,7 +20,7 @@ export const ViewPayment = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/payments/all", name: "Pagos" }]}
+        items={[{ link: "/payments/view/all", name: "Pagos" }]}
         finalItem={` Información del pago`}
       />
 

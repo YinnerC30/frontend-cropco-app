@@ -10,7 +10,7 @@ interface Props {
 export const ItemModifyRecord = ({
   id,
   disabled = false,
-  path = `../modify/${id}`,
+  path = `../update/one/${id}`,
 }: Props) => {
   return (
     <ItemNavigate

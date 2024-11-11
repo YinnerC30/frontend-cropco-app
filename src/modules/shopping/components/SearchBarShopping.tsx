@@ -80,7 +80,7 @@ export const SearchBarShopping = ({
 
   const handleReset = () => {
     form.reset(defaultValues);
-    navigate("/shopping/all");
+    navigate("/shopping/view/all");
     toast.success("Se han limpiado los filtros");
   };
 

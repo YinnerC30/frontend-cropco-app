@@ -15,10 +15,10 @@ const userRoutes = {
   children: [
     {
       index: true,
-      element: <Navigate to="all" />,
+      element: <Navigate to="view/all" />,
     },
     {
-      path: 'all',
+      path: 'view/all',
       element: (
         <Suspense fallback={<Loading />}>
           <ProtectedRoute
@@ -31,7 +31,7 @@ const userRoutes = {
       ),
     },
     {
-      path: 'create',
+      path: 'create/one',
       element: (
         <Suspense fallback={<Loading />}>
           <ProtectedRoute
@@ -43,7 +43,7 @@ const userRoutes = {
       ),
     },
     {
-      path: 'view/:id',
+      path: 'view/one/:id',
       element: (
         <Suspense fallback={<Loading />}>
           <ProtectedRoute
@@ -55,7 +55,7 @@ const userRoutes = {
       ),
     },
     {
-      path: 'modify/:id',
+      path: 'update/one/:id',
       element: (
         <Suspense fallback={<Loading />}>
           <ProtectedRoute

@@ -45,7 +45,7 @@ export const ModifyWork = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate('../all');
+    navigate('../view/all');
   }
 
   // Render loading or error states
@@ -54,7 +54,7 @@ export const ModifyWork = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: '/works/all', name: 'Trabajos' }]}
+        items={[{ link: '/works/view/all', name: 'Trabajos' }]}
         finalItem={`Modificar`}
       />
 

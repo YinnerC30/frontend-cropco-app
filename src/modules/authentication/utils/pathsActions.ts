@@ -9,10 +9,10 @@ export const pathsActions = {
     path: 'users/view/:id',
   },
   find_all_users: {
-    path: 'users/all',
+    path: 'users/view/all',
   },
   update_one_user: {
-    path: 'users/modify/:id',
+    path: 'users/update/:id',
   },
 };
 

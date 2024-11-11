@@ -47,7 +47,7 @@ export const ModifyConsumption = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../all");
+    navigate("../view/all");
   }
 
   if (isLoading) return <Loading />;
@@ -56,7 +56,7 @@ export const ModifyConsumption = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/consumption/all", name: "Consumos" }]}
+        items={[{ link: "/consumption/view/all", name: "Consumos" }]}
         finalItem={`Modificar`}
       />
 

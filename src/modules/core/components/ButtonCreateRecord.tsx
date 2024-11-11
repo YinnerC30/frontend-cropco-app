@@ -1,6 +1,4 @@
-import { Button } from '@/components';
-import { useNavigate } from 'react-router-dom';
-import { ToolTipTemplate } from './ToolTipTemplate';
+import { Link } from 'react-router-dom';
 
 interface Props {
   route: any;
@@ -13,18 +11,12 @@ export const ButtonCreateRecord = ({
   className,
   disabled = false,
 }: Props) => {
-  const navigate = useNavigate();
+  console.log({ route });
   return (
     <>
-      <ToolTipTemplate content={'Crear'}>
-        <Button
-          className={`${className}`}
-          onClick={() => navigate(route, { relative: 'route' })}
-          disabled={disabled}
-        >
-          Crear
-        </Button>
-      </ToolTipTemplate>
+      <Link to={route} className={`${className}`}>
+        Crear
+      </Link>
     </>
   );
 };

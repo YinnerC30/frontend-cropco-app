@@ -92,7 +92,7 @@ export const SearchBarWork = ({
 
   const handleReset = () => {
     form.reset(defaultValues);
-    navigate("/works/all");
+    navigate("/works/view/all");
     toast.success("Se han limpiado los filtros");
   };
 

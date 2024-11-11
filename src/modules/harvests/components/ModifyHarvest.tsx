@@ -43,7 +43,7 @@ export const ModifyHarvest = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../all");
+    navigate("../view/all");
   }
 
   if (isLoading) return <Loading />;
@@ -55,7 +55,7 @@ export const ModifyHarvest = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/harvests/all", name: "Cosechas" }]}
+        items={[{ link: "/harvests/view/all", name: "Cosechas" }]}
         finalItem={`Modificar`}
       />
 

@@ -19,7 +19,7 @@ export const ViewShopping = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/shopping/all", name: "Compras" }]}
+        items={[{ link: "/shopping/view/all", name: "Compras" }]}
         finalItem={`Información de la compra`}
       />
       <Separator className="my-2" />

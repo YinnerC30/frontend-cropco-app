@@ -59,7 +59,7 @@ export const FormConsumption = ({
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../all");
+    navigate("../view/all");
   }
 
   return (

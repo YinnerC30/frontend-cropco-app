@@ -20,7 +20,7 @@ export const ViewSale = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/sales/all", name: "Ventas" }]}
+        items={[{ link: "/sales/view/all", name: "Ventas" }]}
         finalItem={`Información de la venta`}
       />
 

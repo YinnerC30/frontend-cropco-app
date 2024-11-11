@@ -15,7 +15,7 @@ import { ButtonDeleteBulk, DataTableHook } from '@/modules/core/components';
 import { useDataTable } from '@/modules/core/hooks';
 import { useWindowSize } from 'react-use';
 import { useDeleteBulkUsers } from '../hooks';
-import { MODULE_USER_PATHS } from '../utils/pathsRoutes';
+import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
 
 export const UsersModule = () => {
   const { value } = useBasicQueryData();
@@ -51,8 +51,6 @@ export const UsersModule = () => {
 
   return (
     <div className="select-none">
-      <BreadCrumb finalItem={'Usuarios'} />
-
       <div className="flex items-center justify-center w-full py-2">
         <BasicSearchBar
           query={value}
@@ -77,7 +75,7 @@ export const UsersModule = () => {
             />
 
             <ButtonCreateRecord
-              className="flex items-center justify-end py-2 "
+              className="px-5 py-1 text-black bg-white rounded-sm "
               route={MODULE_USER_PATHS.Create}
               disabled={!hasPermission('users', 'create_user')}
             />

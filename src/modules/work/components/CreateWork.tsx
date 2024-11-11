@@ -39,13 +39,13 @@ export const CreateWork = () => {
   };
 
   if (isSuccess) {
-    navigate("../all");
+    navigate("../view/all");
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/works/all", name: "Trabajos" }]}
+        items={[{ link: "/works/view/all", name: "Trabajos" }]}
         finalItem={`Registro`}
       />
       <Separator className="my-2" />

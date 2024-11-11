@@ -30,13 +30,13 @@ export const ModifyEmployee = () => {
   }
 
   if (isSuccess) {
-    navigate("../all");
+    navigate("../view/all");
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/employees/all", name: "Empleados" }]}
+        items={[{ link: "/employees/view/all", name: "Empleados" }]}
         finalItem={`Modificar`}
       />
 

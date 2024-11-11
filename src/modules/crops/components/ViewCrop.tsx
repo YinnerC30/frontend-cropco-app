@@ -20,7 +20,7 @@ export const ViewCrop = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: '/crops/all', name: 'Cultivos' }]}
+        items={[{ link: '/crops/view/all', name: 'Cultivos' }]}
         finalItem={'Información del cultivo'}
       />
 

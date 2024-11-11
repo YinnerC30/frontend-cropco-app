@@ -14,6 +14,7 @@ import { useLoginForm } from '../hooks/useLoginForm';
 import { formFieldsLogin, formSchemaLogin } from '../utils';
 import { useLoginUser } from '../hooks/useLoginUser';
 import { Link } from 'react-router-dom';
+import { PATH_HOME_APP } from '@/config';
 
 export const Login = () => {
   const { formLogin, showPassword, togglePasswordVisibility } = useLoginForm();
@@ -83,7 +84,7 @@ export const Login = () => {
             {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
             Ingresar
           </Button>
-          <Link to={'http://localhost:5173/app/home'}>Ir a Home</Link>
+          <Link to={PATH_HOME_APP}>Ir a Home</Link>
           <Link to={'/'}>Ir a Root</Link>
         </CardFooter>
       </Card>
