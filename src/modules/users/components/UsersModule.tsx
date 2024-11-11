@@ -65,7 +65,7 @@ export const UsersModule = () => {
             disabled={!hasPermission('users', 'find_all_users')}
           />
 
-          <div className="flex flex-row gap-2">
+          <div className="flex items-center gap-2 ">
             <ButtonDeleteBulk
               disabled={
                 isPending || !hasPermission('users', 'remove_bulk_users')
@@ -74,11 +74,12 @@ export const UsersModule = () => {
               visible={showButtonDeleteBulk}
             />
 
-            <ButtonCreateRecord
-              className=""
-              route={MODULE_USER_PATHS.Create}
-              disabled={!hasPermission('users', 'create_user')}
-            />
+            <div className="flex-none">
+              <ButtonCreateRecord
+                route={MODULE_USER_PATHS.Create}
+                disabled={!hasPermission('users', 'create_user')}
+              />
+            </div>
           </div>
         </div>
         <ScrollArea className={`w-[95%] pb-4 `} type="auto">

@@ -18,6 +18,7 @@ export const ItemCopyIdRecord = ({ id, onChange }: Props) => {
           toast.success(`Id copiado al portapapeles ${id}`);
         }}
         variant={'ghost'}
+        className="cursor-pointer"
       >
         <PaperPlaneIcon className="w-4 h-4 mr-2" /> Copiar Id
       </Button>

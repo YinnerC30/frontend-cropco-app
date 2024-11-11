@@ -13,10 +13,12 @@ interface Props {
 
 export const ItemNavigate = ({ path, Icon, name, disabled = false }: Props) => {
   return (
-    <DropdownMenuItem asChild>
+    <DropdownMenuItem asChild disabled={disabled}>
       <Link
         to={`${!disabled ? path : ''}`}
-        className={`${disabled && 'opacity-50'} hover:bg-blue-600`}
+        className={`${disabled && 'opacity-50'}  ${
+          disabled ? 'cursor-default' : 'cursor-pointer'
+        }`}
       >
         <Icon className="w-full h-4 mr-2 " /> {name}
       </Link>

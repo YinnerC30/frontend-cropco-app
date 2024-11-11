@@ -32,7 +32,7 @@ export const ActionsTable = ({ open, onChange, children }: Props) => {
       <DropdownMenuContent
         onPointerDownOutside={() => onChange(false)}
         align="center"
-        className="flex flex-col items-center gap-1"
+        className="flex flex-col items-center gap-1 "
       >
         <DropdownMenuLabel>Acciones</DropdownMenuLabel>
         <DropdownMenuSeparator className="w-full" />
