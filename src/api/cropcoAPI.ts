@@ -37,7 +37,6 @@ export const cropcoAPI: AxiosInstance = axios.create({
 cropcoAPI.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     if (config.skipInterceptor) {
-      console.log('Se ignoro el interceptor');
       return config; // Ignora el interceptor y devuelve la configuración
     }
     const token = getTokenToLocalStorage();

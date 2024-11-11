@@ -7,7 +7,6 @@ declare module 'axios' {
 }
 
 export const checkAuthStatus = async (token: string) => {
-  console.log(token);
   const response = await cropcoAPI.get(
     `${pathsCropco.authentication}/check-status`,
     {
