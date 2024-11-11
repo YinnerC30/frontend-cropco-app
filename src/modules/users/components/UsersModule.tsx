@@ -1,6 +1,6 @@
 import { BasicSearchBar } from '@/modules/core/components';
 
-import { ScrollArea, ScrollBar } from '@/components';
+import { Button, ScrollArea, ScrollBar } from '@/components';
 import { BreadCrumb } from '@/modules/core/components';
 import {
   ButtonCreateRecord,
@@ -66,6 +66,13 @@ export const UsersModule = () => {
           />
 
           <div className="flex items-center gap-2 ">
+            <Button
+              onClick={() => resetSelectionRows()}
+              className={`${!showButtonDeleteBulk && 'hidden'}`}
+            >
+              Borrar selección
+            </Button>
+
             <ButtonDeleteBulk
               disabled={
                 isPending || !hasPermission('users', 'remove_bulk_users')
@@ -93,7 +100,7 @@ export const UsersModule = () => {
             table={table}
             lengthColumns={lengthColumns}
             rowCount={query.data?.rowCount ?? 0}
-            isLoading={query.isLoading || query.isRefetching}
+            isLoading={query.isLoading || query.isRefetching || isPending}
           />
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
