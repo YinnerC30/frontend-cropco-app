@@ -1,3 +1,4 @@
+import { Separator } from '@/components';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,6 +7,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { PATH_HOME_APP } from '@/config';
 import { useNavigate } from 'react-router-dom';
 import { useFormChange } from './form/FormChangeContext';
 import { useToastDiscardChanges } from './useToastDiscardChanges';
@@ -23,7 +25,7 @@ export const BreadCrumb = ({ items = [], finalItem }: Props) => {
   const { hasUnsavedChanges } = useFormChange();
   const navigate = useNavigate();
   const { showToast } = useToastDiscardChanges();
-  const PATH = '/app/home';
+
   return (
     <div className="my-2">
       <Breadcrumb>
@@ -32,11 +34,10 @@ export const BreadCrumb = ({ items = [], finalItem }: Props) => {
             <BreadcrumbLink
               className="hover:cursor-pointer"
               onClick={() => {
-                const LINK = PATH + '/dashboard';
                 if (hasUnsavedChanges) {
-                  showToast(LINK);
+                  showToast({ route: PATH_HOME_APP });
                 } else {
-                  navigate(LINK);
+                  navigate(PATH_HOME_APP);
                 }
               }}
             >
@@ -52,9 +53,9 @@ export const BreadCrumb = ({ items = [], finalItem }: Props) => {
                   <BreadcrumbLink
                     className="w-auto font-normal hover:cursor-pointer"
                     onClick={() => {
-                      const LINK = `${PATH}${element.link}`;
+                      const LINK = element.link;
                       if (hasUnsavedChanges) {
-                        showToast(LINK);
+                        showToast({ route: LINK });
                       } else {
                         navigate(LINK);
                       }
@@ -72,6 +73,7 @@ export const BreadCrumb = ({ items = [], finalItem }: Props) => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
+      <Separator className="my-4" />
     </div>
   );
 };

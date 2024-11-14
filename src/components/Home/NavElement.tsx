@@ -21,7 +21,7 @@ export const NavElement = ({ route, className, onClick }: Props) => {
     e.preventDefault(); // Evita la navegación automática de NavLink
 
     if (hasUnsavedChanges) {
-      showToast(path); // Muestra el mensaje de advertencia
+      showToast({ route: path }); // Muestra el mensaje de advertencia
     } else {
       navigate(path); // Navega manualmente si no hay cambios pendientes
     }

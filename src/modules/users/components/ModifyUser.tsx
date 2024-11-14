@@ -1,5 +1,3 @@
-import { Separator } from '@/components';
-
 import { Loading } from '@/modules/core/components';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
@@ -7,9 +5,9 @@ import { useGetUser, usePatchUser } from '../hooks/';
 
 import { BreadCrumb } from '@/modules/core/components/';
 import { RootState, useAppSelector } from '@/redux/store';
+import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
 import { formSchemaUser } from '../utils';
 import { FormUser } from './FormUser';
-import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
 
 export const ModifyUser = () => {
   const { id } = useParams();
@@ -32,6 +30,10 @@ export const ModifyUser = () => {
 
   return (
     <>
+      <BreadCrumb
+        items={[{ link: MODULE_USER_PATHS.ViewAll, name: 'Usuarios' }]}
+        finalItem={`Modificar`}
+      />
       <FormUser
         onSubmit={onSubmit}
         isPending={isPending}

@@ -12,7 +12,6 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-
 import { TrashIcon } from '@radix-ui/react-icons';
 
 interface Props {
@@ -21,13 +20,15 @@ interface Props {
   visible: boolean;
 }
 
-export const ButtonDeleteBulk = ({ onClick, disabled = false, visible }: Props) => {
+export const ButtonDeleteBulk = ({
+  onClick,
+  disabled = false,
+  visible,
+}: Props) => {
   return (
-
-
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button disabled={disabled} className={`${!visible ? 'hidden' : ''}`} >
+        <Button disabled={disabled} className={`${!visible ? 'hidden' : ''}`}>
           <TrashIcon className="w-4 h-4 mr-2" /> Eliminar
         </Button>
       </AlertDialogTrigger>
@@ -43,20 +44,13 @@ export const ButtonDeleteBulk = ({ onClick, disabled = false, visible }: Props) 
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel asChild>
-            <Button variant="secondary">
-              Cancelar
-            </Button>
+            <Button variant="secondary">Cancelar</Button>
           </AlertDialogCancel>
           <AlertDialogAction asChild>
-            <Button
-              onClick={onClick}
-            >
-              Continuar
-            </Button>
+            <Button onClick={onClick}>Continuar</Button>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-
   );
 };

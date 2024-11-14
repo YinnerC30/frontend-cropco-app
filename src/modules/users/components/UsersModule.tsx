@@ -51,6 +51,7 @@ export const UsersModule = () => {
 
   return (
     <div className="select-none">
+      <BreadCrumb finalItem={`Usuarios`} />
       <div className="flex items-center justify-center w-full py-2">
         <BasicSearchBar
           query={value}

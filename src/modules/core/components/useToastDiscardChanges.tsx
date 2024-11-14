@@ -12,7 +12,7 @@ export const useToastDiscardChanges = () => {
     navigate(route);
   };
 
-  const showToast = (route: string) => {
+  const showToast = ({ route }: { route: string }) => {
     return toast({
       variant: 'destructive',
       title: '¡Atención! Cambios sin guardar.',
