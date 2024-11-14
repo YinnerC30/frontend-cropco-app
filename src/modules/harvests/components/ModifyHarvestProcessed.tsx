@@ -50,7 +50,7 @@ export const ModifyHarvestProcessed = ({
       dateHarvest={harvest.date}
       isOpenDialogForm={isOpenDialogForm}
       setIsOpenDialogForm={setIsOpenDialogForm}
-      isPending={isPending}
+      isSubmitting={isPending}
       dialogTitle={"Modificar cosecha procesada"}
       dialogDescription={
         "Cuando termine de modificar la información, puede cerrar esta ventana."

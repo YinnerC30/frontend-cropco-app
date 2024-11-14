@@ -15,7 +15,7 @@ import { FormFieldTextArea } from "@/modules/core/components/form/FormFieldTextA
 export const FormSupply = ({
   onSubmit,
   readOnly = false,
-  isPending = false,
+  isSubmitting: isPending = false,
   defaultValues,
 }: FormProps) => {
   const { form } = useSupplyForm();

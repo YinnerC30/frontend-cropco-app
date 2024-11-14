@@ -65,7 +65,7 @@ export const ModifyConsumption = () => {
         {/* Formulario principal */}
         <FormConsumption
           onSubmit={onSubmitShopping}
-          isPending={isPending}
+          isSubmitting={isPending}
           defaultValues={{ ...data, date: ConvertStringToDate(data.date) }}
         />
       </ScrollArea>

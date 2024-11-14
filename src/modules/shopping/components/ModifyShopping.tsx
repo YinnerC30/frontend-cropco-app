@@ -64,7 +64,7 @@ export const ModifyShopping = () => {
         {/* Formulario principal */}
         <FormShopping
           onSubmit={onSubmitShopping}
-          isPending={isPending}
+          isSubmitting={isPending}
           defaultValues={{ ...data, date: ConvertStringToDate(data.date) }}
         />
       </ScrollArea>

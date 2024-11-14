@@ -24,7 +24,7 @@ import { TablesPendingPayments } from "../TablesPendingPayments";
 
 export const FormPayment = ({
   defaultValues,
-  isPending,
+  isSubmitting: isPending,
   onSubmit,
   readOnly = false,
 }: FormProps) => {

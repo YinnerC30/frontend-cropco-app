@@ -67,7 +67,7 @@ export const ModifySale = () => {
             ...data,
             date: ConvertStringToDate(data.date),
           }}
-          isPending={isPending}
+          isSubmitting={isPending}
         />
       </ScrollArea>
     </>

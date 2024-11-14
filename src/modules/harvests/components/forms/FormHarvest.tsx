@@ -26,7 +26,7 @@ import { ModifyHarvestDetail } from "../ModifyHarvestDetail";
 
 export const FormHarvest = ({
   onSubmit,
-  isPending,
+  isSubmitting: isPending,
   defaultValues,
   readOnly = false,
 }: FormProps) => {

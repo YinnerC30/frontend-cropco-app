@@ -14,7 +14,7 @@ export const ButtonCancelRegister = ({ action }: Props) => {
       variant={'destructive'}
       onClick={() => {
         if (hasUnsavedChanges) {
-          showToast('../');
+          showToast({ route: '../' });
         } else {
           action();
         }

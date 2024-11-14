@@ -43,7 +43,7 @@ export const ModifyClient = () => {
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <FormClient
           onSubmit={onSubmit}
-          isPending={isPending}
+          isSubmitting={isPending}
           defaultValues={{ ...data }}
         />
       </ScrollArea>

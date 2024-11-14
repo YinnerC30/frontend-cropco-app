@@ -59,7 +59,7 @@ export const CreateSale = () => {
       <ScrollArea className="w-full h-[80vh]">
         {/* Formulario principal */}
 
-        <FormSale onSubmit={onSubmitSale} isPending={isPending} />
+        <FormSale onSubmit={onSubmitSale} isSubmitting={isPending} />
       </ScrollArea>
     </>
   );

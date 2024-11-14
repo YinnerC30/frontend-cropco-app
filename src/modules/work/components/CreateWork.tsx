@@ -50,7 +50,7 @@ export const CreateWork = () => {
       />
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
-        <FormWork isPending={isPending} onSubmit={onSubmit} />
+        <FormWork isSubmitting={isPending} onSubmit={onSubmit} />
       </ScrollArea>
     </>
   );

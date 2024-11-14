@@ -20,7 +20,7 @@ interface FormHarvestProcessedProps extends FormProps {
   dateHarvest: string | Date;
   isOpenDialogForm: boolean;
   setIsOpenDialogForm: (state: Boolean) => void;
-  isPending: boolean;
+  isSubmitting: boolean;
   dialogTitle: string;
   dialogDescription: string;
 }
@@ -30,7 +30,7 @@ export const FormHarvestProcessed = ({
   dateHarvest,
   isOpenDialogForm,
   setIsOpenDialogForm,
-  isPending,
+  isSubmitting: isPending,
   dialogTitle,
   dialogDescription,
 }: FormHarvestProcessedProps) => {

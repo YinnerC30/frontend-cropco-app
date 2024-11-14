@@ -16,7 +16,7 @@ export const ModifyUser = () => {
 
   const { actions } = useAppSelector((state: RootState): any => state.user);
 
-  const onSubmit = (values: z.infer<typeof formSchemaUser>) => {
+  const handleSubmit = (values: z.infer<typeof formSchemaUser>) => {
     mutate({
       ...values,
       id,
@@ -35,8 +35,8 @@ export const ModifyUser = () => {
         finalItem={`Modificar`}
       />
       <FormUser
-        onSubmit={onSubmit}
-        isPending={isPending}
+        onSubmit={handleSubmit}
+        isSubmitting={isPending}
         defaultValues={data}
         hiddenPassword
       />

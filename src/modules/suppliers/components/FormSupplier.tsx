@@ -13,7 +13,7 @@ import { formFieldsSupplier } from "../utils/formFieldsSupplier";
 export const FormSupplier = ({
   onSubmit,
   readOnly = false,
-  isPending = false,
+  isSubmitting: isPending = false,
   defaultValues,
 }: FormProps) => {
   const { form } = useSupplierForm();

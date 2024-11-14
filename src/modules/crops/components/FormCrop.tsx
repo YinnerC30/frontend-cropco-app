@@ -11,7 +11,7 @@ import { useCropForm } from '../hooks/useCropForm';
 import { formFieldsCrop } from '../utils';
 export const FormCrop = ({
   onSubmit,
-  isPending,
+  isSubmitting: isPending,
   defaultValues,
   readOnly = false,
 }: FormProps) => {

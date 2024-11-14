@@ -33,7 +33,7 @@ export const CreateHarvestProcessed = ({
         dateHarvest={harvest.date}
         isOpenDialogForm={isOpenDialogForm}
         setIsOpenDialogForm={setIsOpenDialogForm}
-        isPending={isPending}
+        isSubmitting={isPending}
         dialogTitle={"Agregar cosecha procesada"}
         dialogDescription={
           "Cuando termine de agregar la información, puedes cerrar esta ventana."

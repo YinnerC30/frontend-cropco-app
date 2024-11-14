@@ -32,7 +32,7 @@ export const CreateClient = () => {
 
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
-        <FormClient onSubmit={onSubmit} isPending={isPending} />
+        <FormClient onSubmit={onSubmit} isSubmitting={isPending} />
       </ScrollArea>
     </>
   );

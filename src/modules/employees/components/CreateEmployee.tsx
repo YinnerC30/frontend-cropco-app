@@ -32,7 +32,7 @@ export const CreateEmployee = () => {
 
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
-        <FormEmployee onSubmit={onSubmit} isPending={isPending} />
+        <FormEmployee onSubmit={onSubmit} isSubmitting={isPending} />
       </ScrollArea>
     </>
   );

@@ -62,7 +62,7 @@ export const ModifyWork = () => {
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <FormWork
           defaultValues={{ ...data, date: ConvertStringToDate(data?.date) }}
-          isPending={isPending}
+          isSubmitting={isPending}
           onSubmit={onSubmitWork}
         />
       </ScrollArea>

@@ -33,7 +33,7 @@ export const CreateSupply = () => {
       <Label className="text-2xl">Registro de insumo</Label>
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
-        <FormSupply onSubmit={onSubmit} isPending={isPending} />
+        <FormSupply onSubmit={onSubmit} isSubmitting={isPending} />
       </ScrollArea>
     </>
   );

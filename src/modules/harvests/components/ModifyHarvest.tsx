@@ -64,7 +64,7 @@ export const ModifyHarvest = () => {
         {/* Formulario principal */}
         <FormHarvest
           onSubmit={onSubmitHarvest}
-          isPending={isPending}
+          isSubmitting={isPending}
           defaultValues={{
             ...data,
             date: ConvertStringToDate(data.date),

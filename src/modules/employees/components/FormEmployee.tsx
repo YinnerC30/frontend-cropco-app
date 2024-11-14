@@ -13,7 +13,7 @@ import { formFieldsEmployee } from "../utils";
 export const FormEmployee = ({
   onSubmit,
   readOnly = false,
-  isPending = false,
+  isSubmitting: isPending = false,
   defaultValues,
 }: FormProps) => {
   const { form } = useEmployeeForm();

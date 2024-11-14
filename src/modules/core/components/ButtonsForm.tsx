@@ -1,7 +1,6 @@
 import { Button } from '@/components';
-import { ButtonCancelRegister } from './ButtonCancelRegister';
 import { ReloadIcon } from '@radix-ui/react-icons';
-import { useNavigate } from 'react-router-dom';
+import { ButtonCancelRegister } from './ButtonCancelRegister';
 
 interface Props {
   isPending: boolean;
@@ -16,15 +15,9 @@ export const ButtonsForm = ({
   className,
   actionToCancel,
 }: Props) => {
-  const navigate = useNavigate();
   return (
     <div className={className}>
-      <ButtonCancelRegister
-        action={() => {
-          actionToCancel && actionToCancel();
-          navigate(-1);
-        }}
-      />
+      <ButtonCancelRegister action={actionToCancel} />
       <Button type="submit" form={formId} disabled={isPending}>
         {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
         Guardar

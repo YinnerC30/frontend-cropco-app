@@ -27,7 +27,7 @@ export const FormWork = ({
   defaultValues,
   onSubmit,
   readOnly = false,
-  isPending,
+  isSubmitting: isPending,
 }: FormProps) => {
   const navigate = useNavigate();
   const {

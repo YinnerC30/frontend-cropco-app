@@ -20,7 +20,7 @@ import {
 
 export const FormConsumption = ({
   onSubmit,
-  isPending,
+  isSubmitting: isPending,
   defaultValues,
   readOnly = false,
 }: FormProps) => {

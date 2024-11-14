@@ -23,7 +23,7 @@ import { ModifySaleDetail } from "../ModifySaleDetail";
 
 export const FormSale = ({
   onSubmit,
-  isPending,
+  isSubmitting: isPending,
   defaultValues,
   readOnly = false,
 }: FormProps) => {

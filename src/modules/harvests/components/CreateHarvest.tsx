@@ -56,7 +56,7 @@ export const CreateHarvest = () => {
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
         {/* Formulario principal */}
-        <FormHarvest onSubmit={onSubmitHarvest} isPending={isPending} />
+        <FormHarvest onSubmit={onSubmitHarvest} isSubmitting={isPending} />
       </ScrollArea>
     </>
   );

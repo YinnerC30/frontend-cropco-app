@@ -32,7 +32,7 @@ export const CreateSupplier = () => {
 
       <Separator className="my-2" />
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
-        <FormSupplier onSubmit={onSubmit} isPending={isPending} />
+        <FormSupplier onSubmit={onSubmit} isSubmitting={isPending} />
       </ScrollArea>
     </>
   );

@@ -13,7 +13,7 @@ import { formFieldsClient } from "../utils";
 export const FormClient = ({
   onSubmit,
   readOnly = false,
-  isPending = false,
+  isSubmitting: isPending = false,
   defaultValues,
 }: FormProps) => {
   const { form } = useClientForm();

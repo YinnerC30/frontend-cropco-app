@@ -1,39 +1,46 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface UserState {
-  actions: string[];
+export interface ActionStore {
+  id: string;
+  active: boolean;
 }
 
-export interface UpdateActionsPayload {
-  id: string;
-  state: boolean;
+interface UserState {
+  actions: ActionStore[];
 }
 
 const initialState: UserState = {
   actions: [],
 };
 
+const getActionsId = (actions: ActionStore[]) => {
+  return actions.map((action: ActionStore) => action.id);
+};
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    loadActions: (state, action: PayloadAction<string[]>) => {
+    loadActions: (state, action: PayloadAction<ActionStore[]>) => {
       state.actions = action.payload;
     },
-    updateActions: (state, action: PayloadAction<UpdateActionsPayload[]>) => {
+    updateActions: (state, action: PayloadAction<ActionStore[]>) => {
       const { payload } = action;
       const setActions = new Set([
-        ...state.actions,
-        ...payload.map((action: UpdateActionsPayload) => action.id),
+        ...getActionsId(state.actions),
+        ...getActionsId(payload),
       ]);
 
-      for (const { state, id } of payload) {
-        if (!state) {
+      payload.forEach(({ active, id }) => {
+        if (!active) {
           setActions.delete(id);
         }
-      }
+      });
 
-      state.actions = Array.from(setActions);
+      state.actions = Array.from(setActions).map((actionId: string) => ({
+        id: actionId,
+        active: true,
+      }));
     },
     removeAllActions: (state) => {
       state.actions = [];

@@ -44,7 +44,7 @@ export const ModifySupply = () => {
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <FormSupply
           onSubmit={onSubmit}
-          isPending={isPending}
+          isSubmitting={isPending}
           defaultValues={{
             ...data,
             unit_of_measure:

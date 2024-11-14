@@ -44,7 +44,7 @@ export const ModifySupplier = () => {
       <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
         <FormSupplier
           onSubmit={onSubmit}
-          isPending={isPending}
+          isSubmitting={isPending}
           defaultValues={{ ...data, company_name: undefined }}
         />
       </ScrollArea>

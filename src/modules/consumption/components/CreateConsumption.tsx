@@ -55,7 +55,7 @@ export const CreateConsumption = () => {
       <Separator className="my-2" />
       <ScrollArea className="w-full h-[80vh]">
         {/* Formulario principal */}
-        <FormConsumption onSubmit={onSubmitShopping} isPending={isPending} />
+        <FormConsumption onSubmit={onSubmitShopping} isSubmitting={isPending} />
       </ScrollArea>
     </>
   );

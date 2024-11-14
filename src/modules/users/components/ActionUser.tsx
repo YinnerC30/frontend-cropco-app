@@ -27,7 +27,7 @@ export const ActionUser = ({
         checked={isChecked}
         defaultChecked={isChecked}
         onCheckedChange={(value: boolean) => {
-          dispatch(updateActions([{ id: action.id, state: value }]));
+          dispatch(updateActions([{ id: action.id, active: value }]));
         }}
       />
     </div>

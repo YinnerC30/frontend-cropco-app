@@ -7,12 +7,13 @@ import {
 import { RootState, useAppDispatch, useAppSelector } from '@/redux/store';
 import { useEffect, useState } from 'react';
 import {
+  ActionStore,
   formSchemaUser,
   formSchemaUserWithPassword,
   loadActions,
   removeAllActions,
   updateActions,
-  UpdateActionsPayload,
+
 } from '../utils';
 
 export const defaultValues = {
@@ -29,9 +30,13 @@ export const defaultValues = {
 
 interface Props {
   hiddenPassword?: boolean;
+  formValues: any;
 }
 
-export const useUserForm = ({ hiddenPassword = false }: Props) => {
+export const useUserForm = ({
+  hiddenPassword = false,
+  formValues = defaultValues,
+}: Props) => {
   const { data = [], isLoading, isSuccess } = useGetAllModules();
   const { actions } = useAppSelector((state: RootState) => state.user);
   const { modules } = useAppSelector(
@@ -48,17 +53,18 @@ export const useUserForm = ({ hiddenPassword = false }: Props) => {
   };
 
   const userHasAction = ({ id }: { id: string }) => {
-    return actions.includes(id);
+    const actionsIds = actions.map((action: ActionStore) => action.id);
+    return actionsIds.includes(id);
   };
 
   const form = useCreateForm({
     schema: hiddenPassword ? formSchemaUser : formSchemaUserWithPassword,
-    defaultValues,
+    defaultValues: formValues,
   });
 
   const dispatch = useAppDispatch();
 
-  const loadActionsUser = (actions: string[]) => {
+  const loadActionsUser = (actions: ActionStore[]) => {
     dispatch(loadActions(actions));
   };
 
@@ -66,14 +72,14 @@ export const useUserForm = ({ hiddenPassword = false }: Props) => {
     dispatch(removeAllActions());
   };
 
-  const updateActionsInState = (actions: UpdateActionsPayload[]) => {
+  const updateActionsInState = (actions: ActionStore[]) => {
     dispatch(updateActions(actions));
   };
 
   const handleSelectAllActions = () => {
-    const actions = data.flatMap((item: Module): UpdateActionsPayload[] =>
+    const actions = data.flatMap((item: Module): ActionStore[] =>
       item.actions.map(
-        (act: Action): UpdateActionsPayload => ({ id: act.id, state: true })
+        (act: Action): ActionStore => ({ id: act.id, active: true })
       )
     );
 
@@ -87,7 +93,7 @@ export const useUserForm = ({ hiddenPassword = false }: Props) => {
   const handleSelectAllActionInModule = (nameModule: string) => {
     const actions = data
       .find((module: Module) => module.name === nameModule)
-      .actions.map((action: Action) => ({ id: action.id, state: true }));
+      .actions.map((action: Action) => ({ id: action.id, active: true }));
 
     updateActionsInState(actions);
   };
@@ -95,10 +101,19 @@ export const useUserForm = ({ hiddenPassword = false }: Props) => {
   const handleInselectAllActionsInModule = (nameModule: string) => {
     const actions = data
       .find((module: Module) => module.name === nameModule)
-      .actions.map((action: Action) => ({ id: action.id, state: false }));
+      .actions.map((action: Action) => ({ id: action.id, active: false }));
 
     updateActionsInState(actions);
   };
+
+  useEffect(() => {
+    const { modules = [] } = formValues;
+    const actions =
+      modules?.flatMap((module: Module) =>
+        module.actions.map((action: Action) => ({ id: action.id, active: true }))
+      ) ?? [];
+    loadActionsUser(actions);
+  }, [formValues]);
 
   const { isDirty } = form.formState;
 
@@ -119,13 +134,13 @@ export const useUserForm = ({ hiddenPassword = false }: Props) => {
     userHasAction,
     modules,
     data,
-    isLoading,
+    isLoadingModules: isLoading,
     isSuccess,
     handleInselectAllActions,
     handleInselectAllActionsInModule,
     handleSelectAllActionInModule,
     handleSelectAllActions,
     loadActionsUser,
-    removeAllActionsUser
+    removeAllActionsUser,
   };
 };
