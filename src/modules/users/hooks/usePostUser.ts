@@ -41,6 +41,7 @@ export function usePostUser(): UseMutationResult<
         messageUnauthoraizedError: 'No tienes permiso para eliminar el usuario',
       });
     },
+
     retry: 1,
   });
 

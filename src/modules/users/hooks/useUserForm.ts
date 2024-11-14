@@ -13,7 +13,6 @@ import {
   loadActions,
   removeAllActions,
   updateActions,
-
 } from '../utils';
 
 export const defaultValues = {
@@ -91,26 +90,34 @@ export const useUserForm = ({
   };
 
   const handleSelectAllActionInModule = (nameModule: string) => {
-    const actions = data
-      .find((module: Module) => module.name === nameModule)
-      .actions.map((action: Action) => ({ id: action.id, active: true }));
+    const actions =
+      data
+        .find((module: Module) => module.name === nameModule)
+        ?.actions.map((action: Action) => ({ id: action.id, active: true })) ||
+      [];
 
     updateActionsInState(actions);
   };
 
   const handleInselectAllActionsInModule = (nameModule: string) => {
-    const actions = data
-      .find((module: Module) => module.name === nameModule)
-      .actions.map((action: Action) => ({ id: action.id, active: false }));
+    const actions =
+      data
+        .find((module: Module) => module.name === nameModule)
+        ?.actions.map((action: Action) => ({ id: action.id, active: false })) ||
+      [];
 
     updateActionsInState(actions);
   };
 
   useEffect(() => {
     const { modules = [] } = formValues;
+    form.reset(formValues);
     const actions =
       modules?.flatMap((module: Module) =>
-        module.actions.map((action: Action) => ({ id: action.id, active: true }))
+        module.actions.map((action: Action) => ({
+          id: action.id,
+          active: true,
+        }))
       ) ?? [];
     loadActionsUser(actions);
   }, [formValues]);

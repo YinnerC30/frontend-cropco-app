@@ -5,5 +5,4 @@ export * from './useGetConvertToAdmin';
 export * from './useGetUser';
 export * from './usePatchUser';
 export * from './usePostUser';
-export * from './useUserAuthorizationActions';
 export * from './useUserForm';

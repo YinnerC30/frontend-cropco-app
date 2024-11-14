@@ -22,6 +22,12 @@ import { useUserForm } from '../hooks';
 import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
 import { formFieldsUser } from '../utils';
 import { ActionUser } from './ActionUser';
+import { useAuthorization } from '@/modules/authentication/hooks';
+import { AlertAction } from '@/modules/core/components/AlertAction';
+import {
+  Action,
+  Module,
+} from '@/modules/core/interfaces/ResponseGetAllModules';
 
 interface FormUserProps extends FormProps {
   hiddenPassword?: boolean;
@@ -30,7 +36,7 @@ interface FormUserProps extends FormProps {
 export const FormUser = ({
   defaultValues,
   hiddenPassword = false,
-  isSubmitting,
+  isSubmitting = false,
   onSubmit,
   readOnly = false,
 }: FormUserProps) => {
@@ -49,6 +55,8 @@ export const FormUser = ({
   } = useUserForm({ hiddenPassword, formValues: defaultValues });
   const navigate = useNavigate();
 
+  const { hasPermission } = useAuthorization();
+
   const handleReturnToModule = () => {
     removeAllActionsUser();
     navigate(MODULE_USER_PATHS.ViewAll);
@@ -61,6 +69,15 @@ export const FormUser = ({
   return (
     <div className="flex flex-col items-center ">
       <ScrollArea className="h-[72vh] w-full pb-2">
+        {!hasPermission('users', 'find_one_user') && (
+          <AlertAction
+            title={'Error'}
+            description={
+              'Requieres del permiso de lectura para obtener la información del usuario solicitado'
+            }
+          />
+        )}
+
         <h3 className="text-xl ">Datos personales:</h3>
 
         <Form {...form}>
@@ -173,7 +190,7 @@ export const FormUser = ({
           <Button onClick={handleInselectAllActions}>Desmarcar todo</Button>
         </div>
         <div className={'flex gap-2 my-2 flex-wrap justify-evenly'}>
-          {data?.map(({ label, actions, name }: any) => {
+          {data?.map(({ label, actions, name }: Module) => {
             return (
               <Card key={name} className="mb-2 w-72">
                 <CardHeader className="border-b">
@@ -192,13 +209,13 @@ export const FormUser = ({
                   >
                     Desmarcar todo
                   </Button>
-                  {actions.map((act: any) => {
+                  {actions.map((action: Action) => {
                     return (
                       <ActionUser
-                        key={act.id}
-                        action={act}
+                        key={action.id}
+                        action={action}
                         readOnly={readOnly}
-                        isChecked={userHasAction({ id: act.id })}
+                        isChecked={userHasAction({ id: action.id })}
                       />
                     );
                   })}
@@ -216,7 +233,7 @@ export const FormUser = ({
       ) : (
         <ButtonsForm
           actionToCancel={handleReturnToModule}
-          isPending={isSubmitting ?? false}
+          isPending={isSubmitting}
           formId={'formUser'}
           className={'flex w-48 gap-2 mt-2'}
         />

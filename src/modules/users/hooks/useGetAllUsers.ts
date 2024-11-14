@@ -7,6 +7,7 @@ import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { User } from '../interfaces';
 import { getUsers } from '../services';
+import { useAuthorization } from '@/modules/authentication/hooks';
 
 interface Props {
   value: string;
@@ -17,6 +18,7 @@ const STALE_TIME_DATA = 60_000 * 60;
 export function useGetAllUsers({
   value,
 }: Props): ResponseUseGetAllRecords<User> {
+  const { hasPermission } = useAuthorization();
   const { pagination, setPagination, pageIndex, pageSize } =
     usePaginationDataTable();
 
@@ -31,6 +33,7 @@ export function useGetAllUsers({
         offset: pageIndex,
       }),
     staleTime: STALE_TIME_DATA,
+    enabled: hasPermission('users', 'find_all_users')
   });
 
   useEffect(() => {

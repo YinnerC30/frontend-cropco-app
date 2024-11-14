@@ -27,6 +27,7 @@ export function usePatchUser(): any {
 
       if (variables.id === user.id) {
         updateUserActions(data?.modules);
+        queryClient.invalidateQueries();
         toast.success(`Tu información han sido actualizada`);
       } else {
         toast.success(`Usuario actualizado`);
@@ -47,7 +48,6 @@ export function usePatchUser(): any {
         messageUnauthoraizedError: 'No tienes permiso para eliminar el usuario',
       });
     },
-
     retry: 1,
   });
   return mutation;
