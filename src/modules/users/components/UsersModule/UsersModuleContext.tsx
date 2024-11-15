@@ -4,9 +4,8 @@ import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { createContext, useContext } from 'react';
 import { useWindowSize } from 'react-use';
-import { useDeleteBulkUsers } from '../hooks';
-import { useGetAllUsers } from '../hooks/useGetAllUsers';
-import { createColumnsTableUsers } from './ColumnsTableUsers';
+import { useDeleteBulkUsers, useGetAllUsers } from '../../hooks';
+import createColumnsTableUsers from './createColumnsTableUsers';
 
 const UsersModuleContext = createContext<any>(null);
 

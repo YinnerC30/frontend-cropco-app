@@ -4,8 +4,8 @@ import {
   UsersActions,
   UsersSearchBar,
   UsersTable,
-} from './UsersModuleComponents';
-import { UsersBreadCrumb } from './UsersModuleComponents/UsersBreadCrumb';
+} from '.';
+import { UsersBreadCrumb } from './UsersBreadCrumb';
 import { UsersModuleProvider } from './UsersModuleContext';
 
 export const UsersModule = () => {

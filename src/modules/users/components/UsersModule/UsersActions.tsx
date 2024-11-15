@@ -5,8 +5,9 @@ import {
   ButtonDeleteBulk,
   ButtonRefetchData,
 } from '@/modules/core/components';
-import { useUsersModuleContext } from '../UsersModuleContext';
+
 import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
+import { useUsersModuleContext } from './UsersModuleContext';
 
 export const UsersActions = () => {
   const {

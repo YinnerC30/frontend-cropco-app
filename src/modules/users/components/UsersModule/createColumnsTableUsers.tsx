@@ -1,10 +1,10 @@
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { ColumnDef } from '@tanstack/react-table';
 
-import { User } from '../interfaces/User';
-import { formFieldsUser } from '../utils';
-import { ActionsTableUsers } from './ActionsTableUsers';
 import { Checkbox } from '@/components';
+import { User } from '../../interfaces';
+import { formFieldsUser } from '../../utils';
+import { UsersModuleActionsTable } from './UsersModuleActionsTable';
 
 export const createColumnsTableUsers = (
   actionsInFirstColumn: boolean
@@ -82,7 +82,7 @@ export const createColumnsTableUsers = (
 
   const actions = {
     id: 'actions',
-    cell: ActionsTableUsers,
+    cell: UsersModuleActionsTable,
   };
 
   actionsInFirstColumn ? columns.unshift(actions) : columns.push(actions);

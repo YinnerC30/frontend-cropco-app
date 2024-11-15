@@ -7,7 +7,7 @@ import { Navigate } from 'react-router-dom';
 // Lazy load de los componentes
 const CreateUser = lazy(() => import('./../components/CreateUser'));
 const ModifyUser = lazy(() => import('./../components/ModifyUser'));
-const UsersModule = lazy(() => import('./../components/UsersModule'));
+const UsersModule = lazy(() => import('../components/UsersModule/UsersModule'));
 const ViewUser = lazy(() => import('./../components/ViewUser'));
 
 const userRoutes = {

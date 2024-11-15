@@ -1,12 +1,11 @@
 // path: /components/UsersModuleComponents/UsersTable.tsx
 import { ScrollArea, ScrollBar } from '@/components';
 import { DataTableHook } from '@/modules/core/components';
-import { useUsersModuleContext } from '../UsersModuleContext';
-
-
+import { useUsersModuleContext } from './UsersModuleContext';
 
 export const UsersTable = () => {
-  const { table, lengthColumns, query, hasPermission, isPending } = useUsersModuleContext();
+  const { table, lengthColumns, query, hasPermission, isPending } =
+    useUsersModuleContext();
 
   return (
     <ScrollArea className="w-[95%] pb-4" type="auto">

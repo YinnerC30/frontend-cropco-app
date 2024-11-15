@@ -1,20 +1,21 @@
 import { Switch } from '@/components/ui/switch';
 import { CapitalizeFirstWord } from '@/modules/authentication/helpers';
 import { useAppDispatch } from '@/redux/store';
-import { updateActions } from '../utils';
-import { Action } from '@/modules/core/interfaces/ResponseGetAllModules';
 
-interface ActionUserProps {
+import { Action } from '@/modules/core/interfaces/ResponseGetAllModules';
+import { updateActions } from '../../utils';
+
+interface Props {
   action: Action;
   readOnly: boolean;
   isChecked: boolean;
 }
 
-export const ActionUser = ({
+export const FormUserPermissionAction = ({
   action,
   readOnly,
   isChecked,
-}: ActionUserProps) => {
+}: Props) => {
   const dispatch = useAppDispatch();
 
   return (

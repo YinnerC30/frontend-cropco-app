@@ -8,8 +8,9 @@ import {
   Separator,
 } from '@/components';
 import { useFormUserContext } from './FormUserContext';
-import { ActionUser } from '../ActionUser';
+
 import { Module } from '@/modules/core/interfaces/ResponseGetAllModules';
+import { FormUserPermissionAction } from './FormUserPermissionAction';
 
 export const FormUserPermissions = () => {
   const {
@@ -54,7 +55,7 @@ export const FormUserPermissions = () => {
                 Desmarcar todo
               </Button>
               {actions.map((action) => (
-                <ActionUser
+                <FormUserPermissionAction
                   key={action.id}
                   action={action}
                   readOnly={readOnly}

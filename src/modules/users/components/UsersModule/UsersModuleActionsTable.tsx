@@ -1,4 +1,4 @@
-import { useDeleteUser } from '../hooks';
+
 
 import { useAuthorization } from '@/modules/authentication/hooks';
 import {
@@ -10,12 +10,13 @@ import {
 } from '@/modules/core/components';
 import { Row } from '@tanstack/react-table';
 import { useState } from 'react';
+import { useDeleteUser } from '../../hooks';
 
 interface Props {
   row: Row<any>;
 }
 
-export const ActionsTableUsers = ({ row }: Props) => {
+export const UsersModuleActionsTable = ({ row }: Props) => {
   const { hasPermission } = useAuthorization();
   const { id } = row.original;
   const { mutate } = useDeleteUser();
