@@ -14,7 +14,7 @@ import { saleRoutes } from '@/modules/sales/routes/Routes';
 import { shoppingRoutes } from '@/modules/shopping/routes/Routes';
 import { supplierRoutes } from '@/modules/suppliers/routes/Routes';
 import { supplyRoutes } from '@/modules/supplies/routes/Routes';
-import { userRoutes } from '@/modules/users/routes/Routes';
+import { userRoutes } from '@/modules/users/routes/userRoutes';
 import { workRoutes } from '@/modules/work/routes/Routes';
 
 import { LandingPage } from '@/components/common/LandingPage';

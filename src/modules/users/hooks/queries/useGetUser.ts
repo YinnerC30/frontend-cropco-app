@@ -28,7 +28,7 @@ export function useGetUser(id: string): UseQueryResult<User, Error> {
           'No tienes permiso para obtener la información del usuario',
       });
     }
-  }, []);
+  }, [query.isError]);
 
   return query;
 }
