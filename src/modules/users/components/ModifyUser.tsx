@@ -14,7 +14,9 @@ export const ModifyUser = () => {
   const { data, isLoading } = useGetUser(id!);
   const { mutate, isPending } = usePatchUser();
 
-  const { actions } = useAppSelector((state: RootState) => state.user);
+  const { actions } = useAppSelector(
+    (state: RootState) => state.users_module.form_user
+  );
 
   const handleSubmit = (values: z.infer<typeof formSchemaUser>) => {
     mutate({

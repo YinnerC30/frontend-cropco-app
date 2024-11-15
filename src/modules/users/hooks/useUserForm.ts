@@ -16,10 +16,10 @@ import {
 } from '../utils';
 
 export const defaultValues = {
-  first_name: '',
-  last_name: '',
-  email: '',
-  cell_phone_number: '',
+  first_name: 'demo',
+  last_name: 'demo',
+  email: 'demo@gmail.com',
+  cell_phone_number: '3145674356',
   passwords: {
     password1: '123456',
     password2: '123456',
@@ -37,7 +37,9 @@ export const useUserForm = ({
   formValues = defaultValues,
 }: Props) => {
   const { data = [], isLoading, isSuccess } = useGetAllModules();
-  const { actions } = useAppSelector((state: RootState) => state.user);
+  const { actions } = useAppSelector(
+    (state: RootState) => state.users_module.form_user
+  );
   const { modules } = useAppSelector(
     (state: RootState) => state.authentication.user
   );

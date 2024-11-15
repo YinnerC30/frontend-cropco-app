@@ -6,28 +6,32 @@ export interface ActionStore {
 }
 
 interface UserState {
-  actions: ActionStore[];
+  form_user: {
+    actions: ActionStore[];
+  };
 }
 
 const initialState: UserState = {
-  actions: [],
+  form_user: {
+    actions: [],
+  },
 };
 
 const getActionsId = (actions: ActionStore[]) => {
   return actions.map((action: ActionStore) => action.id);
 };
 
-export const userSlice = createSlice({
-  name: 'user',
+export const usersModuleSlice = createSlice({
+  name: 'users_module',
   initialState,
   reducers: {
     loadActions: (state, action: PayloadAction<ActionStore[]>) => {
-      state.actions = action.payload;
+      state.form_user.actions = action.payload;
     },
     updateActions: (state, action: PayloadAction<ActionStore[]>) => {
       const { payload } = action;
       const setActions = new Set([
-        ...getActionsId(state.actions),
+        ...getActionsId(state.form_user.actions),
         ...getActionsId(payload),
       ]);
 
@@ -37,19 +41,21 @@ export const userSlice = createSlice({
         }
       });
 
-      state.actions = Array.from(setActions).map((actionId: string) => ({
-        id: actionId,
-        active: true,
-      }));
+      state.form_user.actions = Array.from(setActions).map(
+        (actionId: string) => ({
+          id: actionId,
+          active: true,
+        })
+      );
     },
     removeAllActions: (state) => {
-      state.actions = [];
+      state.form_user.actions = [];
     },
   },
 });
 
 export const { updateActions, removeAllActions, loadActions } =
-  userSlice.actions;
+  usersModuleSlice.actions;
 
-export const userReducer = userSlice.reducer;
-export default { userReducer };
+export const usersModuleReducer = usersModuleSlice.reducer;
+export default { usersModuleReducer };

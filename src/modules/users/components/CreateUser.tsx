@@ -9,7 +9,7 @@ import { FormUser } from './FormUser';
 export const CreateUser = () => {
   const { mutate, isPending } = usePostUser();
 
-  const { actions } = useAppSelector((state: RootState) => state.user);
+  const { actions } = useAppSelector((state: RootState) => state.users_module.form_user);
 
   const handleSubmit = async (
     values: z.infer<typeof formSchemaUserWithPassword>
