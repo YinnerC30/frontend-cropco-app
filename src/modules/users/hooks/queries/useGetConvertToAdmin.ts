@@ -5,9 +5,10 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { User } from '../interfaces/User';
-import { convertToAdmin } from '../services/convertToAdmin';
+
 import { useEffect } from 'react';
+import { User } from '../../interfaces';
+import { convertToAdmin } from '../../services';
 
 export function useGetConvertToAdmin(
   id: string,

@@ -8,9 +8,9 @@ import {
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { User } from '../interfaces';
-import { createUser } from '../services';
-import { removeAllActions } from '../utils';
+import { User } from '../../interfaces';
+import { createUser } from '../../services';
+import { removeAllActions } from '../../utils';
 
 export function usePostUser(): UseMutationResult<
   User,

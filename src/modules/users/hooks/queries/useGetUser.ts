@@ -1,10 +1,13 @@
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import {
+  useAuthorization,
+  useManageErrorApp,
+} from '@/modules/authentication/hooks';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { User } from '../interfaces/User';
-import { getUserById } from '../services/getUserById';
+
 import { useEffect } from 'react';
-import { useAuthorization } from '../../authentication/hooks/useAuthorization';
+import { getUserById } from '../../services';
+import { User } from '../../interfaces';
 
 export function useGetUser(id: string): UseQueryResult<User, Error> {
   const { handleError } = useManageErrorApp();
@@ -25,9 +28,7 @@ export function useGetUser(id: string): UseQueryResult<User, Error> {
           'No tienes permiso para obtener la información del usuario',
       });
     }
-  }, [])
-
-
+  }, []);
 
   return query;
 }

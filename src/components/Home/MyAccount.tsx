@@ -14,7 +14,8 @@ import {
 import { useAuthentication } from '@/modules/authentication/hooks/useAuthentication';
 import { useImplantSeed } from '@/modules/authentication/hooks/useImplantSeed';
 import { useTheme } from '@/modules/core/components/ThemeProvider';
-import { useGetConvertToAdmin } from '@/modules/users/hooks/useGetConvertToAdmin';
+import { useGetConvertToAdmin } from '@/modules/users/hooks';
+
 import { MODULE_USER_PATHS } from '@/modules/users/routes/pathsRoutes';
 import { Bolt } from 'lucide-react';
 import { useEffect, useState } from 'react';

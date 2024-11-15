@@ -7,9 +7,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { User } from '../interfaces';
-import { updateUser } from '../services';
-import { removeAllActions } from '../utils';
+import { updateUser } from '../../services';
+import { User } from '../../interfaces';
+import { removeAllActions } from '../../utils';
 
 export function usePatchUser(): any {
   const navigate = useNavigate();

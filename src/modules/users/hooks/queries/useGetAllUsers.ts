@@ -5,7 +5,8 @@ import { useManageErrorApp } from '@/modules/authentication/hooks/useManageError
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
-import { getUsers } from '../services';
+import { getUsers } from '../../services';
+
 
 interface Props {
   value: string;
