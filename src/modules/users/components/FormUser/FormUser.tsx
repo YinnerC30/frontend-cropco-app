@@ -1,13 +1,12 @@
 // path: /components/FormUser.tsx
 
-import { FormUserProps } from '../interfaces/FormUserProps';
-import {
-  FormUserAlert,
-  FormUserButtons,
-  FormUserDetails,
-  FormUserPermissions,
-  FormUserScrollArea,
-} from './FormUserComponents';
+import { FormUserProps } from '../../interfaces/FormUserProps';
+import { FormUserAlert } from './FormUserAlert';
+import { FormUserButtons } from './FormUserButtons';
+import { FormUserDetails } from './FormUserDetails';
+import { FormUserPermissions } from './FormUserPermissions';
+import { FormUserScrollArea } from './FormUserScrollArea';
+
 import { FormUserProvider } from './FormUserContext';
 
 export const FormUser = ({

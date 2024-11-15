@@ -1,3 +1,4 @@
+export * from './FormUser';
 export * from './FormUserAlert';
 export * from './FormUserButtons';
 export * from './FormUserDetails';

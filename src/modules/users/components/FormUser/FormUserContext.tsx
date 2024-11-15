@@ -1,9 +1,9 @@
 // path: /components/FormUserContext.tsx
 import React, { createContext, useContext } from 'react';
-import { useUserForm } from '../hooks';
+import { useUserForm } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
-import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
-import { FormUserProps } from '../interfaces/FormUserProps';
+import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
+import { FormUserProps } from '../../interfaces/FormUserProps';
 import { useAuthorization } from '@/modules/authentication/hooks';
 
 const FormUserContext = createContext<any>(null);

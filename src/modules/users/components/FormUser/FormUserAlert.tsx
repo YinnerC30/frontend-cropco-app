@@ -1,6 +1,6 @@
 // path: /components/FormUserComponents/FormUserAlert.tsx
 import { AlertAction } from '@/modules/core/components/AlertAction';
-import { useFormUserContext } from '../FormUserContext';
+import { useFormUserContext } from './FormUserContext';
 
 export const FormUserAlert = () => {
   const { hasPermission } = useFormUserContext();
