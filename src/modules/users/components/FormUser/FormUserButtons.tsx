@@ -1,5 +1,3 @@
-// path: /components/FormUserComponents/FormUserButtons.tsx
-
 import { Button } from '@/components';
 import { useFormUserContext } from './FormUserContext';
 import { ButtonsForm } from '@/modules/core/components';

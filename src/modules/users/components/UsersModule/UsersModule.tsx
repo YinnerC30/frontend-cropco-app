@@ -1,10 +1,4 @@
-// path: /components/UsersModule.tsx
-
-import {
-  UsersActions,
-  UsersSearchBar,
-  UsersTable,
-} from '.';
+import { UsersActions, UsersSearchBar, UsersTable } from '.';
 import { UsersBreadCrumb } from './UsersBreadCrumb';
 import { UsersModuleProvider } from './UsersModuleContext';
 

@@ -1,5 +1,3 @@
-
-
 import { useAuthorization } from '@/modules/authentication/hooks';
 import {
   ActionsTable,

@@ -1,5 +1,3 @@
-// path: /components/FormUserComponents/FormUserDetails.tsx
-
 import { useFormUserContext } from './FormUserContext';
 
 import {

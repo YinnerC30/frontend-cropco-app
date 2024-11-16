@@ -1,4 +1,3 @@
-// path: /components/FormUserComponents/FormUserPermissions.tsx
 import {
   Button,
   Card,

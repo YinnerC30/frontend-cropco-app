@@ -1,4 +1,3 @@
-// path: /components/UsersModuleContext.tsx
 import { useAuthorization } from '@/modules/authentication/hooks';
 import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';

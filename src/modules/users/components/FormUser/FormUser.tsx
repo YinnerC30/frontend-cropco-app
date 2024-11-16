@@ -1,5 +1,3 @@
-// path: /components/FormUser.tsx
-
 import { FormUserProps } from '../../interfaces/FormUserProps';
 import { FormUserAlert } from './FormUserAlert';
 import { FormUserButtons } from './FormUserButtons';

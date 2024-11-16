@@ -1,4 +1,3 @@
-// path: /components/UsersModuleComponents/UsersActions.tsx
 import { Button } from '@/components';
 import {
   ButtonCreateRecord,

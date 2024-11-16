@@ -1,7 +1,5 @@
-// path: /components/UsersModuleComponents/UsersSearchBar.tsx
 import { BasicSearchBar } from '@/modules/core/components';
 import { useUsersModuleContext } from './UsersModuleContext';
-
 
 export const UsersSearchBar = () => {
   const { value, hasPermission } = useUsersModuleContext();

@@ -1,4 +1,3 @@
-// path: /components/UsersModuleComponents/UsersTable.tsx
 import { ScrollArea, ScrollBar } from '@/components';
 import { DataTableHook } from '@/modules/core/components';
 import { useUsersModuleContext } from './UsersModuleContext';
