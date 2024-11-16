@@ -1,4 +1,4 @@
-import { CustomFormField } from "@/modules/core/interfaces/CustomFormField";
+import { CustomFormField } from "@/modules/core/interfaces/Form/CustomFormField";
 
 export const formFieldsPayments: Record<string, CustomFormField> = {
   date: {

@@ -5,9 +5,9 @@ import { ArrowUpDown } from "lucide-react";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Badge } from "@/components";
-import { FormatDate } from "@/modules/core/helpers/FormatDate";
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
-import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
+import { FormatDate } from "@/modules/core/helpers/formatting/FormatDate";
+import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
+import { FormatNumber } from "@/modules/core/helpers/formatting/FormatNumber";
 import { useDeleteSale } from "../../hooks";
 import { Sale } from "../../interfaces";
 import { formFieldsSale } from "../../utils";

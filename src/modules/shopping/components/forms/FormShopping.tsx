@@ -3,8 +3,8 @@ import { Separator } from "@/components/ui/separator";
 import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalendar";
 import { FormFieldDataTable } from "@/modules/core/components/form/FormFieldDataTable";
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
-import { FormProps } from "@/modules/core/interfaces/FormProps";
+import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
+import { FormProps } from "@/modules/core/interfaces/Form/FormProps";
 import { useNavigate } from "react-router-dom";
 import { formFieldsShopping } from "../../utils/formFieldsShopping";
 

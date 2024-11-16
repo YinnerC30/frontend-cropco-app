@@ -5,8 +5,8 @@ import { FormFieldCheckBox } from "@/modules/core/components/form/FormFieldCheck
 import { FormFieldDataTable } from "@/modules/core/components/form/FormFieldDataTable";
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
-import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
+import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
+import { FormatNumber } from "@/modules/core/helpers/formatting/FormatNumber";
 import { FormProps } from "@/modules/core/interfaces";
 import { AppDispatch, useAppDispatch } from "@/redux/store";
 import { useEffect } from "react";

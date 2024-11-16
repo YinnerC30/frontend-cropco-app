@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Button } from "@/components";
-import { FormatDate } from "@/modules/core/helpers/FormatDate";
+import { FormatDate } from "@/modules/core/helpers/formatting/FormatDate";
 import { ArrowUpDown } from "lucide-react";
 import { ConsumptionSupplies } from "../../interfaces/ConsuptionSupplies";
 import { formFieldsConsumption } from "../../utils/formFieldsConsumption";

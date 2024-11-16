@@ -7,7 +7,7 @@ import {
   FormMessage,
   Textarea,
 } from "@/components";
-import { FormFieldProps } from "../../interfaces/FormFieldProps";
+import { FormFieldProps } from "../../interfaces/Form/FormFieldProps";
 
 export const FormFieldTextArea = ({
   control,

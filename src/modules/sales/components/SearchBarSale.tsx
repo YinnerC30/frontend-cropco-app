@@ -4,13 +4,13 @@ import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { FormFieldSelect } from "@/modules/core/components/form/FormFieldSelect";
 import { FormFieldSwitch } from "@/modules/core/components/form/FormFieldSwitch";
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
-import { YesORNotSelection } from "@/modules/core/interfaces/YesORNotSelection";
+import { YesORNotSelection } from "@/modules/core/interfaces/General/YesORNotSelection";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
-import { DateTimeSelection } from "../../core/interfaces/DateTimeSelection";
-import { MinorOrMajorSelection } from "../../core/interfaces/MinorOrMajorSelection";
+import { DateTimeSelection } from "../../core/interfaces/General/DateTimeSelection";
+import { MinorOrMajorSelection } from "../../core/interfaces/General/MinorOrMajorSelection";
 import { formFieldsSearchBarSale } from "../utils/formFieldsSearchBarSale";
 import { formSchemaSearchBarSale } from "../utils/formSchemaSearchBarSale";
 

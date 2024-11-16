@@ -4,8 +4,8 @@ import { ArrowUpDown } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
-import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
+import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
+import { FormatNumber } from "@/modules/core/helpers/formatting/FormatNumber";
 import { SaleDetail } from "../../interfaces";
 import { ActionsTableSaleDetail } from "./ActionsTableSaleDetail";
 

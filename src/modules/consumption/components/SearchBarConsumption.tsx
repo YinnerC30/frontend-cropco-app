@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { DateTimeSelection } from "@/modules/core/interfaces/DateTimeSelection";
+import { DateTimeSelection } from "@/modules/core/interfaces/General/DateTimeSelection";
 import { formFieldsSearchBarConsumption } from "../utils/formFieldsSearchBarConsumption";
 import { formSchemaSearchBarConsumption } from "../utils/formSchemaSearchBarConsumption";
 

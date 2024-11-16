@@ -1,5 +1,5 @@
 import { Form } from "@/components";
-import { FormProps } from "@/modules/core/interfaces/FormProps";
+import { FormProps } from "@/modules/core/interfaces/Form/FormProps";
 import { useWorkDetailForm } from "../../hooks/useWorkDetailForm";
 import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
 import { formFieldsWorkDetails } from "../../utils/formFieldsWorkDetails";

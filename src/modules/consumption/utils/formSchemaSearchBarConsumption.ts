@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { DateTimeSelection } from "../../core/interfaces/DateTimeSelection";
+import { DateTimeSelection } from "../../core/interfaces/General/DateTimeSelection";
 
 export const formSchemaSearchBarConsumption = z.object({
   filter_by_date: z.boolean().default(false).optional(),

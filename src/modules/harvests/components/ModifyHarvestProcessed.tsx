@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { usePatchHarvestProcessed } from "../hooks/usePatchHarvestProcessed";
 
-import { ConvertStringToDate } from "@/modules/core/helpers/ConvertStringToDate";
+import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
 import { useEffect } from "react";
 import { CreateFormSchemaHarvestProcessed } from "../utils/formSchemaHarvestProcessed";
 import { FormHarvestProcessed } from "./forms/FormHarvestProcessed";

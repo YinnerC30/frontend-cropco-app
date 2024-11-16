@@ -2,7 +2,7 @@ import { Switch } from '@/components/ui/switch';
 import { CapitalizeFirstWord } from '@/modules/authentication/helpers';
 import { useAppDispatch } from '@/redux/store';
 
-import { Action } from '@/modules/core/interfaces/ResponseGetAllModules';
+import { Action } from '@/modules/core/interfaces/Responses/ResponseGetAllModules';
 import { updateActions } from '../../utils';
 
 interface Props {

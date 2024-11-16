@@ -2,7 +2,7 @@ import { Button, Dialog, Form } from "@/components";
 import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalendar";
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
-import { FormProps } from "@/modules/core/interfaces/FormProps";
+import { FormProps } from "@/modules/core/interfaces/Form/FormProps";
 import { useEffect } from "react";
 import { formFieldsHarvestProcessed } from "../../utils/formFieldsHarvestProcessed";
 import { CreateFormSchemaHarvestProcessed } from "../../utils/formSchemaHarvestProcessed";

@@ -5,8 +5,8 @@ import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalen
 import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { FormFieldSelect } from "@/modules/core/components/form/FormFieldSelect";
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
-import { FormProps } from "@/modules/core/interfaces/FormProps";
+import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
+import { FormProps } from "@/modules/core/interfaces/Form/FormProps";
 import { useAppDispatch } from "@/redux/store";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";

@@ -4,7 +4,7 @@ import { ButtonsForm } from '@/modules/core/components/ButtonsForm';
 import { FormFieldCalendar } from '@/modules/core/components/form/FormFieldCalendar';
 import { FormFieldInput } from '@/modules/core/components/form/FormFieldInput';
 import { FormFieldTextArea } from '@/modules/core/components/form/FormFieldTextArea';
-import { FormProps } from '@/modules/core/interfaces/FormProps';
+import { FormProps } from '@/modules/core/interfaces/Form/FormProps';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCropForm } from '../hooks/useCropForm';

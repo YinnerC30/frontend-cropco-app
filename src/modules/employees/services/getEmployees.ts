@@ -1,5 +1,5 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { ResponseApiGetAllRecords } from '@/modules/core/interfaces/ResponseApiGetAllRecords';
+import { ResponseApiGetAllRecords } from '@/modules/core/interfaces/Responses/ResponseApiGetAllRecords';
 import { Employee } from '../interfaces/Employee';
 
 interface Props {

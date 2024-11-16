@@ -4,7 +4,7 @@ import { ArrowUpDown } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
+import { FormatNumber } from "@/modules/core/helpers/formatting/FormatNumber";
 
 import { ConsumptionDetails } from "../../interfaces/ConsumptionDetails";
 import { ActionsTableConsumptionDetail } from "./ActionsTableConsumptionDetail";

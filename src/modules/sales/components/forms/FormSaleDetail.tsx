@@ -3,7 +3,7 @@ import { Client } from "@/modules/clients/interfaces/Client";
 import { ErrorLoading, Loading } from "@/modules/core/components";
 import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
-import { FormProps } from "@/modules/core/interfaces/FormProps";
+import { FormProps } from "@/modules/core/interfaces/Form/FormProps";
 import { useEffect } from "react";
 import { useSaleDetailForm } from "../../hooks/useSaleDetailForm";
 import { SaleDetail } from "../../interfaces";

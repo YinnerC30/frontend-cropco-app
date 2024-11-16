@@ -11,8 +11,8 @@ import {
   Loading,
   ToolTipTemplate,
 } from '../../core/components';
-import { DateTimeSelection } from '../../core/interfaces/DateTimeSelection';
-import { MinorOrMajorSelection } from '../../core/interfaces/MinorOrMajorSelection';
+import { DateTimeSelection } from '../../core/interfaces/General/DateTimeSelection';
+import { MinorOrMajorSelection } from '../../core/interfaces/General/MinorOrMajorSelection';
 import { useGetAllHarvests } from '../hooks/useGetAllHarvests';
 import columnsHarvest from './columns/ColumnsTableHarvest';
 import { SearchBarHarvest } from './SearchBarHarvest';

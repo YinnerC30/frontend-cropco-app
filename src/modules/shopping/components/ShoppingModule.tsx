@@ -11,8 +11,8 @@ import { useGetAllShopping } from "../hooks/useGetAllShopping";
 
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
 import columnsShopping from "./columns/ColumnsTableShopping";
-import { DateTimeSelection } from "@/modules/core/interfaces/DateTimeSelection";
-import { MinorOrMajorSelection } from "@/modules/core/interfaces/MinorOrMajorSelection";
+import { DateTimeSelection } from "@/modules/core/interfaces/General/DateTimeSelection";
+import { MinorOrMajorSelection } from "@/modules/core/interfaces/General/MinorOrMajorSelection";
 import { SearchBarShopping } from "./SearchBarShopping";
 import { useEffect } from "react";
 import { toast } from "sonner";

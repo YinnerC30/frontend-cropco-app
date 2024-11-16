@@ -2,7 +2,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useParams } from 'react-router-dom';
 
 import { Separator } from '@/components/ui/separator';
-import { ConvertStringToDate } from '@/modules/core/helpers/ConvertStringToDate';
+import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
 import { ErrorLoading, Loading } from '../../core/components';
 import { BreadCrumb } from '../../core/components/BreadCrumb';
 import { useGetCrop } from '../hooks/useGetCrop';

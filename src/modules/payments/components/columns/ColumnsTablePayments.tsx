@@ -4,8 +4,8 @@ import { ArrowUpDown } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { FormatDate } from "@/modules/core/helpers/FormatDate";
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
+import { FormatDate } from "@/modules/core/helpers/formatting/FormatDate";
+import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
 
 import { Badge } from "@/components";
 import { useDeletePayment } from "../../hooks/useDeletePayment";

@@ -1,4 +1,4 @@
-import { ObjectWithId } from "../../core/interfaces/ObjectWithId";
+import { ObjectWithId } from "../../core/interfaces/General/ObjectWithId";
 import { HarvestDetail } from "./HarvestDetail";
 import { HarvestProcessed } from "./HarvestProcessed";
 

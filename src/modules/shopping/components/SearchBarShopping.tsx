@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { DateTimeSelection } from "@/modules/core/interfaces/DateTimeSelection";
-import { MinorOrMajorSelection } from "@/modules/core/interfaces/MinorOrMajorSelection";
+import { DateTimeSelection } from "@/modules/core/interfaces/General/DateTimeSelection";
+import { MinorOrMajorSelection } from "@/modules/core/interfaces/General/MinorOrMajorSelection";
 
 import { formFieldsSearchBarShopping } from "../utils/formFieldsSearchBarShopping";
 import { formSchemaSearchBarShopping } from "../utils/formSchemaSearchBarShopping";

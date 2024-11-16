@@ -6,7 +6,7 @@ import {
   FormControl,
 } from "@/components";
 import { Switch } from "@/components/ui/switch";
-import { FormFieldProps } from "../../interfaces/FormFieldProps";
+import { FormFieldProps } from "../../interfaces/Form/FormFieldProps";
 
 export const FormFieldSwitch = ({
   control,

@@ -13,7 +13,7 @@ import { formSchemaSale } from "../utils";
 import { reset } from "../utils/saleSlice";
 
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { ConvertStringToDate } from "@/modules/core/helpers/ConvertStringToDate";
+import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
 import { FormSale } from "./forms/FormSale";
 
 export const ModifySale = () => {

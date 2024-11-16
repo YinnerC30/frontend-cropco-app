@@ -1,4 +1,4 @@
-import { ObjectWithId } from "@/modules/core/interfaces/ObjectWithId";
+import { ObjectWithId } from "@/modules/core/interfaces/General/ObjectWithId";
 import { PaymentHarvest } from "./PaymentHarvest";
 import { PaymentWork } from "./PaymentWork";
 import { MethodOfPayment } from "./MethodOfPayment";

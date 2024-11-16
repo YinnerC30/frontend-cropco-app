@@ -4,7 +4,7 @@ import { Form } from "../../../components/ui/form";
 import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { FormFieldTextArea } from "@/modules/core/components/form/FormFieldTextArea";
-import { FormProps } from "@/modules/core/interfaces/FormProps";
+import { FormProps } from "@/modules/core/interfaces/Form/FormProps";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSupplierForm } from "../hooks/useSupplierForm";

@@ -8,7 +8,7 @@ import { useGetConsumption } from "../hooks/useGetConsumption";
 import { reset } from "../utils/consumptionSlice";
 
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { ConvertStringToDate } from "@/modules/core/helpers/ConvertStringToDate";
+import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
 import { FormConsumption } from "./forms/FormConsumption";
 
 export const ViewConsumption = () => {

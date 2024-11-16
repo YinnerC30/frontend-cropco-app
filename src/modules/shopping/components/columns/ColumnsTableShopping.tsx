@@ -1,8 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Button } from "@/components";
-import { FormatDate } from "@/modules/core/helpers/FormatDate";
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
+import { FormatDate } from "@/modules/core/helpers/formatting/FormatDate";
+import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
 import { ArrowUpDown } from "lucide-react";
 
 import { ShoppingSupplies } from "../../interfaces/ShoppingSupplies";

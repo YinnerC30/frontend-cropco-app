@@ -11,7 +11,7 @@ import { ScrollArea, Separator } from '@/components';
 import { ErrorLoading, Loading } from '@/modules/core/components';
 
 import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
-import { ConvertStringToDate } from '../../core/helpers/ConvertStringToDate';
+import { ConvertStringToDate } from '../../core/helpers/conversion/ConvertStringToDate';
 import { usePatchWork } from '../hooks/usePatchWork';
 import { WorkDetail } from '../interfaces/WorkDetail';
 import { FormWork } from './form/FormWork';

@@ -1,7 +1,7 @@
 import { ScrollArea, Separator } from "@/components";
 import { ErrorLoading, Loading } from "@/modules/core/components";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { ConvertStringToDate } from "@/modules/core/helpers/ConvertStringToDate";
+import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
 import { useParams } from "react-router-dom";
 import { useGetPayment } from "../hooks/useGetPayment";
 import { FormPayment } from "./forms/FormPayment";

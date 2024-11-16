@@ -1,4 +1,4 @@
-import { CustomFormField } from "@/modules/core/interfaces/CustomFormField";
+import { CustomFormField } from "@/modules/core/interfaces/Form/CustomFormField";
 
 export const formFieldsSearchBarConsumption: Record<string, CustomFormField> = {
   filter_by_date: {

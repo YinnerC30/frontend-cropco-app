@@ -6,7 +6,7 @@ import {
   ToolTipTemplate,
 } from "@/modules/core/components";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { DateTimeSelection } from "@/modules/core/interfaces/DateTimeSelection";
+import { DateTimeSelection } from "@/modules/core/interfaces/General/DateTimeSelection";
 import { PlusIcon } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useGetAllConsumptions } from "../hooks/useGetAllConsumptions";

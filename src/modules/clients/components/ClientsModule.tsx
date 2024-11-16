@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
-import { dowloadPDF } from '@/modules/core/helpers/dowloadPDF';
+import { dowloadPDF } from '@/modules/core/helpers/utilities/dowloadPDF';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { toast } from 'sonner';

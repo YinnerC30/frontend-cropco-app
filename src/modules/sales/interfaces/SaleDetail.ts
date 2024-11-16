@@ -1,4 +1,4 @@
-import { ObjectWithId } from "@/modules/core/interfaces/ObjectWithId";
+import { ObjectWithId } from "@/modules/core/interfaces/General/ObjectWithId";
 
 export interface SaleDetail {
   id?: string;

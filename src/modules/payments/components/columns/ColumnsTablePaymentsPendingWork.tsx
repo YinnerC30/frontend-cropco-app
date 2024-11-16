@@ -7,8 +7,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useAppDispatch } from "@/redux/store";
 import { toast } from "sonner";
 
-import { FormatDate } from "@/modules/core/helpers/FormatDate";
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
+import { FormatDate } from "@/modules/core/helpers/formatting/FormatDate";
+import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
 
 import { Badge } from "@/components";
 import { PaymentPending } from "../../interfaces/PaymentPending";

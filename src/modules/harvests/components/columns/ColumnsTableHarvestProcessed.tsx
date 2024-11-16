@@ -4,8 +4,8 @@ import { ArrowUpDown } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { FormatDate } from "@/modules/core/helpers/FormatDate";
-import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
+import { FormatDate } from "@/modules/core/helpers/formatting/FormatDate";
+import { FormatNumber } from "@/modules/core/helpers/formatting/FormatNumber";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { useDeleteHarvestProcessed } from "../../hooks/useDeleteHarvestProcessed";

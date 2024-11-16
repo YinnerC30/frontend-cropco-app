@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
-import { DataTableColumnHeaderProps } from '../../interfaces/table/DataTableColumnHeaderProps';
+import { DataTableColumnHeaderProps } from '../../interfaces/DataTable/DataTableColumnHeaderProps';
 
 
 export function DataTableColumnHeader<TData, TValue>({

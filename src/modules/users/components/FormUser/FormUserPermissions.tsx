@@ -8,7 +8,7 @@ import {
 } from '@/components';
 import { useFormUserContext } from './FormUserContext';
 
-import { Module } from '@/modules/core/interfaces/ResponseGetAllModules';
+import { Module } from '@/modules/core/interfaces/Responses/ResponseGetAllModules';
 import { FormUserPermissionAction } from './FormUserPermissionAction';
 
 export const FormUserPermissions = () => {

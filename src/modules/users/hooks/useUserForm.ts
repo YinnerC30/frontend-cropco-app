@@ -3,7 +3,7 @@ import { useCreateForm, useGetAllModules } from '@/modules/core/hooks';
 import {
   Action,
   Module,
-} from '@/modules/core/interfaces/ResponseGetAllModules';
+} from '@/modules/core/interfaces/Responses/ResponseGetAllModules';
 import { RootState, useAppDispatch, useAppSelector } from '@/redux/store';
 import { useEffect, useState } from 'react';
 import {

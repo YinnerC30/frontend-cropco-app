@@ -6,7 +6,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { FormFieldProps } from "../../interfaces/FormFieldProps";
+import { FormFieldProps } from "../../interfaces/Form/FormFieldProps";
 
 interface FormFieldDataTable extends FormFieldProps {
   children: any;

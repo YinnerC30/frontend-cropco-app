@@ -1,8 +1,8 @@
 import { Crop } from '@/modules/crops/interfaces/Crop';
 import { ColumnDef } from '@tanstack/react-table';
 
-import { FormatDate } from '@/modules/core/helpers/FormatDate';
-import { FormatNumber } from '@/modules/core/helpers/FormatNumber';
+import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
+import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
 import { ButtonHeaderTable } from '../../core/components';
 import { formFieldsCrop } from '../utils';
 import { ActionsTableCrops } from './ActionsTableCrops';

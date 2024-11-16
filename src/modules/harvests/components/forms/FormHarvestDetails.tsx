@@ -3,7 +3,7 @@ import { Form } from "@/components/ui/form";
 import { ErrorLoading, Loading } from "@/modules/core/components";
 import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
-import { FormProps } from "@/modules/core/interfaces/FormProps";
+import { FormProps } from "@/modules/core/interfaces/Form/FormProps";
 import { Employee } from "@/modules/employees/interfaces/Employee";
 import { useHarvestDetailForm } from "../../hooks/useHarvestDetailForm";
 import { formFieldsHarvestDetail } from "../../utils";

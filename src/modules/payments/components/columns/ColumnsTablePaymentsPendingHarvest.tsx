@@ -8,9 +8,9 @@ import { useAppDispatch } from "@/redux/store";
 import { toast } from "sonner";
 
 import { Badge } from "@/components";
-import { FormatDate } from "@/modules/core/helpers/FormatDate";
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
-import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
+import { FormatDate } from "@/modules/core/helpers/formatting/FormatDate";
+import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
+import { FormatNumber } from "@/modules/core/helpers/formatting/FormatNumber";
 import { PaymentPending } from "../../interfaces/PaymentPending";
 import { addRecordToPay, calculateTotal } from "../../utils/paymentSlice";
 import { ActionsTablePaymentsPendingHarvest } from "./ActionsTablePaymentsPendingHarvest";

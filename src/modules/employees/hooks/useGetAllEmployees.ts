@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { PropsUseGetAllRecords } from '@/modules/core/interfaces/PropsUseGetAllRecords';
+import { PropsUseGetAllRecords } from '@/modules/core/interfaces/Props/PropsUseGetAllRecords';
 import { ResponseUseGetAllRecords } from '@/modules/core/interfaces/ResponseUseGetAllRecords';
 import { PaginationState } from '@tanstack/react-table';
 import { useState } from 'react';

@@ -7,7 +7,7 @@ import { ErrorLoading, Loading } from '../../core/components';
 import { useGetCrop } from '../hooks/useGetCrop';
 import { usePatchCrop } from '../hooks/usePatchCrop';
 
-import { ConvertStringToDate } from '@/modules/core/helpers/ConvertStringToDate';
+import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
 import { BreadCrumb } from '../../core/components/BreadCrumb';
 import { formSchemaCrop } from '../utils';
 import { FormCrop } from './FormCrop';

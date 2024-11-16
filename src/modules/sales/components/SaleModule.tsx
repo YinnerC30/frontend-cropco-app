@@ -6,9 +6,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { ConvertStringToBoolean } from "@/modules/core/helpers/ConvertStringToBoolean";
-import { DateTimeSelection } from "@/modules/core/interfaces/DateTimeSelection";
-import { MinorOrMajorSelection } from "@/modules/core/interfaces/MinorOrMajorSelection";
+import { ConvertStringToBoolean } from "@/modules/core/helpers/conversion/ConvertStringToBoolean";
+import { DateTimeSelection } from "@/modules/core/interfaces/General/DateTimeSelection";
+import { MinorOrMajorSelection } from "@/modules/core/interfaces/General/MinorOrMajorSelection";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import {

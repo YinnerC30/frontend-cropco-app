@@ -8,9 +8,9 @@ import { FormFieldDataTable } from "@/modules/core/components/form/FormFieldData
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { FormFieldTextArea } from "@/modules/core/components/form/FormFieldTextArea";
 import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
-import { FormatMoneyValue } from "@/modules/core/helpers/FormatMoneyValue";
-import { FormatNumber } from "@/modules/core/helpers/FormatNumber";
-import { FormProps } from "@/modules/core/interfaces/FormProps";
+import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
+import { FormatNumber } from "@/modules/core/helpers/formatting/FormatNumber";
+import { FormProps } from "@/modules/core/interfaces/Form/FormProps";
 import { AppDispatch, useAppDispatch } from "@/redux/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";

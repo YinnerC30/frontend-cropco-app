@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { ConvertStringToDate } from "@/modules/core/helpers/ConvertStringToDate";
+import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
 import { ErrorLoading, Loading } from "../../core/components";
 import { useGetHarvest } from "../hooks/useGetHarvest";
 import { usePatchHarvest } from "../hooks/usePatchHarvest";

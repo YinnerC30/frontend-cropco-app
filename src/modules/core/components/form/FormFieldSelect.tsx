@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { FormFieldProps } from "../../interfaces/FormFieldProps";
+import { FormFieldProps } from "../../interfaces/Form/FormFieldProps";
 import { UnitOfMeasure } from "@/modules/supplies/interfaces/UnitOfMeasure";
 
 interface FormFieldSelectProps<T> extends FormFieldProps {
