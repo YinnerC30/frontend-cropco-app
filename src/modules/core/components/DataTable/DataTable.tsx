@@ -20,8 +20,8 @@ export const DataTable = () => {
   const navigate = useNavigate();
 
   return (
-    <Table>
-      <ScrollArea className="h-[55vh] w-full" type="auto">
+    <ScrollArea className="h-[55vh] pr-4 pb-4" type="auto">
+      <Table className="mb-4">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup: any) => (
             <TableRow key={headerGroup.id}>
@@ -73,8 +73,8 @@ export const DataTable = () => {
             </TableRow>
           )}
         </TableBody>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
-    </Table>
+      </Table>
+      <ScrollBar className="mt-4" orientation="horizontal" />
+    </ScrollArea>
   );
 };
