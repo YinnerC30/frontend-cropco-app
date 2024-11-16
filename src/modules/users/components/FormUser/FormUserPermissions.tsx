@@ -23,7 +23,7 @@ export const FormUserPermissions = () => {
   } = useFormUserContext();
 
   return (
-    <>
+    <div>
       <Separator className="my-5" />
       <h3 className="text-xl">Permisos:</h3>
       <div
@@ -65,6 +65,6 @@ export const FormUserPermissions = () => {
           </Card>
         ))}
       </div>
-    </>
+    </div>
   );
 };

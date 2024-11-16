@@ -26,7 +26,7 @@ export const FormUserDetails = () => {
   } = useFormUserContext();
 
   return (
-    <>
+    <div>
       <h3 className="text-xl">Datos personales:</h3>
       <Form {...form}>
         <form
@@ -126,6 +126,6 @@ export const FormUserDetails = () => {
           )}
         </form>
       </Form>
-    </>
+    </div>
   );
 };
