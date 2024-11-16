@@ -1,9 +1,12 @@
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useManageErrorApp } from '@/modules/authentication/hooks';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { deleteUser } from '../../services';
 
+export const deleteUser = async (id: string) => {
+  await cropcoAPI.delete(`${pathsCropco.users}/remove/one/${id}`);
+};
 
 export const useDeleteUser = () => {
   const queryClient = useQueryClient();

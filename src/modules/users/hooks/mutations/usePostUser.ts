@@ -9,8 +9,13 @@ import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { User } from '../../interfaces';
-import { createUser } from '../../services';
+
 import { removeAllActions } from '../../utils';
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+
+async function createUser(user: User): Promise<User> {
+  return await cropcoAPI.post(`${pathsCropco.users}/create`, user);
+}
 
 export function usePostUser(): UseMutationResult<
   User,

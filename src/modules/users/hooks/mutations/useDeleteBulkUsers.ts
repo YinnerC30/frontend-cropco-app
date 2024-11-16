@@ -1,9 +1,17 @@
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useManageErrorApp } from '@/modules/authentication/hooks';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { deleteBulkUsers } from '../../services';
+import { BulkUsersDelete } from '../../interfaces';
 
+const deleteBulkUsers = async (data: BulkUsersDelete) => {
+  await cropcoAPI.delete(`${pathsCropco.users}/remove/bulk`, {
+    data: {
+      userIds: data.userIds,
+    },
+  });
+};
 
 interface DeleteBulkUsersProps {
   actionOnSuccess: () => void;

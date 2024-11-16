@@ -7,9 +7,17 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { updateUser } from '../../services';
 import { User } from '../../interfaces';
 import { removeAllActions } from '../../utils';
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+
+async function updateUser({ id, ...rest }: User): Promise<void> {
+  const { data } = await cropcoAPI.patch(
+    `${pathsCropco.users}/update/one/${id}`,
+    rest
+  );
+  return data;
+}
 
 export function usePatchUser(): any {
   const navigate = useNavigate();

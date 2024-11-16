@@ -1,12 +1,31 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthorization } from '@/modules/authentication/hooks';
 import { useManageErrorApp } from '@/modules/authentication/hooks/useManageErrorApp';
 import { usePaginationDataTable } from '@/modules/core/hooks';
+import {
+  BasicQueryData,
+  ResponseApiGetAllRecords,
+} from '@/modules/core/interfaces';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
-import { getUsers } from '../../services';
+import { User } from '../../interfaces';
 
+async function getUsers(
+  values: BasicQueryData
+): Promise<ResponseApiGetAllRecords<User>> {
+  const { query: value = '', limit = 10, offset = 0 } = values;
+
+  const params = new URLSearchParams({
+    search: value,
+    limit: limit.toString(),
+    offset: offset.toString(),
+  });
+
+  const { data } = await cropcoAPI.get(`${pathsCropco.users}/all?${params}`);
+  return data;
+}
 
 interface Props {
   value: string;
@@ -14,9 +33,7 @@ interface Props {
 
 const STALE_TIME_DATA = 60_000 * 60;
 
-export function useGetAllUsers({
-  value,
-}: Props) {
+export function useGetAllUsers({ value }: Props) {
   const { hasPermission } = useAuthorization();
   const { pagination, setPagination, pageIndex, pageSize } =
     usePaginationDataTable();
@@ -32,7 +49,7 @@ export function useGetAllUsers({
         offset: pageIndex,
       }),
     staleTime: STALE_TIME_DATA,
-    enabled: hasPermission('users', 'find_all_users')
+    enabled: hasPermission('users', 'find_all_users'),
   });
 
   useEffect(() => {

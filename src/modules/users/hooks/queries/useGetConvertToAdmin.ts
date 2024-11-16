@@ -8,7 +8,14 @@ import { AxiosError } from 'axios';
 
 import { useEffect } from 'react';
 import { User } from '../../interfaces';
-import { convertToAdmin } from '../../services';
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+
+async function convertToAdmin(id: string): Promise<User> {
+  const { data } = await cropcoAPI.get(
+    `${pathsCropco.authentication}/convert-to-admin/one/${id}`
+  );
+  return data;
+}
 
 export function useGetConvertToAdmin(
   id: string,

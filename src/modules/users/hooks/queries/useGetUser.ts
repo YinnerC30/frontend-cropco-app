@@ -5,9 +5,14 @@ import {
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useEffect } from 'react';
-import { getUserById } from '../../services';
 import { User } from '../../interfaces';
+
+async function getUserById(id: string): Promise<User> {
+  const { data } = await cropcoAPI.get(`${pathsCropco.users}/one/${id}`);
+  return data;
+}
 
 export function useGetUser(id: string): UseQueryResult<User, Error> {
   const { handleError } = useManageErrorApp();
