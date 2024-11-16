@@ -29,7 +29,7 @@ export const HomeLayout = () => {
     <div className="grid h-screen grid-cols-12 grid-rows-12">
       <CommandDialogApp />
 
-      <Header className="flex flex-row items-center col-span-12 col-start-1 row-span-1 py-4 border-b justify-evenly">
+      <Header className="fixed top-0 left-0 z-50 flex flex-row items-center w-full py-4 border-b justify-evenly bg-background">
         <SheetNavBar modulesUser={modulesUser} />
         <div className="flex items-center w-auto">
           <img src="/public/icon.png" width={30} />
@@ -46,7 +46,7 @@ export const HomeLayout = () => {
         <Link to={'/'}>Ir a Root</Link>
       </Header>
 
-      <NavBar className="flex-col hidden gap-1 py-2 pl-4 border-r lg:flex lg:col-span-2 row-span-11 min-w-44 ">
+      <NavBar className="flex-col hidden gap-1 py-2 pl-4 mt-16 border-r lg:flex lg:col-span-2 row-span-11 min-w-44">
         {routes.map((route: Route) => {
           if (
             modulesUser.includes(route.name_module) ||
@@ -57,7 +57,7 @@ export const HomeLayout = () => {
         })}
       </NavBar>
 
-      <Main className="col-span-12 p-5 row-span-11 lg:col-span-10 sm:col-span-12">
+      <Main className="col-span-12 p-5 mt-16 row-span-11 lg:col-span-10 sm:col-span-12">
         <Outlet />
       </Main>
     </div>
