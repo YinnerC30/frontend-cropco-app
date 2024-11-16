@@ -7,7 +7,7 @@ export const UsersTable = () => {
     useUsersModuleContext();
 
   return (
-    <ScrollArea className="w-[95%] pb-4" type="auto">
+    <ScrollArea className="w-[95%] lg:h-[65vh] pb-4 lg:pr-4" type="auto">
       <DataTableHook
         errorMessage={
           !hasPermission('users', 'find_all_users')

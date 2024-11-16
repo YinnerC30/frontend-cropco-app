@@ -19,7 +19,7 @@ export const UsersActions = () => {
   } = useUsersModuleContext();
 
   return (
-    <div className="flex  w-[100%] justify-between gap-1">
+    <div className="flex w-[100%] justify-evenly lg:justify-between gap-1 flex-wrap">
       <ButtonRefetchData
         onClick={query.refetch}
         disabled={!hasPermission('users', 'find_all_users')}
