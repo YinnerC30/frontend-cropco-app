@@ -19,13 +19,14 @@ export const UsersActions = () => {
   } = useUsersModuleContext();
 
   return (
-    <div className="flex items-center w-[100%] justify-between">
+    <div className="flex  w-[100%] justify-between gap-1">
       <ButtonRefetchData
         onClick={query.refetch}
         disabled={!hasPermission('users', 'find_all_users')}
+        className=""
       />
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1">
         <Button
           onClick={() => resetSelectionRows()}
           className={`${!showButtonDeleteBulk && 'hidden'}`}
@@ -42,6 +43,7 @@ export const UsersActions = () => {
         <ButtonCreateRecord
           route={MODULE_USER_PATHS.Create}
           disabled={!hasPermission('users', 'create_user')}
+          className=""
         />
       </div>
     </div>

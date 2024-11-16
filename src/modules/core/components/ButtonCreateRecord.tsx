@@ -14,7 +14,7 @@ export const ButtonCreateRecord = ({
   return (
     <Link
       to={!disabled && route}
-      className={`${className}dark:text-black dark:bg-white rounded-sm bg-black text-white font-medium text-sm  flex-none py-2 px-2 ${
+      className={`${className}dark:text-black dark:bg-white rounded-sm bg-primary hover:bg-primary/90 text-white font-medium text-sm  flex-none py-2 px-2 ${
         disabled && 'opacity-50 cursor-default'
       }`}
     >

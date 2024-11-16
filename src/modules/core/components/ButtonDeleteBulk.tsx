@@ -28,7 +28,7 @@ export const ButtonDeleteBulk = ({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button disabled={disabled} className={`${!visible ? 'hidden' : ''}`}>
+        <Button disabled={disabled} className={`${!visible ? 'hidden' : ''} `}>
           <TrashIcon className="w-4 h-4 mr-2" /> Eliminar
         </Button>
       </AlertDialogTrigger>
