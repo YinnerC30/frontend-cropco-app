@@ -6,7 +6,7 @@ import { useGetUser, usePatchUser } from '../hooks/';
 import { BreadCrumb } from '@/modules/core/components/';
 import { RootState, useAppSelector } from '@/redux/store';
 import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
-import { ActionStore, formSchemaUser } from '../utils';
+import { UserAction, formSchemaUser } from '../utils';
 import { FormUser } from './FormUser';
 
 export const ModifyUser = () => {
@@ -22,7 +22,7 @@ export const ModifyUser = () => {
     mutate({
       ...values,
       id,
-      actions: actions.map((action: ActionStore) => ({
+      actions: actions.map((action: UserAction) => ({
         id: action.id,
       })),
     });

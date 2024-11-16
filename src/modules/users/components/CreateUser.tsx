@@ -3,7 +3,7 @@ import { RootState, useAppSelector } from '@/redux/store';
 import { z } from 'zod';
 import { usePostUser } from '../hooks';
 import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
-import { ActionStore, formSchemaUserWithPassword } from '../utils';
+import { UserAction, formSchemaUserWithPassword } from '../utils';
 import { FormUser } from './FormUser';
 
 export const CreateUser = () => {
@@ -18,7 +18,7 @@ export const CreateUser = () => {
     mutate({
       ...rest,
       password: passwords.password1,
-      actions: actions.map((action: ActionStore) => ({ id: action.id })),
+      actions: actions.map((action: UserAction) => ({ id: action.id })),
     });
   };
 

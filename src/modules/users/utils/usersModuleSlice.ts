@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface ActionStore {
+export interface UserAction {
   id: string;
   active: boolean;
 }
 
 interface UserState {
   form_user: {
-    actions: ActionStore[];
+    actions: UserAction[];
   };
 }
 
@@ -17,18 +17,18 @@ const initialState: UserState = {
   },
 };
 
-const getActionsId = (actions: ActionStore[]) => {
-  return actions.map((action: ActionStore) => action.id);
+const getActionsId = (actions: UserAction[]) => {
+  return actions.map((action: UserAction) => action.id);
 };
 
 export const usersModuleSlice = createSlice({
   name: 'users_module',
   initialState,
   reducers: {
-    loadActions: (state, action: PayloadAction<ActionStore[]>) => {
+    loadActions: (state, action: PayloadAction<UserAction[]>) => {
       state.form_user.actions = action.payload;
     },
-    updateActions: (state, action: PayloadAction<ActionStore[]>) => {
+    updateActions: (state, action: PayloadAction<UserAction[]>) => {
       const { payload } = action;
       const setActions = new Set([
         ...getActionsId(state.form_user.actions),

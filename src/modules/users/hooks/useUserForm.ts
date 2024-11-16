@@ -7,7 +7,7 @@ import {
 import { RootState, useAppDispatch, useAppSelector } from '@/redux/store';
 import { useEffect, useState } from 'react';
 import {
-  ActionStore,
+  UserAction,
   formSchemaUser,
   formSchemaUserWithPassword,
   loadActions,
@@ -54,7 +54,7 @@ export const useUserForm = ({
   };
 
   const userHasAction = ({ id }: { id: string }) => {
-    const actionsIds = actions.map((action: ActionStore) => action.id);
+    const actionsIds = actions.map((action: UserAction) => action.id);
     return actionsIds.includes(id);
   };
 
@@ -65,7 +65,7 @@ export const useUserForm = ({
 
   const dispatch = useAppDispatch();
 
-  const loadActionsUser = (actions: ActionStore[]) => {
+  const loadActionsUser = (actions: UserAction[]) => {
     dispatch(loadActions(actions));
   };
 
@@ -73,14 +73,14 @@ export const useUserForm = ({
     dispatch(removeAllActions());
   };
 
-  const updateActionsInState = (actions: ActionStore[]) => {
+  const updateActionsInState = (actions: UserAction[]) => {
     dispatch(updateActions(actions));
   };
 
   const handleSelectAllActions = () => {
-    const actions = data.flatMap((item: Module): ActionStore[] =>
+    const actions = data.flatMap((item: Module): UserAction[] =>
       item.actions.map(
-        (act: Action): ActionStore => ({ id: act.id, active: true })
+        (act: Action): UserAction => ({ id: act.id, active: true })
       )
     );
 
