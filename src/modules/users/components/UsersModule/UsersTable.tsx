@@ -1,5 +1,4 @@
-import { ScrollArea, ScrollBar } from '@/components';
-import { DataTableHook } from '@/modules/core/components';
+import { DataTableTemplate } from '@/modules/core/components/DataTable';
 import { useUsersModuleContext } from './UsersModuleContext';
 
 export const UsersTable = () => {
@@ -7,20 +6,17 @@ export const UsersTable = () => {
     useUsersModuleContext();
 
   return (
-    <ScrollArea className="w-[95%] lg:h-[65vh] pb-4 lg:pr-4" type="auto">
-      <DataTableHook
-        errorMessage={
-          !hasPermission('users', 'find_all_users')
-            ? 'No tienes permiso para ver el listado de usuarios 😢'
-            : 'No hay registros.'
-        }
-        disabledDoubleClick={!hasPermission('users', 'find_one_user')}
-        table={table}
-        lengthColumns={lengthColumns}
-        rowCount={query.data?.rowCount ?? 0}
-        isLoading={query.isLoading || query.isRefetching || isPending}
-      />
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
+    <DataTableTemplate
+      errorMessage={
+        !hasPermission('users', 'find_all_users')
+          ? 'No tienes permiso para ver el listado de usuarios 😢'
+          : 'No hay registros.'
+      }
+      disabledDoubleClick={!hasPermission('users', 'find_one_user')}
+      table={table}
+      lengthColumns={lengthColumns}
+      rowCount={query.data?.rowCount ?? 0}
+      isLoading={query.isLoading || query.isRefetching || isPending}
+    />
   );
 };
