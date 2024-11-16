@@ -18,7 +18,7 @@ export const ItemNavigate = ({ path, Icon, name, disabled = false }: Props) => {
         to={`${!disabled ? path : ''}`}
         className={`${disabled && 'opacity-50'}  ${
           disabled ? 'cursor-default' : 'cursor-pointer'
-        }`}
+        } text-primary font-medium`}
       >
         <Icon className="w-full h-4 mr-2 " /> {name}
       </Link>
