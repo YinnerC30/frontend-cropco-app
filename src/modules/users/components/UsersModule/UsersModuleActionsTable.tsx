@@ -1,13 +1,13 @@
 import { useAuthorization } from '@/modules/authentication/hooks';
+
 import {
-  ActionsTable,
-  ItemCopyIdRecord,
-  ItemDeleteRecord,
-  ItemModifyRecord,
-  ItemViewRecord,
-} from '@/modules/core/components';
+  ActionCopyIdRecord,
+  ActionDeleteRecord,
+  ActionModifyRecord,
+  ActionViewRecord,
+} from '@/modules/core/components/DataTable/DataTableMenuActions/Actions';
+import { DropDownMenuActions } from '@/modules/core/components/DataTable/DataTableMenuActions/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
-import { useState } from 'react';
 import { useDeleteUser } from '../../hooks';
 
 interface Props {
@@ -18,33 +18,29 @@ export const UsersModuleActionsTable = ({ row }: Props) => {
   const { hasPermission } = useAuthorization();
   const { id } = row.original;
   const { mutate } = useDeleteUser();
-  const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
   const handleDelete = () => {
     mutate(id);
   };
 
   return (
-    <>
-      <ActionsTable open={openDropDownMenu} onChange={setOpenDropDownMenu}>
-        <ItemCopyIdRecord id={id} onChange={setOpenDropDownMenu} />
+    <DropDownMenuActions>
+      <ActionCopyIdRecord id={id} />
 
-        <ItemDeleteRecord
-          action={handleDelete}
-          onChange={setOpenDropDownMenu}
-          disabled={!hasPermission('users', 'remove_one_user')}
-        />
+      <ActionDeleteRecord
+        action={handleDelete}
+        disabled={!hasPermission('users', 'remove_one_user')}
+      />
 
-        <ItemModifyRecord
-          id={id}
-          disabled={!hasPermission('users', 'update_one_user')}
-        />
+      <ActionModifyRecord
+        id={id}
+        disabled={!hasPermission('users', 'update_one_user')}
+      />
 
-        <ItemViewRecord
-          id={id}
-          disabled={!hasPermission('users', 'find_one_user')}
-        />
-      </ActionsTable>
-    </>
+      <ActionViewRecord
+        id={id}
+        disabled={!hasPermission('users', 'find_one_user')}
+      />
+    </DropDownMenuActions>
   );
 };
