@@ -18,7 +18,7 @@ import {
 const DataTableSelectPageSize = ({ table }: any) => {
   return (
     <div className="flex items-center space-x-2">
-      <p className="text-sm font-medium">Filas por página</p>
+      <p className="text-sm font-medium">Registros por página</p>
       <Select
         value={`${table.getState().pagination.pageSize}`}
         onValueChange={(value) => {

@@ -1,6 +1,7 @@
 import { DataTable } from './DataTable';
 import { DataTableProvider } from './DataTableContext';
 import { DataTablePagination } from './DataTablePagination';
+import { DataTableRowSelection } from './DataTableRowSelection';
 
 interface Props {
   table: any;
@@ -30,6 +31,7 @@ export const DataTableTemplate = ({
     >
       <div className="flex flex-col w-full my-1">
         <DataTable />
+        <DataTableRowSelection/>
         <DataTablePagination />
       </div>
     </DataTableProvider>
