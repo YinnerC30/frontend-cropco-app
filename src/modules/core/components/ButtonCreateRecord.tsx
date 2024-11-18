@@ -1,4 +1,7 @@
+import { Button } from '@/components';
+import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { ToolTipTemplate } from './ToolTipTemplate';
 
 interface Props {
   route: any;
@@ -12,13 +15,16 @@ export const ButtonCreateRecord = ({
   disabled = false,
 }: Props) => {
   return (
-    <Link
-      to={!disabled && route}
-      className={`${className}dark:text-black dark:bg-white rounded-sm bg-primary hover:bg-primary/90 text-white font-medium text-sm  flex-none py-2 px-2 ${
-        disabled && 'opacity-50 cursor-default'
-      }`}
-    >
-      Crear
-    </Link>
+    <ToolTipTemplate content={'Crear registro'}>
+      <Button variant="outline" size="icon" disabled={disabled} asChild>
+        <Link
+          to={!disabled && route}
+          className={`${className}  ${disabled && 'opacity-50 cursor-default'}`}
+        >
+          <Plus className="w-4 h-4" />
+          <span className="sr-only">Crear nuevo registro</span>
+        </Link>
+      </Button>
+    </ToolTipTemplate>
   );
 };

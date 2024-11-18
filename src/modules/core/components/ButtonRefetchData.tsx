@@ -1,4 +1,6 @@
 import { Button } from '@/components';
+import { RefreshCw } from 'lucide-react';
+import { ToolTipTemplate } from './ToolTipTemplate';
 
 interface Props {
   onClick: any;
@@ -12,8 +14,17 @@ export const ButtonRefetchData = ({
   className,
 }: Props) => {
   return (
-    <Button className={className} onClick={onClick} disabled={disabled}>
-      Recargar
-    </Button>
+    <ToolTipTemplate content="Recargar datos de la tabla">
+      <Button
+        className={className}
+        onClick={onClick}
+        disabled={disabled}
+        variant="outline"
+        size="icon"
+      >
+        <RefreshCw className="w-4 h-4" />
+        <span className="sr-only">Recargar datos</span>
+      </Button>
+    </ToolTipTemplate>
   );
 };

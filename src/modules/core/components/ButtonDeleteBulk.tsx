@@ -12,7 +12,8 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-import { TrashIcon } from '@radix-ui/react-icons';
+import { Trash } from 'lucide-react';
+import { ToolTipTemplate } from './ToolTipTemplate';
 
 interface Props {
   onClick: any;
@@ -28,9 +29,17 @@ export const ButtonDeleteBulk = ({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button disabled={disabled} className={`${!visible ? 'hidden' : ''} `}>
-          <TrashIcon className="w-4 h-4 mr-2" /> Eliminar
-        </Button>
+        <ToolTipTemplate content={'Eliminar varios registros'}>
+          <Button
+            className={`${!visible ? 'hidden' : ''} `}
+            variant="outline"
+            size="icon"
+            disabled={disabled}
+          >
+            <Trash className="w-4 h-4" />
+            <span className="sr-only">Eliminar registros</span>
+          </Button>
+        </ToolTipTemplate>
       </AlertDialogTrigger>
 
       <AlertDialogContent>

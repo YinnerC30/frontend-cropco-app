@@ -30,7 +30,7 @@ export const UsersModuleProvider = ({ children }: any) => {
       setPagination,
     });
 
-  const showButtonDeleteBulk = getIdsToRowsSelected().length > 0;
+  const hasSelectedRecords = getIdsToRowsSelected().length > 0;
 
   const { mutate, isPending } = useDeleteBulkUsers({
     actionOnSuccess: resetSelectionRows,
@@ -47,7 +47,7 @@ export const UsersModuleProvider = ({ children }: any) => {
     showActionsInFirstColumn,
     table,
     lengthColumns,
-    showButtonDeleteBulk,
+    hasSelectedRecords,
     resetSelectionRows,
     handleDeleteBulkUsers,
     isPending,

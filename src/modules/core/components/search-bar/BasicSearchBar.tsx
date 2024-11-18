@@ -79,7 +79,7 @@ export const BasicSearchBar = ({
         </Form>
       </div>
       <div className="flex flex-row items-center justify-end gap-1 ">
-        <ToolTipTemplate content="Buscar">
+        <ToolTipTemplate content="Ejecutar busqueda">
           <Button
             type="submit"
             form="formSearchBar"
@@ -91,7 +91,7 @@ export const BasicSearchBar = ({
             <span className="sr-only">Buscar</span>
           </Button>
         </ToolTipTemplate>
-        <ToolTipTemplate content="Borrar">
+        <ToolTipTemplate content="Eliminar busqueda">
           <Button
             onClick={() => onReset()}
             disabled={disabled}
