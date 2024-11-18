@@ -41,8 +41,8 @@ export const DataTableTemplate = ({
           <DataTableSelectPageSize />
         </div>
         <DataTable />
-        <DataTablePageCount />
         <DataTableButtonsPagination />
+        <DataTablePageCount />
       </div>
     </DataTableProvider>
   );

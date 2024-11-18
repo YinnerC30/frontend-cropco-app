@@ -27,7 +27,7 @@ export const BreadCrumb = ({ items = [], finalItem }: Props) => {
   const { showToast } = useToastDiscardChanges();
 
   return (
-    <div className="my-2">
+    <div className="">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -73,7 +73,7 @@ export const BreadCrumb = ({ items = [], finalItem }: Props) => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <Separator className="my-4" />
+      <Separator className="my-1" />
     </div>
   );
 };

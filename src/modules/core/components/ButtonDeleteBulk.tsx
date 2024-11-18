@@ -28,8 +28,8 @@ export const ButtonDeleteBulk = ({
 }: Props) => {
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <ToolTipTemplate content={'Eliminar varios registros'}>
+      <ToolTipTemplate content={'Eliminar varios registros'}>
+        <AlertDialogTrigger asChild>
           <Button
             className={`${!visible ? 'hidden' : ''} `}
             variant="outline"
@@ -39,8 +39,8 @@ export const ButtonDeleteBulk = ({
             <Trash className="w-4 h-4" />
             <span className="sr-only">Eliminar registros</span>
           </Button>
-        </ToolTipTemplate>
-      </AlertDialogTrigger>
+        </AlertDialogTrigger>
+      </ToolTipTemplate>
 
       <AlertDialogContent>
         <AlertDialogHeader>
