@@ -13,6 +13,7 @@ import {
 import { useCreateForm } from '../../hooks/useCreateForm';
 import { ToolTipTemplate } from '../ToolTipTemplate';
 import { toast } from 'sonner';
+import { Search, X } from 'lucide-react';
 
 interface BasicSearchBarProps {
   query: string;
@@ -52,8 +53,8 @@ export const BasicSearchBar = ({
   };
 
   return (
-    <div className="flex flex-row w-3/4 gap-2 min-w-80 justify-evenly">
-      <div className="w-[70%] ">
+    <div className="flex flex-row justify-center w-3/4 gap-4 min-w-80">
+      <div className="w-[70%] lg:w-96 ">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} id="formSearchBar">
             <FormField
@@ -79,13 +80,26 @@ export const BasicSearchBar = ({
       </div>
       <div className="flex flex-row items-center justify-end gap-1 ">
         <ToolTipTemplate content="Buscar">
-          <Button type="submit" form="formSearchBar" disabled={disabled}>
-            Buscar
+          <Button
+            type="submit"
+            form="formSearchBar"
+            disabled={disabled}
+            size={'icon'}
+            variant={'outline'}
+          >
+            <Search className="w-4 h-4" />
+            <span className="sr-only">Buscar</span>
           </Button>
         </ToolTipTemplate>
         <ToolTipTemplate content="Borrar">
-          <Button onClick={() => onReset()} disabled={disabled}>
-            Limpiar
+          <Button
+            onClick={() => onReset()}
+            disabled={disabled}
+            size={'icon'}
+            variant={'outline'}
+          >
+            <X className="w-4 h-4" />
+            <span className="sr-only">Limpiar</span>
           </Button>
         </ToolTipTemplate>
       </div>
