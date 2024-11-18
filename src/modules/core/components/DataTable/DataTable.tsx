@@ -1,4 +1,3 @@
-// path: /components/DataTableComponents/DataTableTable.tsx
 import {
   Table,
   TableBody,
@@ -20,9 +19,9 @@ export const DataTable = () => {
   const navigate = useNavigate();
 
   return (
-    <ScrollArea className="h-[55vh] pr-4 pb-4" type="auto">
+    <ScrollArea className="h-[50vh] pr-4 pb-4 border-b-2 my-2" type="auto">
       <Table className="mb-4">
-        <TableHeader>
+        <TableHeader className="shadow-md">
           {table.getHeaderGroups().map((headerGroup: any) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header: any) => (

@@ -1,6 +1,8 @@
-import { UsersActions, UsersSearchBar, UsersTable } from '.';
+import { UsersActions } from './UsersActions';
 import { UsersBreadCrumb } from './UsersBreadCrumb';
 import { UsersModuleProvider } from './UsersModuleContext';
+import { UsersSearchBar } from './UsersSearchBar';
+import { UsersTable } from './UsersTable';
 
 export const UsersModule = () => {
   return (
