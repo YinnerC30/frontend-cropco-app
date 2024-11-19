@@ -19,7 +19,7 @@ export const DataTable = () => {
   const navigate = useNavigate();
 
   return (
-    <ScrollArea className="h-[50vh] pr-4 pb-2 border-b-2" type="auto">
+    <ScrollArea className="h-[50vh] pr-4 pb-2" type="auto">
       <Table className="mb-4">
         <TableHeader className="shadow-md">
           {table.getHeaderGroups().map((headerGroup: any) => (

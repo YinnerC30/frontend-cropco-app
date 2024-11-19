@@ -19,9 +19,14 @@ interface ItemBreadCrumb {
 interface Props {
   items?: ItemBreadCrumb[];
   finalItem: string;
+  hiddenSeparator?: boolean;
 }
 
-export const BreadCrumb = ({ items = [], finalItem }: Props) => {
+export const BreadCrumb = ({
+  items = [],
+  finalItem,
+  hiddenSeparator = false,
+}: Props) => {
   const { hasUnsavedChanges } = useFormChange();
   const navigate = useNavigate();
   const { showToast } = useToastDiscardChanges();
@@ -73,7 +78,7 @@ export const BreadCrumb = ({ items = [], finalItem }: Props) => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <Separator className="my-1" />
+      <Separator className={`my-1 ${hiddenSeparator && 'hidden'}`} />
     </div>
   );
 };
