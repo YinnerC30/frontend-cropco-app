@@ -1,3 +1,4 @@
+import { DropdownMenuItem } from '@/components';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -16,8 +17,6 @@ import { Copy, KeyRound } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { DataResetPassword } from '../../hooks/mutations';
-import { useDataTableMenuActionsContext } from '@/modules/core/components/DataTable';
-import { DropdownMenuItem } from '@/components';
 
 interface Props {
   id: string;
@@ -25,7 +24,6 @@ interface Props {
 }
 
 export function ActionResetPassword({ id, mutation }: Props) {
-  const { toggleOpen } = useDataTableMenuActionsContext();
   const [newPassword, setNewPassword] = useState<string | null>(null);
   const { mutate, isPending } = mutation;
 
@@ -45,7 +43,7 @@ export function ActionResetPassword({ id, mutation }: Props) {
   };
 
   return (
-    <DropdownMenuItem asChild>
+    <DropdownMenuItem>
       <Dialog>
         <DialogTrigger asChild>
           <Button variant="ghost">

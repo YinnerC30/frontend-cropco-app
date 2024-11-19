@@ -22,7 +22,7 @@ interface Props {
 export const ActionDeleteRecord = ({ action, disabled }: Props) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
   return (
-    <DropdownMenuItem asChild disabled={disabled}>
+    <DropdownMenuItem disabled={disabled}>
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button variant={'ghost'} disabled={disabled}>
