@@ -13,6 +13,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loading, ToolTipTemplate } from '@/modules/core/components';
+import { useDataTableMenuActionsContext } from '@/modules/core/components/DataTable';
+import * as DialogPrimitive from '@radix-ui/react-dialog';
+import { Cross2Icon } from '@radix-ui/react-icons';
 import { Copy, KeyRound } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -24,8 +27,15 @@ interface Props {
 }
 
 export function ActionResetPassword({ id, mutation }: Props) {
+  const { toggleOpen } = useDataTableMenuActionsContext();
+  const [open, setOpen] = useState(false);
   const [newPassword, setNewPassword] = useState<string | null>(null);
   const { mutate, isPending } = mutation;
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+    toggleOpen(false);
+  };
 
   const handleResetPassword = () => {
     mutate(id, {
@@ -44,13 +54,33 @@ export function ActionResetPassword({ id, mutation }: Props) {
 
   return (
     <DropdownMenuItem>
-      <Dialog>
+      <Dialog
+        defaultOpen={false}
+        open={open}
+        onOpenChange={setOpen}
+        modal={open}
+      >
         <DialogTrigger asChild>
-          <Button variant="ghost">
+          <Button onClick={() => setOpen(true)} variant="ghost">
             <KeyRound className="w-4 h-4 mr-2" /> Contraseña
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent
+          className="sm:max-w-[425px]"
+          onPointerDownOutside={(event) => {
+            event.preventDefault();
+          }}
+        >
+          <DialogClose asChild>
+            <DialogPrimitive.Close
+              onClick={handleCloseDialog}
+              className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+            >
+              <Cross2Icon className="w-4 h-4" />
+              <span className="sr-only">Close</span>
+            </DialogPrimitive.Close>
+          </DialogClose>
+
           <DialogHeader>
             <DialogTitle>Restablecimiento de contraseña</DialogTitle>
             <DialogDescription>
@@ -89,9 +119,6 @@ export function ActionResetPassword({ id, mutation }: Props) {
             <Button onClick={handleResetPassword} disabled={isPending}>
               Restablecer
             </Button>
-            <DialogClose asChild>
-              <Button variant={'destructive'}>Cerrar</Button>
-            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
