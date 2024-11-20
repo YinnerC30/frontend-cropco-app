@@ -4,9 +4,9 @@ import { z } from 'zod';
 import { useGetUser, usePatchUser } from '../hooks/';
 
 import { BreadCrumb } from '@/modules/core/components/';
-import { RootState, useAppSelector } from '@/redux/store';
+import { Action, Module } from '@/modules/core/interfaces';
 import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
-import { UserAction, formSchemaUser } from '../utils';
+import { formSchemaUser } from '../utils';
 import { FormUser } from './FormUser';
 
 export const ModifyUser = () => {
@@ -14,17 +14,19 @@ export const ModifyUser = () => {
   const { data, isLoading } = useGetUser(id!);
   const { mutate, isPending } = usePatchUser();
 
-  const { actions } = useAppSelector(
-    (state: RootState) => state.users_module.form_user
+  const actions = data?.modules?.flatMap((module: Module) =>
+    module.actions.map((action: Action) => ({ id: action.id }))
   );
+
+  const defaultDataForm = {
+    ...data,
+    actions,
+  };
 
   const handleSubmit = (values: z.infer<typeof formSchemaUser>) => {
     mutate({
       ...values,
       id,
-      actions: actions.map((action: UserAction) => ({
-        id: action.id,
-      })),
     });
   };
 
@@ -40,7 +42,7 @@ export const ModifyUser = () => {
       <FormUser
         onSubmit={handleSubmit}
         isSubmitting={isPending}
-        defaultValues={data}
+        defaultValues={defaultDataForm}
         hiddenPassword
       />
     </>

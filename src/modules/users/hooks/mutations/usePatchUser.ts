@@ -2,13 +2,13 @@ import {
   useAuthentication,
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
-import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { useAppSelector } from '@/redux/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { User } from '../../interfaces';
-import { removeAllActions } from '../../utils';
+
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
 async function updateUser({ id, ...rest }: User): Promise<void> {
@@ -22,7 +22,7 @@ async function updateUser({ id, ...rest }: User): Promise<void> {
 export function usePatchUser(): any {
   const navigate = useNavigate();
   const user = useAppSelector((state: any): any => state.authentication.user);
-  const dispatch = useAppDispatch();
+
   const { updateUserActions } = useAuthentication();
   const { handleError } = useManageErrorApp();
 
@@ -41,7 +41,6 @@ export function usePatchUser(): any {
         toast.success(`Usuario actualizado`);
       }
 
-      dispatch(removeAllActions());
       navigate('../view/all');
     },
     onError: (error: AxiosError) => {

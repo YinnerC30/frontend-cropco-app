@@ -1,5 +1,4 @@
 import { useManageErrorApp } from '@/modules/authentication/hooks';
-import { useAppDispatch } from '@/redux/store';
 import {
   UseMutationResult,
   useMutation,
@@ -10,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { User } from '../../interfaces';
 
-import { removeAllActions } from '../../utils';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
 async function createUser(user: User): Promise<User> {
@@ -25,14 +23,14 @@ export function usePostUser(): UseMutationResult<
 > {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const dispatch = useAppDispatch();
+  
   const { handleError } = useManageErrorApp();
   const mutation = useMutation({
     mutationFn: createUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       navigate('../view/all');
-      dispatch(removeAllActions());
+      
       toast.success(`Usuario creado`);
     },
     onError: (error: AxiosError) => {

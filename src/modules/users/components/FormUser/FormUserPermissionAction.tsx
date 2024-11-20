@@ -1,9 +1,7 @@
 import { Switch } from '@/components/ui/switch';
 import { CapitalizeFirstWord } from '@/modules/authentication/helpers';
-import { useFormChange } from '@/modules/core/components/form/FormChangeContext';
 import { Action } from '@/modules/core/interfaces/Responses/ResponseGetAllModules';
-import { useAppDispatch } from '@/redux/store';
-import { updateActions } from '../../utils';
+
 import { useFormUserContext } from './FormUserContext';
 
 interface Props {
@@ -12,66 +10,20 @@ interface Props {
   isChecked: boolean;
 }
 
-interface UserAction {
+export interface UserAction {
   id: string;
+  isActive?: boolean;
 }
-
-// Función para comparar si dos arrays de UserAction son iguales
-const areArraysEqual = (arr1: UserAction[], arr2: UserAction[]): boolean =>
-  arr1.length === arr2.length &&
-  arr1.every((item) => arr2.some((other) => other.id === item.id));
 
 export const FormUserPermissionAction = ({
   action,
   readOnly,
   isChecked,
 }: Props) => {
-  const dispatch = useAppDispatch();
-  const {
-    form: {
-      watch,
-      setValue,
-      formState: { defaultValues },
-    },
-  } = useFormUserContext();
+  const { updateActionsUserForm } = useFormUserContext();
 
-  const { markChanges } = useFormChange();
-
-  // Obtenemos el estado actual de las acciones como UserAction[]
-  const currentActions: UserAction[] = watch('actions') || [];
-
-  // Actualiza las acciones basándose en si están activas o no
-  const updateActionsSet = (
-    actionId: string,
-    isActive: boolean
-  ): UserAction[] => {
-    const actionSet = new Set(currentActions.map((action) => action.id));
-    isActive ? actionSet.add(actionId) : actionSet.delete(actionId);
-    return Array.from(actionSet).map((id) => ({ id }));
-  };
-
-  // Maneja el cambio en el estado del Switch
   const handleOnChange = (isActive: boolean) => {
-    // Actualiza las acciones en el store
-    dispatch(updateActions([{ id: action.id, active: isActive }]));
-
-    // Genera las nuevas acciones actualizadas
-    const updatedActions = updateActionsSet(action.id, isActive);
-
-    // Verifica si las acciones actuales son diferentes a las iniciales
-    const isDirty = !areArraysEqual(
-      defaultValues.actions || [],
-      updatedActions
-    );
-
-    // Actualiza los valores del formulario
-    setValue('actions', updatedActions, {
-      shouldDirty: isDirty,
-      shouldValidate: true,
-    });
-
-    // Marca los cambios si corresponde
-    markChanges(isDirty);
+    updateActionsUserForm([{ id: action.id, isActive }]);
   };
 
   return (

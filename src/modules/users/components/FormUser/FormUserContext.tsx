@@ -24,7 +24,6 @@ export const FormUserProvider = ({
   const { hasPermission } = useAuthorization();
 
   const handleReturnToModule = () => {
-    formState.removeAllActionsUser();
     navigate(MODULE_USER_PATHS.ViewAll);
   };
 
