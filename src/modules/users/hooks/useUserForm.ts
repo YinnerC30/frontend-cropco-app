@@ -25,6 +25,7 @@ export const defaultValues = {
     password2: '123456',
   },
   modules: [],
+  actions: [],
 };
 
 interface Props {
@@ -124,7 +125,7 @@ export const useUserForm = ({
     loadActionsUser(actions);
   }, [formValues]);
 
-  const { isDirty } = form.formState;
+  const isDirty = form.formState.isDirty;
 
   useEffect(() => {
     if (isDirty) {
