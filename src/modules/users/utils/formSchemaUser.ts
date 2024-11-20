@@ -31,7 +31,10 @@ export const formSchemaUser = z.object({
         message: 'El número celular es incorrecto',
       }
     ),
-  actions: z.array(z.string().uuid()).default([]).optional(),
+  actions: z
+    .array(z.object({ id: z.string().uuid() }))
+    .default([])
+    .optional(),
 });
 
 export const formSchemaUserWithPassword = formSchemaUser.extend({

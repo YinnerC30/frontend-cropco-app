@@ -12,9 +12,14 @@ interface Props {
   isChecked: boolean;
 }
 
-// Función para comparar si dos arrays tienen exactamente los mismos elementos
-const areArraysEqual = (arr1: string[], arr2: string[]): boolean =>
-  arr1.length === arr2.length && arr1.every((item) => arr2.includes(item));
+interface UserAction {
+  id: string;
+}
+
+// Función para comparar si dos arrays de UserAction son iguales
+const areArraysEqual = (arr1: UserAction[], arr2: UserAction[]): boolean =>
+  arr1.length === arr2.length &&
+  arr1.every((item) => arr2.some((other) => other.id === item.id));
 
 export const FormUserPermissionAction = ({
   action,
@@ -32,14 +37,17 @@ export const FormUserPermissionAction = ({
 
   const { markChanges } = useFormChange();
 
-  // Obtenemos el estado actual de las acciones
-  const currentActions = watch('actions');
+  // Obtenemos el estado actual de las acciones como UserAction[]
+  const currentActions: UserAction[] = watch('actions') || [];
 
   // Actualiza las acciones basándose en si están activas o no
-  const updateActionsSet = (actionId: string, isActive: boolean): string[] => {
-    const actionSet = new Set(currentActions);
+  const updateActionsSet = (
+    actionId: string,
+    isActive: boolean
+  ): UserAction[] => {
+    const actionSet = new Set(currentActions.map((action) => action.id));
     isActive ? actionSet.add(actionId) : actionSet.delete(actionId);
-    return Array.from(actionSet) as string[];
+    return Array.from(actionSet).map((id) => ({ id }));
   };
 
   // Maneja el cambio en el estado del Switch
@@ -51,7 +59,10 @@ export const FormUserPermissionAction = ({
     const updatedActions = updateActionsSet(action.id, isActive);
 
     // Verifica si las acciones actuales son diferentes a las iniciales
-    const isDirty = !areArraysEqual(defaultValues.actions, updatedActions);
+    const isDirty = !areArraysEqual(
+      defaultValues.actions || [],
+      updatedActions
+    );
 
     // Actualiza los valores del formulario
     setValue('actions', updatedActions, {
@@ -59,14 +70,8 @@ export const FormUserPermissionAction = ({
       shouldValidate: true,
     });
 
-    const currentValues = watch(); // Obtiene los valores actuales del formulario
-
-    // Comparar los valores actuales con los iniciales
-    const haveValuesChanged =
-      JSON.stringify(currentValues) !== JSON.stringify(defaultValues);
-
-    // Marca los cambios según sea necesario
-    !haveValuesChanged && markChanges(isDirty);
+    // Marca los cambios si corresponde
+    markChanges(isDirty);
   };
 
   return (
