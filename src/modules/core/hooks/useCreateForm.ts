@@ -16,9 +16,7 @@ export const useCreateForm = ({ schema, defaultValues }: Props) => {
     defaultValues,
   });
 
-  const { isDirty, dirtyFields } = form.formState;
-
-  console.log({ isDirty, dirtyFields });
+  const { isDirty } = form.formState;
 
   useEffect(() => {
     isDirty ? markChanges(true) : markChanges(false);
