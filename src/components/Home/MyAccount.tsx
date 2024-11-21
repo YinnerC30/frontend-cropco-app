@@ -14,6 +14,7 @@ import {
 import { useAuthentication } from '@/modules/authentication/hooks/useAuthentication';
 import { useImplantSeed } from '@/modules/authentication/hooks/useImplantSeed';
 import { useTheme } from '@/modules/core/components/ThemeProvider';
+import { DialogChangePassword } from '@/modules/users/components/DialogChangePassword';
 import { useGetConvertToAdmin } from '@/modules/users/hooks';
 
 import { MODULE_USER_PATHS } from '@/modules/users/routes/pathsRoutes';
@@ -21,10 +22,20 @@ import { Bolt } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
+import { Button } from '../ui/button';
 
 export const MyAccount = () => {
+  const [openMenu, setOpenMenu] = useState(false);
   const { removeUser, user, updateUserActions } = useAuthentication();
   const { setTheme } = useTheme();
+
+  const handleOpenMenu = () => {
+    setOpenMenu(true);
+  };
+
+  const handleCloseMenu = () => {
+    setOpenMenu(false);
+  };
 
   const [isRunningSeed, setIsRunningSeed] = useState(false);
   const [isConvertToAdmin, setIsConvertToAdmin] = useState(false);
@@ -48,11 +59,16 @@ export const MyAccount = () => {
   }, [queryConvertToAdmin.isSuccess]);
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
+      {/* Trigger */}
       <DropdownMenuTrigger asChild>
-        <Bolt />
+        <Button onClick={handleOpenMenu} variant={'ghost'} size={'icon'}>
+          <Bolt />
+        </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="">
+      {/* Content */}
+      <DropdownMenuContent>
+        {/* Info User Login */}
         <DropdownMenuLabel className="text-center">Mi cuenta</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuLabel className="text-center">
@@ -63,6 +79,7 @@ export const MyAccount = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
+        {/* Copy Id */}
         <DropdownMenuItem
           onClick={() => {
             navigator.clipboard.writeText(user.id);
@@ -72,6 +89,8 @@ export const MyAccount = () => {
         >
           Copiar mi Id
         </DropdownMenuItem>
+
+        {/* Copy token */}
         <DropdownMenuItem
           onClick={() => {
             navigator.clipboard.writeText(user.token);
@@ -80,12 +99,15 @@ export const MyAccount = () => {
         >
           Copiar mi Token
         </DropdownMenuItem>
+
+        {/* Modificar permisos */}
         <DropdownMenuItem asChild>
           <Link to={`${MODULE_USER_PATHS.Update}${user.id}`}>
             Modificar mis permisos
           </Link>
         </DropdownMenuItem>
 
+        {/* Submenu */}
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Modo</DropdownMenuSubTrigger>
           <DropdownMenuPortal>
@@ -102,6 +124,8 @@ export const MyAccount = () => {
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
+
+        {/* LogOut */}
         <DropdownMenuItem
           onClick={() => {
             removeUser();
@@ -109,6 +133,8 @@ export const MyAccount = () => {
         >
           Salir
         </DropdownMenuItem>
+
+        {/* Run Seed */}
         <DropdownMenuItem
           onClick={() => {
             setIsRunningSeed(true);
@@ -116,6 +142,8 @@ export const MyAccount = () => {
         >
           Implantar semilla 🌱
         </DropdownMenuItem>
+
+        {/* Turn on Admin */}
         <DropdownMenuItem
           onClick={() => {
             setIsConvertToAdmin(true);
@@ -123,11 +151,18 @@ export const MyAccount = () => {
         >
           Volverte Admin 🤖
         </DropdownMenuItem>
+
+        {/* Change password - route */}
         <DropdownMenuItem asChild>
           <Link to={`${MODULE_USER_PATHS.ChangePassword}`}>
-            Cambiar contraseña
+            Cambiar contraseña ruta
           </Link>
         </DropdownMenuItem>
+
+        {/* Change Password Dialog */}
+        {/* <DropdownMenuItem onSelect={(e) => e.preventDefault()}> */}
+        <DialogChangePassword />
+        {/* </DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );

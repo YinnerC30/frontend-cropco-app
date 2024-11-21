@@ -2,7 +2,6 @@ import { Form } from '@/components';
 import { ButtonsForm, FormFieldInput } from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks';
 import { RootState, useAppSelector } from '@/redux/store';
-import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { userPatchChangePasswordUser } from '../hooks/mutations';
 
@@ -37,7 +36,7 @@ export const FormChangePassword = () => {
     },
   });
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const { isPending, mutate } = userPatchChangePasswordUser();
 
@@ -48,12 +47,11 @@ export const FormChangePassword = () => {
   };
 
   const handleReturn = () => {
-    navigate(-1);
+    console.log('Retornando...');
   };
 
   return (
     <div>
-      <h1>Cambio de contraseña</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
