@@ -123,6 +123,11 @@ export const MyAccount = () => {
         >
           Volverte Admin 🤖
         </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link to={`${MODULE_USER_PATHS.ChangePassword}`}>
+            Cambiar contraseña
+          </Link>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

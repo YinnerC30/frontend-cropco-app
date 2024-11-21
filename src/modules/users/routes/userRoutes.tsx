@@ -9,6 +9,9 @@ const CreateUser = lazy(() => import('../components/CreateUser'));
 const ModifyUser = lazy(() => import('../components/ModifyUser'));
 const UsersModule = lazy(() => import('../components/UsersModule/UsersModule'));
 const ViewUser = lazy(() => import('../components/ViewUser'));
+const FormChangePassword = lazy(
+  () => import('../components/FormChangePassword')
+);
 
 // Configuración genérica de las rutas
 const routeConfig: RouteConfig[] = [
@@ -32,6 +35,11 @@ const routeConfig: RouteConfig[] = [
     path: 'update/one/:id',
     action: 'update_one_user',
     element: <ModifyUser />,
+  },
+  {
+    path: 'change-password/one',
+    action: 'change_password_user',
+    element: <FormChangePassword />,
   },
 ];
 
