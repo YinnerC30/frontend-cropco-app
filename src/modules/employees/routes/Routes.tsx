@@ -1,6 +1,7 @@
 import { CreateEmployee } from '../components/CreateEmployee';
+import EmployeesModule from '../components/EmployeesModule/EmployeesModule';
 import { ModifyEmployee } from '../components/ModifyEmployee';
-import { EmployeesModule } from '../components/EmployeesModule';
+
 import { ViewEmployee } from '../components/ViewEmployee';
 
 const employeeRoutes = {

@@ -14,14 +14,14 @@ interface Props {
   search: string;
   limit: number;
   offset: number;
-  allRecords: boolean;
+  allRecords?: boolean;
 }
 
 export const getEmployees = async ({
   search = '',
   limit = 10,
   offset = 0,
-  allRecords,
+  allRecords = false,
 }: Props): Promise<ResponseApiGetAllRecords<Employee>> => {
   let params = new URLSearchParams();
   params.append('search', search);
