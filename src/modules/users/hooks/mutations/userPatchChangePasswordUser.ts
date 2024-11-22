@@ -1,7 +1,9 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { PATH_HOME_APP } from '@/config';
 import { useManageErrorApp } from '@/modules/authentication/hooks';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 export interface DataChangePassword {
@@ -22,10 +24,12 @@ async function changePasswordUser({
 
 export function userPatchChangePasswordUser() {
   const { handleError } = useManageErrorApp();
+  const navigate = useNavigate();
 
   const mutation = useMutation({
     mutationFn: changePasswordUser,
     onSuccess: () => {
+      navigate(PATH_HOME_APP);
       toast.success(`Contraseña cambiada`);
     },
     onError: (error: AxiosError) => {

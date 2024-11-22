@@ -1,9 +1,12 @@
 import { Form } from '@/components';
-import { ButtonsForm, FormFieldInput } from '@/modules/core/components';
+import { BreadCrumb, ButtonsForm } from '@/modules/core/components';
+import { FormFieldInputPassword } from '@/modules/core/components/form/FormFieldInputPassword';
 import { useCreateForm } from '@/modules/core/hooks';
 import { RootState, useAppSelector } from '@/redux/store';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { userPatchChangePasswordUser } from '../hooks/mutations';
+import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
 
 const formSchemaChangePassword = z.object({
   old_password: z
@@ -36,7 +39,7 @@ export const FormChangePassword = () => {
     },
   });
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const { isPending, mutate } = userPatchChangePasswordUser();
 
@@ -47,44 +50,53 @@ export const FormChangePassword = () => {
   };
 
   const handleReturn = () => {
-    console.log('Retornando...');
+    navigate(-1);
   };
 
   return (
-    <div>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(handleSubmit)}
-          id="formChangePassword"
-        >
-          <FormFieldInput
-            control={form.control}
-            description={'Antigua contraseña que tenias'}
-            label={'Vieja contraseña'}
-            name={'old_password'}
-            placeholder={'arrozconpollo1'}
-            readOnly={false}
-            type="password"
-          />
-          <FormFieldInput
-            control={form.control}
-            description={'Escribe una nueva contraseña'}
-            label={'Nueva contraseña'}
-            name={'new_password'}
-            placeholder={'arrozconcarne1'}
-            readOnly={false}
-            type="password"
-          />
-        </form>
-      </Form>
-
-      <ButtonsForm
-        actionToCancel={handleReturn}
-        isPending={isPending}
-        formId="formChangePassword"
-        className="flex w-48 gap-2 mt-2"
+    <>
+      <BreadCrumb
+        items={[{ link: MODULE_USER_PATHS.ViewAll, name: 'Usuarios' }]}
+        finalItem={`Cambio de contraseña`}
       />
-    </div>
+      <div className="flex items-center justify-center w-full h-full">
+        <div className="flex flex-col items-center p-10 border rounded-sm">
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handleSubmit)}
+              id="formChangePassword"
+              className="flex flex-col gap-4"
+            >
+              <FormFieldInputPassword
+                control={form.control}
+                description={'Introduce la contraseña que tienes ahora'}
+                label={'Contraseña actual'}
+                name={'old_password'}
+                placeholder={''}
+                readOnly={false}
+                type="password"
+              />
+              <FormFieldInputPassword
+                control={form.control}
+                description={'Introduce la nueva contraseña que deseas'}
+                label={'Nueva contraseña'}
+                name={'new_password'}
+                placeholder={''}
+                readOnly={false}
+                type="password"
+              />
+            </form>
+          </Form>
+
+          <ButtonsForm
+            actionToCancel={handleReturn}
+            isPending={isPending}
+            formId="formChangePassword"
+            className="flex w-48 gap-2 mt-2"
+          />
+        </div>
+      </div>
+    </>
   );
 };
 export default FormChangePassword;
