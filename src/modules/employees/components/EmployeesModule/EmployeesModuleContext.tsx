@@ -3,7 +3,6 @@ import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { createContext, useContext } from 'react';
 import { useWindowSize } from 'react-use';
-
 import createColumnsTableEmployees from './createColumnsTableEmployees';
 import { useGetAllEmployees } from '../../hooks/useGetAllEmployees';
 
