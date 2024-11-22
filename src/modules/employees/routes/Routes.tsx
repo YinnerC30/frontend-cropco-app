@@ -11,19 +11,19 @@ const employeeRoutes = {
       element: <EmployeesModule />,
     },
     {
-      path: 'all',
+      path: 'view/all',
       element: <EmployeesModule />,
     },
     {
-      path: 'create',
+      path: 'create/one',
       element: <CreateEmployee />,
     },
     {
-      path: 'view/:id',
+      path: 'view/one/:id',
       element: <ViewEmployee />,
     },
     {
-      path: 'modify/:id',
+      path: 'update/one/:id',
       element: <ModifyEmployee />,
     },
   ],

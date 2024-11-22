@@ -1,4 +1,4 @@
-import { Monitor, User } from 'lucide-react';
+import { Contact, Monitor, User } from 'lucide-react';
 
 export interface Route {
   label: string;
@@ -20,12 +20,12 @@ export const routes: Route[] = [
     Icon: <User />,
     name_module: 'users',
   },
-  // {
-  //   label: 'Empleados',
-  //   path: 'employees/view/all',
-  //   Icon: <Contact />,
-  //   name_module: 'employees',
-  // },
+  {
+    label: 'Empleados',
+    path: 'employees/view/all',
+    Icon: <Contact />,
+    name_module: 'employees',
+  },
   // {
   //   label: 'Cultivos',
   //   path: 'crops/view/all',

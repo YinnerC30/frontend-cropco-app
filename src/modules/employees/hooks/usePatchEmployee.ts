@@ -1,7 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { updateEmployee } from '../services/updateEmployee';
+
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { Employee } from '../interfaces/Employee';
+
+export const updateEmployee = async (employee: Employee) => {
+  const { id, ...rest } = employee;
+  await cropcoAPI.patch(`${pathsCropco.employees}/update/one/${id}`, rest);
+};
 
 export const usePatchEmployee = () => {
   const queryClient = useQueryClient();
@@ -15,7 +22,7 @@ export const usePatchEmployee = () => {
       const updateError: AxiosError | any = error;
       const { data } = updateError.response;
       toast.error(
-        `Hubo un problema durante la actualización del empleado, ${data.message}`,
+        `Hubo un problema durante la actualización del empleado, ${data.message}`
       );
     },
     retry: 1,
