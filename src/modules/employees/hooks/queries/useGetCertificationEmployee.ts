@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { dowloadPDF } from '@/modules/core/helpers';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
-import { useEffect } from 'react';
-import { useEmployeesModuleContext } from '../../components/EmployeesModule';
 
-export const getCertificationEmployee = async (id: string) => {
-  const response = await cropcoAPI.get(
+export const getCertificationEmployee = async (id: string): Promise<Blob> => {
+  const response = await cropcoAPI.get<Blob>(
     `${pathsCropco.employees}/find/certification/one/${id}`,
     {
       responseType: 'blob',
@@ -33,7 +33,18 @@ export const useGetCertificationEmployee = ({
 }: Props) => {
   const query = useQuery({
     queryKey: ['employee-certification', userId],
-    queryFn: () => getCertificationEmployee(userId),
+    queryFn: () => {
+      const fetchCertification = getCertificationEmployee(userId);
+
+      // Integrando `toast.promise` directamente en la función.
+      toast.promise(fetchCertification, {
+        loading: 'Generando constancia...',
+        success: 'La constancia ha sido generada con éxito.',
+        error: 'Hubo un error al generar la constancia.',
+      });
+
+      return fetchCertification;
+    },
     staleTime: 60_000 * 60 * 24,
     enabled: stateQuery,
   });
@@ -52,7 +63,7 @@ export const useGetCertificationEmployee = ({
       }
       actionOnSuccess();
     }
-  }, [query.isSuccess]);
+  }, [query.isSuccess, actionPDF, query.data, actionOnSuccess, userId]);
 
   return query;
 };
