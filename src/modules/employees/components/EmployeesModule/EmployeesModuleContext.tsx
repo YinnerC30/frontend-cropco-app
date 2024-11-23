@@ -4,8 +4,9 @@ import { useBasicQueryData } from '@/modules/core/hooks/';
 import { createContext, useContext } from 'react';
 import { useWindowSize } from 'react-use';
 import createColumnsTableEmployees from './createColumnsTableEmployees';
-import { useGetAllEmployees } from '../../hooks/useGetAllEmployees';
-import { useDeleteBulkEmployees } from '../../hooks/useDeleteBulkEmployees';
+
+import { useDeleteBulkEmployees } from '../../hooks/mutations/useDeleteBulkEmployees';
+import { useGetAllEmployees } from '../../hooks';
 
 const EmployeesModuleContext = createContext<any>(null);
 

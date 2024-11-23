@@ -3,9 +3,11 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { Employee } from '../interfaces/Employee';
+
 import { useNavigate } from 'react-router-dom';
-import { MODULE_EMPLOYEE_PATHS } from '../routes/pathRoutes';
+import { Employee } from '../../interfaces/Employee';
+import { MODULE_EMPLOYEE_PATHS } from '../../routes/pathRoutes';
+
 
 export const createEmployee = async (employee: Employee) =>
   await cropcoAPI.post(`${pathsCropco.employees}/create`, employee);

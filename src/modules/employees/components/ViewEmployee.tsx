@@ -1,7 +1,7 @@
 import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
 import { useParams } from 'react-router-dom';
 import { Loading } from '../../core/components';
-import { useGetEmployee } from '../hooks/useGetEmployee';
+import { useGetEmployee } from '../hooks/queries/useGetEmployee';
 import { MODULE_EMPLOYEE_PATHS } from '../routes/pathRoutes';
 import FormEmployee from './FormEmployee/FormEmployee';
 

@@ -2,11 +2,11 @@ import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
 import { Loading } from '../../core/components';
-import { useGetEmployee } from '../hooks/useGetEmployee';
-import { usePatchEmployee } from '../hooks/usePatchEmployee';
+import { useGetEmployee } from '../hooks/queries/useGetEmployee';
 import { MODULE_EMPLOYEE_PATHS } from '../routes/pathRoutes';
 import { formSchemaEmployee } from '../utils';
 import FormEmployee from './FormEmployee/FormEmployee';
+import { usePatchEmployee } from '../hooks';
 
 export const ModifyEmployee = () => {
   const { id } = useParams();
