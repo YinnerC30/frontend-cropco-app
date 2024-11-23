@@ -5,22 +5,22 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
-const deleteBulkUsers = async (data: BulkRecords) => {
-  await cropcoAPI.delete(`${pathsCropco.users}/remove/bulk`, {
+const deleteBulkEmployees = async (data: BulkRecords) => {
+  await cropcoAPI.delete(`${pathsCropco.employees}/remove/bulk`, {
     data: {
-      recordsIds: data.userIds,
+      recordsIds: data.employeesIds,
     },
   });
 };
 
-export const useDeleteBulkUsers = () => {
+export const useDeleteBulkEmployees = () => {
   const queryClient = useQueryClient();
   const { handleError } = useManageErrorApp();
   const mutation = useMutation({
-    mutationFn: deleteBulkUsers,
+    mutationFn: deleteBulkEmployees,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
-      toast.success(`Usuarios eliminados`);
+      queryClient.invalidateQueries({ queryKey: ['employees'] });
+      toast.success(`Empleados eliminados`);
     },
     onError: (error: AxiosError) => {
       const updateError: AxiosError | any = error;
@@ -28,10 +28,10 @@ export const useDeleteBulkUsers = () => {
       handleError({
         error: mutation.error as AxiosError,
         messageUnauthoraizedError:
-          'No tienes permiso para eliminar varios usuarios',
+          'No tienes permiso para eliminar varios empleados',
       });
       toast.error(
-        `Hubo un problema durante la eliminación de los usuarios, ${data.message}`
+        `Hubo un problema durante la eliminación de los empleados, ${data.message}`
       );
     },
 

@@ -32,12 +32,17 @@ export const UsersModuleProvider = ({ children }: any) => {
 
   const hasSelectedRecords = getIdsToRowsSelected().length > 0;
 
-  const { mutate, isPending } = useDeleteBulkUsers({
-    actionOnSuccess: resetSelectionRows,
-  });
+  const { mutate, isPending } = useDeleteBulkUsers();
 
   const handleDeleteBulkUsers = () => {
-    mutate({ userIds: getIdsToRowsSelected() });
+    mutate(
+      { userIds: getIdsToRowsSelected() },
+      {
+        onSuccess: () => {
+          resetSelectionRows();
+        },
+      }
+    );
   };
 
   const contextValue = {

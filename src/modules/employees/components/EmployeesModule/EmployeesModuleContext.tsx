@@ -5,6 +5,7 @@ import { createContext, useContext } from 'react';
 import { useWindowSize } from 'react-use';
 import createColumnsTableEmployees from './createColumnsTableEmployees';
 import { useGetAllEmployees } from '../../hooks/useGetAllEmployees';
+import { useDeleteBulkEmployees } from '../../hooks/useDeleteBulkEmployees';
 
 const EmployeesModuleContext = createContext<any>(null);
 
@@ -35,6 +36,19 @@ export const EmployeesModuleProvider = ({ children }: any) => {
 
   const hasSelectedRecords = getIdsToRowsSelected().length > 0;
 
+  const { mutate, isPending } = useDeleteBulkEmployees();
+
+  const handleDeleteBulkEmployees = () => {
+    mutate(
+      { employeesIds: getIdsToRowsSelected() },
+      {
+        onSuccess: () => {
+          resetSelectionRows();
+        },
+      }
+    );
+  };
+
   const contextValue = {
     value,
     query,
@@ -46,6 +60,8 @@ export const EmployeesModuleProvider = ({ children }: any) => {
     resetSelectionRows,
     pagination,
     setPagination,
+    handleDeleteBulkEmployees,
+    isPending,
   };
 
   return (

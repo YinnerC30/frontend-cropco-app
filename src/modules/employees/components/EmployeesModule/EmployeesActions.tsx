@@ -1,5 +1,6 @@
 import {
   ButtonCreateRecord,
+  ButtonDeleteBulk,
   ButtonRefetchData,
 } from '@/modules/core/components';
 
@@ -9,8 +10,14 @@ import { MODULE_EMPLOYEE_PATHS } from '../../routes/pathRoutes';
 import { useEmployeesModuleContext } from './EmployeesModuleContext';
 
 export const EmployeesActions = () => {
-  const { query, hasPermission, hasSelectedRecords, resetSelectionRows } =
-    useEmployeesModuleContext();
+  const {
+    query,
+    hasPermission,
+    hasSelectedRecords,
+    resetSelectionRows,
+    isPending,
+    handleDeleteBulkEmployees,
+  } = useEmployeesModuleContext();
 
   return (
     <div className="flex justify-between">
@@ -23,6 +30,14 @@ export const EmployeesActions = () => {
       <div className="flex items-center gap-1">
         <ButtonClearSelection
           onClick={() => resetSelectionRows()}
+          visible={hasSelectedRecords}
+        />
+
+        <ButtonDeleteBulk
+          disabled={
+            isPending || !hasPermission('employees', 'remove_bulk_employees')
+          }
+          onClick={handleDeleteBulkEmployees}
           visible={hasSelectedRecords}
         />
 
