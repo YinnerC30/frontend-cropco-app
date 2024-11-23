@@ -3,12 +3,14 @@ import { useQuery } from '@tanstack/react-query';
 import { PropsUseGetAllRecords } from '@/modules/core/interfaces/Props/PropsUseGetAllRecords';
 
 import { PaginationState } from '@tanstack/react-table';
-import { useState } from 'react';
-import { Employee } from '../interfaces/Employee';
+import { useEffect, useState } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { ResponseApiGetAllRecords } from '@/modules/core/interfaces/Responses/ResponseApiGetAllRecords';
+import { useManageErrorApp } from '@/modules/authentication/hooks';
 import { ResponseUseGetAllRecords } from '@/modules/core/interfaces';
+import { ResponseApiGetAllRecords } from '@/modules/core/interfaces/Responses/ResponseApiGetAllRecords';
+import { AxiosError } from 'axios';
+import { Employee } from '../../interfaces/Employee';
 
 interface Props {
   search: string;
@@ -44,6 +46,8 @@ export const useGetAllEmployees = ({
     pageSize: 10,
   });
 
+  const { handleError } = useManageErrorApp();
+
   const query = useQuery({
     queryKey: ['employees', { searchParameter, ...pagination }],
     queryFn: () =>
@@ -54,6 +58,16 @@ export const useGetAllEmployees = ({
         allRecords,
       }),
   });
+
+  useEffect(() => {
+    if (query.isError) {
+      handleError({
+        error: query.error as AxiosError,
+        messageUnauthoraizedError:
+          'No tienes permiso para ver el listado de usuarios 😑',
+      });
+    }
+  }, [query.isError, query.error]);
 
   return { query, pagination, setPagination };
 };

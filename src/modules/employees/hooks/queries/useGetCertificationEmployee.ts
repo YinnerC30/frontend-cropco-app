@@ -5,6 +5,8 @@ import { toast } from 'sonner';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { dowloadPDF } from '@/modules/core/helpers';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
+import { useManageErrorApp } from '@/modules/authentication/hooks';
+import { AxiosError } from 'axios';
 
 export const getCertificationEmployee = async (id: string): Promise<Blob> => {
   const response = await cropcoAPI.get<Blob>(
@@ -31,6 +33,7 @@ export const useGetCertificationEmployee = ({
   actionPDF,
   actionOnSuccess,
 }: Props) => {
+  const { handleError } = useManageErrorApp();
   const query = useQuery({
     queryKey: ['employee-certification', userId],
     queryFn: () => {
@@ -64,6 +67,16 @@ export const useGetCertificationEmployee = ({
       actionOnSuccess();
     }
   }, [query.isSuccess, actionPDF, query.data, actionOnSuccess, userId]);
+
+  useEffect(() => {
+    if (query.isError) {
+      handleError({
+        error: query.error as AxiosError,
+        messageUnauthoraizedError:
+          'No tienes permiso para obtener el certificado 😑',
+      });
+    }
+  }, [query.isError, query.error]);
 
   return query;
 };

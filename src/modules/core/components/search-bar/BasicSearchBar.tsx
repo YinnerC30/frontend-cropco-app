@@ -48,7 +48,6 @@ export const BasicSearchBar = ({
     const query = values.query.trim();
     if (query.length > 0) {
       navigate(`?query=${query}`);
-      toast.info('La consulta fue realizada');
     }
   };
 
