@@ -30,6 +30,8 @@ export const UsersModuleProvider = ({ children }: any) => {
       setPagination,
     });
 
+  
+
   const hasSelectedRecords = getIdsToRowsSelected().length > 0;
 
   const { mutate, isPending } = useDeleteBulkUsers();

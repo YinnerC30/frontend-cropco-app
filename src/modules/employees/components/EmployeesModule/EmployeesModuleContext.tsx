@@ -1,18 +1,20 @@
 import { useAuthorization } from '@/modules/authentication/hooks';
 import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { useWindowSize } from 'react-use';
 import createColumnsTableEmployees from './createColumnsTableEmployees';
 
-import { useDeleteBulkEmployees } from '../../hooks/mutations/useDeleteBulkEmployees';
 import { useGetAllEmployees } from '../../hooks';
+import { useDeleteBulkEmployees } from '../../hooks/mutations/useDeleteBulkEmployees';
+import { useGetCertificationEmployee } from '../../hooks/queries/useGetCertificationEmployee';
 
 const EmployeesModuleContext = createContext<any>(null);
 
 export const EmployeesModuleProvider = ({ children }: any) => {
   const { value } = useBasicQueryData();
   const { width } = useWindowSize();
+  const showActionsInFirstColumn = width < 1024;
 
   const { query, pagination, setPagination } = useGetAllEmployees({
     searchParameter: value,
@@ -20,8 +22,6 @@ export const EmployeesModuleProvider = ({ children }: any) => {
   });
 
   const { hasPermission } = useAuthorization();
-
-  const showActionsInFirstColumn = width < 1024;
 
   const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
     useDataTable({
@@ -36,6 +36,21 @@ export const EmployeesModuleProvider = ({ children }: any) => {
     });
 
   const hasSelectedRecords = getIdsToRowsSelected().length > 0;
+
+  const [userIdCertification, setUserIdCertification] = useState('');
+  const [executeQuery, setExecuteQuery] = useState(false);
+
+  const handleOnSuccessQuery = () => {
+    setExecuteQuery(false);
+    setUserIdCertification('');
+  };
+
+  const queryGetCertification = useGetCertificationEmployee({
+    userId: userIdCertification,
+    stateQuery: executeQuery,
+    actionPDF: 'ViewPDF',
+    actionOnSuccess: handleOnSuccessQuery,
+  });
 
   const { mutate, isPending } = useDeleteBulkEmployees();
 
@@ -63,6 +78,10 @@ export const EmployeesModuleProvider = ({ children }: any) => {
     setPagination,
     handleDeleteBulkEmployees,
     isPending,
+    queryGetCertification,
+    userIdCertification,
+    setUserIdCertification,
+    setExecuteQuery,
   };
 
   return (
