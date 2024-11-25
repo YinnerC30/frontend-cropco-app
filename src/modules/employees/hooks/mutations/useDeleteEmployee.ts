@@ -3,13 +3,14 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useManageErrorApp } from '@/modules/authentication/hooks';
 
 export const deleteEmployee = async (id: string) =>
   await cropcoAPI.delete(`${pathsCropco.employees}/remove/one/${id}`);
 
 export const useDeleteEmployee = () => {
   const queryClient = useQueryClient();
-
+  const { handleError } = useManageErrorApp();
   const mutation = useMutation({
     mutationFn: deleteEmployee,
     onSuccess: () => {
@@ -17,11 +18,12 @@ export const useDeleteEmployee = () => {
       toast.success(`Empleado eliminado`);
     },
     onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
-      toast.error(
-        `Hubo un problema durante la eliminación del empleado, ${data.message}`
-      );
+      const deleteError: AxiosError | any = error;
+      handleError({
+        error: deleteError as AxiosError,
+        messageUnauthoraizedError:
+          'No tienes permiso para eliminar el empleado',
+      });
     },
     retry: 1,
   });

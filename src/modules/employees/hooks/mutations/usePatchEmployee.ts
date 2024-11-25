@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { Employee } from '../../interfaces/Employee';
+import { useManageErrorApp } from '@/modules/authentication/hooks';
 
 export const updateEmployee = async (employee: Employee) => {
   const { id, ...rest } = employee;
@@ -12,6 +13,7 @@ export const updateEmployee = async (employee: Employee) => {
 
 export const usePatchEmployee = () => {
   const queryClient = useQueryClient();
+  const { handleError } = useManageErrorApp();
   const mutation = useMutation({
     mutationFn: updateEmployee,
     onSuccess: () => {
@@ -20,10 +22,11 @@ export const usePatchEmployee = () => {
     },
     onError: (error: AxiosError) => {
       const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
-      toast.error(
-        `Hubo un problema durante la actualización del empleado, ${data.message}`
-      );
+      handleError({
+        error: updateError as AxiosError,
+        messageUnauthoraizedError:
+          'No tienes permiso para actualizar el empleado',
+      });
     },
     retry: 1,
   });
