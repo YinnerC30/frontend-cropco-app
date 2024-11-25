@@ -1,3 +1,4 @@
+export * from './ActionGetCertification';
 export * from './createColumnsTableEmployees';
 export * from './EmployeesActions';
 export * from './EmployeesBreadCrumb';

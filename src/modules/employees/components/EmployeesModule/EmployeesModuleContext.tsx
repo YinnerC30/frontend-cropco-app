@@ -3,11 +3,9 @@ import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { createContext, useContext, useState } from 'react';
 import { useWindowSize } from 'react-use';
-import createColumnsTableEmployees from './createColumnsTableEmployees';
-
-import { useGetAllEmployees } from '../../hooks';
-import { useDeleteBulkEmployees } from '../../hooks/mutations/useDeleteBulkEmployees';
+import { useDeleteBulkEmployees, useGetAllEmployees } from '../../hooks';
 import { useGetCertificationEmployee } from '../../hooks/queries/useGetCertificationEmployee';
+import createColumnsTableEmployees from './createColumnsTableEmployees';
 
 const EmployeesModuleContext = createContext<any>(null);
 
