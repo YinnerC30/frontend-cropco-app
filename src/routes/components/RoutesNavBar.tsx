@@ -1,4 +1,4 @@
-import { Contact, Monitor, User } from 'lucide-react';
+import { BookUser, Contact, Monitor, User } from 'lucide-react';
 
 export interface Route {
   label: string;
@@ -26,17 +26,17 @@ export const routes: Route[] = [
     Icon: <Contact />,
     name_module: 'employees',
   },
+  {
+    label: 'Clientes',
+    path: 'clients/view/all',
+    Icon: <BookUser />,
+    name_module: 'clients',
+  },
   // {
   //   label: 'Cultivos',
   //   path: 'crops/view/all',
   //   Icon: <Leaf />,
   //   name_module: 'crops',
-  // },
-  // {
-  //   label: 'Clientes',
-  //   path: 'clients/view/all',
-  //   Icon: <BookUser />,
-  //   name_module: 'clients',
   // },
   // {
   //   label: 'Proveedores',
