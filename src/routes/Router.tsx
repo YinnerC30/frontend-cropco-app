@@ -3,7 +3,7 @@ import ErrorPage from '@/ErrorPage';
 import AuthenticationLayout from '@/modules/authentication/components/AuthenticationLayout';
 import { authenticationRoutes } from '@/modules/authentication/routes/Routes';
 import { dashboardRoutes } from '@/modules/dashboard/routes/Routes';
-import { employeeRoutes } from '@/modules/employees/routes/Routes';
+import { employeeRoutes } from '@/modules/employees/routes/employeeRoutes';
 import { userRoutes } from '@/modules/users/routes/userRoutes';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { HomeLayout } from '../HomeLayout';

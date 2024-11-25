@@ -3,7 +3,7 @@ import { ShieldPlus } from 'lucide-react';
 import { useEmployeesModuleContext } from './EmployeesModuleContext';
 import { useDataTableMenuActionsContext } from '@/modules/core/components/DataTable';
 
-export const ActionGetCertification = ({ id }: any) => {
+export const ActionGetCertification = ({ id, disabled }: any) => {
   const { setUserIdCertification, setExecuteQuery } =
     useEmployeesModuleContext();
   const { toggleOpen } = useDataTableMenuActionsContext();
@@ -15,7 +15,7 @@ export const ActionGetCertification = ({ id }: any) => {
     event.stopPropagation();
   };
   return (
-    <DropdownMenuItem asChild>
+    <DropdownMenuItem asChild disabled={disabled}>
       <Button variant={'ghost'} onClick={handleCertificateEmployee}>
         <ShieldPlus className="w-4 h-4 mr-1" /> Certificar
       </Button>

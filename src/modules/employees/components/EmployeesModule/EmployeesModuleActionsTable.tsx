@@ -38,7 +38,10 @@ export const EmployeesModuleActionsTable = ({ row }: Props) => {
         disabled={!hasPermission('employees', 'update_one_employee')}
       />
 
-      <ActionGetCertification id={id} />
+      <ActionGetCertification
+        id={id}
+        disabled={!hasPermission('employees', 'find_certification_employee')}
+      />
 
       <ActionViewRecord
         id={id}

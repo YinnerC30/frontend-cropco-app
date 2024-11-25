@@ -24,3 +24,5 @@ export const ViewEmployee = () => {
     </>
   );
 };
+
+export default ViewEmployee;

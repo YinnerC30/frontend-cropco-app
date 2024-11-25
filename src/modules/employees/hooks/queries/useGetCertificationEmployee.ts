@@ -50,6 +50,7 @@ export const useGetCertificationEmployee = ({
     },
     staleTime: 60_000 * 60 * 24,
     enabled: stateQuery,
+    retry: 1,
   });
 
   useEffect(() => {

@@ -36,3 +36,5 @@ export const ModifyEmployee = () => {
     </>
   );
 };
+
+export default ModifyEmployee;

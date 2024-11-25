@@ -6,7 +6,10 @@ import { PaginationState } from '@tanstack/react-table';
 import { useEffect, useState } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import {
+  useAuthorization,
+  useManageErrorApp,
+} from '@/modules/authentication/hooks';
 import { ResponseUseGetAllRecords } from '@/modules/core/interfaces';
 import { ResponseApiGetAllRecords } from '@/modules/core/interfaces/Responses/ResponseApiGetAllRecords';
 import { AxiosError } from 'axios';
@@ -46,6 +49,7 @@ export const useGetAllEmployees = ({
     pageSize: 10,
   });
 
+  const { hasPermission } = useAuthorization();
   const { handleError } = useManageErrorApp();
 
   const query = useQuery({
@@ -57,6 +61,7 @@ export const useGetAllEmployees = ({
         offset: pagination.pageIndex,
         allRecords,
       }),
+    enabled: hasPermission('employees', 'find_all_employees'),
   });
 
   useEffect(() => {

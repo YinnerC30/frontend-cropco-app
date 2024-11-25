@@ -23,3 +23,4 @@ export const CreateEmployee = () => {
     </>
   );
 };
+export default CreateEmployee;
