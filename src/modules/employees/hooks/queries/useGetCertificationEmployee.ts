@@ -5,7 +5,10 @@ import { toast } from 'sonner';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { dowloadPDF } from '@/modules/core/helpers';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import {
+  useAuthorization,
+  useManageErrorApp,
+} from '@/modules/authentication/hooks';
 import { AxiosError } from 'axios';
 
 export const getCertificationEmployee = async (id: string): Promise<Blob> => {
@@ -34,6 +37,8 @@ export const useGetCertificationEmployee = ({
   actionOnSuccess,
 }: Props) => {
   const { handleError } = useManageErrorApp();
+  const { hasPermission } = useAuthorization();
+
   const query = useQuery({
     queryKey: ['employee-certification', userId],
     queryFn: () => {
@@ -49,7 +54,8 @@ export const useGetCertificationEmployee = ({
       return fetchCertification;
     },
     staleTime: 60_000 * 60 * 24,
-    enabled: stateQuery,
+    enabled:
+      stateQuery && hasPermission('employees', 'find_certification_employee'),
     retry: 1,
   });
 
