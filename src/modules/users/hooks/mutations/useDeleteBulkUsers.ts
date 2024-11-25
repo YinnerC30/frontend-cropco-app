@@ -23,16 +23,12 @@ export const useDeleteBulkUsers = () => {
       toast.success(`Usuarios eliminados`);
     },
     onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
+      const deleteError: AxiosError | any = error;
       handleError({
-        error: mutation.error as AxiosError,
+        error: deleteError as AxiosError,
         messageUnauthoraizedError:
           'No tienes permiso para eliminar varios usuarios',
       });
-      toast.error(
-        `Hubo un problema durante la eliminación de los usuarios, ${data.message}`
-      );
     },
 
     retry: 1,

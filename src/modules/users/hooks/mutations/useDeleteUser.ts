@@ -18,10 +18,10 @@ export const useDeleteUser = () => {
       toast.success(`Usuario eliminado`);
     },
     onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
+      const deleteError: AxiosError | any = error;
 
       handleError({
-        error: updateError,
+        error: deleteError,
         messageUnauthoraizedError: 'No tienes permiso para eliminar el usuario',
       });
     },

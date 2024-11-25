@@ -23,25 +23,21 @@ export function usePostUser(): UseMutationResult<
 > {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  
+
   const { handleError } = useManageErrorApp();
   const mutation = useMutation({
     mutationFn: createUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       navigate('../view/all');
-      
+
       toast.success(`Usuario creado`);
     },
     onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
-      toast.error(
-        `Hubo un problema durante la creación del usuario, ${data.message}`
-      );
+      const createError: AxiosError | any = error;
       handleError({
-        error: mutation.error as AxiosError,
-        messageUnauthoraizedError: 'No tienes permiso para eliminar el usuario',
+        error: createError as AxiosError,
+        messageUnauthoraizedError: 'No tienes permiso para crear el usuario',
       });
     },
 

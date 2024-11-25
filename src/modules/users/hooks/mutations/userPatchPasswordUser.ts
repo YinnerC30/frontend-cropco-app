@@ -24,13 +24,10 @@ export function usePatchPasswordUser() {
       toast.success(`Contraseña restablecida`);
     },
     onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
-      toast.error(
-        `Hubo un problema durante el restablecimiento de la constraseña, ${data.message}`
-      );
+      const patchPasswordError: AxiosError | any = error;
+
       handleError({
-        error: mutation.error as AxiosError,
+        error: patchPasswordError as AxiosError,
         messageUnauthoraizedError:
           'No tienes permiso restablecer la contraseña del usuario',
       });

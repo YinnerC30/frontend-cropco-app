@@ -33,13 +33,9 @@ export function userPatchChangePasswordUser() {
       toast.success(`Contraseña cambiada`);
     },
     onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
-      toast.error(
-        `Hubo un problema durante el cambio de la constraseña, ${data.message}`
-      );
+      const patchPasswordError: AxiosError | any = error;
       handleError({
-        error: mutation.error as AxiosError,
+        error: patchPasswordError as AxiosError,
         messageUnauthoraizedError:
           'No tienes permiso cambiar la contraseña del usuario',
       });

@@ -45,14 +45,10 @@ export function usePatchUser(): any {
     },
     onError: (error: AxiosError) => {
       const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
-      console.error(data);
-      toast.error(
-        `Hubo un problema durante la actualización del usuario, ${data.message}`
-      );
       handleError({
-        error: mutation.error as AxiosError,
-        messageUnauthoraizedError: 'No tienes permiso para eliminar el usuario',
+        error: updateError as AxiosError,
+        messageUnauthoraizedError:
+          'No tienes permiso para actualizar el usuario',
       });
     },
     retry: 1,
