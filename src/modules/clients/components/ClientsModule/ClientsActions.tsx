@@ -29,7 +29,9 @@ export const ClientsActions = () => {
       />
 
       <div className="flex items-center gap-1">
-        <ButtonExportClients />
+        <ButtonExportClients
+          disabled={!hasPermission('clients', 'export_clients_pdf')}
+        />
 
         <ButtonClearSelection
           onClick={() => resetSelectionRows()}

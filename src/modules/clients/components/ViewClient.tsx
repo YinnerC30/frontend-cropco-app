@@ -25,3 +25,5 @@ export const ViewClient = () => {
     </>
   );
 };
+
+export default ViewClient;

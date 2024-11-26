@@ -25,3 +25,5 @@ export const CreateClient = () => {
     </>
   );
 };
+
+export default CreateClient;

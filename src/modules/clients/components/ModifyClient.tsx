@@ -37,3 +37,5 @@ export const ModifyClient = () => {
     </>
   );
 };
+
+export default ModifyClient;
