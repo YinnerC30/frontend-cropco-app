@@ -6,6 +6,7 @@ import { useWindowSize } from 'react-use';
 
 import { useGetAllClients } from '../../hooks/queries/useGetAllClients';
 import createColumnsTableClients from './createColumnsTableClients';
+import { useDeleteBulkClients } from '../../hooks/mutations/useDeleteBulkClients';
 
 const ClientsModuleContext = createContext<any>(null);
 
@@ -31,18 +32,18 @@ export const ClientsModuleProvider = ({ children }: any) => {
 
   const hasSelectedRecords = getIdsToRowsSelected().length > 0;
 
-  // const { mutate, isPending } = useDeleteBulkClients();
+  const { mutate, isPending } = useDeleteBulkClients();
 
-  // const handleDeleteBulkClients = () => {
-  //   mutate(
-  //     { clientsIds: getIdsToRowsSelected() },
-  //     {
-  //       onSuccess: () => {
-  //         resetSelectionRows();
-  //       },
-  //     }
-  //   );
-  // };
+  const handleDeleteBulkClients = () => {
+    mutate(
+      { clientsIds: getIdsToRowsSelected() },
+      {
+        onSuccess: () => {
+          resetSelectionRows();
+        },
+      }
+    );
+  };
 
   const contextValue = {
     value,
@@ -55,6 +56,8 @@ export const ClientsModuleProvider = ({ children }: any) => {
     resetSelectionRows,
     pagination,
     setPagination,
+    handleDeleteBulkClients,
+    isPending,
   };
 
   return (

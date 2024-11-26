@@ -29,17 +29,17 @@ export const ClientsModuleActionsTable = ({ row }: Props) => {
 
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!hasPermission('employees', 'remove_one_employee')}
+        disabled={!hasPermission('clients', 'remove_one_client')}
       />
 
       <ActionModifyRecord
         id={id}
-        disabled={!hasPermission('employees', 'update_one_employee')}
+        disabled={!hasPermission('clients', 'update_one_client')}
       />
 
       <ActionViewRecord
         id={id}
-        disabled={!hasPermission('employees', 'find_one_employee')}
+        disabled={!hasPermission('clients', 'find_one_client')}
       />
     </DropDownMenuActions>
   );
