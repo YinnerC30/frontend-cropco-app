@@ -1,4 +1,4 @@
-import ClientsModule from '../components/ClientsModule';
+import ClientsModule from '../components/ClientsModule/ClientsModule';
 import { CreateClient } from '../components/CreateClient';
 import { ModifyClient } from '../components/ModifyClient';
 import { ViewClient } from '../components/ViewClient';
