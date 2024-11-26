@@ -1,7 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { createClient } from '../services/createClient';
+
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { Client } from '@/modules/clients/interfaces/Client';
+
+export const createClient = async (client: Client) =>
+  await cropcoAPI.post(`${pathsCropco.clients}/create`, client);
 
 export const usePostClient = () => {
   const queryClient = useQueryClient();
@@ -15,7 +20,7 @@ export const usePostClient = () => {
       const updateError: AxiosError | any = error;
       const { data } = updateError.response;
       toast.error(
-        `Hubo un problema durante la creación del cliente, ${data.message}`,
+        `Hubo un problema durante la creación del cliente, ${data.message}`
       );
     },
     retry: 1,

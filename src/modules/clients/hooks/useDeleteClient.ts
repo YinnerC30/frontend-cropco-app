@@ -1,7 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { deleteClient } from '../services/deleteClient';
+
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+
+export const deleteClient = async (id: string) =>
+  await cropcoAPI.delete(`${pathsCropco.clients}/remove/one/${id}`);
 
 export const useDeleteClient = () => {
   const queryClient = useQueryClient();
@@ -16,7 +20,7 @@ export const useDeleteClient = () => {
       const updateError: AxiosError | any = error;
       const { data } = updateError.response;
       toast.error(
-        `Hubo un problema durante la eliminación del cliente, ${data.message}`,
+        `Hubo un problema durante la eliminación del cliente, ${data.message}`
       );
     },
     retry: 1,
