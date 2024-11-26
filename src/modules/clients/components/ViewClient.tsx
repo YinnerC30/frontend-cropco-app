@@ -1,11 +1,10 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { useParams } from "react-router-dom";
-import { ErrorLoading, Loading } from "../../core/components";
+import { useParams } from 'react-router-dom';
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { useGetClient } from "../hooks/useGetClient";
-import { FormClient } from "./FormClient";
+import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { useGetClient } from '../hooks/useGetClient';
+import { MODULE_CLIENTS_PATHS } from '../routes/pathRoutes';
+import { FormClient } from './FormClient';
+import { Loading } from '@/modules/core/components';
 
 export const ViewClient = () => {
   const { id } = useParams();
@@ -15,21 +14,14 @@ export const ViewClient = () => {
     return <Loading />;
   }
 
-  if (!data) {
-    return <ErrorLoading />;
-  }
-
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/clients/view/all", name: "Clientes" }]}
+        items={[{ link: MODULE_CLIENTS_PATHS.ViewAll, name: 'Clientes' }]}
         finalItem={`Información del cliente`}
       />
 
-      <Separator className="my-2" />
-      <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
-        <FormClient defaultValues={{ ...data }} readOnly />
-      </ScrollArea>
+      <FormClient defaultValues={data} readOnly />
     </>
   );
 };

@@ -1,20 +1,18 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { useNavigate, useParams } from "react-router-dom";
-import { z } from "zod";
+import { useParams } from 'react-router-dom';
+import { z } from 'zod';
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { ErrorLoading, Loading } from "../../core/components";
-import { useGetClient } from "../hooks/useGetClient";
-import { usePatchClient } from "../hooks/usePatchClient";
-import { formSchemaClient } from "../utils";
-import { FormClient } from "./FormClient";
+import { Loading } from '@/modules/core/components';
+import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { useGetClient } from '../hooks/useGetClient';
+import { usePatchClient } from '../hooks/usePatchClient';
+import { MODULE_CLIENTS_PATHS } from '../routes/pathRoutes';
+import { formSchemaClient } from '../utils';
+import FormClient from './FormClient/FormClient';
 
 export const ModifyClient = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetClient(id!);
-  const { mutate, isSuccess, isPending } = usePatchClient();
-  const navigate = useNavigate();
+  const { mutate, isPending } = usePatchClient();
 
   const onSubmit = (values: z.infer<typeof formSchemaClient>) => {
     mutate({ id, ...values });
@@ -24,29 +22,18 @@ export const ModifyClient = () => {
     return <Loading />;
   }
 
-  if (!data) {
-    return <ErrorLoading />;
-  }
-
-  if (isSuccess) {
-    navigate("../view/all");
-  }
-
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/clients/view/all", name: "Clientes" }]}
+        items={[{ link: MODULE_CLIENTS_PATHS.ViewAll, name: 'Clientes' }]}
         finalItem={`Modificar`}
       />
 
-      <Separator className="my-2" />
-      <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
-        <FormClient
-          onSubmit={onSubmit}
-          isSubmitting={isPending}
-          defaultValues={{ ...data }}
-        />
-      </ScrollArea>
+      <FormClient
+        onSubmit={onSubmit}
+        isSubmitting={isPending}
+        defaultValues={data}
+      />
     </>
   );
 };
