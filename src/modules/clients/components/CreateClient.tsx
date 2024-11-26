@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { usePostClient } from '../hooks/usePostClient';
+import { usePostClient } from '../hooks/mutations/usePostClient';
 
 import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
 import { formSchemaClient } from '../utils';

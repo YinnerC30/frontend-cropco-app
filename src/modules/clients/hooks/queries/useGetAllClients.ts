@@ -1,8 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { PaginationState } from '@tanstack/react-table';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useManageErrorApp } from '@/modules/authentication/hooks';
+import { AxiosError } from 'axios';
 
 export const getClients = async ({ search = '', limit = 10, offset = 0 }) => {
   const params = new URLSearchParams();
@@ -20,6 +22,8 @@ export const useGetAllClients = (searchParameter: string) => {
     pageSize: 10,
   });
 
+  const { handleError } = useManageErrorApp();
+
   const query = useQuery({
     queryKey: ['clients', { searchParameter, ...pagination }],
     queryFn: () =>
@@ -29,6 +33,16 @@ export const useGetAllClients = (searchParameter: string) => {
         offset: pagination.pageIndex,
       }),
   });
+
+  useEffect(() => {
+    if (query.isError) {
+      handleError({
+        error: query.error as AxiosError,
+        messageUnauthoraizedError:
+          'No tienes permiso para ver el listado de clientes 😑',
+      });
+    }
+  }, [query.isError, query.error]);
 
   return { query, pagination, setPagination };
 };

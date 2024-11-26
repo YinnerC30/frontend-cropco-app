@@ -8,7 +8,7 @@ import {
 } from '@/modules/core/components/DataTable/DataTableMenuActions/Actions';
 import { DropDownMenuActions } from '@/modules/core/components/DataTable/DataTableMenuActions/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
-import { useDeleteClient } from '../../hooks/useDeleteClient';
+import { useDeleteClient } from '../../hooks/mutations/useDeleteClient';
 
 interface Props {
   row: Row<any>;

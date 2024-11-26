@@ -3,8 +3,8 @@ import { z } from 'zod';
 
 import { Loading } from '@/modules/core/components';
 import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
-import { useGetClient } from '../hooks/useGetClient';
-import { usePatchClient } from '../hooks/usePatchClient';
+import { useGetClient } from '../hooks/queries/useGetClient';
+import { usePatchClient } from '../hooks/mutations/usePatchClient';
 import { MODULE_CLIENTS_PATHS } from '../routes/pathRoutes';
 import { formSchemaClient } from '../utils';
 import FormClient from './FormClient/FormClient';

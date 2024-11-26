@@ -1,4 +1,4 @@
-import { useGetAllClients } from "@/modules/clients/hooks/useGetAllClients";
+import { useGetAllClients } from "@/modules/clients/hooks/queries/useGetAllClients";
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { useGetAllCrops } from "@/modules/crops/hooks/useGetAllCrops";
 import { formSchemaSale } from "../utils";

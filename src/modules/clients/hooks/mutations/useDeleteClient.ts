@@ -3,13 +3,14 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useManageErrorApp } from '@/modules/authentication/hooks';
 
 export const deleteClient = async (id: string) =>
   await cropcoAPI.delete(`${pathsCropco.clients}/remove/one/${id}`);
 
 export const useDeleteClient = () => {
   const queryClient = useQueryClient();
-
+  const { handleError } = useManageErrorApp();
   const mutation = useMutation({
     mutationFn: deleteClient,
     onSuccess: () => {
@@ -17,11 +18,11 @@ export const useDeleteClient = () => {
       toast.success(`Cliente eliminado`);
     },
     onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
-      toast.error(
-        `Hubo un problema durante la eliminación del cliente, ${data.message}`
-      );
+      const deleteError: AxiosError | any = error;
+      handleError({
+        error: deleteError as AxiosError,
+        messageUnauthoraizedError: 'No tienes permiso para eliminar el cliente',
+      });
     },
     retry: 1,
   });

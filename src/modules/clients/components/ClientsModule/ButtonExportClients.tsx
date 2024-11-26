@@ -1,7 +1,7 @@
 import { Button } from '@/components';
 import { FileUp } from 'lucide-react';
 import { useState } from 'react';
-import { useGetReportClients } from '../../hooks/useGetReportClients';
+import { useGetReportClients } from '../../hooks/queries/useGetReportClients';
 import { ToolTipTemplate } from '@/modules/core/components';
 
 export const ButtonExportClients = () => {

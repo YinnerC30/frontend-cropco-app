@@ -4,7 +4,7 @@ import { useBasicQueryData } from '@/modules/core/hooks/';
 import { createContext, useContext } from 'react';
 import { useWindowSize } from 'react-use';
 
-import { useGetAllClients } from '../../hooks/useGetAllClients';
+import { useGetAllClients } from '../../hooks/queries/useGetAllClients';
 import createColumnsTableClients from './createColumnsTableClients';
 
 const ClientsModuleContext = createContext<any>(null);

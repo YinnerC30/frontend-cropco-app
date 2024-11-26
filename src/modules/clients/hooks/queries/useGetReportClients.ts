@@ -4,6 +4,8 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
+import { useManageErrorApp } from '@/modules/authentication/hooks';
+import { AxiosError } from 'axios';
 
 export const getReportClients = async () => {
   const response = await cropcoAPI.get(
@@ -26,6 +28,7 @@ export const useGetReportClients = ({
   showReport,
   actionOnSuccess,
 }: Props) => {
+  const { handleError } = useManageErrorApp();
   const query = useQuery({
     queryKey: ['report-clients'],
     queryFn: () => {
@@ -51,6 +54,16 @@ export const useGetReportClients = ({
       actionOnSuccess();
     }
   }, [query.isSuccess, actionOnSuccess, showReport]);
+
+  useEffect(() => {
+    if (query.isError) {
+      handleError({
+        error: query.error as AxiosError,
+        messageUnauthoraizedError:
+          'No tienes permiso para obtener el reporte de clientes 😑',
+      });
+    }
+  }, [query.isError, query.error]);
 
   return query;
 };
