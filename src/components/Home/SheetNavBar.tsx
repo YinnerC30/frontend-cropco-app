@@ -6,11 +6,14 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
-import { NavBar } from './components/Home/NavBar';
-import { NavElement } from './components/Home/NavElement';
-import { Route, routes } from './routes/components/RoutesNavBar';
+
+
+
 import { useState } from 'react';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import { routes, Route } from '@/routes/components';
+import { NavBar } from './NavBar';
+import { NavElement } from './NavElement';
 
 interface Props {
   modulesUser: any[];

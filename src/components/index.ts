@@ -1,11 +1,11 @@
 export * from './common/LandingPage';
-export * from './Home/Header';
-export * from './Home/Main';
-export * from './Home/MyAccount';
-export * from './Home/NavBar';
-export * from './Home/NavElement';
-export * from './ui/alert';
+export * from './home/Header';
+export * from './home/Main';
+export * from './home/MyAccount';
+export * from './home/NavBar';
+export * from './home/NavElement';
 export * from './ui/alert-dialog';
+export * from './ui/alert';
 export * from './ui/badge';
 export * from './ui/breadcrumb';
 export * from './ui/button';
@@ -31,5 +31,6 @@ export * from './ui/switch';
 export * from './ui/table';
 export * from './ui/textarea';
 export * from './ui/toast';
+
 export * from './ui/tooltip';
 export * from './ui/use-toast';

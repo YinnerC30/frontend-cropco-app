@@ -1,17 +1,17 @@
 import { CommandDialogApp } from '@/modules/core/components/shared/CommandDialogApp';
 
 import { Link, Outlet } from 'react-router-dom';
-import { Header } from './components/Home/Header';
-import { Main } from './components/Home/Main';
-import { MyAccount } from './components/Home/MyAccount';
-import { NavBar } from './components/Home/NavBar';
-import { NavElement } from './components/Home/NavElement';
-import { useCheckAuthStatus } from './modules/authentication/hooks';
-import useAuthentication from './modules/authentication/hooks/useAuthentication';
-import { Loading } from './modules/core/components';
-import { Route, routes } from './routes/components/RoutesNavBar';
+import { Header } from './Header';
+import { Main } from './Main';
+import { MyAccount } from './MyAccount';
+import { NavBar } from './NavBar';
+import { NavElement } from './NavElement';
+import { useCheckAuthStatus } from '../../modules/authentication/hooks';
+import useAuthentication from '../../modules/authentication/hooks/useAuthentication';
+import { Loading } from '../../modules/core/components';
+import { Route, routes } from '../../routes/components/RoutesNavBar';
 import { SheetNavBar } from './SheetNavBar';
-import { useHome } from './useHome';
+import { useHome } from '../hooks/useHome';
 
 export const HomeLayout = () => {
   const { tokenSesion = '' } = useAuthentication();

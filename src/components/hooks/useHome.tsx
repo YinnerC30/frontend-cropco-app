@@ -1,9 +1,11 @@
+import {
+  useAuthorization,
+  useRenewToken,
+  TIME_QUESTION_RENEW_TOKEN,
+} from '@/modules/authentication/hooks';
+import { ToastAction } from '@radix-ui/react-toast';
 import { useEffect } from 'react';
-import { ToastAction } from './components/ui/toast';
-import { useToast } from './components/ui/use-toast';
-import { TIME_QUESTION_RENEW_TOKEN } from './modules/authentication/hooks';
-import { useAuthorization } from './modules/authentication/hooks/useAuthorization';
-import { useRenewToken } from './modules/authentication/hooks/useRenewToken';
+import { useToast } from '../ui/use-toast';
 
 export const useHome = () => {
   const { modulesUser } = useAuthorization();

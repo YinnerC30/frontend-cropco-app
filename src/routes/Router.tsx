@@ -1,12 +1,12 @@
 import { LandingPage } from '@/components/common/LandingPage';
-import ErrorPage from '@/ErrorPage';
+import ErrorPage from '@/routes/components/ErrorPage';
 import AuthenticationLayout from '@/modules/authentication/components/AuthenticationLayout';
 import { authenticationRoutes } from '@/modules/authentication/routes/Routes';
 import { dashboardRoutes } from '@/modules/dashboard/routes/Routes';
 import { employeeRoutes } from '@/modules/employees/routes/employeeRoutes';
 import { userRoutes } from '@/modules/users/routes/userRoutes';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { HomeLayout } from '../HomeLayout';
+import { HomeLayout } from '../components/home/HomeLayout';
 import { RoutesController } from './components/RoutesController';
 import { clientRoutes } from '@/modules/clients/routes/Routes';
 import { cropRoutes } from '@/modules/crops/routes/Routes';

@@ -1,6 +1,6 @@
 import { Toaster as Sonner } from './components/ui/sonner';
 import { Toaster } from './components/ui/toaster';
-import { ProvidersApp } from './Providers';
+import { ProvidersApp } from './providers/Providers';
 
 export const App = () => {
   return (

@@ -1,11 +1,11 @@
+import { FormChangeProvider, ThemeProvider } from '@/modules/core/components';
+import { store } from '@/redux/store';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Provider as ReduxProvider } from 'react-redux';
+
 import { RouterProvider } from 'react-router-dom';
-import { ThemeProvider } from './modules/core/components';
-import { store } from './redux/store';
-import { Router } from './routes/Router';
-import { FormChangeProvider } from './modules/core/components/form/FormChangeContext';
+import { Provider as ReduxProvider } from 'react-redux';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Router } from '@/routes/Router';
 
 const queryClient = new QueryClient();
 
