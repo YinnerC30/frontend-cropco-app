@@ -1,4 +1,4 @@
-import { DataTableTemplate } from '@/modules/core/components/DataTable';
+import { DataTableTemplate } from '@/modules/core/components';
 import { useCropsModuleContext } from './CropsModuleContext';
 
 

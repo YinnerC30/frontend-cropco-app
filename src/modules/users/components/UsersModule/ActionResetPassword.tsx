@@ -13,7 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loading, ToolTipTemplate } from '@/modules/core/components';
-import { useDataTableMenuActionsContext } from '@/modules/core/components/DataTable';
+import { useDataTableMenuActionsContext } from '@/modules/core/components';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { Copy, KeyRound } from 'lucide-react';

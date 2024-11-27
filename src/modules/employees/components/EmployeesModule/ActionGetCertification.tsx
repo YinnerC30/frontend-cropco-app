@@ -1,7 +1,7 @@
 import { Button, DropdownMenuItem } from '@/components';
 import { ShieldPlus } from 'lucide-react';
 import { useEmployeesModuleContext } from './EmployeesModuleContext';
-import { useDataTableMenuActionsContext } from '@/modules/core/components/DataTable';
+import { useDataTableMenuActionsContext } from '@/modules/core/components';
 
 export const ActionGetCertification = ({ id, disabled }: any) => {
   const { setUserIdCertification, setExecuteQuery } =

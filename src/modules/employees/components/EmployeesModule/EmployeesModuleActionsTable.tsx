@@ -5,8 +5,8 @@ import {
   ActionDeleteRecord,
   ActionModifyRecord,
   ActionViewRecord,
-} from '@/modules/core/components/DataTable/DataTableMenuActions/Actions';
-import { DropDownMenuActions } from '@/modules/core/components/DataTable/DataTableMenuActions/DropDownMenuActions';
+} from '@/modules/core/components/data-table/menu/actions';
+import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
 import { useDeleteEmployee } from '../../hooks/mutations/useDeleteEmployee';
 import { ActionGetCertification } from './ActionGetCertification';

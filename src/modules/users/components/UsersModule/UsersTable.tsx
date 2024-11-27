@@ -1,4 +1,4 @@
-import { DataTableTemplate } from '@/modules/core/components/DataTable';
+import { DataTableTemplate } from '@/modules/core/components';
 import { useUsersModuleContext } from './UsersModuleContext';
 
 export const UsersTable = () => {
