@@ -9,18 +9,24 @@ import {
 import { DropDownMenuActions } from '@/modules/core/components/DataTable/DataTableMenuActions/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
 import { useDeleteClient } from '../../hooks/mutations/useDeleteClient';
+import { useClientsModuleContext } from './ClientsModuleContext';
 
 interface Props {
   row: Row<any>;
 }
 
 export const ClientsModuleActionsTable = ({ row }: Props) => {
+  const { resetSelectionRows } = useClientsModuleContext();
   const { hasPermission } = useAuthorization();
   const { id } = row.original;
   const mutationDeleteClient = useDeleteClient();
 
   const handleDelete = () => {
-    mutationDeleteClient.mutate(id);
+    mutationDeleteClient.mutate(id, {
+      onSuccess: () => {
+        resetSelectionRows();
+      },
+    });
   };
 
   return (

@@ -15,7 +15,7 @@ export const DataTableMenuActionsProvider = ({ children }: any) => {
   const [open, toggleOpen] = useState(false);
   return (
     <DataTableMenuActionsContext.Provider value={{ open, toggleOpen }}>
-      <DropdownMenu open={open} modal={true}>
+      <DropdownMenu open={open} modal={open}>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"

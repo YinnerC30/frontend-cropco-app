@@ -11,19 +11,25 @@ import { Row } from '@tanstack/react-table';
 import { useDeleteUser } from '../../hooks';
 import { ActionResetPassword } from './ActionResetPassword';
 import { usePatchPasswordUser } from '../../hooks/mutations';
+import { useUsersModuleContext } from './UsersModuleContext';
 
 interface Props {
   row: Row<any>;
 }
 
 export const UsersModuleActionsTable = ({ row }: Props) => {
+  const { resetSelectionRows } = useUsersModuleContext();
   const { hasPermission } = useAuthorization();
   const { id } = row.original;
   const mutationDeleteUser = useDeleteUser();
   const mutationPatchPassword = usePatchPasswordUser();
 
   const handleDelete = () => {
-    mutationDeleteUser.mutate(id);
+    mutationDeleteUser.mutate(id, {
+      onSuccess: () => {
+        resetSelectionRows();
+      },
+    });
   };
 
   return (

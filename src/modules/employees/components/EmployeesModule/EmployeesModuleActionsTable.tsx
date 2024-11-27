@@ -10,18 +10,24 @@ import { DropDownMenuActions } from '@/modules/core/components/DataTable/DataTab
 import { Row } from '@tanstack/react-table';
 import { useDeleteEmployee } from '../../hooks/mutations/useDeleteEmployee';
 import { ActionGetCertification } from './ActionGetCertification';
+import { useEmployeesModuleContext } from './EmployeesModuleContext';
 
 interface Props {
   row: Row<any>;
 }
 
 export const EmployeesModuleActionsTable = ({ row }: Props) => {
+  const { resetSelectionRows } = useEmployeesModuleContext();
   const { hasPermission } = useAuthorization();
   const { id } = row.original;
   const mutationDeleteEmployee = useDeleteEmployee();
 
   const handleDelete = () => {
-    mutationDeleteEmployee.mutate(id);
+    mutationDeleteEmployee.mutate(id, {
+      onSuccess: () => {
+        resetSelectionRows();
+      },
+    });
   };
 
   return (
