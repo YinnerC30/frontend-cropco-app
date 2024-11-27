@@ -2,7 +2,7 @@ import { useCreateForm, useGetAllModules } from '@/modules/core/hooks';
 import {
   Action,
   Module,
-} from '@/modules/core/interfaces/Responses/ResponseGetAllModules';
+} from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 import { RootState, useAppSelector } from '@/redux/store';
 import { useState } from 'react';
 import { UserAction } from '../components/FormUser/FormUserPermissionAction';

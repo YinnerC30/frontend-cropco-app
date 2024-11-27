@@ -7,7 +7,7 @@ import {
   FormMessage,
   Input,
 } from '@/components';
-import { FormFieldProps } from '../../interfaces/Form/FormFieldProps';
+import { FormFieldProps } from '../../interfaces/form/FormFieldProps';
 
 interface FormFieldInputProps extends FormFieldProps {
   step?: number;

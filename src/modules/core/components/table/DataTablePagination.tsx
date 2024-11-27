@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { DataTablePaginationProps } from "../../interfaces/DataTable/DataTablePaginationProps";
+import { DataTablePaginationProps } from "../../interfaces/data-table/DataTablePaginationProps";
 
 export function DataTablePagination<TData>({
   table,

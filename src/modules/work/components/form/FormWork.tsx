@@ -7,7 +7,7 @@ import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { FormFieldTextArea } from "@/modules/core/components/form/FormFieldTextArea";
 import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
 import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
-import { FormProps } from "@/modules/core/interfaces/Form/FormProps";
+import { FormProps } from "@/modules/core/interfaces/form/FormProps";
 import { useNavigate } from "react-router-dom";
 import { useWorkForm } from "../../hooks/useWorkForm";
 import { formFieldsWork } from "../../utils/formFieldsWork";

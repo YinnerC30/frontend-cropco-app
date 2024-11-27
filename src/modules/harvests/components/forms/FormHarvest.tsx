@@ -10,7 +10,7 @@ import { FormFieldTextArea } from "@/modules/core/components/form/FormFieldTextA
 import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
 import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
 import { FormatNumber } from "@/modules/core/helpers/formatting/FormatNumber";
-import { FormProps } from "@/modules/core/interfaces/Form/FormProps";
+import { FormProps } from "@/modules/core/interfaces/form/FormProps";
 import { AppDispatch, useAppDispatch } from "@/redux/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";

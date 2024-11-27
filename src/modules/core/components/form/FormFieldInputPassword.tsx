@@ -8,7 +8,7 @@ import {
   FormMessage,
   Input,
 } from '@/components';
-import { FormFieldProps } from '../../interfaces/Form/FormFieldProps';
+import { FormFieldProps } from '../../interfaces/form/FormFieldProps';
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 

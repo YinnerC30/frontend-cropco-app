@@ -1,4 +1,4 @@
-import { ObjectWithId } from '../General/ObjectWithId';
+import { ObjectWithId } from '../general/ObjectWithId';
 
 export interface BulkRecords {
   [key: string]: ObjectWithId[];

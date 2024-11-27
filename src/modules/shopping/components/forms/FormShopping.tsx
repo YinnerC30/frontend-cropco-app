@@ -4,7 +4,7 @@ import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalen
 import { FormFieldDataTable } from "@/modules/core/components/form/FormFieldDataTable";
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
-import { FormProps } from "@/modules/core/interfaces/Form/FormProps";
+import { FormProps } from "@/modules/core/interfaces/form/FormProps";
 import { useNavigate } from "react-router-dom";
 import { formFieldsShopping } from "../../utils/formFieldsShopping";
 

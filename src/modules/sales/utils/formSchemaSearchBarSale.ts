@@ -1,6 +1,6 @@
-import { DateTimeSelection } from "@/modules/core/interfaces/General/DateTimeSelection";
-import { MinorOrMajorSelection } from "@/modules/core/interfaces/General/MinorOrMajorSelection";
-import { YesORNotSelection } from "@/modules/core/interfaces/General/YesORNotSelection";
+import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
+import { MinorOrMajorSelection } from "@/modules/core/interfaces/general/MinorOrMajorSelection";
+import { YesORNotSelection } from "@/modules/core/interfaces/general/YesORNotSelection";
 import { z } from "zod";
 
 export const formSchemaSearchBarSale = z.object({

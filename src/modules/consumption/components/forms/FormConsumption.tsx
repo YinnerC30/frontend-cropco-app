@@ -6,7 +6,7 @@ import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
 import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalendar";
 import { FormFieldDataTable } from "@/modules/core/components/form/FormFieldDataTable";
 import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
-import { FormProps } from "@/modules/core/interfaces/Form/FormProps";
+import { FormProps } from "@/modules/core/interfaces/form/FormProps";
 import { useEffect } from "react";
 import { useConsumptionForm } from "../../hooks/useConsumptionForm";
 import { add, reset } from "../../utils/consumptionSlice";

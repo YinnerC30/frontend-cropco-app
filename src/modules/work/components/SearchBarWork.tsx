@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { DateTimeSelection } from "@/modules/core/interfaces/General/DateTimeSelection";
-import { MinorOrMajorSelection } from "@/modules/core/interfaces/General/MinorOrMajorSelection";
+import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
+import { MinorOrMajorSelection } from "@/modules/core/interfaces/general/MinorOrMajorSelection";
 import { formSchemaSearchBarWork } from "../utils/formSchemaSearchBarWork";
 
 import { useGetAllCropsWithWork } from "@/modules/crops/hooks/queries/useGetAllCropsWithWork";

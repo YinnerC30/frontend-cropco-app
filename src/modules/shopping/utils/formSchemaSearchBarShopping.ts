@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { DateTimeSelection } from "../../core/interfaces/General/DateTimeSelection";
-import { MinorOrMajorSelection } from "../../core/interfaces/General/MinorOrMajorSelection";
+import { DateTimeSelection } from "../../core/interfaces/general/DateTimeSelection";
+import { MinorOrMajorSelection } from "../../core/interfaces/general/MinorOrMajorSelection";
 
 export const formSchemaSearchBarShopping = z.object({
   filter_by_date: z.boolean().default(false).optional(),

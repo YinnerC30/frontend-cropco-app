@@ -1,6 +1,6 @@
 import { Switch } from '@/components/ui/switch';
 import { CapitalizeFirstWord } from '@/modules/authentication/helpers';
-import { Action } from '@/modules/core/interfaces/Responses/ResponseGetAllModules';
+import { Action } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 
 import { useFormUserContext } from './FormUserContext';
 

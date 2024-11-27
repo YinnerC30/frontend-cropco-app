@@ -6,8 +6,8 @@ import {
   ToolTipTemplate,
 } from "@/modules/core/components";
 import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { DateTimeSelection } from "@/modules/core/interfaces/General/DateTimeSelection";
-import { MinorOrMajorSelection } from "@/modules/core/interfaces/General/MinorOrMajorSelection";
+import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
+import { MinorOrMajorSelection } from "@/modules/core/interfaces/general/MinorOrMajorSelection";
 import { PlusIcon } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";

@@ -6,7 +6,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { Crop } from '@/modules/crops/interfaces/Crop';
 import { useManageErrorApp } from '@/modules/authentication/hooks';
 import { useNavigate } from 'react-router-dom';
-import { MODULE_CROPS_PATHS } from '../routes/pathRoutes';
+import { MODULE_CROPS_PATHS } from '../../routes/pathRoutes';
 
 export const createCrop = async (crop: Crop) => {
   return await cropcoAPI.post(`${pathsCropco.crops}/create`, crop);

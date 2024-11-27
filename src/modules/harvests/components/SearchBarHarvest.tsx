@@ -12,8 +12,8 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { formSchemaSearchBarHarvest } from "../utils/formSchemaSearchBarHarvest";
-import { DateTimeSelection } from "@/modules/core/interfaces/General/DateTimeSelection";
-import { MinorOrMajorSelection } from "@/modules/core/interfaces/General/MinorOrMajorSelection";
+import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
+import { MinorOrMajorSelection } from "@/modules/core/interfaces/general/MinorOrMajorSelection";
 import { formFieldsSearchBarHarvest } from "../utils/formFieldsSearchBarHarvest";
 
 interface Props {

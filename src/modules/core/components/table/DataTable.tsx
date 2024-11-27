@@ -33,7 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { DataTableProps } from '../../interfaces/DataTable/DataTableProps';
+import { DataTableProps } from '../../interfaces/data-table/DataTableProps';
 
 export function DataTable<TData, TValue>({
   columns,

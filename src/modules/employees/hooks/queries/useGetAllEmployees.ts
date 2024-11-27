@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { PropsUseGetAllRecords } from '@/modules/core/interfaces/Props/PropsUseGetAllRecords';
+import { PropsUseGetAllRecords } from '@/modules/core/interfaces/props/PropsUseGetAllRecords';
 
 import { PaginationState } from '@tanstack/react-table';
 import { useEffect, useState } from 'react';
@@ -11,7 +11,7 @@ import {
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
 import { ResponseUseGetAllRecords } from '@/modules/core/interfaces';
-import { ResponseApiGetAllRecords } from '@/modules/core/interfaces/Responses/ResponseApiGetAllRecords';
+import { ResponseApiGetAllRecords } from '@/modules/core/interfaces/responses/ResponseApiGetAllRecords';
 import { AxiosError } from 'axios';
 import { Employee } from '../../interfaces/Employee';
 

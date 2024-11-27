@@ -5,8 +5,9 @@ import { toast } from 'sonner';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { Crop } from '@/modules/crops/interfaces/Crop';
 import { useManageErrorApp } from '@/modules/authentication/hooks';
-import { MODULE_CROPS_PATHS } from '../routes/pathRoutes';
+
 import { useNavigate } from 'react-router-dom';
+import { MODULE_CROPS_PATHS } from '../../routes/pathRoutes';
 
 export const updateCrop = async (crop: Crop) => {
   const { id, ...rest } = crop;

@@ -6,7 +6,7 @@ import { FormFieldCommand } from "@/modules/core/components/form/FormFieldComman
 import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
 import { FormFieldSelect } from "@/modules/core/components/form/FormFieldSelect";
 import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
-import { FormProps } from "@/modules/core/interfaces/Form/FormProps";
+import { FormProps } from "@/modules/core/interfaces/form/FormProps";
 import { useAppDispatch } from "@/redux/store";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
