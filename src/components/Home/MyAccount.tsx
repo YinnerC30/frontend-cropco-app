@@ -23,9 +23,10 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
+import { useCreationsApp } from '@/modules/authentication/hooks/useCreateActionsApp';
 
 export const MyAccount = () => {
-  const [openMenu, setOpenMenu] = useState(false);
+  const [, setOpenMenu] = useState(false);
   const { removeUser, user, updateUserActions } = useAuthentication();
   const { setTheme } = useTheme();
 
@@ -33,15 +34,19 @@ export const MyAccount = () => {
     setOpenMenu(true);
   };
 
-  const handleCloseMenu = () => {
-    setOpenMenu(false);
-  };
-
   const [isRunningSeed, setIsRunningSeed] = useState(false);
   const [isConvertToAdmin, setIsConvertToAdmin] = useState(false);
 
   const queryImplantedSeed = useImplantSeed(isRunningSeed);
   const queryConvertToAdmin = useGetConvertToAdmin(user.id, isConvertToAdmin);
+  const [runQuery, setRunQuery] = useState(false);
+  const queryCreateActions = useCreationsApp({ stateQuery: runQuery });
+
+  useEffect(() => {
+    if (queryCreateActions.isSuccess) {
+      setRunQuery(false);
+    }
+  }, [queryCreateActions.isSuccess]);
 
   useEffect(() => {
     if (queryImplantedSeed.isSuccess) {
@@ -150,6 +155,15 @@ export const MyAccount = () => {
           }}
         >
           Volverte Admin 🤖
+        </DropdownMenuItem>
+
+        {/* Create Actions */}
+        <DropdownMenuItem
+          onClick={() => {
+            setRunQuery(true);
+          }}
+        >
+          Crear Acciones 🎭
         </DropdownMenuItem>
 
         {/* Change password - route */}
