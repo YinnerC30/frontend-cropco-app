@@ -25,7 +25,7 @@ export const ActionDeleteRecord = ({ action, disabled }: Props) => {
     <DropdownMenuItem disabled={disabled}>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant={'ghost'} disabled={disabled}>
+          <Button variant={'ghost'}>
             <TrashIcon className="w-4 h-4 mr-2" /> Eliminar
           </Button>
         </AlertDialogTrigger>

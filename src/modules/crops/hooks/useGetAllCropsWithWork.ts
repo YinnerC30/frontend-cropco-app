@@ -63,7 +63,7 @@ export const useGetAllCropsWithWork = ({
       handleError({
         error: query.error as AxiosError,
         messageUnauthoraizedError:
-          'No tienes permiso para ver el listado de usuarios 😑',
+          'No tienes permiso para ver el listado de cultivos con trabajos 😑',
       });
     }
   }, [query.isError, query.error]);
