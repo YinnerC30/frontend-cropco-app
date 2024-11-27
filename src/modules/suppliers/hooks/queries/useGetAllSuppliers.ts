@@ -5,7 +5,10 @@ import { useEffect, useState } from 'react';
 import { PaginationState } from '@tanstack/react-table';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import {
+  useAuthorization,
+  useManageErrorApp,
+} from '@/modules/authentication/hooks';
 import { AxiosError } from 'axios';
 
 export const getSuppliers = async ({ search = '', limit = 10, offset = 0 }) => {
@@ -26,6 +29,7 @@ export const useGetAllSuppliers = (searchParameter: string) => {
     pageSize: 10,
   });
   const { handleError } = useManageErrorApp();
+  const { hasPermission } = useAuthorization();
   const query = useQuery({
     queryKey: ['suppliers', { searchParameter, ...pagination }],
     queryFn: () =>
@@ -34,6 +38,7 @@ export const useGetAllSuppliers = (searchParameter: string) => {
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
       }),
+    enabled: hasPermission('suppliers', 'find_all_suppliers'),
   });
 
   useEffect(() => {

@@ -1,7 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import {
+  useAuthorization,
+  useManageErrorApp,
+} from '@/modules/authentication/hooks';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
@@ -11,9 +14,11 @@ export const getClientById = async (id: string) => {
 };
 export const useGetClient = (id: string) => {
   const { handleError } = useManageErrorApp();
+  const { hasPermission } = useAuthorization();
   const query = useQuery({
     queryKey: ['client', id],
     queryFn: () => getClientById(id),
+    enabled: hasPermission('clients', 'find_one_client'),
   });
 
   useEffect(() => {

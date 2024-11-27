@@ -3,7 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import {
+  useAuthorization,
+  useManageErrorApp,
+} from '@/modules/authentication/hooks';
 
 export const getCropById = async (id: string) => {
   const { data } = await cropcoAPI.get(`${pathsCropco.crops}/one/${id}`);
@@ -12,9 +15,11 @@ export const getCropById = async (id: string) => {
 
 export const useGetCrop = (id: string) => {
   const { handleError } = useManageErrorApp();
+  const { hasPermission } = useAuthorization();
   const query = useQuery({
     queryKey: ['crop', id],
     queryFn: () => getCropById(id),
+    enabled: hasPermission('crops', 'find_one_crop'),
   });
 
   useEffect(() => {

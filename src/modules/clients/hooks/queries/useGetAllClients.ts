@@ -3,7 +3,10 @@ import { PaginationState } from '@tanstack/react-table';
 import { useEffect, useState } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import {
+  useAuthorization,
+  useManageErrorApp,
+} from '@/modules/authentication/hooks';
 import { AxiosError } from 'axios';
 
 export const getClients = async ({ search = '', limit = 10, offset = 0 }) => {
@@ -23,7 +26,7 @@ export const useGetAllClients = (searchParameter: string) => {
   });
 
   const { handleError } = useManageErrorApp();
-
+  const { hasPermission } = useAuthorization();
   const query = useQuery({
     queryKey: ['clients', { searchParameter, ...pagination }],
     queryFn: () =>
@@ -32,6 +35,7 @@ export const useGetAllClients = (searchParameter: string) => {
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
       }),
+    enabled: hasPermission('clients', 'find_all_clients'),
   });
 
   useEffect(() => {

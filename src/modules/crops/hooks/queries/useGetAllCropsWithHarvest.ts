@@ -5,7 +5,10 @@ import { useEffect, useState } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { AxiosError } from 'axios';
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import {
+  useAuthorization,
+  useManageErrorApp,
+} from '@/modules/authentication/hooks';
 
 interface Props {
   search: string;
@@ -46,6 +49,7 @@ export const useGetAllCropsWithHarvest = ({
     pageSize: 10,
   });
   const { handleError } = useManageErrorApp();
+  const { hasPermission } = useAuthorization();
   const query = useQuery({
     queryKey: ['crops-with-harvest', { searchParameter, ...pagination }],
     queryFn: () =>
@@ -55,6 +59,7 @@ export const useGetAllCropsWithHarvest = ({
         offset: pagination.pageIndex,
         allRecords,
       }),
+    enabled: hasPermission('crops', 'find_all_crops_with_harvest'),
   });
 
   useEffect(() => {

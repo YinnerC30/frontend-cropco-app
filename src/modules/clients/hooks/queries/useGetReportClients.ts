@@ -4,7 +4,10 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import {
+  useAuthorization,
+  useManageErrorApp,
+} from '@/modules/authentication/hooks';
 import { AxiosError } from 'axios';
 
 export const getReportClients = async () => {
@@ -29,6 +32,7 @@ export const useGetReportClients = ({
   actionOnSuccess,
 }: Props) => {
   const { handleError } = useManageErrorApp();
+  const { hasPermission } = useAuthorization();
   const query = useQuery({
     queryKey: ['report-clients'],
     queryFn: () => {
@@ -43,7 +47,7 @@ export const useGetReportClients = ({
 
       return fetchReportClients;
     },
-    enabled: executeQuery,
+    enabled: executeQuery && hasPermission('clients', 'export_clients_pdf'),
     staleTime: 60_000 * 60 * 24,
     retry: 1,
   });

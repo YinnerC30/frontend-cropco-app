@@ -1,4 +1,7 @@
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import {
+  useAuthorization,
+  useManageErrorApp,
+} from '@/modules/authentication/hooks';
 import {
   UseQueryResult,
   useQuery,
@@ -22,11 +25,12 @@ export function useGetConvertToAdmin(
   isRunning: boolean
 ): UseQueryResult<User, Error> {
   const { handleError } = useManageErrorApp();
+  const { hasPermission } = useAuthorization();
   const queryClient = useQueryClient();
   const query = useQuery({
     queryKey: ['convert-to-admin-user', id],
     queryFn: () => convertToAdmin(id),
-    enabled: isRunning,
+    enabled: isRunning && hasPermission('auth', 'convert_to_admin'),
     gcTime: 60 * 1000 * 60,
   });
 
