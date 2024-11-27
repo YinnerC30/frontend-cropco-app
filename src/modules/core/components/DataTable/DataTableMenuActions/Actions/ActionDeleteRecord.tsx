@@ -22,42 +22,42 @@ interface Props {
 export const ActionDeleteRecord = ({ action, disabled }: Props) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
   return (
-    <DropdownMenuItem disabled={disabled}>
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <DropdownMenuItem disabled={disabled} asChild>
           <Button variant={'ghost'}>
             <TrashIcon className="w-4 h-4 mr-2" /> Eliminar
           </Button>
-        </AlertDialogTrigger>
+        </DropdownMenuItem>
+      </AlertDialogTrigger>
 
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              ¿Estas seguro de eliminar el registro?
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              Esta acción es irreversible y no podrá recuperar su registro
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel asChild>
-              <Button onClick={() => toggleOpen(false)} variant="secondary">
-                Cancelar
-              </Button>
-            </AlertDialogCancel>
-            <AlertDialogAction asChild>
-              <Button
-                onClick={() => {
-                  action();
-                  toggleOpen(false);
-                }}
-              >
-                Continuar
-              </Button>
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </DropdownMenuItem>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>
+            ¿Estas seguro de eliminar el registro?
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            Esta acción es irreversible y no podrá recuperar su registro
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel asChild>
+            <Button onClick={() => toggleOpen(false)} variant="secondary">
+              Cancelar
+            </Button>
+          </AlertDialogCancel>
+          <AlertDialogAction asChild>
+            <Button
+              onClick={() => {
+                action();
+                toggleOpen(false);
+              }}
+            >
+              Continuar
+            </Button>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };

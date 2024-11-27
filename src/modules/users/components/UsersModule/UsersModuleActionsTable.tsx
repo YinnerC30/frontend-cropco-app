@@ -40,7 +40,11 @@ export const UsersModuleActionsTable = ({ row }: Props) => {
         disabled={!hasPermission('users', 'update_one_user')}
       />
 
-      <ActionResetPassword id={id} mutation={mutationPatchPassword} />
+      <ActionResetPassword
+        id={id}
+        mutation={mutationPatchPassword}
+        disabled={!hasPermission('users', 'reset_password_user')}
+      />
 
       <ActionViewRecord
         id={id}
