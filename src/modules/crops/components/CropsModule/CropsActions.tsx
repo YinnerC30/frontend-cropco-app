@@ -1,10 +1,10 @@
 import {
+  ButtonClearSelection,
   ButtonCreateRecord,
   ButtonDeleteBulk,
   ButtonRefetchData,
 } from '@/modules/core/components';
 
-import { ButtonClearSelection } from '@/modules/core/components/ButtonClearSelection';
 import { MODULE_CROPS_PATHS } from '../../routes/pathRoutes';
 import { useCropsModuleContext } from './CropsModuleContext';
 

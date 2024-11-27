@@ -1,10 +1,9 @@
 import {
+  ButtonClearSelection,
   ButtonCreateRecord,
   ButtonDeleteBulk,
   ButtonRefetchData,
 } from '@/modules/core/components';
-
-import { ButtonClearSelection } from '@/modules/core/components/ButtonClearSelection';
 
 import { MODULE_EMPLOYEE_PATHS } from '../../routes/pathRoutes';
 import { useEmployeesModuleContext } from './EmployeesModuleContext';

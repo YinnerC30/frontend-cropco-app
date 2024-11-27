@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/alert-dialog';
 
 import { Trash } from 'lucide-react';
-import { ToolTipTemplate } from './ToolTipTemplate';
+import { ToolTipTemplate } from '../ToolTipTemplate';
 
 interface Props {
   onClick: any;

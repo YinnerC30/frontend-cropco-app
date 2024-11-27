@@ -1,10 +1,11 @@
 import {
+  ButtonClearSelection,
   ButtonCreateRecord,
   ButtonDeleteBulk,
   ButtonRefetchData,
 } from '@/modules/core/components';
 
-import { ButtonClearSelection } from '@/modules/core/components/ButtonClearSelection';
+
 
 import { useClientsModuleContext } from './ClientsModuleContext';
 import { MODULE_CLIENTS_PATHS } from '../../routes/pathRoutes';
