@@ -4,12 +4,12 @@ import { useFormClientContext } from './FormClientContext';
 export const FormClientAlert = () => {
   const { hasPermission } = useFormClientContext();
 
-  if (hasPermission('employees', 'find_one_employee')) return null;
+  if (hasPermission('clients', 'find_one_client')) return null;
 
   return (
     <AlertAction
       title="Error"
-      description="Requieres del permiso de lectura para obtener la información del empleado solicitado"
+      description="Requieres del permiso de lectura para obtener la información del cliente solicitado"
     />
   );
 };

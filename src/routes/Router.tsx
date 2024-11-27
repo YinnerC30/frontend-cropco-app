@@ -9,6 +9,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { HomeLayout } from '../HomeLayout';
 import { RoutesController } from './components/RoutesController';
 import { clientRoutes } from '@/modules/clients/routes/Routes';
+import { cropRoutes } from '@/modules/crops/routes/Routes';
 
 export const Router = createBrowserRouter([
   {
@@ -39,7 +40,7 @@ export const Router = createBrowserRouter([
           userRoutes,
           employeeRoutes,
           clientRoutes,
-          // cropRoutes,
+          cropRoutes,
           // harvestRoutes,
           // supplierRoutes,
           // supplyRoutes,

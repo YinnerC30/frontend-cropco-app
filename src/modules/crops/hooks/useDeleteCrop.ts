@@ -1,11 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { deleteCrop } from '../services/deleteCrop';
+
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useManageErrorApp } from '@/modules/authentication/hooks';
+
+export const deleteCrop = async (id: string) => {
+  return await cropcoAPI.delete(`${pathsCropco.crops}/remove/one/${id}`);
+};
 
 export const useDeleteCrop = () => {
   const queryClient = useQueryClient();
-
+  const { handleError } = useManageErrorApp();
   const mutation = useMutation({
     mutationFn: deleteCrop,
     onSuccess: () => {
@@ -13,11 +19,11 @@ export const useDeleteCrop = () => {
       toast.success(`Cultivo eliminado`);
     },
     onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
-      toast.error(
-        `Hubo un problema durante la eliminación del cultivo, ${data.message}`,
-      );
+      const deleteError: AxiosError | any = error;
+      handleError({
+        error: deleteError as AxiosError,
+        messageUnauthoraizedError: 'No tienes permiso para eliminar el cultivo',
+      });
     },
     retry: 1,
   });

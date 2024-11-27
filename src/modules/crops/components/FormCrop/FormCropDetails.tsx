@@ -1,26 +1,16 @@
-import { Button } from '@/components';
-import { Form } from '@/components/ui/form';
-import { ButtonsForm } from '@/modules/core/components/ButtonsForm';
-import { FormFieldCalendar } from '@/modules/core/components/form/FormFieldCalendar';
-import { FormFieldInput } from '@/modules/core/components/form/FormFieldInput';
-import { FormFieldTextArea } from '@/modules/core/components/form/FormFieldTextArea';
-import { FormProps } from '@/modules/core/interfaces/Form/FormProps';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useCropForm } from '../hooks/useCropForm';
-import { formFieldsCrop } from '../utils';
-export const FormCrop = ({
-  onSubmit,
-  isSubmitting: isPending,
-  defaultValues,
-  readOnly = false,
-}: FormProps) => {
-  const { form } = useCropForm();
-  const navigate = useNavigate();
+import { useFormCropContext } from './FormCropContext';
 
-  useEffect(() => {
-    defaultValues && form.reset(defaultValues);
-  }, []);
+import { Form } from '@/components';
+import {
+  FormFieldCalendar,
+  FormFieldInput,
+  FormFieldTextArea,
+} from '@/modules/core/components';
+import { formFieldsCrop } from '../../utils';
+
+export const FormCropDetails = () => {
+  const { form, onSubmit, readOnly } = useFormCropContext();
+
   return (
     <Form {...form}>
       <form
@@ -79,20 +69,6 @@ export const FormCrop = ({
           readOnly={readOnly}
         />
       </form>
-
-      {!readOnly && (
-        <ButtonsForm
-          isPending={isPending ?? false}
-          formId={'formCrop'}
-          className={'flex w-48 gap-2 mt-2'}
-        />
-      )}
-
-      {readOnly && (
-        <Button className="my-2" onClick={() => navigate(-1)}>
-          Volver
-        </Button>
-      )}
     </Form>
   );
 };

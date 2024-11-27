@@ -1,5 +1,5 @@
-import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
-import { formSchemaCrop } from "../utils";
+import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
+import { formSchemaCrop } from '../utils';
 
 const defaultValues = {
   name: undefined,
@@ -12,7 +12,7 @@ const defaultValues = {
   },
 };
 
-export const useCropForm = () => {
-  const form = useCreateForm({ schema: formSchemaCrop, defaultValues });
+export const useCropForm = ({ values = defaultValues }: any) => {
+  const form = useCreateForm({ schema: formSchemaCrop, defaultValues: values });
   return { form };
 };

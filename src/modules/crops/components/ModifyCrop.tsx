@@ -1,22 +1,20 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { z } from 'zod';
 
-import { Separator } from '@/components/ui/separator';
-import { ErrorLoading, Loading } from '../../core/components';
+import { Loading } from '../../core/components';
 import { useGetCrop } from '../hooks/useGetCrop';
 import { usePatchCrop } from '../hooks/usePatchCrop';
 
 import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
 import { BreadCrumb } from '../../core/components/BreadCrumb';
+import { MODULE_CROPS_PATHS } from '../routes/pathRoutes';
 import { formSchemaCrop } from '../utils';
-import { FormCrop } from './FormCrop';
+import { FormCrop } from './FormCrop/FormCrop';
 
 export const ModifyCrop = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
 
-  const { mutate, isPending, isSuccess } = usePatchCrop();
+  const { mutate, isPending } = usePatchCrop();
 
   const { data, isLoading } = useGetCrop(id!);
 
@@ -27,35 +25,28 @@ export const ModifyCrop = () => {
 
   if (isLoading) return <Loading />;
 
-  if (!data) return <ErrorLoading />;
-
-  if (isSuccess) {
-    navigate(`../view/all`);
-  }
-
   return (
     <>
       <BreadCrumb
-        items={[{ link: '/crops/view/all', name: 'Cultivos' }]}
+        items={[{ link: MODULE_CROPS_PATHS.ViewAll, name: 'Cultivos' }]}
         finalItem={'Modificar'}
       />
 
-      <Separator className="my-2" />
-      <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
-        <FormCrop
-          onSubmit={onSubmit}
-          isSubmitting={isPending}
-          defaultValues={{
-            ...data,
-            dates: {
-              date_of_creation: ConvertStringToDate(data.date_of_creation),
-              date_of_termination: data.date_of_termination
-                ? ConvertStringToDate(data.date_of_termination)
-                : undefined,
-            },
-          }}
-        />
-      </ScrollArea>
+      <FormCrop
+        onSubmit={onSubmit}
+        isSubmitting={isPending}
+        defaultValues={{
+          ...data,
+          dates: {
+            date_of_creation: ConvertStringToDate(data.date_of_creation),
+            date_of_termination: data.date_of_termination
+              ? ConvertStringToDate(data.date_of_termination)
+              : undefined,
+          },
+        }}
+      />
     </>
   );
 };
+
+export default ModifyCrop;

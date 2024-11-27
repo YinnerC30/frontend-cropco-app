@@ -1,12 +1,11 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { useParams } from 'react-router-dom';
 
-import { Separator } from '@/components/ui/separator';
 import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
-import { ErrorLoading, Loading } from '../../core/components';
+import { Loading } from '../../core/components';
 import { BreadCrumb } from '../../core/components/BreadCrumb';
 import { useGetCrop } from '../hooks/useGetCrop';
-import { FormCrop } from './FormCrop';
+import { MODULE_CROPS_PATHS } from '../routes/pathRoutes';
+import { FormCrop } from './FormCrop/FormCrop';
 
 export const ViewCrop = () => {
   const { id } = useParams();
@@ -15,30 +14,26 @@ export const ViewCrop = () => {
 
   if (isLoading) return <Loading />;
 
-  if (!data) return <ErrorLoading />;
-
   return (
     <>
       <BreadCrumb
-        items={[{ link: '/crops/view/all', name: 'Cultivos' }]}
+        items={[{ link: MODULE_CROPS_PATHS.ViewAll, name: 'Cultivos' }]}
         finalItem={'Información del cultivo'}
       />
 
-      <Separator className="my-2" />
-      <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
-        <FormCrop
-          defaultValues={{
-            ...data,
-            dates: {
-              date_of_creation: ConvertStringToDate(data.date_of_creation),
-              date_of_termination: data.date_of_termination
-                ? ConvertStringToDate(data.date_of_termination)
-                : undefined,
-            },
-          }}
-          readOnly
-        />
-      </ScrollArea>
+      <FormCrop
+        defaultValues={{
+          ...data,
+          dates: {
+            date_of_creation: ConvertStringToDate(data.date_of_creation),
+            date_of_termination: data.date_of_termination
+              ? ConvertStringToDate(data.date_of_termination)
+              : undefined,
+          },
+        }}
+        readOnly
+      />
     </>
   );
 };
+export default ViewCrop;
