@@ -52,7 +52,7 @@ export const BasicSearchBar = ({
   };
 
   return (
-    <div className="flex flex-row justify-center w-3/4 gap-4 min-w-80">
+    <div className="flex flex-row justify-center w-3/4 gap-4 my-4 min-w-80">
       <div className="w-[70%] lg:w-96 ">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} id="formSearchBar">
