@@ -9,7 +9,7 @@ import { PlusIcon } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useGetAllShopping } from "../hooks/useGetAllShopping";
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import columnsShopping from "./columns/ColumnsTableShopping";
 import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
 import { MinorOrMajorSelection } from "@/modules/core/interfaces/general/MinorOrMajorSelection";

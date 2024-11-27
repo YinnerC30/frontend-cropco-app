@@ -11,7 +11,7 @@ import {
   Input,
 } from '@/components';
 import { useCreateForm } from '../../hooks/useCreateForm';
-import { ToolTipTemplate } from '../ToolTipTemplate';
+import { ToolTipTemplate } from '../shared/ToolTipTemplate';
 import { toast } from 'sonner';
 import { Search, X } from 'lucide-react';
 

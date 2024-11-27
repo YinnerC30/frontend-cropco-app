@@ -5,7 +5,7 @@ import { ScrollArea, Separator } from "@/components";
 import { ErrorLoading, Loading } from "@/modules/core/components";
 
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
 import { FormWork } from "./form/FormWork";
 

@@ -1,5 +1,6 @@
 import { useFormChange } from '@/modules/core/components/form/FormChangeContext';
-import { useToastDiscardChanges } from '@/modules/core/components/useToastDiscardChanges';
+import { useToastDiscardChanges } from '@/modules/core/hooks/useToastDiscardChanges';
+
 import { Route } from '@/routes/components/RoutesNavBar';
 import { NavLink, useNavigate } from 'react-router-dom';
 

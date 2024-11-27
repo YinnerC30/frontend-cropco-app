@@ -1,7 +1,7 @@
 import { Form } from "@/components";
 
-import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
-import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
+import { FormFieldCommand } from "@/modules/core/components/form/fields/FormFieldCommand";
+import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
 import { FormProps } from "@/modules/core/interfaces";
 import { useEffect } from "react";
 

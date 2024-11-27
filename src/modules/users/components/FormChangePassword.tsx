@@ -1,6 +1,6 @@
 import { Form } from '@/components';
 import { BreadCrumb, ButtonsForm } from '@/modules/core/components';
-import { FormFieldInputPassword } from '@/modules/core/components/form/FormFieldInputPassword';
+import { FormFieldInputPassword } from '@/modules/core/components/form/fields/FormFieldInputPassword';
 import { useCreateForm } from '@/modules/core/hooks';
 import { RootState, useAppSelector } from '@/redux/store';
 import { useNavigate } from 'react-router-dom';

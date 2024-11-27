@@ -4,7 +4,7 @@ import { ErrorLoading, Loading } from "@/modules/core/components";
 import { useParams } from "react-router-dom";
 import { useGetSale } from "../hooks";
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import { FormSale } from "./forms/FormSale";
 import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
 

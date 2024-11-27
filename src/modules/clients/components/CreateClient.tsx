@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { usePostClient } from '../hooks/mutations/usePostClient';
 
-import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { BreadCrumb } from '@/modules/core/components';
 import { formSchemaClient } from '../utils';
 import FormClient from './FormClient/FormClient';
 import { MODULE_CLIENTS_PATHS } from '../routes/pathRoutes';

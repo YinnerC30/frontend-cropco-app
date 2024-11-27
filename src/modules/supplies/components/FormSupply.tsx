@@ -2,15 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Form } from "../../../components/ui/form";
 
 import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
-import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
+import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
 import { FormProps } from "@/modules/core/interfaces/form/FormProps";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSupplyForm } from "../hooks/useSupplyForm";
 import { formFieldsSupply } from "../utils";
-import { FormFieldSelect } from "@/modules/core/components/form/FormFieldSelect";
+import { FormFieldSelect } from "@/modules/core/components/form/fields/FormFieldSelect";
 import { UnitOfMeasure } from "../interfaces/UnitOfMeasure";
-import { FormFieldTextArea } from "@/modules/core/components/form/FormFieldTextArea";
+import { FormFieldTextArea } from "@/modules/core/components/form/fields/FormFieldTextArea";
 
 export const FormSupply = ({
   onSubmit,

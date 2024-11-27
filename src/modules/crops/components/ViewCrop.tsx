@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 
 import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
 import { Loading } from '../../core/components';
-import { BreadCrumb } from '../../core/components/BreadCrumb';
+import { BreadCrumb } from '@/modules/core/components/';
 import { useGetCrop } from '../hooks/queries/useGetCrop';
 import { MODULE_CROPS_PATHS } from '../routes/pathRoutes';
 import { FormCrop } from './FormCrop/FormCrop';

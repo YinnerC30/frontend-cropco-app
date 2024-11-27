@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { FormFieldInput } from '@/modules/core/components/form/FormFieldInput';
+import { FormFieldInput } from '@/modules/core/components/form/fields/FormFieldInput';
 import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from '@radix-ui/react-icons';
 import { z } from 'zod';
 import { useLoginForm } from '../hooks/useLoginForm';

@@ -10,7 +10,7 @@ import { reset } from '../utils/workSlice';
 import { ScrollArea, Separator } from '@/components';
 import { ErrorLoading, Loading } from '@/modules/core/components';
 
-import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { BreadCrumb } from '@/modules/core/components/';
 import { ConvertStringToDate } from '../../core/helpers/conversion/ConvertStringToDate';
 import { usePatchWork } from '../hooks/usePatchWork';
 import { WorkDetail } from '../interfaces/WorkDetail';

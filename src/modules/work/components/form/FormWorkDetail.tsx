@@ -1,9 +1,9 @@
 import { Form } from "@/components";
 import { FormProps } from "@/modules/core/interfaces/form/FormProps";
 import { useWorkDetailForm } from "../../hooks/useWorkDetailForm";
-import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
+import { FormFieldCommand } from "@/modules/core/components/form/fields/FormFieldCommand";
 import { formFieldsWorkDetails } from "../../utils/formFieldsWorkDetails";
-import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
+import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
 import { Employee } from "@/modules/employees/interfaces/Employee";
 import { WorkDetail } from "../../interfaces/WorkDetail";
 import { useEffect } from "react";

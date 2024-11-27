@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
-import { useFormChange } from './form/FormChangeContext';
-import { useToastDiscardChanges } from './useToastDiscardChanges';
+import { useFormChange } from '../FormChangeContext';
+import { useToastDiscardChanges } from '@/modules/core/hooks/useToastDiscardChanges';
+
 
 interface Props {
   action: () => void;

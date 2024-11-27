@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { BreadCrumb } from '@/modules/core/components/';
 import { useGetClient } from '../hooks/queries/useGetClient';
 import { MODULE_CLIENTS_PATHS } from '../routes/pathRoutes';
 import { FormClient } from './FormClient';

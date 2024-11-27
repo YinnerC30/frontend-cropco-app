@@ -1,9 +1,9 @@
 import { Button, Form, Label, Separator } from "@/components";
-import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalendar";
-import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
-import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
-import { FormFieldSelect } from "@/modules/core/components/form/FormFieldSelect";
-import { FormFieldSwitch } from "@/modules/core/components/form/FormFieldSwitch";
+import { FormFieldCalendar } from "@/modules/core/components/form/fields/FormFieldCalendar";
+import { FormFieldCommand } from "@/modules/core/components/form/fields/FormFieldCommand";
+import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
+import { FormFieldSelect } from "@/modules/core/components/form/fields/FormFieldSelect";
+import { FormFieldSwitch } from "@/modules/core/components/form/fields/FormFieldSwitch";
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { useGetAllCropsWithHarvest } from "@/modules/crops/hooks/queries/useGetAllCropsWithHarvest";
 import { useEffect, useState } from "react";

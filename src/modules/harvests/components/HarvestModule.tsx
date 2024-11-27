@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { BreadCrumb } from '@/modules/core/components/';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';

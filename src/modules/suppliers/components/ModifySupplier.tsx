@@ -5,7 +5,7 @@ import { Loading } from '../../core/components';
 import { usePatchSupplier } from '../hooks/mutations/usePatchSupplier';
 import { useGetSupplier } from '../hooks/queries/useGetSupplier';
 
-import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { BreadCrumb } from '@/modules/core/components';
 import { MODULE_SUPPLIER_PATHS } from '../routes/pathRoutes';
 import { formSchemaSupplier } from '../utils/formSchemaSupplier';
 import { FormSupplier } from './FormSupplier/FormSupplier';

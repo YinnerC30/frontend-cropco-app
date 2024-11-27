@@ -1,8 +1,8 @@
 import { Button, Form, Label, Separator } from "@/components";
-import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalendar";
-import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
-import { FormFieldSelect } from "@/modules/core/components/form/FormFieldSelect";
-import { FormFieldSwitch } from "@/modules/core/components/form/FormFieldSwitch";
+import { FormFieldCalendar } from "@/modules/core/components/form/fields/FormFieldCalendar";
+import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
+import { FormFieldSelect } from "@/modules/core/components/form/fields/FormFieldSelect";
+import { FormFieldSwitch } from "@/modules/core/components/form/fields/FormFieldSwitch";
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { YesORNotSelection } from "@/modules/core/interfaces/general/YesORNotSelection";
 import { useEffect } from "react";

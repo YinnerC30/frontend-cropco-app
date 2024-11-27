@@ -7,7 +7,7 @@ import { useConsumptionForm } from "../hooks/useConsumptionForm";
 import { useGetConsumption } from "../hooks/useGetConsumption";
 import { reset } from "../utils/consumptionSlice";
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
 import { FormConsumption } from "./forms/FormConsumption";
 

@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
-import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
 import { MODULE_EMPLOYEE_PATHS } from '../routes/pathRoutes';
 import { formSchemaEmployee } from '../utils';
 import FormEmployee from './FormEmployee/FormEmployee';
 import { usePostEmployee } from '../hooks';
+import { BreadCrumb } from '@/modules/core/components';
 
 export const CreateEmployee = () => {
   const { mutate, isPending } = usePostEmployee();

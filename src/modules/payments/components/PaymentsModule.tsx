@@ -12,7 +12,7 @@ import {
   ToolTipTemplate,
 } from "../../core/components";
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import { ConvertStringToBoolean } from "@/modules/core/helpers/conversion/ConvertStringToBoolean";
 import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
 import { MinorOrMajorSelection } from "@/modules/core/interfaces/general/MinorOrMajorSelection";

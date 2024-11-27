@@ -1,10 +1,10 @@
 import { Badge, Button, Form, Separator } from "@/components";
 import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
-import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalendar";
-import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
-import { FormFieldDataTable } from "@/modules/core/components/form/FormFieldDataTable";
-import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
-import { FormFieldTextArea } from "@/modules/core/components/form/FormFieldTextArea";
+import { FormFieldCalendar } from "@/modules/core/components/form/fields/FormFieldCalendar";
+import { FormFieldCommand } from "@/modules/core/components/form/fields/FormFieldCommand";
+import { FormFieldDataTable } from "@/modules/core/components/form/fields/FormFieldDataTable";
+import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
+import { FormFieldTextArea } from "@/modules/core/components/form/fields/FormFieldTextArea";
 import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
 import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
 import { FormProps } from "@/modules/core/interfaces/form/FormProps";

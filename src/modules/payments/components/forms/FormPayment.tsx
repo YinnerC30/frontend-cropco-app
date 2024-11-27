@@ -1,10 +1,10 @@
 import { Alert, Badge, Button, Form, Separator } from "@/components";
 import { AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
-import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalendar";
-import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
-import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
-import { FormFieldSelect } from "@/modules/core/components/form/FormFieldSelect";
+import { FormFieldCalendar } from "@/modules/core/components/form/fields/FormFieldCalendar";
+import { FormFieldCommand } from "@/modules/core/components/form/fields/FormFieldCommand";
+import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
+import { FormFieldSelect } from "@/modules/core/components/form/fields/FormFieldSelect";
 import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
 import { FormProps } from "@/modules/core/interfaces/form/FormProps";
 import { useAppDispatch } from "@/redux/store";

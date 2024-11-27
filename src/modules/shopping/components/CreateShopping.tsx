@@ -3,7 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import { useAppDispatch } from "@/redux/store";
 import { usePostShopping } from "../hooks/usePostShopping";
 import { ShoppingDetails } from "../interfaces/ShoppingDetails";

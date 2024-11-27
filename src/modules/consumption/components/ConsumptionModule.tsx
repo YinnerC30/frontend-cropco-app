@@ -5,7 +5,7 @@ import {
   Loading,
   ToolTipTemplate,
 } from "@/modules/core/components";
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
 import { PlusIcon } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";

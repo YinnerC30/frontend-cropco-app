@@ -1,8 +1,8 @@
 import { Form } from "@/components";
 import { Client } from "@/modules/clients/interfaces/Client";
 import { ErrorLoading, Loading } from "@/modules/core/components";
-import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
-import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
+import { FormFieldCommand } from "@/modules/core/components/form/fields/FormFieldCommand";
+import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
 import { FormProps } from "@/modules/core/interfaces/form/FormProps";
 import { useEffect } from "react";
 import { useSaleDetailForm } from "../../hooks/useSaleDetailForm";

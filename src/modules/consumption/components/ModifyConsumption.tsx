@@ -10,7 +10,7 @@ import { usePatchConsumption } from "../hooks/usePatchConsumption";
 import { ConsumptionDetails } from "../interfaces/ConsumptionDetails";
 import { reset } from "../utils/consumptionSlice";
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
 import { formSchemaConsumption } from "../utils/formSchemaConsumption";
 import { FormConsumption } from "./forms/FormConsumption";

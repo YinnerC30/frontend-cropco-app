@@ -6,7 +6,7 @@ import { z } from "zod";
 
 import { reset } from "../utils/shoppingSlice";
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
 import { useAppDispatch } from "@/redux/store";
 import { useGetShopping } from "../hooks/useGetShopping";

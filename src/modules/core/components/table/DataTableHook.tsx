@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Loading } from '../Loading';
+import { Loading } from '../shared/Loading';
 
 interface Props {
   table: TableType<any>;

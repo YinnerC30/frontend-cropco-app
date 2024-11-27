@@ -6,7 +6,7 @@ import {
   FormDescription,
   Checkbox,
 } from "@/components";
-import { FormFieldProps } from "../../interfaces/form/FormFieldProps";
+import { FormFieldProps } from "../../../interfaces/form/FormFieldProps";
 
 export const FormFieldCheckBox = ({
   control,

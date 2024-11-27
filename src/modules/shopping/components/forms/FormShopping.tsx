@@ -1,8 +1,8 @@
 import { Badge, Button, Form } from "@/components";
 import { Separator } from "@/components/ui/separator";
-import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalendar";
-import { FormFieldDataTable } from "@/modules/core/components/form/FormFieldDataTable";
-import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
+import { FormFieldCalendar } from "@/modules/core/components/form/fields/FormFieldCalendar";
+import { FormFieldDataTable } from "@/modules/core/components/form/fields/FormFieldDataTable";
+import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
 import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
 import { FormProps } from "@/modules/core/interfaces/form/FormProps";
 import { useNavigate } from "react-router-dom";

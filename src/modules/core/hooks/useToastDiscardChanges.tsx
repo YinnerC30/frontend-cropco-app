@@ -1,6 +1,7 @@
 import { ToastAction, toast } from '@/components';
 import { useNavigate } from 'react-router-dom';
-import { useFormChange } from './form/FormChangeContext';
+import { useFormChange } from '../components';
+
 
 export const useToastDiscardChanges = () => {
   const navigate = useNavigate();
@@ -16,10 +17,10 @@ export const useToastDiscardChanges = () => {
 
   const showToast = ({
     route = '/',
-    skiptRedirection,
+    skiptRedirection = false,
   }: {
     route?: string;
-    skiptRedirection: boolean;
+    skiptRedirection?: boolean;
   }) => {
     return toast({
       title: '¡Atención! Cambios sin guardar.',

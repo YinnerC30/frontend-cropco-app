@@ -8,7 +8,7 @@ import { SaleDetail } from "../interfaces";
 import { formSchemaSale } from "../utils";
 import { reset } from "../utils/saleSlice";
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import { useEffect } from "react";
 import { FormSale } from "./forms/FormSale";
 

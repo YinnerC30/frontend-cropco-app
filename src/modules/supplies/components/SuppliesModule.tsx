@@ -11,7 +11,7 @@ import { useGetAllSupplies } from "../hooks/useGetAllSupplies";
 import columnsTableSupplies from "./ColumnsTableSupplies";
 
 import { Button } from "@/components";
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 export const SuppliesModule = () => {

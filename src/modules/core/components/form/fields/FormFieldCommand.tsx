@@ -26,7 +26,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { FormFieldProps } from "../../interfaces/form/FormFieldProps";
+import { FormFieldProps } from "../../../interfaces/form/FormFieldProps";
 
 interface FormFieldCommandProps extends FormFieldProps {
   openPopover: boolean;

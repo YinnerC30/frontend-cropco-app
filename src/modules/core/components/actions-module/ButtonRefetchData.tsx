@@ -1,6 +1,6 @@
 import { Button } from '@/components';
 import { RefreshCw } from 'lucide-react';
-import { ToolTipTemplate } from './ToolTipTemplate';
+import { ToolTipTemplate } from '../shared/ToolTipTemplate';
 
 interface Props {
   onClick: any;

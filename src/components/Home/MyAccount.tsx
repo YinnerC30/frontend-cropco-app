@@ -13,7 +13,7 @@ import {
 
 import { useAuthentication } from '@/modules/authentication/hooks/useAuthentication';
 import { useImplantSeed } from '@/modules/authentication/hooks/useImplantSeed';
-import { useTheme } from '@/modules/core/components/ThemeProvider';
+import { useTheme } from '@/modules/core/components/shared/ThemeProvider';
 import { DialogChangePassword } from '@/modules/users/components/DialogChangePassword';
 import { useGetConvertToAdmin } from '@/modules/users/hooks';
 

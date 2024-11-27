@@ -2,6 +2,7 @@ import { Button } from '@/components';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { ButtonCancelRegister } from './ButtonCancelRegister';
 
+
 interface Props {
   isPending: boolean;
   formId: string;

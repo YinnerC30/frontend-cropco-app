@@ -7,7 +7,7 @@ import { useConsumptionForm } from "../hooks/useConsumptionForm";
 import { reset } from "../utils/consumptionSlice";
 import { formSchemaConsumption } from "../utils/formSchemaConsumption";
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import { useEffect } from "react";
 import { ConsumptionDetails } from "../interfaces/ConsumptionDetails";
 import { FormConsumption } from "./forms/FormConsumption";

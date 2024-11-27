@@ -1,4 +1,4 @@
-import { CommandDialogApp } from '@/modules/core/components/CommandDialogApp';
+import { CommandDialogApp } from '@/modules/core/components/shared/CommandDialogApp';
 
 import { Link, Outlet } from 'react-router-dom';
 import { Header } from './components/Home/Header';

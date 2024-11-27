@@ -12,7 +12,7 @@ import { SaleDetail } from "../interfaces";
 import { formSchemaSale } from "../utils";
 import { reset } from "../utils/saleSlice";
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
 import { FormSale } from "./forms/FormSale";
 

@@ -1,4 +1,4 @@
-import { Loading } from '@/modules/core/components/Loading';
+import { Loading } from '@/modules/core/components/shared/Loading';
 import { useParams } from 'react-router-dom';
 import { useGetUser } from '../hooks';
 import { FormUser } from './FormUser';

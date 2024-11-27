@@ -1,4 +1,4 @@
-import { AlertAction } from '@/modules/core/components/AlertAction';
+import { AlertAction } from '@/modules/core/components/shared/AlertAction';
 import { useFormEmployeeContext } from './FormEmployeeContext';
 
 export const FormEmployeeAlert = () => {

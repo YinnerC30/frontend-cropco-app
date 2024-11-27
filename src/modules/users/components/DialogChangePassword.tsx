@@ -14,13 +14,13 @@ import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
 import { Button, Form } from '@/components';
 import { FormFieldInput } from '@/modules/core/components';
 import { useFormChange } from '@/modules/core/components/form/FormChangeContext';
-import { useToastDiscardChanges } from '@/modules/core/components/useToastDiscardChanges';
+
 import { useCreateForm } from '@/modules/core/hooks';
 import { RootState, useAppSelector } from '@/redux/store';
+import { useState } from 'react';
 import { z } from 'zod';
 import { userPatchChangePasswordUser } from '../hooks/mutations';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useToastDiscardChanges } from '@/modules/core/hooks/useToastDiscardChanges';
 
 const formSchemaChangePassword = z.object({
   old_password: z

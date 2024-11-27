@@ -5,7 +5,7 @@ import { z } from "zod";
 import { usePostWork } from "../hooks/usePostUser";
 import { formSchemaWork } from "../utils/formSchemaWork";
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import { useAppDispatch } from "@/redux/store";
 import { useEffect } from "react";
 

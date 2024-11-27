@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { z } from 'zod';
 
 import { Loading } from '@/modules/core/components';
-import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { BreadCrumb } from '@/modules/core/components/';
 import { useGetClient } from '../hooks/queries/useGetClient';
 import { usePatchClient } from '../hooks/mutations/usePatchClient';
 import { MODULE_CLIENTS_PATHS } from '../routes/pathRoutes';

@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useGetEmployeePendingPayments } from "../hooks/useGetEmployeePendingPayments";
 import { setDataEmployee } from "../utils/paymentSlice";
 
-import { FormFieldDataTable } from "@/modules/core/components/form/FormFieldDataTable";
+import { FormFieldDataTable } from "@/modules/core/components/form/fields/FormFieldDataTable";
 import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
 import { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import { usePostSupply } from "../hooks/usePostSupply";
 import { formSchemaSupply } from "../utils";
 import { FormSupply } from "./FormSupply";

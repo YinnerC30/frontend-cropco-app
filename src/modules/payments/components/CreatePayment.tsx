@@ -2,7 +2,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNavigate } from "react-router-dom";
 
 import { Separator } from "@/components/ui/separator";
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
+import { BreadCrumb } from "@/modules/core/components/";
 import { z } from "zod";
 import { usePostPayment } from "../hooks/usePostPayment";
 import { formSchemaPayments } from "../utils";

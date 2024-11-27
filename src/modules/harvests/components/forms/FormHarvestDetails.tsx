@@ -1,8 +1,8 @@
 import { Form } from "@/components/ui/form";
 
 import { ErrorLoading, Loading } from "@/modules/core/components";
-import { FormFieldCommand } from "@/modules/core/components/form/FormFieldCommand";
-import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
+import { FormFieldCommand } from "@/modules/core/components/form/fields/FormFieldCommand";
+import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
 import { FormProps } from "@/modules/core/interfaces/form/FormProps";
 import { Employee } from "@/modules/employees/interfaces/Employee";
 import { useHarvestDetailForm } from "../../hooks/useHarvestDetailForm";

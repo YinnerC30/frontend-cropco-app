@@ -1,6 +1,6 @@
 import { Button } from '@/components';
 import { XCircle } from 'lucide-react';
-import { ToolTipTemplate } from '../ToolTipTemplate';
+import { ToolTipTemplate } from '../shared/ToolTipTemplate';
 
 
 export const ButtonClearSelection = ({ onClick, className, visible }: any) => {

@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { usePostSupplier } from '../hooks/mutations/usePostSupplier';
 
-import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { BreadCrumb } from '@/modules/core/components';
 import { MODULE_SUPPLIER_PATHS } from '../routes/pathRoutes';
 import { formSchemaSupplier } from '../utils/formSchemaSupplier';
 import { FormSupplier } from './FormSupplier/FormSupplier';

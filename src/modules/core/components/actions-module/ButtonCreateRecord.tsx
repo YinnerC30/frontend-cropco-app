@@ -1,7 +1,7 @@
 import { Button } from '@/components';
 import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { ToolTipTemplate } from '../ToolTipTemplate';
+import { ToolTipTemplate } from '../shared/ToolTipTemplate';
 
 
 interface Props {

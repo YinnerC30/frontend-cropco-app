@@ -9,8 +9,8 @@ import {
 } from '@/components/ui/breadcrumb';
 import { PATH_HOME_APP } from '@/config';
 import { useNavigate } from 'react-router-dom';
-import { useFormChange } from './form/FormChangeContext';
-import { useToastDiscardChanges } from './useToastDiscardChanges';
+import { useToastDiscardChanges } from '../../hooks/useToastDiscardChanges';
+import { useFormChange } from '../form/FormChangeContext';
 
 interface ItemBreadCrumb {
   link: string;

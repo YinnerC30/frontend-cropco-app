@@ -1,6 +1,6 @@
 import { Button, Dialog, Form } from "@/components";
-import { FormFieldCalendar } from "@/modules/core/components/form/FormFieldCalendar";
-import { FormFieldInput } from "@/modules/core/components/form/FormFieldInput";
+import { FormFieldCalendar } from "@/modules/core/components/form/fields/FormFieldCalendar";
+import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { FormProps } from "@/modules/core/interfaces/form/FormProps";
 import { useEffect } from "react";

@@ -1,4 +1,4 @@
-import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { BreadCrumb } from '@/modules/core/components/';
 import { useParams } from 'react-router-dom';
 import { Loading } from '../../core/components';
 import { useGetEmployee } from '../hooks/queries/useGetEmployee';

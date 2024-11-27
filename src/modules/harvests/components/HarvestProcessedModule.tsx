@@ -21,7 +21,7 @@ import { DataTableHarvestProcessed } from './DataTableHarvestProcessed';
 import columnsHarvestProcessed from './columns/ColumnsTableHarvestProcessed';
 
 import { cn } from '@/lib/utils';
-import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { BreadCrumb } from '@/modules/core/components/';
 import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
