@@ -16,7 +16,7 @@ export const ButtonCreateRecord = ({
 }: Props) => {
   return (
     <ToolTipTemplate content={'Crear registro'}>
-      <Button variant="outline" size="icon" disabled={disabled}>
+      <Button variant="outline" size="icon" disabled={disabled} asChild>
         <Link
           to={!disabled && route}
           className={`${className}  ${disabled && 'opacity-50 cursor-default'}`}
