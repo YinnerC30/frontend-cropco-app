@@ -1,7 +1,7 @@
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { formSchemaShoppingDetail } from "../utils/formSchemaShoppingDetail";
 import { useGetAllSupplies } from "@/modules/supplies/hooks/useGetAllSupplies";
-import { useGetAllSuppliers } from "@/modules/suppliers/hooks/useGetAllSuppliers";
+import { useGetAllSuppliers } from "@/modules/suppliers/hooks/queries/useGetAllSuppliers";
 import { RootState, useAppSelector } from "@/redux/store";
 import { useState } from "react";
 

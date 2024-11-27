@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { z } from 'zod';
 
 import { Loading } from '../../core/components';
-import { useGetCrop } from '../hooks/useGetCrop';
+import { useGetCrop } from '../hooks/queries/useGetCrop';
 import { usePatchCrop } from '../hooks/usePatchCrop';
 
 import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';

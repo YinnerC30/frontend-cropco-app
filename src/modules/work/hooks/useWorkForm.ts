@@ -1,5 +1,5 @@
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
-import { useGetAllCrops } from "@/modules/crops/hooks/useGetAllCrops";
+import { useGetAllCrops } from "@/modules/crops/hooks/queries/useGetAllCrops";
 import { formSchemaWork } from "../utils/formSchemaWork";
 import { RootState, useAppSelector } from "@/redux/store";
 import { useState } from "react";

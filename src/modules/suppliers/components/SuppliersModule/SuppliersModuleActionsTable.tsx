@@ -8,21 +8,21 @@ import {
 } from '@/modules/core/components/DataTable/DataTableMenuActions/Actions';
 import { DropDownMenuActions } from '@/modules/core/components/DataTable/DataTableMenuActions/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
-import { useDeleteCrop } from '../../hooks/mutations/useDeleteCrop';
-import { useCropsModuleContext } from './CropsModuleContext';
+import { useDeleteSupplier } from '../../hooks/mutations/useDeleteSupplier';
+import { useSuppliersModuleContext } from './SuppliersModuleContext';
 
 interface Props {
   row: Row<any>;
 }
 
-export const CropsModuleActionsTable = ({ row }: Props) => {
-  const { resetSelectionRows } = useCropsModuleContext();
+export const SuppliersModuleActionsTable = ({ row }: Props) => {
+  const { resetSelectionRows } = useSuppliersModuleContext();
   const { hasPermission } = useAuthorization();
   const { id } = row.original;
-  const mutationDeleteCrop = useDeleteCrop();
+  const mutationDeleteSupplier = useDeleteSupplier();
 
   const handleDelete = () => {
-    mutationDeleteCrop.mutate(id, {
+    mutationDeleteSupplier.mutate(id, {
       onSuccess: () => {
         resetSelectionRows();
       },
@@ -35,17 +35,17 @@ export const CropsModuleActionsTable = ({ row }: Props) => {
 
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!hasPermission('crops', 'remove_one_crop')}
+        disabled={!hasPermission('suppliers', 'remove_one_supplier')}
       />
 
       <ActionModifyRecord
         id={id}
-        disabled={!hasPermission('crops', 'update_one_crop')}
+        disabled={!hasPermission('suppliers', 'update_one_supplier')}
       />
 
       <ActionViewRecord
         id={id}
-        disabled={!hasPermission('crops', 'find_one_crop')}
+        disabled={!hasPermission('suppliers', 'find_one_supplier')}
       />
     </DropDownMenuActions>
   );

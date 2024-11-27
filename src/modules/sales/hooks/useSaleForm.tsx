@@ -1,6 +1,6 @@
 import { useGetAllClients } from "@/modules/clients/hooks/queries/useGetAllClients";
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
-import { useGetAllCrops } from "@/modules/crops/hooks/useGetAllCrops";
+import { useGetAllCrops } from "@/modules/crops/hooks/queries/useGetAllCrops";
 import { formSchemaSale } from "../utils";
 import { useState } from "react";
 import { useAppSelector } from "@/redux/store";

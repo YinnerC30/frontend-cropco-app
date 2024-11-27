@@ -3,41 +3,41 @@ import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { createContext, useContext } from 'react';
 import { useWindowSize } from 'react-use';
-import { useGetAllCrops } from '../../hooks/queries/useGetAllCrops';
-import createColumnsTableCrops from './createColumnsTableCrops';
-import { useDeleteBulkCrops } from '../../hooks/mutations/useDeleteBulkCrops';
 
-const CropsModuleContext = createContext<any>(null);
+import { useGetAllSuppliers } from '../../hooks/queries/useGetAllSuppliers';
+import createColumnsTableSuppliers from './createColumnsTableSuppliers';
+import { useDeleteBulkSuppliers } from '../../hooks/mutations/useDeleteBulkSuppliers.ts';
 
-export const CropsModuleProvider = ({ children }: any) => {
+const SuppliersModuleContext = createContext<any>(null);
+
+export const SuppliersModuleProvider = ({ children }: any) => {
   const { value } = useBasicQueryData();
   const { width } = useWindowSize();
   const showActionsInFirstColumn = width < 1024;
 
-  const { query, pagination, setPagination } = useGetAllCrops({
-    searchParameter: value,
-    allRecords: false,
-  });
+  const { query, pagination, setPagination } = useGetAllSuppliers(value);
 
   const { hasPermission } = useAuthorization();
 
   const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
     useDataTable({
-      columns: createColumnsTableCrops(showActionsInFirstColumn),
+      columns: createColumnsTableSuppliers(showActionsInFirstColumn),
       data: query.data ?? [],
       rows:
-        (hasPermission('crops', 'find_all_crops') && query.data?.rows) ?? [],
+        (hasPermission('suppliers', 'find_all_suppliers') &&
+          query.data?.rows) ??
+        [],
       pagination,
       setPagination,
     });
 
   const hasSelectedRecords = getIdsToRowsSelected().length > 0;
 
-  const { mutate, isPending } = useDeleteBulkCrops();
+  const { mutate, isPending } = useDeleteBulkSuppliers();
 
-  const handleDeleteBulkCrops = () => {
+  const handleDeleteBulkSuppliers = () => {
     mutate(
-      { cropsIds: getIdsToRowsSelected() },
+      { suppliersIds: getIdsToRowsSelected() },
       {
         onSuccess: () => {
           resetSelectionRows();
@@ -57,22 +57,22 @@ export const CropsModuleProvider = ({ children }: any) => {
     resetSelectionRows,
     pagination,
     setPagination,
-    handleDeleteBulkCrops,
+    handleDeleteBulkSuppliers,
     isPending,
   };
 
   return (
-    <CropsModuleContext.Provider value={contextValue}>
+    <SuppliersModuleContext.Provider value={contextValue}>
       {children}
-    </CropsModuleContext.Provider>
+    </SuppliersModuleContext.Provider>
   );
 };
 
-export const useCropsModuleContext = () => {
-  const context = useContext(CropsModuleContext);
+export const useSuppliersModuleContext = () => {
+  const context = useContext(SuppliersModuleContext);
   if (!context) {
     throw new Error(
-      'useCropsModuleContext must be used within CropsModuleProvider'
+      'useSuppliersModuleContext must be used within SuppliersModuleProvider'
     );
   }
   return context;

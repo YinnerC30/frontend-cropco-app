@@ -10,6 +10,7 @@ import { HomeLayout } from '../HomeLayout';
 import { RoutesController } from './components/RoutesController';
 import { clientRoutes } from '@/modules/clients/routes/Routes';
 import { cropRoutes } from '@/modules/crops/routes/Routes';
+import { supplierRoutes } from '@/modules/suppliers/routes/supplierRoutes';
 
 export const Router = createBrowserRouter([
   {
@@ -41,8 +42,8 @@ export const Router = createBrowserRouter([
           employeeRoutes,
           clientRoutes,
           cropRoutes,
+          supplierRoutes,
           // harvestRoutes,
-          // supplierRoutes,
           // supplyRoutes,
           // saleRoutes,
           // workRoutes,

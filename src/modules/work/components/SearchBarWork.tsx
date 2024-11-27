@@ -14,7 +14,7 @@ import { DateTimeSelection } from "@/modules/core/interfaces/General/DateTimeSel
 import { MinorOrMajorSelection } from "@/modules/core/interfaces/General/MinorOrMajorSelection";
 import { formSchemaSearchBarWork } from "../utils/formSchemaSearchBarWork";
 
-import { useGetAllCropsWithWork } from "@/modules/crops/hooks/useGetAllCropsWithWork";
+import { useGetAllCropsWithWork } from "@/modules/crops/hooks/queries/useGetAllCropsWithWork";
 import { formFieldsSearchBarWork } from "../utils/formFieldsSearchBarWork";
 
 interface Props {

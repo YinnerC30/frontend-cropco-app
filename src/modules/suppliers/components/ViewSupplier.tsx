@@ -1,10 +1,9 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { useParams } from "react-router-dom";
-import { ErrorLoading, Loading } from "../../core/components";
-import { useGetSupplier } from "../hooks/useGetSupplier";
-import { FormSupplier } from "./FormSupplier";
+import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { useParams } from 'react-router-dom';
+import { Loading } from '../../core/components';
+import { useGetSupplier } from '../hooks/queries/useGetSupplier';
+import { MODULE_SUPPLIER_PATHS } from '../routes/pathRoutes';
+import { FormSupplier } from './FormSupplier/FormSupplier';
 
 export const ViewSupplier = () => {
   const { id } = useParams();
@@ -14,24 +13,19 @@ export const ViewSupplier = () => {
     return <Loading />;
   }
 
-  if (!data) {
-    return <ErrorLoading />;
-  }
-
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/suppliers/view/all", name: "Proveedores" }]}
+        items={[{ link: MODULE_SUPPLIER_PATHS.ViewAll, name: 'Proveedores' }]}
         finalItem={`Información del proveedor`}
       />
 
-      <Separator className="my-2" />
-      <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
-        <FormSupplier
-          defaultValues={{ ...data, company_name: undefined }}
-          readOnly
-        />
-      </ScrollArea>
+      <FormSupplier
+        defaultValues={{ ...data, company_name: undefined }}
+        readOnly
+      />
     </>
   );
 };
+
+export default ViewSupplier;

@@ -1,21 +1,19 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { useNavigate, useParams } from "react-router-dom";
-import { z } from "zod";
-import { ErrorLoading, Loading } from "../../core/components";
+import { useParams } from 'react-router-dom';
+import { z } from 'zod';
+import { Loading } from '../../core/components';
 
-import { useGetSupplier } from "../hooks/useGetSupplier";
-import { usePatchSupplier } from "../hooks/usePatchSupplier";
+import { usePatchSupplier } from '../hooks/mutations/usePatchSupplier';
+import { useGetSupplier } from '../hooks/queries/useGetSupplier';
 
-import { BreadCrumb } from "@/modules/core/components/BreadCrumb";
-import { formSchemaSupplier } from "../utils/formSchemaSupplier";
-import { FormSupplier } from "./FormSupplier";
+import { BreadCrumb } from '@/modules/core/components/BreadCrumb';
+import { MODULE_SUPPLIER_PATHS } from '../routes/pathRoutes';
+import { formSchemaSupplier } from '../utils/formSchemaSupplier';
+import { FormSupplier } from './FormSupplier/FormSupplier';
 
 export const ModifySupplier = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetSupplier(id!);
-  const { mutate, isSuccess, isPending } = usePatchSupplier();
-  const navigate = useNavigate();
+  const { mutate, isPending } = usePatchSupplier();
 
   const onSubmit = (values: z.infer<typeof formSchemaSupplier>) => {
     mutate({ id, ...values });
@@ -25,29 +23,19 @@ export const ModifySupplier = () => {
     return <Loading />;
   }
 
-  if (!data) {
-    return <ErrorLoading />;
-  }
-
-  if (isSuccess) {
-    navigate("../view/all");
-  }
-
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/suppliers/view/all", name: "Proveedores" }]}
+        items={[{ link: MODULE_SUPPLIER_PATHS.ViewAll, name: 'Proveedores' }]}
         finalItem={`Modificar`}
       />
 
-      <Separator className="my-2" />
-      <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
-        <FormSupplier
-          onSubmit={onSubmit}
-          isSubmitting={isPending}
-          defaultValues={{ ...data, company_name: undefined }}
-        />
-      </ScrollArea>
+      <FormSupplier
+        onSubmit={onSubmit}
+        isSubmitting={isPending}
+        defaultValues={{ ...data, company_name: undefined }}
+      />
     </>
   );
 };
+export default ModifySupplier;
