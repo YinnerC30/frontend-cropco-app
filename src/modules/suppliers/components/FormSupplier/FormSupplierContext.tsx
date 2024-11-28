@@ -12,7 +12,7 @@ const FormSupplierContext = createContext<any>(null);
 export const FormSupplierProvider = ({
   children,
   defaultValues,
-  hiddenPassword,
+
   isSubmitting,
   onSubmit,
   readOnly,
@@ -36,7 +36,7 @@ export const FormSupplierProvider = ({
         onSubmit,
         readOnly,
         handleReturnToModule,
-        hiddenPassword,
+
         hasPermission,
       }}
     >

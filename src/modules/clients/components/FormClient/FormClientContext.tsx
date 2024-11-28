@@ -11,7 +11,7 @@ const FormClientContext = createContext<any>(null);
 export const FormClientProvider = ({
   children,
   defaultValues,
-  hiddenPassword,
+
   isSubmitting,
   onSubmit,
   readOnly,
@@ -35,7 +35,7 @@ export const FormClientProvider = ({
         onSubmit,
         readOnly,
         handleReturnToModule,
-        hiddenPassword,
+
         hasPermission,
       }}
     >

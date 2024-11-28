@@ -6,7 +6,7 @@ import { FormCropScrollArea } from './FormCropScrollArea';
 
 export const FormCrop = ({
   defaultValues,
-  hiddenPassword = false,
+  
   isSubmitting = false,
   onSubmit,
   readOnly = false,
@@ -15,7 +15,7 @@ export const FormCrop = ({
   return (
     <FormCropProvider
       defaultValues={defaultValues}
-      hiddenPassword={hiddenPassword}
+      
       isSubmitting={isSubmitting}
       onSubmit={onSubmit}
       readOnly={readOnly}

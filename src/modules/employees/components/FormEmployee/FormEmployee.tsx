@@ -6,7 +6,7 @@ import { FormEmployeeScrollArea } from './FormEmployeeScrollArea';
 
 export const FormEmployee = ({
   defaultValues,
-  hiddenPassword = false,
+  
   isSubmitting = false,
   onSubmit,
   readOnly = false,
@@ -15,7 +15,7 @@ export const FormEmployee = ({
   return (
     <FormEmployeeProvider
       defaultValues={defaultValues}
-      hiddenPassword={hiddenPassword}
+      
       isSubmitting={isSubmitting}
       onSubmit={onSubmit}
       readOnly={readOnly}

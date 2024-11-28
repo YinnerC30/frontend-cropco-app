@@ -15,7 +15,7 @@ export const FormClient = ({
   return (
     <FormClientProvider
       defaultValues={defaultValues}
-      hiddenPassword={hiddenPassword}
+      
       isSubmitting={isSubmitting}
       onSubmit={onSubmit}
       readOnly={readOnly}

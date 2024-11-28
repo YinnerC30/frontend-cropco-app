@@ -11,7 +11,7 @@ const FormCropContext = createContext<any>(null);
 export const FormCropProvider = ({
   children,
   defaultValues,
-  hiddenPassword,
+
   isSubmitting,
   onSubmit,
   readOnly,
@@ -35,7 +35,7 @@ export const FormCropProvider = ({
         onSubmit,
         readOnly,
         handleReturnToModule,
-        hiddenPassword,
+
         hasPermission,
       }}
     >

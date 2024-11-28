@@ -6,7 +6,7 @@ import { FormSupplierScrollArea } from './FormSupplierScrollArea';
 
 export const FormSupplier = ({
   defaultValues,
-  hiddenPassword = false,
+
   isSubmitting = false,
   onSubmit,
   readOnly = false,
@@ -15,7 +15,6 @@ export const FormSupplier = ({
   return (
     <FormSupplierProvider
       defaultValues={defaultValues}
-      hiddenPassword={hiddenPassword}
       isSubmitting={isSubmitting}
       onSubmit={onSubmit}
       readOnly={readOnly}

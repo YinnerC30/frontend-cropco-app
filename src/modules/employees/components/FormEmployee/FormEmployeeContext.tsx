@@ -11,7 +11,7 @@ const FormEmployeeContext = createContext<any>(null);
 export const FormEmployeeProvider = ({
   children,
   defaultValues,
-  hiddenPassword,
+
   isSubmitting,
   onSubmit,
   readOnly,
@@ -35,7 +35,6 @@ export const FormEmployeeProvider = ({
         onSubmit,
         readOnly,
         handleReturnToModule,
-        hiddenPassword,
         hasPermission,
       }}
     >

@@ -15,7 +15,6 @@ export const FormSupply = ({
   return (
     <FormSupplyProvider
       defaultValues={defaultValues}
-      hiddenPassword={hiddenPassword}
       isSubmitting={isSubmitting}
       onSubmit={onSubmit}
       readOnly={readOnly}
