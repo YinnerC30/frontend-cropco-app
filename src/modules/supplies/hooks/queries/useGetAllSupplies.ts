@@ -4,9 +4,13 @@ import { useEffect, useState } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { ResponseApiGetAllRecords } from '@/modules/core/interfaces';
-import { Supply } from '../interfaces/Supply';
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+
+import {
+  useAuthorization,
+  useManageErrorApp,
+} from '@/modules/authentication/hooks';
 import { AxiosError } from 'axios';
+import { Supply } from '../../interfaces/Supply';
 
 interface Props {
   search: string;
@@ -45,6 +49,7 @@ export const useGetAllSupplies = ({
     pageSize: 10,
   });
   const { handleError } = useManageErrorApp();
+  const { hasPermission } = useAuthorization();
   const query = useQuery({
     queryKey: ['supplies', { searchParameter, ...pagination }],
     queryFn: () =>
@@ -54,6 +59,7 @@ export const useGetAllSupplies = ({
         offset: pagination.pageIndex,
         allRecords,
       }),
+    enabled: hasPermission('supplies', 'find_all_supplies'),
   });
 
   useEffect(() => {
