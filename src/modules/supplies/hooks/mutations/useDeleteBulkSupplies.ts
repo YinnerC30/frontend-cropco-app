@@ -20,7 +20,7 @@ export const useDeleteBulkSupplies = () => {
     mutationFn: deleteBulkSupplies,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['supplies'] });
-      toast.success(`Clientes eliminados`);
+      toast.success(`Suministros eliminados`);
     },
     onError: (error: AxiosError) => {
       const deleteError: AxiosError | any = error;

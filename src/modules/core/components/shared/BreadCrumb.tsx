@@ -46,7 +46,7 @@ export const BreadCrumb = ({
                 }
               }}
             >
-              Home
+              Inicio
             </BreadcrumbLink>
           </BreadcrumbItem>
 
