@@ -1,21 +1,19 @@
-import { Label } from "@/components/ui/label";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { ErrorLoading, Loading } from "@/modules/core/components";
-import { BreadCrumb } from "@/modules/core/components/";
-import { UnitOfMeasure } from "@/modules/supplies/interfaces/UnitOfMeasure";
-import { useNavigate, useParams } from "react-router-dom";
-import { z } from "zod";
-import { useGetSupply } from "../hooks/useGetSupply";
-import { usePatchSupply } from "../hooks/usePatchSupply";
-import { formSchemaSupply } from "../utils";
-import { FormSupply } from "./FormSupply";
+import { Loading } from '@/modules/core/components';
+import { BreadCrumb } from '@/modules/core/components/';
+import { UnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { useParams } from 'react-router-dom';
+import { z } from 'zod';
+
+import { useGetSupply } from '../hooks';
+import { usePatchSupply } from '../hooks/mutations/usePatchSupply';
+import { MODULE_SUPPLIES_PATHS } from '../routes/pathRoutes';
+import { formSchemaSupply } from '../utils';
+import { FormSupply } from './FormSupply/FormSupply';
 
 export const ModifySupply = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetSupply(id!);
-  const { mutate, isSuccess, isPending } = usePatchSupply();
-  const navigate = useNavigate();
+  const { mutate, isPending } = usePatchSupply();
 
   const onSubmit = (values: z.infer<typeof formSchemaSupply>) => {
     mutate({ id, ...values });
@@ -25,33 +23,24 @@ export const ModifySupply = () => {
     return <Loading />;
   }
 
-  if (!data) {
-    return <ErrorLoading />;
-  }
-
-  if (isSuccess) {
-    navigate("../view/all");
-  }
-
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/supplies/view/all", name: "Insumos" }]}
+        items={[{ link: MODULE_SUPPLIES_PATHS.ViewAll, name: 'Suministros' }]}
         finalItem={`Modificar`}
       />
-      <Label className="text-2xl">Actualizar insumo</Label>
-      <Separator className="my-2" />
-      <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
-        <FormSupply
-          onSubmit={onSubmit}
-          isSubmitting={isPending}
-          defaultValues={{
-            ...data,
-            unit_of_measure:
-              UnitOfMeasure[data.unit_of_measure as keyof typeof UnitOfMeasure],
-          }}
-        />
-      </ScrollArea>
+
+      <FormSupply
+        onSubmit={onSubmit}
+        isSubmitting={isPending}
+        defaultValues={{
+          ...data,
+          unit_of_measure:
+            UnitOfMeasure[data.unit_of_measure as keyof typeof UnitOfMeasure],
+        }}
+      />
     </>
   );
 };
+
+export default ModifySupply;

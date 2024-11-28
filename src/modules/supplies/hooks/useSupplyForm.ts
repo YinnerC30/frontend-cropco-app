@@ -1,15 +1,23 @@
-import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
-import { formSchemaSupply } from "../utils";
+import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
+import { formSchemaSupply } from '../utils';
+import { Supply } from '../interfaces/Supply';
 
-export const defaultValues = {
-  name: "",
-  brand: "",
+export const defaultValues: Supply = {
+  name: '',
+  brand: '',
   unit_of_measure: undefined,
-  observation: "",
+  observation: '',
 };
 
-export const useSupplyForm = () => {
-  const form = useCreateForm({ schema: formSchemaSupply, defaultValues });
+export const useSupplyForm = ({
+  values = defaultValues,
+}: {
+  values: Supply;
+}) => {
+  const form = useCreateForm({
+    schema: formSchemaSupply,
+    defaultValues: values,
+  });
   return {
     form,
   };

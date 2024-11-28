@@ -1,11 +1,9 @@
-import { Label } from "@/components/ui/label";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { ErrorLoading, Loading } from "@/modules/core/components";
-import { BreadCrumb } from "@/modules/core/components/";
-import { useParams } from "react-router-dom";
-import { useGetSupply } from "../hooks/useGetSupply";
-import { FormSupply } from "./FormSupply";
+import { ErrorLoading, Loading } from '@/modules/core/components';
+import { BreadCrumb } from '@/modules/core/components/';
+import { useParams } from 'react-router-dom';
+import { useGetSupply } from '../hooks/';
+import { MODULE_SUPPLIES_PATHS } from '../routes/pathRoutes';
+import { FormSupply } from './FormSupply/FormSupply';
 
 export const ViewSupply = () => {
   const { id } = useParams();
@@ -22,19 +20,12 @@ export const ViewSupply = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/supplies/view/all", name: "Insumos" }]}
-        finalItem={`Información del insumo`}
+        items={[{ link: MODULE_SUPPLIES_PATHS.ViewAll, name: 'Suministros' }]}
+        finalItem={`Información del suministro`}
       />
-      <Label className="text-2xl">Información del insumo "{data.name}"</Label>
-      <Separator className="my-2" />
-      <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
-        <FormSupply
-          defaultValues={{
-            ...data,
-          }}
-          readOnly
-        />
-      </ScrollArea>
+
+      <FormSupply defaultValues={data} readOnly />
     </>
   );
 };
+export default ViewSupply;

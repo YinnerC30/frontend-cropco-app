@@ -8,9 +8,11 @@ import { userRoutes } from '@/modules/users/routes/userRoutes';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { HomeLayout } from '../components/home/HomeLayout';
 import { RoutesController } from './components/RoutesController';
-import { clientRoutes } from '@/modules/clients/routes/Routes';
+import { clientRoutes } from '@/modules/clients/routes/clientRoutes';
 import { cropRoutes } from '@/modules/crops/routes/Routes';
 import { supplierRoutes } from '@/modules/suppliers/routes/supplierRoutes';
+import { supplyRoutes } from '@/modules/supplies/routes/suppliesRoutes';
+
 
 export const Router = createBrowserRouter([
   {
@@ -43,8 +45,8 @@ export const Router = createBrowserRouter([
           clientRoutes,
           cropRoutes,
           supplierRoutes,
+          supplyRoutes,
           // harvestRoutes,
-          // supplyRoutes,
           // saleRoutes,
           // workRoutes,
           // paymentsRoutes,

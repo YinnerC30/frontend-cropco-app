@@ -1,4 +1,12 @@
-import { Blocks, BookUser, Contact, Leaf, Monitor, User } from 'lucide-react';
+import {
+  Blocks,
+  BookUser,
+  Contact,
+  Leaf,
+  Monitor,
+  PillIcon,
+  User,
+} from 'lucide-react';
 
 export interface Route {
   label: string;
@@ -44,12 +52,12 @@ export const routes: Route[] = [
     Icon: <Blocks />,
     name_module: 'suppliers',
   },
-  // {
-  //   label: 'Insumos',
-  //   path: 'supplies/view/all',
-  //   Icon: <PillIcon />,
-  //   name_module: 'supplies',
-  // },
+  {
+    label: 'Insumos',
+    path: 'supplies/view/all',
+    Icon: <PillIcon />,
+    name_module: 'supplies',
+  },
   // {
   //   label: 'Cosechas',
   //   path: 'harvests/view/all',
