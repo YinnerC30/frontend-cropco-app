@@ -2,7 +2,7 @@ import React, { createContext, useContext } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { useAuthorization } from '@/modules/authentication/hooks';
+import { useAuthorizationContext } from '@/modules/authentication/hooks';
 import { useEmployeeForm } from '../../hooks/useEmployeeForm';
 import { MODULE_EMPLOYEE_PATHS } from '../../routes/pathRoutes';
 
@@ -21,7 +21,7 @@ export const FormEmployeeProvider = ({
   });
   const navigate = useNavigate();
 
-  const { hasPermission } = useAuthorization();
+  const { hasPermission } = useAuthorizationContext();
 
   const handleReturnToModule = () => {
     navigate(MODULE_EMPLOYEE_PATHS.ViewAll);

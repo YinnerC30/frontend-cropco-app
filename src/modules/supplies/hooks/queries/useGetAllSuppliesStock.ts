@@ -11,7 +11,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { ResponseApiGetAllRecords } from '@/modules/core/interfaces';
 
 import {
-  useAuthorization,
+  useAuthorizationContext,
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
 import { AxiosError } from 'axios';
@@ -52,7 +52,7 @@ export const useGetAllSuppliesStock = ({
   });
 
   const { handleError } = useManageErrorApp();
-  const { hasPermission } = useAuthorization();
+  const { hasPermission } = useAuthorizationContext();
   const query = useQuery({
     queryKey: ['supplies', { searchParameter, ...pagination }],
     queryFn: () =>

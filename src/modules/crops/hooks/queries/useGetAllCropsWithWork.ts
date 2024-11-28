@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { AxiosError } from 'axios';
 import {
-  useAuthorization,
+  useAuthorizationContext,
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
 
@@ -50,7 +50,7 @@ export const useGetAllCropsWithWork = ({
   });
 
   const { handleError } = useManageErrorApp();
-  const { hasPermission } = useAuthorization();
+  const { hasPermission } = useAuthorizationContext();
   const query = useQuery({
     queryKey: ['crops-with-work', { searchParameter, ...pagination }],
     queryFn: () =>

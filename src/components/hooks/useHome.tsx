@@ -1,5 +1,5 @@
 import {
-  useAuthorization,
+  useAuthorizationContext,
   useRenewToken,
   TIME_QUESTION_RENEW_TOKEN,
 } from '@/modules/authentication/hooks';
@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { useToast } from '../ui/use-toast';
 
 export const useHome = () => {
-  const { modulesUser } = useAuthorization();
+  const { modulesUser } = useAuthorizationContext();
 
   const mutationRenewToken = useRenewToken();
 

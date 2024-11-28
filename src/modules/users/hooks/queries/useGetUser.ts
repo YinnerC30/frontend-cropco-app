@@ -1,5 +1,5 @@
 import {
-  useAuthorization,
+  useAuthorizationContext,
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
@@ -18,7 +18,7 @@ async function getUserById(id: string): Promise<User> {
 export function useGetUser(id: string): UseQueryResult<User, Error> {
   const { handleError } = useManageErrorApp();
 
-  const { hasPermission } = useAuthorization();
+  const { hasPermission } = useAuthorizationContext();
 
   const isAuthorized = hasPermission('users', 'find_one_user');
 

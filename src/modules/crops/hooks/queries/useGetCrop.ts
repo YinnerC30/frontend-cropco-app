@@ -4,7 +4,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import {
-  useAuthorization,
+  useAuthorizationContext,
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
 import { toast } from 'sonner';
@@ -16,7 +16,7 @@ export const getCropById = async (id: string) => {
 
 export const useGetCrop = (id: string) => {
   const { handleError } = useManageErrorApp();
-  const { hasPermission } = useAuthorization();
+  const { hasPermission } = useAuthorizationContext();
   const isAuthorized = hasPermission('crops', 'find_one_crop');
 
   const query = useQuery({

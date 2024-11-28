@@ -1,4 +1,4 @@
-import { useAuthorization } from '@/modules/authentication/hooks';
+import { useAuthorizationContext } from '@/modules/authentication/hooks';
 import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { createContext, useContext } from 'react';
@@ -17,7 +17,7 @@ export const SuppliersModuleProvider = ({ children }: any) => {
 
   const { query, pagination, setPagination } = useGetAllSuppliers(value);
 
-  const { hasPermission } = useAuthorization();
+  const { hasPermission } = useAuthorizationContext();
 
   const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
     useDataTable({

@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import {
-  useAuthorization,
+  useAuthorizationContext,
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
 import { ResponseUseGetAllRecords } from '@/modules/core/interfaces';
@@ -49,7 +49,7 @@ export const useGetAllEmployees = ({
     pageSize: 10,
   });
 
-  const { hasPermission } = useAuthorization();
+  const { hasPermission } = useAuthorizationContext();
   const { handleError } = useManageErrorApp();
 
   const query = useQuery({

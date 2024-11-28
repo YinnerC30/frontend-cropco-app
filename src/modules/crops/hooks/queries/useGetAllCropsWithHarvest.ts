@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { AxiosError } from 'axios';
 import {
-  useAuthorization,
+  useAuthorizationContext,
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
 
@@ -49,7 +49,7 @@ export const useGetAllCropsWithHarvest = ({
     pageSize: 10,
   });
   const { handleError } = useManageErrorApp();
-  const { hasPermission } = useAuthorization();
+  const { hasPermission } = useAuthorizationContext();
   const query = useQuery({
     queryKey: ['crops-with-harvest', { searchParameter, ...pagination }],
     queryFn: () =>

@@ -1,4 +1,4 @@
-import { useAuthorization } from '@/modules/authentication/hooks';
+import { useAuthorizationContext } from '@/modules/authentication/hooks';
 import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { createContext, useContext } from 'react';
@@ -19,7 +19,7 @@ export const CropsModuleProvider = ({ children }: any) => {
     allRecords: false,
   });
 
-  const { hasPermission } = useAuthorization();
+  const { hasPermission } = useAuthorizationContext();
 
   const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
     useDataTable({

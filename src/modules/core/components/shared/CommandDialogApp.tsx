@@ -6,7 +6,7 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import { useAuthorization } from '@/modules/authentication/hooks/useAuthorization';
+import { useAuthorizationContext } from '@/modules/authentication/hooks/useAuthorizationContext';
 import { routes } from '@/routes/components/RoutesNavBar';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 export function CommandDialogApp() {
   const [open, setOpen] = useState(false);
 
-  const { modulesUser } = useAuthorization();
+  const { modulesUser } = useAuthorizationContext();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
