@@ -11,6 +11,7 @@ import {
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { User } from '../../interfaces';
+import { toast } from 'sonner';
 
 async function getUsers(
   values: BasicQueryData
@@ -40,6 +41,8 @@ export function useGetAllUsers({ value }: Props) {
 
   const { handleError } = useManageErrorApp();
 
+  const isAuthorized = hasPermission('users', 'find_all_users');
+
   const query = useQuery({
     queryKey: ['users', { value, ...pagination }],
     queryFn: () =>
@@ -49,8 +52,14 @@ export function useGetAllUsers({ value }: Props) {
         offset: pageIndex,
       }),
     staleTime: STALE_TIME_DATA,
-    enabled: hasPermission('users', 'find_all_users'),
+    enabled: isAuthorized,
   });
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      toast.error('No tienes permiso para ver el listado de usuarios 😑');
+    }
+  }, [isAuthorized]);
 
   useEffect(() => {
     if (query.isError) {

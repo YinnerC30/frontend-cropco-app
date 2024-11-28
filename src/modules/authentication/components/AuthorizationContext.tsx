@@ -44,6 +44,7 @@ export const AuthorizationProvider = ({ children }: any) => {
   return (
     <AuthorizationContext.Provider
       value={{
+        user,
         nameModulesUser,
         hasPermission,
         hasMoreThanOnePermission,

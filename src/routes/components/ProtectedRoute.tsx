@@ -9,7 +9,8 @@ export const ProtectedRoute = ({
   action,
   viewComponent = false,
 }: any) => {
-  const { user, hasPermission, hasMoreThanOnePermission } = useAuthorizationContext();
+  const { user, hasPermission, hasMoreThanOnePermission } =
+    useAuthorizationContext();
 
   if (viewComponent && hasMoreThanOnePermission(module) >= 1) {
     return element;
