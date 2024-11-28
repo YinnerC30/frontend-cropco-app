@@ -1,4 +1,4 @@
-export * from './useAuthenticationContext';
+export * from './useAuthContext';
 export * from './useCheckAuthStatus';
 export * from './useGetModuleActions';
 export * from './useImplantSeed';

@@ -1,4 +1,4 @@
-import { useAuthenticationContext } from '@/modules/authentication/hooks';
+import { useAuthContext } from '@/modules/authentication/hooks';
 
 import {
   ActionCopyIdRecord,
@@ -17,7 +17,7 @@ interface Props {
 
 export const SuppliersModuleActionsTable = ({ row }: Props) => {
   const { resetSelectionRows } = useSuppliersModuleContext();
-  const { hasPermission } = useAuthenticationContext();
+  const { hasPermission } = useAuthContext();
   const { id } = row.original;
   const mutationDeleteSupplier = useDeleteSupplier();
 

@@ -1,4 +1,4 @@
-import { useAuthenticationContext } from '@/modules/authentication/hooks';
+import { useAuthContext } from '@/modules/authentication/hooks';
 
 import {
   ActionCopyIdRecord,
@@ -17,7 +17,7 @@ interface Props {
 
 export const CropsModuleActionsTable = ({ row }: Props) => {
   const { resetSelectionRows } = useCropsModuleContext();
-  const { hasPermission } = useAuthenticationContext();
+  const { hasPermission } = useAuthContext();
   const { id } = row.original;
   const mutationDeleteCrop = useDeleteCrop();
 

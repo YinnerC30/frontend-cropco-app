@@ -11,13 +11,13 @@ import { NavElement } from './NavElement';
 import { SheetNavBar } from './SheetNavBar';
 import { PATH_LOGIN } from '@/config';
 import {
-  useAuthenticationContext,
+  useAuthContext,
   useCheckAuthStatus,
 } from '@/modules/authentication/hooks';
 import { Loading } from '@/modules/core/components';
 
 export const HomeLayout = () => {
-  const { tokenSesion, isLogin } = useAuthenticationContext();
+  const { tokenSesion, isLogin } = useAuthContext();
 
   if (!isLogin) {
     return <Navigate to={PATH_LOGIN} replace />;

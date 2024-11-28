@@ -4,8 +4,8 @@ import { useEffect } from 'react';
 import { checkAuthStatus } from '../services/checkAuthStatus';
 
 import { useManageErrorApp } from './useManageErrorApp';
-import { TIME_ACTIVE_TOKEN } from '../components/AuthenticationContext';
-import { useAuthenticationContext } from '.';
+import { TIME_ACTIVE_TOKEN } from '../components/AuthContext';
+import { useAuthContext } from '.';
 
 interface Props {
   token: string;
@@ -13,7 +13,7 @@ interface Props {
 
 export const useCheckAuthStatus = ({ token = '' }: Props) => {
   const { handleError } = useManageErrorApp();
-  const { isLogin } = useAuthenticationContext();
+  const { isLogin } = useAuthContext();
   const query = useQuery({
     queryKey: ['valid-sesion-user'],
     queryFn: () => checkAuthStatus(token),

@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 
 import { toast } from 'sonner';
-import { useAuthenticationContext } from './useAuthenticationContext';
+import { useAuthContext } from './useAuthContext';
 
 interface HandleErrorProps {
   error: AxiosError;
@@ -9,7 +9,7 @@ interface HandleErrorProps {
 }
 
 export const useManageErrorApp = () => {
-  const { removeUser } = useAuthenticationContext();
+  const { removeUser } = useAuthContext();
 
   const handleError = ({
     error,

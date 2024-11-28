@@ -1,5 +1,5 @@
 import { PATH_HOME_APP } from '@/config';
-import { useAuthenticationContext } from '@/modules/authentication/hooks/useAuthenticationContext';
+import { useAuthContext } from '@/modules/authentication/hooks/useAuthContext';
 import { Navigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -10,7 +10,7 @@ export const ProtectedRoute = ({
   viewComponent = false,
 }: any) => {
   const { user, hasPermission, hasMoreThanOnePermission } =
-    useAuthenticationContext();
+    useAuthContext();
 
   if (viewComponent && hasMoreThanOnePermission(module) >= 1) {
     return element;

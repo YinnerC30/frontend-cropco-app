@@ -22,7 +22,7 @@ import {
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
-export const AuthenticationContext = createContext<any>(undefined);
+export const AuthContext = createContext<any>(undefined);
 
 interface HandleErrorProps {
   error: AxiosError;
@@ -40,7 +40,7 @@ interface DataActionsAuthorization {
   };
 }
 
-export const AuthenticationProvider = ({ children }: any) => {
+export const AuthProvider = ({ children }: any) => {
   const { user } = useAppSelector((state: RootState) => state.authentication);
   const queryClient = useQueryClient();
   const tokenSesion = user?.token;
@@ -152,7 +152,7 @@ export const AuthenticationProvider = ({ children }: any) => {
   };
 
   return (
-    <AuthenticationContext.Provider
+    <AuthContext.Provider
       value={{
         saveUser,
         isLogin: user.isLogin,
@@ -168,6 +168,6 @@ export const AuthenticationProvider = ({ children }: any) => {
       }}
     >
       {children}
-    </AuthenticationContext.Provider>
+    </AuthContext.Provider>
   );
 };

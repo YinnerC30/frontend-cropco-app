@@ -6,7 +6,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { dowloadPDF } from '@/modules/core/helpers';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
 import {
-  useAuthenticationContext,
+  useAuthContext,
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
 import { AxiosError } from 'axios';
@@ -37,7 +37,7 @@ export const useGetCertificationEmployee = ({
   actionOnSuccess,
 }: Props) => {
   const { handleError } = useManageErrorApp();
-  const { hasPermission } = useAuthenticationContext();
+  const { hasPermission } = useAuthContext();
 
   const query = useQuery({
     queryKey: ['employee-certification', userId],

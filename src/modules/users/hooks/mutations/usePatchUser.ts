@@ -1,5 +1,5 @@
 import {
-  useAuthenticationContext,
+  useAuthContext,
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
 import { useAppSelector } from '@/redux/store';
@@ -23,7 +23,7 @@ export function usePatchUser(): any {
   const navigate = useNavigate();
   const user = useAppSelector((state: any): any => state.authentication.user);
 
-  const { updateUserActions } = useAuthenticationContext();
+  const { updateUserActions } = useAuthContext();
   const { handleError } = useManageErrorApp();
 
   const queryClient = useQueryClient();

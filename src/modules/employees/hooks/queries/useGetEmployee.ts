@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import {
-  useAuthenticationContext,
+  useAuthContext,
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
 import { AxiosError } from 'axios';
@@ -16,7 +16,7 @@ export const getEmployeeById = async (id: string) => {
 
 export const useGetEmployee = (id: string) => {
   const { handleError } = useManageErrorApp();
-  const { hasPermission } = useAuthenticationContext();
+  const { hasPermission } = useAuthContext();
 
   const isAuthorized = hasPermission('employees', 'find_one_employee');
 

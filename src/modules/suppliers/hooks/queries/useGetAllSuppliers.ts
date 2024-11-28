@@ -6,7 +6,7 @@ import { PaginationState } from '@tanstack/react-table';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import {
-  useAuthenticationContext,
+  useAuthContext,
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
 import { AxiosError } from 'axios';
@@ -29,7 +29,7 @@ export const useGetAllSuppliers = (searchParameter: string) => {
     pageSize: 10,
   });
   const { handleError } = useManageErrorApp();
-  const { hasPermission } = useAuthenticationContext();
+  const { hasPermission } = useAuthContext();
   const query = useQuery({
     queryKey: ['suppliers', { searchParameter, ...pagination }],
     queryFn: () =>

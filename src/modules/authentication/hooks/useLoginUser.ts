@@ -3,10 +3,10 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { CapitalizeFirstWord } from '../helpers/CapitalizeFirstWord';
 import { loginUser } from '../services/loginUser';
-import { useAuthenticationContext } from './useAuthenticationContext';
+import { useAuthContext } from './useAuthContext';
 
 export const useLoginUser = () => {
-  const { saveUser } = useAuthenticationContext();
+  const { saveUser } = useAuthContext();
 
   const queryClient = useQueryClient();
   const mutation = useMutation({

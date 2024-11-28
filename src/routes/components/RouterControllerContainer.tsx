@@ -1,10 +1,10 @@
-import { AuthenticationProvider } from '@/modules/authentication/components';
+import { AuthProvider } from '@/modules/authentication/components';
 import { RoutesController } from './RoutesController';
 
 export const RouterControllerContainer = () => {
   return (
-    <AuthenticationProvider>
+    <AuthProvider>
       <RoutesController />
-    </AuthenticationProvider>
+    </AuthProvider>
   );
 };
