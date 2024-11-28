@@ -1,17 +1,17 @@
-import { CustomFormField } from "@/modules/core/interfaces/form/CustomFormField";
+import { CustomFormField } from '@/modules/core/interfaces';
 
 export const formFieldsLogin: Record<string, CustomFormField> = {
   email: {
-    name: "email",
-    label: "Correo electrónico:",
-    placeholder: "email@google.com",
-    description: "Su correo electrónico personal",
+    name: 'email',
+    label: 'Correo electrónico:',
+    placeholder: 'email@google.com',
+    description: 'Su correo electrónico personal',
   },
 
   password: {
-    name: "password",
-    label: "Contraseña:",
-    placeholder: "",
-    description: "La contraseña de su cuenta",
+    name: 'password',
+    label: 'Contraseña:',
+    placeholder: '',
+    description: 'La contraseña de su cuenta',
   },
 };

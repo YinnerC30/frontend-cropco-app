@@ -1,9 +1,9 @@
-import { createContext, useContext, useMemo } from 'react';
-import { useAuthentication } from '../hooks';
 import {
   Action,
   Module,
 } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
+import { createContext, useMemo } from 'react';
+import { useAuthentication } from '../hooks';
 
 export const AuthorizationContext = createContext<any>(undefined);
 
@@ -14,9 +14,11 @@ interface DataActionsAuthorization {
 }
 
 export const AuthorizationProvider = ({ children }: any) => {
-  const { getModuleActions, user } = useAuthentication();
+  const { user } = useAuthentication();
 
-  const modulesUser = user?.modules?.map((module: any) => module?.name) ?? [];
+  const nameModulesUser: string[] = useMemo(() => {
+    return user?.modules?.map((module: any) => module?.name) ?? [];
+  }, [user]);
 
   const data: DataActionsAuthorization = useMemo(() => {
     return (
@@ -36,14 +38,13 @@ export const AuthorizationProvider = ({ children }: any) => {
   };
 
   const hasMoreThanOnePermission = (moduleName: string) => {
-    const actions = getModuleActions(moduleName);
-    return actions.length;
+    return data[moduleName]?.actions.size;
   };
 
   return (
     <AuthorizationContext.Provider
       value={{
-        modulesUser,
+        nameModulesUser,
         hasPermission,
         hasMoreThanOnePermission,
       }}

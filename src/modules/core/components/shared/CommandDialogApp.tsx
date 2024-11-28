@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 export function CommandDialogApp() {
   const [open, setOpen] = useState(false);
 
-  const { modulesUser } = useAuthorizationContext();
+  const { nameModulesUser } = useAuthorizationContext();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -44,7 +44,7 @@ export function CommandDialogApp() {
         <CommandGroup heading="Módulos">
           {routes.map((route: any) => {
             if (
-              modulesUser.includes(route.name_module) ||
+              nameModulesUser.includes(route.name_module) ||
               route.name_module === 'N/A'
             ) {
               return (

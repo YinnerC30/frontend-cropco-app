@@ -15,7 +15,7 @@ import { useHome } from '../hooks/useHome';
 
 export const HomeLayout = () => {
   const { tokenSesion = '' } = useAuthentication();
-  const { modulesUser } = useHome();
+  const { nameModulesUser } = useHome();
 
   const query = useCheckAuthStatus({
     token: tokenSesion,
@@ -30,7 +30,7 @@ export const HomeLayout = () => {
       <CommandDialogApp />
 
       <Header className="fixed top-0 left-0 z-50 flex flex-row items-center w-full py-4 border-b justify-evenly bg-background">
-        <SheetNavBar modulesUser={modulesUser} />
+        <SheetNavBar nameModulesUser={nameModulesUser} />
         <div className="flex items-center w-auto">
           <img src="/public/icon.png" width={30} />
           <Link
@@ -47,7 +47,7 @@ export const HomeLayout = () => {
       <NavBar className="flex-col hidden gap-1 py-2 pl-4 mt-16 border-r lg:flex lg:col-span-2 row-span-11 min-w-44">
         {routes.map((route: Route) => {
           if (
-            modulesUser.includes(route.name_module) ||
+            nameModulesUser.includes(route.name_module) ||
             route.name_module === 'N/A'
           ) {
             return <NavElement key={route.path} route={route} />;

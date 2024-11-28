@@ -16,10 +16,10 @@ import { NavBar } from './NavBar';
 import { NavElement } from './NavElement';
 
 interface Props {
-  modulesUser: any[];
+  nameModulesUser: any[];
 }
 
-export function SheetNavBar({ modulesUser }: Props) {
+export function SheetNavBar({ nameModulesUser }: Props) {
   const [open, setOpen] = useState(false);
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -39,7 +39,7 @@ export function SheetNavBar({ modulesUser }: Props) {
         <NavBar className="flex flex-col col-span-2 gap-1 py-2 pl-4 row-span-11">
           {routes.map((route: Route) => {
             if (
-              modulesUser.includes(route.name_module) ||
+              nameModulesUser.includes(route.name_module) ||
               route.name_module === 'N/A'
             ) {
               return (

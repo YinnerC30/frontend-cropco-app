@@ -1,7 +1,6 @@
 import { RootState, useAppSelector } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 
-import { useRoutesManager } from '@/routes/hooks/useRoutesManager';
 import { UserActive } from '../interfaces';
 import { removeUserActive, setUserActive } from '../utils';
 import { setToken } from '../utils/authenticationSlice';
@@ -12,6 +11,8 @@ import {
 } from '../utils/manageUserInLocalStorage';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { PATH_LOGIN } from '@/config';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
@@ -20,16 +21,13 @@ export const useAuthentication = () => {
   const { user } = useAppSelector((state: RootState) => state.authentication);
   const queryClient = useQueryClient();
 
-  const { redirectToLogin } = useRoutesManager();
+  const navigate = useNavigate();
+
+  const redirectToLogin = (): void => {
+    navigate(PATH_LOGIN);
+  };
 
   const tokenSesion = user?.token;
-
-  const getModuleActions = (nameModule: string) => {
-    return (
-      user.modules.find((module: any) => module.name === nameModule)?.actions ??
-      []
-    );
-  };
 
   const dispatch = useDispatch();
 
@@ -81,7 +79,6 @@ export const useAuthentication = () => {
     updateTokenInClient,
     tokenSesion,
     user,
-    getModuleActions,
   };
 };
 

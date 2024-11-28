@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { useToast } from '../ui/use-toast';
 
 export const useHome = () => {
-  const { modulesUser } = useAuthorizationContext();
+  const { nameModulesUser } = useAuthorizationContext();
 
   const mutationRenewToken = useRenewToken();
 
@@ -47,6 +47,6 @@ export const useHome = () => {
   }, [mutationRenewToken]);
 
   return {
-    modulesUser,
+    nameModulesUser,
   };
 };
