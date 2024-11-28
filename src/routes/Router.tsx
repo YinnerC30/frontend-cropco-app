@@ -11,7 +11,7 @@ import { userRoutes } from '@/modules/users/routes/userRoutes';
 import ErrorPage from '@/routes/components/ErrorPage';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { HomeLayout } from '../components/home/HomeLayout';
-import { RouterControllerContainer } from './components/RouterControllerContainer';
+import { RoutesController } from './components';
 
 export const Router = createBrowserRouter([
   {
@@ -21,7 +21,7 @@ export const Router = createBrowserRouter([
   },
   {
     path: '/app',
-    element: <RouterControllerContainer />,
+    element: <RoutesController />,
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Navigate to={'authentication/login'} /> },
