@@ -2,9 +2,9 @@ import { AlertAction } from '@/modules/core/components/shared/AlertAction';
 import { useFormUserContext } from './FormUserContext';
 
 export const FormUserAlert = () => {
-  const { hasPermission } = useFormUserContext();
+  const { hasPermission, showAlert } = useFormUserContext();
 
-  if (hasPermission('users', 'find_one_user')) return null;
+  if (hasPermission('users', 'find_one_user') || !showAlert) return null;
 
   return (
     <AlertAction

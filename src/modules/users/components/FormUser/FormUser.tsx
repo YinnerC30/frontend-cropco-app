@@ -1,8 +1,8 @@
 import { FormUserProps } from '../../interfaces/FormUserProps';
 import { FormUserAlert } from './FormUserAlert';
 import { FormUserButtons } from './FormUserButtons';
-import { FormUserDetails } from './FormUserDetails';
-import { FormUserPermissions } from './FormUserPermissions';
+import { FormUserFields } from './FormUserFields';
+import { FormUserFieldsPermissions } from './FormUserFieldsPermissions';
 import { FormUserScrollArea } from './FormUserScrollArea';
 
 import { FormUserProvider } from './FormUserContext';
@@ -13,6 +13,7 @@ export const FormUser = ({
   isSubmitting = false,
   onSubmit,
   readOnly = false,
+  showAlert = false,
 }: FormUserProps) => {
   return (
     <FormUserProvider
@@ -21,12 +22,13 @@ export const FormUser = ({
       isSubmitting={isSubmitting}
       onSubmit={onSubmit}
       readOnly={readOnly}
+      showAlert={showAlert}
     >
       <div className="flex flex-col items-center">
         <FormUserScrollArea>
           <FormUserAlert />
-          <FormUserDetails />
-          <FormUserPermissions />
+          <FormUserFields />
+          <FormUserFieldsPermissions />
         </FormUserScrollArea>
         <FormUserButtons />
       </div>

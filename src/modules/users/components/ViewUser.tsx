@@ -25,6 +25,7 @@ export const ViewUser = () => {
         defaultValues={data}
         readOnly
         hiddenPassword
+        showAlert
       />
     </>
   );

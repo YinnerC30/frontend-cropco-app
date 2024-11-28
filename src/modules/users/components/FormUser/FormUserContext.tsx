@@ -14,6 +14,7 @@ export const FormUserProvider = ({
   isSubmitting,
   onSubmit,
   readOnly,
+  showAlert,
 }: FormUserProps & { children: React.ReactNode }) => {
   const formState = useUserForm({
     hiddenPassword,
@@ -37,6 +38,7 @@ export const FormUserProvider = ({
         handleReturnToModule,
         hiddenPassword,
         hasPermission,
+        showAlert,
       }}
     >
       {children}

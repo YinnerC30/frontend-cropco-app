@@ -44,6 +44,7 @@ export const ModifyUser = () => {
         isSubmitting={isPending}
         defaultValues={defaultDataForm}
         hiddenPassword
+        showAlert
       />
     </>
   );
