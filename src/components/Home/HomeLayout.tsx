@@ -42,8 +42,6 @@ export const HomeLayout = () => {
         </div>
 
         <MyAccount />
-        <Link to={'../authentication/login'}>Ir Login</Link>
-        <Link to={'/'}>Ir a Root</Link>
       </Header>
 
       <NavBar className="flex-col hidden gap-1 py-2 pl-4 mt-16 border-r lg:flex lg:col-span-2 row-span-11 min-w-44">

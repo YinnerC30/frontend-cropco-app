@@ -12,29 +12,35 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Loading, ToolTipTemplate } from '@/modules/core/components';
-import { useDataTableMenuActionsContext } from '@/modules/core/components';
+import {
+  Loading,
+  ToolTipTemplate,
+  useDataTableMenuActionsContext,
+} from '@/modules/core/components';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { Copy, KeyRound } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useGetUser } from '../../hooks';
 import { DataResetPassword } from '../../hooks/mutations';
 
 interface Props {
   id: string;
   mutation: any;
   disabled: boolean;
+  email: string;
 }
 
-export function ActionResetPassword({ id, mutation, disabled }: Props) {
+export function ActionResetPassword({ id, mutation, disabled, email }: Props) {
   const { toggleOpen } = useDataTableMenuActionsContext();
   const [open, setOpen] = useState(false);
   const [newPassword, setNewPassword] = useState<string | null>(null);
+
   const { mutate, isPending } = mutation;
 
-  const { isLoading, data } = useGetUser(id);
+  const handleOpenDialog = () => {
+    setOpen(true);
+  };
 
   const handleCloseDialog = () => {
     setOpen(false);
@@ -60,7 +66,7 @@ export function ActionResetPassword({ id, mutation, disabled }: Props) {
     <Dialog defaultOpen={false} open={open} onOpenChange={setOpen} modal={open}>
       <DialogTrigger asChild>
         <DropdownMenuItem disabled={disabled} asChild>
-          <Button onClick={() => setOpen(true)} variant="ghost">
+          <Button onClick={() => handleOpenDialog()} variant="ghost">
             <KeyRound className="w-4 h-4 mr-2" /> Contraseña
           </Button>
         </DropdownMenuItem>
@@ -89,7 +95,7 @@ export function ActionResetPassword({ id, mutation, disabled }: Props) {
           </DialogDescription>
         </DialogHeader>
         <div className="flex items-center gap-4">
-          {isPending || isLoading ? (
+          {isPending ? (
             <Loading />
           ) : (
             <div className="flex flex-col w-full gap-2">
@@ -97,7 +103,7 @@ export function ActionResetPassword({ id, mutation, disabled }: Props) {
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
-                  value={data?.email}
+                  value={email}
                   readOnly
                   className="w-64"
                   placeholder=""

@@ -20,7 +20,7 @@ interface Props {
 export const UsersModuleActionsTable = ({ row }: Props) => {
   const { resetSelectionRows } = useUsersModuleContext();
   const { hasPermission } = useAuthorization();
-  const { id } = row.original;
+  const { id, email } = row.original;
   const mutationDeleteUser = useDeleteUser();
   const mutationPatchPassword = usePatchPasswordUser();
 
@@ -50,6 +50,7 @@ export const UsersModuleActionsTable = ({ row }: Props) => {
         id={id}
         mutation={mutationPatchPassword}
         disabled={!hasPermission('users', 'reset_password_user')}
+        email={email}
       />
 
       <ActionViewRecord
