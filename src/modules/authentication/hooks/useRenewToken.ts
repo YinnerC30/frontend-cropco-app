@@ -2,11 +2,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { renewToken } from '../services/renewToken';
-import { useAuthentication } from './useAuthentication';
+import { useAuthenticationContext } from './useAuthenticationContext';
 import { useManageErrorApp } from './useManageErrorApp';
 
 export const useRenewToken = () => {
-  const { updateTokenInClient } = useAuthentication();
+  const { updateTokenInClient } = useAuthenticationContext();
   const { handleError } = useManageErrorApp();
   const queryClient = useQueryClient();
   const mutation = useMutation({

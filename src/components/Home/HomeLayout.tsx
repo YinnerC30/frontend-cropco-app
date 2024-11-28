@@ -1,20 +1,28 @@
 import { CommandDialogApp } from '@/modules/core/components/shared/CommandDialogApp';
 
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Navigate, Outlet } from 'react-router-dom';
+import { Route, routes } from '../../routes/components/RoutesNavBar';
+import { useHome } from '../hooks/useHome';
 import { Header } from './Header';
 import { Main } from './Main';
 import { MyAccount } from './MyAccount';
 import { NavBar } from './NavBar';
 import { NavElement } from './NavElement';
-import { useCheckAuthStatus } from '../../modules/authentication/hooks';
-import useAuthentication from '../../modules/authentication/hooks/useAuthentication';
-import { Loading } from '../../modules/core/components';
-import { Route, routes } from '../../routes/components/RoutesNavBar';
 import { SheetNavBar } from './SheetNavBar';
-import { useHome } from '../hooks/useHome';
+import { PATH_LOGIN } from '@/config';
+import {
+  useAuthenticationContext,
+  useCheckAuthStatus,
+} from '@/modules/authentication/hooks';
+import { Loading } from '@/modules/core/components';
 
 export const HomeLayout = () => {
-  const { tokenSesion = '' } = useAuthentication();
+  const { tokenSesion, isLogin } = useAuthenticationContext();
+
+  if (!isLogin) {
+    return <Navigate to={PATH_LOGIN} replace />;
+  }
+
   const { nameModulesUser } = useHome();
 
   const query = useCheckAuthStatus({
@@ -42,6 +50,8 @@ export const HomeLayout = () => {
         </div>
 
         <MyAccount />
+        <Link to={PATH_LOGIN}>Login</Link>
+        <Link to={'/'}>Root</Link>
       </Header>
 
       <NavBar className="flex-col hidden gap-1 py-2 pl-4 mt-16 border-r lg:flex lg:col-span-2 row-span-11 min-w-44">

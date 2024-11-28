@@ -1,4 +1,4 @@
-export * from './useAuthentication';
+export * from './useAuthenticationContext';
 export * from './useAuthorizationContext';
 export * from './useCheckAuthStatus';
 export * from './useGetModuleActions';

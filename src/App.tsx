@@ -5,7 +5,7 @@ import { ProvidersApp } from './providers/Providers';
 export const App = () => {
   return (
     <ProvidersApp>
-      <Sonner position="top-right" richColors />
+      <Sonner position="top-right" richColors closeButton />
       <Toaster />
     </ProvidersApp>
   );

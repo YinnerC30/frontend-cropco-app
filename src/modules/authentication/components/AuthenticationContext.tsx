@@ -1,6 +1,8 @@
 import { RootState, useAppSelector } from '@/redux/store';
+import { createContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { UserActive } from '../interfaces';
 import { removeUserActive, setUserActive } from '../utils';
 import { setToken } from '../utils/authenticationSlice';
@@ -9,23 +11,16 @@ import {
   renewTokenInLocalStorage,
   saveUserInLocalStorage,
 } from '../utils/manageUserInLocalStorage';
-import { useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PATH_LOGIN } from '@/config';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
+export const AuthenticationContext = createContext<any>(undefined);
 
-export const useAuthentication = () => {
+export const AuthenticationProvider = ({ children }: any) => {
   const { user } = useAppSelector((state: RootState) => state.authentication);
   const queryClient = useQueryClient();
-
-  const navigate = useNavigate();
-
-  const redirectToLogin = (): void => {
-    navigate(PATH_LOGIN);
-  };
 
   const tokenSesion = user?.token;
 
@@ -40,7 +35,6 @@ export const useAuthentication = () => {
     saveUserInState(user);
   };
 
-  // Eliminar usuario
   const removeUserInState = () => {
     dispatch(removeUserActive());
   };
@@ -65,21 +59,27 @@ export const useAuthentication = () => {
     renewTokenInState(token);
   };
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (!user.isLogin) {
-      redirectToLogin();
+      navigate(PATH_LOGIN, { replace: true });
     }
   }, [user]);
 
-  return {
-    saveUser,
-    isLogin: user.isLogin,
-    removeUser,
-    updateUserActions,
-    updateTokenInClient,
-    tokenSesion,
-    user,
-  };
+  return (
+    <AuthenticationContext.Provider
+      value={{
+        saveUser,
+        isLogin: user.isLogin,
+        removeUser,
+        updateUserActions,
+        updateTokenInClient,
+        tokenSesion,
+        user,
+      }}
+    >
+      {children}
+    </AuthenticationContext.Provider>
+  );
 };
-
-export default useAuthentication;

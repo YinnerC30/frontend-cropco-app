@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { useAuthentication } from '@/modules/authentication/hooks/useAuthentication';
+import { useAuthenticationContext } from '@/modules/authentication/hooks/useAuthenticationContext';
 import { useImplantSeed } from '@/modules/authentication/hooks/useImplantSeed';
 import { useTheme } from '@/modules/core/components/shared/ThemeProvider';
 import { DialogChangePassword } from '@/modules/users/components/DialogChangePassword';
@@ -27,7 +27,7 @@ import { useCreationsApp } from '@/modules/authentication/hooks/useCreateActions
 
 export const MyAccount = () => {
   const [, setOpenMenu] = useState(false);
-  const { removeUser, user, updateUserActions } = useAuthentication();
+  const { removeUser, user, updateUserActions } = useAuthenticationContext();
   const { setTheme } = useTheme();
 
   const handleOpenMenu = () => {

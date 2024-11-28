@@ -1,11 +1,11 @@
 import {
   useAuthorizationContext,
   useRenewToken,
-  TIME_QUESTION_RENEW_TOKEN,
 } from '@/modules/authentication/hooks';
 import { ToastAction } from '@radix-ui/react-toast';
 import { useEffect } from 'react';
 import { useToast } from '../ui/use-toast';
+import { TIME_QUESTION_RENEW_TOKEN } from '@/modules/authentication/components';
 
 export const useHome = () => {
   const { nameModulesUser } = useAuthorizationContext();

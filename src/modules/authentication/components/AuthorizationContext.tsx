@@ -3,7 +3,7 @@ import {
   Module,
 } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 import { createContext, useMemo } from 'react';
-import { useAuthentication } from '../hooks';
+import { useAuthenticationContext } from '../hooks';
 
 export const AuthorizationContext = createContext<any>(undefined);
 
@@ -14,7 +14,7 @@ interface DataActionsAuthorization {
 }
 
 export const AuthorizationProvider = ({ children }: any) => {
-  const { user } = useAuthentication();
+  const { user } = useAuthenticationContext();
 
   const nameModulesUser: string[] = useMemo(() => {
     return user?.modules?.map((module: any) => module?.name) ?? [];
