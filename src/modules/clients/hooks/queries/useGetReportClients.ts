@@ -5,7 +5,7 @@ import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import {
-  useAuthorizationContext,
+  useAuthenticationContext,
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
 import { AxiosError } from 'axios';
@@ -32,7 +32,7 @@ export const useGetReportClients = ({
   actionOnSuccess,
 }: Props) => {
   const { handleError } = useManageErrorApp();
-  const { hasPermission } = useAuthorizationContext();
+  const { hasPermission } = useAuthenticationContext();
   const query = useQuery({
     queryKey: ['report-clients'],
     queryFn: () => {

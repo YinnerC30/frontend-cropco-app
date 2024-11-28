@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import {
-  useAuthorizationContext,
+  useAuthenticationContext,
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
 import { AxiosError } from 'axios';
@@ -16,7 +16,7 @@ export const getSupplierById = async (id: string) => {
 
 export const useGetSupplier = (id: string) => {
   const { handleError } = useManageErrorApp();
-  const { hasPermission } = useAuthorizationContext();
+  const { hasPermission } = useAuthenticationContext();
 
   const isAuthorized = hasPermission('suppliers', 'find_one_supplier');
 

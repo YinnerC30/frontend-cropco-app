@@ -2,7 +2,7 @@ import React, { createContext, useContext } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { useAuthorizationContext } from '@/modules/authentication/hooks';
+import { useAuthenticationContext } from '@/modules/authentication/hooks';
 import { useCropForm } from '../../hooks/useCropForm';
 import { MODULE_CROPS_PATHS } from '../../routes/pathRoutes';
 
@@ -21,7 +21,7 @@ export const FormCropProvider = ({
   });
   const navigate = useNavigate();
 
-  const { hasPermission } = useAuthorizationContext();
+  const { hasPermission } = useAuthenticationContext();
 
   const handleReturnToModule = () => {
     navigate(MODULE_CROPS_PATHS.ViewAll);

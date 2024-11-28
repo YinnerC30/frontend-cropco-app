@@ -1,4 +1,4 @@
-import { useAuthorizationContext } from '@/modules/authentication/hooks';
+import { useAuthenticationContext } from '@/modules/authentication/hooks';
 import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { createContext, useContext } from 'react';
@@ -17,7 +17,7 @@ export const ClientsModuleProvider = ({ children }: any) => {
 
   const { query, pagination, setPagination } = useGetAllClients(value);
 
-  const { hasPermission } = useAuthorizationContext();
+  const { hasPermission } = useAuthenticationContext();
 
   const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
     useDataTable({

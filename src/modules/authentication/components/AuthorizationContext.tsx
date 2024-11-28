@@ -1,9 +1,6 @@
-import {
-  Action,
-  Module,
-} from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 import { createContext, useMemo } from 'react';
 import { useAuthenticationContext } from '../hooks';
+import { Action, Module } from '@/modules/core/interfaces';
 
 export const AuthorizationContext = createContext<any>(undefined);
 

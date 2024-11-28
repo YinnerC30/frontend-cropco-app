@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import {
-  useAuthorizationContext,
+  useAuthenticationContext,
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
 import { AxiosError } from 'axios';
@@ -26,7 +26,7 @@ export const useGetAllClients = (searchParameter: string) => {
   });
 
   const { handleError } = useManageErrorApp();
-  const { hasPermission } = useAuthorizationContext();
+  const { hasPermission } = useAuthenticationContext();
   const query = useQuery({
     queryKey: ['clients', { searchParameter, ...pagination }],
     queryFn: () =>

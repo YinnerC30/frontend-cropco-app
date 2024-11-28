@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useAuthorizationContext } from '@/modules/authentication/hooks';
+import { useAuthenticationContext } from '@/modules/authentication/hooks';
 import { useManageErrorApp } from '@/modules/authentication/hooks/useManageErrorApp';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import {
@@ -35,7 +35,7 @@ interface Props {
 const STALE_TIME_DATA = 60_000 * 60;
 
 export function useGetAllUsers({ value }: Props) {
-  const { hasPermission } = useAuthorizationContext();
+  const { hasPermission } = useAuthenticationContext();
   const { pagination, setPagination, pageIndex, pageSize } =
     usePaginationDataTable();
 

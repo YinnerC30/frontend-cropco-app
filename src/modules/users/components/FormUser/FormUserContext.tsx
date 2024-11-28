@@ -3,7 +3,7 @@ import { useUserForm } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
 import { FormUserProps } from '../../interfaces/FormUserProps';
-import { useAuthorizationContext } from '@/modules/authentication/hooks';
+import { useAuthenticationContext } from '@/modules/authentication/hooks';
 
 const FormUserContext = createContext<any>(null);
 
@@ -22,7 +22,7 @@ export const FormUserProvider = ({
   });
   const navigate = useNavigate();
 
-  const { hasPermission } = useAuthorizationContext();
+  const { hasPermission } = useAuthenticationContext();
 
   const handleReturnToModule = () => {
     navigate(MODULE_USER_PATHS.ViewAll);
