@@ -7,6 +7,7 @@ import {
   useAuthorization,
   useManageErrorApp,
 } from '@/modules/authentication/hooks';
+import { toast } from 'sonner';
 
 export const getCropById = async (id: string) => {
   const { data } = await cropcoAPI.get(`${pathsCropco.crops}/one/${id}`);
@@ -16,11 +17,21 @@ export const getCropById = async (id: string) => {
 export const useGetCrop = (id: string) => {
   const { handleError } = useManageErrorApp();
   const { hasPermission } = useAuthorization();
+  const isAuthorized = hasPermission('crops', 'find_one_crop');
+
   const query = useQuery({
     queryKey: ['crop', id],
     queryFn: () => getCropById(id),
-    enabled: hasPermission('crops', 'find_one_crop'),
+    enabled: isAuthorized,
   });
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      toast.error(
+        'Requieres del permiso de lectura para obtener la información del cultivo solicitado'
+      );
+    }
+  }, [isAuthorized]);
 
   useEffect(() => {
     if (query.isError) {

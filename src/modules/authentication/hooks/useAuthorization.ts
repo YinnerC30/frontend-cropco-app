@@ -5,7 +5,7 @@ export const useAuthorization = () => {
 
   const modulesUser = user?.modules?.map((module: any) => module?.name) ?? [];
 
-  const hasPermission = (moduleName: string, actionName: string) => {
+  const hasPermission = (moduleName: string, actionName: string): boolean => {
     const actions = getModuleActions(moduleName);
     return actions.some((action: any) => action.name === actionName);
   };

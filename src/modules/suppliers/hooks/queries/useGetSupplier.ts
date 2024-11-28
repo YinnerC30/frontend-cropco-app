@@ -7,6 +7,7 @@ import {
 } from '@/modules/authentication/hooks';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 export const getSupplierById = async (id: string) => {
   const { data } = await cropcoAPI.get(`${pathsCropco.suppliers}/one/${id}`);
@@ -16,11 +17,22 @@ export const getSupplierById = async (id: string) => {
 export const useGetSupplier = (id: string) => {
   const { handleError } = useManageErrorApp();
   const { hasPermission } = useAuthorization();
+
+  const isAuthorized = hasPermission('suppliers', 'find_one_supplier');
+
   const query = useQuery({
     queryKey: ['supplier', id],
     queryFn: () => getSupplierById(id),
-    enabled: hasPermission('suppliers', 'find_one_supplier'),
+    enabled: isAuthorized,
   });
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      toast.error(
+        'Requieres del permiso de lectura para obtener la información del usuario solicitado'
+      );
+    }
+  }, [isAuthorized]);
 
   useEffect(() => {
     if (query.isError) {

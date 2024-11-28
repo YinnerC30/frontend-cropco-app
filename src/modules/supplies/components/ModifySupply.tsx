@@ -36,7 +36,7 @@ export const ModifySupply = () => {
         defaultValues={{
           ...data,
           unit_of_measure:
-            UnitOfMeasure[data.unit_of_measure as keyof typeof UnitOfMeasure],
+            UnitOfMeasure[data?.unit_of_measure as keyof typeof UnitOfMeasure],
         }}
       />
     </>
