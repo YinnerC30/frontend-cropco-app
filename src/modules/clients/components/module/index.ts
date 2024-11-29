@@ -1,4 +1,3 @@
-export * from './ActionGetCertification';
 export * from './createColumnsTableClients';
 export * from './ClientsActions';
 export * from './ClientsBreadCrumb';

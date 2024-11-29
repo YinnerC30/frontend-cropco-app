@@ -7,7 +7,7 @@ import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 
 const ClientsModule = lazy(
-  () => import('../components/ClientsModule/ClientsModule')
+  () => import('../components/module/ClientsModule')
 );
 const CreateClient = lazy(() => import('../components/CreateClient'));
 const ViewClient = lazy(() => import('../components/ViewClient'));

@@ -24,6 +24,6 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "src/modules/clients/hooks/context/useClientsModuleContext.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

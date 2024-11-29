@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -6,12 +6,11 @@ import { useAuthContext } from '@/auth/hooks';
 import { useClientForm } from '../../hooks/useClientForm';
 import { MODULE_CLIENTS_PATHS } from '../../routes/pathRoutes';
 
-const FormClientContext = createContext<any>(null);
+export const FormClientContext = createContext<any>(null);
 
 export const FormClientProvider = ({
   children,
   defaultValues,
-
   isSubmitting,
   onSubmit,
   readOnly,
@@ -35,7 +34,6 @@ export const FormClientProvider = ({
         onSubmit,
         readOnly,
         handleReturnToModule,
-
         hasPermission,
       }}
     >
@@ -44,12 +42,3 @@ export const FormClientProvider = ({
   );
 };
 
-export const useFormClientContext = () => {
-  const context = useContext(FormClientContext);
-  if (!context) {
-    throw new Error(
-      'useFormClientContext must be used within a FormClientProvider'
-    );
-  }
-  return context;
-};

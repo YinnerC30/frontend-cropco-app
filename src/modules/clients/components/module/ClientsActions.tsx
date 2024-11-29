@@ -5,9 +5,7 @@ import {
   ButtonRefetchData,
 } from '@/modules/core/components';
 
-
-
-import { useClientsModuleContext } from './ClientsModuleContext';
+import { useClientsModuleContext } from '../../hooks';
 import { MODULE_CLIENTS_PATHS } from '../../routes/pathRoutes';
 import { ButtonExportClients } from './ButtonExportClients';
 

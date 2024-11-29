@@ -8,7 +8,7 @@ import { useGetAllClients } from '../../hooks/queries/useGetAllClients';
 import createColumnsTableClients from './createColumnsTableClients';
 import { useDeleteBulkClients } from '../../hooks/mutations/useDeleteBulkClients';
 
-const ClientsModuleContext = createContext<any>(null);
+export const ClientsModuleContext = createContext<any>(null);
 
 export const ClientsModuleProvider = ({ children }: any) => {
   const { value } = useBasicQueryData();
@@ -67,12 +67,3 @@ export const ClientsModuleProvider = ({ children }: any) => {
   );
 };
 
-export const useClientsModuleContext = () => {
-  const context = useContext(ClientsModuleContext);
-  if (!context) {
-    throw new Error(
-      'useClientsModuleContext must be used within ClientsModuleProvider'
-    );
-  }
-  return context;
-};

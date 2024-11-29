@@ -1,10 +1,10 @@
-import { useFormClientContext } from './FormClientContext';
+import { useFormClientContext } from '../../hooks';
 
 import { Form } from '@/components';
 import { FormFieldInput, FormFieldTextArea } from '@/modules/core/components';
 import { formFieldsClient } from '../../utils';
 
-export const FormClientDetails = () => {
+export const FormClientFields = () => {
   const { form, onSubmit, readOnly } = useFormClientContext();
 
   return (

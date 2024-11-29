@@ -1,9 +1,10 @@
 import { Button } from '@/components';
-import { useFormClientContext } from './FormClientContext';
+import { useFormClientContext } from '../../hooks';
 import { ButtonsForm } from '@/modules/core/components';
 
 export const FormClientButtons = () => {
-  const { readOnly, handleReturnToModule, isSubmitting } = useFormClientContext();
+  const { readOnly, handleReturnToModule, isSubmitting } =
+    useFormClientContext();
 
   return readOnly ? (
     <Button className="my-2" onClick={handleReturnToModule}>

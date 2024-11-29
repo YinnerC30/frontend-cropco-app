@@ -7,7 +7,7 @@ import { useGetClient } from '../hooks/queries/useGetClient';
 import { usePatchClient } from '../hooks/mutations/usePatchClient';
 import { MODULE_CLIENTS_PATHS } from '../routes/pathRoutes';
 import { formSchemaClient } from '../utils';
-import FormClient from './FormClient/FormClient';
+import FormClient from './form/FormClient';
 
 export const ModifyClient = () => {
   const { id } = useParams();

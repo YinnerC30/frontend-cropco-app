@@ -1,5 +1,5 @@
 import { BasicSearchBar } from '@/modules/core/components';
-import { useClientsModuleContext } from './ClientsModuleContext';
+import { useClientsModuleContext } from '../../hooks';
 
 export const ClientsSearchBar = () => {
   const { value, hasPermission } = useClientsModuleContext();

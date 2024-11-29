@@ -1,29 +1,25 @@
-import { FormClientAlert } from './FormClientAlert';
+import { FormProps } from '@/modules/core/interfaces';
 import { FormClientButtons } from './FormClientButtons';
 import { FormClientProvider } from './FormClientContext';
-import { FormClientDetails } from './FormClientDetails';
+import { FormClientFields } from './FormClientFields';
 import { FormClientScrollArea } from './FormClientScrollArea';
 
 export const FormClient = ({
   defaultValues,
-  hiddenPassword = false,
   isSubmitting = false,
   onSubmit,
   readOnly = false,
-}: any) => {
-  console.log(defaultValues);
+}: FormProps) => {
   return (
     <FormClientProvider
       defaultValues={defaultValues}
-      
       isSubmitting={isSubmitting}
       onSubmit={onSubmit}
       readOnly={readOnly}
     >
       <div className="flex flex-col items-center">
         <FormClientScrollArea>
-          <FormClientAlert />
-          <FormClientDetails />
+          <FormClientFields />
         </FormClientScrollArea>
         <FormClientButtons />
       </div>
