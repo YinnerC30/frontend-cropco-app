@@ -1,5 +1,5 @@
 import { PATH_HOME_APP } from '@/config';
-import { useAuthContext } from '@/modules/authentication/hooks/useAuthContext';
+import { useAuthContext } from '@/auth/hooks/useAuthContext';
 import { Navigate } from 'react-router-dom';
 import { toast } from 'sonner';
 

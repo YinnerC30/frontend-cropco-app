@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import { useManageErrorApp } from '@/auth/hooks';
 
 export const deleteClient = async (id: string) =>
   await cropcoAPI.delete(`${pathsCropco.clients}/remove/one/${id}`);

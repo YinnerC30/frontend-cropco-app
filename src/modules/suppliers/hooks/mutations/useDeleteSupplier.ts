@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import { useManageErrorApp } from '@/auth/hooks';
 
 export const deleteSupplier = async (id: string) => {
   return await cropcoAPI.delete(`${pathsCropco.suppliers}/remove/one/${id}`);

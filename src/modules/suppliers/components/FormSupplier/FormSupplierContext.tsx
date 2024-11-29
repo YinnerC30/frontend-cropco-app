@@ -2,7 +2,7 @@ import React, { createContext, useContext } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { useAuthContext } from '@/modules/authentication/hooks';
+import { useAuthContext } from '@/auth/hooks';
 
 import { MODULE_SUPPLIER_PATHS } from '../../routes/pathRoutes';
 import { useSupplierForm } from '../../hooks';

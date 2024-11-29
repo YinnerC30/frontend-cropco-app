@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import {
   useAuthContext,
   useManageErrorApp,
-} from '@/modules/authentication/hooks';
+} from '@/auth/hooks';
 import { toast } from 'sonner';
 
 export const getCropById = async (id: string) => {

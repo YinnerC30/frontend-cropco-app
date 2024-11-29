@@ -4,7 +4,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import {
   useAuthContext,
   useManageErrorApp,
-} from '@/modules/authentication/hooks';
+} from '@/auth/hooks';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'sonner';

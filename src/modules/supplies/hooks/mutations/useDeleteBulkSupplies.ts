@@ -1,5 +1,5 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import { useManageErrorApp } from '@/auth/hooks';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';

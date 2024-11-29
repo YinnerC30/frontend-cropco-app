@@ -6,7 +6,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import {
   useAuthContext,
   useManageErrorApp,
-} from '@/modules/authentication/hooks';
+} from '@/auth/hooks';
 import { AxiosError } from 'axios';
 
 export const getClients = async ({ search = '', limit = 10, offset = 0 }) => {

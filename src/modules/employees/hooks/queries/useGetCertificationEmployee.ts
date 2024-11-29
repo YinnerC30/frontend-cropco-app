@@ -8,7 +8,7 @@ import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
 import {
   useAuthContext,
   useManageErrorApp,
-} from '@/modules/authentication/hooks';
+} from '@/auth/hooks';
 import { AxiosError } from 'axios';
 
 export const getCertificationEmployee = async (id: string): Promise<Blob> => {

@@ -13,7 +13,7 @@ import { ResponseApiGetAllRecords } from '@/modules/core/interfaces';
 import {
   useAuthContext,
   useManageErrorApp,
-} from '@/modules/authentication/hooks';
+} from '@/auth/hooks';
 import { AxiosError } from 'axios';
 import { Supply } from '../../interfaces/Supply';
 

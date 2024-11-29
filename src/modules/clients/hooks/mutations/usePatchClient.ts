@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import { useManageErrorApp } from '@/auth/hooks';
 import { Client } from '@/modules/clients/interfaces/Client';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_CLIENTS_PATHS } from '../../routes/pathRoutes';

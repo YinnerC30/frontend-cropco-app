@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import { useManageErrorApp } from '@/auth/hooks';
 import { useNavigate } from 'react-router-dom';
 import { Employee } from '../../interfaces/Employee';
 import { MODULE_EMPLOYEE_PATHS } from '../../routes/pathRoutes';

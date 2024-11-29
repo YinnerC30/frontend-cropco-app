@@ -1,4 +1,4 @@
-import { authenticationReducer } from '@/modules/authentication/utils/authenticationSlice';
+import { authenticationReducer } from '@/auth/utils/authenticationSlice';
 import { consumptionReducer } from '@/modules/consumption/utils/consumptionSlice';
 import { harvestReducer } from '@/modules/harvests/utils/harvestSlice';
 import { paymentReducer } from '@/modules/payments/utils/paymentSlice';

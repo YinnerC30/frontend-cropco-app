@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useAuthContext } from '@/modules/authentication/hooks';
-import { useManageErrorApp } from '@/modules/authentication/hooks/useManageErrorApp';
+import { useAuthContext } from '@/auth/hooks';
+import { useManageErrorApp } from '@/auth/hooks/useManageErrorApp';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import {
   BasicQueryData,

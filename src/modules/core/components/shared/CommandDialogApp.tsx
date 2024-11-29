@@ -6,7 +6,7 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import { useAuthContext } from '@/modules/authentication/hooks/useAuthContext';
+import { useAuthContext } from '@/auth/hooks/useAuthContext';
 import { routes } from '@/routes/components/RoutesNavBar';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';

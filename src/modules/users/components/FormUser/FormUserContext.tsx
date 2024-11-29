@@ -3,7 +3,7 @@ import { useUserForm } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
 import { FormUserProps } from '../../interfaces/FormUserProps';
-import { useAuthContext } from '@/modules/authentication/hooks';
+import { useAuthContext } from '@/auth/hooks';
 
 const FormUserContext = createContext<any>(null);
 

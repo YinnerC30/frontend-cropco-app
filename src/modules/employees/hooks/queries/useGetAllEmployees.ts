@@ -9,7 +9,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import {
   useAuthContext,
   useManageErrorApp,
-} from '@/modules/authentication/hooks';
+} from '@/auth/hooks';
 import { ResponseUseGetAllRecords } from '@/modules/core/interfaces';
 import { ResponseApiGetAllRecords } from '@/modules/core/interfaces/responses/ResponseApiGetAllRecords';
 import { AxiosError } from 'axios';

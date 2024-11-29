@@ -1,7 +1,7 @@
 import {
   useAuthContext,
   useManageErrorApp,
-} from '@/modules/authentication/hooks';
+} from '@/auth/hooks';
 import {
   UseQueryResult,
   useQuery,

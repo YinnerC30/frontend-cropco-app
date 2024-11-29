@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import {
   useAuthContext,
   useManageErrorApp,
-} from '@/modules/authentication/hooks';
+} from '@/auth/hooks';
 import { AxiosError } from 'axios';
 
 export const getReportClients = async () => {

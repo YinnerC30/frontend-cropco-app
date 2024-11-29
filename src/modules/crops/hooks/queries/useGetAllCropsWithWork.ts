@@ -8,7 +8,7 @@ import { AxiosError } from 'axios';
 import {
   useAuthContext,
   useManageErrorApp,
-} from '@/modules/authentication/hooks';
+} from '@/auth/hooks';
 
 interface Props {
   search: string;

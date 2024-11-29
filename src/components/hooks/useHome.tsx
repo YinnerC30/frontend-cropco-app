@@ -1,11 +1,8 @@
-import {
-  useAuthContext,
-  useRenewToken,
-} from '@/modules/authentication/hooks';
+import { useAuthContext, useRenewToken } from '@/auth/hooks';
 import { ToastAction } from '@radix-ui/react-toast';
 import { useEffect } from 'react';
 import { useToast } from '../ui/use-toast';
-import { TIME_QUESTION_RENEW_TOKEN } from '@/modules/authentication/components';
+import { TIME_QUESTION_RENEW_TOKEN } from '@/auth';
 
 export const useHome = () => {
   const { nameModulesUser } = useAuthContext();

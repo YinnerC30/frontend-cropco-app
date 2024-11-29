@@ -1,4 +1,4 @@
-import { useAuthContext } from '@/modules/authentication/hooks';
+import { useAuthContext } from '@/auth/hooks';
 
 import {
   ActionCopyIdRecord,

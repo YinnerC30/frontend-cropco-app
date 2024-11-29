@@ -1,4 +1,4 @@
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import { useManageErrorApp } from '@/auth/hooks';
 import {
   UseMutationResult,
   useMutation,

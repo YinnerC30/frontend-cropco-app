@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { Employee } from '../../interfaces/Employee';
-import { useManageErrorApp } from '@/modules/authentication/hooks';
+import { useManageErrorApp } from '@/auth/hooks';
 
 export const updateEmployee = async (employee: Employee) => {
   const { id, ...rest } = employee;

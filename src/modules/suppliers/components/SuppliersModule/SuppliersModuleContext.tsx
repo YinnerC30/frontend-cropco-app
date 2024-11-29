@@ -1,4 +1,4 @@
-import { useAuthContext } from '@/modules/authentication/hooks';
+import { useAuthContext } from '@/auth/hooks/index.ts';
 import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { createContext, useContext } from 'react';

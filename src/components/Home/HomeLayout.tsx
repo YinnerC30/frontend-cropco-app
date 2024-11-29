@@ -13,7 +13,7 @@ import { PATH_LOGIN } from '@/config';
 import {
   useAuthContext,
   useCheckAuthStatus,
-} from '@/modules/authentication/hooks';
+} from '@/auth/hooks';
 import { Loading } from '@/modules/core/components';
 
 export const HomeLayout = () => {

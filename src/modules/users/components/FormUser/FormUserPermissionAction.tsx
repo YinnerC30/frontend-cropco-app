@@ -1,5 +1,5 @@
 import { Switch } from '@/components/ui/switch';
-import { CapitalizeFirstWord } from '@/modules/authentication/helpers';
+import { CapitalizeFirstWord } from '@/auth/helpers';
 import { Action } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 
 import { useFormUserContext } from './FormUserContext';

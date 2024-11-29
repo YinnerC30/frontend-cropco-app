@@ -4,7 +4,7 @@ import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import {
   useAuthContext,
   useManageErrorApp,
-} from '@/modules/authentication/hooks';
+} from '@/auth/hooks';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { Supply } from '../../interfaces/Supply';

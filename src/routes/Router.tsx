@@ -1,6 +1,6 @@
 import { LandingPage } from '@/components/common/LandingPage';
-import AuthenticationLayout from '@/modules/authentication/components/AuthenticationLayout';
-import { authenticationRoutes } from '@/modules/authentication/routes/Routes';
+import { AuthenticationLayout } from '@/auth';
+import { authenticationRoutes } from '@/auth/routes/Routes';
 import { clientRoutes } from '@/modules/clients/routes/clientRoutes';
 import { cropRoutes } from '@/modules/crops/routes/Routes';
 import { dashboardRoutes } from '@/modules/dashboard/routes/Routes';

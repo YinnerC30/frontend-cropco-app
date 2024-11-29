@@ -1,5 +1,5 @@
 import { BASE_PATH_API_CROPCO } from '@/config';
-import { getTokenToLocalStorage } from '@/modules/authentication/utils/manageUserInLocalStorage';
+import { getTokenToLocalStorage } from '@/auth/utils/manageUserInLocalStorage';
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 declare module 'axios' {
