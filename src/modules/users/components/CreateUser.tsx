@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { usePostUser } from '../hooks';
 import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
 import { formSchemaUserWithPassword } from '../utils';
-import { FormUser } from './FormUser';
+import { FormUser } from './form';
 import { User } from '../interfaces';
 
 export const CreateUser = () => {

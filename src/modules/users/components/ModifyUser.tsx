@@ -7,7 +7,7 @@ import { BreadCrumb } from '@/modules/core/components/';
 import { Action, Module } from '@/modules/core/interfaces';
 import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
 import { formSchemaUser } from '../utils';
-import { FormUser } from './FormUser';
+import { FormUser } from './form';
 
 export const ModifyUser = () => {
   const { id } = useParams();

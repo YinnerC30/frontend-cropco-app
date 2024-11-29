@@ -1,7 +1,7 @@
 import { Loading } from '@/modules/core/components/shared/Loading';
 import { useParams } from 'react-router-dom';
 import { useGetUser } from '../hooks';
-import { FormUser } from './FormUser';
+import { FormUser } from './form';
 import { BreadCrumb } from '@/modules/core/components';
 import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
 

@@ -5,7 +5,7 @@ import {
 } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 import { RootState, useAppSelector } from '@/redux/store';
 import { useState } from 'react';
-import { UserAction } from '../components/FormUser/FormUserPermissionAction';
+import { UserAction } from '../components/form/FormUserPermissionAction';
 import { formSchemaUser, formSchemaUserWithPassword } from '../utils';
 
 export const defaultValues = {

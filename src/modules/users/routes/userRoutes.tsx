@@ -7,7 +7,7 @@ import { RouteConfig } from '../../../routes/interfaces/RouteConfig';
 // Lazy load de los componentes
 const CreateUser = lazy(() => import('../components/CreateUser'));
 const ModifyUser = lazy(() => import('../components/ModifyUser'));
-const UsersModule = lazy(() => import('../components/UsersModule/UsersModule'));
+const UsersModule = lazy(() => import('../components/module/UsersModule'));
 const ViewUser = lazy(() => import('../components/ViewUser'));
 const FormChangePassword = lazy(
   () => import('../components/FormChangePassword')
