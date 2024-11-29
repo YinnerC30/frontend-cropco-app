@@ -5,7 +5,7 @@ import { Loading } from '../../core/components';
 import { useGetEmployee } from '../hooks/queries/useGetEmployee';
 import { MODULE_EMPLOYEE_PATHS } from '../routes/pathRoutes';
 import { formSchemaEmployee } from '../utils';
-import FormEmployee from './FormEmployee/FormEmployee';
+import FormEmployee from './form/FormEmployee';
 import { usePatchEmployee } from '../hooks';
 
 export const ModifyEmployee = () => {

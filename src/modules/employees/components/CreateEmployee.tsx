@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { MODULE_EMPLOYEE_PATHS } from '../routes/pathRoutes';
 import { formSchemaEmployee } from '../utils';
-import FormEmployee from './FormEmployee/FormEmployee';
+import FormEmployee from './form/FormEmployee';
 import { usePostEmployee } from '../hooks';
 import { BreadCrumb } from '@/modules/core/components';
 

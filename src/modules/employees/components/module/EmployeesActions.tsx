@@ -6,7 +6,8 @@ import {
 } from '@/modules/core/components';
 
 import { MODULE_EMPLOYEE_PATHS } from '../../routes/pathRoutes';
-import { useEmployeesModuleContext } from './EmployeesModuleContext';
+import { useEmployeesModuleContext } from '../../hooks';
+
 
 export const EmployeesActions = () => {
   const {

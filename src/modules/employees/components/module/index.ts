@@ -1,5 +1,5 @@
 export * from './ActionGetCertification';
-export * from './createColumnsTableEmployees';
+export * from './columnsTableEmployees';
 export * from './EmployeesActions';
 export * from './EmployeesBreadCrumb';
 export * from './EmployeesModule';

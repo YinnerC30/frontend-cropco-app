@@ -1,5 +1,5 @@
 import { BasicSearchBar } from '@/modules/core/components';
-import { useEmployeesModuleContext } from './EmployeesModuleContext';
+import { useEmployeesModuleContext } from '../../hooks';
 
 export const EmployeesSearchBar = () => {
   const { value, hasPermission } = useEmployeesModuleContext();

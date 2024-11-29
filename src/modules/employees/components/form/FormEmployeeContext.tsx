@@ -6,7 +6,7 @@ import { useAuthContext } from '@/auth/hooks';
 import { useEmployeeForm } from '../../hooks/useEmployeeForm';
 import { MODULE_EMPLOYEE_PATHS } from '../../routes/pathRoutes';
 
-const FormEmployeeContext = createContext<any>(null);
+export const FormEmployeeContext = createContext<any>(null);
 
 export const FormEmployeeProvider = ({
   children,
@@ -41,14 +41,4 @@ export const FormEmployeeProvider = ({
       {children}
     </FormEmployeeContext.Provider>
   );
-};
-
-export const useFormEmployeeContext = () => {
-  const context = useContext(FormEmployeeContext);
-  if (!context) {
-    throw new Error(
-      'useFormEmployeeContext must be used within a FormEmployeeProvider'
-    );
-  }
-  return context;
 };

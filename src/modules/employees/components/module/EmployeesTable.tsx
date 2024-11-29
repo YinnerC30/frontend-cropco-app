@@ -1,5 +1,5 @@
 import { DataTableTemplate } from '@/modules/core/components';
-import { useEmployeesModuleContext } from './EmployeesModuleContext';
+import { useEmployeesModuleContext } from '../../hooks';
 
 export const EmployeesTable = () => {
   const { table, lengthColumns, query, hasPermission, isPending } =

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Loading } from '../../core/components';
 import { useGetEmployee } from '../hooks/queries/useGetEmployee';
 import { MODULE_EMPLOYEE_PATHS } from '../routes/pathRoutes';
-import FormEmployee from './FormEmployee/FormEmployee';
+import FormEmployee from './form/FormEmployee';
 
 export const ViewEmployee = () => {
   const { id } = useParams();

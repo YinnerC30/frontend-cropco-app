@@ -5,7 +5,7 @@ import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 
 const EmployeesModule = lazy(
-  () => import('../components/EmployeesModule/EmployeesModule')
+  () => import('../components/module/EmployeesModule')
 );
 const CreateEmployee = lazy(() => import('../components/CreateEmployee'));
 const ViewEmployee = lazy(() => import('../components/ViewEmployee'));

@@ -1,12 +1,11 @@
-import { FormEmployeeAlert } from './FormEmployeeAlert';
 import { FormEmployeeButtons } from './FormEmployeeButtons';
 import { FormEmployeeProvider } from './FormEmployeeContext';
-import { FormEmployeeDetails } from './FormEmployeeDetails';
+import { FormEmployeeFields } from './FormEmployeeFields';
 import { FormEmployeeScrollArea } from './FormEmployeeScrollArea';
 
 export const FormEmployee = ({
   defaultValues,
-  
+
   isSubmitting = false,
   onSubmit,
   readOnly = false,
@@ -15,15 +14,13 @@ export const FormEmployee = ({
   return (
     <FormEmployeeProvider
       defaultValues={defaultValues}
-      
       isSubmitting={isSubmitting}
       onSubmit={onSubmit}
       readOnly={readOnly}
     >
       <div className="flex flex-col items-center">
         <FormEmployeeScrollArea>
-          <FormEmployeeAlert />
-          <FormEmployeeDetails />
+          <FormEmployeeFields />
         </FormEmployeeScrollArea>
         <FormEmployeeButtons />
       </div>

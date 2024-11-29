@@ -1,15 +1,21 @@
 import { useAuthContext } from '@/auth/hooks';
+import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
 import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import { useWindowSize } from 'react-use';
 import { useDeleteBulkEmployees, useGetAllEmployees } from '../../hooks';
 import { useGetCertificationEmployee } from '../../hooks/queries/useGetCertificationEmployee';
-import createColumnsTableEmployees from './createColumnsTableEmployees';
+import { EmployeesModuleActionsTable } from './EmployeesModuleActionsTable';
+import { columnsTableEmployees } from './columnsTableEmployees';
 
-const EmployeesModuleContext = createContext<any>(null);
+export const EmployeesModuleContext = createContext<any>(null);
 
-export const EmployeesModuleProvider = ({ children }: any) => {
+export const EmployeesModuleProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const { value } = useBasicQueryData();
   const { width } = useWindowSize();
   const showActionsInFirstColumn = width < 1024;
@@ -21,9 +27,15 @@ export const EmployeesModuleProvider = ({ children }: any) => {
 
   const { hasPermission } = useAuthContext();
 
+  const columnsTable = createColumnsTable({
+    actionsInFirstColumn: showActionsInFirstColumn,
+    columns: columnsTableEmployees,
+    actions: EmployeesModuleActionsTable,
+  });
+
   const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
     useDataTable({
-      columns: createColumnsTableEmployees(showActionsInFirstColumn),
+      columns: columnsTable,
       data: query.data ?? [],
       rows:
         (hasPermission('employees', 'find_all_employees') &&
@@ -87,14 +99,4 @@ export const EmployeesModuleProvider = ({ children }: any) => {
       {children}
     </EmployeesModuleContext.Provider>
   );
-};
-
-export const useEmployeesModuleContext = () => {
-  const context = useContext(EmployeesModuleContext);
-  if (!context) {
-    throw new Error(
-      'useEmployeesModuleContext must be used within EmployeesModuleProvider'
-    );
-  }
-  return context;
 };

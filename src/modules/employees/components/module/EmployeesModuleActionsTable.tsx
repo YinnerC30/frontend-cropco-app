@@ -10,7 +10,7 @@ import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/D
 import { Row } from '@tanstack/react-table';
 import { useDeleteEmployee } from '../../hooks/mutations/useDeleteEmployee';
 import { ActionGetCertification } from './ActionGetCertification';
-import { useEmployeesModuleContext } from './EmployeesModuleContext';
+import { useEmployeesModuleContext } from '../../hooks';
 
 interface Props {
   row: Row<any>;

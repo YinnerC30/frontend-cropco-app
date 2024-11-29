@@ -1,10 +1,10 @@
-import { useFormEmployeeContext } from './FormEmployeeContext';
+import { useFormEmployeeContext } from '../../hooks';
 
 import { Form } from '@/components';
 import { FormFieldInput, FormFieldTextArea } from '@/modules/core/components';
 import { formFieldsEmployee } from '../../utils';
 
-export const FormEmployeeDetails = () => {
+export const FormEmployeeFields = () => {
   const { form, onSubmit, readOnly } = useFormEmployeeContext();
 
   return (
