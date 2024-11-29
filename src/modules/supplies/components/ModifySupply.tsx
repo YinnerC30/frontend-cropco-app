@@ -8,7 +8,7 @@ import { useGetSupply } from '../hooks';
 import { usePatchSupply } from '../hooks/mutations/usePatchSupply';
 import { MODULE_SUPPLIES_PATHS } from '../routes/pathRoutes';
 import { formSchemaSupply } from '../utils';
-import { FormSupply } from './FormSupply/FormSupply';
+import { FormSupply } from './form/FormSupply';
 
 export const ModifySupply = () => {
   const { id } = useParams();

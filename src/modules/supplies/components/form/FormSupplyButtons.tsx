@@ -1,9 +1,10 @@
 import { Button } from '@/components';
-import { useFormSupplyContext } from './FormSupplyContext';
+import { useFormSupplyContext } from '../../hooks';
 import { ButtonsForm } from '@/modules/core/components';
 
 export const FormSupplyButtons = () => {
-  const { readOnly, handleReturnToModule, isSubmitting } = useFormSupplyContext();
+  const { readOnly, handleReturnToModule, isSubmitting } =
+    useFormSupplyContext();
 
   return readOnly ? (
     <Button className="my-2" onClick={handleReturnToModule}>

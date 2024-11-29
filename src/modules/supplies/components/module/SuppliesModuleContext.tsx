@@ -1,14 +1,18 @@
 import { useAuthContext } from '@/auth/hooks';
 import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
 import { useWindowSize } from 'react-use';
 
-import { useGetAllSupplies } from '../../hooks/queries/useGetAllSupplies';
-import createColumnsTableSupplies from './createColumnsTableSupplies';
+import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
 import { useDeleteBulkSupplies } from '../../hooks/mutations/useDeleteBulkSupplies';
+import { useGetAllSupplies } from '../../hooks/queries/useGetAllSupplies';
+import {
+  columnsTableSupplies,
+} from './columnsTableSupplies';
+import { SuppliesModuleActionsTable } from './SuppliesModuleActionsTable';
 
-const SuppliesModuleContext = createContext<any>(null);
+export const SuppliesModuleContext = createContext<any>(null);
 
 export const SuppliesModuleProvider = ({ children }: any) => {
   const { value } = useBasicQueryData();
@@ -22,9 +26,15 @@ export const SuppliesModuleProvider = ({ children }: any) => {
 
   const { hasPermission } = useAuthContext();
 
+  const columnsTable = createColumnsTable({
+    actionsInFirstColumn: showActionsInFirstColumn,
+    columns: columnsTableSupplies,
+    actions: SuppliesModuleActionsTable,
+  });
+
   const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
     useDataTable({
-      columns: createColumnsTableSupplies(showActionsInFirstColumn),
+      columns: columnsTable,
       data: query.data ?? [],
       rows:
         (hasPermission('supplies', 'find_all_supplies') && query.data?.rows) ??
@@ -68,14 +78,4 @@ export const SuppliesModuleProvider = ({ children }: any) => {
       {children}
     </SuppliesModuleContext.Provider>
   );
-};
-
-export const useSuppliesModuleContext = () => {
-  const context = useContext(SuppliesModuleContext);
-  if (!context) {
-    throw new Error(
-      'useSuppliesModuleContext must be used within SuppliesModuleProvider'
-    );
-  }
-  return context;
 };

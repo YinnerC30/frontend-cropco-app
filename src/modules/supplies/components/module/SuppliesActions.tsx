@@ -5,7 +5,7 @@ import {
   ButtonRefetchData,
 } from '@/modules/core/components';
 
-import { useSuppliesModuleContext } from './SuppliesModuleContext';
+import { useSuppliesModuleContext } from '../../hooks';
 import { MODULE_SUPPLIES_PATHS } from '../../routes/pathRoutes';
 
 export const SuppliesActions = () => {

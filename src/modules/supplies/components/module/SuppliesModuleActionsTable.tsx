@@ -8,7 +8,7 @@ import {
 } from '@/modules/core/components';
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
-import { useSuppliesModuleContext } from './SuppliesModuleContext';
+import { useSuppliesModuleContext } from '../../hooks';
 import { useDeleteSupply } from '../../hooks';
 
 interface Props {

@@ -3,7 +3,7 @@ import { BreadCrumb } from '@/modules/core/components/';
 import { useParams } from 'react-router-dom';
 import { useGetSupply } from '../hooks/';
 import { MODULE_SUPPLIES_PATHS } from '../routes/pathRoutes';
-import { FormSupply } from './FormSupply/FormSupply';
+import { FormSupply } from './form/FormSupply';
 
 export const ViewSupply = () => {
   const { id } = useParams();

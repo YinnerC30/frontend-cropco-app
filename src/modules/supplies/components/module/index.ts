@@ -1,4 +1,4 @@
-export * from './createColumnsTableSupplies';
+export * from './columnsTableSupplies';
 export * from './SuppliesActions';
 export * from './SuppliesBreadCrumb';
 export * from './SuppliesModule';

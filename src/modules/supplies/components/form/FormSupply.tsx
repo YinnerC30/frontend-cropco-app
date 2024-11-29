@@ -1,4 +1,4 @@
-import { FormSupplyAlert } from './FormSupplyAlert';
+import { FormProps } from '@/modules/core/interfaces';
 import { FormSupplyButtons } from './FormSupplyButtons';
 import { FormSupplyProvider } from './FormSupplyContext';
 import { FormSupplyFields } from './FormSupplyFields';
@@ -6,12 +6,10 @@ import { FormSupplyScrollArea } from './FormSupplyScrollArea';
 
 export const FormSupply = ({
   defaultValues,
-  hiddenPassword = false,
   isSubmitting = false,
   onSubmit,
   readOnly = false,
-}: any) => {
-  console.log(defaultValues);
+}: FormProps) => {
   return (
     <FormSupplyProvider
       defaultValues={defaultValues}
@@ -21,7 +19,6 @@ export const FormSupply = ({
     >
       <div className="flex flex-col items-center">
         <FormSupplyScrollArea>
-          <FormSupplyAlert />
           <FormSupplyFields />
         </FormSupplyScrollArea>
         <FormSupplyButtons />

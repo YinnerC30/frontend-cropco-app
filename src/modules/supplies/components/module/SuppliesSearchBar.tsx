@@ -1,5 +1,5 @@
 import { BasicSearchBar } from '@/modules/core/components';
-import { useSuppliesModuleContext } from './SuppliesModuleContext';
+import { useSuppliesModuleContext } from '../../hooks';
 
 export const SuppliesSearchBar = () => {
   const { value, hasPermission } = useSuppliesModuleContext();

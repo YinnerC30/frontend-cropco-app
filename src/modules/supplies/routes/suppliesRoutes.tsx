@@ -5,7 +5,7 @@ import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 
 const SuppliesModule = lazy(
-  () => import('../components/SuppliesModule/SuppliesModule')
+  () => import('../components/module/SuppliesModule')
 );
 const CreateSupply = lazy(() => import('../components/CreateSupply'));
 const ViewSupply = lazy(() => import('../components/ViewSupply'));

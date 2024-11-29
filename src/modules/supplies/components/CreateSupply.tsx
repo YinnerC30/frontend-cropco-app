@@ -4,7 +4,7 @@ import { BreadCrumb } from '@/modules/core/components/';
 import { usePostSupply } from '../hooks/mutations/usePostSupply';
 import { MODULE_SUPPLIES_PATHS } from '../routes/pathRoutes';
 import { formSchemaSupply } from '../utils';
-import { FormSupply } from './FormSupply/FormSupply';
+import { FormSupply } from './form/FormSupply';
 
 export const CreateSupply = () => {
   const { mutate, isPending } = usePostSupply();
