@@ -46,6 +46,7 @@ export * from './table/actions/ItemTemplate';
 export * from './table/actions/ItemViewRecord';
 export * from './table/ActionsTable';
 export * from './table/ButtonHeaderTable';
+export * from './table/CheckboxTable';
 export * from './table/ColumnHeader';
 export * from './table/ColumnToggle';
 

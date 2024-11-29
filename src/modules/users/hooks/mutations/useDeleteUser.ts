@@ -18,7 +18,7 @@ export const useDeleteUser = () => {
       toast.success(`Usuario eliminado`);
     },
     onError: (error: AxiosError) => {
-      const deleteError: AxiosError | any = error;
+      const deleteError: AxiosError = error;
 
       handleError({
         error: deleteError,

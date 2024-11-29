@@ -1,14 +1,20 @@
 import { useAuthContext } from '@/auth/hooks';
+import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
 import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { createContext } from 'react';
 import { useWindowSize } from 'react-use';
 import { useDeleteBulkUsers, useGetAllUsers } from '../../hooks';
-import createColumnsTableUsers from './createColumnsTableUsers';
+import { columnsTableUsers } from './columnsTableUsers';
+import { UsersModuleActionsTable } from './UsersModuleActionsTable';
 
 export const UsersModuleContext = createContext<any>(null);
 
-export const UsersModuleProvider = ({ children }: any) => {
+export const UsersModuleProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const { value } = useBasicQueryData();
   const { width } = useWindowSize();
 
@@ -20,17 +26,21 @@ export const UsersModuleProvider = ({ children }: any) => {
 
   const showActionsInFirstColumn = width < 1024;
 
+  const columnsTable = createColumnsTable({
+    actionsInFirstColumn: showActionsInFirstColumn,
+    columns: columnsTableUsers,
+    actions: UsersModuleActionsTable,
+  });
+
   const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
     useDataTable({
-      columns: createColumnsTableUsers(showActionsInFirstColumn),
+      columns: columnsTable,
       data: query.data ?? [],
       rows:
         (hasPermission('users', 'find_all_users') && query.data?.rows) ?? [],
       pagination,
       setPagination,
     });
-
-  
 
   const hasSelectedRecords = getIdsToRowsSelected().length > 0;
 
@@ -51,7 +61,6 @@ export const UsersModuleProvider = ({ children }: any) => {
     value,
     query,
     hasPermission,
-    showActionsInFirstColumn,
     table,
     lengthColumns,
     hasSelectedRecords,
@@ -68,5 +77,3 @@ export const UsersModuleProvider = ({ children }: any) => {
     </UsersModuleContext.Provider>
   );
 };
-
-

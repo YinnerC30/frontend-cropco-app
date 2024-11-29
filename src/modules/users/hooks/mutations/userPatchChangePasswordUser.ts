@@ -33,7 +33,7 @@ export function userPatchChangePasswordUser() {
       toast.success(`Contraseña cambiada`);
     },
     onError: (error: AxiosError) => {
-      const patchPasswordError: AxiosError | any = error;
+      const patchPasswordError: AxiosError = error;
       handleError({
         error: patchPasswordError as AxiosError,
         messageUnauthoraizedError:

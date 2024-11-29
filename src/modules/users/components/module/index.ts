@@ -1,4 +1,4 @@
-export * from './createColumnsTableUsers';
+export * from './columnsTableUsers';
 export * from './UsersActions';
 export * from './UsersBreadCrumb';
 export * from './UsersModule';

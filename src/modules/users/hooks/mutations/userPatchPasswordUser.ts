@@ -24,7 +24,7 @@ export function usePatchPasswordUser() {
       toast.success(`Contraseña restablecida`);
     },
     onError: (error: AxiosError) => {
-      const patchPasswordError: AxiosError | any = error;
+      const patchPasswordError: AxiosError = error;
 
       handleError({
         error: patchPasswordError as AxiosError,

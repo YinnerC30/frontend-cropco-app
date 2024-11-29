@@ -69,7 +69,7 @@ export function DialogChangePassword() {
     mutate({ id, ...values });
   };
 
-  const handleCloseDialog = (event: any) => {
+  const handleCloseDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (hasUnsavedChanges) {
       showToast({ skiptRedirection: true });

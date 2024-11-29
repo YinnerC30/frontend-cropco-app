@@ -1,8 +1,5 @@
-import {
-  useAuthContext,
-  useManageErrorApp,
-} from '@/auth/hooks';
-import { useAppSelector } from '@/redux/store';
+import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
+import { RootState, useAppSelector } from '@/redux/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -19,9 +16,9 @@ async function updateUser({ id, ...rest }: User): Promise<void> {
   return data;
 }
 
-export function usePatchUser(): any {
+export function usePatchUser() {
   const navigate = useNavigate();
-  const user = useAppSelector((state: any): any => state.authentication.user);
+  const user = useAppSelector((state: RootState) => state.authentication.user);
 
   const { updateUserActions } = useAuthContext();
   const { handleError } = useManageErrorApp();
@@ -44,7 +41,7 @@ export function usePatchUser(): any {
       navigate('../view/all');
     },
     onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
+      const updateError: AxiosError = error;
       handleError({
         error: updateError as AxiosError,
         messageUnauthoraizedError:

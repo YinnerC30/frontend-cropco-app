@@ -10,7 +10,7 @@ export * from './form/FormUserPermissionAction';
 export * from './form/FormUserScrollArea';
 export * from './ModifyUser';
 export * from './module/ActionResetPassword';
-export * from './module/createColumnsTableUsers';
+export * from './module/columnsTableUsers';
 export * from './module/UsersActions';
 export * from './module/UsersBreadCrumb';
 export * from './module/UsersModule';

@@ -23,10 +23,17 @@ import { Copy, KeyRound } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { DataResetPassword } from '../../hooks/mutations';
+import { UseMutationResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 interface Props {
   id: string;
-  mutation: any;
+  mutation: UseMutationResult<
+    DataResetPassword,
+    AxiosError<unknown, any>,
+    string,
+    unknown
+  >;
   disabled: boolean;
   email: string;
 }

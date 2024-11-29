@@ -6,9 +6,10 @@ import {
 import { RootState, useAppSelector } from '@/redux/store';
 import { useState } from 'react';
 import { UserAction } from '../components/form/FormUserPermissionAction';
+import { UserForm } from '../interfaces';
 import { formSchemaUser, formSchemaUserWithPassword } from '../utils';
 
-export const defaultValues = {
+export const defaultValues: UserForm = {
   first_name: 'demo',
   last_name: 'demo',
   email: 'demo@gmail.com',
@@ -23,7 +24,7 @@ export const defaultValues = {
 
 interface Props {
   hiddenPassword?: boolean;
-  formValues: any;
+  formValues: UserForm;
 }
 
 const areArraysEqual = (arr1: UserAction[], arr2: UserAction[]) => {
@@ -72,7 +73,7 @@ export const useUserForm = ({
 
   const updateActionsUserForm = (actions: UserAction[]) => {
     // Crear un Set inicial con los IDs actuales
-    const actionSet = new Set(
+    const actionSet: Set<string> = new Set(
       currentActions.map((action: UserAction) => action.id)
     );
 
@@ -86,7 +87,7 @@ export const useUserForm = ({
     });
 
     // Convertir el Set actualizado en el formato requerido
-    const arrayIds: any[] = Array.from(actionSet);
+    const arrayIds = Array.from(actionSet);
     const finalData = arrayIds.map((actionId: string) => ({ id: actionId }));
 
     // Comparar con las acciones iniciales para determinar si hubo cambios

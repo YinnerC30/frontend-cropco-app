@@ -23,7 +23,7 @@ export const useDeleteBulkUsers = () => {
       toast.success(`Usuarios eliminados`);
     },
     onError: (error: AxiosError) => {
-      const deleteError: AxiosError | any = error;
+      const deleteError: AxiosError = error;
       handleError({
         error: deleteError as AxiosError,
         messageUnauthoraizedError:

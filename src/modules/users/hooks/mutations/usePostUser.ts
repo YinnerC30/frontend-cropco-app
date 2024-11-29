@@ -34,7 +34,7 @@ export function usePostUser(): UseMutationResult<
       toast.success(`Usuario creado`);
     },
     onError: (error: AxiosError) => {
-      const createError: AxiosError | any = error;
+      const createError: AxiosError = error;
       handleError({
         error: createError as AxiosError,
         messageUnauthoraizedError: 'No tienes permiso para crear el usuario',
