@@ -6,7 +6,8 @@ import {
 } from '@/modules/core/components';
 
 import { MODULE_SUPPLIER_PATHS } from '../../routes/pathRoutes';
-import { useSuppliersModuleContext } from './SuppliersModuleContext';
+
+import { useSuppliersModuleContext } from '../../hooks';
 
 export const SuppliersActions = () => {
   const {

@@ -6,7 +6,7 @@ import { useAuthContext } from '@/auth/hooks';
 import { useSupplyForm } from '../../hooks/useSupplyForm';
 import { MODULE_SUPPLIES_PATHS } from '../../routes/pathRoutes';
 
-const FormSupplyContext = createContext<any>(null);
+export const FormSupplyContext = createContext<any>(null);
 
 export const FormSupplyProvider = ({
   children,

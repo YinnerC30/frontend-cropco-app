@@ -1,5 +1,5 @@
 import { Button } from '@/components';
-import { useFormSupplierContext } from './FormSupplierContext';
+import { useFormSupplierContext } from '../../hooks';
 import { ButtonsForm } from '@/modules/core/components';
 
 export const FormSupplierButtons = () => {

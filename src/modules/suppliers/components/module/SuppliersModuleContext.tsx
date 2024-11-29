@@ -1,14 +1,16 @@
 import { useAuthContext } from '@/auth/hooks/index.ts';
 import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
 import { useWindowSize } from 'react-use';
 
-import { useGetAllSuppliers } from '../../hooks/queries/useGetAllSuppliers';
-import createColumnsTableSuppliers from './createColumnsTableSuppliers';
+import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable.tsx';
 import { useDeleteBulkSuppliers } from '../../hooks/mutations/useDeleteBulkSuppliers.ts';
+import { useGetAllSuppliers } from '../../hooks/queries/useGetAllSuppliers';
+import { columnsTableSuppliers } from './columnsTableSuppliers.tsx';
+import { SuppliersModuleActionsTable } from './SuppliersModuleActionsTable.tsx';
 
-const SuppliersModuleContext = createContext<any>(null);
+export const SuppliersModuleContext = createContext<any>(null);
 
 export const SuppliersModuleProvider = ({ children }: any) => {
   const { value } = useBasicQueryData();
@@ -19,9 +21,14 @@ export const SuppliersModuleProvider = ({ children }: any) => {
 
   const { hasPermission } = useAuthContext();
 
+  const columnsTable = createColumnsTable({
+    actionsInFirstColumn: showActionsInFirstColumn,
+    columns: columnsTableSuppliers,
+    actions: SuppliersModuleActionsTable,
+  });
   const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
     useDataTable({
-      columns: createColumnsTableSuppliers(showActionsInFirstColumn),
+      columns: columnsTable,
       data: query.data ?? [],
       rows:
         (hasPermission('suppliers', 'find_all_suppliers') &&
@@ -68,12 +75,4 @@ export const SuppliersModuleProvider = ({ children }: any) => {
   );
 };
 
-export const useSuppliersModuleContext = () => {
-  const context = useContext(SuppliersModuleContext);
-  if (!context) {
-    throw new Error(
-      'useSuppliersModuleContext must be used within SuppliersModuleProvider'
-    );
-  }
-  return context;
-};
+

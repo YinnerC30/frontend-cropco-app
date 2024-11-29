@@ -1,4 +1,4 @@
-import { FormSupplierAlert } from './FormSupplierAlert';
+
 import { FormSupplierButtons } from './FormSupplierButtons';
 import { FormSupplierProvider } from './FormSupplierContext';
 import { FormSupplierFields } from './FormSupplierFields';
@@ -21,7 +21,7 @@ export const FormSupplier = ({
     >
       <div className="flex flex-col items-center">
         <FormSupplierScrollArea>
-          <FormSupplierAlert />
+          
           <FormSupplierFields />
         </FormSupplierScrollArea>
         <FormSupplierButtons />

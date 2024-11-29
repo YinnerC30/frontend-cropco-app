@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Loading } from '../../core/components';
 import { useGetSupplier } from '../hooks/queries/useGetSupplier';
 import { MODULE_SUPPLIER_PATHS } from '../routes/pathRoutes';
-import { FormSupplier } from './FormSupplier/FormSupplier';
+import { FormSupplier } from './form/FormSupplier';
 
 export const ViewSupplier = () => {
   const { id } = useParams();

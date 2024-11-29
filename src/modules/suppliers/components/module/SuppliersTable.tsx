@@ -1,5 +1,5 @@
 import { DataTableTemplate } from '@/modules/core/components';
-import { useSuppliersModuleContext } from './SuppliersModuleContext';
+import { useSuppliersModuleContext } from '../../hooks';
 
 export const SuppliersTable = () => {
   const { table, lengthColumns, query, hasPermission, isPending } =

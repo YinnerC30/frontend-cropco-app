@@ -9,7 +9,7 @@ import {
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
 import { useDeleteSupplier } from '../../hooks/mutations/useDeleteSupplier';
-import { useSuppliersModuleContext } from './SuppliersModuleContext';
+import { useSuppliersModuleContext } from '../../hooks';
 
 interface Props {
   row: Row<any>;

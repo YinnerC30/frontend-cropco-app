@@ -7,7 +7,7 @@ import { useAuthContext } from '@/auth/hooks';
 import { MODULE_SUPPLIER_PATHS } from '../../routes/pathRoutes';
 import { useSupplierForm } from '../../hooks';
 
-const FormSupplierContext = createContext<any>(null);
+export const FormSupplierContext = createContext<any>(null);
 
 export const FormSupplierProvider = ({
   children,
@@ -43,14 +43,4 @@ export const FormSupplierProvider = ({
       {children}
     </FormSupplierContext.Provider>
   );
-};
-
-export const useFormSupplierContext = () => {
-  const context = useContext(FormSupplierContext);
-  if (!context) {
-    throw new Error(
-      'useFormSupplierContext must be used within a FormSupplierProvider'
-    );
-  }
-  return context;
 };

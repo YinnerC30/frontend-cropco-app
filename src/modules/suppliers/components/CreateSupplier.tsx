@@ -5,7 +5,7 @@ import { usePostSupplier } from '../hooks/mutations/usePostSupplier';
 import { BreadCrumb } from '@/modules/core/components';
 import { MODULE_SUPPLIER_PATHS } from '../routes/pathRoutes';
 import { formSchemaSupplier } from '../utils/formSchemaSupplier';
-import { FormSupplier } from './FormSupplier/FormSupplier';
+import { FormSupplier } from './form/FormSupplier';
 
 export const CreateSupplier = () => {
   const { mutate, isPending } = usePostSupplier();
