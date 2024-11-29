@@ -2,7 +2,7 @@ import { Switch } from '@/components/ui/switch';
 import { CapitalizeFirstWord } from '@/auth/helpers';
 import { Action } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 
-import { useFormUserContext } from './FormUserContext';
+import { useFormUserContext } from '../../hooks';
 
 interface Props {
   action: Action;

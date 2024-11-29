@@ -1,6 +1,6 @@
 import { Button } from '@/components';
-import { useFormUserContext } from './FormUserContext';
 import { ButtonsForm } from '@/modules/core/components';
+import { useFormUserContext } from '../../hooks';
 
 export const FormUserButtons = () => {
   const { readOnly, handleReturnToModule, isSubmitting } = useFormUserContext();

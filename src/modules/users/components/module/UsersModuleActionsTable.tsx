@@ -11,7 +11,7 @@ import { Row } from '@tanstack/react-table';
 import { useDeleteUser } from '../../hooks';
 import { ActionResetPassword } from './ActionResetPassword';
 import { usePatchPasswordUser } from '../../hooks/mutations';
-import { useUsersModuleContext } from './UsersModuleContext';
+import { useUsersModuleContext } from '../../hooks';
 
 interface Props {
   row: Row<any>;

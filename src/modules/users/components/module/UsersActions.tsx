@@ -6,7 +6,7 @@ import {
 } from '@/modules/core/components';
 
 import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
-import { useUsersModuleContext } from './UsersModuleContext';
+import { useUsersModuleContext } from '../../hooks';
 
 export const UsersActions = () => {
   const {

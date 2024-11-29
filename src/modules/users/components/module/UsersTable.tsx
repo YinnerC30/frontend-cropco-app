@@ -1,5 +1,5 @@
 import { DataTableTemplate } from '@/modules/core/components';
-import { useUsersModuleContext } from './UsersModuleContext';
+import { useUsersModuleContext } from '../../hooks';
 
 export const UsersTable = () => {
   const { table, lengthColumns, query, hasPermission, isPending } =

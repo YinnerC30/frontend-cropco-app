@@ -1,10 +1,9 @@
 import { FormUserProps } from '../../interfaces/FormUserProps';
 import { FormUserButtons } from './FormUserButtons';
+import { FormUserProvider } from './FormUserContext';
 import { FormUserFields } from './FormUserFields';
 import { FormUserFieldsPermissions } from './FormUserFieldsPermissions';
 import { FormUserScrollArea } from './FormUserScrollArea';
-
-import { FormUserProvider } from './FormUserContext';
 
 export const FormUser = ({
   defaultValues,

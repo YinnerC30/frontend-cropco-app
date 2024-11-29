@@ -6,7 +6,7 @@ import {
   CardTitle,
   Separator,
 } from '@/components';
-import { useFormUserContext } from './FormUserContext';
+import { useFormUserContext } from '../../hooks';
 
 import { Module } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 import { FormUserPermissionAction } from './FormUserPermissionAction';

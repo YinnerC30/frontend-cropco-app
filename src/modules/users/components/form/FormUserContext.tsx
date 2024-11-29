@@ -1,11 +1,11 @@
-import React, { createContext, useContext } from 'react';
-import { useUserForm } from '../../hooks';
-import { useNavigate } from 'react-router-dom';
-import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
-import { FormUserProps } from '../../interfaces/FormUserProps';
 import { useAuthContext } from '@/auth/hooks';
+import React, { createContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useUserForm } from '../../hooks';
+import { FormUserProps } from '../../interfaces/FormUserProps';
+import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
 
-const FormUserContext = createContext<any>(null);
+export const FormUserContext = createContext<any>(null);
 
 export const FormUserProvider = ({
   children,
@@ -46,12 +46,4 @@ export const FormUserProvider = ({
   );
 };
 
-export const useFormUserContext = () => {
-  const context = useContext(FormUserContext);
-  if (!context) {
-    throw new Error(
-      'useFormUserContext must be used within a FormUserProvider'
-    );
-  }
-  return context;
-};
+

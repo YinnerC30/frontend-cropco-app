@@ -1,12 +1,12 @@
 import { useAuthContext } from '@/auth/hooks';
 import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
 import { useWindowSize } from 'react-use';
 import { useDeleteBulkUsers, useGetAllUsers } from '../../hooks';
 import createColumnsTableUsers from './createColumnsTableUsers';
 
-const UsersModuleContext = createContext<any>(null);
+export const UsersModuleContext = createContext<any>(null);
 
 export const UsersModuleProvider = ({ children }: any) => {
   const { value } = useBasicQueryData();
@@ -69,12 +69,4 @@ export const UsersModuleProvider = ({ children }: any) => {
   );
 };
 
-export const useUsersModuleContext = () => {
-  const context = useContext(UsersModuleContext);
-  if (!context) {
-    throw new Error(
-      'useUsersModuleContext must be used within UsersModuleProvider'
-    );
-  }
-  return context;
-};
+
