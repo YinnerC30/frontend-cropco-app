@@ -1,4 +1,4 @@
-export * from './createColumnsTableClients';
+export * from './columnsTableClients';
 export * from './ClientsActions';
 export * from './ClientsBreadCrumb';
 export * from './ClientsModule';

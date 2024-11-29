@@ -1,5 +1,5 @@
 import { BasicSearchBar } from '@/modules/core/components';
-import { useCropsModuleContext } from './CropsModuleContext';
+import { useCropsModuleContext } from '../../hooks';
 
 
 export const CropsSearchBar = () => {

@@ -6,7 +6,7 @@ import {
 } from '@/modules/core/components';
 
 import { MODULE_CROPS_PATHS } from '../../routes/pathRoutes';
-import { useCropsModuleContext } from './CropsModuleContext';
+import { useCropsModuleContext } from '../../hooks';
 
 export const CropsActions = () => {
   const {

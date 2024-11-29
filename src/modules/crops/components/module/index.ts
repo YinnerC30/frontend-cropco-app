@@ -1,5 +1,4 @@
-export * from './ActionGetCertification';
-export * from './createColumnsTableCrops';
+export * from './columnsTableCrops';
 export * from './CropsActions';
 export * from './CropsBreadCrumb';
 export * from './CropsModule';

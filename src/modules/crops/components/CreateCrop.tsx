@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { BreadCrumb } from '../../core/components/';
 import { MODULE_CROPS_PATHS } from '../routes/pathRoutes';
 import { formSchemaCrop } from '../utils';
-import { FormCrop } from './FormCrop/FormCrop';
+import { FormCrop } from './form/FormCrop';
 import { usePostCrop } from '../hooks';
 
 export const CreateCrop = () => {

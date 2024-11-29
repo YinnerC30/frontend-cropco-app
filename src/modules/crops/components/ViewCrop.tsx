@@ -5,7 +5,7 @@ import { Loading } from '../../core/components';
 import { BreadCrumb } from '@/modules/core/components/';
 import { useGetCrop } from '../hooks/queries/useGetCrop';
 import { MODULE_CROPS_PATHS } from '../routes/pathRoutes';
-import { FormCrop } from './FormCrop/FormCrop';
+import { FormCrop } from './form/FormCrop';
 
 export const ViewCrop = () => {
   const { id } = useParams();

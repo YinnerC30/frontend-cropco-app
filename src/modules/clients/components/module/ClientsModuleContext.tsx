@@ -1,12 +1,14 @@
 import { useAuthContext } from '@/auth/hooks';
 import { useDataTable } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
 import { useWindowSize } from 'react-use';
 
-import { useGetAllClients } from '../../hooks/queries/useGetAllClients';
-import createColumnsTableClients from './createColumnsTableClients';
+import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
 import { useDeleteBulkClients } from '../../hooks/mutations/useDeleteBulkClients';
+import { useGetAllClients } from '../../hooks/queries/useGetAllClients';
+import { ClientsModuleActionsTable } from './ClientsModuleActionsTable';
+import { columnsTableClients } from './columnsTableClients';
 
 export const ClientsModuleContext = createContext<any>(null);
 
@@ -19,9 +21,15 @@ export const ClientsModuleProvider = ({ children }: any) => {
 
   const { hasPermission } = useAuthContext();
 
+  const columnsTable = createColumnsTable({
+    actionsInFirstColumn: showActionsInFirstColumn,
+    columns: columnsTableClients,
+    actions: ClientsModuleActionsTable,
+  });
+
   const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
     useDataTable({
-      columns: createColumnsTableClients(showActionsInFirstColumn),
+      columns: columnsTable,
       data: query.data ?? [],
       rows:
         (hasPermission('clients', 'find_all_clients') && query.data?.rows) ??
@@ -66,4 +74,3 @@ export const ClientsModuleProvider = ({ children }: any) => {
     </ClientsModuleContext.Provider>
   );
 };
-

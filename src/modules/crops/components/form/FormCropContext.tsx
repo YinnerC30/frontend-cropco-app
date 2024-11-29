@@ -6,7 +6,7 @@ import { useAuthContext } from '@/auth/hooks';
 import { useCropForm } from '../../hooks/useCropForm';
 import { MODULE_CROPS_PATHS } from '../../routes/pathRoutes';
 
-const FormCropContext = createContext<any>(null);
+export const FormCropContext = createContext<any>(null);
 
 export const FormCropProvider = ({
   children,
@@ -42,14 +42,4 @@ export const FormCropProvider = ({
       {children}
     </FormCropContext.Provider>
   );
-};
-
-export const useFormCropContext = () => {
-  const context = useContext(FormCropContext);
-  if (!context) {
-    throw new Error(
-      'useFormCropContext must be used within a FormCropProvider'
-    );
-  }
-  return context;
 };

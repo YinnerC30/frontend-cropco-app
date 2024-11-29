@@ -1,4 +1,4 @@
-import { useFormCropContext } from './FormCropContext';
+import { useFormCropContext } from '../../hooks';
 
 import { Form } from '@/components';
 import {
@@ -8,7 +8,7 @@ import {
 } from '@/modules/core/components';
 import { formFieldsCrop } from '../../utils';
 
-export const FormCropDetails = () => {
+export const FormCropFields = () => {
   const { form, onSubmit, readOnly } = useFormCropContext();
 
   return (

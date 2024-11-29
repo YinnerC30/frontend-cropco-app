@@ -4,10 +4,13 @@ import { useBasicQueryData } from '@/modules/core/hooks/';
 import { createContext, useContext } from 'react';
 import { useWindowSize } from 'react-use';
 import { useGetAllCrops } from '../../hooks/queries/useGetAllCrops';
-import createColumnsTableCrops from './createColumnsTableCrops';
-import { useDeleteBulkCrops } from '../../hooks/mutations/useDeleteBulkCrops';
 
-const CropsModuleContext = createContext<any>(null);
+import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
+import { useDeleteBulkCrops } from '../../hooks/mutations/useDeleteBulkCrops';
+import { columnsTableCrops } from './columnsTableCrops';
+import { CropsModuleActionsTable } from './CropsModuleActionsTable';
+
+export const CropsModuleContext = createContext<any>(null);
 
 export const CropsModuleProvider = ({ children }: any) => {
   const { value } = useBasicQueryData();
@@ -21,9 +24,15 @@ export const CropsModuleProvider = ({ children }: any) => {
 
   const { hasPermission } = useAuthContext();
 
+  const columnsTable = createColumnsTable({
+    actionsInFirstColumn: showActionsInFirstColumn,
+    columns: columnsTableCrops,
+    actions: CropsModuleActionsTable,
+  });
+
   const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
     useDataTable({
-      columns: createColumnsTableCrops(showActionsInFirstColumn),
+      columns: columnsTable,
       data: query.data ?? [],
       rows:
         (hasPermission('crops', 'find_all_crops') && query.data?.rows) ?? [],
@@ -68,12 +77,4 @@ export const CropsModuleProvider = ({ children }: any) => {
   );
 };
 
-export const useCropsModuleContext = () => {
-  const context = useContext(CropsModuleContext);
-  if (!context) {
-    throw new Error(
-      'useCropsModuleContext must be used within CropsModuleProvider'
-    );
-  }
-  return context;
-};
+

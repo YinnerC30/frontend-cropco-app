@@ -1,6 +1,5 @@
 import { DataTableTemplate } from '@/modules/core/components';
-import { useCropsModuleContext } from './CropsModuleContext';
-
+import { useCropsModuleContext } from '../../hooks';
 
 export const CropsTable = () => {
   const { table, lengthColumns, query, hasPermission, isPending } =

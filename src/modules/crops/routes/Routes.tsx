@@ -4,7 +4,7 @@ import { RouteConfig } from '@/routes/interfaces/RouteConfig';
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 
-const CropsModule = lazy(() => import('../components/CropsModule/CropsModule'));
+const CropsModule = lazy(() => import('../components/module/CropsModule'));
 const CreateCrop = lazy(() => import('../components/CreateCrop'));
 const ViewCrop = lazy(() => import('../components/ViewCrop'));
 const ModifyCrop = lazy(() => import('../components/ModifyCrop'));
