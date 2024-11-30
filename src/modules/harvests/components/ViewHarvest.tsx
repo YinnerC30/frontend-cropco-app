@@ -5,7 +5,7 @@ import { BreadCrumb } from "@/modules/core/components/";
 import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
 import { useParams } from "react-router-dom";
 import { ErrorLoading, Loading } from "../../core/components";
-import { useGetHarvest } from "../hooks/useGetHarvest";
+import { useGetHarvest } from "../hooks/queries/useGetHarvest";
 import { FormHarvest } from "./forms/FormHarvest";
 
 export const ViewHarvest = () => {

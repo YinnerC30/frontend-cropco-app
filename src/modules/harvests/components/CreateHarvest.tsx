@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { BreadCrumb } from "@/modules/core/components/";
-import { usePostHarvest } from "../hooks/usePostHarvest";
+import { usePostHarvest } from "../hooks/mutations/usePostHarvest";
 import { HarvestDetail } from "../interfaces/HarvestDetail";
 import { formSchemaHarvest } from "../utils";
 import { reset } from "../utils/harvestSlice";

@@ -12,6 +12,7 @@ import ErrorPage from '@/routes/components/ErrorPage';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { HomeLayout } from '../components/home/HomeLayout';
 import { RoutesController } from './components';
+import { harvestRoutes } from '@/modules/harvests/routes/Routes';
 
 export const Router = createBrowserRouter([
   {
@@ -45,7 +46,7 @@ export const Router = createBrowserRouter([
           cropRoutes,
           supplierRoutes,
           supplyRoutes,
-          // harvestRoutes,
+          harvestRoutes,
           // saleRoutes,
           // workRoutes,
           // paymentsRoutes,

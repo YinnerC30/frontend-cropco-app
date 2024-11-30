@@ -1,6 +1,9 @@
+
+import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
+import { MinorOrMajorSelection } from "@/modules/core/interfaces/general/MinorOrMajorSelection";
 import { z } from "zod";
-import { DateTimeSelection } from "../../core/interfaces/general/DateTimeSelection";
-import { MinorOrMajorSelection } from "../../core/interfaces/general/MinorOrMajorSelection";
+
+
 
 export const formSchemaSearchBarHarvest = z.object({
   crop: z

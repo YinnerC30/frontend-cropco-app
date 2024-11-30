@@ -5,6 +5,7 @@ import {
   Leaf,
   Monitor,
   PillIcon,
+  Tractor,
   User,
 } from 'lucide-react';
 
@@ -58,12 +59,12 @@ export const routes: Route[] = [
     Icon: <PillIcon />,
     name_module: 'supplies',
   },
-  // {
-  //   label: 'Cosechas',
-  //   path: 'harvests/view/all',
-  //   Icon: <Tractor />,
-  //   name_module: 'harvests',
-  // },
+  {
+    label: 'Cosechas',
+    path: 'harvests/view/all',
+    Icon: <Tractor />,
+    name_module: 'harvests',
+  },
   // {
   //   label: 'Ventas',
   //   path: 'sales/view/all',

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { usePostHarvestProcessed } from "../hooks/usePostHarvestProcessed";
+import { usePostHarvestProcessed } from "../hooks/mutations/usePostHarvestProcessed";
 import { CreateFormSchemaHarvestProcessed } from "../utils/formSchemaHarvestProcessed";
 import { FormHarvestProcessed } from "./forms/FormHarvestProcessed";
 

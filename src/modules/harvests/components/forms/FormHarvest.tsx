@@ -1,28 +1,28 @@
-import { Badge, Button, Separator } from "@/components";
-import { Form } from "@/components/ui/form";
-import { ErrorLoading, Loading } from "@/modules/core/components";
-import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
-import { FormFieldCalendar } from "@/modules/core/components/form/fields/FormFieldCalendar";
-import { FormFieldCommand } from "@/modules/core/components/form/fields/FormFieldCommand";
-import { FormFieldDataTable } from "@/modules/core/components/form/fields/FormFieldDataTable";
-import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
-import { FormFieldTextArea } from "@/modules/core/components/form/fields/FormFieldTextArea";
-import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
-import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
-import { FormatNumber } from "@/modules/core/helpers/formatting/FormatNumber";
-import { FormProps } from "@/modules/core/interfaces/form/FormProps";
-import { AppDispatch, useAppDispatch } from "@/redux/store";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useHarvestForm } from "../../hooks/useHarvestForm";
-import { formFieldsHarvest } from "../../utils";
-import { add, calculateTotal, reset } from "../../utils/harvestSlice";
+import { Badge, Button, Separator } from '@/components';
+import { Form } from '@/components/ui/form';
+import { ButtonsForm, ErrorLoading, Loading } from '@/modules/core/components';
+
+import { FormFieldCalendar } from '@/modules/core/components/form/fields/FormFieldCalendar';
+import { FormFieldCommand } from '@/modules/core/components/form/fields/FormFieldCommand';
+import { FormFieldDataTable } from '@/modules/core/components/form/fields/FormFieldDataTable';
+import { FormFieldInput } from '@/modules/core/components/form/fields/FormFieldInput';
+import { FormFieldTextArea } from '@/modules/core/components/form/fields/FormFieldTextArea';
+import { DataTableForm } from '@/modules/core/components/table/DataTableForm';
+import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
+import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
+import { FormProps } from '@/modules/core/interfaces/form/FormProps';
+import { AppDispatch, useAppDispatch } from '@/redux/store';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useHarvestForm } from '../../hooks/useHarvestForm';
+import { formFieldsHarvest } from '../../utils';
+import { add, calculateTotal, reset } from '../../utils/harvestSlice';
 import {
   columnsHarvestDetail,
   columnsHarvestDetailActions,
-} from "../columns/ColumnsTableHarvestDetail";
-import { CreateHarvestDetail } from "../CreateHarvestDetail";
-import { ModifyHarvestDetail } from "../ModifyHarvestDetail";
+} from '../columns/ColumnsTableHarvestDetail';
+import { CreateHarvestDetail } from '../CreateHarvestDetail';
+import { ModifyHarvestDetail } from '../ModifyHarvestDetail';
 
 export const FormHarvest = ({
   onSubmit,
@@ -70,7 +70,7 @@ export const FormHarvest = ({
   }, [total, value_pay]);
 
   useEffect(() => {
-    form.setValue("details", details);
+    form.setValue('details', details);
   }, [details]);
 
   if (queryCrops.isLoading) {
@@ -93,7 +93,7 @@ export const FormHarvest = ({
           control={form.control}
           description={formFieldsHarvest.date.description}
           label={formFieldsHarvest.date.label}
-          name={"date"}
+          name={'date'}
           placeholder={formFieldsHarvest.date.placeholder}
           readOnly={readOnly}
         />
@@ -102,11 +102,11 @@ export const FormHarvest = ({
           setOpenPopover={setOpenPopoverCrop}
           data={queryCrops?.data?.rows || []}
           form={form}
-          nameToShow={"name"}
+          nameToShow={'name'}
           control={form.control}
           description={formFieldsHarvest.crop.description}
           label={formFieldsHarvest.crop.label}
-          name={"crop.id"}
+          name={'crop.id'}
           placeholder={formFieldsHarvest.crop.placeholder}
           readOnly={readOnly}
         />
@@ -114,7 +114,7 @@ export const FormHarvest = ({
           control={form.control}
           description={formFieldsHarvest.observation.description}
           label={formFieldsHarvest.observation.label}
-          name={"observation"}
+          name={'observation'}
           placeholder={formFieldsHarvest.observation.placeholder}
           readOnly={readOnly}
         />
@@ -124,15 +124,15 @@ export const FormHarvest = ({
 
       <FormFieldDataTable
         control={form.control}
-        description={""}
+        description={''}
         label={formFieldsHarvest.details.label}
-        name={"details"}
-        placeholder={""}
+        name={'details'}
+        placeholder={''}
         readOnly={readOnly}
       >
         <Button
           onClick={() => setIsOpenDialogForm(true)}
-          className={`block my-2 ml-1 ${readOnly && "hidden"}`}
+          className={`block my-2 ml-1 ${readOnly && 'hidden'}`}
           disabled={readOnly}
         >
           Añadir
@@ -145,8 +145,8 @@ export const FormHarvest = ({
           }
           setRecord={!readOnly && setHarvestDetail}
           sideEffect={!readOnly && setIsOpenDialogModifyForm}
-          nameColumnToFilter={"employee_first_name"}
-          placeholderInputToFilter={"Buscar empleado por nombre..."}
+          nameColumnToFilter={'employee_first_name'}
+          placeholderInputToFilter={'Buscar empleado por nombre...'}
         />
       </FormFieldDataTable>
 
@@ -168,14 +168,14 @@ export const FormHarvest = ({
         control={form.control}
         description={formFieldsHarvest.total.description}
         label={formFieldsHarvest.total.label}
-        name={"total"}
+        name={'total'}
         placeholder={formFieldsHarvest.total.placeholder}
         readOnly={true}
         type="number"
       >
         <Badge
           className="block h-8 text-base text-center w-28"
-          variant={"cyan"}
+          variant={'cyan'}
         >
           {FormatNumber(total)}
         </Badge>
@@ -186,14 +186,14 @@ export const FormHarvest = ({
         control={form.control}
         description={formFieldsHarvest.value_pay.description}
         label={formFieldsHarvest.value_pay.label}
-        name={"value_pay"}
+        name={'value_pay'}
         placeholder={formFieldsHarvest.value_pay.placeholder}
         readOnly={true}
         type="number"
       >
         <Badge
           className="block h-8 text-base text-center w-28"
-          variant={"indigo"}
+          variant={'indigo'}
         >
           {FormatMoneyValue(value_pay)}
         </Badge>
@@ -204,8 +204,8 @@ export const FormHarvest = ({
       {!readOnly && (
         <ButtonsForm
           isPending={isPending ?? false}
-          formId={"formHarvest"}
-          className={"flex w-48 gap-2 mt-2"}
+          formId={'formHarvest'}
+          className={'flex w-48 gap-2 mt-2'}
         />
       )}
 

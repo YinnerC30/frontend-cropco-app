@@ -1,20 +1,23 @@
-import { Button, Form, Label, Separator } from "@/components";
-import { FormFieldCalendar } from "@/modules/core/components/form/fields/FormFieldCalendar";
-import { FormFieldCommand } from "@/modules/core/components/form/fields/FormFieldCommand";
-import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
-import { FormFieldSelect } from "@/modules/core/components/form/fields/FormFieldSelect";
-import { FormFieldSwitch } from "@/modules/core/components/form/fields/FormFieldSwitch";
-import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
-import { useGetAllCropsWithHarvest } from "@/modules/crops/hooks/queries/useGetAllCropsWithHarvest";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
-import { z } from "zod";
+import { Button, Form, Label, Separator } from '@/components';
+import { FormFieldCalendar } from '@/modules/core/components/form/fields/FormFieldCalendar';
+import { FormFieldCommand } from '@/modules/core/components/form/fields/FormFieldCommand';
+import { FormFieldInput } from '@/modules/core/components/form/fields/FormFieldInput';
+import { FormFieldSelect } from '@/modules/core/components/form/fields/FormFieldSelect';
+import { FormFieldSwitch } from '@/modules/core/components/form/fields/FormFieldSwitch';
+import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
+import { useGetAllCropsWithHarvest } from '@/modules/crops/hooks/queries/useGetAllCropsWithHarvest';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { z } from 'zod';
 
-import { formSchemaSearchBarHarvest } from "../utils/formSchemaSearchBarHarvest";
-import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
-import { MinorOrMajorSelection } from "@/modules/core/interfaces/general/MinorOrMajorSelection";
-import { formFieldsSearchBarHarvest } from "../utils/formFieldsSearchBarHarvest";
+import { formSchemaSearchBarHarvest } from '../utils/formSchemaSearchBarHarvest';
+
+import { formFieldsSearchBarHarvest } from '../utils/formFieldsSearchBarHarvest';
+import {
+  DateTimeSelection,
+  MinorOrMajorSelection,
+} from '@/modules/core/interfaces';
 
 interface Props {
   crop?: string;
@@ -52,7 +55,7 @@ export const SearchBarHarvest = ({
   const [openPopover, setOpenPopover] = useState(false);
 
   const { query: queryCrops } = useGetAllCropsWithHarvest({
-    searchParameter: "",
+    searchParameter: '',
     allRecords: true,
   });
 
@@ -62,18 +65,18 @@ export const SearchBarHarvest = ({
   });
 
   useEffect(() => {
-    form.setValue("crop.id", crop);
-    form.setValue("filter_by_date", !!date);
-    form.setValue("date_time_selection", time_date);
-    form.setValue("date", !!date ? new Date(date) : undefined);
+    form.setValue('crop.id', crop);
+    form.setValue('filter_by_date', !!date);
+    form.setValue('date_time_selection', time_date);
+    form.setValue('date', !!date ? new Date(date) : undefined);
 
-    form.setValue("filter_by_total", !!total);
-    form.setValue("minor_or_major_selection", type_total);
-    form.setValue("total", total);
+    form.setValue('filter_by_total', !!total);
+    form.setValue('minor_or_major_selection', type_total);
+    form.setValue('total', total);
 
-    form.setValue("filter_by_value_pay", !!value_pay);
-    form.setValue("minor_or_major_value_pay_selection", type_value_pay);
-    form.setValue("value_pay", value_pay);
+    form.setValue('filter_by_value_pay', !!value_pay);
+    form.setValue('minor_or_major_value_pay_selection', type_value_pay);
+    form.setValue('value_pay', value_pay);
   }, []);
 
   const onSubmit = async (
@@ -81,21 +84,21 @@ export const SearchBarHarvest = ({
   ) => {
     const params = new URLSearchParams();
     if (values.crop?.id) {
-      params.append("crop", values.crop.id);
+      params.append('crop', values.crop.id);
     }
     if (values.filter_by_date && values.date) {
       const dateParam =
         values.date_time_selection === DateTimeSelection.after
-          ? "after_date"
-          : "before_date";
+          ? 'after_date'
+          : 'before_date';
       params.append(dateParam, values.date.toISOString());
     }
 
     if (values.filter_by_total && values.total) {
       const totalParam =
         values.minor_or_major_selection === MinorOrMajorSelection.MINOR
-          ? "minor_total"
-          : "major_total";
+          ? 'minor_total'
+          : 'major_total';
       params.append(totalParam, values.total.toString());
     }
 
@@ -103,8 +106,8 @@ export const SearchBarHarvest = ({
       const valuePayParam =
         values.minor_or_major_value_pay_selection ===
         MinorOrMajorSelection.MINOR
-          ? "minor_value_pay"
-          : "major_value_pay";
+          ? 'minor_value_pay'
+          : 'major_value_pay';
       params.append(valuePayParam, values.value_pay.toString());
     }
     navigate(`?${params.toString()}`);
@@ -112,13 +115,13 @@ export const SearchBarHarvest = ({
 
   const handleReset = () => {
     form.reset(defaultValues);
-    navigate("/harvests/view/all");
-    toast.success("Se han limpiado los filtros");
+    navigate('/harvests/view/all');
+    toast.success('Se han limpiado los filtros');
   };
 
-  const isFilterByDate = form.watch("filter_by_date");
-  const isFilterByTotal = form.watch("filter_by_total");
-  const isFilterByValuePay = form.watch("filter_by_value_pay");
+  const isFilterByDate = form.watch('filter_by_date');
+  const isFilterByTotal = form.watch('filter_by_total');
+  const isFilterByValuePay = form.watch('filter_by_value_pay');
 
   return (
     <Form {...form}>
@@ -137,7 +140,7 @@ export const SearchBarHarvest = ({
           form={form}
           nameToShow="name"
           control={form.control}
-          description={""}
+          description={''}
           label={formFieldsSearchBarHarvest.crop.label}
           name="crop.id"
           placeholder={formFieldsSearchBarHarvest.crop.placeholder}
@@ -147,7 +150,7 @@ export const SearchBarHarvest = ({
           <div className="p-3 border rounded-lg shadow-sm w-[320px]">
             <FormFieldSwitch
               control={form.control}
-              description={""}
+              description={''}
               label={formFieldsSearchBarHarvest.filter_by_date.label}
               name="filter_by_date"
               placeholder={
@@ -186,7 +189,7 @@ export const SearchBarHarvest = ({
           <div className="p-3 border rounded-lg shadow-sm w-[320px]">
             <FormFieldSwitch
               control={form.control}
-              description={""}
+              description={''}
               label={formFieldsSearchBarHarvest.filter_by_total.label}
               name="filter_by_total"
               placeholder={
@@ -233,7 +236,7 @@ export const SearchBarHarvest = ({
           <div className="p-3 border rounded-lg shadow-sm w-[320px]">
             <FormFieldSwitch
               control={form.control}
-              description={""}
+              description={''}
               label={formFieldsSearchBarHarvest.filter_by_value_pay.label}
               name="filter_by_value_pay"
               placeholder={

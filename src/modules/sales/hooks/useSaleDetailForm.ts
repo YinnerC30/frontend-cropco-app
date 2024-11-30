@@ -2,7 +2,7 @@ import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { formSchemaSaleDetail } from "../utils/formSchemaSaleDetail";
 
 import { useGetAllClients } from "@/modules/clients/hooks/queries/useGetAllClients";
-import { useGetAllHarvestsStock } from "@/modules/harvests/hooks/useGetAllHarvestsStock";
+import { useGetAllHarvestsStock } from "@/modules/harvests/hooks/queries/useGetAllHarvestsStock";
 import { useAppSelector } from "@/redux/store";
 import { useState } from "react";
 

@@ -1,21 +1,23 @@
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { BreadCrumb } from '@/modules/core/components/';
+import {
+  BreadCrumb,
+  ButtonCreateRecord,
+  DataTableTemplate,
+} from '@/modules/core/components/';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
-import {
-  DataTable,
-  ErrorLoading,
-  Loading,
-  ToolTipTemplate,
-} from '../../core/components';
-import { DateTimeSelection } from '../../core/interfaces/general/DateTimeSelection';
-import { MinorOrMajorSelection } from '../../core/interfaces/general/MinorOrMajorSelection';
-import { useGetAllHarvests } from '../hooks/useGetAllHarvests';
-import columnsHarvest from './columns/ColumnsTableHarvest';
+import { ErrorLoading, Loading, ToolTipTemplate } from '../../core/components';
+
+import { useGetAllHarvests } from '../hooks/queries/useGetAllHarvests';
 import { SearchBarHarvest } from './SearchBarHarvest';
+import { DateTimeSelection } from '@/modules/core/interfaces/general/DateTimeSelection';
+import { MinorOrMajorSelection } from '@/modules/core/interfaces/general/MinorOrMajorSelection';
+import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
+import columnsHarvest from './columns/ColumnsTableHarvest';
+import { useDataTable } from '@/modules/core/hooks';
 
 export const HarvestModule = () => {
   const navigate = useNavigate();
@@ -47,6 +49,21 @@ export const HarvestModule = () => {
     minor_value_pay: minor_value_pay_value,
     major_value_pay: major_value_pay_value,
   });
+
+  const columnsTable = createColumnsTable({
+    actionsInFirstColumn: true,
+    columns: columnsHarvest,
+    actions: [],
+  });
+
+  const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
+    useDataTable({
+      columns: columnsTable,
+      data: query.data ?? [],
+      rows: query.data?.rows ?? [],
+      pagination,
+      setPagination,
+    });
 
   useEffect(() => {
     if (query.isSuccess) {
@@ -112,22 +129,16 @@ export const HarvestModule = () => {
           </div>
           <div>
             <div className="flex  justify-end  gap-2 w-[700px] p-1">
-              <ToolTipTemplate content="Crear">
-                <Button
-                  className="bg-blue-600 rounded-full hover:bg-blue-400"
-                  onClick={() => navigate('../create')}
-                >
-                  <PlusIcon className="w-4 h-4 mr-2" /> Crear
-                </Button>
-              </ToolTipTemplate>
+              <ButtonCreateRecord route={'../create/one'} />
             </div>
             <div className="w-[700px]">
-              <DataTable
-                columns={columnsHarvest}
-                rows={query.data?.rows ?? 0}
-                data={query.data}
-                pagination={pagination}
-                setPagination={setPagination}
+              <DataTableTemplate
+                table={table}
+                disabledDoubleClick={false}
+                errorMessage={'No se'}
+                lengthColumns={lengthColumns}
+                rowCount={query.data?.rowCount ?? 0}
+                isLoading={query.isLoading || query.isRefetching}
               />
             </div>
           </div>

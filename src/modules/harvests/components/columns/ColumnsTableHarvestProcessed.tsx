@@ -8,7 +8,7 @@ import { FormatDate } from "@/modules/core/helpers/formatting/FormatDate";
 import { FormatNumber } from "@/modules/core/helpers/formatting/FormatNumber";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { useDeleteHarvestProcessed } from "../../hooks/useDeleteHarvestProcessed";
+import { useDeleteHarvestProcessed } from "../../hooks/mutations/useDeleteHarvestProcessed";
 import { HarvestProcessed } from "../../interfaces/HarvestProcessed";
 import { formFieldsHarvestProcessed } from "../../utils/formFieldsHarvestProcessed";
 import { ActionsTableHarvestProcessed } from "./ActionsTableHarvestProcessed";

@@ -1,7 +1,11 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { toast } from "sonner";
-import { deleteHarvestProcessed } from "../services/deleteHarvestProcessed";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { toast } from 'sonner';
+
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+
+export const deleteHarvestProcessed = async (id: string) =>
+  await cropcoAPI.delete(`${pathsCropco.harvestsProcessed}/remove/one/${id}`);
 
 export const useDeleteHarvestProcessed = () => {
   const queryClient = useQueryClient();
@@ -9,7 +13,7 @@ export const useDeleteHarvestProcessed = () => {
   const mutation = useMutation({
     mutationFn: deleteHarvestProcessed,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["harvests_processed"] });
+      queryClient.invalidateQueries({ queryKey: ['harvests_processed'] });
 
       toast.success(`Cosecha procesada eliminada`);
     },

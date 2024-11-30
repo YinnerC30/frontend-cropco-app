@@ -16,7 +16,7 @@ import {
 import { CalendarIcon, PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetHarvest } from '../hooks/useGetHarvest';
+import { useGetHarvest } from '../hooks/queries/useGetHarvest';
 import { DataTableHarvestProcessed } from './DataTableHarvestProcessed';
 import columnsHarvestProcessed from './columns/ColumnsTableHarvestProcessed';
 
