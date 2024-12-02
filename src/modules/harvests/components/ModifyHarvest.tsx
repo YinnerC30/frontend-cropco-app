@@ -1,19 +1,20 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 
-import { AppDispatch, useAppDispatch } from "@/redux/store";
-import { useNavigate, useParams } from "react-router-dom";
-import { z } from "zod";
+import { AppDispatch, useAppDispatch } from '@/redux/store';
+import { useNavigate, useParams } from 'react-router-dom';
+import { z } from 'zod';
 
-import { BreadCrumb } from "@/modules/core/components/";
-import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
-import { ErrorLoading, Loading } from "../../core/components";
-import { useGetHarvest } from "../hooks/queries/useGetHarvest";
-import { usePatchHarvest } from "../hooks/mutations/usePatchHarvest";
-import { HarvestDetail } from "../interfaces/HarvestDetail";
-import { formSchemaHarvest } from "../utils";
-import { reset } from "../utils/harvestSlice";
-import { FormHarvest } from "./forms/FormHarvest";
+import { BreadCrumb } from '@/modules/core/components/';
+import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
+import { ErrorLoading, Loading } from '../../core/components';
+import { useGetHarvest } from '../hooks/queries/useGetHarvest';
+import { usePatchHarvest } from '../hooks/mutations/usePatchHarvest';
+import { HarvestDetail } from '../interfaces/HarvestDetail';
+import { formSchemaHarvest } from '../utils';
+import { reset } from '../utils/harvestSlice';
+import { FormHarvest } from './forms/FormHarvest';
+import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 
 export const ModifyHarvest = () => {
   const { id } = useParams();
@@ -43,7 +44,7 @@ export const ModifyHarvest = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../view/all");
+    navigate('../view/all');
   }
 
   if (isLoading) return <Loading />;
@@ -55,7 +56,7 @@ export const ModifyHarvest = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/harvests/view/all", name: "Cosechas" }]}
+        items={[{ link: MODULE_HARVESTS_PATHS.ViewAll, name: 'Cosechas' }]}
         finalItem={`Modificar`}
       />
 

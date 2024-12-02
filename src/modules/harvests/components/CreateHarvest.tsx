@@ -1,17 +1,18 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 
-import { AppDispatch, useAppDispatch } from "@/redux/store";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { z } from "zod";
+import { AppDispatch, useAppDispatch } from '@/redux/store';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 
-import { BreadCrumb } from "@/modules/core/components/";
-import { usePostHarvest } from "../hooks/mutations/usePostHarvest";
-import { HarvestDetail } from "../interfaces/HarvestDetail";
-import { formSchemaHarvest } from "../utils";
-import { reset } from "../utils/harvestSlice";
-import { FormHarvest } from "./forms/FormHarvest";
+import { BreadCrumb } from '@/modules/core/components/';
+import { usePostHarvest } from '../hooks/mutations/usePostHarvest';
+import { HarvestDetail } from '../interfaces/HarvestDetail';
+import { formSchemaHarvest } from '../utils';
+import { reset } from '../utils/harvestSlice';
+import { FormHarvest } from './forms/FormHarvest';
+import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 
 export const CreateHarvest = () => {
   const dispatch: AppDispatch = useAppDispatch();
@@ -35,7 +36,7 @@ export const CreateHarvest = () => {
       total,
       value_pay,
       details: details.map((item: HarvestDetail) => {
-        const {id, ...rest} = item;
+        const { id, ...rest } = item;
         return { ...rest, employee: { id: rest.employee.id } };
       }),
     });
@@ -43,13 +44,13 @@ export const CreateHarvest = () => {
 
   if (isSuccess) {
     dispatch(reset());
-    navigate("../view/all");
+    navigate('../view/all');
   }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/harvests/view/all", name: "Cosechas" }]}
+        items={[{ link: MODULE_HARVESTS_PATHS.ViewAll, name: 'Cosechas' }]}
         finalItem={`Registro`}
       />
 

@@ -1,12 +1,13 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 
-import { BreadCrumb } from "@/modules/core/components/";
-import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
-import { useParams } from "react-router-dom";
-import { ErrorLoading, Loading } from "../../core/components";
-import { useGetHarvest } from "../hooks/queries/useGetHarvest";
-import { FormHarvest } from "./forms/FormHarvest";
+import { BreadCrumb } from '@/modules/core/components/';
+import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
+import { useParams } from 'react-router-dom';
+import { ErrorLoading, Loading } from '../../core/components';
+import { useGetHarvest } from '../hooks/queries/useGetHarvest';
+import { FormHarvest } from './forms/FormHarvest';
+import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 
 export const ViewHarvest = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ export const ViewHarvest = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/harvests/view/all", name: "Cosechas" }]}
+        items={[{ link: MODULE_HARVESTS_PATHS.ViewAll, name: 'Cosechas' }]}
         finalItem={` Información de la cosecha`}
       />
 

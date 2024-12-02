@@ -31,6 +31,7 @@ import { Harvest } from '../interfaces/Harvest';
 import { CreateHarvestProcessed } from './CreateHarvestProcessed';
 import { ModifyHarvestProcessed } from './ModifyHarvestProcessed';
 import { formFieldsHarvest } from '../utils';
+import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 
 export const HarvestProcessedModule = () => {
   const { id } = useParams();
@@ -52,9 +53,9 @@ export const HarvestProcessedModule = () => {
     <>
       <BreadCrumb
         items={[
-          { link: '/harvests/view/all', name: 'Cosechas' },
+          { link: MODULE_HARVESTS_PATHS.ViewAll, name: 'Cosechas' },
           {
-            link: `/harvests/view/${data.id}`,
+            link: `${MODULE_HARVESTS_PATHS.ViewAll}${data.id}`,
             name: `${data.crop.name} | ${format(
               ConvertStringToDate(data.date),
               'PPP',
