@@ -1,13 +1,11 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
 
 import { BreadCrumb } from '@/modules/core/components/';
 import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
 import { useParams } from 'react-router-dom';
 import { ErrorLoading, Loading } from '../../core/components';
 import { useGetHarvest } from '../hooks/queries/useGetHarvest';
-import { FormHarvest } from './forms/FormHarvest';
 import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
+import { FormHarvest } from './forms/harvest/FormHarvest';
 
 export const ViewHarvest = () => {
   const { id } = useParams();
@@ -27,17 +25,14 @@ export const ViewHarvest = () => {
         finalItem={` Información de la cosecha`}
       />
 
-      <Separator className="my-2" />
-      <ScrollArea className="w-full h-[80vh]">
-        {/* Formulario principal */}
-        <FormHarvest
-          defaultValues={{
-            ...data,
-            date: ConvertStringToDate(data.date),
-          }}
-          readOnly
-        />
-      </ScrollArea>
+      {/* Formulario principal */}
+      <FormHarvest
+        defaultValues={{
+          ...data,
+          date: ConvertStringToDate(data.date),
+        }}
+        readOnly
+      />
     </>
   );
 };

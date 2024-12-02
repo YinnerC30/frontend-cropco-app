@@ -1,14 +1,14 @@
-import { Form } from "@/components/ui/form";
+import { Form } from '@/components/ui/form';
 
-import { ErrorLoading, Loading } from "@/modules/core/components";
-import { FormFieldCommand } from "@/modules/core/components/form/fields/FormFieldCommand";
-import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
-import { FormProps } from "@/modules/core/interfaces/form/FormProps";
-import { Employee } from "@/modules/employees/interfaces/Employee";
-import { useHarvestDetailForm } from "../../hooks/useHarvestDetailForm";
-import { formFieldsHarvestDetail } from "../../utils";
-import { useEffect } from "react";
-import { HarvestDetail } from "../../interfaces/HarvestDetail";
+import { ErrorLoading, Loading } from '@/modules/core/components';
+import { FormFieldCommand } from '@/modules/core/components/form/fields/FormFieldCommand';
+import { FormFieldInput } from '@/modules/core/components/form/fields/FormFieldInput';
+import { FormProps } from '@/modules/core/interfaces/form/FormProps';
+import { Employee } from '@/modules/employees/interfaces/Employee';
+import { useHarvestDetailForm } from '../../hooks/useHarvestDetailForm';
+import { formFieldsHarvestDetail } from '../../utils';
+import { useEffect } from 'react';
+import { HarvestDetail } from '../../interfaces/HarvestDetail';
 
 export const FormHarvestDetails = ({
   onSubmit,
@@ -36,7 +36,7 @@ export const FormHarvestDetails = ({
   const findEmployeeName = (id: string): string => {
     return (
       queryEmployees?.data?.rows.find((item: Employee) => item.id === id)
-        ?.first_name || ""
+        ?.first_name || ''
     );
   };
 
@@ -48,6 +48,7 @@ export const FormHarvestDetails = ({
       employee: { id: employeeIdForm, first_name: nameEmployee },
     };
     onSubmit(data);
+    formHarvestDetail.reset();
   };
 
   const filterEmployeesToShow = (): Employee[] => {
@@ -77,7 +78,6 @@ export const FormHarvestDetails = ({
       <form
         onSubmit={formHarvestDetail.handleSubmit((formData: any) => {
           onSubmitHarvestDetail(formData);
-          formHarvestDetail.reset();
         })}
         className="mx-5"
         id="formHarvestDetail"
@@ -87,11 +87,11 @@ export const FormHarvestDetails = ({
           setOpenPopover={setOpenPopoverEmployee}
           data={filterEmployeesToShow() || []}
           form={formHarvestDetail}
-          nameToShow={"first_name"}
+          nameToShow={'first_name'}
           control={formHarvestDetail.control}
           description={formFieldsHarvestDetail.employee.description}
           label={formFieldsHarvestDetail.employee.label}
-          name={"employee.id"}
+          name={'employee.id'}
           placeholder={formFieldsHarvestDetail.employee.placeholder}
           readOnly={readOnly}
         />
@@ -100,7 +100,7 @@ export const FormHarvestDetails = ({
           control={formHarvestDetail.control}
           description={formFieldsHarvestDetail.total.description}
           label={formFieldsHarvestDetail.total.label}
-          name={"total"}
+          name={'total'}
           placeholder={formFieldsHarvestDetail.total.placeholder}
           readOnly={readOnly}
           type="number"
@@ -109,7 +109,7 @@ export const FormHarvestDetails = ({
           control={formHarvestDetail.control}
           description={formFieldsHarvestDetail.value_pay.description}
           label={formFieldsHarvestDetail.value_pay.label}
-          name={"value_pay"}
+          name={'value_pay'}
           placeholder={formFieldsHarvestDetail.value_pay.placeholder}
           readOnly={readOnly}
           type="number"

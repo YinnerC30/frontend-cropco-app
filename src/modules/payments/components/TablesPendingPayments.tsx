@@ -6,7 +6,7 @@ import { useGetEmployeePendingPayments } from "../hooks/useGetEmployeePendingPay
 import { setDataEmployee } from "../utils/paymentSlice";
 
 import { FormFieldDataTable } from "@/modules/core/components/form/fields/FormFieldDataTable";
-import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
+import { FormDataTable } from "@/modules/core/components/form/FormDataTable";
 import { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 import { columnsPaymentsPendingHarvestActions } from "./columns/ColumnsTablePaymentsPendingHarvest";
@@ -70,7 +70,7 @@ export const TablesPendingPayments = ({
       {!readOnly && (
         <>
           <Label className="">Pagos pendientes de cosecha:</Label>
-          <DataTableForm
+          <FormDataTable
             data={dataEmployee?.harvests_detail ?? []}
             columns={columnsPaymentsPendingHarvestActions}
             nameColumnToFilter={"value_pay"}
@@ -84,7 +84,7 @@ export const TablesPendingPayments = ({
       {!readOnly && (
         <>
           <Label className="">Pagos pendientes de trabajo:</Label>
-          <DataTableForm
+          <FormDataTable
             data={dataEmployee?.works_detail ?? []}
             columns={columnsPaymentsPendingWorkActions}
             nameColumnToFilter={""}
@@ -103,7 +103,7 @@ export const TablesPendingPayments = ({
         placeholder={"placeholder"}
         readOnly={false}
       >
-        <DataTableForm
+        <FormDataTable
           data={paymentsToPay ?? []}
           columns={
             readOnly

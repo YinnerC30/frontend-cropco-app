@@ -4,7 +4,7 @@ import { FormFieldCalendar } from "@/modules/core/components/form/fields/FormFie
 import { FormFieldCheckBox } from "@/modules/core/components/form/fields/FormFieldCheckBox";
 import { FormFieldDataTable } from "@/modules/core/components/form/fields/FormFieldDataTable";
 import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
-import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
+import { FormDataTable } from "@/modules/core/components/form/FormDataTable";
 import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
 import { FormatNumber } from "@/modules/core/helpers/formatting/FormatNumber";
 import { FormProps } from "@/modules/core/interfaces";
@@ -114,7 +114,7 @@ export const FormSale = ({
           Añadir
         </Button>
 
-        <DataTableForm
+        <FormDataTable
           data={details}
           columns={readOnly ? columnsSaleDetail : columnsSaleDetailActions}
           setRecord={!readOnly && setSaleDetail}

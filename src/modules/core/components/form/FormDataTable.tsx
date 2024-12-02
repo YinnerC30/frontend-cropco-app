@@ -7,7 +7,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 
 import {
   Table,
@@ -16,24 +16,24 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useState } from "react";
+} from '@/components/ui/table';
+import { useState } from 'react';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
-} from "@radix-ui/react-icons";
+} from '@radix-ui/react-icons';
 
 interface Props {
   data: any;
@@ -45,7 +45,7 @@ interface Props {
   showFilter?: boolean;
 }
 
-export function DataTableForm({
+export function FormDataTable({
   data,
   columns,
   setRecord,
@@ -83,7 +83,7 @@ export function DataTableForm({
       <div className="w-[600px]">
         <div
           className={`flex flex-col items-start justify-between gap-2 my-2 ml-1 ${
-            showFilter ? "" : "hidden"
+            showFilter ? '' : 'hidden'
           }`}
         >
           <Input
@@ -91,7 +91,7 @@ export function DataTableForm({
             value={
               (table
                 .getColumn(nameColumnToFilter)
-                ?.getFilterValue() as string) ?? ""
+                ?.getFilterValue() as string) ?? ''
             }
             onChange={(event) =>
               table
@@ -127,7 +127,7 @@ export function DataTableForm({
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
+                    data-state={row.getIsSelected() && 'selected'}
                     onDoubleClick={() => {
                       setRecord(row.original);
                       sideEffect(true);

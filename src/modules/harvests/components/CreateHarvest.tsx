@@ -1,6 +1,3 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-
 import { AppDispatch, useAppDispatch } from '@/redux/store';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -9,10 +6,10 @@ import { z } from 'zod';
 import { BreadCrumb } from '@/modules/core/components/';
 import { usePostHarvest } from '../hooks/mutations/usePostHarvest';
 import { HarvestDetail } from '../interfaces/HarvestDetail';
+import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 import { formSchemaHarvest } from '../utils';
 import { reset } from '../utils/harvestSlice';
-import { FormHarvest } from './forms/FormHarvest';
-import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
+import { FormHarvest } from './forms/harvest/FormHarvest';
 
 export const CreateHarvest = () => {
   const dispatch: AppDispatch = useAppDispatch();
@@ -24,7 +21,7 @@ export const CreateHarvest = () => {
 
   const navigate = useNavigate();
 
-  const onSubmitHarvest = (
+  const onSubmit = (
     values: z.infer<typeof formSchemaHarvest>,
     details: HarvestDetail[],
     total: number,
@@ -54,11 +51,7 @@ export const CreateHarvest = () => {
         finalItem={`Registro`}
       />
 
-      <Separator className="my-2" />
-      <ScrollArea className="w-full h-[80vh]">
-        {/* Formulario principal */}
-        <FormHarvest onSubmit={onSubmitHarvest} isSubmitting={isPending} />
-      </ScrollArea>
+      <FormHarvest onSubmit={onSubmit} isSubmitting={isPending} />
     </>
   );
 };

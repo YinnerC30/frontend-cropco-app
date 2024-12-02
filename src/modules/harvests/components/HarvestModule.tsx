@@ -18,6 +18,7 @@ import { MinorOrMajorSelection } from '@/modules/core/interfaces/general/MinorOr
 import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
 import columnsHarvest from './columns/ColumnsTableHarvest';
 import { useDataTable } from '@/modules/core/hooks';
+import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 
 export const HarvestModule = () => {
   const navigate = useNavigate();
@@ -56,14 +57,13 @@ export const HarvestModule = () => {
     actions: [],
   });
 
-  const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
-    useDataTable({
-      columns: columnsTable,
-      data: query.data ?? [],
-      rows: query.data?.rows ?? [],
-      pagination,
-      setPagination,
-    });
+  const { table, lengthColumns } = useDataTable({
+    columns: columnsTable,
+    data: query.data ?? [],
+    rows: query.data?.rows ?? [],
+    pagination,
+    setPagination,
+  });
 
   useEffect(() => {
     if (query.isSuccess) {
@@ -129,7 +129,7 @@ export const HarvestModule = () => {
           </div>
           <div>
             <div className="flex  justify-end  gap-2 w-[700px] p-1">
-              <ButtonCreateRecord route={'../create/one'} />
+              <ButtonCreateRecord route={MODULE_HARVESTS_PATHS.Create} />
             </div>
             <div className="w-[700px]">
               <DataTableTemplate

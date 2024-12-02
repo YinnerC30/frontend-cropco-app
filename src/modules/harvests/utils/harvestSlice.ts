@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { HarvestDetail } from "../interfaces/HarvestDetail";
-import { HarvestProcessed } from "../interfaces/HarvestProcessed";
+import { HarvestDetail } from '../interfaces/HarvestDetail';
+import { HarvestProcessed } from '../interfaces/HarvestProcessed';
 
 interface HarvestState {
   details: HarvestDetail[];
@@ -22,7 +22,7 @@ const initialState: HarvestState = {
 };
 
 export const harvestSlice = createSlice({
-  name: "harvest",
+  name: 'harvest',
   initialState,
   reducers: {
     add: (state, action: PayloadAction<HarvestDetail[]>) => {

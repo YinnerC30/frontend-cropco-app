@@ -5,7 +5,7 @@ import { FormFieldCommand } from "@/modules/core/components/form/fields/FormFiel
 import { FormFieldDataTable } from "@/modules/core/components/form/fields/FormFieldDataTable";
 import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
 import { FormFieldTextArea } from "@/modules/core/components/form/fields/FormFieldTextArea";
-import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
+import { FormDataTable } from "@/modules/core/components/form/FormDataTable";
 import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
 import { FormProps } from "@/modules/core/interfaces/form/FormProps";
 import { useNavigate } from "react-router-dom";
@@ -136,7 +136,7 @@ export const FormWork = ({
           Añadir
         </Button>
 
-        <DataTableForm
+        <FormDataTable
           data={details}
           columns={readOnly ? columnsWorkDetail : columnsWorkDetailActions}
           setRecord={!readOnly && setWorkDetail}

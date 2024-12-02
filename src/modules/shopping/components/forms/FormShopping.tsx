@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { formFieldsShopping } from "../../utils/formFieldsShopping";
 
 import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
-import { DataTableForm } from "@/modules/core/components/table/DataTableForm";
+import { FormDataTable } from "@/modules/core/components/form/FormDataTable";
 import { useEffect } from "react";
 import { useShoppingForm } from "../../hooks/useShoppingForm";
 import { add, calculateTotal, reset } from "../../utils/shoppingSlice";
@@ -102,7 +102,7 @@ export const FormShopping = ({
           Añadir
         </Button>
 
-        <DataTableForm
+        <FormDataTable
           data={details}
           columns={
             !readOnly ? columnsShoppingDetailActions : columnsShoppingDetail

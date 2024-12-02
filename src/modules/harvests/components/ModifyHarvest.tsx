@@ -1,6 +1,3 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-
 import { AppDispatch, useAppDispatch } from '@/redux/store';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
@@ -8,13 +5,13 @@ import { z } from 'zod';
 import { BreadCrumb } from '@/modules/core/components/';
 import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
 import { ErrorLoading, Loading } from '../../core/components';
-import { useGetHarvest } from '../hooks/queries/useGetHarvest';
 import { usePatchHarvest } from '../hooks/mutations/usePatchHarvest';
+import { useGetHarvest } from '../hooks/queries/useGetHarvest';
 import { HarvestDetail } from '../interfaces/HarvestDetail';
+import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 import { formSchemaHarvest } from '../utils';
 import { reset } from '../utils/harvestSlice';
-import { FormHarvest } from './forms/FormHarvest';
-import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
+import { FormHarvest } from './forms/harvest/FormHarvest';
 
 export const ModifyHarvest = () => {
   const { id } = useParams();
@@ -60,18 +57,15 @@ export const ModifyHarvest = () => {
         finalItem={`Modificar`}
       />
 
-      <Separator className="my-2" />
-      <ScrollArea className="w-full h-[80vh]">
-        {/* Formulario principal */}
-        <FormHarvest
-          onSubmit={onSubmitHarvest}
-          isSubmitting={isPending}
-          defaultValues={{
-            ...data,
-            date: ConvertStringToDate(data.date),
-          }}
-        />
-      </ScrollArea>
+      {/* Formulario principal */}
+      <FormHarvest
+        onSubmit={onSubmitHarvest}
+        isSubmitting={isPending}
+        defaultValues={{
+          ...data,
+          date: ConvertStringToDate(data.date),
+        }}
+      />
     </>
   );
 };

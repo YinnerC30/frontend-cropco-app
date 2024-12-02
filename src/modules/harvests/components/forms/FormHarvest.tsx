@@ -7,7 +7,7 @@ import { FormFieldCommand } from '@/modules/core/components/form/fields/FormFiel
 import { FormFieldDataTable } from '@/modules/core/components/form/fields/FormFieldDataTable';
 import { FormFieldInput } from '@/modules/core/components/form/fields/FormFieldInput';
 import { FormFieldTextArea } from '@/modules/core/components/form/fields/FormFieldTextArea';
-import { DataTableForm } from '@/modules/core/components/table/DataTableForm';
+import { FormDataTable } from '@/modules/core/components/form/FormDataTable';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
 import { FormProps } from '@/modules/core/interfaces/form/FormProps';
@@ -23,6 +23,7 @@ import {
 } from '../columns/ColumnsTableHarvestDetail';
 import { CreateHarvestDetail } from '../CreateHarvestDetail';
 import { ModifyHarvestDetail } from '../ModifyHarvestDetail';
+import { useGetAllCrops } from '@/modules/crops/hooks';
 
 export const FormHarvest = ({
   onSubmit,
@@ -32,22 +33,25 @@ export const FormHarvest = ({
 }: FormProps) => {
   const navigate = useNavigate();
   const {
-    formHarvest: form,
+    form,
     details,
     harvestDetail,
     isOpenDialogForm,
     isOpenDialogModifyForm,
-    queryCrops,
     setHarvestDetail,
     setIsOpenDialogForm,
     setIsOpenDialogModifyForm,
     total,
     value_pay,
-    openPopoverCrop,
-    setOpenPopoverCrop,
-  } = useHarvestForm();
+  } = useHarvestForm({ values: {} });
 
   const dispatch: AppDispatch = useAppDispatch();
+
+  const { query: queryCrops } = useGetAllCrops({
+    searchParameter: '',
+    allRecords: true,
+    canExecuteQuery: !readOnly,
+  });
 
   useEffect(() => {
     dispatch(reset());
@@ -83,7 +87,7 @@ export const FormHarvest = ({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit((formData) => {
+        onSubmit={form.handleSubmit((formData: any) => {
           onSubmit(formData, details, total, value_pay);
         })}
         id="formHarvest"
@@ -98,8 +102,6 @@ export const FormHarvest = ({
           readOnly={readOnly}
         />
         <FormFieldCommand
-          openPopover={openPopoverCrop}
-          setOpenPopover={setOpenPopoverCrop}
           data={queryCrops?.data?.rows || []}
           form={form}
           nameToShow={'name'}
@@ -138,7 +140,7 @@ export const FormHarvest = ({
           Añadir
         </Button>
 
-        <DataTableForm
+        <FormDataTable
           data={details}
           columns={
             readOnly ? columnsHarvestDetail : columnsHarvestDetailActions
@@ -150,18 +152,9 @@ export const FormHarvest = ({
         />
       </FormFieldDataTable>
 
-      <CreateHarvestDetail
-        isOpenDialogForm={isOpenDialogForm}
-        setIsOpenDialogForm={setIsOpenDialogForm}
-      />
+      <CreateHarvestDetail />
 
-      {isOpenDialogModifyForm && (
-        <ModifyHarvestDetail
-          defaultValues={harvestDetail}
-          isDialogOpen={isOpenDialogModifyForm}
-          setDialogOpen={setIsOpenDialogModifyForm}
-        />
-      )}
+      {isOpenDialogModifyForm && <ModifyHarvestDetail />}
 
       <FormFieldInput
         className="hidden"

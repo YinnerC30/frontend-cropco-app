@@ -5,10 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { AxiosError } from 'axios';
-import {
-  useAuthContext,
-  useManageErrorApp,
-} from '@/auth/hooks';
+import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
 
 interface Props {
   search: string;
@@ -36,9 +33,16 @@ export const getCrops = async ({
 interface HookProps {
   searchParameter: string;
   allRecords: boolean;
+  canExecuteQuery?: boolean;
 }
 
-export const useGetAllCrops = ({ searchParameter, allRecords }: HookProps) => {
+const STALE_TIME_DATA = 60_000 * 60;
+
+export const useGetAllCrops = ({
+  searchParameter,
+  allRecords,
+  canExecuteQuery = true,
+}: HookProps) => {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -55,7 +59,8 @@ export const useGetAllCrops = ({ searchParameter, allRecords }: HookProps) => {
         offset: pagination.pageIndex,
         allRecords,
       }),
-    enabled: hasPermission('crops', 'find_all_crops'),
+    enabled: hasPermission('crops', 'find_all_crops') && canExecuteQuery,
+    staleTime: STALE_TIME_DATA,
   });
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Command,
   CommandEmpty,
@@ -6,18 +6,18 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
+} from '@/components/ui/command';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { ScrollArea } from "@/components/ui/scroll-area";
+} from '@/components/ui/popover';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
-import { Crop } from "@/modules/crops/interfaces/Crop";
+import { Crop } from '@/modules/crops/interfaces/Crop';
 
-import { cn } from "@/lib/utils";
-import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import { cn } from '@/lib/utils';
+import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import {
   FormControl,
   FormDescription,
@@ -25,12 +25,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { FormFieldProps } from "../../../interfaces/form/FormFieldProps";
+} from '@/components/ui/form';
+import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
+import { useState } from 'react';
 
 interface FormFieldCommandProps extends FormFieldProps {
-  openPopover: boolean;
-  setOpenPopover: any;
+  openPopover?: boolean;
+  setOpenPopover?: any;
   data: any[];
   form: any;
   nameToShow: string;
@@ -40,8 +41,6 @@ export const FormFieldCommand = ({
   control,
   name,
   label,
-  openPopover,
-  setOpenPopover,
   placeholder,
   data = [],
   form,
@@ -49,6 +48,7 @@ export const FormFieldCommand = ({
   nameToShow,
   readOnly,
 }: FormFieldCommandProps) => {
+  const [openPopover, setOpenPopover] = useState(false);
   return (
     <FormField
       control={control}
@@ -70,8 +70,8 @@ export const FormFieldCommand = ({
                     role="combobox"
                     aria-expanded={openPopover}
                     className={cn(
-                      "w-[200px] justify-between",
-                      !field.value && "text-muted-foreground"
+                      'w-[200px] justify-between',
+                      !field.value && 'text-muted-foreground'
                     )}
                     ref={field.ref}
                     onBlur={field.onBlur}
@@ -117,10 +117,10 @@ export const FormFieldCommand = ({
                                 {item?.[nameToShow]}
                                 <CheckIcon
                                   className={cn(
-                                    "ml-auto h-4 w-4",
+                                    'ml-auto h-4 w-4',
                                     item.id! === field.value
-                                      ? "opacity-100"
-                                      : "opacity-0"
+                                      ? 'opacity-100'
+                                      : 'opacity-0'
                                   )}
                                 />
                               </CommandItem>

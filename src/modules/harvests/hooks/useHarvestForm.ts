@@ -1,8 +1,7 @@
-import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
-import { useGetAllCrops } from "@/modules/crops/hooks/queries/useGetAllCrops";
-import { useAppSelector } from "@/redux/store";
-import { useState } from "react";
-import { formSchemaHarvest } from "../utils";
+import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
+import { useAppSelector } from '@/redux/store';
+import { useState } from 'react';
+import { formSchemaHarvest } from '../utils';
 
 export const defaultValuesHarvest = {
   date: undefined,
@@ -12,10 +11,14 @@ export const defaultValuesHarvest = {
 
   total: undefined,
   value_pay: undefined,
-  observation: "",
+  observation: '',
 };
 
-export const useHarvestForm = () => {
+export const useHarvestForm = ({
+  values = defaultValuesHarvest,
+}: {
+  values?: any;
+}) => {
   const [openPopoverCrop, setOpenPopoverCrop] = useState(false);
   const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
   const [isOpenDialogModifyForm, setIsOpenDialogModifyForm] = useState(false);
@@ -23,12 +26,7 @@ export const useHarvestForm = () => {
 
   const formHarvest = useCreateForm({
     schema: formSchemaHarvest,
-    defaultValues: defaultValuesHarvest,
-  });
-
-  const { query: queryCrops } = useGetAllCrops({
-    searchParameter: "",
-    allRecords: true,
+    defaultValues: values,
   });
 
   const { details, total, value_pay } = useAppSelector(
@@ -37,18 +35,15 @@ export const useHarvestForm = () => {
 
   return {
     details,
-    formHarvest,
+    form: formHarvest,
     harvestDetail,
     isOpenDialogForm,
     isOpenDialogModifyForm,
-
-    queryCrops,
     setHarvestDetail,
     setIsOpenDialogForm,
     setIsOpenDialogModifyForm,
     total,
     value_pay,
-
     openPopoverCrop,
     setOpenPopoverCrop,
   };
