@@ -12,10 +12,10 @@ export const formSchemaHarvest = z.object({
         message: 'La opción seleccionada no es valida.',
       }),
   }),
-  total: z.number({
+  total: z.coerce.number({
     invalid_type_error: 'Debes introducir un valor numérico',
   }),
-  value_pay: z
+  value_pay: z.coerce
     .number({
       invalid_type_error: 'Debes introducir un valor numérico',
     })
@@ -33,8 +33,7 @@ export const formSchemaHarvest = z.object({
       required_error:
         'Debes registrar las cosechas que han hecho los empleados',
     })
-    // .nonempty({
-    //   message: 'Debes registrar la cosecha de al menos 1 empleado',
-    // })
-    .optional(),
+    .nonempty({
+      message: 'Debes registrar la cosecha de al menos 1 empleado',
+    }),
 });

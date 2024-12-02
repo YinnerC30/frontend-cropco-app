@@ -46,11 +46,13 @@ export const harvestSlice = createSlice({
     },
     calculateTotal: (state) => {
       state.total = state.details.reduce(
-        (total: number, detail: HarvestDetail) => total + detail.total,
+        (total: number, detail: HarvestDetail) =>
+          Number(total) + Number(detail.total),
         0
       );
       state.value_pay = state.details.reduce(
-        (total: number, detail: HarvestDetail) => total + detail.value_pay,
+        (total: number, detail: HarvestDetail) =>
+          Number(total) + Number(detail.value_pay),
         0
       );
     },

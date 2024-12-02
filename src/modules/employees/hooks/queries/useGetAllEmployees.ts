@@ -6,10 +6,7 @@ import { PaginationState } from '@tanstack/react-table';
 import { useEffect, useState } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import {
-  useAuthContext,
-  useManageErrorApp,
-} from '@/auth/hooks';
+import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
 import { ResponseUseGetAllRecords } from '@/modules/core/interfaces';
 import { ResponseApiGetAllRecords } from '@/modules/core/interfaces/responses/ResponseApiGetAllRecords';
 import { AxiosError } from 'axios';
@@ -40,6 +37,7 @@ export const getEmployees = async ({
   return data;
 };
 
+const STALE_TIME_DATA = 60_000 * 60;
 export const useGetAllEmployees = ({
   searchParameter,
   allRecords,
@@ -62,6 +60,7 @@ export const useGetAllEmployees = ({
         allRecords,
       }),
     enabled: hasPermission('employees', 'find_all_employees'),
+    staleTime: STALE_TIME_DATA,
   });
 
   useEffect(() => {

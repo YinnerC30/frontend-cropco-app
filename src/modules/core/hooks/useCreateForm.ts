@@ -14,6 +14,7 @@ export const useCreateForm = ({ schema, defaultValues }: Props) => {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues,
+    mode: 'onChange',
   });
 
   const { isDirty } = form.formState;

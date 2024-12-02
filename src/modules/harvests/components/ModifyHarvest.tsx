@@ -1,24 +1,21 @@
-import { AppDispatch, useAppDispatch } from '@/redux/store';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { z } from 'zod';
 
 import { BreadCrumb } from '@/modules/core/components/';
 import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
-import { ErrorLoading, Loading } from '../../core/components';
+import { Loading } from '../../core/components';
 import { usePatchHarvest } from '../hooks/mutations/usePatchHarvest';
 import { useGetHarvest } from '../hooks/queries/useGetHarvest';
 import { HarvestDetail } from '../interfaces/HarvestDetail';
 import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 import { formSchemaHarvest } from '../utils';
-import { reset } from '../utils/harvestSlice';
 import { FormHarvest } from './forms/harvest/FormHarvest';
 
 export const ModifyHarvest = () => {
   const { id } = useParams();
-  const dispatch: AppDispatch = useAppDispatch();
-  const { data, isLoading, isError } = useGetHarvest(id!);
-  const { mutate, isPending, isSuccess } = usePatchHarvest(id!);
-  const navigate = useNavigate();
+
+  const { data, isLoading } = useGetHarvest(id!);
+  const { mutate, isPending } = usePatchHarvest(id!);
 
   const onSubmitHarvest = (
     values: z.infer<typeof formSchemaHarvest>,
@@ -39,16 +36,7 @@ export const ModifyHarvest = () => {
     });
   };
 
-  if (isSuccess) {
-    dispatch(reset());
-    navigate('../view/all');
-  }
-
   if (isLoading) return <Loading />;
-
-  if (isError) {
-    return <ErrorLoading />;
-  }
 
   return (
     <>

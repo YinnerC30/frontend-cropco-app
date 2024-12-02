@@ -1,30 +1,24 @@
-import { Badge, Button, Form, Separator } from '@/components';
-import { reset } from '@/modules/consumption/utils/consumptionSlice';
+import { Badge, Form, Separator } from '@/components';
 import {
   FormDataTable,
-  ErrorLoading,
   FormFieldCalendar,
   FormFieldCommand,
   FormFieldDataTable,
   FormFieldInput,
   FormFieldTextArea,
-  Loading,
 } from '@/modules/core/components';
 import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { formFieldsHarvest } from '@/modules/harvests/utils';
-import { calculateTotal } from '@/modules/harvests/utils/harvestSlice';
 import {
   columnsHarvestDetail,
   columnsHarvestDetailActions,
 } from '../../columns/ColumnsTableHarvestDetail';
-import { CreateHarvestDetail } from '../../CreateHarvestDetail';
+
 import { ModifyHarvestDetail } from '../../ModifyHarvestDetail';
 
-import { AppDispatch, useAppDispatch } from '@/redux/store';
-
-import { useEffect } from 'react';
 import { useGetAllCrops } from '@/modules/crops/hooks';
+import { CreateHarvestDetail } from '../CreateHarvestDetail';
 
 export const FormHarvestFields = () => {
   const {
@@ -32,10 +26,7 @@ export const FormHarvestFields = () => {
     onSubmit,
     readOnly,
     details,
-    harvestDetail,
-    isOpenDialogModifyForm,
     setHarvestDetail,
-    setIsOpenDialogForm,
     setIsOpenDialogModifyForm,
     total,
     value_pay,
@@ -46,36 +37,6 @@ export const FormHarvestFields = () => {
     allRecords: true,
     canExecuteQuery: !readOnly,
   });
-
-  const dispatch: AppDispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(reset());
-  }, []);
-
-  useEffect(() => {
-    dispatch(calculateTotal());
-  }, [details]);
-
-  useEffect(() => {
-    form.reset({
-      ...form.getValues(),
-      total,
-      value_pay,
-    });
-  }, [total, value_pay]);
-
-  useEffect(() => {
-    form.setValue('details', details);
-  }, [details]);
-
-  if (queryCrops.isLoading) {
-    return <Loading />;
-  }
-
-  if (queryCrops.isError) {
-    return <ErrorLoading />;
-  }
 
   return (
     <Form {...form}>
@@ -104,6 +65,7 @@ export const FormHarvestFields = () => {
           name={'crop.id'}
           placeholder={formFieldsHarvest.crop.placeholder}
           readOnly={readOnly}
+          isLoading={queryCrops.isLoading}
         />
         <FormFieldTextArea
           control={form.control}

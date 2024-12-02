@@ -4,37 +4,36 @@ import { formSchemaHarvestDetail } from '../utils/formSchemaHarvestDetail';
 import { useAppSelector } from '@/redux/store';
 import { useState } from 'react';
 import { HarvestDetail } from '../interfaces/HarvestDetail';
-import { useGetAllEmployees } from '@/modules/employees/hooks';
 
-const defaultValuesHarvestDetail = {
+const defaultValuesHarvestDetail: HarvestDetail = {
   employee: {
     id: '',
     first_name: '',
   },
-  total: undefined,
-  value_pay: undefined,
+  total: 0,
+  value_pay: 0,
 };
 
-export const useHarvestDetailForm = () => {
+export const useHarvestDetailForm = ({
+  values = defaultValuesHarvestDetail,
+}: {
+  values: HarvestDetail;
+}) => {
   const details: HarvestDetail[] = useAppSelector(
     (state: any) => state.harvest.details
   );
 
-  const { query: queryEmployees } = useGetAllEmployees({
-    searchParameter: '',
-    allRecords: true,
-  });
-
   const formHarvestDetail = useCreateForm({
     schema: formSchemaHarvestDetail,
-    defaultValues: defaultValuesHarvestDetail,
+    defaultValues: values,
   });
+
+  console.log(values);
 
   const [openPopoverEmployee, setOpenPopoverEmployee] = useState(false);
   return {
     formHarvestDetail,
     details,
-    queryEmployees,
     openPopoverEmployee,
     setOpenPopoverEmployee,
   };

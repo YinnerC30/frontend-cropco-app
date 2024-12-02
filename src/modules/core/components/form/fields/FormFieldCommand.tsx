@@ -28,6 +28,7 @@ import {
 } from '@/components/ui/form';
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 import { useState } from 'react';
+import { Loading } from '../../shared/Loading';
 
 interface FormFieldCommandProps extends FormFieldProps {
   openPopover?: boolean;
@@ -35,6 +36,7 @@ interface FormFieldCommandProps extends FormFieldProps {
   data: any[];
   form: any;
   nameToShow: string;
+  isLoading?: boolean;
 }
 
 export const FormFieldCommand = ({
@@ -47,6 +49,7 @@ export const FormFieldCommand = ({
   description,
   nameToShow,
   readOnly,
+  isLoading = false,
 }: FormFieldCommandProps) => {
   const [openPopover, setOpenPopover] = useState(false);
   return (
@@ -65,26 +68,30 @@ export const FormFieldCommand = ({
             >
               <PopoverTrigger asChild>
                 <FormControl>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={openPopover}
-                    className={cn(
-                      'w-[200px] justify-between',
-                      !field.value && 'text-muted-foreground'
-                    )}
-                    ref={field.ref}
-                    onBlur={field.onBlur}
-                    disabled={readOnly}
-                  >
-                    {field.value
-                      ? data.find((item: Crop) => item.id === field.value)?.[
-                          nameToShow
-                        ]
-                      : placeholder}
+                  {isLoading ? (
+                    <Loading />
+                  ) : (
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={openPopover}
+                      className={cn(
+                        'w-[200px] justify-between',
+                        !field.value && 'text-muted-foreground'
+                      )}
+                      ref={field.ref}
+                      onBlur={field.onBlur}
+                      disabled={readOnly}
+                    >
+                      {field.value
+                        ? data.find((item: Crop) => item.id === field.value)?.[
+                            nameToShow
+                          ]
+                        : placeholder}
 
-                    <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                  </Button>
+                      <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                    </Button>
+                  )}
                 </FormControl>
               </PopoverTrigger>
               <PopoverContent className="w-[200px] p-0">

@@ -22,28 +22,18 @@ export const useHarvestForm = ({
   const [openPopoverCrop, setOpenPopoverCrop] = useState(false);
   const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
   const [isOpenDialogModifyForm, setIsOpenDialogModifyForm] = useState(false);
-  const [harvestDetail, setHarvestDetail] = useState({});
 
   const formHarvest = useCreateForm({
     schema: formSchemaHarvest,
     defaultValues: values,
   });
 
-  const { details, total, value_pay } = useAppSelector(
-    (state: any) => state.harvest
-  );
-
   return {
-    details,
     form: formHarvest,
-    harvestDetail,
     isOpenDialogForm,
     isOpenDialogModifyForm,
-    setHarvestDetail,
     setIsOpenDialogForm,
     setIsOpenDialogModifyForm,
-    total,
-    value_pay,
     openPopoverCrop,
     setOpenPopoverCrop,
   };
