@@ -4,6 +4,7 @@ import { formSchemaHarvestDetail } from '../utils/formSchemaHarvestDetail';
 import { useAppSelector } from '@/redux/store';
 import { useState } from 'react';
 import { HarvestDetail } from '../interfaces/HarvestDetail';
+import { useFormHarvestContext } from './context/useFormHarvestContext';
 
 const defaultValuesHarvestDetail: HarvestDetail = {
   employee: {
@@ -14,21 +15,18 @@ const defaultValuesHarvestDetail: HarvestDetail = {
   value_pay: 0,
 };
 
-export const useHarvestDetailForm = ({
-  values = defaultValuesHarvestDetail,
-}: {
-  values: HarvestDetail;
-}) => {
+export const useHarvestDetailForm = () => {
+  const { harvestDetail } = useFormHarvestContext();
   const details: HarvestDetail[] = useAppSelector(
     (state: any) => state.harvest.details
   );
 
   const formHarvestDetail = useCreateForm({
     schema: formSchemaHarvestDetail,
-    defaultValues: values,
+    defaultValues: harvestDetail,
   });
 
-  console.log(values);
+  console.log(harvestDetail);
 
   const [openPopoverEmployee, setOpenPopoverEmployee] = useState(false);
   return {

@@ -1,12 +1,17 @@
 import { Form } from '@/components';
 import { FormFieldCommand, FormFieldInput } from '@/modules/core/components';
-import { useFormHarvestDetailsContext } from '@/modules/harvests/hooks';
+import { useFormHarvestContext } from '@/modules/harvests/hooks';
 
 import { formFieldsHarvestDetail } from '@/modules/harvests/utils';
+import { useEffect } from 'react';
 
 export const FormHarvestDetailsFields = () => {
-  const { formHarvestDetail, filterEmployeesToShow } =
-    useFormHarvestDetailsContext();
+  const { formHarvestDetail, filterEmployeesToShow, harvestDetail } =
+    useFormHarvestContext();
+
+  useEffect(() => {
+    formHarvestDetail.reset(harvestDetail);
+  }, [harvestDetail]);
 
   return (
     <Form {...formHarvestDetail}>

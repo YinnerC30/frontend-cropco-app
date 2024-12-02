@@ -1,13 +1,16 @@
 import { Button } from '@/components';
-import { useFormHarvestDetailsContext } from '@/modules/harvests/hooks';
+import { useFormHarvestContext } from '@/modules/harvests/hooks';
 
-export const FormHarvestDetailsButtons = () => {
-  const { onSubmitHarvestDetail, formHarvestDetail } =
-    useFormHarvestDetailsContext();
+interface Props {
+  onClick: any;
+}
+
+export const FormHarvestDetailsButtons = ({ onClick }: Props) => {
+  const { formHarvestDetail } = useFormHarvestContext();
 
   const handleClick = async () => {
     const isValid = await formHarvestDetail.trigger();
-    isValid && onSubmitHarvestDetail();
+    isValid && onClick();
   };
   return (
     <div>

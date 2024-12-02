@@ -10,7 +10,6 @@ export const FormHarvest = ({
   onSubmit,
   readOnly = false,
 }: FormProps) => {
-  console.log(defaultValues);
   return (
     <FormHarvestProvider
       defaultValues={defaultValues}
