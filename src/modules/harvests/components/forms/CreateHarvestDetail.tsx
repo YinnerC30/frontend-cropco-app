@@ -22,11 +22,28 @@ import { add, calculateTotal } from '../../utils/harvestSlice';
 import { FormHarvestDetailsButtons } from './harvest/details/FormHarvestDetailsButtons';
 
 import { FormHarvestDetailsFields } from './harvest/details/FormHarvestDetailsFields';
+import { useDialogStatus } from '@/components/common/DialogStatusContext';
 
 export const CreateHarvestDetail = () => {
   const dispatch = useAppDispatch();
-  const { readOnly, getCurrentDataHarvestDetail, resetForm } =
-    useFormHarvestContext();
+  const {
+    readOnly,
+    getCurrentDataHarvestDetail,
+    resetForm,
+    openDialog,
+    setOpenDialog,
+  } = useFormHarvestContext();
+
+  const { setIsActiveDialog } = useDialogStatus();
+
+  const handleOpenDialog = () => {
+    setIsActiveDialog(true);
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setIsActiveDialog(false);
+    setOpenDialog(false);
+  };
 
   const onSubmitHarvestDetail = () => {
     const values = getCurrentDataHarvestDetail();
@@ -44,17 +61,27 @@ export const CreateHarvestDetail = () => {
   };
 
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog} modal={false}>
       <DialogTrigger asChild>
         <Button
           className={`block my-2 ml-1 ${readOnly && 'hidden'}`}
+          onClick={() => handleOpenDialog()}
           disabled={readOnly}
         >
           Añadir
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+      <DialogContent
+        className="sm:max-w-[425px]"
+        onClick={(e) => e.preventDefault()}
+        onPointerDownOutside={(e) => e.preventDefault()}
+        onInteractOutside={(e) => e.preventDefault()}
+        onEscapeKeyDown={(e) => e.preventDefault()}
+      >
+        <DialogClose
+          onClick={() => handleCloseDialog()}
+          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+        >
           <Cross2Icon className="w-4 h-4" />
           <span className="sr-only">Close</span>
         </DialogClose>

@@ -1,9 +1,6 @@
-
-import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
-import { MinorOrMajorSelection } from "@/modules/core/interfaces/general/MinorOrMajorSelection";
-import { z } from "zod";
-
-
+import { DateTimeSelection } from '@/modules/core/interfaces';
+import { MinorOrMajorSelection } from '@/modules/core/interfaces';
+import { z } from 'zod';
 
 export const formSchemaSearchBarHarvest = z.object({
   crop: z
@@ -17,12 +14,12 @@ export const formSchemaSearchBarHarvest = z.object({
     .nativeEnum(DateTimeSelection, {
       errorMap: (issue, _ctx) => {
         switch (issue.code) {
-          case "invalid_type":
-            return { message: "Debe seleccionar una opción." };
-          case "invalid_enum_value":
-            return { message: "Debe seleccionar AFTER o BEFORE." };
+          case 'invalid_type':
+            return { message: 'Debe seleccionar una opción.' };
+          case 'invalid_enum_value':
+            return { message: 'Debe seleccionar AFTER o BEFORE.' };
           default:
-            return { message: "Error en la selección de tiempo." };
+            return { message: 'Error en la selección de tiempo.' };
         }
       },
     })
@@ -33,12 +30,12 @@ export const formSchemaSearchBarHarvest = z.object({
     .nativeEnum(MinorOrMajorSelection, {
       errorMap: (issue, _ctx) => {
         switch (issue.code) {
-          case "invalid_type":
-            return { message: "Debe seleccionar una opción." };
-          case "invalid_enum_value":
-            return { message: "Debe seleccionar MENOR o MAYOR." };
+          case 'invalid_type':
+            return { message: 'Debe seleccionar una opción.' };
+          case 'invalid_enum_value':
+            return { message: 'Debe seleccionar MENOR o MAYOR.' };
           default:
-            return { message: "Error en la selección de tipo." };
+            return { message: 'Error en la selección de tipo.' };
         }
       },
     })
@@ -49,12 +46,12 @@ export const formSchemaSearchBarHarvest = z.object({
     .nativeEnum(MinorOrMajorSelection, {
       errorMap: (issue, _ctx) => {
         switch (issue.code) {
-          case "invalid_type":
-            return { message: "Debe seleccionar una opción." };
-          case "invalid_enum_value":
-            return { message: "Debe seleccionar MENOR o MAYOR." };
+          case 'invalid_type':
+            return { message: 'Debe seleccionar una opción.' };
+          case 'invalid_enum_value':
+            return { message: 'Debe seleccionar MENOR o MAYOR.' };
           default:
-            return { message: "Error en la selección de tipo." };
+            return { message: 'Error en la selección de tipo.' };
         }
       },
     })

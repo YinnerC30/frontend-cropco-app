@@ -15,7 +15,7 @@ export const FormHarvestDetailsFields = () => {
 
   return (
     <Form {...formHarvestDetail}>
-      <form className="mx-5" id="formHarvestDetail">
+      <form className="z-50 mx-5" id="formHarvestDetail">
         <FormFieldCommand
           data={filterEmployeesToShow() || []}
           form={formHarvestDetail}

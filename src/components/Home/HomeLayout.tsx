@@ -10,11 +10,9 @@ import { NavBar } from './NavBar';
 import { NavElement } from './NavElement';
 import { SheetNavBar } from './SheetNavBar';
 import { PATH_LOGIN } from '@/config';
-import {
-  useAuthContext,
-  useCheckAuthStatus,
-} from '@/auth/hooks';
+import { useAuthContext, useCheckAuthStatus } from '@/auth/hooks';
 import { Loading } from '@/modules/core/components';
+import { useDialogStatus } from '../common/DialogStatusContext';
 
 export const HomeLayout = () => {
   const { tokenSesion, isLogin } = useAuthContext();
@@ -33,11 +31,17 @@ export const HomeLayout = () => {
     return <Loading />;
   }
 
+  const { isActiveDialog } = useDialogStatus();
+
   return (
-    <div className="grid h-screen grid-cols-12 grid-rows-12">
+    <div
+      className={`grid h-screen grid-cols-12 grid-rows-12 ${
+        isActiveDialog && 'z-50 fixed inset-0 blur-sm pointer-events-none'
+      }`}
+    >
       <CommandDialogApp />
 
-      <Header className="fixed top-0 left-0 z-50 flex flex-row items-center w-full py-4 border-b justify-evenly bg-background">
+      <Header className="fixed top-0 left-0 z-10 flex flex-row items-center w-full py-4 border-b justify-evenly bg-background">
         <SheetNavBar nameModulesUser={nameModulesUser} />
         <div className="flex items-center w-auto">
           <img src="/public/icon.png" width={30} />

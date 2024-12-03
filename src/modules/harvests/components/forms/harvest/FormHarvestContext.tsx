@@ -43,6 +43,8 @@ export const FormHarvestProvider = ({
     defaultValuesHarvestDetail
   );
 
+  const [openDialog, setOpenDialog] = useState(false);
+
   const { form } = formState;
 
   const { details, total, value_pay } = useAppSelector(
@@ -154,6 +156,8 @@ export const FormHarvestProvider = ({
         getCurrentDataHarvestDetail,
         resetForm,
         formHarvestDetail,
+        openDialog,
+        setOpenDialog,
       }}
     >
       {children}

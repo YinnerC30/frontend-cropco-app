@@ -1,27 +1,27 @@
-import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   BreadCrumb,
   ButtonCreateRecord,
   DataTableTemplate,
 } from '@/modules/core/components/';
-import { PlusIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
-import { ErrorLoading, Loading, ToolTipTemplate } from '../../core/components';
+import { ErrorLoading, Loading } from '../../core/components';
+
+import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
+import { useDataTable } from '@/modules/core/hooks';
 
 import { useGetAllHarvests } from '../hooks/queries/useGetAllHarvests';
-import { SearchBarHarvest } from './SearchBarHarvest';
-import { DateTimeSelection } from '@/modules/core/interfaces/general/DateTimeSelection';
-import { MinorOrMajorSelection } from '@/modules/core/interfaces/general/MinorOrMajorSelection';
-import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
-import columnsHarvest from './columns/ColumnsTableHarvest';
-import { useDataTable } from '@/modules/core/hooks';
 import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
+import columnsHarvest from './columns/ColumnsTableHarvest';
+import { SearchBarHarvest } from './SearchBarHarvest';
+import {
+  DateTimeSelection,
+  MinorOrMajorSelection,
+} from '@/modules/core/interfaces';
 
 export const HarvestModule = () => {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const {
     search = '',
