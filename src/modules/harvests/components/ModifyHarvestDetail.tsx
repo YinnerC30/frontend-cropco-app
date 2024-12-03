@@ -20,6 +20,7 @@ import { useFormHarvestContext } from '../hooks';
 import { FormHarvestDetailsButtons } from './forms/harvest/details/FormHarvestDetailsButtons';
 import { FormHarvestDetailsFields } from './forms/harvest/details/FormHarvestDetailsFields';
 import { defaultValuesHarvestDetail } from './forms/harvest/FormHarvestContext';
+import { useDialogStatus } from '@/components/common/DialogStatusContext';
 
 export const ModifyHarvestDetail = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +33,10 @@ export const ModifyHarvestDetail = () => {
     setHarvestDetail,
   } = useFormHarvestContext();
 
+  const { setIsActiveDialog } = useDialogStatus();
+
   const handleCloseDialog = () => {
+    setIsActiveDialog(false);
     setIsOpenDialogModifyForm(false);
     setHarvestDetail(defaultValuesHarvestDetail);
   };
@@ -53,6 +57,7 @@ export const ModifyHarvestDetail = () => {
     <Dialog
       open={isOpenDialogModifyForm}
       onOpenChange={setIsOpenDialogModifyForm}
+      modal={false}
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogClose

@@ -3,6 +3,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthContext } from '@/auth/hooks';
+import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useCreateForm } from '@/modules/core/hooks';
 import { useGetAllEmployees } from '@/modules/employees/hooks';
 import { Employee } from '@/modules/employees/interfaces/Employee';
@@ -39,10 +40,15 @@ export const FormHarvestProvider = ({
     values: defaultValues,
   });
 
+  const { setIsActiveDialog } = useDialogStatus();
+
   const [harvestDetail, setHarvestDetail] = useState(
     defaultValuesHarvestDetail
   );
 
+  const resetHarvestDetail = () => {
+    setHarvestDetail(defaultValuesHarvestDetail);
+  };
   const [openDialog, setOpenDialog] = useState(false);
 
   const { form } = formState;
@@ -85,9 +91,19 @@ export const FormHarvestProvider = ({
     });
   };
 
+  const handleOpenDialog = () => {
+    setIsActiveDialog(true);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    resetForm();
+    setIsActiveDialog(false);
+    setOpenDialog(false);
+  };
+
   const getCurrentDataHarvestDetail = () => {
-    const values = formHarvestDetail.watch();
-    console.log(values);
+    const values = { ...formHarvestDetail.getValues() };
     const employeeIdForm = values?.employee?.id;
     const nameEmployee = findEmployeeName(employeeIdForm);
     const data = {
@@ -123,10 +139,6 @@ export const FormHarvestProvider = ({
   }, [defaultValues]);
 
   useEffect(() => {
-    dispatch(calculateTotal());
-  }, [details]);
-
-  useEffect(() => {
     form.reset({
       ...form.getValues(),
       total,
@@ -158,6 +170,9 @@ export const FormHarvestProvider = ({
         formHarvestDetail,
         openDialog,
         setOpenDialog,
+        handleOpenDialog,
+        handleCloseDialog,
+        resetHarvestDetail,
       }}
     >
       {children}

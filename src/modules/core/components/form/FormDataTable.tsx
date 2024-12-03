@@ -130,7 +130,7 @@ export function FormDataTable({
                     data-state={row.getIsSelected() && 'selected'}
                     onDoubleClick={() => {
                       setRecord(row.original);
-                      sideEffect(true);
+                      sideEffect();
                     }}
                   >
                     {row.getVisibleCells().map((cell) => (

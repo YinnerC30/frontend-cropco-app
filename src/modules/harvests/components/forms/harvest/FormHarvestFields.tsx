@@ -15,10 +15,8 @@ import {
   columnsHarvestDetailActions,
 } from '../../columns/ColumnsTableHarvestDetail';
 
-import { ModifyHarvestDetail } from '../../ModifyHarvestDetail';
-
 import { useGetAllCrops } from '@/modules/crops/hooks';
-import { CreateHarvestDetail } from '../CreateHarvestDetail';
+import { FormHarvestDetail } from './FormHarvestDetail';
 
 export const FormHarvestFields = () => {
   const {
@@ -27,9 +25,9 @@ export const FormHarvestFields = () => {
     readOnly,
     details,
     setHarvestDetail,
-    setIsOpenDialogModifyForm,
     total,
     value_pay,
+    handleOpenDialog,
   } = useFormHarvestContext();
 
   const { query: queryCrops } = useGetAllCrops({
@@ -87,7 +85,7 @@ export const FormHarvestFields = () => {
           readOnly={readOnly}
         >
           {/* TODO: Refactor */}
-          <CreateHarvestDetail />
+          <FormHarvestDetail />
 
           {/* TODO: Refactor */}
           <FormDataTable
@@ -96,14 +94,11 @@ export const FormHarvestFields = () => {
               readOnly ? columnsHarvestDetail : columnsHarvestDetailActions
             }
             setRecord={!readOnly && setHarvestDetail}
-            sideEffect={!readOnly && setIsOpenDialogModifyForm}
+            sideEffect={!readOnly && handleOpenDialog}
             nameColumnToFilter={'employee_first_name'}
             placeholderInputToFilter={'Buscar empleado por nombre...'}
           />
         </FormFieldDataTable>
-
-        {/* TODO: Refactor */}
-        <ModifyHarvestDetail />
 
         {/* TODO: Refactor */}
         <FormFieldInput

@@ -13,8 +13,7 @@ import { Button, DropdownMenuItem } from '@/components';
 
 export const ActionsTableHarvestDetail = ({ harvestDetail }: any) => {
   const dispatch = useAppDispatch();
-  const { setIsOpenDialogModifyForm, setHarvestDetail } =
-    useFormHarvestContext();
+  const { setHarvestDetail, handleOpenDialog } = useFormHarvestContext();
 
   const handleDelete = () => {
     dispatch(remove(harvestDetail));
@@ -25,8 +24,9 @@ export const ActionsTableHarvestDetail = ({ harvestDetail }: any) => {
   };
 
   const handleModify = () => {
+    console.log('Hay un click');
     setHarvestDetail(harvestDetail);
-    setIsOpenDialogModifyForm(true);
+    handleOpenDialog();
     console.log('hubo un llamado');
   };
 
@@ -42,7 +42,7 @@ export const ActionsTableHarvestDetail = ({ harvestDetail }: any) => {
       <ActionCopyIdRecord id={harvestDetail.id} />
       <ActionDeleteRecord action={handleDelete} disabled={false} />
       <DropdownMenuItem asChild>
-        <Button variant={'ghost'} onClick={handleModify}>
+        <Button variant={'ghost'} onClick={() => handleModify()}>
           Modificar
         </Button>
       </DropdownMenuItem>

@@ -17,47 +17,55 @@ import { useAppDispatch } from '@/redux/store';
 import { toast } from 'sonner';
 import { v4 as generateUUID } from 'uuid';
 
-import { useFormHarvestContext } from '../../hooks';
-import { add, calculateTotal } from '../../utils/harvestSlice';
-import { FormHarvestDetailsButtons } from './harvest/details/FormHarvestDetailsButtons';
+import { useFormHarvestContext } from '../../../hooks';
+import { add, calculateTotal, modify } from '../../../utils/harvestSlice';
+import { FormHarvestDetailsButtons } from './details/FormHarvestDetailsButtons';
 
-import { FormHarvestDetailsFields } from './harvest/details/FormHarvestDetailsFields';
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
+import { FormHarvestDetailsFields } from './details/FormHarvestDetailsFields';
 
-export const CreateHarvestDetail = () => {
+export const FormHarvestDetail = () => {
   const dispatch = useAppDispatch();
   const {
     readOnly,
     getCurrentDataHarvestDetail,
-    resetForm,
     openDialog,
     setOpenDialog,
+    harvestDetail,
+    handleOpenDialog,
+    handleCloseDialog,
+    resetHarvestDetail,
+    resetForm,
+    setHarvestDetail,
   } = useFormHarvestContext();
-
-  const { setIsActiveDialog } = useDialogStatus();
-
-  const handleOpenDialog = () => {
-    setIsActiveDialog(true);
-    setOpenDialog(true);
-  };
-  const handleCloseDialog = () => {
-    setIsActiveDialog(false);
-    setOpenDialog(false);
-  };
 
   const onSubmitHarvestDetail = () => {
     const values = getCurrentDataHarvestDetail();
-    dispatch(
-      add([
-        {
-          ...values,
-          id: generateUUID(),
-        },
-      ])
-    );
+    if (!harvestDetail.id) {
+      dispatch(
+        add([
+          {
+            ...values,
+            id: generateUUID(),
+          },
+        ])
+      );
+      resetForm();
+      toast.success('Registro añadido');
+    } else {
+      dispatch(
+        modify({
+          detail: { ...values, id: harvestDetail.id },
+        })
+      );
+      setHarvestDetail({ ...values, id: harvestDetail.id });
+      toast.success('Registro actualizado');
+    }
     dispatch(calculateTotal());
-    resetForm();
-    toast.success('Registro añadido');
+  };
+
+  const handleOpenDialogExtended = () => {
+    resetHarvestDetail();
+    handleOpenDialog();
   };
 
   return (
@@ -65,7 +73,7 @@ export const CreateHarvestDetail = () => {
       <DialogTrigger asChild>
         <Button
           className={`block my-2 ml-1 ${readOnly && 'hidden'}`}
-          onClick={() => handleOpenDialog()}
+          onClick={() => handleOpenDialogExtended()}
           disabled={readOnly}
         >
           Añadir
@@ -86,10 +94,9 @@ export const CreateHarvestDetail = () => {
           <span className="sr-only">Close</span>
         </DialogClose>
         <DialogHeader>
-          <DialogTitle>Agregar cosecha empleado</DialogTitle>
+          <DialogTitle>Cosecha empleado</DialogTitle>
           <DialogDescription className="">
-            Cuando termines de agregar la información, puedes cerrar esta
-            ventana.
+            Información detallada de la cosecha realizada por el empleado
           </DialogDescription>
         </DialogHeader>
 
