@@ -14,10 +14,6 @@ import {
 } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-import { Crop } from '@/modules/crops/interfaces/Crop';
-
-import { cn } from '@/lib/utils';
-import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import {
   FormControl,
   FormDescription,
@@ -26,8 +22,10 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
+import { cn } from '@/lib/utils';
+import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
+import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 import { Loading } from '../../shared/Loading';
 
 interface FormFieldCommandProps extends FormFieldProps {
@@ -84,7 +82,7 @@ export const FormFieldCommand = ({
                       disabled={readOnly}
                     >
                       {field.value
-                        ? data.find((item: Crop) => item.id === field.value)?.[
+                        ? data.find((item: any) => item.id === field.value)?.[
                             nameToShow
                           ]
                         : placeholder}
@@ -115,7 +113,9 @@ export const FormFieldCommand = ({
                                   if (field.value === item.id) {
                                     form.setValue(name, undefined);
                                   } else {
-                                    form.setValue(name, item.id!);
+                                    form.setValue(name, item.id!, {
+                                      shouldDirty: true,
+                                    });
                                     form.trigger(name);
                                   }
                                   setOpenPopover(false);

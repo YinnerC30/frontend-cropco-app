@@ -7,16 +7,21 @@ import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useCreateForm } from '@/modules/core/hooks';
 import { useGetAllEmployees } from '@/modules/employees/hooks';
 import { Employee } from '@/modules/employees/interfaces/Employee';
-import { useHarvestForm } from '@/modules/harvests/hooks';
+
 import { HarvestDetail } from '@/modules/harvests/interfaces';
 import { MODULE_HARVESTS_PATHS } from '@/modules/harvests/routes/pathRoutes';
-import { formSchemaHarvestDetail } from '@/modules/harvests/utils';
+import {
+  formSchemaHarvest,
+  formSchemaHarvestDetail,
+} from '@/modules/harvests/utils';
 import {
   add,
   calculateTotal,
   reset,
 } from '@/modules/harvests/utils/harvestSlice';
 import { AppDispatch, useAppDispatch, useAppSelector } from '@/redux/store';
+import { useFormChange } from '@/modules/core/components';
+import { useToastDiscardChanges } from '@/modules/core/hooks/useToastDiscardChanges';
 
 export const FormHarvestContext = createContext<any>(null);
 
@@ -36,11 +41,17 @@ export const FormHarvestProvider = ({
   onSubmit,
   readOnly,
 }: any & { children: React.ReactNode }) => {
-  const formState = useHarvestForm({
-    values: defaultValues,
+  const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
+
+  const formHarvest = useCreateForm({
+    schema: formSchemaHarvest,
+    defaultValues,
   });
 
   const { setIsActiveDialog } = useDialogStatus();
+
+  const { hasUnsavedChanges } = useFormChange();
+  const { showToast } = useToastDiscardChanges();
 
   const [harvestDetail, setHarvestDetail] = useState(
     defaultValuesHarvestDetail
@@ -50,8 +61,6 @@ export const FormHarvestProvider = ({
     setHarvestDetail(defaultValuesHarvestDetail);
   };
   const [openDialog, setOpenDialog] = useState(false);
-
-  const { form } = formState;
 
   const { details, total, value_pay } = useAppSelector(
     (state: any) => state.harvest
@@ -84,11 +93,7 @@ export const FormHarvestProvider = ({
   };
 
   const resetForm = () => {
-    formHarvestDetail.reset({
-      employee: { id: '', first_name: '' },
-      total: 0,
-      value_pay: 0,
-    });
+    formHarvestDetail.reset(defaultValuesHarvestDetail);
   };
 
   const handleOpenDialog = () => {
@@ -96,10 +101,22 @@ export const FormHarvestProvider = ({
     setOpenDialog(true);
   };
 
-  const handleCloseDialog = () => {
+  const ClearFormHarvestDetail = () => {
     resetForm();
     setIsActiveDialog(false);
     setOpenDialog(false);
+  };
+
+  const handleCloseDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (hasUnsavedChanges) {
+      showToast({
+        skiptRedirection: true,
+        action: ClearFormHarvestDetail,
+      });
+      return;
+    }
+    ClearFormHarvestDetail();
   };
 
   const getCurrentDataHarvestDetail = () => {
@@ -107,7 +124,8 @@ export const FormHarvestProvider = ({
     const employeeIdForm = values?.employee?.id;
     const nameEmployee = findEmployeeName(employeeIdForm);
     const data = {
-      ...values,
+      total: +values.total,
+      value_pay: +values.value_pay,
       employee: { id: employeeIdForm, first_name: nameEmployee },
     };
     return data;
@@ -139,21 +157,20 @@ export const FormHarvestProvider = ({
   }, [defaultValues]);
 
   useEffect(() => {
-    form.reset({
-      ...form.getValues(),
-      total,
-      value_pay,
-    });
+    formHarvest.setValue('total', total);
+    formHarvest.setValue('value_pay', value_pay);
   }, [total, value_pay]);
 
   useEffect(() => {
-    form.setValue('details', details);
+    formHarvest.setValue('details', details);
   }, [details]);
 
   return (
     <FormHarvestContext.Provider
       value={{
-        ...formState,
+        form: formHarvest,
+        isOpenDialogForm,
+        setIsOpenDialogForm,
         isSubmitting,
         onSubmit,
         readOnly,

@@ -102,7 +102,6 @@ export const FormHarvestFields = () => {
 
         {/* TODO: Refactor */}
         <FormFieldInput
-          className=""
           control={form.control}
           description={formFieldsHarvest.total.description}
           label={formFieldsHarvest.total.label}
@@ -110,6 +109,7 @@ export const FormHarvestFields = () => {
           placeholder={formFieldsHarvest.total.placeholder}
           readOnly={true}
           type="number"
+          hiddenInput
         >
           <Badge
             className="block h-8 text-base text-center w-28"
@@ -129,6 +129,7 @@ export const FormHarvestFields = () => {
           placeholder={formFieldsHarvest.value_pay.placeholder}
           readOnly={true}
           type="number"
+          hiddenInput
         >
           <Badge
             className="block h-8 text-base text-center w-28"

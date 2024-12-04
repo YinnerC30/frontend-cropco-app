@@ -13,6 +13,7 @@ interface FormFieldInputProps extends FormFieldProps {
   step?: number;
   min?: number;
   autoFocus?: boolean;
+  hiddenInput?: boolean;
 }
 
 export const FormFieldInput = ({
@@ -28,6 +29,7 @@ export const FormFieldInput = ({
   step = 0,
   min = 0,
   autoFocus = false,
+  hiddenInput = false,
 }: FormFieldInputProps) => {
   return (
     <FormField
@@ -39,7 +41,7 @@ export const FormFieldInput = ({
           <FormControl>
             <div className="flex gap-4">
               <Input
-                className={`w-60 `}
+                className={`w-60 ${hiddenInput && 'hidden'}`}
                 placeholder={placeholder}
                 {...field}
                 readOnly={readOnly}
