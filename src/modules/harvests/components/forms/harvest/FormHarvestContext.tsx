@@ -8,6 +8,9 @@ import { useCreateForm } from '@/modules/core/hooks';
 import { useGetAllEmployees } from '@/modules/employees/hooks';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 
+import { useFormChange } from '@/modules/core/components';
+import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
+import { useToastDiscardChanges } from '@/modules/core/hooks/useToastDiscardChanges';
 import { HarvestDetail } from '@/modules/harvests/interfaces';
 import { MODULE_HARVESTS_PATHS } from '@/modules/harvests/routes/pathRoutes';
 import {
@@ -17,11 +20,15 @@ import {
 import {
   add,
   calculateTotal,
+  remove,
   reset,
 } from '@/modules/harvests/utils/harvestSlice';
 import { AppDispatch, useAppDispatch, useAppSelector } from '@/redux/store';
-import { useFormChange } from '@/modules/core/components';
-import { useToastDiscardChanges } from '@/modules/core/hooks/useToastDiscardChanges';
+import {
+  columnsHarvestDetail,
+  columnsHarvestDetailActions,
+} from '../../columns/ColumnsTableHarvestDetail';
+import { toast } from 'sonner';
 
 export const FormHarvestContext = createContext<any>(null);
 
@@ -30,8 +37,8 @@ export const defaultValuesHarvestDetail: HarvestDetail = {
     id: '',
     first_name: '',
   },
-  total: 0,
-  value_pay: 0,
+  total: 10,
+  value_pay: 1000,
 };
 
 export const FormHarvestProvider = ({
@@ -43,13 +50,28 @@ export const FormHarvestProvider = ({
 }: any & { children: React.ReactNode }) => {
   const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
 
+  const { details, total, value_pay } = useAppSelector(
+    (state: any) => state.harvest
+  );
+
   const formHarvest = useCreateForm({
     schema: formSchemaHarvest,
     defaultValues,
   });
 
-  const { setIsActiveDialog } = useDialogStatus();
+  const executeValidationFormHarvest = async () => {
+    return await formHarvest.trigger();
+  };
 
+  // TODO: Mejorar responsive de acciones
+  const dataTableHarvestDetail = useDataTableGeneric({
+    columns: !readOnly ? columnsHarvestDetailActions : columnsHarvestDetail,
+    data: details,
+  });
+
+  const { getIdsToRowsSelected, resetSelectionRows } = dataTableHarvestDetail;
+  const hasSelectedRecords = getIdsToRowsSelected().length > 0;
+  const { setIsActiveDialog } = useDialogStatus();
   const { hasUnsavedChanges } = useFormChange();
   const { showToast } = useToastDiscardChanges();
 
@@ -62,9 +84,6 @@ export const FormHarvestProvider = ({
   };
   const [openDialog, setOpenDialog] = useState(false);
 
-  const { details, total, value_pay } = useAppSelector(
-    (state: any) => state.harvest
-  );
   const navigate = useNavigate();
 
   const { hasPermission } = useAuthContext();
@@ -145,6 +164,24 @@ export const FormHarvestProvider = ({
     );
   };
 
+  const handleDeleteBulkHarvestDetails = () => {
+    const recordsIds = getIdsToRowsSelected().map((el: any) => el.id);
+    const currentValues = [...formHarvest.watch('details')];
+    const result = currentValues.filter((element: any) => {
+      if (!recordsIds.includes(element.id)) {
+        return element;
+      }
+    });
+
+    for (const record of getIdsToRowsSelected()) {
+      dispatch(remove(record as HarvestDetail));
+      dispatch(calculateTotal());
+    }
+    resetSelectionRows();
+    formHarvest.setValue('details', result, { shouldValidate: true });
+    toast.success(`Se han eliminado las cosechas!`);
+  };
+
   useEffect(() => {
     dispatch(reset());
   }, []);
@@ -160,10 +197,6 @@ export const FormHarvestProvider = ({
     formHarvest.setValue('total', total);
     formHarvest.setValue('value_pay', value_pay);
   }, [total, value_pay]);
-
-  useEffect(() => {
-    formHarvest.setValue('details', details);
-  }, [details]);
 
   return (
     <FormHarvestContext.Provider
@@ -190,6 +223,10 @@ export const FormHarvestProvider = ({
         handleOpenDialog,
         handleCloseDialog,
         resetHarvestDetail,
+        ...dataTableHarvestDetail,
+        handleDeleteBulkHarvestDetails,
+        hasSelectedRecords,
+        executeValidationFormHarvest,
       }}
     >
       {children}

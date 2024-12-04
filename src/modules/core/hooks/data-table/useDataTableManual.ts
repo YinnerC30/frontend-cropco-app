@@ -13,7 +13,8 @@ interface RowData {
   id: string;
 }
 
-export const useDataTable = ({
+// TODO: Renombre de propiedades data y rows, es confuso su uso, intercambiar
+export const useDataTableManual = ({
   columns,
   data,
   rows,
@@ -52,8 +53,8 @@ export const useDataTable = ({
   const getIdsToRowsSelected = (): RowData[] => {
     return arrayIndexRowsSelected
       .map((index: number) => {
-        const user = table.getRowModel().rows[index]?.original as RowData;
-        return user ? { id: user.id } : null;
+        const record = table.getRowModel().rows[index]?.original as RowData;
+        return record ? { id: record.id } : null;
       })
       .filter((item): item is RowData => item !== null);
   };

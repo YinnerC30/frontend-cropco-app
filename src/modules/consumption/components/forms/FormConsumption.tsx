@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
 import { FormFieldCalendar } from "@/modules/core/components/form/fields/FormFieldCalendar";
 import { FormFieldDataTable } from "@/modules/core/components/form/fields/FormFieldDataTable";
-import { FormDataTable } from "@/modules/core/components/form/FormDataTable";
+import { FormDataTable } from "@/modules/core/components/form/data-table/FormDataTableTemplate";
 import { FormProps } from "@/modules/core/interfaces/form/FormProps";
 import { useEffect } from "react";
 import { useConsumptionForm } from "../../hooks/useConsumptionForm";

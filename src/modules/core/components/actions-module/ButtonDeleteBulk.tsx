@@ -9,10 +9,10 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
 import { Trash } from 'lucide-react';
+import { useState } from 'react';
 import { ToolTipTemplate } from '../shared/ToolTipTemplate';
 
 interface Props {
@@ -26,40 +26,50 @@ export const ButtonDeleteBulk = ({
   disabled = false,
   visible,
 }: Props) => {
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleOpenAlertDialog = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    setOpenDialog(true);
+  };
+
   return (
-    <AlertDialog>
+    <>
       <ToolTipTemplate content={'Eliminar varios registros'}>
-        <AlertDialogTrigger asChild>
-          <Button
-            className={`${!visible ? 'hidden' : ''} `}
-            variant="outline"
-            size="icon"
-            disabled={disabled}
-          >
-            <Trash className="w-4 h-4" />
-            <span className="sr-only">Eliminar registros</span>
-          </Button>
-        </AlertDialogTrigger>
+        <Button
+          className={`${!visible ? 'hidden' : ''} `}
+          variant="outline"
+          size="icon"
+          disabled={disabled}
+          onClick={handleOpenAlertDialog}
+        >
+          <Trash className="w-4 h-4" />
+          <span className="sr-only">Eliminar registros</span>
+        </Button>
       </ToolTipTemplate>
 
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>
-            ¿Estas seguro de eliminar los registros?
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            Esta acción es irreversible y no podrá recuperar los registros
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel asChild>
-            <Button variant="secondary">Cancelar</Button>
-          </AlertDialogCancel>
-          <AlertDialogAction asChild>
-            <Button onClick={onClick}>Continuar</Button>
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+      <AlertDialog open={openDialog} onOpenChange={setOpenDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              ¿Estas seguro de eliminar los registros?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta acción es irreversible y no podrá recuperar los registros
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel asChild>
+              <Button variant="secondary">Cancelar</Button>
+            </AlertDialogCancel>
+            <AlertDialogAction asChild>
+              <Button onClick={onClick}>Continuar</Button>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 };

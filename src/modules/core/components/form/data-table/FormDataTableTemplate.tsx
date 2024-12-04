@@ -56,6 +56,7 @@ export function FormDataTable({
 }: Props) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  
   const table = useReactTable({
     data,
     columns,
@@ -81,6 +82,7 @@ export function FormDataTable({
   return (
     <>
       <div className="w-[600px]">
+        {/* Input filter */}
         <div
           className={`flex flex-col items-start justify-between gap-2 my-2 ml-1 ${
             showFilter ? '' : 'hidden'

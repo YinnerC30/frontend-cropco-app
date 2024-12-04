@@ -1,5 +1,5 @@
 import { useAuthContext } from '@/auth/hooks/index.ts';
-import { useDataTable } from '@/modules/core/hooks';
+import { useDataTableManual } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { createContext } from 'react';
 import { useWindowSize } from 'react-use';
@@ -27,7 +27,7 @@ export const SuppliersModuleProvider = ({ children }: any) => {
     actions: SuppliersModuleActionsTable,
   });
   const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
-    useDataTable({
+    useDataTableManual({
       columns: columnsTable,
       data: query.data ?? [],
       rows:

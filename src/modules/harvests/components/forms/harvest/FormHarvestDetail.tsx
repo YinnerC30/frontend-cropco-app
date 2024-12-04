@@ -10,7 +10,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 
 import { useAppDispatch } from '@/redux/store';
@@ -21,6 +20,8 @@ import { useFormHarvestContext } from '../../../hooks';
 import { add, calculateTotal, modify } from '../../../utils/harvestSlice';
 import { FormHarvestDetailsButtons } from './details/FormHarvestDetailsButtons';
 
+import { ToolTipTemplate } from '@/modules/core/components';
+import { Plus } from 'lucide-react';
 import { FormHarvestDetailsFields } from './details/FormHarvestDetailsFields';
 
 export const FormHarvestDetail = () => {
@@ -36,19 +37,22 @@ export const FormHarvestDetail = () => {
     resetHarvestDetail,
     resetForm,
     setHarvestDetail,
+    form,
+    details,
+    executeValidationFormHarvest,
   } = useFormHarvestContext();
 
   const onSubmitHarvestDetail = () => {
     const values = getCurrentDataHarvestDetail();
     if (!harvestDetail.id) {
-      dispatch(
-        add([
-          {
-            ...values,
-            id: generateUUID(),
-          },
-        ])
-      );
+      const record = {
+        ...values,
+        id: generateUUID(),
+      };
+      dispatch(add([record]));
+      form.setValue('details', [...details, record], {
+        shouldValidate: true,
+      });
       resetForm();
       toast.success('Registro añadido');
     } else {
@@ -60,52 +64,60 @@ export const FormHarvestDetail = () => {
       setHarvestDetail({ ...values, id: harvestDetail.id });
       toast.success('Registro actualizado');
     }
+    executeValidationFormHarvest();
     dispatch(calculateTotal());
   };
 
-  const handleOpenDialogExtended = () => {
+  const handleOpenDialogExtended = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
     resetHarvestDetail();
     handleOpenDialog();
   };
 
   return (
-    <Dialog open={openDialog} onOpenChange={setOpenDialog} modal={false}>
-      <DialogTrigger asChild>
+    <>
+      <ToolTipTemplate content={'Crear registro'}>
         <Button
-          className={`block my-2 ml-1 ${readOnly && 'hidden'}`}
-          onClick={() => handleOpenDialogExtended()}
+          variant="outline"
+          size="icon"
+          onClick={handleOpenDialogExtended}
           disabled={readOnly}
         >
-          Añadir
+          <Plus className="w-4 h-4" />
+          <span className="sr-only">Crear nuevo registro</span>
         </Button>
-      </DialogTrigger>
-      <DialogContent
-        className="sm:max-w-[425px]"
-        onClick={(e) => e.preventDefault()}
-        onPointerDownOutside={(e) => e.preventDefault()}
-        onInteractOutside={(e) => e.preventDefault()}
-        onEscapeKeyDown={(e) => e.preventDefault()}
-      >
-        <DialogClose
-          onClick={(e) => handleCloseDialog(e)}
-          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+      </ToolTipTemplate>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog} modal={false}>
+        <DialogContent
+          className="sm:max-w-[425px]"
+          onClick={(e) => e.preventDefault()}
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onInteractOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
         >
-          <Cross2Icon className="w-4 h-4" />
-          <span className="sr-only">Close</span>
-        </DialogClose>
-        <DialogHeader>
-          <DialogTitle>Cosecha empleado</DialogTitle>
-          <DialogDescription className="">
-            Información detallada de la cosecha realizada por el empleado
-          </DialogDescription>
-        </DialogHeader>
+          <DialogClose
+            onClick={handleCloseDialog}
+            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+          >
+            <Cross2Icon className="w-4 h-4" />
+            <span className="sr-only">Close</span>
+          </DialogClose>
+          <DialogHeader>
+            <DialogTitle>Cosecha empleado</DialogTitle>
+            <DialogDescription className="">
+              Información detallada de la cosecha realizada por el empleado
+            </DialogDescription>
+          </DialogHeader>
 
-        <FormHarvestDetailsFields />
+          <FormHarvestDetailsFields />
 
-        <DialogFooter>
-          <FormHarvestDetailsButtons onClick={onSubmitHarvestDetail} />
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          <DialogFooter>
+            <FormHarvestDetailsButtons onClick={onSubmitHarvestDetail} />
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };

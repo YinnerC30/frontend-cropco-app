@@ -1,6 +1,5 @@
 import { Badge, Form, Separator } from '@/components';
 import {
-  FormDataTable,
   FormFieldCalendar,
   FormFieldCommand,
   FormFieldDataTable,
@@ -10,13 +9,9 @@ import {
 import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { formFieldsHarvest } from '@/modules/harvests/utils';
-import {
-  columnsHarvestDetail,
-  columnsHarvestDetailActions,
-} from '../../columns/ColumnsTableHarvestDetail';
 
 import { useGetAllCrops } from '@/modules/crops/hooks';
-import { FormHarvestDetail } from './FormHarvestDetail';
+import { FormHarvestDataTable } from './FormHarvestDataTable';
 
 export const FormHarvestFields = () => {
   const {
@@ -24,10 +19,9 @@ export const FormHarvestFields = () => {
     onSubmit,
     readOnly,
     details,
-    setHarvestDetail,
     total,
     value_pay,
-    handleOpenDialog,
+    executeValidationFormHarvest,
   } = useFormHarvestContext();
 
   const { query: queryCrops } = useGetAllCrops({
@@ -39,8 +33,13 @@ export const FormHarvestFields = () => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit((formData: any) => {
-          onSubmit(formData, details, total, value_pay);
+        onSubmit={form.handleSubmit(async (formData: any) => {
+          const result = await executeValidationFormHarvest();
+          console.log(result);
+          console.log(formData);
+          if (result) {
+            onSubmit(formData, details, total, value_pay);
+          }
         })}
         id="formHarvest"
         className="flex flex-col gap-2 ml-1"
@@ -85,10 +84,7 @@ export const FormHarvestFields = () => {
           readOnly={readOnly}
         >
           {/* TODO: Refactor */}
-          <FormHarvestDetail />
-
-          {/* TODO: Refactor */}
-          <FormDataTable
+          {/* <FormDataTable
             data={details}
             columns={
               readOnly ? columnsHarvestDetail : columnsHarvestDetailActions
@@ -97,7 +93,9 @@ export const FormHarvestFields = () => {
             sideEffect={!readOnly && handleOpenDialog}
             nameColumnToFilter={'employee_first_name'}
             placeholderInputToFilter={'Buscar empleado por nombre...'}
-          />
+          /> */}
+
+          <FormHarvestDataTable />
         </FormFieldDataTable>
 
         {/* TODO: Refactor */}

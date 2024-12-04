@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 import { ErrorLoading, Loading } from '../../core/components';
 
 import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
-import { useDataTable } from '@/modules/core/hooks';
+import { useDataTableManual } from '@/modules/core/hooks';
 
 import { useGetAllHarvests } from '../hooks/queries/useGetAllHarvests';
 import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
@@ -57,7 +57,7 @@ export const HarvestModule = () => {
     actions: [],
   });
 
-  const { table, lengthColumns } = useDataTable({
+  const { table, lengthColumns } = useDataTableManual({
     columns: columnsTable,
     data: query.data ?? [],
     rows: query.data?.rows ?? [],

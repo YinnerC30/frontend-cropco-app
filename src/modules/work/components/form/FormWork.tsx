@@ -5,7 +5,7 @@ import { FormFieldCommand } from "@/modules/core/components/form/fields/FormFiel
 import { FormFieldDataTable } from "@/modules/core/components/form/fields/FormFieldDataTable";
 import { FormFieldInput } from "@/modules/core/components/form/fields/FormFieldInput";
 import { FormFieldTextArea } from "@/modules/core/components/form/fields/FormFieldTextArea";
-import { FormDataTable } from "@/modules/core/components/form/FormDataTable";
+import { FormDataTable } from "@/modules/core/components/form/data-table/FormDataTableTemplate";
 import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
 import { FormProps } from "@/modules/core/interfaces/form/FormProps";
 import { useNavigate } from "react-router-dom";

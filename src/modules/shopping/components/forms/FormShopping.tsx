@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { formFieldsShopping } from "../../utils/formFieldsShopping";
 
 import { ButtonsForm } from "@/modules/core/components/ButtonsForm";
-import { FormDataTable } from "@/modules/core/components/form/FormDataTable";
+import { FormDataTable } from "@/modules/core/components/form/data-table/FormDataTableTemplate";
 import { useEffect } from "react";
 import { useShoppingForm } from "../../hooks/useShoppingForm";
 import { add, calculateTotal, reset } from "../../utils/shoppingSlice";
