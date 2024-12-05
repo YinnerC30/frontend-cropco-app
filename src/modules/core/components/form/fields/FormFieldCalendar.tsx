@@ -1,7 +1,7 @@
-import { es } from "date-fns/locale";
+import { es } from 'date-fns/locale';
 
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import {
   FormControl,
   FormDescription,
@@ -9,17 +9,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
+} from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { CalendarIcon } from '@radix-ui/react-icons';
+import { format } from 'date-fns';
 
-import { FormFieldProps } from "../../../interfaces/form/FormFieldProps";
+import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
+import { useState } from 'react';
 
 export const FormFieldCalendar = ({
   control,
@@ -28,8 +29,9 @@ export const FormFieldCalendar = ({
   name,
   placeholder,
   readOnly = false,
-  className = "",
+  className = '',
 }: FormFieldProps) => {
+  const [openPopover, setOpenPopover] = useState(false);
   return (
     <FormField
       control={control}
@@ -39,20 +41,21 @@ export const FormFieldCalendar = ({
           <FormLabel>{label}</FormLabel>
 
           <div className="block">
-            <Popover>
+            <Popover open={openPopover} onOpenChange={setOpenPopover}>
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
                     ref={field.ref}
                     disabled={readOnly}
-                    variant={"outline"}
+                    variant={'outline'}
+                    onClick={() => setOpenPopover(true)}
                     className={cn(
-                      "w-[240px] pl-3 text-left font-normal",
-                      !field.value && "text-muted-foreground" && className
+                      'w-[240px] pl-3 text-left font-normal',
+                      !field.value && 'text-muted-foreground' && className
                     )}
                   >
                     {field.value ? (
-                      format(field.value, "PPP", { locale: es })
+                      format(field.value, 'PPP', { locale: es })
                     ) : (
                       <span>{placeholder}</span>
                     )}
@@ -65,9 +68,12 @@ export const FormFieldCalendar = ({
                   locale={es}
                   mode="single"
                   selected={new Date(field.value)}
-                  onSelect={field.onChange}
+                  onSelect={(date) => {
+                    field.onChange(date);
+                    setOpenPopover(false);
+                  }}
                   disabled={(date) =>
-                    date > new Date() || date < new Date("1900-01-01")
+                    date > new Date() || date < new Date('1900-01-01')
                   }
                   initialFocus
                 />

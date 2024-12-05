@@ -1,207 +1,42 @@
 import {
-  ColumnFiltersState,
-  SortingState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { useState } from 'react';
-
-import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  DoubleArrowLeftIcon,
-  DoubleArrowRightIcon,
-} from '@radix-ui/react-icons';
+  FormDataTableButtonsPagination,
+  FormDataTableProvider,
+} from '@/modules/core/components/form/data-table';
+import { FormDataTablePageCount } from '@/modules/core/components/form/data-table/FormDataTablePageCount';
+import { FormDataTableRowCount } from '@/modules/core/components/form/data-table/FormDataTableRowCount';
+import { FormDataTableRowSelection } from '@/modules/core/components/form/data-table/FormDataTableRowSelection';
+import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data-table/FormDataTableSelectPageSize';
+import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
+import columnsHarvestProcessed from './columns/ColumnsTableHarvestProcessed';
+import { FormDataTable } from '@/modules/core/components/form/data-table/';
 
 interface Props {
   data: any;
-  columns: any;
-  setHarvestProcessed?: any;
-  setIsOpenDialogModifyForm?: any;
 }
 
-export function DataTableHarvestProcessed({
-  data,
-  columns,
-  setHarvestProcessed,
-  setIsOpenDialogModifyForm,
-}: Props) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const table = useReactTable({
+export function DataTableHarvestProcessed({ data }: Props) {
+  const { table, lengthColumns } = useDataTableGeneric({
+    columns: columnsHarvestProcessed,
     data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    state: {
-      sorting,
-      columnFilters,
-    },
   });
-
-  const pageIndex = table.getState().pagination.pageIndex;
-  const pageCount = table.getPageCount();
-  const pageText = `Página ${pageIndex + 1} de ${pageCount}`;
-
-  const messageCountPage =
-    pageCount > 0 ? pageText : `Página ${pageIndex} de ${pageCount}`;
-
+  console.log('Paso por aquí');
   return (
-    <>
-      <div className="w-[400px]">
-        {/* Tabla */}
-        <div className={`w-auto border rounded-lg mt-3`}>
-          <Table>
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                      </TableHead>
-                    );
-                  })}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && 'selected'}
-                    onDoubleClick={() => {
-                      setHarvestProcessed(row.original);
-                      setIsOpenDialogModifyForm(true);
-                    }}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    No hay registros.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+    <FormDataTableProvider
+      table={table}
+      disabledDoubleClick={false}
+      errorMessage={'Esta vaina tiene errores!!'}
+      lengthColumns={lengthColumns}
+    >
+      <div className="flex justify-between my-2">
+        <div className="flex flex-col gap-2">
+          <FormDataTableRowCount />
+          <FormDataTableRowSelection />
         </div>
-        {/* Paginación */}
+        <FormDataTableSelectPageSize />
       </div>
-      <div className="flex items-center justify-start gap-4 my-2">
-        {/* Select de cantidad de registros por pagina */}
-        <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Filas por página</p>
-
-          <Select
-            value={`${table.getState().pagination.pageSize}`}
-            onValueChange={(value) => {
-              table.setPageSize(Number(value));
-            }}
-          >
-            <SelectTrigger className="h-8 w-[70px]">
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
-            </SelectTrigger>
-            <SelectContent side="top">
-              {[10, 20, 30, 40, 50].map((pageSize) => (
-                <SelectItem key={pageSize} value={`${pageSize}`}>
-                  {pageSize}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        {/* Cantidad de paginas */}
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          {messageCountPage}
-        </div>
-        {/* Flechas de Paginación */}
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            className="hidden w-8 h-8 p-0 lg:flex"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <span className="sr-only">Go to first page</span>
-            <DoubleArrowLeftIcon className="w-4 h-4" />
-          </Button>
-          <Button
-            variant="outline"
-            className="w-8 h-8 p-0"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <span className="sr-only">Go to previous page</span>
-            <ChevronLeftIcon className="w-4 h-4" />
-          </Button>
-          <Button
-            variant="outline"
-            className="w-8 h-8 p-0"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            <span className="sr-only">Go to next page</span>
-            <ChevronRightIcon className="w-4 h-4" />
-          </Button>
-          <Button
-            variant="outline"
-            className="hidden w-8 h-8 p-0 lg:flex"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            <span className="sr-only">Go to last page</span>
-            <DoubleArrowRightIcon className="w-4 h-4" />
-          </Button>
-        </div>
-        {/* Total registros */}
-        <div>
-          <p className="text-sm font-medium">Total: {data.length}</p>
-        </div>
-      </div>
-    </>
+      <FormDataTable onCellDoubleClick={(data) => console.log(data)} />
+      <FormDataTableButtonsPagination />
+      <FormDataTablePageCount />
+    </FormDataTableProvider>
   );
 }

@@ -50,7 +50,6 @@ export * from './table/CheckboxTable';
 export * from './table/ColumnHeader';
 export * from './table/ColumnToggle';
 
-export * from './form/data-table/FormDataTableTemplate';
 export * from './table/DataTableHook';
 export * from './table/DataTablePagination';
 export * from './table/FilterByColumn';

@@ -31,23 +31,13 @@ import {
 import { CalendarIcon } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetHarvest } from '../hooks/queries/useGetHarvest';
-import columnsHarvestProcessed from './columns/ColumnsTableHarvestProcessed';
 
 import { cn } from '@/lib/utils';
 import { BreadCrumb } from '@/modules/core/components/';
-import {
-  FormDataTableButtonsPagination,
-  FormDataTableProvider,
-} from '@/modules/core/components/form/data-table';
-import { FormDataTablePageCount } from '@/modules/core/components/form/data-table/FormDataTablePageCount';
-import { FormDataTableRowCount } from '@/modules/core/components/form/data-table/FormDataTableRowCount';
-import { FormDataTableRowSelection } from '@/modules/core/components/form/data-table/FormDataTableRowSelection';
-import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data-table/FormDataTableSelectPageSize';
 import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
 import { useCreateForm } from '@/modules/core/hooks';
-import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { useMemo, useState } from 'react';
@@ -56,6 +46,9 @@ import { usePostHarvestProcessed } from '../hooks';
 import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 import { formFieldsHarvest } from '../utils';
 import { formFieldsHarvestProcessed } from '../utils/formFieldsHarvestProcessed';
+import { useDialogStatus } from '@/components/common/DialogStatusContext';
+import { Harvest } from '../interfaces';
+import { DataTableHarvestProcessed } from './DataTableHarvestProcessed';
 
 const formSchemaHarvestProcessed = z.object({
   date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
@@ -70,37 +63,51 @@ const formSchemaHarvestProcessed = z.object({
 export const HarvestProcessedModule = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data, isLoading } = useGetHarvest(id!);
+  const { data, isLoading, isSuccess } = useGetHarvest(id!);
   const [openDialog, setOpenDialog] = useState(false);
+  const { setIsActiveDialog } = useDialogStatus();
 
-  const handleOpenDialogExtended = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-    setOpenDialog(true);
-  };
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
+  const dataTable = useMemo(() => {
+    return isSuccess
+      ? data.processed.map((item: Harvest) => {
+          return {
+            ...item,
+            crop: data.crop,
+            harvest: { id: data.id, date: data.date },
+          };
+        })
+      : [];
+  }, [data]);
 
   // Usar codigo largo
   const formProcessed = useCreateForm({
     schema: formSchemaHarvestProcessed,
     defaultValues: {
       date: undefined,
-      total: undefined,
+      total: 0,
     },
   });
 
+  const handleOpenDialogExtended = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    formProcessed.reset();
+    setIsActiveDialog(true);
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setIsActiveDialog(false);
+    setOpenDialog(false);
+  };
+
   const { isPending, mutate } = usePostHarvestProcessed();
 
-  // Usar codigo largo
-  // const { table, lengthColumns } = useDataTableGeneric({
-  //   columns: columnsHarvestProcessed,
-  //   data: [],
-  // });
-
-  const onSubmitHarvestProcessed = () => {
+  const onSubmitHarvestProcessed = async () => {
+    const result = await formProcessed.trigger();
+    if (!result) {
+      return;
+    }
     const values = formProcessed.watch();
     const finalData = {
       ...values,
@@ -112,7 +119,11 @@ export const HarvestProcessedModule = () => {
         id: data.id,
       },
     };
-    mutate(finalData);
+    mutate(finalData, {
+      onSuccess: () => {
+        formProcessed.reset();
+      },
+    });
   };
 
   if (isLoading) {
@@ -219,75 +230,76 @@ export const HarvestProcessedModule = () => {
         </h3>
 
         {/* Dialog */}
-        <>
-          <ToolTipTemplate content={'Crear registro'}>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={handleOpenDialogExtended}
-              // disabled={readOnly}
-            >
-              <Plus className="w-4 h-4" />
-              <span className="sr-only">Crear nuevo registro</span>
-            </Button>
-          </ToolTipTemplate>
-          <Dialog open={openDialog} onOpenChange={setOpenDialog} modal={false}>
-            <DialogContent
-              className="sm:max-w-[425px]"
-              onClick={(e) => e.preventDefault()}
-              onPointerDownOutside={(e) => e.preventDefault()}
-              onInteractOutside={(e) => e.preventDefault()}
-              onEscapeKeyDown={(e) => e.preventDefault()}
-            >
-              <DialogClose
-                onClick={handleCloseDialog}
-                className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-              >
-                <Cross2Icon className="w-4 h-4" />
-                <span className="sr-only">Close</span>
-              </DialogClose>
-              <DialogHeader>
-                <DialogTitle>Cosecha empleado</DialogTitle>
-                <DialogDescription className="">
-                  Información detallada de la cosecha realizada por el empleado
-                </DialogDescription>
-              </DialogHeader>
 
-              <Form {...formProcessed}>
-                <form className="z-50 mx-5" id="myform">
-                  <FormFieldCalendar
-                    control={formProcessed.control}
-                    description={formFieldsHarvestProcessed.date.description}
-                    label={formFieldsHarvestProcessed.date.label}
-                    name={'date'}
-                    placeholder={formFieldsHarvestProcessed.date.placeholder}
-                    readOnly={false}
-                  />
-                  <FormFieldInput
-                    control={formProcessed.control}
-                    description={'Total'}
-                    label={'Total'}
-                    name={'total'}
-                    placeholder={formFieldsHarvestProcessed.total.placeholder}
-                    readOnly={false}
-                    type="number"
-                  />
-                </form>
-              </Form>
+        <ToolTipTemplate content={'Crear registro'}>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handleOpenDialogExtended}
+            // disabled={readOnly}
+          >
+            <Plus className="w-4 h-4" />
+            <span className="sr-only">Crear nuevo registro</span>
+          </Button>
+        </ToolTipTemplate>
+        <Dialog open={openDialog} onOpenChange={setOpenDialog} modal={false}>
+          <DialogContent
+            className="sm:max-w-[425px]"
+            onClick={(e) => e.preventDefault()}
+            onPointerDownOutside={(e) => e.preventDefault()}
+            onInteractOutside={(e) => e.preventDefault()}
+            onEscapeKeyDown={(e) => e.preventDefault()}
+          >
+            <DialogClose
+              onClick={handleCloseDialog}
+              className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+            >
+              <Cross2Icon className="w-4 h-4" />
+              <span className="sr-only">Close</span>
+            </DialogClose>
+            <DialogHeader>
+              <DialogTitle>Cosecha empleado</DialogTitle>
+              <DialogDescription className="">
+                Información detallada de la cosecha realizada por el empleado
+              </DialogDescription>
+            </DialogHeader>
 
-              <DialogFooter>
-                <Button onClick={onSubmitHarvestProcessed} disabled={false}>
-                  {isPending && (
-                    <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
-                  )}
-                  Guardar
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </>
+            <Form {...formProcessed}>
+              <form className="z-50 mx-5" id="myform">
+                <FormFieldCalendar
+                  control={formProcessed.control}
+                  description={formFieldsHarvestProcessed.date.description}
+                  label={formFieldsHarvestProcessed.date.label}
+                  name={'date'}
+                  placeholder={formFieldsHarvestProcessed.date.placeholder}
+                  readOnly={false}
+                />
+                <FormFieldInput
+                  control={formProcessed.control}
+                  description={'Total'}
+                  label={'Total'}
+                  name={'total'}
+                  placeholder={formFieldsHarvestProcessed.total.placeholder}
+                  readOnly={false}
+                  type="number"
+                />
+              </form>
+            </Form>
+
+            <DialogFooter>
+              <Button onClick={onSubmitHarvestProcessed} disabled={isPending}>
+                {isPending && (
+                  <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
+                )}
+                Guardar
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
         {/* Fin Dialog */}
 
+        <DataTableHarvestProcessed data={dataTable} />
         {/* DataTable */}
         {/* <div className="w-[800px]">
           <FormDataTableProvider
