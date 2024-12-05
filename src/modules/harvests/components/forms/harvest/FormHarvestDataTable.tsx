@@ -14,7 +14,7 @@ import { FormDataTableRowCount } from '@/modules/core/components/form/data-table
 import { FormDataTableRowSelection } from '@/modules/core/components/form/data-table/FormDataTableRowSelection';
 import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data-table/FormDataTableSelectPageSize';
 import { useFormHarvestContext } from '@/modules/harvests/hooks';
-import { FormHarvestDetail } from './FormHarvestDetail';
+import { FormHarvestDetail } from './details/FormHarvestDetail';
 
 export const FormHarvestDataTable = () => {
   const {

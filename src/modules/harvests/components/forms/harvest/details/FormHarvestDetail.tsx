@@ -16,13 +16,14 @@ import { useAppDispatch } from '@/redux/store';
 import { toast } from 'sonner';
 import { v4 as generateUUID } from 'uuid';
 
-import { useFormHarvestContext } from '../../../hooks';
-import { add, calculateTotal, modify } from '../../../utils/harvestSlice';
-import { FormHarvestDetailsButtons } from './details/FormHarvestDetailsButtons';
-
 import { ToolTipTemplate } from '@/modules/core/components';
 import { Plus } from 'lucide-react';
-import { FormHarvestDetailsFields } from './details/FormHarvestDetailsFields';
+import { modify } from '@/modules/consumption/utils/consumptionSlice';
+import { useFormHarvestContext } from '@/modules/harvests/hooks';
+import { add, calculateTotal } from '@/modules/harvests/utils/harvestSlice';
+
+import { FormHarvestDetailsButtons } from './FormHarvestDetailsButtons';
+import { FormHarvestDetailsFields } from './FormHarvestDetailsFields';
 
 export const FormHarvestDetail = () => {
   const dispatch = useAppDispatch();

@@ -11,6 +11,7 @@ export const useGetHarvest = (id: string) => {
   const query = useQuery({
     queryKey: ['harvest', id],
     queryFn: () => getHarvestById(id),
+    staleTime: 60_000 * 60,
   });
   return query;
 };

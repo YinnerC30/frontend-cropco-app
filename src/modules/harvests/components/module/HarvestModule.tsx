@@ -3,23 +3,29 @@ import {
   BreadCrumb,
   ButtonCreateRecord,
   DataTableTemplate,
+  ErrorLoading,
+  Loading,
 } from '@/modules/core/components/';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
-import { ErrorLoading, Loading } from '../../core/components';
+
 
 import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
 import { useDataTableManual } from '@/modules/core/hooks';
 
-import { useGetAllHarvests } from '../hooks/queries/useGetAllHarvests';
-import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
-import columnsHarvest from './columns/ColumnsTableHarvest';
-import { SearchBarHarvest } from './SearchBarHarvest';
+
+
+
+
 import {
   DateTimeSelection,
   MinorOrMajorSelection,
 } from '@/modules/core/interfaces';
+import { useGetAllHarvests } from '../../hooks';
+import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
+import columnsHarvest from '../columns/ColumnsTableHarvest';
+import { SearchBarHarvest } from '../SearchBarHarvest';
 
 export const HarvestModule = () => {
   const [searchParams] = useSearchParams();
