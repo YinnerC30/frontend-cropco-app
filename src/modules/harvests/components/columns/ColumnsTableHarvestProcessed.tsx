@@ -1,17 +1,15 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown } from 'lucide-react';
 
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from '@tanstack/react-table';
 
-import { FormatDate } from "@/modules/core/helpers/formatting/FormatDate";
-import { FormatNumber } from "@/modules/core/helpers/formatting/FormatNumber";
-import { useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
-import { useDeleteHarvestProcessed } from "../../hooks/mutations/useDeleteHarvestProcessed";
-import { HarvestProcessed } from "../../interfaces/HarvestProcessed";
-import { formFieldsHarvestProcessed } from "../../utils/formFieldsHarvestProcessed";
-import { ActionsTableHarvestProcessed } from "./ActionsTableHarvestProcessed";
+import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
+import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
+import { useDeleteHarvestProcessed } from '../../hooks/mutations/useDeleteHarvestProcessed';
+import { HarvestProcessed } from '../../interfaces/HarvestProcessed';
+import { formFieldsHarvestProcessed } from '../../utils/formFieldsHarvestProcessed';
+import { ActionsTableHarvestProcessed } from './ActionsTableHarvestProcessed';
 
 export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
   {
@@ -25,7 +23,7 @@ export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           {formFieldsHarvestProcessed.date.label}
           <ArrowUpDown className="w-4 h-4 ml-2" />
@@ -36,7 +34,7 @@ export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
   {
     accessorKey: formFieldsHarvestProcessed.total.name,
     cell: ({ row }) => {
-      const total: number = row.getValue("total");
+      const total: number = row.getValue('total');
       return FormatNumber(total);
     },
     header: ({ column }: any) => {
@@ -44,7 +42,7 @@ export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           {formFieldsHarvestProcessed.total.label}
           <ArrowUpDown className="w-4 h-4 ml-2" />
@@ -53,19 +51,11 @@ export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
     },
   },
   {
-    id: "actions",
+    id: 'actions',
     cell: ({ row }: any) => {
-      const { id } = useParams();
-
       const values = row.original;
 
-      const queryClient = useQueryClient();
-
-      const { mutate, isSuccess } = useDeleteHarvestProcessed();
-
-      if (isSuccess) {
-        queryClient.invalidateQueries({ queryKey: ["harvest", id] });
-      }
+      const { mutate } = useDeleteHarvestProcessed();
 
       return (
         <ActionsTableHarvestProcessed

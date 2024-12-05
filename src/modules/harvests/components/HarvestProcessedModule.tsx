@@ -1,52 +1,122 @@
+import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
+
+import { Button } from '@/components/ui/button';
+
 import {
-  ErrorLoading,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+
+import {
+  FormFieldCalendar,
+  FormFieldInput,
   Loading,
   ToolTipTemplate,
 } from '@/modules/core/components';
+import { Plus } from 'lucide-react';
 
 import {
   Badge,
-  Button,
+  Form,
   Input,
-  Label,
   ScrollArea,
   Separator,
   Textarea,
 } from '@/components';
-import { CalendarIcon, PlusIcon } from 'lucide-react';
-import { useState } from 'react';
+import { CalendarIcon } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetHarvest } from '../hooks/queries/useGetHarvest';
-import { DataTableHarvestProcessed } from './DataTableHarvestProcessed';
 import columnsHarvestProcessed from './columns/ColumnsTableHarvestProcessed';
 
 import { cn } from '@/lib/utils';
 import { BreadCrumb } from '@/modules/core/components/';
+import {
+  FormDataTableButtonsPagination,
+  FormDataTableProvider,
+} from '@/modules/core/components/form/data-table';
+import { FormDataTablePageCount } from '@/modules/core/components/form/data-table/FormDataTablePageCount';
+import { FormDataTableRowCount } from '@/modules/core/components/form/data-table/FormDataTableRowCount';
+import { FormDataTableRowSelection } from '@/modules/core/components/form/data-table/FormDataTableRowSelection';
+import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data-table/FormDataTableSelectPageSize';
 import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
+import { useCreateForm } from '@/modules/core/hooks';
+import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { Harvest } from '../interfaces/Harvest';
-import { CreateHarvestProcessed } from './CreateHarvestProcessed';
-import { ModifyHarvestProcessed } from './ModifyHarvestProcessed';
-import { formFieldsHarvest } from '../utils';
+import { useMemo, useState } from 'react';
+import { z } from 'zod';
+import { usePostHarvestProcessed } from '../hooks';
 import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
+import { formFieldsHarvest } from '../utils';
+import { formFieldsHarvestProcessed } from '../utils/formFieldsHarvestProcessed';
+
+const formSchemaHarvestProcessed = z.object({
+  date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
+  total: z.coerce
+    .number({
+      required_error: `El total es requerido`,
+      invalid_type_error: `Debe introducir un valor numérico`,
+    })
+    .positive({ message: `El número debe ser positivo` }),
+});
 
 export const HarvestProcessedModule = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data = {}, isLoading, isError } = useGetHarvest(id!);
-  const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
-  const [isOpenDialogFormModify, setIsOpenDialogFormModify] = useState(false);
-  const [harvestProcessed, setHarvestProcessed] = useState({});
+  const { data, isLoading } = useGetHarvest(id!);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleOpenDialogExtended = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  // Usar codigo largo
+  const formProcessed = useCreateForm({
+    schema: formSchemaHarvestProcessed,
+    defaultValues: {
+      date: undefined,
+      total: undefined,
+    },
+  });
+
+  const { isPending, mutate } = usePostHarvestProcessed();
+
+  // Usar codigo largo
+  // const { table, lengthColumns } = useDataTableGeneric({
+  //   columns: columnsHarvestProcessed,
+  //   data: [],
+  // });
+
+  const onSubmitHarvestProcessed = () => {
+    const values = formProcessed.watch();
+    const finalData = {
+      ...values,
+      total: +values.total,
+      crop: {
+        id: data.crop.id,
+      },
+      harvest: {
+        id: data.id,
+      },
+    };
+    mutate(finalData);
+  };
 
   if (isLoading) {
     return <Loading />;
-  }
-
-  if (isError) {
-    return <ErrorLoading />;
   }
 
   return (
@@ -147,42 +217,97 @@ export const HarvestProcessedModule = () => {
           A continuación registre de forma individual la cosecha procesada que
           ha salido hasta el momento:
         </h3>
-        <div className="flex items-start justify-between gap-2 w-[800px] p-1">
-          <ToolTipTemplate content={'Agregar'}>
+
+        {/* Dialog */}
+        <>
+          <ToolTipTemplate content={'Crear registro'}>
             <Button
-              className="mt-2 bg-blue-600 rounded-full hover:bg-blue-400"
-              onClick={() => setIsOpenDialogForm(true)}
-              // disabled={data.total <= data.total_processed ? true : false}
+              variant="outline"
+              size="icon"
+              onClick={handleOpenDialogExtended}
+              // disabled={readOnly}
             >
-              <PlusIcon className="w-4 h-4 mr-2" /> Agregar
+              <Plus className="w-4 h-4" />
+              <span className="sr-only">Crear nuevo registro</span>
             </Button>
           </ToolTipTemplate>
-          {isOpenDialogForm && (
-            <CreateHarvestProcessed
-              isOpenDialogForm={isOpenDialogForm}
-              setIsOpenDialogForm={setIsOpenDialogForm}
-              crop={{ id: data.crop.id }}
-              harvest={{ id: data.id, date: data.date }}
-            />
-          )}
-        </div>
+          <Dialog open={openDialog} onOpenChange={setOpenDialog} modal={false}>
+            <DialogContent
+              className="sm:max-w-[425px]"
+              onClick={(e) => e.preventDefault()}
+              onPointerDownOutside={(e) => e.preventDefault()}
+              onInteractOutside={(e) => e.preventDefault()}
+              onEscapeKeyDown={(e) => e.preventDefault()}
+            >
+              <DialogClose
+                onClick={handleCloseDialog}
+                className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+              >
+                <Cross2Icon className="w-4 h-4" />
+                <span className="sr-only">Close</span>
+              </DialogClose>
+              <DialogHeader>
+                <DialogTitle>Cosecha empleado</DialogTitle>
+                <DialogDescription className="">
+                  Información detallada de la cosecha realizada por el empleado
+                </DialogDescription>
+              </DialogHeader>
 
-        <DataTableHarvestProcessed
-          data={
-            data.processed
-              ? data.processed.map((item: Harvest) => {
-                  return {
-                    ...item,
-                    crop: data.crop,
-                    harvest: { id: data.id, date: data.date },
-                  };
-                })
-              : []
-          }
-          columns={columnsHarvestProcessed}
-          setHarvestProcessed={setHarvestProcessed}
-          setIsOpenDialogModifyForm={setIsOpenDialogFormModify}
-        />
+              <Form {...formProcessed}>
+                <form className="z-50 mx-5" id="myform">
+                  <FormFieldCalendar
+                    control={formProcessed.control}
+                    description={formFieldsHarvestProcessed.date.description}
+                    label={formFieldsHarvestProcessed.date.label}
+                    name={'date'}
+                    placeholder={formFieldsHarvestProcessed.date.placeholder}
+                    readOnly={false}
+                  />
+                  <FormFieldInput
+                    control={formProcessed.control}
+                    description={'Total'}
+                    label={'Total'}
+                    name={'total'}
+                    placeholder={formFieldsHarvestProcessed.total.placeholder}
+                    readOnly={false}
+                    type="number"
+                  />
+                </form>
+              </Form>
+
+              <DialogFooter>
+                <Button onClick={onSubmitHarvestProcessed} disabled={false}>
+                  {isPending && (
+                    <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
+                  )}
+                  Guardar
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </>
+        {/* Fin Dialog */}
+
+        {/* DataTable */}
+        {/* <div className="w-[800px]">
+          <FormDataTableProvider
+            table={table}
+            disabledDoubleClick={false}
+            errorMessage={'Esta vaina tiene errores!!'}
+            lengthColumns={lengthColumns}
+          >
+            <div className="flex justify-between my-2">
+              <div className="flex flex-col gap-2">
+                <FormDataTableRowCount />
+                <FormDataTableRowSelection />
+              </div>
+              <FormDataTableSelectPageSize />
+            </div>
+            <FormDataTable onCellDoubleClick={(data) => console.log(data)} />
+            <FormDataTableButtonsPagination />
+            <FormDataTablePageCount />
+          </FormDataTableProvider>
+        </div> */}
 
         <div>
           <h3>Total de cosecha procesada:</h3>
@@ -196,15 +321,6 @@ export const HarvestProcessedModule = () => {
             {formFieldsHarvest.total_processed.description}
           </p>
         </div>
-
-        {isOpenDialogFormModify && (
-          <ModifyHarvestProcessed
-            isOpenDialogForm={isOpenDialogFormModify}
-            setIsOpenDialogForm={setIsOpenDialogFormModify}
-            defaultValues={harvestProcessed}
-            harvest={{ id: data.id, date: data.date }}
-          />
-        )}
 
         <Button className="mt-2" onClick={() => navigate(-1)}>
           Volver

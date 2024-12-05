@@ -1,11 +1,11 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-import { usePatchHarvestProcessed } from "../hooks/usePatchHarvestProcessed";
+import { usePatchHarvestProcessed } from '../hooks/';
 
-import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
-import { useEffect } from "react";
-import { CreateFormSchemaHarvestProcessed } from "../utils/formSchemaHarvestProcessed";
-import { FormHarvestProcessed } from "./forms/FormHarvestProcessed";
+import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
+import { useEffect } from 'react';
+import { CreateFormSchemaHarvestProcessed } from '../utils/formSchemaHarvestProcessed';
+import { FormHarvestProcessed } from './forms/FormHarvestProcessed';
 
 export const ModifyHarvestProcessed = ({
   isOpenDialogForm,
@@ -51,9 +51,9 @@ export const ModifyHarvestProcessed = ({
       isOpenDialogForm={isOpenDialogForm}
       setIsOpenDialogForm={setIsOpenDialogForm}
       isSubmitting={isPending}
-      dialogTitle={"Modificar cosecha procesada"}
+      dialogTitle={'Modificar cosecha procesada'}
       dialogDescription={
-        "Cuando termine de modificar la información, puede cerrar esta ventana."
+        'Cuando termine de modificar la información, puede cerrar esta ventana.'
       }
     />
   );
