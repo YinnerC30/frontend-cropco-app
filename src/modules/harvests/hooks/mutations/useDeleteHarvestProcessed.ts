@@ -13,8 +13,7 @@ export const useDeleteHarvestProcessed = () => {
   const mutation = useMutation({
     mutationFn: deleteHarvestProcessed,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['harvests_processed'] });
-
+      queryClient.invalidateQueries({ queryKey: ['harvest'] });
       toast.success(`Cosecha procesada eliminada`);
     },
     onError: (error: AxiosError) => {

@@ -48,7 +48,7 @@ import { formFieldsHarvest } from '../utils';
 import { formFieldsHarvestProcessed } from '../utils/formFieldsHarvestProcessed';
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { Harvest } from '../interfaces';
-import { DataTableHarvestProcessed } from './DataTableHarvestProcessed';
+import DataTableHarvestProcessed from './DataTableHarvestProcessed';
 
 const formSchemaHarvestProcessed = z.object({
   date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
@@ -299,27 +299,8 @@ export const HarvestProcessedModule = () => {
 
         {/* Fin Dialog */}
 
-        <DataTableHarvestProcessed data={dataTable} />
         {/* DataTable */}
-        {/* <div className="w-[800px]">
-          <FormDataTableProvider
-            table={table}
-            disabledDoubleClick={false}
-            errorMessage={'Esta vaina tiene errores!!'}
-            lengthColumns={lengthColumns}
-          >
-            <div className="flex justify-between my-2">
-              <div className="flex flex-col gap-2">
-                <FormDataTableRowCount />
-                <FormDataTableRowSelection />
-              </div>
-              <FormDataTableSelectPageSize />
-            </div>
-            <FormDataTable onCellDoubleClick={(data) => console.log(data)} />
-            <FormDataTableButtonsPagination />
-            <FormDataTablePageCount />
-          </FormDataTableProvider>
-        </div> */}
+        <DataTableHarvestProcessed data={dataTable} />
 
         <div>
           <h3>Total de cosecha procesada:</h3>

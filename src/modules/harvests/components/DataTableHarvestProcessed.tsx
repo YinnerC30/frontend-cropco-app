@@ -2,24 +2,25 @@ import {
   FormDataTableButtonsPagination,
   FormDataTableProvider,
 } from '@/modules/core/components/form/data-table';
+import { FormDataTable } from '@/modules/core/components/form/data-table/';
 import { FormDataTablePageCount } from '@/modules/core/components/form/data-table/FormDataTablePageCount';
 import { FormDataTableRowCount } from '@/modules/core/components/form/data-table/FormDataTableRowCount';
 import { FormDataTableRowSelection } from '@/modules/core/components/form/data-table/FormDataTableRowSelection';
 import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data-table/FormDataTableSelectPageSize';
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
+import { memo } from 'react';
 import columnsHarvestProcessed from './columns/ColumnsTableHarvestProcessed';
-import { FormDataTable } from '@/modules/core/components/form/data-table/';
 
 interface Props {
   data: any;
 }
 
-export function DataTableHarvestProcessed({ data }: Props) {
+const DataTableHarvestProcessed = memo(({ data }: Props) => {
   const { table, lengthColumns } = useDataTableGeneric({
     columns: columnsHarvestProcessed,
     data,
   });
-  console.log('Paso por aquí');
+
   return (
     <FormDataTableProvider
       table={table}
@@ -39,4 +40,6 @@ export function DataTableHarvestProcessed({ data }: Props) {
       <FormDataTablePageCount />
     </FormDataTableProvider>
   );
-}
+});
+
+export default DataTableHarvestProcessed;
