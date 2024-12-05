@@ -2,12 +2,15 @@ import { Button } from '@/components';
 import { XCircle } from 'lucide-react';
 import { ToolTipTemplate } from '../shared/ToolTipTemplate';
 
-
 export const ButtonClearSelection = ({ onClick, className, visible }: any) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    onClick();
+  };
   return (
     <ToolTipTemplate content="Borrar selección">
       <Button
-        onClick={onClick}
+        onClick={handleClick}
         className={`mr-4 ${className} ${!visible && 'hidden'}`}
         variant={'outline'}
       >

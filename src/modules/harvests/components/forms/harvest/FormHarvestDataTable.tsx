@@ -1,4 +1,7 @@
-import { ButtonDeleteBulk } from '@/modules/core/components';
+import {
+  ButtonClearSelection,
+  ButtonDeleteBulk,
+} from '@/modules/core/components';
 import {
   FormDataTable,
   FormDataTableActions,
@@ -22,6 +25,7 @@ export const FormHarvestDataTable = () => {
     hasSelectedRecords,
     setHarvestDetail,
     handleOpenDialog,
+    resetSelectionRows,
   } = useFormHarvestContext();
 
   const handleSetHarvestDetail = (data: any) => {
@@ -42,6 +46,10 @@ export const FormHarvestDataTable = () => {
           nameColumnFilter={'employee_first_name'}
         >
           <FormDataTableActions>
+            <ButtonClearSelection
+              onClick={resetSelectionRows}
+              visible={hasSelectedRecords}
+            />
             <ButtonDeleteBulk
               disabled={readOnly}
               onClick={handleDeleteBulkHarvestDetails}

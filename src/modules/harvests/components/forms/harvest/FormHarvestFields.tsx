@@ -63,6 +63,7 @@ export const FormHarvestFields = () => {
           placeholder={formFieldsHarvest.crop.placeholder}
           readOnly={readOnly}
           isLoading={queryCrops.isLoading}
+          nameEntity="cultivo"
         />
         <FormFieldTextArea
           control={form.control}

@@ -26,6 +26,7 @@ export const FormHarvestDetailsFields = () => {
           name={'employee.id'}
           placeholder={formFieldsHarvestDetail.employee.placeholder}
           readOnly={false}
+          nameEntity='empleado'
         />
 
         <FormFieldInput

@@ -27,6 +27,7 @@ import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 import { Loading } from '../../shared/Loading';
+import { CapitalizeFirstWord } from '@/auth';
 
 interface FormFieldCommandProps extends FormFieldProps {
   openPopover?: boolean;
@@ -35,6 +36,7 @@ interface FormFieldCommandProps extends FormFieldProps {
   form: any;
   nameToShow: string;
   isLoading?: boolean;
+  nameEntity?: string;
 }
 
 export const FormFieldCommand = ({
@@ -48,6 +50,7 @@ export const FormFieldCommand = ({
   nameToShow,
   readOnly,
   isLoading = false,
+  nameEntity = 'registro',
 }: FormFieldCommandProps) => {
   const [openPopover, setOpenPopover] = useState(false);
   return (
@@ -95,12 +98,14 @@ export const FormFieldCommand = ({
               <PopoverContent className="w-[200px] p-0">
                 <Command>
                   <CommandInput
-                    placeholder="Buscar cultivo..."
+                    placeholder={`Buscar ${nameEntity}...`}
                     className="h-9"
                   />
                   <CommandList>
                     <ScrollArea className="w-auto h-56">
-                      <CommandEmpty>Cultivo no encontrado.</CommandEmpty>
+                      <CommandEmpty>{`${CapitalizeFirstWord(
+                        nameEntity
+                      )} no encontrado`}</CommandEmpty>
                       <CommandGroup>
                         {data &&
                           Array.isArray(data) &&
