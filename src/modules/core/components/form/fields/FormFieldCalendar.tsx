@@ -68,7 +68,7 @@ export const FormFieldCalendar = ({
                 <Calendar
                   locale={es}
                   mode="single"
-                  selected={new Date(field.value)}
+                  selected={new Date(`${field.value}T00:00:00-05:00`)}
                   onSelect={(date) => {
                     field.onChange(date);
                     setOpenPopover(false);
