@@ -29,6 +29,7 @@ import { Plus } from 'lucide-react';
 import { memo, useState } from 'react';
 
 import { z } from 'zod';
+import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
 const formSchemaHarvestProcessed = z.object({
   date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
@@ -40,8 +41,10 @@ const formSchemaHarvestProcessed = z.object({
     .positive({ message: `El número debe ser positivo` }),
 });
 
-export const FormHarvestProcessed = memo(({ id }: { id: string }) => {
+export const FormHarvestProcessed = memo(() => {
   console.log('FormHarvestProcessed');
+  const { data, isLoading } = useHarvestProcessedContext();
+
   const formProcessed = useCreateForm({
     schema: formSchemaHarvestProcessed,
     defaultValues: {
@@ -50,7 +53,6 @@ export const FormHarvestProcessed = memo(({ id }: { id: string }) => {
     },
   });
 
-  const { data, isLoading } = useGetHarvest(id!);
   const { setIsActiveDialog } = useDialogStatus();
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -94,16 +96,18 @@ export const FormHarvestProcessed = memo(({ id }: { id: string }) => {
 
   return (
     <div>
-      <ToolTipTemplate content={'Crear registro'}>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={handleOpenDialogExtended}
-        >
-          <Plus className="w-4 h-4" />
-          <span className="sr-only">Crear nuevo registro</span>
-        </Button>
-      </ToolTipTemplate>
+      <div className="w-[600px] flex justify-end mt-2">
+        <ToolTipTemplate content={'Crear registro'}>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handleOpenDialogExtended}
+          >
+            <Plus className="w-4 h-4" />
+            <span className="sr-only">Crear nuevo registro</span>
+          </Button>
+        </ToolTipTemplate>
+      </div>
       <Dialog open={openDialog} onOpenChange={setOpenDialog} modal={false}>
         <DialogContent
           className="sm:max-w-[425px]"

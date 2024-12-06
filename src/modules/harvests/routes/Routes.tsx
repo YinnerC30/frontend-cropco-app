@@ -1,6 +1,6 @@
 import { CreateHarvest } from '../components/CreateHarvest';
 
-import HarvestProcessed from '../components/module/processed/HarvestProcessed';
+import { HarvestProcessed } from '../components/module/processed/HarvestProcessed';
 import { ModifyHarvest } from '../components/ModifyHarvest';
 import { ViewHarvest } from '../components/ViewHarvest';
 import HarvestModule from '../components/module/HarvestModule';

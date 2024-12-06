@@ -8,6 +8,7 @@ export const getHarvestById = async (id: string) => {
 };
 
 export const useGetHarvest = (id: string) => {
+  console.log('Se llamo');
   const query = useQuery({
     queryKey: ['harvest', id],
     queryFn: () => getHarvestById(id),

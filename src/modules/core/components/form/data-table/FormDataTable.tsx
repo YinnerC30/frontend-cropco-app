@@ -11,11 +11,12 @@ import { flexRender } from '@tanstack/react-table';
 
 interface Props {
   onCellDoubleClick: (data: any) => void;
+  className?: string;
 }
-export const FormDataTable = ({ onCellDoubleClick }: Props) => {
+export const FormDataTable = ({ onCellDoubleClick, className }: Props) => {
   const { table, lengthColumns } = useFormDataTableContext();
   return (
-    <Table className="border-b">
+    <Table className={`${className}`}>
       <TableHeader>
         {table.getHeaderGroups().map((headerGroup: any) => (
           <TableRow key={headerGroup.id}>

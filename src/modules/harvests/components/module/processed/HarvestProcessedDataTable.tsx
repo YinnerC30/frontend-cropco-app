@@ -1,3 +1,4 @@
+import { Badge, Label } from '@/components';
 import {
   FormDataTableButtonsPagination,
   FormDataTableProvider,
@@ -7,15 +8,16 @@ import { FormDataTablePageCount } from '@/modules/core/components/form/data-tabl
 import { FormDataTableRowCount } from '@/modules/core/components/form/data-table/FormDataTableRowCount';
 import { FormDataTableRowSelection } from '@/modules/core/components/form/data-table/FormDataTableRowSelection';
 import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data-table/FormDataTableSelectPageSize';
+import { FormatNumber } from '@/modules/core/helpers';
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
-import { useGetHarvest } from '@/modules/harvests/hooks';
 import { Harvest } from '@/modules/harvests/interfaces';
 import { memo, useMemo } from 'react';
 import columnsHarvestProcessed from '../../columns/ColumnsTableHarvestProcessed';
+import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
-const HarvestProcessedDataTable = memo(({ id }: { id: string }) => {
+const HarvestProcessedDataTable = memo(() => {
   // console.log('HarvestProcessedDataTable');
-  const { data, isSuccess } = useGetHarvest(id!);
+  const { data, isSuccess } = useHarvestProcessedContext();
 
   const finalData = useMemo(() => {
     return isSuccess
@@ -35,24 +37,38 @@ const HarvestProcessedDataTable = memo(({ id }: { id: string }) => {
   });
 
   return (
-    <div className="w-[800px]">
-      <FormDataTableProvider
-        table={table}
-        disabledDoubleClick={false}
-        errorMessage={'Esta vaina tiene errores!!'}
-        lengthColumns={lengthColumns}
-      >
-        <div className="flex justify-between my-2">
-          <div className="flex flex-col gap-2">
-            <FormDataTableRowCount />
-            <FormDataTableRowSelection />
+    <div>
+      <div className="w-[600px]">
+        <FormDataTableProvider
+          table={table}
+          disabledDoubleClick={false}
+          errorMessage={'Esta vaina tiene errores!!'}
+          lengthColumns={lengthColumns}
+        >
+          <div className="flex justify-between my-2">
+            <div className="flex flex-col gap-2">
+              <FormDataTableRowCount />
+              <FormDataTableRowSelection />
+            </div>
+            <FormDataTableSelectPageSize />
           </div>
-          <FormDataTableSelectPageSize />
-        </div>
-        <FormDataTable onCellDoubleClick={(data) => console.log(data)} />
-        <FormDataTableButtonsPagination />
-        <FormDataTablePageCount />
-      </FormDataTableProvider>
+          <div className="p-1 border rounded-md">
+            <FormDataTable onCellDoubleClick={(data) => console.log(data)} />
+          </div>
+          <div>
+            <Label>Total de cosecha procesada:</Label>
+            <Badge
+              className="block h-8 my-2 text-base text-center w-28"
+              variant={'cyan'}
+            >
+              {FormatNumber(isSuccess ? data.total_processed : 0)}
+            </Badge>
+            <p className="text-[0.8rem] text-muted-foreground">{''}</p>
+          </div>
+          <FormDataTableButtonsPagination />
+          <FormDataTablePageCount />
+        </FormDataTableProvider>
+      </div>
     </div>
   );
 });

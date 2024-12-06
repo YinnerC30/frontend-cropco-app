@@ -1,9 +1,20 @@
-import { createContext, useContext } from 'react';
+import { useGetHarvest } from '@/modules/harvests/hooks';
+import React, { createContext, useContext } from 'react';
 
 export const HarvestProcessedContext = createContext<any>(null);
 
-export const HarvestProcessedProvider = ({ children }: any) => {
-  const contextValue = {};
+export const HarvestProcessedProvider = ({
+  id,
+  children,
+}: {
+  id: string;
+  children: React.ReactNode;
+}) => {
+  const queryOneHarvest = useGetHarvest(id!);
+
+  const contextValue = {
+    ...queryOneHarvest,
+  };
 
   return (
     <HarvestProcessedContext.Provider value={contextValue}>
