@@ -10,12 +10,17 @@ import { HarvestDetail } from '../interfaces/HarvestDetail';
 import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 import { formSchemaHarvest } from '../utils';
 import { FormHarvest } from './forms/harvest/FormHarvest';
+import { useAppDispatch } from '@/redux/store';
+import { reset } from '../utils/harvestSlice';
 
 export const ModifyHarvest = () => {
   const { id } = useParams();
 
   const { data, isLoading } = useGetHarvest(id!);
   const { mutate, isPending } = usePatchHarvest(id!);
+  const dispatch = useAppDispatch();
+
+  dispatch(reset());
 
   const onSubmitHarvest = (
     values: z.infer<typeof formSchemaHarvest>,
@@ -23,17 +28,24 @@ export const ModifyHarvest = () => {
     total: number,
     value_pay: number
   ) => {
-    mutate({
-      id,
-      ...values,
-      crop: { id: values.crop.id },
-      total,
-      value_pay,
-      details: details.map((item: HarvestDetail) => {
-        const { id, payments_harvest, ...rest } = item;
-        return { ...rest, employee: { id: rest.employee.id } };
-      }),
-    });
+    mutate(
+      {
+        id,
+        ...values,
+        crop: { id: values.crop.id },
+        total,
+        value_pay,
+        details: details.map((item: HarvestDetail) => {
+          const { id, payments_harvest, ...rest } = item;
+          return { ...rest, employee: { id: rest.employee.id } };
+        }),
+      },
+      {
+        onSuccess: () => {
+          dispatch(reset());
+        },
+      }
+    );
   };
 
   if (isLoading) return <Loading />;

@@ -187,7 +187,10 @@ export const FormHarvestProvider = ({
       dispatch(calculateTotal());
     }
     resetSelectionRows();
-    formHarvest.setValue('details', result, { shouldValidate: true });
+    formHarvest.setValue('details', result, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
     toast.success(`Se han eliminado las cosechas!`);
   };
 
@@ -203,8 +206,8 @@ export const FormHarvestProvider = ({
   }, [defaultValues]);
 
   useEffect(() => {
-    formHarvest.setValue('total', total);
-    formHarvest.setValue('value_pay', value_pay);
+    formHarvest.setValue('total', total, { shouldDirty: true });
+    formHarvest.setValue('value_pay', value_pay, { shouldDirty: true });
   }, [total, value_pay]);
 
   return (
