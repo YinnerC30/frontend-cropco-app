@@ -18,7 +18,7 @@ export const FormHarvest = ({
       readOnly={readOnly}
     >
       <div className="flex flex-col items-center">
-        <ScrollArea className={`h-[72vh] w-full`}>
+        <ScrollArea className={`h-[72vh] w-full pr-2`}>
           <FormHarvestFields />
         </ScrollArea>
 

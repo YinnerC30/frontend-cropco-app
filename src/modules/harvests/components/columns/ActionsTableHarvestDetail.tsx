@@ -12,7 +12,8 @@ import { useFormHarvestContext } from '../../hooks';
 import { ActionModifyRecordFormDataTable } from '../../../core/components/data-table/menu/actions/ActionModifyRecordFormDataTable';
 import { HarvestDetail } from '../../interfaces';
 
-export const ActionsTableHarvestDetail = ({ harvestDetail }: any) => {
+export const ActionsTableHarvestDetail = ({ row }: any) => {
+  const harvestDetail = row.original;
   const dispatch = useAppDispatch();
   const {
     setHarvestDetail,
@@ -26,7 +27,7 @@ export const ActionsTableHarvestDetail = ({ harvestDetail }: any) => {
       .watch('details')
       .filter((detail: HarvestDetail) => detail.id !== harvestDetail.id);
 
-    form.setValue('details', detailsForm);
+    form.setValue('details', detailsForm, { shouldDirty: true });
     dispatch(remove(harvestDetail));
 
     await form.trigger('details');

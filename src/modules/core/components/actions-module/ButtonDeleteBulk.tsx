@@ -41,7 +41,7 @@ export const ButtonDeleteBulk = ({
     <>
       <ToolTipTemplate content={'Eliminar varios registros'}>
         <Button
-          className={`${className} ${!true ? 'hidden' : ''} `}
+          className={`${className} ${!visible ? 'hidden' : ''} `}
           variant="outline"
           size="icon"
           disabled={disabled}

@@ -11,7 +11,7 @@ export const ButtonClearSelection = ({ onClick, className, visible }: any) => {
     <ToolTipTemplate content="Borrar selección">
       <Button
         onClick={handleClick}
-        className={`${className} ${!true && 'hidden'}`}
+        className={`${className} ${!visible && 'hidden'}`}
         variant={'outline'}
       >
         <XCircle className="w-4 h-4" />

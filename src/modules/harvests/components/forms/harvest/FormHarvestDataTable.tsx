@@ -4,10 +4,9 @@ import {
 } from '@/modules/core/components';
 import {
   FormDataTable,
-  FormDataTableActions,
   FormDataTableButtonsPagination,
   FormDataTableFilter,
-  FormDataTableProvider,
+  FormDataTableProvider
 } from '@/modules/core/components/form/data-table';
 import { FormDataTablePageCount } from '@/modules/core/components/form/data-table/FormDataTablePageCount';
 import { FormDataTableRowCount } from '@/modules/core/components/form/data-table/FormDataTableRowCount';

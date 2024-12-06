@@ -9,6 +9,7 @@ import { useGetAllEmployees } from '@/modules/employees/hooks';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 
 import { useFormChange } from '@/modules/core/components';
+import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
 import { useToastDiscardChanges } from '@/modules/core/hooks/useToastDiscardChanges';
 import { HarvestDetail } from '@/modules/harvests/interfaces';
@@ -24,11 +25,10 @@ import {
   reset,
 } from '@/modules/harvests/utils/harvestSlice';
 import { AppDispatch, useAppDispatch, useAppSelector } from '@/redux/store';
-import {
-  columnsHarvestDetail,
-  columnsHarvestDetailActions,
-} from '../../columns/ColumnsTableHarvestDetail';
+import { useWindowSize } from 'react-use';
 import { toast } from 'sonner';
+import { ActionsTableHarvestDetail } from '../../columns/ActionsTableHarvestDetail';
+import { columnsHarvestDetail } from '../../columns/ColumnsTableHarvestDetail';
 
 export const FormHarvestContext = createContext<any>(null);
 
@@ -54,6 +54,9 @@ export const FormHarvestProvider = ({
     (state: any) => state.harvest
   );
 
+  const { width } = useWindowSize();
+  const showActionsInFirstColumn = width < 1024;
+
   const formHarvest = useCreateForm({
     schema: formSchemaHarvest,
     defaultValues,
@@ -63,9 +66,15 @@ export const FormHarvestProvider = ({
     return await formHarvest.trigger();
   };
 
-  // TODO: Mejorar responsive de acciones
+  const columnsTable = createColumnsTable({
+    actionsInFirstColumn: showActionsInFirstColumn,
+    columns: columnsHarvestDetail,
+    actions: ActionsTableHarvestDetail,
+    hiddenActions: readOnly,
+  });
+
   const dataTableHarvestDetail = useDataTableGeneric({
-    columns: !readOnly ? columnsHarvestDetailActions : columnsHarvestDetail,
+    columns: columnsTable,
     data: details,
   });
 

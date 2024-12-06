@@ -1,13 +1,11 @@
 import { ColumnDef } from '@tanstack/react-table';
 
-import { ButtonHeaderTable, CheckboxTable } from '@/modules/core/components';
+import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
 import { HarvestDetail } from '../../interfaces/HarvestDetail';
-import { ActionsTableHarvestDetail } from './ActionsTableHarvestDetail';
 
 export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
-  CheckboxTable,
   {
     accessorKey: 'employee.first_name',
     header: ({ column }: any) => {
@@ -34,19 +32,19 @@ export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
   },
 ];
 
-export const columnsHarvestDetailActions = [
-  ...columnsHarvestDetail,
-  {
-    id: 'actions',
-    cell: ({ row }: any) => {
-      const harvestDetail = row.original;
+// export const columnsHarvestDetailActions = [
+//   ...columnsHarvestDetail,
+//   {
+//     id: 'actions',
+//     cell: ({ row }: any) => {
+//       const harvestDetail = row.original;
 
-      return <ActionsTableHarvestDetail harvestDetail={harvestDetail} />;
-    },
-  },
-];
+//       return <ActionsTableHarvestDetail harvestDetail={harvestDetail} />;
+//     },
+//   },
+// ];
 
 export default {
   columnsHarvestDetail,
-  columnsHarvestDetailActions,
+  // columnsHarvestDetailActions,
 };

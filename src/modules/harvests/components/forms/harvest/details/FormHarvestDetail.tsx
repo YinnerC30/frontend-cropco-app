@@ -52,6 +52,7 @@ export const FormHarvestDetail = () => {
       dispatch(add([record]));
       form.setValue('details', [...details, record], {
         shouldValidate: true,
+        shouldDirty: true,
       });
       resetForm();
       toast.success('Registro añadido');

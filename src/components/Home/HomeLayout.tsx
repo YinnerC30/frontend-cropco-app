@@ -69,7 +69,7 @@ export const HomeLayout = () => {
         })}
       </NavBar>
 
-      <Main className="col-span-12 p-5 mt-16 row-span-11 lg:col-span-10 sm:col-span-12">
+      <Main className="col-span-12 p-2 mt-16 row-span-11 lg:col-span-10 sm:col-span-12">
         <Outlet />
       </Main>
     </div>
