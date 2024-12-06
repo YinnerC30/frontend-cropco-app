@@ -4,17 +4,23 @@ import { useFormDataTableContext } from './FormDataTableContext';
 interface Props {
   placeholder: string;
   nameColumnFilter: string;
-  children: React.ReactNode;
+
+  className?: string;
 }
 
 export const FormDataTableFilter = ({
   placeholder,
   nameColumnFilter,
-  children,
+
+  className,
 }: Props) => {
   const { table, readOnly } = useFormDataTableContext();
   return (
-    <div className={`flex justify-between ${!readOnly ? '' : 'hidden'}`}>
+    <div
+      className={`flex justify-between gap-2 ${
+        !readOnly ? '' : 'hidden'
+      } ${className}`}
+    >
       <Input
         placeholder={placeholder}
         value={
@@ -25,7 +31,6 @@ export const FormDataTableFilter = ({
         }
         className="max-w-sm"
       />
-      {children}
     </div>
   );
 };

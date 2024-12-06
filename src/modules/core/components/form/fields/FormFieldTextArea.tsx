@@ -16,6 +16,7 @@ export const FormFieldTextArea = ({
   name,
   placeholder,
   readOnly = false,
+  className,
 }: FormFieldProps) => {
   return (
     <FormField
@@ -26,7 +27,7 @@ export const FormFieldTextArea = ({
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <Textarea
-              className="resize-none w-96"
+              className={`resize-none ${className}`}
               rows={4}
               placeholder={placeholder}
               {...field}

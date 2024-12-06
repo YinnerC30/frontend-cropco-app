@@ -10,13 +10,8 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
-
 import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
 import { useDataTableManual } from '@/modules/core/hooks';
-
-
-
-
 
 import {
   DateTimeSelection,

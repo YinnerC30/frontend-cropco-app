@@ -40,7 +40,6 @@ export const FormHarvestDetail = () => {
     setHarvestDetail,
     form,
     details,
-    executeValidationFormHarvest,
   } = useFormHarvestContext();
 
   const onSubmitHarvestDetail = () => {
@@ -65,7 +64,7 @@ export const FormHarvestDetail = () => {
       setHarvestDetail({ ...values, id: harvestDetail.id });
       toast.success('Registro actualizado');
     }
-    executeValidationFormHarvest();
+    form.trigger('details');
     dispatch(calculateTotal());
   };
 

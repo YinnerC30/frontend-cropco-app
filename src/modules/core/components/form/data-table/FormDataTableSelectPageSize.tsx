@@ -10,7 +10,7 @@ import { useFormDataTableContext } from './FormDataTableContext';
 export const FormDataTableSelectPageSize = () => {
   const { table } = useFormDataTableContext();
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center space-x-2 ">
       <p className="text-sm font-medium text-muted-foreground">N° registros</p>
       <Select
         value={`${table.getState().pagination.pageSize}`}

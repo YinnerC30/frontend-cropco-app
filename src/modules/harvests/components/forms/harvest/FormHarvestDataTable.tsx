@@ -16,6 +16,8 @@ import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data
 import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { FormHarvestDetail } from './details/FormHarvestDetail';
 
+import { ScrollArea, ScrollBar } from '@/components';
+
 export const FormHarvestDataTable = () => {
   const {
     table,
@@ -34,42 +36,54 @@ export const FormHarvestDataTable = () => {
   };
 
   return (
-    <div className="w-[800px]">
-      <FormDataTableProvider
-        table={table}
-        disabledDoubleClick={readOnly}
-        errorMessage={'Esta vaina tiene errores!!'}
-        lengthColumns={lengthColumns}
-      >
+    <FormDataTableProvider
+      table={table}
+      disabledDoubleClick={readOnly}
+      errorMessage={'Esta vaina tiene errores!!'}
+      lengthColumns={lengthColumns}
+    >
+      <div className="flex flex-col items-center justify-center gap-2 ">
+        {/* Barra */}
         <FormDataTableFilter
           placeholder={'Buscar por nombre de empleado...'}
           nameColumnFilter={'employee_first_name'}
-        >
-          <FormDataTableActions>
-            <ButtonClearSelection
-              onClick={resetSelectionRows}
-              visible={hasSelectedRecords}
-            />
-            <ButtonDeleteBulk
-              disabled={readOnly}
-              onClick={handleDeleteBulkHarvestDetails}
-              visible={hasSelectedRecords}
-            />
-            <FormHarvestDetail />
-          </FormDataTableActions>
-        </FormDataTableFilter>
+          className="w-[250px] ml-10 self-start sm:self-center sm:m-0"
+        />
 
-        <div className="flex justify-between my-2">
-          <div className="flex flex-col gap-2">
-            <FormDataTableRowCount />
-            <FormDataTableRowSelection />
-          </div>
+        {/* Botones */}
+        <div className="flex w-full gap-2 pl-2 ml-16 sm:justify-end pr-7 sm:m-0">
+          <ButtonClearSelection
+            onClick={resetSelectionRows}
+            visible={hasSelectedRecords}
+          />
+          <ButtonDeleteBulk
+            disabled={readOnly}
+            onClick={handleDeleteBulkHarvestDetails}
+            visible={hasSelectedRecords}
+          />
+          <FormHarvestDetail />
+        </div>
+
+        {/* Paginacion */}
+        <div className="flex flex-col items-center w-full gap-2 sm:flex-row sm:justify-evenly">
+          <FormDataTableRowCount />
+          <FormDataTableRowSelection />
           <FormDataTableSelectPageSize />
         </div>
-        <FormDataTable onCellDoubleClick={handleSetHarvestDetail} />
+
+        {/* Tabla */}
+        <ScrollArea
+          className="h-max-[460px] w-[95%] sm:w-full p-1 border rounded-sm self-start"
+          type="auto"
+        >
+          <FormDataTable onCellDoubleClick={handleSetHarvestDetail} />
+
+          <ScrollBar className="mt-2" orientation="horizontal" forceMount />
+        </ScrollArea>
+
         <FormDataTableButtonsPagination />
         <FormDataTablePageCount />
-      </FormDataTableProvider>
-    </div>
+      </div>
+    </FormDataTableProvider>
   );
 };

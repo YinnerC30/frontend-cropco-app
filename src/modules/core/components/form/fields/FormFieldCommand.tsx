@@ -102,7 +102,7 @@ export const FormFieldCommand = ({
                     className="h-9"
                   />
                   <CommandList>
-                    <ScrollArea className="w-auto h-56">
+                    <ScrollArea className="w-auto h-56 p-1 pr-2">
                       <CommandEmpty>{`${CapitalizeFirstWord(
                         nameEntity
                       )} no encontrado`}</CommandEmpty>

@@ -19,12 +19,14 @@ interface Props {
   onClick: any;
   disabled: boolean;
   visible: boolean;
+  className?: string;
 }
 
 export const ButtonDeleteBulk = ({
   onClick,
   disabled = false,
   visible,
+  className,
 }: Props) => {
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -39,7 +41,7 @@ export const ButtonDeleteBulk = ({
     <>
       <ToolTipTemplate content={'Eliminar varios registros'}>
         <Button
-          className={`${!visible ? 'hidden' : ''} `}
+          className={`${className} ${!true ? 'hidden' : ''} `}
           variant="outline"
           size="icon"
           disabled={disabled}

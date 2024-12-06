@@ -23,11 +23,12 @@ export const formSchemaHarvest = z.object({
       message: 'El valor a pagar debe ser un número que termine en 50 o 00.',
     }),
   observation: z
-    .string()
+    .string({
+      required_error: 'La observación de la cosecha es requerida',
+    })
     .max(100, {
       message: 'La observación no puede tener más de 100 caracteres.',
-    })
-    .optional(),
+    }),
   details: z
     .array(formSchemaHarvestDetail, {
       required_error:

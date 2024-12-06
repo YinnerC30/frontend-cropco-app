@@ -1,8 +1,8 @@
+import { ScrollArea } from '@/components';
 import { FormProps } from '@/modules/core/interfaces';
 import { FormHarvestButtons } from './FormHarvestButtons';
 import { FormHarvestProvider } from './FormHarvestContext';
 import { FormHarvestFields } from './FormHarvestFields';
-import { FormHarvestScrollArea } from './FormHarvestScrollArea';
 
 export const FormHarvest = ({
   defaultValues,
@@ -18,9 +18,10 @@ export const FormHarvest = ({
       readOnly={readOnly}
     >
       <div className="flex flex-col items-center">
-        <FormHarvestScrollArea>
+        <ScrollArea className={`h-[72vh] w-full`}>
           <FormHarvestFields />
-        </FormHarvestScrollArea>
+        </ScrollArea>
+
         <FormHarvestButtons />
       </div>
     </FormHarvestProvider>

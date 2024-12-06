@@ -35,108 +35,97 @@ export const FormHarvestFields = () => {
       <form
         onSubmit={form.handleSubmit(async (formData: any) => {
           const result = await executeValidationFormHarvest();
-          console.log(result);
-          console.log(formData);
           if (result) {
             onSubmit(formData, details, total, value_pay);
           }
         })}
         id="formHarvest"
-        className="flex flex-col gap-2 ml-1"
+        className="flex flex-col lg:justify-evenly lg:flex-row"
       >
-        <FormFieldCalendar
-          control={form.control}
-          description={formFieldsHarvest.date.description}
-          label={formFieldsHarvest.date.label}
-          name={'date'}
-          placeholder={formFieldsHarvest.date.placeholder}
-          readOnly={readOnly}
-        />
-        <FormFieldCommand
-          data={queryCrops?.data?.rows || []}
-          form={form}
-          nameToShow={'name'}
-          control={form.control}
-          description={formFieldsHarvest.crop.description}
-          label={formFieldsHarvest.crop.label}
-          name={'crop.id'}
-          placeholder={formFieldsHarvest.crop.placeholder}
-          readOnly={readOnly}
-          isLoading={queryCrops.isLoading}
-          nameEntity="cultivo"
-        />
-        <FormFieldTextArea
-          control={form.control}
-          description={formFieldsHarvest.observation.description}
-          label={formFieldsHarvest.observation.label}
-          name={'observation'}
-          placeholder={formFieldsHarvest.observation.placeholder}
-          readOnly={readOnly}
-        />
+        <div className="w-3/4 lg:w-[40%]">
+          <FormFieldCalendar
+            control={form.control}
+            description={formFieldsHarvest.date.description}
+            label={formFieldsHarvest.date.label}
+            name={'date'}
+            placeholder={formFieldsHarvest.date.placeholder}
+            readOnly={readOnly}
+          />
+          <FormFieldCommand
+            data={queryCrops?.data?.rows || []}
+            form={form}
+            nameToShow={'name'}
+            control={form.control}
+            description={formFieldsHarvest.crop.description}
+            label={formFieldsHarvest.crop.label}
+            name={'crop.id'}
+            placeholder={formFieldsHarvest.crop.placeholder}
+            readOnly={readOnly}
+            isLoading={queryCrops.isLoading}
+            nameEntity="cultivo"
+          />
+          <FormFieldTextArea
+            className="w-72"
+            control={form.control}
+            description={formFieldsHarvest.observation.description}
+            label={formFieldsHarvest.observation.label}
+            name={'observation'}
+            placeholder={formFieldsHarvest.observation.placeholder}
+            readOnly={readOnly}
+          />
+        </div>
 
-        <Separator className="w-full my-5" />
+        <div className="lg:w-[50%]">
+          <FormFieldDataTable
+            control={form.control}
+            description={''}
+            label={formFieldsHarvest.details.label}
+            name={'details'}
+            placeholder={''}
+            readOnly={readOnly}
+          >
+            <FormHarvestDataTable />
+          </FormFieldDataTable>
 
-        <FormFieldDataTable
-          control={form.control}
-          description={''}
-          label={formFieldsHarvest.details.label}
-          name={'details'}
-          placeholder={''}
-          readOnly={readOnly}
-        >
           {/* TODO: Refactor */}
-          {/* <FormDataTable
-            data={details}
-            columns={
-              readOnly ? columnsHarvestDetail : columnsHarvestDetailActions
-            }
-            setRecord={!readOnly && setHarvestDetail}
-            sideEffect={!readOnly && handleOpenDialog}
-            nameColumnToFilter={'employee_first_name'}
-            placeholderInputToFilter={'Buscar empleado por nombre...'}
-          /> */}
-
-          <FormHarvestDataTable />
-        </FormFieldDataTable>
-
-        {/* TODO: Refactor */}
-        <FormFieldInput
-          control={form.control}
-          description={formFieldsHarvest.total.description}
-          label={formFieldsHarvest.total.label}
-          name={'total'}
-          placeholder={formFieldsHarvest.total.placeholder}
-          readOnly={true}
-          type="number"
-          hiddenInput
-        >
-          <Badge
-            className="block h-8 text-base text-center w-28"
-            variant={'cyan'}
+          <FormFieldInput
+            control={form.control}
+            description={formFieldsHarvest.total.description}
+            label={formFieldsHarvest.total.label}
+            name={'total'}
+            placeholder={formFieldsHarvest.total.placeholder}
+            readOnly={true}
+            type="number"
+            hiddenInput
           >
-            {FormatNumber(total)}
-          </Badge>
-        </FormFieldInput>
+            <Badge
+              className="block h-8 text-base text-center w-28"
+              variant={'cyan'}
+            >
+              {FormatNumber(total)}
+            </Badge>
+          </FormFieldInput>
 
-        {/* TODO: Refactor */}
-        <FormFieldInput
-          className=""
-          control={form.control}
-          description={formFieldsHarvest.value_pay.description}
-          label={formFieldsHarvest.value_pay.label}
-          name={'value_pay'}
-          placeholder={formFieldsHarvest.value_pay.placeholder}
-          readOnly={true}
-          type="number"
-          hiddenInput
-        >
-          <Badge
-            className="block h-8 text-base text-center w-28"
-            variant={'indigo'}
+          {/* TODO: Refactor */}
+          <FormFieldInput
+            className=""
+            control={form.control}
+            description={formFieldsHarvest.value_pay.description}
+            label={formFieldsHarvest.value_pay.label}
+            name={'value_pay'}
+            placeholder={formFieldsHarvest.value_pay.placeholder}
+            readOnly={true}
+            type="number"
+            hiddenInput
           >
-            {FormatMoneyValue(value_pay)}
-          </Badge>
-        </FormFieldInput>
+            <Badge
+              className="block h-8 text-base text-center w-28"
+              variant={'indigo'}
+            >
+              {FormatMoneyValue(value_pay)}
+            </Badge>
+          </FormFieldInput>
+        </div>
       </form>
     </Form>
   );
