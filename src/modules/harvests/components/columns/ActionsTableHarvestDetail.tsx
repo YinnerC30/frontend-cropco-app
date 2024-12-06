@@ -9,7 +9,7 @@ import {
   DropDownMenuActions,
 } from '@/modules/core/components';
 import { useFormHarvestContext } from '../../hooks';
-import { ButtonModifyRecordFormDataTable } from './ButtonModifyRecordFormDataTable';
+import { ActionModifyRecordFormDataTable } from '../../../core/components/data-table/menu/actions/ActionModifyRecordFormDataTable';
 import { HarvestDetail } from '../../interfaces';
 
 export const ActionsTableHarvestDetail = ({ harvestDetail }: any) => {
@@ -53,7 +53,7 @@ export const ActionsTableHarvestDetail = ({ harvestDetail }: any) => {
         disabled={false}
       />
       {/* TODO: Activar disabled */}
-      <ButtonModifyRecordFormDataTable action={handleModify} />
+      <ActionModifyRecordFormDataTable action={handleModify} />
     </DropDownMenuActions>
   );
 };

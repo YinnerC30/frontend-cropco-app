@@ -2,7 +2,7 @@ import { Button, DropdownMenuItem } from '@/components';
 import { useDataTableMenuActionsContext } from '@/modules/core/components';
 import { Pencil2Icon } from '@radix-ui/react-icons';
 
-export const ButtonModifyRecordFormDataTable = ({ action }: any) => {
+export const ActionModifyRecordFormDataTable = ({ action }: any) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
 
   const handleClick = () => {

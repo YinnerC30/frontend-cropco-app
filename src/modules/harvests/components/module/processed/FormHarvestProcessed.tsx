@@ -1,32 +1,29 @@
 import {
-  DialogHeader,
-  DialogFooter,
-  Dialog,
-  DialogContent,
-  DialogClose,
-  DialogDescription,
-  DialogTitle,
   Button,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
   Form,
 } from '@/components';
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import {
-  ToolTipTemplate,
   FormFieldCalendar,
   FormFieldInput,
   Loading,
+  ToolTipTemplate,
 } from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks';
-import {
-  useGetHarvest,
-  usePostHarvestProcessed,
-} from '@/modules/harvests/hooks';
+import { usePostHarvestProcessed } from '@/modules/harvests/hooks';
 import { formFieldsHarvestProcessed } from '@/modules/harvests/utils/formFieldsHarvestProcessed';
 
 import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
 
 import { Plus } from 'lucide-react';
-import { memo, useState } from 'react';
+import { memo, useEffect } from 'react';
 
 import { z } from 'zod';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
@@ -42,19 +39,15 @@ const formSchemaHarvestProcessed = z.object({
 });
 
 export const FormHarvestProcessed = memo(() => {
-  console.log('FormHarvestProcessed');
-  const { data, isLoading } = useHarvestProcessedContext();
+  const { data, isLoading, openDialog, setOpenDialog, harvestProcessed } =
+    useHarvestProcessedContext();
 
   const formProcessed = useCreateForm({
     schema: formSchemaHarvestProcessed,
-    defaultValues: {
-      date: undefined,
-      total: 0,
-    },
+    defaultValues: harvestProcessed,
   });
 
   const { setIsActiveDialog } = useDialogStatus();
-  const [openDialog, setOpenDialog] = useState(false);
 
   const handleOpenDialogExtended = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -93,6 +86,10 @@ export const FormHarvestProcessed = memo(() => {
       },
     });
   };
+
+  useEffect(() => {
+    formProcessed.reset(harvestProcessed);
+  }, [harvestProcessed]);
 
   return (
     <div>

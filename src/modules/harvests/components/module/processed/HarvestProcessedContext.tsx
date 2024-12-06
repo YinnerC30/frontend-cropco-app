@@ -1,5 +1,5 @@
 import { useGetHarvest } from '@/modules/harvests/hooks';
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 export const HarvestProcessedContext = createContext<any>(null);
 
@@ -12,8 +12,19 @@ export const HarvestProcessedProvider = ({
 }) => {
   const queryOneHarvest = useGetHarvest(id!);
 
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const [harvestProcessed, setHarvestProcessed] = useState({
+    date: undefined,
+    total: 0,
+  });
+
   const contextValue = {
     ...queryOneHarvest,
+    harvestProcessed,
+    setHarvestProcessed,
+    openDialog,
+    setOpenDialog,
   };
 
   return (
