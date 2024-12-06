@@ -25,6 +25,7 @@ import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
 import { Plus } from 'lucide-react';
 import { memo, useEffect } from 'react';
 
+import { ConvertStringToDate } from '@/modules/core/helpers';
 import { z } from 'zod';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
@@ -60,6 +61,7 @@ export const FormHarvestProcessed = memo(() => {
   const handleCloseDialog = () => {
     setIsActiveDialog(false);
     setOpenDialog(false);
+    formProcessed.reset({ total: 0, date: undefined });
   };
 
   const { isPending, mutate } = usePostHarvestProcessed();
@@ -82,13 +84,19 @@ export const FormHarvestProcessed = memo(() => {
     };
     mutate(finalData, {
       onSuccess: () => {
-        formProcessed.reset();
+        formProcessed.reset({ total: 0, date: undefined });
       },
     });
   };
 
   useEffect(() => {
-    formProcessed.reset(harvestProcessed);
+    formProcessed.reset({
+      date:
+        typeof harvestProcessed.date === 'string'
+          ? ConvertStringToDate(harvestProcessed?.date)
+          : harvestProcessed.date,
+      total: harvestProcessed.total,
+    });
   }, [harvestProcessed]);
 
   return (
@@ -121,9 +129,10 @@ export const FormHarvestProcessed = memo(() => {
             <span className="sr-only">Close</span>
           </DialogClose>
           <DialogHeader>
-            <DialogTitle>Cosecha empleado</DialogTitle>
+            <DialogTitle>Cosecha procesada</DialogTitle>
             <DialogDescription className="">
-              Información detallada de la cosecha realizada por el empleado
+              Ingrese los datos solicitados para agregar el monto al stock del
+              cultivo
             </DialogDescription>
           </DialogHeader>
 
@@ -142,8 +151,8 @@ export const FormHarvestProcessed = memo(() => {
                 />
                 <FormFieldInput
                   control={formProcessed.control}
-                  description={'Total'}
-                  label={'Total'}
+                  description={formFieldsHarvestProcessed.total.description}
+                  label={formFieldsHarvestProcessed.total.label}
                   name={'total'}
                   placeholder={formFieldsHarvestProcessed.total.placeholder}
                   readOnly={false}

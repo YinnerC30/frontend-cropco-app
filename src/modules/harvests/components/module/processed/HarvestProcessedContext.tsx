@@ -15,7 +15,7 @@ export const HarvestProcessedProvider = ({
   const [openDialog, setOpenDialog] = useState(false);
 
   const [harvestProcessed, setHarvestProcessed] = useState({
-    date: undefined,
+    date: new Date(),
     total: 0,
   });
 

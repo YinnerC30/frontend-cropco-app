@@ -7,6 +7,7 @@ import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import { ActionModifyRecordFormDataTable } from '../../../core/components/data-table/menu/actions/ActionModifyRecordFormDataTable';
 import { useHarvestProcessedContext } from '../module/processed/HarvestProcessedContext';
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
+import { ConvertStringToDate } from '@/modules/core/helpers';
 
 type MutateParams = {
   id: string;
@@ -34,7 +35,6 @@ export const ActionsTableHarvestProcessed = ({ mutate, id, values }: Props) => {
     setHarvestProcessed(values);
     setIsActiveDialog(true);
     setOpenDialog(true);
-    // handleOpenDialog();
   };
 
   return (

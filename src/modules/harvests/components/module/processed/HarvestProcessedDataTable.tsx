@@ -1,4 +1,5 @@
 import { Badge, Label } from '@/components';
+import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import {
   FormDataTableButtonsPagination,
   FormDataTableProvider,
@@ -8,7 +9,7 @@ import { FormDataTablePageCount } from '@/modules/core/components/form/data-tabl
 import { FormDataTableRowCount } from '@/modules/core/components/form/data-table/FormDataTableRowCount';
 import { FormDataTableRowSelection } from '@/modules/core/components/form/data-table/FormDataTableRowSelection';
 import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data-table/FormDataTableSelectPageSize';
-import { FormatNumber } from '@/modules/core/helpers';
+import { ConvertStringToDate, FormatNumber } from '@/modules/core/helpers';
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
 import { Harvest } from '@/modules/harvests/interfaces';
 import { memo, useMemo } from 'react';
@@ -17,7 +18,10 @@ import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
 const HarvestProcessedDataTable = memo(() => {
   // console.log('HarvestProcessedDataTable');
-  const { data, isSuccess } = useHarvestProcessedContext();
+  const { data, isSuccess, setHarvestProcessed, setOpenDialog } =
+    useHarvestProcessedContext();
+
+  const { setIsActiveDialog } = useDialogStatus();
 
   const finalData = useMemo(() => {
     return isSuccess
@@ -36,6 +40,12 @@ const HarvestProcessedDataTable = memo(() => {
     data: finalData,
   });
 
+  const handleDoubleClick = (data: any) => {
+    setHarvestProcessed(data);
+    setIsActiveDialog(true);
+    setOpenDialog(true);
+  };
+
   return (
     <div>
       <div className="w-[600px]">
@@ -53,7 +63,7 @@ const HarvestProcessedDataTable = memo(() => {
             <FormDataTableSelectPageSize />
           </div>
           <div className="p-1 border rounded-md">
-            <FormDataTable onCellDoubleClick={(data) => console.log(data)} />
+            <FormDataTable onCellDoubleClick={handleDoubleClick} />
           </div>
           <div>
             <Label>Total de cosecha procesada:</Label>
