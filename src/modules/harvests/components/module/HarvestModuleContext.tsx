@@ -1,11 +1,12 @@
-import { useDataTableManual } from '@/modules/core/hooks';
-import { createContext } from 'react';
-import { useGetAllHarvests } from '../../hooks';
 import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
+import { useDataTableManual } from '@/modules/core/hooks';
+import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData';
+import { createContext } from 'react';
 import { useWindowSize } from 'react-use';
-import columnsHarvest from './ColumnsTableHarvest';
-import { ActionsTableHarvest } from './ActionsTableHarvest';
+import { useGetAllHarvests } from '../../hooks';
 import { useDeleteBulkHarvests } from '../../hooks/mutations/useDeleteBulkHarvests';
+import { ActionsTableHarvest } from './ActionsTableHarvest';
+import columnsHarvest from './ColumnsTableHarvest';
 
 export const HarvestsModuleContext = createContext<any>(null);
 
@@ -15,9 +16,20 @@ export const HarvestsModuleProvider = ({
   children: React.ReactNode;
 }) => {
   const { width } = useWindowSize();
-  const { query, pagination, setPagination } = useGetAllHarvests({
-    searchParameter: '',
+
+  const { data } = useAdvancedQueryData({
+    params: [
+      'crop',
+      'after_date',
+      'before_date',
+      'minor_total',
+      'major_total',
+      'minor_value_pay',
+      'major_value_pay',
+    ],
   });
+
+  const { query, pagination, setPagination } = useGetAllHarvests({ ...data });
 
   const showActionsInFirstColumn = width < 1024;
 
@@ -27,16 +39,19 @@ export const HarvestsModuleProvider = ({
     actions: ActionsTableHarvest,
   });
 
-  const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
-    useDataTableManual({
-      columns: columnsTable,
-      data: query.data ?? [],
-      rows: query.data?.rows ?? [],
-      pagination,
-      setPagination,
-    });
-
-  const hasSelectedRecords = getIdsToRowsSelected().length > 0;
+  const {
+    table,
+    lengthColumns,
+    getIdsToRowsSelected,
+    resetSelectionRows,
+    hasSelectedRecords,
+  } = useDataTableManual({
+    columns: columnsTable,
+    data: query.data ?? [],
+    rows: query.data?.rows ?? [],
+    pagination,
+    setPagination,
+  });
 
   const { mutate, isPending } = useDeleteBulkHarvests();
 
@@ -60,6 +75,7 @@ export const HarvestsModuleProvider = ({
     hasSelectedRecords,
     isPending,
     handleDeleteBulkHarvests,
+    paramsQuery: data,
   };
 
   return (

@@ -60,6 +60,7 @@ export const useGetAllCropsWithHarvest = ({
         allRecords,
       }),
     enabled: hasPermission('crops', 'find_all_crops_with_harvest'),
+    staleTime: 60_000 * 60,
   });
 
   useEffect(() => {

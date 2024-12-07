@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
 export const getHarvests = async ({
-  search = '',
   limit = 10,
   offset = 0,
   crop = '',
@@ -18,7 +17,7 @@ export const getHarvests = async ({
   major_value_pay = 0,
 }) => {
   const params = new URLSearchParams();
-  params.append('search', search);
+
   params.append('limit', limit.toString());
   params.append('offset', offset.toString());
   params.append('crop', crop.toString());
@@ -46,8 +45,7 @@ export const getHarvests = async ({
   return data;
 };
 
-interface Props {
-  searchParameter?: string;
+export interface QueryHarvestsProps {
   crop?: string;
   after_date?: string;
   before_date?: string;
@@ -58,7 +56,6 @@ interface Props {
 }
 
 export const useGetAllHarvests = ({
-  searchParameter = '',
   crop = '',
   after_date = '',
   before_date = '',
@@ -66,7 +63,7 @@ export const useGetAllHarvests = ({
   major_total = 0,
   minor_value_pay = 0,
   major_value_pay = 0,
-}: Props) => {
+}: QueryHarvestsProps) => {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -76,7 +73,6 @@ export const useGetAllHarvests = ({
     queryKey: [
       'harvests',
       {
-        searchParameter,
         crop,
         after_date,
         before_date,
@@ -89,7 +85,6 @@ export const useGetAllHarvests = ({
     ],
     queryFn: () =>
       getHarvests({
-        search: searchParameter,
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
         crop,
@@ -100,6 +95,7 @@ export const useGetAllHarvests = ({
         minor_value_pay,
         major_value_pay,
       }),
+    staleTime: 60_000 * 60,
   });
 
   return { query, pagination, setPagination };

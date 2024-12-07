@@ -20,12 +20,11 @@ import {
 import { useGetAllHarvests } from '../../hooks';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 import columnsHarvest from './ColumnsTableHarvest';
-import { SearchBarHarvest } from '../SearchBarHarvest';
+// import { SearchBarHarvest } from '../SearchBarHarvest';
 
 export const HarvestModule = () => {
   const [searchParams] = useSearchParams();
   const {
-    search = '',
     crop = '',
     after_date,
     before_date,
@@ -42,7 +41,6 @@ export const HarvestModule = () => {
   const major_value_pay_value = parseInt(major_value_pay ?? '0', 10);
 
   const { query, pagination, setPagination } = useGetAllHarvests({
-    searchParameter: search,
     crop,
     after_date,
     before_date,
@@ -105,9 +103,9 @@ export const HarvestModule = () => {
 
   if (query.isError || !query.data) return <ErrorLoading />;
 
-  const { date, type } = getDateSelection();
-  const { total, type: typeTotal } = getTotalSelection();
-  const { value_pay, type: typeValuePay } = getValuePaySelection();
+  // const { date, type } = getDateSelection();
+  // const { total, type: typeTotal } = getTotalSelection();
+  // const { value_pay, type: typeValuePay } = getValuePaySelection();
 
   return (
     <>
@@ -117,7 +115,7 @@ export const HarvestModule = () => {
         <div className="flex justify-evenly">
           <div className="w-[400px] border-r px-5">
             <ScrollArea className="w-full h-[80vh]">
-              <SearchBarHarvest
+              {/* <SearchBarHarvest
                 crop={crop}
                 date={date}
                 time_date={type}
@@ -125,7 +123,7 @@ export const HarvestModule = () => {
                 type_total={typeTotal}
                 value_pay={value_pay}
                 type_value_pay={typeValuePay}
-              />
+              /> */}
             </ScrollArea>
           </div>
           <div>
