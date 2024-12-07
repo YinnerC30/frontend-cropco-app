@@ -3,7 +3,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
-import { HarvestDetail } from '../../interfaces/HarvestDetail';
+import { HarvestDetail } from '@/modules/harvests/interfaces';
 
 export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
   {
@@ -32,19 +32,6 @@ export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
   },
 ];
 
-// export const columnsHarvestDetailActions = [
-//   ...columnsHarvestDetail,
-//   {
-//     id: 'actions',
-//     cell: ({ row }: any) => {
-//       const harvestDetail = row.original;
-
-//       return <ActionsTableHarvestDetail harvestDetail={harvestDetail} />;
-//     },
-//   },
-// ];
-
 export default {
   columnsHarvestDetail,
-  // columnsHarvestDetailActions,
 };

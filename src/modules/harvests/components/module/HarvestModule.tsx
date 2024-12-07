@@ -19,7 +19,7 @@ import {
 } from '@/modules/core/interfaces';
 import { useGetAllHarvests } from '../../hooks';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
-import columnsHarvest from '../columns/ColumnsTableHarvest';
+import columnsHarvest from './ColumnsTableHarvest';
 import { SearchBarHarvest } from '../SearchBarHarvest';
 
 export const HarvestModule = () => {

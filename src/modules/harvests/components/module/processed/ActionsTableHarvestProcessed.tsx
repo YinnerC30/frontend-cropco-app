@@ -4,10 +4,9 @@ import {
   DropDownMenuActions,
 } from '@/modules/core/components';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
-import { ActionModifyRecordFormDataTable } from '../../../core/components/data-table/menu/actions/ActionModifyRecordFormDataTable';
-import { useHarvestProcessedContext } from '../module/processed/HarvestProcessedContext';
+import { useHarvestProcessedContext } from './HarvestProcessedContext';
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
-import { ConvertStringToDate } from '@/modules/core/helpers';
+import { ActionModifyRecordFormDataTable } from '@/modules/core/components/data-table/menu/actions/ActionModifyRecordFormDataTable';
 
 type MutateParams = {
   id: string;

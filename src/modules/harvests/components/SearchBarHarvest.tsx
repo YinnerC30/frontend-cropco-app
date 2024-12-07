@@ -18,6 +18,7 @@ import {
   DateTimeSelection,
   MinorOrMajorSelection,
 } from '@/modules/core/interfaces';
+import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 
 interface Props {
   crop?: string;
@@ -115,7 +116,7 @@ export const SearchBarHarvest = ({
 
   const handleReset = () => {
     form.reset(defaultValues);
-    navigate('/harvests/view/all');
+    navigate(MODULE_HARVESTS_PATHS.ViewAll);
     toast.success('Se han limpiado los filtros');
   };
 

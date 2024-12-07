@@ -27,8 +27,9 @@ import {
 import { AppDispatch, useAppDispatch, useAppSelector } from '@/redux/store';
 import { useWindowSize } from 'react-use';
 import { toast } from 'sonner';
-import { ActionsTableHarvestDetail } from '../../columns/ActionsTableHarvestDetail';
-import { columnsHarvestDetail } from '../../columns/ColumnsTableHarvestDetail';
+
+import { ActionsTableHarvestDetail } from './details/ActionsTableHarvestDetail';
+import { columnsHarvestDetail } from './details/ColumnsTableHarvestDetail';
 
 export const FormHarvestContext = createContext<any>(null);
 

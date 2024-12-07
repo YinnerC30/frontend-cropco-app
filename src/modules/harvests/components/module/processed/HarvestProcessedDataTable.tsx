@@ -13,7 +13,7 @@ import { ConvertStringToDate, FormatNumber } from '@/modules/core/helpers';
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
 import { Harvest } from '@/modules/harvests/interfaces';
 import { memo, useMemo } from 'react';
-import columnsHarvestProcessed from '../../columns/ColumnsTableHarvestProcessed';
+import columnsHarvestProcessed from './ColumnsTableHarvestProcessed';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
 const HarvestProcessedDataTable = memo(() => {

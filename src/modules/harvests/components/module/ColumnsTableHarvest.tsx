@@ -82,16 +82,16 @@ export const columnsHarvest: ColumnDef<TableHarvest>[] = [
       );
     },
   },
-  {
-    id: "actions",
-    cell: ({ row }: any) => {
-      const { id } = row.original;
+  // {
+  //   id: "actions",
+  //   cell: ({ row }: any) => {
+  //     const { id } = row.original;
 
-      const { mutate } = useDeleteHarvest();
+  //     const { mutate } = useDeleteHarvest();
 
-      return <ActionsTableHarvest mutate={mutate} id={id} />;
-    },
-  },
+  //     return <ActionsTableHarvest mutate={mutate} id={id} />;
+  //   },
+  // },
 ];
 
 export default columnsHarvest;

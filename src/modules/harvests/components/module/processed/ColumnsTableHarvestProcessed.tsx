@@ -6,9 +6,9 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
-import { useDeleteHarvestProcessed } from '../../hooks/mutations/useDeleteHarvestProcessed';
-import { HarvestProcessed } from '../../interfaces/HarvestProcessed';
-import { formFieldsHarvestProcessed } from '../../utils/formFieldsHarvestProcessed';
+import { useDeleteHarvestProcessed } from '../../../hooks/mutations/useDeleteHarvestProcessed';
+import { HarvestProcessed } from '../../../interfaces/HarvestProcessed';
+import { formFieldsHarvestProcessed } from '../../../utils/formFieldsHarvestProcessed';
 import { ActionsTableHarvestProcessed } from './ActionsTableHarvestProcessed';
 
 export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [

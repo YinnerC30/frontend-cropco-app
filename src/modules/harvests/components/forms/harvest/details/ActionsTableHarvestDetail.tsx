@@ -1,16 +1,14 @@
-import { useAppDispatch } from '@/redux/store';
-import { toast } from 'sonner';
-
-import { calculateTotal, remove } from '../../utils/harvestSlice';
-
 import {
+  DropDownMenuActions,
   ActionCopyIdRecord,
   ActionDeleteRecord,
-  DropDownMenuActions,
 } from '@/modules/core/components';
-import { useFormHarvestContext } from '../../hooks';
-import { ActionModifyRecordFormDataTable } from '../../../core/components/data-table/menu/actions/ActionModifyRecordFormDataTable';
-import { HarvestDetail } from '../../interfaces';
+import { ActionModifyRecordFormDataTable } from '@/modules/core/components/data-table/menu/actions/ActionModifyRecordFormDataTable';
+import { useFormHarvestContext } from '@/modules/harvests/hooks';
+import { HarvestDetail } from '@/modules/harvests/interfaces';
+import { calculateTotal, remove } from '@/modules/harvests/utils/harvestSlice';
+import { useAppDispatch } from '@/redux/store';
+import { toast } from 'sonner';
 
 export const ActionsTableHarvestDetail = ({ row }: any) => {
   const harvestDetail = row.original;
