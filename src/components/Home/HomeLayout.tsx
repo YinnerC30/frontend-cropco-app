@@ -1,7 +1,11 @@
 import { CommandDialogApp } from '@/modules/core/components/shared/CommandDialogApp';
 
+import { useAuthContext, useCheckAuthStatus } from '@/auth/hooks';
+import { PATH_LOGIN } from '@/config';
+import { Loading } from '@/modules/core/components';
 import { Link, Navigate, Outlet } from 'react-router-dom';
 import { Route, routes } from '../../routes/components/RoutesNavBar';
+import { useDialogStatus } from '../common/DialogStatusContext';
 import { useHome } from '../hooks/useHome';
 import { Header } from './Header';
 import { Main } from './Main';
@@ -9,19 +13,17 @@ import { MyAccount } from './MyAccount';
 import { NavBar } from './NavBar';
 import { NavElement } from './NavElement';
 import { SheetNavBar } from './SheetNavBar';
-import { PATH_LOGIN } from '@/config';
-import { useAuthContext, useCheckAuthStatus } from '@/auth/hooks';
-import { Loading } from '@/modules/core/components';
-import { useDialogStatus } from '../common/DialogStatusContext';
 
 export const HomeLayout = () => {
   const { tokenSesion, isLogin } = useAuthContext();
 
+  const { nameModulesUser } = useHome();
+
+  const { isActiveDialog } = useDialogStatus();
+
   if (!isLogin) {
     return <Navigate to={PATH_LOGIN} replace />;
   }
-
-  const { nameModulesUser } = useHome();
 
   const query = useCheckAuthStatus({
     token: tokenSesion,
@@ -30,8 +32,6 @@ export const HomeLayout = () => {
   if (query.isLoading) {
     return <Loading />;
   }
-
-  const { isActiveDialog } = useDialogStatus();
 
   return (
     <div
