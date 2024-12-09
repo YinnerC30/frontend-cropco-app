@@ -8,13 +8,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
+import { TypeFilterDate } from "@/modules/core/interfaces/general/TypeFilterDate";
 import { formFieldsSearchBarConsumption } from "../utils/formFieldsSearchBarConsumption";
 import { formSchemaSearchBarConsumption } from "../utils/formSchemaSearchBarConsumption";
 
 interface Props {
   date?: string | any;
-  time_date?: string | DateTimeSelection;
+  time_date?: string | TypeFilterDate;
 }
 
 const defaultValues = {
@@ -44,7 +44,7 @@ export const SearchBarConsumption = ({ date, time_date }: Props) => {
 
     if (values.filter_by_date && values.date) {
       const dateParam =
-        values.date_time_selection === DateTimeSelection.after
+        values.date_time_selection === TypeFilterDate.after
           ? "after_date"
           : "before_date";
       params.append(dateParam, values.date.toISOString());
@@ -87,7 +87,7 @@ export const SearchBarConsumption = ({ date, time_date }: Props) => {
               <div className="flex flex-col gap-5">
                 <Separator className="mt-2" />
                 <FormFieldSelect
-                  items={[DateTimeSelection.after, DateTimeSelection.before]}
+                  items={[TypeFilterDate.after, TypeFilterDate.before]}
                   control={form.control}
                   description={
                     formFieldsSearchBarConsumption.date_time_selection.description

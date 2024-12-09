@@ -9,17 +9,17 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
-import { MinorOrMajorSelection } from "@/modules/core/interfaces/general/MinorOrMajorSelection";
+import { TypeFilterDate } from "@/modules/core/interfaces/general/TypeFilterDate";
+import { TypeFilterNumber } from "@/modules/core/interfaces/general/TypeFilterNumber";
 
 import { formFieldsSearchBarShopping } from "../utils/formFieldsSearchBarShopping";
 import { formSchemaSearchBarShopping } from "../utils/formSchemaSearchBarShopping";
 
 interface Props {
   date?: string | any;
-  time_date?: string | DateTimeSelection;
+  time_date?: string | TypeFilterDate;
   total?: number;
-  type_total?: string | MinorOrMajorSelection;
+  type_total?: string | TypeFilterNumber;
 }
 
 const defaultValues = {
@@ -61,7 +61,7 @@ export const SearchBarShopping = ({
 
     if (values.filter_by_date && values.date) {
       const dateParam =
-        values.date_time_selection === DateTimeSelection.after
+        values.date_time_selection === TypeFilterDate.after
           ? "after_date"
           : "before_date";
       params.append(dateParam, values.date.toISOString());
@@ -69,7 +69,7 @@ export const SearchBarShopping = ({
 
     if (values.filter_by_total && values.total) {
       const totalParam =
-        values.minor_or_major_selection === MinorOrMajorSelection.MINOR
+        values.minor_or_major_selection === TypeFilterNumber.MIN
           ? "minor_total"
           : "major_total";
       params.append(totalParam, values.total.toString());
@@ -113,7 +113,7 @@ export const SearchBarShopping = ({
               <div className="flex flex-col gap-5">
                 <Separator className="mt-2" />
                 <FormFieldSelect
-                  items={[DateTimeSelection.after, DateTimeSelection.before]}
+                  items={[TypeFilterDate.after, TypeFilterDate.before]}
                   control={form.control}
                   description={
                     formFieldsSearchBarShopping.date_time_selection.description
@@ -153,8 +153,8 @@ export const SearchBarShopping = ({
                 <Separator className="mt-2" />
                 <FormFieldSelect
                   items={[
-                    MinorOrMajorSelection.MINOR,
-                    MinorOrMajorSelection.MAJOR,
+                    TypeFilterNumber.MIN,
+                    TypeFilterNumber.MAX,
                   ]}
                   control={form.control}
                   description={

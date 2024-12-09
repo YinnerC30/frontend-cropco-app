@@ -6,7 +6,7 @@ import {
   ToolTipTemplate,
 } from "@/modules/core/components";
 import { BreadCrumb } from "@/modules/core/components/";
-import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
+import { TypeFilterDate } from "@/modules/core/interfaces/general/TypeFilterDate";
 import { PlusIcon } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useGetAllConsumptions } from "../hooks/useGetAllConsumptions";
@@ -27,9 +27,9 @@ export const ConsumptionModule = () => {
   });
 
   const getDateSelection = () => {
-    if (after_date) return { date: after_date, type: DateTimeSelection.after };
+    if (after_date) return { date: after_date, type: TypeFilterDate.after };
     if (before_date)
-      return { date: before_date, type: DateTimeSelection.before };
+      return { date: before_date, type: TypeFilterDate.before };
     return { date: undefined, type: undefined };
   };
 

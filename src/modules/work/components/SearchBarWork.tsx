@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
-import { MinorOrMajorSelection } from "@/modules/core/interfaces/general/MinorOrMajorSelection";
+import { TypeFilterDate } from "@/modules/core/interfaces/general/TypeFilterDate";
+import { TypeFilterNumber } from "@/modules/core/interfaces/general/TypeFilterNumber";
 import { formSchemaSearchBarWork } from "../utils/formSchemaSearchBarWork";
 
 import { useGetAllCropsWithWork } from "@/modules/crops/hooks/queries/useGetAllCropsWithWork";
@@ -20,9 +20,9 @@ import { formFieldsSearchBarWork } from "../utils/formFieldsSearchBarWork";
 interface Props {
   crop?: string;
   date?: string | any;
-  time_date?: string | DateTimeSelection;
+  time_date?: string | TypeFilterDate;
   total?: number;
-  type_total?: string | MinorOrMajorSelection;
+  type_total?: string | TypeFilterNumber;
 }
 
 const defaultValues = {
@@ -73,7 +73,7 @@ export const SearchBarWork = ({
     }
     if (values.filter_by_date && values.date) {
       const dateParam =
-        values.date_time_selection === DateTimeSelection.after
+        values.date_time_selection === TypeFilterDate.after
           ? "after_date"
           : "before_date";
       params.append(dateParam, values.date.toISOString());
@@ -81,7 +81,7 @@ export const SearchBarWork = ({
 
     if (values.filter_by_total && values.total) {
       const totalParam =
-        values.minor_or_major_selection === MinorOrMajorSelection.MINOR
+        values.minor_or_major_selection === TypeFilterNumber.MIN
           ? "minor_total"
           : "major_total";
       params.append(totalParam, values.total.toString());
@@ -136,7 +136,7 @@ export const SearchBarWork = ({
               <div className="flex flex-col gap-5">
                 <Separator className="mt-2" />
                 <FormFieldSelect
-                  items={[DateTimeSelection.after, DateTimeSelection.before]}
+                  items={[TypeFilterDate.after, TypeFilterDate.before]}
                   control={form.control}
                   description={
                     formFieldsSearchBarWork.date_time_selection.description
@@ -174,8 +174,8 @@ export const SearchBarWork = ({
                 <Separator className="mt-2" />
                 <FormFieldSelect
                   items={[
-                    MinorOrMajorSelection.MINOR,
-                    MinorOrMajorSelection.MAJOR,
+                    TypeFilterNumber.MIN,
+                    TypeFilterNumber.MAX,
                   ]}
                   control={form.control}
                   description={

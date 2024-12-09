@@ -1,20 +1,26 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { PaginationState } from '@tanstack/react-table';
-import { useState } from 'react';
-
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { usePaginationDataTable } from '@/modules/core/hooks';
+import { useEffect } from 'react';
+import { useManageErrorApp } from '@/auth';
+import { AxiosError } from 'axios';
 
 export const getHarvests = async ({
   limit = 10,
   offset = 0,
   crop = '',
-  after_date = '',
-  before_date = '',
-  minor_total = 0,
-  major_total = 0,
-  minor_value_pay = 0,
-  major_value_pay = 0,
+  filter_by_date = false,
+  type_filter_date = '',
+  date = '',
+
+  filter_by_total = false,
+  type_filter_total = '',
+  total = 0,
+
+  filter_by_value_pay = false,
+  type_filter_value_pay = '',
+  value_pay = 0,
 }) => {
   const params = new URLSearchParams();
 
@@ -22,81 +28,88 @@ export const getHarvests = async ({
   params.append('offset', offset.toString());
   params.append('crop', crop.toString());
 
-  if (after_date.length > 0) {
-    params.append('after_date', new Date(after_date).toISOString());
+  if (filter_by_date) {
+    params.append('filter_by_date', 'true');
+    params.append('type_filter_date', type_filter_date);
+    params.append('date', new Date(date).toISOString());
   }
-  if (before_date.length > 0) {
-    params.append('before_date', new Date(before_date).toISOString());
+
+  if (filter_by_total) {
+    params.append('filter_by_total', 'true');
+    params.append('type_filter_total', type_filter_total);
+    params.append('total', total.toString());
   }
-  if (minor_total != 0) {
-    params.append('minor_total', minor_total.toString());
-  }
-  if (major_total != 0) {
-    params.append('major_total', major_total.toString());
-  }
-  if (minor_value_pay != 0) {
-    params.append('minor_value_pay', minor_value_pay.toString());
-  }
-  if (major_value_pay != 0) {
-    params.append('major_value_pay', major_value_pay.toString());
+
+  if (filter_by_value_pay) {
+    params.append('filter_by_value_pay', 'true');
+    params.append('type_filter_value_pay', type_filter_value_pay);
+    params.append('value_pay', value_pay.toString());
   }
 
   const { data } = await cropcoAPI.get(`${pathsCropco.harvests}/all?${params}`);
   return data;
 };
 
-export interface QueryHarvestsProps {
-  crop?: string;
-  after_date?: string;
-  before_date?: string;
-  minor_total?: number;
-  major_total?: number;
-  minor_value_pay?: number;
-  major_value_pay?: number;
-}
-
 export const useGetAllHarvests = ({
-  crop = '',
-  after_date = '',
-  before_date = '',
-  minor_total = 0,
-  major_total = 0,
-  minor_value_pay = 0,
-  major_value_pay = 0,
-}: QueryHarvestsProps) => {
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
+  crop,
+  filter_by_date,
+  type_filter_date,
+  date,
+  filter_by_total,
+  type_filter_total,
+  total,
+  filter_by_value_pay,
+  type_filter_value_pay,
+  value_pay,
+}: any) => {
+  const { pagination, setPagination, pageIndex, pageSize } =
+    usePaginationDataTable();
+  const { handleError } = useManageErrorApp();
 
   const query = useQuery({
     queryKey: [
       'harvests',
       {
         crop,
-        after_date,
-        before_date,
-        minor_total,
-        major_total,
-        minor_value_pay,
-        major_value_pay,
+        filter_by_date,
+        type_filter_date,
+        date,
+        filter_by_total,
+        type_filter_total,
+        total,
+        filter_by_value_pay,
+        type_filter_value_pay,
+        value_pay,
         ...pagination,
       },
     ],
     queryFn: () =>
       getHarvests({
-        limit: pagination.pageSize,
-        offset: pagination.pageIndex,
+        limit: pageSize,
+        offset: pageIndex,
         crop,
-        after_date,
-        before_date,
-        minor_total,
-        major_total,
-        minor_value_pay,
-        major_value_pay,
+        filter_by_date,
+        type_filter_date,
+        date,
+        filter_by_total,
+        type_filter_total,
+        total,
+        filter_by_value_pay,
+        type_filter_value_pay,
+        value_pay,
       }),
     staleTime: 60_000 * 60,
   });
+
+  useEffect(() => {
+    if (query.isError) {
+      handleError({
+        error: query.error as AxiosError,
+        messageUnauthoraizedError:
+          'No tienes permiso para ver el listado de cosechas 😑',
+      });
+    }
+  }, [query.isError, query.error]);
 
   return { query, pagination, setPagination };
 };

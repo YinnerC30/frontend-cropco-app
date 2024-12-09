@@ -116,7 +116,7 @@ export const FormFieldCommand = ({
                                 key={item.id!}
                                 onSelect={() => {
                                   if (field.value === item.id) {
-                                    form.setValue(name, undefined);
+                                    form.setValue(name, '');
                                   } else {
                                     form.setValue(name, item.id!, {
                                       shouldDirty: true,

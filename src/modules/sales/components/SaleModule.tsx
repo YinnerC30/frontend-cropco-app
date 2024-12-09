@@ -7,8 +7,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { BreadCrumb } from "@/modules/core/components/";
 import { ConvertStringToBoolean } from "@/modules/core/helpers/conversion/ConvertStringToBoolean";
-import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
-import { MinorOrMajorSelection } from "@/modules/core/interfaces/general/MinorOrMajorSelection";
+import { TypeFilterDate } from "@/modules/core/interfaces/general/TypeFilterDate";
+import { TypeFilterNumber } from "@/modules/core/interfaces/general/TypeFilterNumber";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import {
@@ -47,28 +47,28 @@ export const SaleModule = () => {
   const is_receivable_value = ConvertStringToBoolean(is_receivable);
 
   const getDateSelection = () => {
-    if (after_date) return { date: after_date, type: DateTimeSelection.after };
+    if (after_date) return { date: after_date, type: TypeFilterDate.after };
     if (before_date)
-      return { date: before_date, type: DateTimeSelection.before };
+      return { date: before_date, type: TypeFilterDate.before };
     return { date: undefined, type: undefined };
   };
   const getTotalSelection = () => {
     if (minor_total_value != 0)
-      return { total: minor_total_value, type: MinorOrMajorSelection.MINOR };
+      return { total: minor_total_value, type: TypeFilterNumber.MIN };
     if (major_total_value != 0)
-      return { total: major_total_value, type: MinorOrMajorSelection.MAJOR };
+      return { total: major_total_value, type: TypeFilterNumber.MAX };
     return { total: undefined, type: undefined };
   };
   const getQuantitySelection = () => {
     if (minor_quantity_value != 0)
       return {
         quantity: minor_quantity_value,
-        type: MinorOrMajorSelection.MINOR,
+        type: TypeFilterNumber.MIN,
       };
     if (major_quantity_value != 0)
       return {
         quantity: major_quantity_value,
-        type: MinorOrMajorSelection.MAJOR,
+        type: TypeFilterNumber.MAX,
       };
     return { quantity: undefined, type: undefined };
   };

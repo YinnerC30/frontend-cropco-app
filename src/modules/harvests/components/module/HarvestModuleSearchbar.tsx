@@ -9,30 +9,15 @@ import { useGetAllCropsWithHarvest } from '@/modules/crops/hooks/queries/useGetA
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import {
-  DateTimeSelection,
-  MinorOrMajorSelection,
-} from '@/modules/core/interfaces';
+import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
+import { SearchbarHarvest } from '../../interfaces/SearchbarHarvest';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarvest';
 import { formSchemaSearchBarHarvest } from '../../utils/formSchemaSearchBarHarvest';
 
-const defaultValues = {
-  crop: { id: '' },
-  filter_by_date: false,
-  date: undefined,
-  date_time_selection: undefined,
-  filter_by_total: false,
-  total: undefined,
-  minor_or_major_selection: undefined,
-  filter_by_value_pay: false,
-  value_pay: undefined,
-  minor_or_major_value_pay_selection: undefined,
-};
-
 export const HarvestModuleSearchbar = () => {
-  const { paramsQuery } = useHarvestModuleContext();
+  const { paramsQuery, defaultValuesSearchbar } = useHarvestModuleContext();
 
   const navigate = useNavigate();
 
@@ -41,72 +26,42 @@ export const HarvestModuleSearchbar = () => {
     allRecords: true,
   });
 
-  const { after_date = undefined, before_date = undefined } = paramsQuery;
-  const isAfterDateValid =
-    after_date !== undefined && before_date === undefined;
-  const isBeforeDateValid =
-    before_date !== undefined && after_date === undefined;
-
-  const currentDate = new Date();
-
   const form = useCreateForm({
     schema: formSchemaSearchBarHarvest,
-    defaultValues: {
-      'crop.id': paramsQuery.crop,
-      filter_by_date: isAfterDateValid || isBeforeDateValid,
-      date_time_selection: isAfterDateValid
-        ? DateTimeSelection.after
-        : isBeforeDateValid
-        ? DateTimeSelection.before
-        : undefined,
-      date: isAfterDateValid
-        ? new Date(after_date)
-        : isBeforeDateValid
-        ? new Date(before_date)
-        : currentDate,
-      filter_by_total: paramsQuery.total,
-      minor_or_major_selection: MinorOrMajorSelection.MAJOR,
-      total: paramsQuery.total,
-      filter_by_value_pay: paramsQuery.value_pay,
-      minor_or_major_value_pay_selection: MinorOrMajorSelection.MAJOR,
-      value_pay: paramsQuery.value_pay,
-    },
+    defaultValues: paramsQuery,
+    skiptDirty: true,
   });
 
-  const onSubmit = (values: any) => {
+  const onSubmit = async (values: SearchbarHarvest) => {
     const params = new URLSearchParams();
+
     if (values.crop?.id) {
       params.append('crop', values.crop.id);
     }
+
     if (values.filter_by_date && values.date) {
-      const dateParam =
-        values.date_time_selection === DateTimeSelection.after
-          ? 'after_date'
-          : 'before_date';
-      params.append(dateParam, values.date.toISOString());
+      params.append('filter_by_date', 'true');
+      params.append('type_filter_date', `${values.type_filter_date}`);
+      params.append('date', values.date.toISOString());
     }
 
     if (values.filter_by_total && values.total) {
-      const totalParam =
-        values.minor_or_major_selection === MinorOrMajorSelection.MINOR
-          ? 'minor_total'
-          : 'major_total';
-      params.append(totalParam, values.total.toString());
+      params.append('filter_by_total', 'true');
+      params.append('type_filter_total', `${values.type_filter_total}`);
+      params.append('total', `${values.total}`);
     }
 
     if (values.filter_by_value_pay && values.value_pay) {
-      const valuePayParam =
-        values.minor_or_major_value_pay_selection ===
-        MinorOrMajorSelection.MINOR
-          ? 'minor_value_pay'
-          : 'major_value_pay';
-      params.append(valuePayParam, values.value_pay.toString());
+      params.append('filter_by_value_pay', 'true');
+      params.append('type_filter_value_pay', `${values.type_filter_value_pay}`);
+      params.append('value_pay', `${values.value_pay}`);
     }
+
     navigate(`?${params.toString()}`);
   };
 
   const handleReset = () => {
-    form.reset(defaultValues);
+    form.reset(defaultValuesSearchbar);
     navigate(MODULE_HARVESTS_PATHS.ViewAll);
     toast.success('Se han limpiado los filtros');
   };
@@ -119,8 +74,7 @@ export const HarvestModuleSearchbar = () => {
     <Form {...form}>
       <Label className="text-lg">Barra de filtrado de registros:</Label>
       <form
-        onSubmit={form.handleSubmit((e) => {
-          console.log('Se llamo');
+        onSubmit={form.handleSubmit(async (e) => {
           onSubmit(e);
         })}
         id="formSearch"
@@ -153,15 +107,15 @@ export const HarvestModuleSearchbar = () => {
               <div className="flex flex-col gap-5">
                 <Separator className="mt-2" />
                 <FormFieldSelect
-                  items={[DateTimeSelection.after, DateTimeSelection.before]}
+                  items={[TypeFilterDate.after, TypeFilterDate.before]}
                   control={form.control}
                   description={
-                    formFieldsSearchBarHarvest.date_time_selection.description
+                    formFieldsSearchBarHarvest.type_filter_date.description
                   }
-                  label={formFieldsSearchBarHarvest.date_time_selection.label}
-                  name="date_time_selection"
+                  label={formFieldsSearchBarHarvest.type_filter_date.label}
+                  name="type_filter_date"
                   placeholder={
-                    formFieldsSearchBarHarvest.date_time_selection.placeholder
+                    formFieldsSearchBarHarvest.type_filter_date.placeholder
                   }
                   readOnly={false}
                 />
@@ -193,21 +147,18 @@ export const HarvestModuleSearchbar = () => {
                 <Separator className="mt-2" />
                 <FormFieldSelect
                   items={[
-                    MinorOrMajorSelection.MINOR,
-                    MinorOrMajorSelection.MAJOR,
+                    TypeFilterNumber.MIN,
+                    TypeFilterNumber.MAX,
+                    TypeFilterNumber.EQUAL,
                   ]}
                   control={form.control}
                   description={
-                    formFieldsSearchBarHarvest.minor_or_major_selection
-                      .description
+                    formFieldsSearchBarHarvest.type_filter_total.description
                   }
-                  label={
-                    formFieldsSearchBarHarvest.minor_or_major_selection.label
-                  }
-                  name="minor_or_major_selection"
+                  label={formFieldsSearchBarHarvest.type_filter_total.label}
+                  name="type_filter_total"
                   placeholder={
-                    formFieldsSearchBarHarvest.minor_or_major_selection
-                      .placeholder
+                    formFieldsSearchBarHarvest.type_filter_total.placeholder
                   }
                   readOnly={false}
                 />
@@ -240,22 +191,18 @@ export const HarvestModuleSearchbar = () => {
                 <Separator className="mt-2" />
                 <FormFieldSelect
                   items={[
-                    MinorOrMajorSelection.MINOR,
-                    MinorOrMajorSelection.MAJOR,
+                    TypeFilterNumber.MIN,
+                    TypeFilterNumber.MAX,
+                    TypeFilterNumber.EQUAL,
                   ]}
                   control={form.control}
                   description={
-                    formFieldsSearchBarHarvest
-                      .minor_or_major_value_pay_selection.description
+                    formFieldsSearchBarHarvest.type_filter_value_pay.description
                   }
-                  label={
-                    formFieldsSearchBarHarvest
-                      .minor_or_major_value_pay_selection.label
-                  }
-                  name="minor_or_major_value_pay_selection"
+                  label={formFieldsSearchBarHarvest.type_filter_value_pay.label}
+                  name="type_filter_value_pay"
                   placeholder={
-                    formFieldsSearchBarHarvest
-                      .minor_or_major_value_pay_selection.placeholder
+                    formFieldsSearchBarHarvest.type_filter_value_pay.placeholder
                   }
                   readOnly={false}
                 />

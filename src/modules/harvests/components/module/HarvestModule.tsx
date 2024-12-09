@@ -14,8 +14,8 @@ import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
 import { useDataTableManual } from '@/modules/core/hooks';
 
 import {
-  DateTimeSelection,
-  MinorOrMajorSelection,
+  TypeFilterDate,
+  TypeFilterNumber,
 } from '@/modules/core/interfaces';
 import { useGetAllHarvests } from '../../hooks';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
@@ -28,26 +28,26 @@ export const HarvestModule = () => {
     crop = '',
     after_date,
     before_date,
-    minor_total,
-    major_total,
-    minor_value_pay,
-    major_value_pay,
+    min_total,
+    max_total,
+    min_value_pay,
+    max_value_pay,
   } = Object.fromEntries(searchParams.entries());
 
-  const minor_total_value = parseInt(minor_total ?? '0', 10);
-  const major_total_value = parseInt(major_total ?? '0', 10);
+  const min_total_value = parseInt(min_total ?? '0', 10);
+  const max_total_value = parseInt(max_total ?? '0', 10);
 
-  const minor_value_pay_value = parseInt(minor_value_pay ?? '0', 10);
-  const major_value_pay_value = parseInt(major_value_pay ?? '0', 10);
+  const min_value_pay_value = parseInt(min_value_pay ?? '0', 10);
+  const max_value_pay_value = parseInt(max_value_pay ?? '0', 10);
 
   const { query, pagination, setPagination } = useGetAllHarvests({
     crop,
     after_date,
     before_date,
-    minor_total: minor_total_value,
-    major_total: major_total_value,
-    minor_value_pay: minor_value_pay_value,
-    major_value_pay: major_value_pay_value,
+    min_total: min_total_value,
+    max_total: max_total_value,
+    min_value_pay: min_value_pay_value,
+    max_value_pay: max_value_pay_value,
   });
 
   const columnsTable = createColumnsTable({
@@ -71,28 +71,28 @@ export const HarvestModule = () => {
   }, [query.isSuccess]);
 
   const getDateSelection = () => {
-    if (after_date) return { date: after_date, type: DateTimeSelection.after };
+    if (after_date) return { date: after_date, type: TypeFilterDate.after };
     if (before_date)
-      return { date: before_date, type: DateTimeSelection.before };
+      return { date: before_date, type: TypeFilterDate.before };
     return { date: undefined, type: undefined };
   };
   const getTotalSelection = () => {
-    if (minor_total_value != 0)
-      return { total: minor_total_value, type: MinorOrMajorSelection.MINOR };
-    if (major_total_value != 0)
-      return { total: major_total_value, type: MinorOrMajorSelection.MAJOR };
+    if (min_total_value != 0)
+      return { total: min_total_value, type: TypeFilterNumber.MIN };
+    if (max_total_value != 0)
+      return { total: max_total_value, type: TypeFilterNumber.MAX };
     return { total: undefined, type: undefined };
   };
   const getValuePaySelection = () => {
-    if (minor_value_pay_value != 0)
+    if (min_value_pay_value != 0)
       return {
-        value_pay: minor_value_pay_value,
-        type: MinorOrMajorSelection.MINOR,
+        value_pay: min_value_pay_value,
+        type: TypeFilterNumber.MIN,
       };
-    if (major_value_pay_value != 0)
+    if (max_value_pay_value != 0)
       return {
-        value_pay: major_value_pay_value,
-        type: MinorOrMajorSelection.MAJOR,
+        value_pay: max_value_pay_value,
+        type: TypeFilterNumber.MAX,
       };
     return { value_pay: undefined, type: undefined };
   };

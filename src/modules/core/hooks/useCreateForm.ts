@@ -7,9 +7,14 @@ import { useFormChange } from '../components/form/FormChangeContext';
 interface Props {
   schema: z.ZodObject<any> | any;
   defaultValues: any;
+  skiptDirty?: boolean;
 }
 
-export const useCreateForm = ({ schema, defaultValues }: Props) => {
+export const useCreateForm = ({
+  schema,
+  defaultValues,
+  skiptDirty = false,
+}: Props) => {
   const { markChanges } = useFormChange();
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -20,7 +25,9 @@ export const useCreateForm = ({ schema, defaultValues }: Props) => {
   const { isDirty } = form.formState;
 
   useEffect(() => {
-    isDirty ? markChanges(true) : markChanges(false);
+    if (!skiptDirty) {
+      isDirty ? markChanges(true) : markChanges(false);
+    }
   }, [isDirty]);
 
   return form;

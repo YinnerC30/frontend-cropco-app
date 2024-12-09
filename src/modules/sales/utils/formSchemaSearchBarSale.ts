@@ -1,5 +1,5 @@
-import { DateTimeSelection } from "@/modules/core/interfaces/general/DateTimeSelection";
-import { MinorOrMajorSelection } from "@/modules/core/interfaces/general/MinorOrMajorSelection";
+import { TypeFilterDate } from "@/modules/core/interfaces/general/TypeFilterDate";
+import { TypeFilterNumber } from "@/modules/core/interfaces/general/TypeFilterNumber";
 import { YesORNotSelection } from "@/modules/core/interfaces/general/YesORNotSelection";
 import { z } from "zod";
 
@@ -12,7 +12,7 @@ export const formSchemaSearchBarSale = z.object({
   filter_by_date: z.boolean().default(false).optional(),
   date: z.date().optional(),
   date_time_selection: z
-    .nativeEnum(DateTimeSelection, {
+    .nativeEnum(TypeFilterDate, {
       errorMap: (issue, _ctx) => {
         switch (issue.code) {
           case "invalid_type":
@@ -28,7 +28,7 @@ export const formSchemaSearchBarSale = z.object({
   filter_by_total: z.boolean().default(false).optional(),
   total: z.coerce.number().optional(),
   minor_or_major_selection: z
-    .nativeEnum(MinorOrMajorSelection, {
+    .nativeEnum(TypeFilterNumber, {
       errorMap: (issue, _ctx) => {
         switch (issue.code) {
           case "invalid_type":
@@ -44,7 +44,7 @@ export const formSchemaSearchBarSale = z.object({
   filter_by_quantity: z.boolean().default(false).optional(),
   quantity: z.coerce.number().optional(),
   minor_or_major_quantity_selection: z
-    .nativeEnum(MinorOrMajorSelection, {
+    .nativeEnum(TypeFilterNumber, {
       errorMap: (issue, _ctx) => {
         switch (issue.code) {
           case "invalid_type":

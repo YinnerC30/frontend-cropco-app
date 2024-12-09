@@ -1,5 +1,5 @@
-import { DateTimeSelection } from '@/modules/core/interfaces';
-import { MinorOrMajorSelection } from '@/modules/core/interfaces';
+import { TypeFilterDate } from '@/modules/core/interfaces';
+import { TypeFilterNumber } from '@/modules/core/interfaces';
 import { z } from 'zod';
 
 export const formSchemaSearchBarHarvest = z.object({
@@ -10,8 +10,8 @@ export const formSchemaSearchBarHarvest = z.object({
     .optional(),
   filter_by_date: z.boolean().default(false).optional(),
   date: z.date().optional(),
-  date_time_selection: z
-    .nativeEnum(DateTimeSelection, {
+  type_filter_date: z
+    .nativeEnum(TypeFilterDate, {
       errorMap: (issue, _ctx) => {
         switch (issue.code) {
           case 'invalid_type':
@@ -26,8 +26,8 @@ export const formSchemaSearchBarHarvest = z.object({
     .optional(),
   filter_by_total: z.boolean().default(false).optional(),
   total: z.coerce.number().optional(),
-  minor_or_major_selection: z
-    .nativeEnum(MinorOrMajorSelection, {
+  type_filter_total: z
+    .nativeEnum(TypeFilterNumber, {
       errorMap: (issue, _ctx) => {
         switch (issue.code) {
           case 'invalid_type':
@@ -42,8 +42,8 @@ export const formSchemaSearchBarHarvest = z.object({
     .optional(),
   filter_by_value_pay: z.boolean().default(false).optional(),
   value_pay: z.coerce.number().optional(),
-  minor_or_major_value_pay_selection: z
-    .nativeEnum(MinorOrMajorSelection, {
+  type_filter_value_pay: z
+    .nativeEnum(TypeFilterNumber, {
       errorMap: (issue, _ctx) => {
         switch (issue.code) {
           case 'invalid_type':

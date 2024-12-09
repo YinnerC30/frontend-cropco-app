@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { DateTimeSelection } from "../../core/interfaces/general/DateTimeSelection";
+import { TypeFilterDate } from "../../core/interfaces/general/TypeFilterDate";
 
 export const formSchemaSearchBarConsumption = z.object({
   filter_by_date: z.boolean().default(false).optional(),
   date: z.date().optional(),
   date_time_selection: z
-    .nativeEnum(DateTimeSelection, {
+    .nativeEnum(TypeFilterDate, {
       errorMap: (issue, _ctx) => {
         switch (issue.code) {
           case "invalid_type":

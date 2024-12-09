@@ -9,18 +9,18 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
-import { DateTimeSelection } from "../../core/interfaces/general/DateTimeSelection";
-import { MinorOrMajorSelection } from "../../core/interfaces/general/MinorOrMajorSelection";
+import { TypeFilterDate } from "../../core/interfaces/general/TypeFilterDate";
+import { TypeFilterNumber } from "../../core/interfaces/general/TypeFilterNumber";
 import { formFieldsSearchBarSale } from "../utils/formFieldsSearchBarSale";
 import { formSchemaSearchBarSale } from "../utils/formSchemaSearchBarSale";
 
 interface Props {
   date?: string | any;
-  time_date?: string | DateTimeSelection;
+  time_date?: string | TypeFilterDate;
   total?: number;
-  type_total?: string | MinorOrMajorSelection;
+  type_total?: string | TypeFilterNumber;
   quantity?: number;
-  type_quantity?: string | MinorOrMajorSelection;
+  type_quantity?: string | TypeFilterNumber;
   filter_by_is_receivable: boolean | Boolean;
   is_receivable?: boolean | YesORNotSelection | any;
 }
@@ -83,7 +83,7 @@ export const SearchBarSale = ({
     }
     if (values.filter_by_date && values.date) {
       const dateParam =
-        values.date_time_selection === DateTimeSelection.after
+        values.date_time_selection === TypeFilterDate.after
           ? "after_date"
           : "before_date";
       params.append(dateParam, values.date.toISOString());
@@ -91,7 +91,7 @@ export const SearchBarSale = ({
 
     if (values.filter_by_total && values.total) {
       const totalParam =
-        values.minor_or_major_selection === MinorOrMajorSelection.MINOR
+        values.minor_or_major_selection === TypeFilterNumber.MIN
           ? "minor_total"
           : "major_total";
       params.append(totalParam, values.total.toString());
@@ -99,7 +99,7 @@ export const SearchBarSale = ({
 
     if (values.filter_by_quantity && values.quantity) {
       const valuePayParam =
-        values.minor_or_major_quantity_selection === MinorOrMajorSelection.MINOR
+        values.minor_or_major_quantity_selection === TypeFilterNumber.MIN
           ? "minor_quantity"
           : "major_quantity";
       params.append(valuePayParam, values.quantity.toString());
@@ -149,7 +149,7 @@ export const SearchBarSale = ({
               <div className="flex flex-col gap-5">
                 <Separator className="mt-2" />
                 <FormFieldSelect
-                  items={[DateTimeSelection.after, DateTimeSelection.before]}
+                  items={[TypeFilterDate.after, TypeFilterDate.before]}
                   control={form.control}
                   description={
                     formFieldsSearchBarSale.date_time_selection.description
@@ -189,8 +189,8 @@ export const SearchBarSale = ({
                 <Separator className="mt-2" />
                 <FormFieldSelect
                   items={[
-                    MinorOrMajorSelection.MINOR,
-                    MinorOrMajorSelection.MAJOR,
+                    TypeFilterNumber.MIN,
+                    TypeFilterNumber.MAX,
                   ]}
                   control={form.control}
                   description={
@@ -235,8 +235,8 @@ export const SearchBarSale = ({
                 <Separator className="mt-2" />
                 <FormFieldSelect
                   items={[
-                    MinorOrMajorSelection.MINOR,
-                    MinorOrMajorSelection.MAJOR,
+                    TypeFilterNumber.MIN,
+                    TypeFilterNumber.MAX,
                   ]}
                   control={form.control}
                   description={
