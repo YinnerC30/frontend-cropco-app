@@ -51,6 +51,7 @@ export const FormFieldCommand = ({
   readOnly,
   isLoading = false,
   nameEntity = 'registro',
+  className,
 }: FormFieldCommandProps) => {
   const [openPopover, setOpenPopover] = useState(false);
   return (
@@ -77,7 +78,7 @@ export const FormFieldCommand = ({
                       role="combobox"
                       aria-expanded={openPopover}
                       className={cn(
-                        'w-[200px] justify-between',
+                        'justify-between',
                         !field.value && 'text-muted-foreground'
                       )}
                       ref={field.ref}

@@ -15,6 +15,8 @@ import { SearchbarHarvest } from '../../interfaces/SearchbarHarvest';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarvest';
 import { formSchemaSearchBarHarvest } from '../../utils/formSchemaSearchBarHarvest';
+import { ToolTipTemplate } from '@/modules/core/components';
+import { Search, X } from 'lucide-react';
 
 export const HarvestModuleSearchbar = () => {
   const { paramsQuery, defaultValuesSearchbar } = useHarvestModuleContext();
@@ -66,19 +68,18 @@ export const HarvestModuleSearchbar = () => {
     toast.success('Se han limpiado los filtros');
   };
 
-  const isFilterByDate = form.watch('filter_by_date');
-  const isFilterByTotal = form.watch('filter_by_total');
-  const isFilterByValuePay = form.watch('filter_by_value_pay');
+  // const isFilterByDate = form.watch('filter_by_date');
+  // const isFilterByTotal = form.watch('filter_by_total');
+  // const isFilterByValuePay = form.watch('filter_by_value_pay');
 
   return (
     <Form {...form}>
-      <Label className="text-lg">Barra de filtrado de registros:</Label>
       <form
         onSubmit={form.handleSubmit(async (e) => {
           onSubmit(e);
         })}
         id="formSearch"
-        className="flex flex-col gap-3 ml-2"
+        className="flex flex-col w-[500px] border p-4 rounded-md"
       >
         <FormFieldCommand
           data={queryCrops?.data?.rows || []}
@@ -90,9 +91,11 @@ export const HarvestModuleSearchbar = () => {
           name="crop.id"
           placeholder={formFieldsSearchBarHarvest.crop.placeholder}
           readOnly={false}
+          className="w-full"
         />
+
         <div className="flex flex-col gap-5">
-          <div className="p-3 border rounded-lg shadow-sm w-[320px]">
+          <div className="flex flex-col items-start">
             <FormFieldSwitch
               control={form.control}
               description={''}
@@ -102,36 +105,43 @@ export const HarvestModuleSearchbar = () => {
                 formFieldsSearchBarHarvest.filter_by_date.placeholder
               }
               readOnly={false}
+              className="w-[200px]"
             />
-            {isFilterByDate && (
-              <div className="flex flex-col gap-5">
-                <Separator className="mt-2" />
-                <FormFieldSelect
-                  items={[TypeFilterDate.after, TypeFilterDate.before]}
-                  control={form.control}
-                  description={
-                    formFieldsSearchBarHarvest.type_filter_date.description
-                  }
-                  label={formFieldsSearchBarHarvest.type_filter_date.label}
-                  name="type_filter_date"
-                  placeholder={
-                    formFieldsSearchBarHarvest.type_filter_date.placeholder
-                  }
-                  readOnly={false}
-                />
-                <FormFieldCalendar
-                  control={form.control}
-                  description={formFieldsSearchBarHarvest.date.description}
-                  label={formFieldsSearchBarHarvest.date.label}
-                  name="date"
-                  placeholder={formFieldsSearchBarHarvest.date.placeholder}
-                  readOnly={false}
-                />
-              </div>
-            )}
+            <div className="flex flex-row gap-4">
+              <FormFieldSelect
+                items={[
+                  {
+                    key: TypeFilterDate.after,
+                    value: TypeFilterDate.after,
+                    label: 'Despues de',
+                  },
+                  {
+                    key: TypeFilterDate.before,
+                    value: TypeFilterDate.before,
+                    label: 'Antes de',
+                  },
+                ]}
+                control={form.control}
+                description={''}
+                label={''}
+                name="type_filter_date"
+                placeholder={
+                  formFieldsSearchBarHarvest.type_filter_date.placeholder
+                }
+                readOnly={false}
+              />
+              <FormFieldCalendar
+                control={form.control}
+                description={''}
+                label={''}
+                name="date"
+                placeholder={formFieldsSearchBarHarvest.date.placeholder}
+                readOnly={false}
+              />
+            </div>
           </div>
 
-          <div className="p-3 border rounded-lg shadow-sm w-[320px]">
+          <div className="flex flex-col items-start">
             <FormFieldSwitch
               control={form.control}
               description={''}
@@ -141,41 +151,49 @@ export const HarvestModuleSearchbar = () => {
                 formFieldsSearchBarHarvest.filter_by_total.placeholder
               }
               readOnly={false}
+              className="w-[200px]"
             />
-            {isFilterByTotal && (
-              <div className="flex flex-col gap-5">
-                <Separator className="mt-2" />
-                <FormFieldSelect
-                  items={[
-                    TypeFilterNumber.MIN,
-                    TypeFilterNumber.MAX,
-                    TypeFilterNumber.EQUAL,
-                  ]}
-                  control={form.control}
-                  description={
-                    formFieldsSearchBarHarvest.type_filter_total.description
-                  }
-                  label={formFieldsSearchBarHarvest.type_filter_total.label}
-                  name="type_filter_total"
-                  placeholder={
-                    formFieldsSearchBarHarvest.type_filter_total.placeholder
-                  }
-                  readOnly={false}
-                />
-                <FormFieldInput
-                  control={form.control}
-                  description={formFieldsSearchBarHarvest.total.description}
-                  label={formFieldsSearchBarHarvest.total.label}
-                  name="total"
-                  placeholder={formFieldsSearchBarHarvest.total.placeholder}
-                  type="number"
-                  readOnly={false}
-                />
-              </div>
-            )}
+            <div className="flex flex-row gap-4">
+              <FormFieldSelect
+                items={[
+                  {
+                    key: TypeFilterNumber.MIN,
+                    value: TypeFilterNumber.MIN,
+                    label: 'Menor a',
+                  },
+                  {
+                    key: TypeFilterNumber.EQUAL,
+                    value: TypeFilterNumber.EQUAL,
+                    label: 'Igual a',
+                  },
+                  {
+                    key: TypeFilterNumber.MAX,
+                    value: TypeFilterNumber.MAX,
+                    label: 'Mayor a',
+                  },
+                ]}
+                control={form.control}
+                description={''}
+                label={''}
+                name="type_filter_total"
+                placeholder={
+                  formFieldsSearchBarHarvest.type_filter_total.placeholder
+                }
+                readOnly={false}
+              />
+              <FormFieldInput
+                control={form.control}
+                description={''}
+                label={''}
+                name="total"
+                placeholder={formFieldsSearchBarHarvest.total.placeholder}
+                type="number"
+                readOnly={false}
+              />
+            </div>
           </div>
 
-          <div className="p-3 border rounded-lg shadow-sm w-[320px]">
+          <div className="flex flex-col items-start">
             <FormFieldSwitch
               control={form.control}
               description={''}
@@ -185,51 +203,64 @@ export const HarvestModuleSearchbar = () => {
                 formFieldsSearchBarHarvest.filter_by_value_pay.placeholder
               }
               readOnly={false}
+              className="w-[200px]"
             />
-            {isFilterByValuePay && (
-              <div className="flex flex-col gap-5">
-                <Separator className="mt-2" />
-                <FormFieldSelect
-                  items={[
-                    TypeFilterNumber.MIN,
-                    TypeFilterNumber.MAX,
-                    TypeFilterNumber.EQUAL,
-                  ]}
-                  control={form.control}
-                  description={
-                    formFieldsSearchBarHarvest.type_filter_value_pay.description
-                  }
-                  label={formFieldsSearchBarHarvest.type_filter_value_pay.label}
-                  name="type_filter_value_pay"
-                  placeholder={
-                    formFieldsSearchBarHarvest.type_filter_value_pay.placeholder
-                  }
-                  readOnly={false}
-                />
-                <FormFieldInput
-                  control={form.control}
-                  description={formFieldsSearchBarHarvest.value_pay.description}
-                  label={formFieldsSearchBarHarvest.value_pay.label}
-                  name="value_pay"
-                  placeholder={formFieldsSearchBarHarvest.value_pay.placeholder}
-                  type="number"
-                  readOnly={false}
-                />
-              </div>
-            )}
+
+            <div className="flex flex-row gap-4">
+              <FormFieldSelect
+                items={[
+                  {
+                    key: TypeFilterNumber.MIN,
+                    value: TypeFilterNumber.MIN,
+                    label: 'Menor a',
+                  },
+                  {
+                    key: TypeFilterNumber.EQUAL,
+                    value: TypeFilterNumber.EQUAL,
+                    label: 'Igual a',
+                  },
+                  {
+                    key: TypeFilterNumber.MAX,
+                    value: TypeFilterNumber.MAX,
+                    label: 'Mayor a',
+                  },
+                ]}
+                control={form.control}
+                description={''}
+                label={''}
+                name="type_filter_value_pay"
+                placeholder={
+                  formFieldsSearchBarHarvest.type_filter_value_pay.placeholder
+                }
+                readOnly={false}
+              />
+              <FormFieldInput
+                control={form.control}
+                description={''}
+                label={''}
+                name="value_pay"
+                placeholder={formFieldsSearchBarHarvest.value_pay.placeholder}
+                type="number"
+                readOnly={false}
+              />
+            </div>
           </div>
 
-          <div className="flex items-center gap-4">
-            <Button type="submit" form="formSearch">
-              Buscar
-            </Button>
+          <div className="flex justify-end gap-2">
             <Button
+              type="button"
+              variant="outline"
               onClick={(e) => {
                 e.preventDefault();
                 handleReset();
               }}
             >
-              Borrar
+              <X className="w-4 h-4 mr-2" />
+              Limpiar
+            </Button>
+            <Button type="submit" form="formSearch">
+              <Search className="w-4 h-4 mr-2" />
+              Buscar
             </Button>
           </div>
         </div>

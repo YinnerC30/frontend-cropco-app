@@ -10,10 +10,9 @@ import {
   FormMessage,
   Input,
 } from '@/components';
+import { Search, X } from 'lucide-react';
 import { useCreateForm } from '../../hooks/useCreateForm';
 import { ToolTipTemplate } from '../shared/ToolTipTemplate';
-import { toast } from 'sonner';
-import { Search, X } from 'lucide-react';
 
 interface BasicSearchBarProps {
   query: string;

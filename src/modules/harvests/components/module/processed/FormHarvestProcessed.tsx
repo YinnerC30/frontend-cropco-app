@@ -68,9 +68,16 @@ export const FormHarvestProcessed = memo(() => {
 
   const onSubmitHarvestProcessed = async () => {
     const result = await formProcessed.trigger();
+
     if (!result) {
       return;
     }
+
+    // TODO: Implementar actualización de harvestProcessed
+
+    console.log(harvestProcessed);
+    console.log(harvestProcessed.id);
+    console.log(!harvestProcessed.id);
     const values = formProcessed.watch();
     const finalData = {
       ...values,

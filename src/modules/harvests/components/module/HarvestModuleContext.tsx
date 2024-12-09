@@ -1,13 +1,12 @@
 import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
 import { useDataTableManual } from '@/modules/core/hooks';
 import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData';
-import { createContext, useState } from 'react';
+import { createContext } from 'react';
 import { useWindowSize } from 'react-use';
 import { useGetAllHarvests } from '../../hooks';
 import { useDeleteBulkHarvests } from '../../hooks/mutations/useDeleteBulkHarvests';
 import { ActionsTableHarvest } from './ActionsTableHarvest';
 import columnsHarvest from './ColumnsTableHarvest';
-import { RootState, useAppSelector } from '@/redux/store';
 
 const defaultValuesSearchbar = {
   crop: { id: '' },

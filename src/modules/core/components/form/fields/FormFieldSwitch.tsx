@@ -4,22 +4,23 @@ import {
   FormLabel,
   FormDescription,
   FormControl,
-} from "@/components";
-import { Switch } from "@/components/ui/switch";
-import { FormFieldProps } from "../../../interfaces/form/FormFieldProps";
+} from '@/components';
+import { Switch } from '@/components/ui/switch';
+import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 
 export const FormFieldSwitch = ({
   control,
   name,
   label,
   description,
+  className,
 }: FormFieldProps) => {
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex flex-row justify-between w-72">
+        <FormItem className={`flex flex-row justify-between ${className} `}>
           <div className="space-y-0.5">
             <FormLabel>{label}</FormLabel>
             <FormDescription>{description}</FormDescription>

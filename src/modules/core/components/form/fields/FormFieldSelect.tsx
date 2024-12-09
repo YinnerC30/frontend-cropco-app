@@ -4,7 +4,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
 import {
   FormDescription,
@@ -12,13 +12,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 
-import { FormFieldProps } from "../../../interfaces/form/FormFieldProps";
-import { UnitOfMeasure } from "@/modules/supplies/interfaces/UnitOfMeasure";
+import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 
-interface FormFieldSelectProps<T> extends FormFieldProps {
-  items: T[];
+interface SelectItemValues {
+  key: string;
+  value: string;
+  label: string;
+}
+
+interface FormFieldSelectProps extends FormFieldProps {
+  items: SelectItemValues[];
 }
 
 export const FormFieldSelect = ({
@@ -29,14 +34,14 @@ export const FormFieldSelect = ({
   description,
   items,
   readOnly = false,
-  className = "",
-}: FormFieldSelectProps<any>) => {
+  className = '',
+}: FormFieldSelectProps) => {
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }: any) => (
-        <FormItem className={className + "ml-1"}>
+        <FormItem className={className + 'ml-1'}>
           <FormLabel>{label}</FormLabel>
           <div className="w-48 ">
             <Select
@@ -50,9 +55,9 @@ export const FormFieldSelect = ({
               </SelectTrigger>
 
               <SelectContent>
-                {items.map((item: UnitOfMeasure) => (
-                  <SelectItem key={item} value={item}>
-                    {item}
+                {items.map((item: SelectItemValues) => (
+                  <SelectItem key={item.key} value={item.value}>
+                    {item.label}
                   </SelectItem>
                 ))}
               </SelectContent>

@@ -38,7 +38,18 @@ export const FormSupplyFields = () => {
           readOnly={readOnly}
         />
         <FormFieldSelect
-          items={[UnitOfMeasure.GRAMOS, UnitOfMeasure.MILILITROS]}
+          items={[
+            {
+              key: UnitOfMeasure.GRAMOS,
+              value: UnitOfMeasure.GRAMOS,
+              label: 'Gramos',
+            },
+            {
+              key: UnitOfMeasure.MILILITROS,
+              value: UnitOfMeasure.MILILITROS,
+              label: 'Mililitros',
+            },
+          ]}
           control={form.control}
           description={formFieldsSupply.unit_of_measure.description}
           label={formFieldsSupply.unit_of_measure.label}
