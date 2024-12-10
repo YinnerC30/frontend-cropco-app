@@ -6,10 +6,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components';
-import { FormFieldCalendar } from '@/modules/core/components/form/fields/FormFieldCalendar';
-import { FormFieldCommand } from '@/modules/core/components/form/fields/FormFieldCommand';
-import { FormFieldInput } from '@/modules/core/components/form/fields/FormFieldInput';
-import { FormFieldSelect } from '@/modules/core/components/form/fields/FormFieldSelect';
+import {
+  FormFieldCalendar,
+  FormFieldCommand,
+  FormFieldInput,
+  FormFieldSelect,
+} from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
 import { useGetAllCropsWithHarvest } from '@/modules/crops/hooks/queries/useGetAllCropsWithHarvest';
 import { useNavigate } from 'react-router-dom';
@@ -23,8 +25,8 @@ import { useState } from 'react';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
 import { SearchbarHarvest } from '../../interfaces/SearchbarHarvest';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
-import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarvest';
 import { formSchemaSearchBarHarvest } from '../../utils/formSchemaSearchBarHarvest';
+import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarvest';
 
 interface FilterSearchBar {
   key: string;
@@ -33,30 +35,21 @@ interface FilterSearchBar {
 
 export const HarvestModuleSearchbar = () => {
   const { paramsQuery, defaultValuesSearchbar } = useHarvestModuleContext();
-
   const navigate = useNavigate();
-
   const { query: queryCrops } = useGetAllCropsWithHarvest({
     searchParameter: '',
     allRecords: true,
   });
-
   const form = useCreateForm({
     schema: formSchemaSearchBarHarvest,
     defaultValues: paramsQuery,
     skiptDirty: true,
   });
-
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
-  const resetFilters = () => {
-    setAppliedFilters([]);
-  };
-
+  // Función para manejar la eliminación de filtros individuales
   const removeFilter = (filter: FilterSearchBar) => {
-    const newFilters = appliedFilters.filter((f) => f.key !== filter.key);
-    setAppliedFilters(newFilters);
-
+    setAppliedFilters((prev) => prev.filter((f) => f.key !== filter.key));
     switch (filter.key) {
       case 'crop':
         form.setValue('crop.id', '');
@@ -74,10 +67,11 @@ export const HarvestModuleSearchbar = () => {
         form.setValue('value_pay', 0);
         break;
     }
-    onSubmit(form.watch());
+    handleSearch(form.watch());
   };
 
-  const onSubmit = async (values: SearchbarHarvest) => {
+  // Función para procesar filtros y enviar parámetros a la URL
+  const handleSearch = async (values: SearchbarHarvest) => {
     const params = new URLSearchParams();
     const filters: FilterSearchBar[] = [];
 
@@ -147,17 +141,34 @@ export const HarvestModuleSearchbar = () => {
 
   const handleReset = () => {
     form.reset(defaultValuesSearchbar);
-    resetFilters();
+    setAppliedFilters([]);
     navigate(MODULE_HARVESTS_PATHS.ViewAll);
     toast.success('Se han limpiado los filtros');
   };
 
+  // Opciones predefinidas para Popover
+  const numberFilterOptions = [
+    {
+      key: TypeFilterNumber.MIN,
+      value: TypeFilterNumber.MIN,
+      label: 'Menor a',
+    },
+    {
+      key: TypeFilterNumber.EQUAL,
+      value: TypeFilterNumber.EQUAL,
+      label: 'Igual a',
+    },
+    {
+      key: TypeFilterNumber.MAX,
+      value: TypeFilterNumber.MAX,
+      label: 'Mayor a',
+    },
+  ];
+
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(async (e) => {
-          onSubmit(e);
-        })}
+        onSubmit={form.handleSubmit(handleSearch)}
         id="formSearch"
         className="flex flex-col w-[500px] border p-4 rounded-md"
       >
@@ -167,26 +178,19 @@ export const HarvestModuleSearchbar = () => {
             form={form}
             nameToShow="name"
             control={form.control}
-            description={''}
-            label={''}
             name="crop.id"
             placeholder={formFieldsSearchBarHarvest.crop.placeholder}
+            className="w-[200px]"
+            description={''}
+            label={''}
             readOnly={false}
-            className="w-full"
           />
-          <div className="flex justify-end gap-2">
+          <div className="flex gap-2">
             <Button type="submit" form="formSearch">
               <Search className="w-4 h-4 mr-2" />
               Buscar
             </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={(e) => {
-                e.preventDefault();
-                handleReset();
-              }}
-            >
+            <Button variant="outline" onClick={handleReset}>
               <X className="w-4 h-4 mr-2" />
               Limpiar
             </Button>
@@ -194,18 +198,12 @@ export const HarvestModuleSearchbar = () => {
         </div>
 
         <div className="flex gap-5">
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant={'outline'}
-                className="flex justify-between font-normal w-52"
-              >
-                Fecha
-                <Calendar className="w-4 h-4" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[300px]" align="start">
-              <div className="flex flex-col gap-4">
+          {/** Popover para filtros */}
+          <FilterPopover
+            label="Fecha"
+            icon={<Calendar className="w-4 h-4" />}
+            content={
+              <>
                 <FormFieldSelect
                   items={[
                     {
@@ -219,151 +217,71 @@ export const HarvestModuleSearchbar = () => {
                       label: 'Antes de',
                     },
                   ]}
-                  control={form.control}
-                  description={
-                    formFieldsSearchBarHarvest.type_filter_date.description
-                  }
-                  label={formFieldsSearchBarHarvest.type_filter_date.label}
-                  name="type_filter_date"
-                  placeholder={
-                    formFieldsSearchBarHarvest.type_filter_date.placeholder
-                  }
                   readOnly={false}
+                  {...formFieldsSearchBarHarvest.type_filter_date}
+                  control={form.control}
                 />
                 <FormFieldCalendar
-                  control={form.control}
-                  description={formFieldsSearchBarHarvest.date.description}
-                  label={formFieldsSearchBarHarvest.date.label}
-                  name="date"
-                  placeholder={formFieldsSearchBarHarvest.date.placeholder}
                   readOnly={false}
+                  {...formFieldsSearchBarHarvest.date}
+                  control={form.control}
                 />
-              </div>
-            </PopoverContent>
-          </Popover>
-
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant={'outline'}
-                className="flex justify-between font-normal w-52"
-              >
-                Total
-                <Sigma className="w-4 h-4" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[300px]">
-              <div className="flex flex-col gap-4">
+              </>
+            }
+          />
+          <FilterPopover
+            label="Total"
+            icon={<Sigma className="w-4 h-4" />}
+            content={
+              <>
                 <FormFieldSelect
-                  items={[
-                    {
-                      key: TypeFilterNumber.MIN,
-                      value: TypeFilterNumber.MIN,
-                      label: 'Menor a',
-                    },
-                    {
-                      key: TypeFilterNumber.EQUAL,
-                      value: TypeFilterNumber.EQUAL,
-                      label: 'Igual a',
-                    },
-                    {
-                      key: TypeFilterNumber.MAX,
-                      value: TypeFilterNumber.MAX,
-                      label: 'Mayor a',
-                    },
-                  ]}
-                  control={form.control}
-                  description={
-                    formFieldsSearchBarHarvest.type_filter_total.description
-                  }
-                  label={formFieldsSearchBarHarvest.type_filter_total.label}
-                  name="type_filter_total"
-                  placeholder={
-                    formFieldsSearchBarHarvest.type_filter_total.placeholder
-                  }
                   readOnly={false}
+                  items={numberFilterOptions}
+                  {...formFieldsSearchBarHarvest.type_filter_total}
+                  control={form.control}
                 />
                 <FormFieldInput
+                  readOnly={false}
+                  {...formFieldsSearchBarHarvest.total}
                   control={form.control}
-                  description={formFieldsSearchBarHarvest.total.description}
-                  label={formFieldsSearchBarHarvest.total.label}
-                  name="total"
-                  placeholder={formFieldsSearchBarHarvest.total.placeholder}
                   type="number"
-                  readOnly={false}
                 />
-              </div>
-            </PopoverContent>
-          </Popover>
-
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant={'outline'}
-                className="flex justify-between font-normal w-52"
-              >
-                Valor a pagar
-                <DollarSign className="w-4 h-4" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[300px]" align="end">
-              <div className="flex flex-col gap-4">
+              </>
+            }
+          />
+          <FilterPopover
+            label="Valor a pagar"
+            icon={<DollarSign className="w-4 h-4" />}
+            content={
+              <>
                 <FormFieldSelect
-                  items={[
-                    {
-                      key: TypeFilterNumber.MIN,
-                      value: TypeFilterNumber.MIN,
-                      label: 'Menor a',
-                    },
-                    {
-                      key: TypeFilterNumber.EQUAL,
-                      value: TypeFilterNumber.EQUAL,
-                      label: 'Igual a',
-                    },
-                    {
-                      key: TypeFilterNumber.MAX,
-                      value: TypeFilterNumber.MAX,
-                      label: 'Mayor a',
-                    },
-                  ]}
-                  control={form.control}
-                  description={
-                    formFieldsSearchBarHarvest.type_filter_value_pay.description
-                  }
-                  label={formFieldsSearchBarHarvest.type_filter_value_pay.label}
-                  name="type_filter_value_pay"
-                  placeholder={
-                    formFieldsSearchBarHarvest.type_filter_value_pay.placeholder
-                  }
                   readOnly={false}
+                  items={numberFilterOptions}
+                  {...formFieldsSearchBarHarvest.type_filter_value_pay}
+                  control={form.control}
                 />
                 <FormFieldInput
-                  control={form.control}
-                  description={formFieldsSearchBarHarvest.value_pay.description}
-                  label={formFieldsSearchBarHarvest.value_pay.label}
-                  name="value_pay"
-                  placeholder={formFieldsSearchBarHarvest.value_pay.placeholder}
-                  type="number"
                   readOnly={false}
+                  {...formFieldsSearchBarHarvest.value_pay}
+                  control={form.control}
+                  type="number"
                 />
-              </div>
-            </PopoverContent>
-          </Popover>
+              </>
+            }
+          />
         </div>
 
         {appliedFilters.length > 0 && (
           <div className="flex flex-wrap gap-2 my-4">
             {appliedFilters.map((filter, index) => (
-              <Badge key={index} variant="secondary" className="text-sm">
+              <Badge key={index} variant="secondary">
                 {filter.label}
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="w-4 h-4 ml-1 hover:bg-transparent"
                   onClick={() => removeFilter(filter)}
                 >
                   <X className="w-3 h-3" />
-                  <span className="sr-only">Remover filtro</span>
                 </Button>
               </Badge>
             ))}
@@ -373,3 +291,26 @@ export const HarvestModuleSearchbar = () => {
     </Form>
   );
 };
+
+// Componente genérico para los Popovers
+const FilterPopover = ({
+  label,
+  icon,
+  content,
+}: {
+  label: string;
+  icon: JSX.Element;
+  content: JSX.Element;
+}) => (
+  <Popover>
+    <PopoverTrigger asChild>
+      <Button
+        variant="outline"
+        className="flex justify-between font-normal w-52"
+      >
+        {label} {icon}
+      </Button>
+    </PopoverTrigger>
+    <PopoverContent className="w-[300px]">{content}</PopoverContent>
+  </Popover>
+);

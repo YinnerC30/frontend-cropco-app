@@ -77,10 +77,10 @@ export const FormFieldCommand = ({
                       variant="outline"
                       role="combobox"
                       aria-expanded={openPopover}
-                      className={cn(
+                      className={`${className} ${cn(
                         'justify-between',
                         !field.value && 'text-muted-foreground'
-                      )}
+                      )}`}
                       ref={field.ref}
                       onBlur={field.onBlur}
                       disabled={readOnly}
