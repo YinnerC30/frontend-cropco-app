@@ -7,12 +7,12 @@ import { HarvestModuleSearchbar } from './HarvestModuleSearchbar';
 export const HarvestModuleTemplate = () => {
   return (
     <HarvestsModuleProvider>
-        <BreadCrumb finalItem="Cosechas" />
-      <div className='flex flex-col items-center'>
+      <BreadCrumb finalItem="Cosechas" />
+      <div className="flex flex-col items-start justify-start w-[1000px]">
         <HarvestModuleSearchbar />
       </div>
-        <HarvestModuleActions />
-        <HarvestModuleTable />
+      <HarvestModuleActions />
+      <HarvestModuleTable />
     </HarvestsModuleProvider>
   );
 };

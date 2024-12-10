@@ -1,11 +1,15 @@
 import {
   Badge,
   Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuPortal,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
   Form,
   Label,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
 } from '@/components';
 import {
   FormFieldCalendar,
@@ -28,11 +32,51 @@ import { SearchbarHarvest } from '../../interfaces/SearchbarHarvest';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarvest';
 import { formSchemaSearchBarHarvest } from '../../utils/formSchemaSearchBarHarvest';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+
+const FilterDropdownItem = ({
+  label,
+  icon,
+  content,
+  actionOnSave,
+}: {
+  label: string;
+  icon: JSX.Element;
+  content: JSX.Element;
+  actionOnSave: () => void;
+}) => {
+  const [openMenu, setOpenMenu] = useState(false);
+
+  return (
+    <DropdownMenuSub open={openMenu} onOpenChange={setOpenMenu}>
+      <DropdownMenuSubTrigger>{label}</DropdownMenuSubTrigger>
+      <DropdownMenuPortal>
+        <DropdownMenuSubContent className="p-4 ml-2">
+          {content}
+          <div className="flex justify-center gap-2">
+            <Button
+              className="self-end w-24 mt-4"
+              onClick={() => {
+                actionOnSave();
+                setOpenMenu(false);
+              }}
+            >
+              Aplicar
+            </Button>
+            <Button
+              variant={'destructive'}
+              className="self-end w-24 mt-4"
+              onClick={() => {
+                setOpenMenu(false);
+              }}
+            >
+              Cerrar
+            </Button>
+          </div>
+        </DropdownMenuSubContent>
+      </DropdownMenuPortal>
+    </DropdownMenuSub>
+  );
+};
 
 interface FilterSearchBar {
   key: string;
@@ -53,6 +97,8 @@ export const HarvestModuleSearchbar = () => {
   });
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
+  const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
+
   const addFilter = () => {
     const values = form.watch();
     const filters: FilterSearchBar[] = [];
@@ -69,8 +115,8 @@ export const HarvestModuleSearchbar = () => {
     if (values.type_filter_date && values.date) {
       const formatTypeFilterDate =
         values.type_filter_date === TypeFilterDate.after
-          ? 'Despues de:'
-          : 'Antes de:';
+          ? 'Despues del'
+          : 'Antes del';
       const formatDate = format(values.date, 'PPP', { locale: es });
 
       filters.push({
@@ -106,6 +152,7 @@ export const HarvestModuleSearchbar = () => {
     }
 
     setAppliedFilters(filters);
+    setOpenDropDownMenu(false);
     handleSearch(form.watch());
   };
 
@@ -135,69 +182,29 @@ export const HarvestModuleSearchbar = () => {
   // Función para procesar filtros y enviar parámetros a la URL
   const handleSearch = async (values: SearchbarHarvest) => {
     const params = new URLSearchParams();
-    const filters: FilterSearchBar[] = [];
 
     if (values.crop?.id) {
       params.append('crop', values.crop.id);
-      const crop = queryCrops?.data?.rows.find(
-        (row: any) => row.id === values.crop.id
-      );
-      filters.push({
-        key: 'crop',
-        label: `Cultivo: ${crop.name}`,
-      });
     }
 
     if (values.type_filter_date && values.date) {
       params.append('filter_by_date', 'true');
       params.append('type_filter_date', `${values.type_filter_date}`);
       params.append('date', values.date.toISOString());
-      const formatTypeFilterDate =
-        values.type_filter_date === TypeFilterDate.after
-          ? 'Despues de:'
-          : 'Antes de:';
-      const formatDate = format(values.date, 'PPP', { locale: es });
-
-      filters.push({
-        key: 'date',
-        label: `Fecha: ${formatTypeFilterDate} ${formatDate}`,
-      });
     }
 
     if (values.type_filter_total && values.total) {
       params.append('filter_by_total', 'true');
       params.append('type_filter_total', `${values.type_filter_total}`);
       params.append('total', `${values.total}`);
-
-      const formatTypeFilterTotal =
-        values.type_filter_total === TypeFilterNumber.MAX
-          ? 'Mayor a:'
-          : values.type_filter_total === TypeFilterNumber.MIN
-          ? 'Menor a:'
-          : 'Igual a:';
-      filters.push({
-        key: 'total',
-        label: `Total: ${formatTypeFilterTotal} ${values.total}`,
-      });
     }
 
     if (values.type_filter_value_pay && values.value_pay) {
       params.append('filter_by_value_pay', 'true');
       params.append('type_filter_value_pay', `${values.type_filter_value_pay}`);
       params.append('value_pay', `${values.value_pay}`);
-      const formatTypeFilterValuePay =
-        values.type_filter_value_pay === TypeFilterNumber.MAX
-          ? 'Mayor a:'
-          : values.type_filter_value_pay === TypeFilterNumber.MIN
-          ? 'Menor a:'
-          : 'Igual a:';
-      filters.push({
-        key: 'value_pay',
-        label: `Valor a pagar: ${formatTypeFilterValuePay} ${values.value_pay}`,
-      });
     }
 
-    setAppliedFilters(filters);
     navigate(`?${params.toString()}`);
   };
 
@@ -236,14 +243,18 @@ export const HarvestModuleSearchbar = () => {
   ];
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSearch)}
-        id="formSearch"
-        className="flex flex-col w-[900px]"
-      >
-        <Collapsible>
-          <div className="flex items-center justify-center gap-2 ">
+    <DropdownMenu
+      open={openDropDownMenu}
+      onOpenChange={setOpenDropDownMenu}
+      modal={false}
+    >
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleSearch)}
+          id="formSearch"
+          className="flex flex-col w-full"
+        >
+          <div className="flex items-center gap-2 ">
             <FormFieldCommand
               data={queryCrops?.data?.rows || []}
               form={form}
@@ -251,113 +262,115 @@ export const HarvestModuleSearchbar = () => {
               control={form.control}
               name="crop.id"
               placeholder={formFieldsSearchBarHarvest.crop.placeholder}
-              className="w-[300px]"
+              className="w-auto lg:w-[300px]"
               description={''}
               label={''}
               readOnly={false}
               actionFinal={addFilter}
             />
             <div className="flex gap-2">
-              <Button type="submit" form="formSearch">
-                <Search className="w-4 h-4 mr-2" />
-                Buscar
+              <Button type="submit" form="formSearch" size={'icon'}>
+                <Search className="w-4 h-4" />
               </Button>
-              <Button variant="outline" onClick={handleReset}>
-                <X className="w-4 h-4 mr-2 " />
-                Limpiar
+              <Button variant="outline" onClick={handleReset} size={'icon'}>
+                <X className="w-4 h-4" />
               </Button>
-              <CollapsibleTrigger asChild>
-                <Button variant="outline">
-                  <Filter className="w-4 h-4 mr-2 " />
-                  Filtros
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  onClick={() => setOpenDropDownMenu(true)}
+                  size={'icon'}
+                >
+                  <Filter className="w-4 h-4" />
                 </Button>
-              </CollapsibleTrigger>
+              </DropdownMenuTrigger>
             </div>
           </div>
 
-          <CollapsibleContent>
-            <div className="flex gap-2 justify-evenly">
-              {/** Popover para filtros */}
-              <FilterPopover
-                label={'Fecha:'}
-                icon={<Calendar className="w-4 h-4 ml-2" />}
-                content={
-                  <>
-                    <FormFieldSelect
-                      items={[
-                        {
-                          key: TypeFilterDate.after,
-                          value: TypeFilterDate.after,
-                          label: 'Despues de',
-                        },
-                        {
-                          key: TypeFilterDate.before,
-                          value: TypeFilterDate.before,
-                          label: 'Antes de',
-                        },
-                      ]}
-                      readOnly={false}
-                      {...formFieldsSearchBarHarvest.type_filter_date}
-                      control={form.control}
-                    />
-                    <FormFieldCalendar
-                      readOnly={false}
-                      {...formFieldsSearchBarHarvest.date}
-                      control={form.control}
-                    />
-                  </>
-                }
-                actionOnSave={addFilter}
-              />
-              <FilterPopover
-                label={'Total:'}
-                icon={<Sigma className="w-4 h-4 ml-2" />}
-                actionOnSave={addFilter}
-                content={
-                  <>
-                    <FormFieldSelect
-                      readOnly={false}
-                      items={numberFilterOptions}
-                      {...formFieldsSearchBarHarvest.type_filter_total}
-                      control={form.control}
-                    />
-                    <FormFieldInput
-                      readOnly={false}
-                      {...formFieldsSearchBarHarvest.total}
-                      control={form.control}
-                      type="number"
-                    />
-                  </>
-                }
-              />
-              <FilterPopover
-                label={'Valor a pagar:'}
-                icon={<DollarSign className="w-4 h-4 ml-2" />}
-                actionOnSave={addFilter}
-                content={
-                  <>
-                    <FormFieldSelect
-                      readOnly={false}
-                      items={numberFilterOptions}
-                      {...formFieldsSearchBarHarvest.type_filter_value_pay}
-                      control={form.control}
-                    />
-                    <FormFieldInput
-                      readOnly={false}
-                      {...formFieldsSearchBarHarvest.value_pay}
-                      control={form.control}
-                      type="number"
-                    />
-                  </>
-                }
-              />
-            </div>
-          </CollapsibleContent>
+          <DropdownMenuContent
+            className="w-56"
+            side="right"
+            onPointerDownOutside={(e) => e.preventDefault()}
+          >
+            <FilterDropdownItem
+              label={'Fecha'}
+              icon={<Calendar className="w-4 h-4 ml-2" />}
+              content={
+                <>
+                  <FormFieldSelect
+                    items={[
+                      {
+                        key: TypeFilterDate.after,
+                        value: TypeFilterDate.after,
+                        label: 'Despues del',
+                      },
+                      {
+                        key: TypeFilterDate.before,
+                        value: TypeFilterDate.before,
+                        label: 'Antes del',
+                      },
+                    ]}
+                    readOnly={false}
+                    {...formFieldsSearchBarHarvest.type_filter_date}
+                    control={form.control}
+                  />
+                  <FormFieldCalendar
+                    readOnly={false}
+                    {...formFieldsSearchBarHarvest.date}
+                    control={form.control}
+                  />
+                </>
+              }
+              actionOnSave={addFilter}
+            />
+            <FilterDropdownItem
+              label={'Total'}
+              icon={<Sigma className="w-4 h-4 ml-2" />}
+              actionOnSave={addFilter}
+              content={
+                <>
+                  <FormFieldSelect
+                    readOnly={false}
+                    items={numberFilterOptions}
+                    {...formFieldsSearchBarHarvest.type_filter_total}
+                    control={form.control}
+                  />
+                  <FormFieldInput
+                    readOnly={false}
+                    {...formFieldsSearchBarHarvest.total}
+                    control={form.control}
+                    type="number"
+                  />
+                </>
+              }
+            />
+            <FilterDropdownItem
+              label={'Valor a pagar'}
+              icon={<DollarSign className="w-4 h-4 ml-2" />}
+              actionOnSave={addFilter}
+              content={
+                <>
+                  <FormFieldSelect
+                    readOnly={false}
+                    items={numberFilterOptions}
+                    {...formFieldsSearchBarHarvest.type_filter_value_pay}
+                    control={form.control}
+                  />
+                  <FormFieldInput
+                    readOnly={false}
+                    {...formFieldsSearchBarHarvest.value_pay}
+                    control={form.control}
+                    type="number"
+                  />
+                </>
+              }
+            />
+          </DropdownMenuContent>
 
           {appliedFilters.length > 0 && (
-            <div className="mt-2">
+            <div className="mt-2 ">
               <Label className="block">Filtros aplicados:</Label>
-              <div className="flex flex-wrap items-center justify-center gap-2 my-4">
+              <div className="flex flex-wrap gap-2 my-4 ">
                 {appliedFilters.map((filter, index) => (
                   <Badge key={index} variant="secondary">
                     {filter.label}
@@ -373,49 +386,8 @@ export const HarvestModuleSearchbar = () => {
               </div>
             </div>
           )}
-        </Collapsible>
-      </form>
-    </Form>
-  );
-};
-
-// Componente genérico para los Popovers
-const FilterPopover = ({
-  label,
-  icon,
-  content,
-  actionOnSave,
-}: {
-  label: string;
-  icon: JSX.Element;
-  content: JSX.Element;
-  actionOnSave: () => void;
-}) => {
-  const [openPopover, setOpenPopover] = useState(false);
-
-  return (
-    <Popover open={openPopover} onOpenChange={setOpenPopover}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          className="flex justify-between w-auto"
-          onClick={() => setOpenPopover(!openPopover)}
-        >
-          {label} {icon}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[300px] flex flex-col">
-        {content}
-        <Button
-          className="self-end w-24 mt-4"
-          onClick={() => {
-            actionOnSave();
-            setOpenPopover(false);
-          }}
-        >
-          Guardar
-        </Button>
-      </PopoverContent>
-    </Popover>
+        </form>
+      </Form>
+    </DropdownMenu>
   );
 };
