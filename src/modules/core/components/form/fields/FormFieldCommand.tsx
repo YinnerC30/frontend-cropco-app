@@ -37,6 +37,7 @@ interface FormFieldCommandProps extends FormFieldProps {
   nameToShow: string;
   isLoading?: boolean;
   nameEntity?: string;
+  actionFinal?: () => void;
 }
 
 export const FormFieldCommand = ({
@@ -52,6 +53,7 @@ export const FormFieldCommand = ({
   isLoading = false,
   nameEntity = 'registro',
   className,
+  actionFinal,
 }: FormFieldCommandProps) => {
   const [openPopover, setOpenPopover] = useState(false);
   return (
@@ -125,6 +127,7 @@ export const FormFieldCommand = ({
                                     form.trigger(name);
                                   }
                                   setOpenPopover(false);
+                                  actionFinal && actionFinal();
                                 }}
                               >
                                 {item?.[nameToShow]}
