@@ -49,6 +49,8 @@ export const columnsTableCrops = [
     accessorKey: formFieldsCrop.date_of_creation.name,
     cell: ({ row }: any) => {
       const date: string = row.getValue(formFieldsCrop.date_of_creation.name);
+      console.log(date);
+      console.log(typeof date);
       return FormatDate({ date });
     },
     header: ({ column }: any) => {

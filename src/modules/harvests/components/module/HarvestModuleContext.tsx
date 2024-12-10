@@ -8,19 +8,6 @@ import { useDeleteBulkHarvests } from '../../hooks/mutations/useDeleteBulkHarves
 import { ActionsTableHarvest } from './ActionsTableHarvest';
 import columnsHarvest from './ColumnsTableHarvest';
 
-const defaultValuesSearchbar = {
-  crop: { id: '' },
-  filter_by_date: false,
-  date_time_selection: undefined,
-  date: undefined,
-  filter_by_total: false,
-  min_or_max_total_selection: undefined,
-  total: undefined,
-  filter_by_value_pay: false,
-  min_or_max_value_pay_selection: undefined,
-  value_pay: undefined,
-};
-
 export const HarvestsModuleContext = createContext<any>(null);
 
 export const HarvestsModuleProvider = ({
@@ -98,11 +85,7 @@ export const HarvestsModuleProvider = ({
       ...data,
       crop: { id: data.crop },
       date: !data.date ? undefined : new Date(data.date),
-      filter_by_date: !data.filter_by_date ? false : true,
-      filter_by_total: !data.filter_by_total ? false : true,
-      filter_by_value_pay: !data.filter_by_value_pay ? false : true,
     },
-    defaultValuesSearchbar,
   };
 
   return (

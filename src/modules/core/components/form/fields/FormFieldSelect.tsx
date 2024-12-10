@@ -24,6 +24,7 @@ interface SelectItemValues {
 
 interface FormFieldSelectProps extends FormFieldProps {
   items: SelectItemValues[];
+  
 }
 
 export const FormFieldSelect = ({
@@ -35,6 +36,7 @@ export const FormFieldSelect = ({
   items,
   readOnly = false,
   className = '',
+  
 }: FormFieldSelectProps) => {
   return (
     <FormField
