@@ -51,7 +51,7 @@ const FilterDropdownItem = ({
       <DropdownMenuSubTrigger>{label}</DropdownMenuSubTrigger>
       <DropdownMenuPortal>
         <DropdownMenuSubContent
-          className="p-4 ml-2"
+          className="w-[250px] p-4 ml-2"
           avoidCollisions
           sideOffset={0}
         >
@@ -314,7 +314,7 @@ export const HarvestModuleSearchbar = () => {
           id="formSearch"
           className="flex flex-col w-full"
         >
-          <div className="flex flex-col gap-1 sm:flex-row sm:items-center">
+          <div className="flex flex-col items-center justify-center w-screen md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
             <div className="flex items-center gap-2">
               <FormFieldCommand
                 data={queryCrops?.data?.rows || []}
@@ -344,17 +344,21 @@ export const HarvestModuleSearchbar = () => {
               </div>
             </div>
 
-            <ToolTipTemplate content="Filtros">
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  onClick={() => setOpenDropDownMenu((prev: boolean) => !prev)}
-                  size={'icon'}
-                >
-                  <Filter className="w-4 h-4" />
-                </Button>
-              </DropdownMenuTrigger>
-            </ToolTipTemplate>
+            <div className="self-start mb-2 sm:self-center sm:m-0">
+              <ToolTipTemplate content="Filtros">
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    onClick={() =>
+                      setOpenDropDownMenu((prev: boolean) => !prev)
+                    }
+                    size={'icon'}
+                  >
+                    <Filter className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+              </ToolTipTemplate>
+            </div>
           </div>
 
           <DropdownMenuContent
@@ -393,6 +397,7 @@ export const HarvestModuleSearchbar = () => {
                     {...formFieldsSearchBarHarvest.date}
                     control={form.control}
                     name="filter_by_date.date"
+                    className="w-[95%]"
                   />
                 </>
               }
