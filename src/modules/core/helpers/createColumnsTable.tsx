@@ -5,6 +5,7 @@ interface ValuesCreateColumns {
   hiddenActions?: boolean;
   columns: any;
   actions: any;
+  readOnly?: boolean;
 }
 
 export const createColumnsTable = ({
@@ -12,8 +13,9 @@ export const createColumnsTable = ({
   columns: columnsTable,
   actions: actionsTable,
   hiddenActions = false,
+  readOnly = false,
 }: ValuesCreateColumns) => {
-  const columns = [CheckboxTable, ...columnsTable];
+  const columns = [...columnsTable];
 
   const actions = {
     id: 'actions',
@@ -23,6 +25,8 @@ export const createColumnsTable = ({
   if (hiddenActions) {
     return columns;
   }
+
+  columns.unshift(CheckboxTable);
 
   actionsInFirstColumn ? columns.unshift(actions) : columns.push(actions);
 

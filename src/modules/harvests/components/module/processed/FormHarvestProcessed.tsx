@@ -17,7 +17,10 @@ import {
   ToolTipTemplate,
 } from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks';
-import { usePostHarvestProcessed } from '@/modules/harvests/hooks';
+import {
+  usePatchHarvestProcessed,
+  usePostHarvestProcessed,
+} from '@/modules/harvests/hooks';
 import { formFieldsHarvestProcessed } from '@/modules/harvests/utils/formFieldsHarvestProcessed';
 
 import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
@@ -40,8 +43,14 @@ const formSchemaHarvestProcessed = z.object({
 });
 
 export const FormHarvestProcessed = memo(() => {
-  const { data, isLoading, openDialog, setOpenDialog, harvestProcessed } =
-    useHarvestProcessedContext();
+  const {
+    data,
+    isLoading,
+    openDialog,
+    setOpenDialog,
+    harvestProcessed,
+    setHarvestProcessed,
+  } = useHarvestProcessedContext();
 
   const formProcessed = useCreateForm({
     schema: formSchemaHarvestProcessed,
@@ -64,7 +73,8 @@ export const FormHarvestProcessed = memo(() => {
     formProcessed.reset({ total: 0, date: undefined });
   };
 
-  const { isPending, mutate } = usePostHarvestProcessed();
+  const mutationPostHarvestProcessed = usePostHarvestProcessed();
+  const mutationPatchHarvestProcessed = usePatchHarvestProcessed();
 
   const onSubmitHarvestProcessed = async () => {
     const result = await formProcessed.trigger();
@@ -73,12 +83,10 @@ export const FormHarvestProcessed = memo(() => {
       return;
     }
 
-    // TODO: Implementar actualización de harvestProcessed
+    const isUpdate = !!harvestProcessed.id;
 
-    console.log(harvestProcessed);
-    console.log(harvestProcessed.id);
-    console.log(!harvestProcessed.id);
     const values = formProcessed.watch();
+
     const finalData = {
       ...values,
       total: +values.total,
@@ -89,11 +97,32 @@ export const FormHarvestProcessed = memo(() => {
         id: data.id,
       },
     };
-    mutate(finalData, {
-      onSuccess: () => {
-        formProcessed.reset({ total: 0, date: undefined });
-      },
-    });
+
+    if (isUpdate) {
+      mutationPatchHarvestProcessed.mutate(
+        { ...finalData, id: harvestProcessed.id },
+        {
+          onSuccess: () => {
+            formProcessed.reset({ total: 0, date: undefined });
+            setHarvestProcessed({
+              date: undefined,
+              total: 0,
+              id: undefined,
+            });
+            setIsActiveDialog(false);
+            setOpenDialog(false);
+          },
+        }
+      );
+    } else {
+      mutationPostHarvestProcessed.mutate(finalData, {
+        onSuccess: () => {
+          formProcessed.reset({ total: 0, date: undefined });
+          setIsActiveDialog(false);
+          setOpenDialog(false);
+        },
+      });
+    }
   };
 
   useEffect(() => {
@@ -138,8 +167,8 @@ export const FormHarvestProcessed = memo(() => {
           <DialogHeader>
             <DialogTitle>Cosecha procesada</DialogTitle>
             <DialogDescription className="">
-              Ingrese los datos solicitados para agregar el monto al stock del
-              cultivo
+              Ingrese los datos solicitados para actualizar el monto al stock
+              del cultivo
             </DialogDescription>
           </DialogHeader>
 
@@ -170,8 +199,11 @@ export const FormHarvestProcessed = memo(() => {
           )}
 
           <DialogFooter>
-            <Button onClick={onSubmitHarvestProcessed} disabled={isPending}>
-              {isPending && (
+            <Button
+              onClick={onSubmitHarvestProcessed}
+              disabled={mutationPostHarvestProcessed.isPending}
+            >
+              {mutationPostHarvestProcessed.isPending && (
                 <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
               )}
               Guardar

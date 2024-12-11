@@ -15,7 +15,6 @@ import {
 } from '@/components/ui/form';
 
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
-import { FieldValues } from 'react-hook-form';
 
 interface SelectItemValues {
   key: string;

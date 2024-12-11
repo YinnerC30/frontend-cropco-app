@@ -15,11 +15,10 @@ export const HarvestProcessedProvider = ({
   const [openDialog, setOpenDialog] = useState(false);
 
   const [harvestProcessed, setHarvestProcessed] = useState({
+    id: undefined,
     date: undefined,
     total: 0,
   });
-
-  
 
   const contextValue = {
     ...queryOneHarvest,

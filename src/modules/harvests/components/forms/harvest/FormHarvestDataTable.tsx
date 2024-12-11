@@ -75,7 +75,10 @@ export const FormHarvestDataTable = () => {
           className="h-max-[460px] w-[95%] sm:w-full p-1 border rounded-sm self-start"
           type="auto"
         >
-          <FormDataTable onCellDoubleClick={handleSetHarvestDetail} />
+          <FormDataTable
+            onCellDoubleClick={handleSetHarvestDetail}
+            disabledDoubleClick={readOnly}
+          />
 
           <ScrollBar className="mt-2" orientation="horizontal" forceMount />
         </ScrollArea>

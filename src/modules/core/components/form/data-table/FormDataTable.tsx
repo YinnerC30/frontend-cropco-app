@@ -12,8 +12,13 @@ import { flexRender } from '@tanstack/react-table';
 interface Props {
   onCellDoubleClick: (data: any) => void;
   className?: string;
+  disabledDoubleClick?: boolean;
 }
-export const FormDataTable = ({ onCellDoubleClick, className }: Props) => {
+export const FormDataTable = ({
+  onCellDoubleClick,
+  className,
+  disabledDoubleClick = false,
+}: Props) => {
   const { table, lengthColumns } = useFormDataTableContext();
   return (
     <Table className={`${className}`}>
@@ -41,7 +46,9 @@ export const FormDataTable = ({ onCellDoubleClick, className }: Props) => {
             <TableRow
               key={row.id}
               data-state={row.getIsSelected() && 'selected'}
-              onDoubleClick={() => onCellDoubleClick(row.original)}
+              onDoubleClick={() => {
+                !disabledDoubleClick && onCellDoubleClick(row.original);
+              }}
             >
               {row.getVisibleCells().map((cell: any) => (
                 <TableCell key={cell.id} className="py-1">

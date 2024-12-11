@@ -81,6 +81,7 @@ export const FormHarvestDetail = () => {
     <>
       <ToolTipTemplate content={'Crear registro'}>
         <Button
+          className={`${readOnly && 'hidden'}`}
           variant="outline"
           size="icon"
           onClick={handleOpenDialogExtended}

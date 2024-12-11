@@ -9,6 +9,7 @@ import {
 import { LayersIcon } from 'lucide-react';
 import { useDeleteHarvest } from '../../hooks';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
+import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 
 export const ActionsTableHarvest = ({ row }: any) => {
   const { resetSelectionRows } = useHarvestModuleContext();
@@ -26,8 +27,8 @@ export const ActionsTableHarvest = ({ row }: any) => {
     <DropDownMenuActions>
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord action={handleDelete} />
-      <ActionModifyRecord id={id} />
-      <ActionViewRecord id={id} />
+      <ActionModifyRecord id={id} path={MODULE_HARVESTS_PATHS.Update + id} />
+      <ActionViewRecord id={id} path={MODULE_HARVESTS_PATHS.ViewOne + id} />
       <ItemNavigate
         path={`../processed/view/${id}`}
         Icon={LayersIcon}
