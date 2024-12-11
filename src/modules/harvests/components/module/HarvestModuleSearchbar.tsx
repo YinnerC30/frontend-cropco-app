@@ -50,7 +50,11 @@ const FilterDropdownItem = ({
     <DropdownMenuSub open={openMenu} onOpenChange={setOpenMenu}>
       <DropdownMenuSubTrigger>{label}</DropdownMenuSubTrigger>
       <DropdownMenuPortal>
-        <DropdownMenuSubContent className="p-4 ml-2">
+        <DropdownMenuSubContent
+          className="p-4 ml-2"
+          avoidCollisions
+          sideOffset={0}
+        >
           {content}
           <div className="flex justify-center gap-2">
             <Button
@@ -310,52 +314,52 @@ export const HarvestModuleSearchbar = () => {
           id="formSearch"
           className="flex flex-col w-full"
         >
-          <div className="flex items-center gap-2 ">
-            <FormFieldCommand
-              data={queryCrops?.data?.rows || []}
-              form={form}
-              nameToShow="name"
-              control={form.control}
-              name="crop.id"
-              placeholder={formFieldsSearchBarHarvest.crop.placeholder}
-              className="w-auto lg:w-[300px]"
-              description={''}
-              label={''}
-              readOnly={false}
-              actionFinal={() => addFilter('crop.id')}
-            />
-            <div className="flex gap-2">
-              <ToolTipTemplate content="Ejecutar consulta">
-                <Button type="submit" form="formSearch" size={'icon'}>
-                  <Search className="w-4 h-4" />
-                </Button>
-              </ToolTipTemplate>
-
-              <ToolTipTemplate content="Borrar consulta">
-                <Button variant="outline" onClick={handleReset} size={'icon'}>
-                  <X className="w-4 h-4" />
-                </Button>
-              </ToolTipTemplate>
-
-              <ToolTipTemplate content="Filtros">
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      setOpenDropDownMenu((prev: boolean) => !prev)
-                    }
-                    size={'icon'}
-                  >
-                    <Filter className="w-4 h-4" />
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-center">
+            <div className="flex items-center gap-2">
+              <FormFieldCommand
+                data={queryCrops?.data?.rows || []}
+                form={form}
+                nameToShow="name"
+                control={form.control}
+                name="crop.id"
+                placeholder={formFieldsSearchBarHarvest.crop.placeholder}
+                className="w-auto lg:w-[300px]"
+                description={''}
+                label={''}
+                readOnly={false}
+                actionFinal={() => addFilter('crop.id')}
+              />
+              <div className="flex gap-2">
+                <ToolTipTemplate content="Ejecutar consulta">
+                  <Button type="submit" form="formSearch" size={'icon'}>
+                    <Search className="w-4 h-4" />
                   </Button>
-                </DropdownMenuTrigger>
-              </ToolTipTemplate>
+                </ToolTipTemplate>
+
+                <ToolTipTemplate content="Borrar consulta">
+                  <Button variant="outline" onClick={handleReset} size={'icon'}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                </ToolTipTemplate>
+              </div>
             </div>
+
+            <ToolTipTemplate content="Filtros">
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  onClick={() => setOpenDropDownMenu((prev: boolean) => !prev)}
+                  size={'icon'}
+                >
+                  <Filter className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+            </ToolTipTemplate>
           </div>
 
           <DropdownMenuContent
-            className="w-56"
-            side="right"
+            className="w-32"
+            // side="right"
             onPointerDownOutside={(e) => {
               e.preventDefault();
               setOpenDropDownMenu((prev: boolean) => !prev);
@@ -450,13 +454,16 @@ export const HarvestModuleSearchbar = () => {
                 {appliedFilters.map((filter, index) => (
                   <Badge key={index} variant="secondary">
                     {filter.label}
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removeFilter(filter)}
-                    >
-                      <X className="w-3 h-3" />
-                    </Button>
+                    <ToolTipTemplate content="Eliminar filtro">
+                      <Button
+                        className="ml-3"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeFilter(filter)}
+                      >
+                        <X className="w-3 h-3" />
+                      </Button>
+                    </ToolTipTemplate>
                   </Badge>
                 ))}
               </div>

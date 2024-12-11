@@ -41,7 +41,7 @@ export const HomeLayout = () => {
     >
       <CommandDialogApp />
 
-      <Header className="fixed top-0 left-0 z-10 flex flex-row items-center w-full py-4 border-b justify-evenly bg-background">
+      <Header className="fixed top-0 left-0 z-10 flex flex-row items-center w-screen py-4 border-b justify-evenly bg-background">
         <SheetNavBar nameModulesUser={nameModulesUser} />
         <div className="flex items-center w-auto">
           <img src="/public/icon.png" width={30} />
