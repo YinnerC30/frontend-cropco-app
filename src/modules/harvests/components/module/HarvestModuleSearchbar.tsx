@@ -16,6 +16,7 @@ import {
   FormFieldCommand,
   FormFieldInput,
   FormFieldSelect,
+  ToolTipTemplate,
 } from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
 import { useGetAllCropsWithHarvest } from '@/modules/crops/hooks/queries/useGetAllCropsWithHarvest';
@@ -243,11 +244,7 @@ export const HarvestModuleSearchbar = () => {
   ];
 
   return (
-    <DropdownMenu
-      open={openDropDownMenu}
-      onOpenChange={setOpenDropDownMenu}
-      modal={false}
-    >
+    <DropdownMenu open={openDropDownMenu} modal={false}>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSearch)}
@@ -269,28 +266,42 @@ export const HarvestModuleSearchbar = () => {
               actionFinal={addFilter}
             />
             <div className="flex gap-2">
-              <Button type="submit" form="formSearch" size={'icon'}>
-                <Search className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" onClick={handleReset} size={'icon'}>
-                <X className="w-4 h-4" />
-              </Button>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  onClick={() => setOpenDropDownMenu(true)}
-                  size={'icon'}
-                >
-                  <Filter className="w-4 h-4" />
+              <ToolTipTemplate content="Ejecutar consulta">
+                <Button type="submit" form="formSearch" size={'icon'}>
+                  <Search className="w-4 h-4" />
                 </Button>
-              </DropdownMenuTrigger>
+              </ToolTipTemplate>
+
+              <ToolTipTemplate content="Borrar consulta">
+                <Button variant="outline" onClick={handleReset} size={'icon'}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </ToolTipTemplate>
+
+              <ToolTipTemplate content="Filtros">
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    onClick={() =>
+                      setOpenDropDownMenu((prev: boolean) => !prev)
+                    }
+                    size={'icon'}
+                  >
+                    <Filter className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+              </ToolTipTemplate>
             </div>
           </div>
 
           <DropdownMenuContent
             className="w-56"
             side="right"
-            onPointerDownOutside={(e) => e.preventDefault()}
+            onPointerDownOutside={(e) => {
+              e.preventDefault();
+              setOpenDropDownMenu((prev: boolean) => !prev);
+            }}
+            onCloseAutoFocus={(e) => e.preventDefault()}
           >
             <FilterDropdownItem
               label={'Fecha'}
