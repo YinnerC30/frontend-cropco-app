@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -18,12 +18,7 @@ import {
   formSchemaHarvest,
   formSchemaHarvestDetail,
 } from '@/modules/harvests/utils';
-import {
-  add,
-  calculateTotal,
-  remove,
-  reset,
-} from '@/modules/harvests/utils/harvestSlice';
+import { calculateTotal, remove } from '@/modules/harvests/utils/harvestSlice';
 import { AppDispatch, useAppDispatch, useAppSelector } from '@/redux/store';
 import { useWindowSize } from 'react-use';
 import { toast } from 'sonner';
@@ -51,8 +46,37 @@ export const FormHarvestProvider = ({
 }: any & { children: React.ReactNode }) => {
   const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
 
-  const { details, total, value_pay } = useAppSelector(
-    (state: any) => state.harvest
+  const detailsDefaultValues = defaultValues?.details ?? [];
+
+  const [detailsHarvest, setDetailsHarvest] = useState(detailsDefaultValues);
+
+  const removeHarvestDetail = (harvestDetail: HarvestDetail) => {
+    setDetailsHarvest((details: any) =>
+      details.filter((detail: HarvestDetail) => detail.id !== harvestDetail.id)
+    );
+  };
+
+  const modifyHarvestDetail = (harvestDetail: HarvestDetail) => {
+    setDetailsHarvest((details = []) =>
+      details.map((item: any) =>
+        item.id !== harvestDetail.id ? item : harvestDetail
+      )
+    );
+  };
+
+  const resetHarvestDetails = () => {
+    setDetailsHarvest([]);
+  };
+
+  const total = detailsHarvest.reduce(
+    (total: number, detail: HarvestDetail) =>
+      Number(total) + Number(detail.total),
+    0
+  );
+  const value_pay = detailsHarvest.reduce(
+    (total: number, detail: HarvestDetail) =>
+      Number(total) + Number(detail.value_pay),
+    0
   );
 
   const { width } = useWindowSize();
@@ -76,7 +100,7 @@ export const FormHarvestProvider = ({
 
   const dataTableHarvestDetail = useDataTableGeneric({
     columns: columnsTable,
-    data: details,
+    data: detailsHarvest,
   });
 
   const { getIdsToRowsSelected, resetSelectionRows } = dataTableHarvestDetail;
@@ -102,11 +126,10 @@ export const FormHarvestProvider = ({
     navigate(MODULE_HARVESTS_PATHS.ViewAll);
   };
 
-  const dispatch: AppDispatch = useAppDispatch();
-
   const formHarvestDetail = useCreateForm({
     schema: formSchemaHarvestDetail,
     defaultValues: harvestDetail,
+    validationMode: 'onChange',
   });
 
   const { query: queryEmployees } = useGetAllEmployees({
@@ -163,7 +186,7 @@ export const FormHarvestProvider = ({
   const filterEmployeesToShow = (): Employee[] => {
     return (
       queryEmployees?.data?.rows.filter((record: Employee) => {
-        const state = details.some(
+        const state = detailsHarvest.some(
           (item: HarvestDetail) => item.employee.id === record.id
         );
         if (state && record.id !== harvestDetail?.employee?.id) {
@@ -184,8 +207,7 @@ export const FormHarvestProvider = ({
     });
 
     for (const record of getIdsToRowsSelected()) {
-      dispatch(remove(record as HarvestDetail));
-      dispatch(calculateTotal());
+      removeHarvestDetail(record as HarvestDetail);
     }
     resetSelectionRows();
     formHarvest.setValue('details', result, {
@@ -194,25 +216,6 @@ export const FormHarvestProvider = ({
     });
     toast.success(`Se han eliminado las cosechas!`);
   };
-
-  useEffect(() => {
-    dispatch(reset());
-    console.log(formHarvest.formState.isDirty);
-  }, []);
-
-  useEffect(() => {
-    if (defaultValues) {
-      dispatch(add(defaultValues.details));
-      dispatch(calculateTotal());
-      console.log(formHarvest.formState.isDirty);
-    }
-  }, [defaultValues]);
-
-  useEffect(() => {
-    formHarvest.setValue('total', total, { shouldDirty: true });
-    formHarvest.setValue('value_pay', value_pay, { shouldDirty: true });
-    console.log(formHarvest.formState.isDirty);
-  }, [total, value_pay]);
 
   return (
     <FormHarvestContext.Provider
@@ -225,7 +228,6 @@ export const FormHarvestProvider = ({
         readOnly,
         handleReturnToModule,
         hasPermission,
-        details,
         total,
         value_pay,
         harvestDetail,
@@ -244,6 +246,11 @@ export const FormHarvestProvider = ({
         hasSelectedRecords,
         executeValidationFormHarvest,
         queryEmployees,
+        detailsHarvest,
+        setDetailsHarvest,
+        removeHarvestDetail,
+        modifyHarvestDetail,
+        resetHarvestDetails,
       }}
     >
       {children}

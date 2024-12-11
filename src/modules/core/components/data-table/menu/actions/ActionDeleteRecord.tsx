@@ -48,7 +48,8 @@ export const ActionDeleteRecord = ({ action, disabled }: Props) => {
           </AlertDialogCancel>
           <AlertDialogAction asChild>
             <Button
-              onClick={() => {
+              onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                event.preventDefault();
                 action();
                 toggleOpen(false);
               }}

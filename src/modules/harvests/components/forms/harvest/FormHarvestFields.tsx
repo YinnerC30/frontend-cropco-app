@@ -1,9 +1,8 @@
-import { Badge, Form } from '@/components';
+import { Badge, Form, Label } from '@/components';
 import {
   FormFieldCalendar,
   FormFieldCommand,
   FormFieldDataTable,
-  FormFieldInput,
   FormFieldTextArea,
 } from '@/modules/core/components';
 import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
@@ -12,14 +11,13 @@ import { formFieldsHarvest } from '@/modules/harvests/utils';
 
 import { useGetAllCrops } from '@/modules/crops/hooks';
 import { FormHarvestDataTable } from './FormHarvestDataTable';
-import { useEffect } from 'react';
 
 export const FormHarvestFields = () => {
   const {
     form,
     onSubmit,
     readOnly,
-    details,
+    detailsHarvest,
     total,
     value_pay,
     executeValidationFormHarvest,
@@ -37,7 +35,7 @@ export const FormHarvestFields = () => {
         onSubmit={form.handleSubmit(async (formData: any) => {
           const result = await executeValidationFormHarvest();
           if (result) {
-            onSubmit(formData, details, total, value_pay);
+            onSubmit(formData, detailsHarvest, total, value_pay);
           }
         })}
         id="formHarvest"
@@ -89,44 +87,27 @@ export const FormHarvestFields = () => {
             <FormHarvestDataTable />
           </FormFieldDataTable>
 
-          {/* TODO: Refactor */}
-          <FormFieldInput
-            control={form.control}
-            description={formFieldsHarvest.total.description}
-            label={formFieldsHarvest.total.label}
-            name={'total'}
-            placeholder={formFieldsHarvest.total.placeholder}
-            readOnly={true}
-            type="number"
-            hiddenInput
+          <Label>Total:</Label>
+          <Badge
+            className="block h-8 my-2 text-base text-center w-28"
+            variant={'cyan'}
           >
-            <Badge
-              className="block h-8 text-base text-center w-28"
-              variant={'cyan'}
-            >
-              {FormatNumber(total)}
-            </Badge>
-          </FormFieldInput>
+            {FormatNumber(total)}
+          </Badge>
+          <p className="text-[0.8rem] text-muted-foreground">
+            {formFieldsHarvest.total.description}
+          </p>
 
-          {/* TODO: Refactor */}
-          <FormFieldInput
-            className=""
-            control={form.control}
-            description={formFieldsHarvest.value_pay.description}
-            label={formFieldsHarvest.value_pay.label}
-            name={'value_pay'}
-            placeholder={formFieldsHarvest.value_pay.placeholder}
-            readOnly={true}
-            type="number"
-            hiddenInput
+          <Label>Valor a pagar:</Label>
+          <Badge
+            className="block h-8 my-2 text-base text-center w-28"
+            variant={'indigo'}
           >
-            <Badge
-              className="block h-8 text-base text-center w-28"
-              variant={'indigo'}
-            >
-              {FormatMoneyValue(value_pay)}
-            </Badge>
-          </FormFieldInput>
+            {FormatMoneyValue(value_pay)}
+          </Badge>
+          <p className="text-[0.8rem] text-muted-foreground">
+            {formFieldsHarvest.value_pay.description}
+          </p>
         </div>
       </form>
     </Form>

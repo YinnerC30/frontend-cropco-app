@@ -17,13 +17,13 @@ import { toast } from 'sonner';
 import { v4 as generateUUID } from 'uuid';
 
 import { ToolTipTemplate } from '@/modules/core/components';
-import { Plus } from 'lucide-react';
-import { modify } from '@/modules/consumption/utils/consumptionSlice';
 import { useFormHarvestContext } from '@/modules/harvests/hooks';
-import { add, calculateTotal } from '@/modules/harvests/utils/harvestSlice';
+import { calculateTotal } from '@/modules/harvests/utils/harvestSlice';
+import { Plus } from 'lucide-react';
 
 import { FormHarvestDetailsButtons } from './FormHarvestDetailsButtons';
 import { FormHarvestDetailsFields } from './FormHarvestDetailsFields';
+import { useDialogStatus } from '@/components/common/DialogStatusContext';
 
 export const FormHarvestDetail = () => {
   const dispatch = useAppDispatch();
@@ -39,8 +39,12 @@ export const FormHarvestDetail = () => {
     resetForm,
     setHarvestDetail,
     form,
-    details,
+    detailsHarvest,
+    setDetailsHarvest,
+    modifyHarvestDetail,
   } = useFormHarvestContext();
+
+  const { setIsActiveDialog } = useDialogStatus();
 
   const onSubmitHarvestDetail = () => {
     const values = getCurrentDataHarvestDetail();
@@ -49,24 +53,22 @@ export const FormHarvestDetail = () => {
         ...values,
         id: generateUUID(),
       };
-      dispatch(add([record]));
-      form.setValue('details', [...details, record], {
+      setDetailsHarvest((prev: any) => [...prev, record]);
+      form.setValue('details', [...detailsHarvest, record], {
         shouldValidate: true,
         shouldDirty: true,
       });
-      resetForm();
+      // resetForm();
       toast.success('Registro añadido');
     } else {
-      dispatch(
-        modify({
-          detail: { ...values, id: harvestDetail.id },
-        })
-      );
-      setHarvestDetail({ ...values, id: harvestDetail.id });
+      modifyHarvestDetail({ ...values, id: harvestDetail.id });
+      // setHarvestDetail({ ...values, id: harvestDetail.id });
       toast.success('Registro actualizado');
     }
+
+    setIsActiveDialog(false);
+    setOpenDialog(false);
     form.trigger('details');
-    dispatch(calculateTotal());
   };
 
   const handleOpenDialogExtended = (
@@ -76,6 +78,8 @@ export const FormHarvestDetail = () => {
     resetHarvestDetail();
     handleOpenDialog();
   };
+
+  console.log(openDialog);
 
   return (
     <>
@@ -91,7 +95,7 @@ export const FormHarvestDetail = () => {
           <span className="sr-only">Crear nuevo registro</span>
         </Button>
       </ToolTipTemplate>
-      <Dialog open={openDialog} onOpenChange={setOpenDialog} modal={false}>
+      <Dialog open={openDialog} modal={false}>
         <DialogContent
           className="sm:max-w-[425px]"
           onClick={(e) => e.preventDefault()}
