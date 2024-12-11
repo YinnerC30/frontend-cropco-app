@@ -12,6 +12,7 @@ import { formFieldsHarvest } from '@/modules/harvests/utils';
 
 import { useGetAllCrops } from '@/modules/crops/hooks';
 import { FormHarvestDataTable } from './FormHarvestDataTable';
+import { useEffect } from 'react';
 
 export const FormHarvestFields = () => {
   const {
@@ -63,6 +64,7 @@ export const FormHarvestFields = () => {
             readOnly={readOnly}
             isLoading={queryCrops.isLoading}
             nameEntity="cultivo"
+            className="w-52"
           />
           <FormFieldTextArea
             className="w-72"

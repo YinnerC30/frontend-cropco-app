@@ -19,8 +19,13 @@ import { cn } from '@/lib/utils';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 
-import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 import { useState } from 'react';
+import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
+import { Matcher } from 'react-day-picker';
+
+interface FieldCalendarProps extends FormFieldProps {
+  conditionCalendar?: Matcher | Matcher[];
+}
 
 export const FormFieldCalendar = ({
   control,
@@ -30,7 +35,11 @@ export const FormFieldCalendar = ({
   placeholder,
   readOnly = false,
   className = '',
-}: FormFieldProps) => {
+  conditionCalendar = {
+    before: new Date('1900-01-01'),
+    after: new Date(),
+  },
+}: FieldCalendarProps) => {
   const [openPopover, setOpenPopover] = useState(false);
 
   return (
@@ -73,9 +82,7 @@ export const FormFieldCalendar = ({
                     field.onChange(date);
                     setOpenPopover(false);
                   }}
-                  disabled={(date) =>
-                    date > new Date() || date < new Date('1900-01-01')
-                  }
+                  disabled={conditionCalendar}
                   initialFocus
                 />
               </PopoverContent>

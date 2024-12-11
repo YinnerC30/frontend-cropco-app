@@ -184,6 +184,10 @@ export const FormHarvestProcessed = memo(() => {
                   name={'date'}
                   placeholder={formFieldsHarvestProcessed.date.placeholder}
                   readOnly={false}
+                  conditionCalendar={{
+                    before: new Date(data.date),
+                    after: new Date(),
+                  }}
                 />
                 <FormFieldInput
                   control={formProcessed.control}

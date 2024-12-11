@@ -6,8 +6,12 @@ import { formFieldsHarvestDetail } from '@/modules/harvests/utils';
 import { useEffect } from 'react';
 
 export const FormHarvestDetailsFields = () => {
-  const { formHarvestDetail, filterEmployeesToShow, harvestDetail } =
-    useFormHarvestContext();
+  const {
+    formHarvestDetail,
+    filterEmployeesToShow,
+    harvestDetail,
+    queryEmployees,
+  } = useFormHarvestContext();
 
   useEffect(() => {
     formHarvestDetail.reset(harvestDetail);
@@ -26,7 +30,9 @@ export const FormHarvestDetailsFields = () => {
           name={'employee.id'}
           placeholder={formFieldsHarvestDetail.employee.placeholder}
           readOnly={false}
-          nameEntity='empleado'
+          nameEntity="empleado"
+          isLoading={queryEmployees.isLoading}
+          className="w-52"
         />
 
         <FormFieldInput

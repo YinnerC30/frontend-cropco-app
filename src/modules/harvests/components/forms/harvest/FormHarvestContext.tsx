@@ -197,18 +197,21 @@ export const FormHarvestProvider = ({
 
   useEffect(() => {
     dispatch(reset());
+    console.log(formHarvest.formState.isDirty);
   }, []);
 
   useEffect(() => {
     if (defaultValues) {
       dispatch(add(defaultValues.details));
       dispatch(calculateTotal());
+      console.log(formHarvest.formState.isDirty);
     }
   }, [defaultValues]);
 
   useEffect(() => {
     formHarvest.setValue('total', total, { shouldDirty: true });
     formHarvest.setValue('value_pay', value_pay, { shouldDirty: true });
+    console.log(formHarvest.formState.isDirty);
   }, [total, value_pay]);
 
   return (
@@ -240,6 +243,7 @@ export const FormHarvestProvider = ({
         handleDeleteBulkHarvestDetails,
         hasSelectedRecords,
         executeValidationFormHarvest,
+        queryEmployees,
       }}
     >
       {children}

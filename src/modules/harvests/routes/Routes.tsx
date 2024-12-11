@@ -1,3 +1,4 @@
+import { Navigate } from 'react-router-dom';
 import { CreateHarvest } from '../components/CreateHarvest';
 
 import { ModifyHarvest } from '../components/ModifyHarvest';
@@ -8,10 +9,7 @@ import { HarvestProcessed } from '../components/module/processed/HarvestProcesse
 const harvestRoutes = {
   path: 'harvests',
   children: [
-    {
-      index: true,
-      element: <HarvestModuleTemplate />,
-    },
+    { index: true, element: <Navigate to={'view/all'} /> },
     {
       path: 'view/all',
       element: <HarvestModuleTemplate />,
@@ -36,4 +34,3 @@ const harvestRoutes = {
 };
 
 export { harvestRoutes };
-

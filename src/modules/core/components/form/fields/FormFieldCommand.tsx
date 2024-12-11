@@ -73,7 +73,9 @@ export const FormFieldCommand = ({
               <PopoverTrigger asChild>
                 <FormControl>
                   {isLoading ? (
-                    <Loading />
+                    <div className="w-[200px]">
+                      <Loading className="" />
+                    </div>
                   ) : (
                     <Button
                       variant="outline"
