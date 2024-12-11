@@ -27,4 +27,14 @@ export const formSchemaHarvest = z.object({
     .nonempty({
       message: 'Debes registrar la cosecha de al menos 1 empleado',
     }),
+  total: z.coerce.number({
+    invalid_type_error: 'Debes introducir un valor numérico',
+  }),
+  value_pay: z.coerce
+    .number({
+      invalid_type_error: 'Debes introducir un valor numérico',
+    })
+    .refine((value) => value % 50 === 0, {
+      message: 'El valor a pagar debe ser un número que termine en 50 o 00.',
+    }),
 });

@@ -12,21 +12,18 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import { useAppDispatch } from '@/redux/store';
 import { toast } from 'sonner';
 import { v4 as generateUUID } from 'uuid';
 
 import { ToolTipTemplate } from '@/modules/core/components';
 import { useFormHarvestContext } from '@/modules/harvests/hooks';
-import { calculateTotal } from '@/modules/harvests/utils/harvestSlice';
 import { Plus } from 'lucide-react';
 
+import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { FormHarvestDetailsButtons } from './FormHarvestDetailsButtons';
 import { FormHarvestDetailsFields } from './FormHarvestDetailsFields';
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 
 export const FormHarvestDetail = () => {
-  const dispatch = useAppDispatch();
   const {
     readOnly,
     getCurrentDataHarvestDetail,
@@ -36,12 +33,12 @@ export const FormHarvestDetail = () => {
     handleOpenDialog,
     handleCloseDialog,
     resetHarvestDetail,
-    resetForm,
-    setHarvestDetail,
     form,
     detailsHarvest,
     setDetailsHarvest,
     modifyHarvestDetail,
+    total,
+    value_pay,
   } = useFormHarvestContext();
 
   const { setIsActiveDialog } = useDialogStatus();
@@ -58,14 +55,15 @@ export const FormHarvestDetail = () => {
         shouldValidate: true,
         shouldDirty: true,
       });
-      // resetForm();
+
       toast.success('Registro añadido');
     } else {
       modifyHarvestDetail({ ...values, id: harvestDetail.id });
       // setHarvestDetail({ ...values, id: harvestDetail.id });
       toast.success('Registro actualizado');
     }
-
+    form.setValue('total', total);
+    form.setValue('value_pay', value_pay);
     setIsActiveDialog(false);
     setOpenDialog(false);
     form.trigger('details');
@@ -78,8 +76,6 @@ export const FormHarvestDetail = () => {
     resetHarvestDetail();
     handleOpenDialog();
   };
-
-  console.log(openDialog);
 
   return (
     <>

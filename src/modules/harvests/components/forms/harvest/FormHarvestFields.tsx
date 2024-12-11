@@ -1,8 +1,9 @@
-import { Badge, Form, Label } from '@/components';
+import { Badge, Form } from '@/components';
 import {
   FormFieldCalendar,
   FormFieldCommand,
   FormFieldDataTable,
+  FormFieldInput,
   FormFieldTextArea,
 } from '@/modules/core/components';
 import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
@@ -87,27 +88,43 @@ export const FormHarvestFields = () => {
             <FormHarvestDataTable />
           </FormFieldDataTable>
 
-          <Label>Total:</Label>
-          <Badge
-            className="block h-8 my-2 text-base text-center w-28"
-            variant={'cyan'}
+          <FormFieldInput
+            control={form.control}
+            description={formFieldsHarvest.total.description}
+            label={formFieldsHarvest.total.label}
+            name={'total'}
+            placeholder={formFieldsHarvest.total.placeholder}
+            readOnly={true}
+            type="number"
+            hiddenInput
           >
-            {FormatNumber(total)}
-          </Badge>
-          <p className="text-[0.8rem] text-muted-foreground">
-            {formFieldsHarvest.total.description}
-          </p>
+            <Badge
+              className="block h-8 text-base text-center w-28"
+              variant={'cyan'}
+            >
+              {FormatNumber(total)}
+            </Badge>
+          </FormFieldInput>
 
-          <Label>Valor a pagar:</Label>
-          <Badge
-            className="block h-8 my-2 text-base text-center w-28"
-            variant={'indigo'}
+          {/* TODO: Refactor */}
+          <FormFieldInput
+            className=""
+            control={form.control}
+            description={formFieldsHarvest.value_pay.description}
+            label={formFieldsHarvest.value_pay.label}
+            name={'value_pay'}
+            placeholder={formFieldsHarvest.value_pay.placeholder}
+            readOnly={true}
+            type="number"
+            hiddenInput
           >
-            {FormatMoneyValue(value_pay)}
-          </Badge>
-          <p className="text-[0.8rem] text-muted-foreground">
-            {formFieldsHarvest.value_pay.description}
-          </p>
+            <Badge
+              className="block h-8 text-base text-center w-28"
+              variant={'indigo'}
+            >
+              {FormatMoneyValue(value_pay)}
+            </Badge>
+          </FormFieldInput>
         </div>
       </form>
     </Form>

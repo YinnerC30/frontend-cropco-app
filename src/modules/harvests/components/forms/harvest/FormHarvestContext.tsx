@@ -18,8 +18,6 @@ import {
   formSchemaHarvest,
   formSchemaHarvestDetail,
 } from '@/modules/harvests/utils';
-import { calculateTotal, remove } from '@/modules/harvests/utils/harvestSlice';
-import { AppDispatch, useAppDispatch, useAppSelector } from '@/redux/store';
 import { useWindowSize } from 'react-use';
 import { toast } from 'sonner';
 
