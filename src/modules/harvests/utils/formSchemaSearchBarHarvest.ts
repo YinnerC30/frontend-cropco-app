@@ -1,14 +1,7 @@
-import { TypeFilterDate } from '@/modules/core/interfaces';
-import { TypeFilterNumber } from '@/modules/core/interfaces';
+import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { z } from 'zod';
 
-export const formSchemaSearchBarHarvest = z.object({
-  crop: z
-    .object({
-      id: z.string().optional(),
-    })
-    .optional(),
-  filter_by_date: z.boolean().default(false).optional(),
+const schemaForDate = z.object({
   date: z.date().optional(),
   type_filter_date: z
     .nativeEnum(TypeFilterDate, {
@@ -24,7 +17,9 @@ export const formSchemaSearchBarHarvest = z.object({
       },
     })
     .optional(),
-  filter_by_total: z.boolean().default(false).optional(),
+});
+
+const schemaForTotal = z.object({
   total: z.coerce.number().optional(),
   type_filter_total: z
     .nativeEnum(TypeFilterNumber, {
@@ -40,7 +35,9 @@ export const formSchemaSearchBarHarvest = z.object({
       },
     })
     .optional(),
-  filter_by_value_pay: z.boolean().default(false).optional(),
+});
+
+const schemaForValuePay = z.object({
   value_pay: z.coerce.number().optional(),
   type_filter_value_pay: z
     .nativeEnum(TypeFilterNumber, {
@@ -56,4 +53,90 @@ export const formSchemaSearchBarHarvest = z.object({
       },
     })
     .optional(),
+});
+
+export const formSchemaSearchBarHarvest = z.object({
+  crop: z
+    .object({
+      id: z.string().optional(),
+    })
+    .optional(),
+
+  filter_by_date: schemaForDate
+    .refine(
+      ({ date }: any) => {
+        if (!date) {
+          return false;
+        }
+        return true;
+      },
+      {
+        message: 'Debes ingresar una fecha',
+        path: ['date'],
+      }
+    )
+    .refine(
+      ({ type_filter_date }: any) => {
+        if (!type_filter_date) {
+          return false;
+        }
+        return true;
+      },
+      {
+        message: 'Debes seleccionar una opción',
+        path: ['type_filter_date'],
+      }
+    ),
+
+  filter_by_total: schemaForTotal
+    .refine(
+      ({ total }: any) => {
+        if (total === undefined) {
+          return false;
+        }
+        return true;
+      },
+      {
+        message: 'Debes ingresar un valor',
+        path: ['total'],
+      }
+    )
+    .refine(
+      ({ type_filter_total }: any) => {
+        if (!type_filter_total) {
+          return false;
+        }
+        return true;
+      },
+      {
+        message: 'Debes seleccionar una opción',
+        path: ['type_filter_total'],
+      }
+    ),
+
+  filter_by_value_pay: schemaForValuePay
+    .refine(
+      ({ value_pay }: any) => {
+        if (value_pay === undefined) {
+          return false;
+        }
+        return true;
+      },
+      {
+        message: 'Debes ingresar un valor',
+        path: ['value_pay'],
+      }
+    )
+    .refine(
+      ({ type_filter_value_pay }: any) => {
+        if (!type_filter_value_pay) {
+          return false;
+        }
+        return true;
+      },
+      {
+        message: 'Debes seleccionar una opción',
+        path: ['type_filter_value_pay'],
+      }
+    ),
 });

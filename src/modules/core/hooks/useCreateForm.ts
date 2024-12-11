@@ -8,18 +8,20 @@ interface Props {
   schema: z.ZodObject<any> | any;
   defaultValues: any;
   skiptDirty?: boolean;
+  validationMode?: 'onChange' | 'onSubmit' | 'onBlur' | 'all' | 'onTouched';
 }
 
 export const useCreateForm = ({
   schema,
   defaultValues,
   skiptDirty = false,
+  validationMode = 'onChange',
 }: Props) => {
   const { markChanges } = useFormChange();
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues,
-    mode: 'onChange',
+    mode: validationMode,
   });
 
   const { isDirty } = form.formState;

@@ -84,7 +84,18 @@ export const HarvestsModuleProvider = ({
     paramsQuery: {
       ...data,
       crop: { id: data.crop },
-      date: !data.date ? undefined : new Date(data.date),
+      filter_by_date: {
+        type_filter_date: data.type_filter_date,
+        date: !data.date ? undefined : new Date(data.date),
+      },
+      filter_by_total: {
+        type_filter_total: data.type_filter_total,
+        total: !data.total ? 0 : data.total,
+      },
+      filter_by_value_pay: {
+        type_filter_value_pay: data.type_filter_value_pay,
+        value_pay: !data.value_pay ? 0 : data.value_pay,
+      },
     },
   };
 

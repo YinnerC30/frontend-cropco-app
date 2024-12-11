@@ -26,24 +26,23 @@ import { toast } from 'sonner';
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { Calendar, DollarSign, Filter, Search, Sigma, X } from 'lucide-react';
+import { Filter, Search, X } from 'lucide-react';
 import { useState } from 'react';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
-import { SearchbarHarvest } from '../../interfaces/SearchbarHarvest';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarvest';
 import { formSchemaSearchBarHarvest } from '../../utils/formSchemaSearchBarHarvest';
 
 const FilterDropdownItem = ({
   label,
-  icon,
   content,
   actionOnSave,
+  actionOnClose,
 }: {
   label: string;
-  icon: JSX.Element;
   content: JSX.Element;
-  actionOnSave: () => void;
+  actionOnSave: () => Promise<boolean>;
+  actionOnClose: () => void;
 }) => {
   const [openMenu, setOpenMenu] = useState(false);
 
@@ -56,9 +55,10 @@ const FilterDropdownItem = ({
           <div className="flex justify-center gap-2">
             <Button
               className="self-end w-24 mt-4"
-              onClick={() => {
-                actionOnSave();
-                setOpenMenu(false);
+              onClick={async (e) => {
+                e.preventDefault();
+                const value = await actionOnSave();
+                setOpenMenu(!value);
               }}
             >
               Aplicar
@@ -68,6 +68,7 @@ const FilterDropdownItem = ({
               className="self-end w-24 mt-4"
               onClick={() => {
                 setOpenMenu(false);
+                actionOnClose();
               }}
             >
               Cerrar
@@ -95,14 +96,18 @@ export const HarvestModuleSearchbar = () => {
     schema: formSchemaSearchBarHarvest,
     defaultValues: paramsQuery,
     skiptDirty: true,
+    validationMode: 'onSubmit',
   });
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
-  const addFilter = () => {
+  const addFilter = async (name = '') => {
     const values = form.watch();
     const filters: FilterSearchBar[] = [];
+
+    let isValid = await form.trigger(name);
+
     if (values.crop?.id) {
       const crop = queryCrops?.data?.rows.find(
         (row: any) => row.id === values.crop.id
@@ -113,12 +118,14 @@ export const HarvestModuleSearchbar = () => {
       });
     }
 
-    if (values.type_filter_date && values.date) {
+    if (values.filter_by_date.type_filter_date && values.filter_by_date.date) {
       const formatTypeFilterDate =
-        values.type_filter_date === TypeFilterDate.after
+        values.filter_by_date.type_filter_date === TypeFilterDate.after
           ? 'Despues del'
           : 'Antes del';
-      const formatDate = format(values.date, 'PPP', { locale: es });
+      const formatDate = format(values.filter_by_date.date, 'PPP', {
+        locale: es,
+      });
 
       filters.push({
         key: 'date',
@@ -126,35 +133,52 @@ export const HarvestModuleSearchbar = () => {
       });
     }
 
-    if (values.type_filter_total && values.total) {
+    if (
+      values.filter_by_total.type_filter_total &&
+      values.filter_by_total.total
+    ) {
       const formatTypeFilterTotal =
-        values.type_filter_total === TypeFilterNumber.MAX
+        values.filter_by_total.type_filter_total === TypeFilterNumber.MAX
           ? 'Mayor a:'
-          : values.type_filter_total === TypeFilterNumber.MIN
+          : values.filter_by_total.type_filter_total === TypeFilterNumber.MIN
           ? 'Menor a:'
           : 'Igual a:';
       filters.push({
         key: 'total',
-        label: `Total: ${formatTypeFilterTotal} ${values.total}`,
+        label: `Total: ${formatTypeFilterTotal} ${values.filter_by_total.total}`,
       });
     }
 
-    if (values.type_filter_value_pay && values.value_pay) {
+    if (
+      values.filter_by_value_pay.type_filter_value_pay &&
+      values.filter_by_value_pay.value_pay
+    ) {
       const formatTypeFilterValuePay =
-        values.type_filter_value_pay === TypeFilterNumber.MAX
+        values.filter_by_value_pay.type_filter_value_pay ===
+        TypeFilterNumber.MAX
           ? 'Mayor a:'
-          : values.type_filter_value_pay === TypeFilterNumber.MIN
+          : values.filter_by_value_pay.type_filter_value_pay ===
+            TypeFilterNumber.MIN
           ? 'Menor a:'
           : 'Igual a:';
       filters.push({
         key: 'value_pay',
-        label: `Valor a pagar: ${formatTypeFilterValuePay} ${values.value_pay}`,
+        label: `Valor a pagar: ${formatTypeFilterValuePay} ${values.filter_by_value_pay.value_pay}`,
       });
     }
 
-    setAppliedFilters(filters);
-    setOpenDropDownMenu(false);
-    handleSearch(form.watch());
+    if (isValid) {
+      setAppliedFilters(filters);
+      setOpenDropDownMenu(false);
+      handleSearch(form.watch());
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const clearErrorsForm = (name = '') => {
+    form.clearErrors(name);
   };
 
   // Función para manejar la eliminación de filtros individuales
@@ -162,64 +186,99 @@ export const HarvestModuleSearchbar = () => {
     setAppliedFilters((prev) => prev.filter((f) => f.key !== filter.key));
     switch (filter.key) {
       case 'crop':
-        form.setValue('crop.id', '');
+        form.setValue('crop.id', '', { shouldDirty: false });
         break;
       case 'date':
-        form.setValue('type_filter_date', undefined);
-        form.setValue('date', undefined);
+        form.setValue('filter_by_date.type_filter_date', undefined, {
+          shouldDirty: false,
+        });
+        form.setValue('filter_by_date.date', undefined, { shouldDirty: false });
         break;
       case 'total':
-        form.setValue('type_filter_total', undefined);
-        form.setValue('total', 0);
+        form.setValue('filter_by_total.type_filter_total', undefined, {
+          shouldDirty: false,
+        });
+        form.setValue('filter_by_total.total', 0, { shouldDirty: false });
         break;
       case 'value_pay':
-        form.setValue('type_filter_value_pay', undefined);
-        form.setValue('value_pay', 0);
+        form.setValue('filter_by_value_pay.type_filter_value_pay', undefined, {
+          shouldDirty: false,
+        });
+        form.setValue('filter_by_value_pay.value_pay', 0, {
+          shouldDirty: false,
+        });
         break;
     }
     handleSearch(form.watch());
   };
 
   // Función para procesar filtros y enviar parámetros a la URL
-  const handleSearch = async (values: SearchbarHarvest) => {
+  const handleSearch = async (values: any) => {
     const params = new URLSearchParams();
 
     if (values.crop?.id) {
       params.append('crop', values.crop.id);
     }
 
-    if (values.type_filter_date && values.date) {
+    if (values.filter_by_date.type_filter_date && values.filter_by_date.date) {
       params.append('filter_by_date', 'true');
-      params.append('type_filter_date', `${values.type_filter_date}`);
-      params.append('date', values.date.toISOString());
+      params.append(
+        'type_filter_date',
+        `${values.filter_by_date.type_filter_date}`
+      );
+      params.append('date', values.filter_by_date.date.toISOString());
     }
 
-    if (values.type_filter_total && values.total) {
+    if (
+      values.filter_by_total.type_filter_total &&
+      values.filter_by_total.total
+    ) {
       params.append('filter_by_total', 'true');
-      params.append('type_filter_total', `${values.type_filter_total}`);
-      params.append('total', `${values.total}`);
+      params.append(
+        'type_filter_total',
+        `${values.filter_by_total.type_filter_total}`
+      );
+      params.append('total', `${values.filter_by_total.total}`);
     }
 
-    if (values.type_filter_value_pay && values.value_pay) {
+    if (
+      values.filter_by_value_pay.type_filter_value_pay &&
+      values.filter_by_value_pay.value_pay
+    ) {
       params.append('filter_by_value_pay', 'true');
-      params.append('type_filter_value_pay', `${values.type_filter_value_pay}`);
-      params.append('value_pay', `${values.value_pay}`);
+      params.append(
+        'type_filter_value_pay',
+        `${values.filter_by_value_pay.type_filter_value_pay}`
+      );
+      params.append('value_pay', `${values.filter_by_value_pay.value_pay}`);
     }
-
     navigate(`?${params.toString()}`);
   };
 
   const handleReset = () => {
-    form.reset({
-      crop: '',
-      date: undefined,
-      type_filter_date: undefined,
-      total: 0,
-      type_filter_total: undefined,
-      value_pay: 0,
-      type_filter_value_pay: undefined,
-    });
     setAppliedFilters([]);
+
+    form.reset(
+      {
+        crop: '',
+        filter_by_date: {
+          date: undefined,
+          type_filter_date: TypeFilterDate.after,
+        },
+        filter_by_total: {
+          type_filter_total: TypeFilterNumber.MIN,
+          total: 0,
+        },
+        filter_by_value_pay: {
+          type_filter_value_pay: TypeFilterNumber.MIN,
+          value_pay: 0,
+        },
+      },
+      {
+        keepErrors: false,
+        keepDirty: false,
+      }
+    );
     navigate(MODULE_HARVESTS_PATHS.ViewAll);
     toast.success('Se han limpiado los filtros');
   };
@@ -263,7 +322,7 @@ export const HarvestModuleSearchbar = () => {
               description={''}
               label={''}
               readOnly={false}
-              actionFinal={addFilter}
+              actionFinal={() => addFilter('crop.id')}
             />
             <div className="flex gap-2">
               <ToolTipTemplate content="Ejecutar consulta">
@@ -305,7 +364,6 @@ export const HarvestModuleSearchbar = () => {
           >
             <FilterDropdownItem
               label={'Fecha'}
-              icon={<Calendar className="w-4 h-4 ml-2" />}
               content={
                 <>
                   <FormFieldSelect
@@ -323,21 +381,24 @@ export const HarvestModuleSearchbar = () => {
                     ]}
                     readOnly={false}
                     {...formFieldsSearchBarHarvest.type_filter_date}
+                    name="filter_by_date.type_filter_date"
                     control={form.control}
                   />
                   <FormFieldCalendar
                     readOnly={false}
                     {...formFieldsSearchBarHarvest.date}
                     control={form.control}
+                    name="filter_by_date.date"
                   />
                 </>
               }
-              actionOnSave={addFilter}
+              actionOnSave={() => addFilter('filter_by_date')}
+              actionOnClose={() => clearErrorsForm('filter_by_date')}
             />
             <FilterDropdownItem
               label={'Total'}
-              icon={<Sigma className="w-4 h-4 ml-2" />}
-              actionOnSave={addFilter}
+              actionOnSave={() => addFilter('filter_by_total')}
+              actionOnClose={() => clearErrorsForm('filter_by_total')}
               content={
                 <>
                   <FormFieldSelect
@@ -345,20 +406,22 @@ export const HarvestModuleSearchbar = () => {
                     items={numberFilterOptions}
                     {...formFieldsSearchBarHarvest.type_filter_total}
                     control={form.control}
+                    name="filter_by_total.type_filter_total"
                   />
                   <FormFieldInput
                     readOnly={false}
                     {...formFieldsSearchBarHarvest.total}
                     control={form.control}
                     type="number"
+                    name="filter_by_total.total"
                   />
                 </>
               }
             />
             <FilterDropdownItem
               label={'Valor a pagar'}
-              icon={<DollarSign className="w-4 h-4 ml-2" />}
-              actionOnSave={addFilter}
+              actionOnSave={() => addFilter('filter_by_value_pay')}
+              actionOnClose={() => clearErrorsForm('filter_by_value_pay')}
               content={
                 <>
                   <FormFieldSelect
@@ -366,12 +429,14 @@ export const HarvestModuleSearchbar = () => {
                     items={numberFilterOptions}
                     {...formFieldsSearchBarHarvest.type_filter_value_pay}
                     control={form.control}
+                    name="filter_by_value_pay.type_filter_value_pay"
                   />
                   <FormFieldInput
                     readOnly={false}
                     {...formFieldsSearchBarHarvest.value_pay}
                     control={form.control}
                     type="number"
+                    name="filter_by_value_pay.value_pay"
                   />
                 </>
               }
