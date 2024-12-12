@@ -37,8 +37,6 @@ export const FormHarvestDetail = () => {
     detailsHarvest,
     setDetailsHarvest,
     modifyHarvestDetail,
-    total,
-    value_pay,
   } = useFormHarvestContext();
 
   const { setIsActiveDialog } = useDialogStatus();
@@ -59,11 +57,9 @@ export const FormHarvestDetail = () => {
       toast.success('Registro añadido');
     } else {
       modifyHarvestDetail({ ...values, id: harvestDetail.id });
-      // setHarvestDetail({ ...values, id: harvestDetail.id });
       toast.success('Registro actualizado');
     }
-    form.setValue('total', total);
-    form.setValue('value_pay', value_pay);
+
     setIsActiveDialog(false);
     setOpenDialog(false);
     form.trigger('details');

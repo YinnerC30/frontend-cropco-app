@@ -3,7 +3,7 @@ import { CreateHarvest } from '../components/CreateHarvest';
 
 import { ModifyHarvest } from '../components/ModifyHarvest';
 import { ViewHarvest } from '../components/ViewHarvest';
-import { HarvestModuleTemplate } from '../components/module/HarvestModuleTemplate';
+import { HarvestModule } from '../components/module/HarvestModule';
 import { HarvestProcessed } from '../components/module/processed/HarvestProcessed';
 
 const harvestRoutes = {
@@ -12,7 +12,7 @@ const harvestRoutes = {
     { index: true, element: <Navigate to={'view/all'} /> },
     {
       path: 'view/all',
-      element: <HarvestModuleTemplate />,
+      element: <HarvestModule />,
     },
     {
       path: 'create/one',

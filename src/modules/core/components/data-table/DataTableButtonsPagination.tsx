@@ -5,8 +5,9 @@ import {
   DoubleArrowRightIcon,
 } from '@radix-ui/react-icons';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import { memo } from 'react';
 
-export const DataTableButtonsPagination = () => {
+export const DataTableButtonsPagination = memo(() => {
   const { table } = useDataTableContext();
   return (
     <div className="flex justify-center gap-4 my-2">
@@ -44,4 +45,4 @@ export const DataTableButtonsPagination = () => {
       </Button>
     </div>
   );
-};
+});

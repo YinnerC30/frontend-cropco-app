@@ -1,14 +1,15 @@
 import {
+  FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormDescription,
-  FormControl,
 } from '@/components';
 import { Switch } from '@/components/ui/switch';
+import { memo } from 'react';
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 
-export const FormFieldSwitch = ({
+export const FormFieldSwitch = memo(({
   control,
   name,
   label,
@@ -36,4 +37,4 @@ export const FormFieldSwitch = ({
       )}
     />
   );
-};
+})

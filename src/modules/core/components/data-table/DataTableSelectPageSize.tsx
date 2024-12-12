@@ -6,8 +6,9 @@ import {
   SelectValue,
 } from '@/components';
 import { useDataTableContext } from './DataTableContext';
+import { memo } from 'react';
 
-export const DataTableSelectPageSize = () => {
+export const DataTableSelectPageSize = memo(() => {
   const { table } = useDataTableContext();
   return (
     <div className="flex items-center space-x-2">
@@ -34,4 +35,4 @@ export const DataTableSelectPageSize = () => {
       </Select>
     </div>
   );
-};
+});

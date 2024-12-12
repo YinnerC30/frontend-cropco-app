@@ -1,11 +1,10 @@
 import { useAuthContext } from '@/auth/hooks';
 import { useDataTableManual } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import { createContext, useContext } from 'react';
-import { useWindowSize } from 'react-use';
+import { createContext } from 'react';
 import { useGetAllCrops } from '../../hooks/queries/useGetAllCrops';
 
-import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
+import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useDeleteBulkCrops } from '../../hooks/mutations/useDeleteBulkCrops';
 import { columnsTableCrops } from './columnsTableCrops';
 import { CropsModuleActionsTable } from './CropsModuleActionsTable';
@@ -14,8 +13,6 @@ export const CropsModuleContext = createContext<any>(null);
 
 export const CropsModuleProvider = ({ children }: any) => {
   const { value } = useBasicQueryData();
-  const { width } = useWindowSize();
-  const showActionsInFirstColumn = width < 1024;
 
   const { query, pagination, setPagination } = useGetAllCrops({
     searchParameter: value,
@@ -24,23 +21,24 @@ export const CropsModuleProvider = ({ children }: any) => {
 
   const { hasPermission } = useAuthContext();
 
-  const columnsTable = createColumnsTable({
-    actionsInFirstColumn: showActionsInFirstColumn,
+  const columnsTable = useCreateColumnsTable({
     columns: columnsTableCrops,
     actions: CropsModuleActionsTable,
   });
 
-  const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
-    useDataTableManual({
-      columns: columnsTable,
-      data: query.data ?? [],
-      rows:
-        (hasPermission('crops', 'find_all_crops') && query.data?.rows) ?? [],
-      pagination,
-      setPagination,
-    });
-
-  const hasSelectedRecords = getIdsToRowsSelected().length > 0;
+  const {
+    table,
+    lengthColumns,
+    getIdsToRowsSelected,
+    resetSelectionRows,
+    hasSelectedRecords,
+  } = useDataTableManual({
+    columns: columnsTable,
+    data: query.data ?? [],
+    rows: (hasPermission('crops', 'find_all_crops') && query.data?.rows) ?? [],
+    pagination,
+    setPagination,
+  });
 
   const { mutate, isPending } = useDeleteBulkCrops();
 
@@ -59,7 +57,6 @@ export const CropsModuleProvider = ({ children }: any) => {
     value,
     query,
     hasPermission,
-    showActionsInFirstColumn,
     table,
     lengthColumns,
     hasSelectedRecords,
@@ -76,5 +73,3 @@ export const CropsModuleProvider = ({ children }: any) => {
     </CropsModuleContext.Provider>
   );
 };
-
-

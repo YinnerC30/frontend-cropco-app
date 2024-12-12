@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -9,18 +9,16 @@ import { useGetAllEmployees } from '@/modules/employees/hooks';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 
 import { useFormChange } from '@/modules/core/components';
-import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
-import { useToastDiscardChanges } from '@/modules/core/hooks/useToastDiscardChanges';
 import { HarvestDetail } from '@/modules/harvests/interfaces';
 import { MODULE_HARVESTS_PATHS } from '@/modules/harvests/routes/pathRoutes';
 import {
   formSchemaHarvest,
   formSchemaHarvestDetail,
 } from '@/modules/harvests/utils';
-import { useWindowSize } from 'react-use';
 import { toast } from 'sonner';
 
+import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { ActionsTableHarvestDetail } from './details/ActionsTableHarvestDetail';
 import { columnsHarvestDetail } from './details/ColumnsTableHarvestDetail';
 
@@ -43,9 +41,7 @@ export const FormHarvestProvider = ({
   readOnly,
 }: any & { children: React.ReactNode }) => {
   const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
-
   const detailsDefaultValues = defaultValues?.details ?? [];
-
   const [detailsHarvest, setDetailsHarvest] = useState(detailsDefaultValues);
 
   const removeHarvestDetail = (harvestDetail: HarvestDetail) => {
@@ -77,9 +73,6 @@ export const FormHarvestProvider = ({
     0
   );
 
-  const { width } = useWindowSize();
-  const showActionsInFirstColumn = width < 1024;
-
   const formHarvest = useCreateForm({
     schema: formSchemaHarvest,
     defaultValues,
@@ -89,8 +82,7 @@ export const FormHarvestProvider = ({
     return await formHarvest.trigger();
   };
 
-  const columnsTable = createColumnsTable({
-    actionsInFirstColumn: showActionsInFirstColumn,
+  const columnsTable = useCreateColumnsTable({
     columns: columnsHarvestDetail,
     actions: ActionsTableHarvestDetail,
     hiddenActions: readOnly,
@@ -101,11 +93,11 @@ export const FormHarvestProvider = ({
     data: detailsHarvest,
   });
 
-  const { getIdsToRowsSelected, resetSelectionRows } = dataTableHarvestDetail;
-  const hasSelectedRecords = getIdsToRowsSelected().length > 0;
+  const { getIdsToRowsSelected, resetSelectionRows, hasSelectedRecords } =
+    dataTableHarvestDetail;
+
   const { setIsActiveDialog } = useDialogStatus();
-  const { hasUnsavedChanges } = useFormChange();
-  const { showToast } = useToastDiscardChanges();
+  const { hasUnsavedChanges, showToast } = useFormChange();
 
   const [harvestDetail, setHarvestDetail] = useState(
     defaultValuesHarvestDetail
@@ -114,6 +106,7 @@ export const FormHarvestProvider = ({
   const resetHarvestDetail = () => {
     setHarvestDetail(defaultValuesHarvestDetail);
   };
+
   const [openDialog, setOpenDialog] = useState(false);
 
   const navigate = useNavigate();
@@ -214,6 +207,11 @@ export const FormHarvestProvider = ({
     });
     toast.success(`Se han eliminado las cosechas!`);
   };
+
+  useEffect(() => {
+    formHarvest.setValue('total', total, { shouldValidate: true });
+    formHarvest.setValue('value_pay', value_pay, { shouldValidate: true });
+  }, [total, value_pay]);
 
   return (
     <FormHarvestContext.Provider

@@ -10,18 +10,11 @@ import { FormHarvest } from './forms/harvest/FormHarvest';
 export const CreateHarvest = () => {
   const { mutate, isPending } = usePostHarvest();
 
-  const onSubmit = (
-    values: z.infer<typeof formSchemaHarvest>,
-    details: HarvestDetail[],
-    total: number,
-    value_pay: number
-  ) => {
+  const onSubmit = (values: z.infer<typeof formSchemaHarvest>) => {
     mutate({
       ...values,
       crop: { id: values.crop.id },
-      total,
-      value_pay,
-      details: details.map((item: HarvestDetail) => {
+      details: values.details.map((item: HarvestDetail) => {
         const { id, ...rest } = item;
         return { ...rest, employee: { id: rest.employee.id } };
       }),
@@ -34,7 +27,6 @@ export const CreateHarvest = () => {
         items={[{ link: MODULE_HARVESTS_PATHS.ViewAll, name: 'Cosechas' }]}
         finalItem={`Registro`}
       />
-
       <FormHarvest onSubmit={onSubmit} isSubmitting={isPending} />
     </>
   );

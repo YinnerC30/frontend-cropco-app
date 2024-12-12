@@ -13,6 +13,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { HomeLayout } from '../components/home/HomeLayout';
 import { RoutesController } from './components';
 import { harvestRoutes } from '@/modules/harvests/routes/Routes';
+import { FormChangeProvider } from '@/modules/core/components';
 
 export const Router = createBrowserRouter([
   {
@@ -22,7 +23,11 @@ export const Router = createBrowserRouter([
   },
   {
     path: '/app',
-    element: <RoutesController />,
+    element: (
+      <FormChangeProvider>
+        <RoutesController />
+      </FormChangeProvider>
+    ),
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Navigate to={'authentication/login'} /> },

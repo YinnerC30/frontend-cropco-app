@@ -2,22 +2,17 @@ import { useAuthContext } from '@/auth/hooks';
 import { useDataTableManual } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { createContext } from 'react';
-import { useWindowSize } from 'react-use';
 
-import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
+import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useDeleteBulkSupplies } from '../../hooks/mutations/useDeleteBulkSupplies';
 import { useGetAllSupplies } from '../../hooks/queries/useGetAllSupplies';
-import {
-  columnsTableSupplies,
-} from './columnsTableSupplies';
+import { columnsTableSupplies } from './columnsTableSupplies';
 import { SuppliesModuleActionsTable } from './SuppliesModuleActionsTable';
 
 export const SuppliesModuleContext = createContext<any>(null);
 
 export const SuppliesModuleProvider = ({ children }: any) => {
   const { value } = useBasicQueryData();
-  const { width } = useWindowSize();
-  const showActionsInFirstColumn = width < 1024;
 
   const { query, pagination, setPagination } = useGetAllSupplies({
     searchParameter: value,
@@ -26,24 +21,26 @@ export const SuppliesModuleProvider = ({ children }: any) => {
 
   const { hasPermission } = useAuthContext();
 
-  const columnsTable = createColumnsTable({
-    actionsInFirstColumn: showActionsInFirstColumn,
+  const columnsTable = useCreateColumnsTable({
     columns: columnsTableSupplies,
     actions: SuppliesModuleActionsTable,
   });
 
-  const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
-    useDataTableManual({
-      columns: columnsTable,
-      data: query.data ?? [],
-      rows:
-        (hasPermission('supplies', 'find_all_supplies') && query.data?.rows) ??
-        [],
-      pagination,
-      setPagination,
-    });
-
-  const hasSelectedRecords = getIdsToRowsSelected().length > 0;
+  const {
+    table,
+    lengthColumns,
+    getIdsToRowsSelected,
+    resetSelectionRows,
+    hasSelectedRecords,
+  } = useDataTableManual({
+    columns: columnsTable,
+    data: query.data ?? [],
+    rows:
+      (hasPermission('supplies', 'find_all_supplies') && query.data?.rows) ??
+      [],
+    pagination,
+    setPagination,
+  });
 
   const { mutate, isPending } = useDeleteBulkSupplies();
 
@@ -62,7 +59,6 @@ export const SuppliesModuleProvider = ({ children }: any) => {
     value,
     query,
     hasPermission,
-    showActionsInFirstColumn,
     table,
     lengthColumns,
     hasSelectedRecords,

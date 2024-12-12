@@ -1,10 +1,14 @@
 // FormChangeContext.tsx
+import { toast, ToastAction } from '@/components';
+import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Definir el tipo para el contexto con la nueva propiedad y función
 interface FormChangeContextType {
   hasUnsavedChanges: boolean;
   markChanges: (hasChanges: boolean) => void;
+  showToast: any;
 }
 
 // Crear el contexto con un valor inicial vacío para su tipado
@@ -26,11 +30,51 @@ export const FormChangeProvider: React.FC<FormChangeProviderProps> = ({
     setHasUnsavedChanges(hasChanges);
   };
 
+  const navigate = useNavigate();
+
+  const { setIsActiveDialog } = useDialogStatus();
+
+  const handleToastAction = (route: string, skiptRedirection: boolean) => {
+    setIsActiveDialog(false);
+    markChanges(false);
+    if (!skiptRedirection) {
+      navigate(route);
+    }
+  };
+
+  const showToast = ({
+    route = '/',
+    skiptRedirection = false,
+    action,
+  }: {
+    route?: string;
+    skiptRedirection?: boolean;
+    action?: () => void;
+  }) => {
+    return toast({
+      title: '¡Atención! Cambios sin guardar.',
+      description: 'Tienes modificaciones pendientes en el formulario.',
+      duration: 3_000,
+      action: (
+        <ToastAction
+          altText="Descartar cambios y continuar"
+          onClick={() => {
+            handleToastAction(route, skiptRedirection);
+            action && action();
+          }}
+        >
+          Descartar
+        </ToastAction>
+      ),
+    });
+  };
+
   return (
     <FormChangeContext.Provider
       value={{
         hasUnsavedChanges,
         markChanges,
+        showToast,
       }}
     >
       {children}

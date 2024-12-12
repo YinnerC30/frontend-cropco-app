@@ -9,11 +9,12 @@ import {
 import { flexRender } from '@tanstack/react-table';
 import { useNavigate } from 'react-router-dom';
 
+import { ScrollArea, ScrollBar } from '@/components';
+import { memo } from 'react';
 import { Loading } from '../shared/Loading';
 import { useDataTableContext } from './DataTableContext';
-import { ScrollArea, ScrollBar } from '@/components';
 
-export const DataTable = () => {
+export const DataTable = memo(() => {
   const { table, disabledDoubleClick, errorMessage, lengthColumns, isLoading } =
     useDataTableContext();
   const navigate = useNavigate();
@@ -76,4 +77,4 @@ export const DataTable = () => {
       <ScrollBar className="mt-4" orientation="horizontal" />
     </ScrollArea>
   );
-};
+});

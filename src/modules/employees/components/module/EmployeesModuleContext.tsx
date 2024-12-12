@@ -8,6 +8,7 @@ import { useDeleteBulkEmployees, useGetAllEmployees } from '../../hooks';
 import { useGetCertificationEmployee } from '../../hooks/queries/useGetCertificationEmployee';
 import { EmployeesModuleActionsTable } from './EmployeesModuleActionsTable';
 import { columnsTableEmployees } from './columnsTableEmployees';
+import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 
 export const EmployeesModuleContext = createContext<any>(null);
 
@@ -17,8 +18,6 @@ export const EmployeesModuleProvider = ({
   children: React.ReactNode;
 }) => {
   const { value } = useBasicQueryData();
-  const { width } = useWindowSize();
-  const showActionsInFirstColumn = width < 1024;
 
   const { query, pagination, setPagination } = useGetAllEmployees({
     searchParameter: value,
@@ -27,25 +26,26 @@ export const EmployeesModuleProvider = ({
 
   const { hasPermission } = useAuthContext();
 
-  const columnsTable = createColumnsTable({
-    actionsInFirstColumn: showActionsInFirstColumn,
+  const columnsTable = useCreateColumnsTable({
     columns: columnsTableEmployees,
     actions: EmployeesModuleActionsTable,
   });
 
-  const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
-    useDataTableManual({
-      columns: columnsTable,
-      data: query.data ?? [],
-      rows:
-        (hasPermission('employees', 'find_all_employees') &&
-          query.data?.rows) ??
-        [],
-      pagination,
-      setPagination,
-    });
-
-  const hasSelectedRecords = getIdsToRowsSelected().length > 0;
+  const {
+    table,
+    lengthColumns,
+    getIdsToRowsSelected,
+    resetSelectionRows,
+    hasSelectedRecords,
+  } = useDataTableManual({
+    columns: columnsTable,
+    data: query.data ?? [],
+    rows:
+      (hasPermission('employees', 'find_all_employees') && query.data?.rows) ??
+      [],
+    pagination,
+    setPagination,
+  });
 
   const [userIdCertification, setUserIdCertification] = useState('');
   const [executeQuery, setExecuteQuery] = useState(false);
@@ -79,7 +79,6 @@ export const EmployeesModuleProvider = ({
     value,
     query,
     hasPermission,
-    showActionsInFirstColumn,
     table,
     lengthColumns,
     hasSelectedRecords,

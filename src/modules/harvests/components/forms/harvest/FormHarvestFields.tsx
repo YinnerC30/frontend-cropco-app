@@ -14,15 +14,8 @@ import { useGetAllCrops } from '@/modules/crops/hooks';
 import { FormHarvestDataTable } from './FormHarvestDataTable';
 
 export const FormHarvestFields = () => {
-  const {
-    form,
-    onSubmit,
-    readOnly,
-    detailsHarvest,
-    total,
-    value_pay,
-    executeValidationFormHarvest,
-  } = useFormHarvestContext();
+  const { form, onSubmit, readOnly, total, value_pay } =
+    useFormHarvestContext();
 
   const { query: queryCrops } = useGetAllCrops({
     searchParameter: '',
@@ -33,12 +26,7 @@ export const FormHarvestFields = () => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(async (formData: any) => {
-          const result = await executeValidationFormHarvest();
-          if (result) {
-            onSubmit(formData, detailsHarvest, total, value_pay);
-          }
-        })}
+        onSubmit={form.handleSubmit(onSubmit)}
         id="formHarvest"
         className="flex flex-col lg:justify-evenly lg:flex-row"
       >

@@ -1,6 +1,7 @@
+import { memo } from 'react';
 import { useDataTableContext } from './DataTableContext';
 
-export const DataTableRowSelection = () => {
+export const DataTableRowSelection = memo(() => {
   const { table } = useDataTableContext();
   return (
     <div>
@@ -13,4 +14,4 @@ export const DataTableRowSelection = () => {
       </p>
     </div>
   );
-};
+});

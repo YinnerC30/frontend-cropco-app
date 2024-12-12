@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/form';
 
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
+import { memo } from 'react';
 
 interface SelectItemValues {
   key: string;
@@ -26,50 +27,52 @@ interface FormFieldSelectProps extends FormFieldProps {
   items: SelectItemValues[];
 }
 
-export const FormFieldSelect = ({
-  control,
-  name,
-  label,
-  placeholder,
-  description,
-  items,
-  readOnly = false,
-  className = '',
-}: FormFieldSelectProps) => {
-  return (
-    <FormField
-      control={control}
-      name={name}
-      render={({ field }: any) => (
-        <FormItem className={className + 'ml-1'}>
-          <FormLabel>{label}</FormLabel>
-          <div className="w-48 ">
-            <Select
-              onValueChange={(value: any) => {
-                field.onChange(value);
-              }}
-              defaultValue={field.value}
-              value={field.value}
-              disabled={readOnly}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder={placeholder} />
-              </SelectTrigger>
+export const FormFieldSelect = memo(
+  ({
+    control,
+    name,
+    label,
+    placeholder,
+    description,
+    items,
+    readOnly = false,
+    className = '',
+  }: FormFieldSelectProps) => {
+    return (
+      <FormField
+        control={control}
+        name={name}
+        render={({ field }: any) => (
+          <FormItem className={className + 'ml-1'}>
+            <FormLabel>{label}</FormLabel>
+            <div className="w-48 ">
+              <Select
+                onValueChange={(value: any) => {
+                  field.onChange(value);
+                }}
+                defaultValue={field.value}
+                value={field.value}
+                disabled={readOnly}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={placeholder} />
+                </SelectTrigger>
 
-              <SelectContent>
-                {[...items].map((item: SelectItemValues) => (
-                  <SelectItem key={item.key} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+                <SelectContent>
+                  {[...items].map((item: SelectItemValues) => (
+                    <SelectItem key={item.key} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-          <FormDescription>{description}</FormDescription>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  );
-};
+            <FormDescription>{description}</FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    );
+  }
+);

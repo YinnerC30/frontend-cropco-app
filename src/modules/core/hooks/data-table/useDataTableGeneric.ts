@@ -51,11 +51,14 @@ export const useDataTableGeneric = ({ columns, data = [] }: any) => {
     setRowSelection({});
   };
 
+  const hasSelectedRecords = getIdsToRowsSelected().length > 0;
+
   return {
     table,
     rowSelection,
     lengthColumns: columns.length,
     getIdsToRowsSelected,
     resetSelectionRows,
+    hasSelectedRecords,
   };
 };

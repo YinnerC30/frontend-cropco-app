@@ -7,36 +7,33 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
+import { memo } from 'react';
 
 interface FormFieldDataTable extends FormFieldProps {
-  children: any;
+  children: React.ReactNode;
 }
 
-export const FormFieldDataTable = ({
-  control,
-  name,
-  label,
-  description,
-  children,
-}: FormFieldDataTable) => {
-  return (
-    <>
-      <FormField
-        control={control}
-        name={name}
-        render={() => {
-          return (
-            <FormItem>
-              <FormLabel>{label}</FormLabel>
-              <FormControl>
-                <>{children}</>
-              </FormControl>
-              <FormDescription>{description}</FormDescription>
-              <FormMessage />
-            </FormItem>
-          );
-        }}
-      />
-    </>
-  );
-};
+export const FormFieldDataTable = memo(
+  ({ control, name, label, description, children }: FormFieldDataTable) => {
+    return (
+      <>
+        <FormField
+          control={control}
+          name={name}
+          render={() => {
+            return (
+              <FormItem>
+                <FormLabel>{label}</FormLabel>
+                <FormControl>
+                  <>{children}</>
+                </FormControl>
+                <FormDescription>{description}</FormDescription>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        />
+      </>
+    );
+  }
+);

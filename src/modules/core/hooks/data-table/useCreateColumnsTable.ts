@@ -1,18 +1,19 @@
-import { CheckboxTable } from '@/modules/core/components';
+import { CheckboxTable } from '../../components';
+import { useResponsiveWindow } from '../useResponsiveWindow';
 
-interface ValuesCreateColumns {
-  actionsInFirstColumn: boolean;
+interface Props {
   hiddenActions?: boolean;
   columns: any;
   actions: any;
+  readOnly?: boolean;
 }
 
-export const createColumnsTable = ({
-  actionsInFirstColumn,
+export const useCreateColumnsTable = ({
   columns: columnsTable,
   actions: actionsTable,
   hiddenActions = false,
-}: ValuesCreateColumns) => {
+}: Props) => {
+  const { isSmallScreen } = useResponsiveWindow();
   const columns = [...columnsTable];
 
   const actions = {
@@ -26,9 +27,6 @@ export const createColumnsTable = ({
 
   columns.unshift(CheckboxTable);
 
-  actionsInFirstColumn ? columns.unshift(actions) : columns.push(actions);
-
+  isSmallScreen ? columns.unshift(actions) : columns.push(actions);
   return columns;
 };
-
-// export default createColumnsTableUsers;

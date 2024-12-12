@@ -2,9 +2,8 @@ import { useAuthContext } from '@/auth/hooks/index.ts';
 import { useDataTableManual } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { createContext } from 'react';
-import { useWindowSize } from 'react-use';
 
-import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable.tsx';
+import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable.ts';
 import { useDeleteBulkSuppliers } from '../../hooks/mutations/useDeleteBulkSuppliers.ts';
 import { useGetAllSuppliers } from '../../hooks/queries/useGetAllSuppliers';
 import { columnsTableSuppliers } from './columnsTableSuppliers.tsx';
@@ -14,31 +13,30 @@ export const SuppliersModuleContext = createContext<any>(null);
 
 export const SuppliersModuleProvider = ({ children }: any) => {
   const { value } = useBasicQueryData();
-  const { width } = useWindowSize();
-  const showActionsInFirstColumn = width < 1024;
 
   const { query, pagination, setPagination } = useGetAllSuppliers(value);
 
   const { hasPermission } = useAuthContext();
 
-  const columnsTable = createColumnsTable({
-    actionsInFirstColumn: showActionsInFirstColumn,
+  const columnsTable = useCreateColumnsTable({
     columns: columnsTableSuppliers,
     actions: SuppliersModuleActionsTable,
   });
-  const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
-    useDataTableManual({
-      columns: columnsTable,
-      data: query.data ?? [],
-      rows:
-        (hasPermission('suppliers', 'find_all_suppliers') &&
-          query.data?.rows) ??
-        [],
-      pagination,
-      setPagination,
-    });
-
-  const hasSelectedRecords = getIdsToRowsSelected().length > 0;
+  const {
+    table,
+    lengthColumns,
+    getIdsToRowsSelected,
+    resetSelectionRows,
+    hasSelectedRecords,
+  } = useDataTableManual({
+    columns: columnsTable,
+    data: query.data ?? [],
+    rows:
+      (hasPermission('suppliers', 'find_all_suppliers') && query.data?.rows) ??
+      [],
+    pagination,
+    setPagination,
+  });
 
   const { mutate, isPending } = useDeleteBulkSuppliers();
 
@@ -57,7 +55,6 @@ export const SuppliersModuleProvider = ({ children }: any) => {
     value,
     query,
     hasPermission,
-    showActionsInFirstColumn,
     table,
     lengthColumns,
     hasSelectedRecords,
@@ -74,5 +71,3 @@ export const SuppliersModuleProvider = ({ children }: any) => {
     </SuppliersModuleContext.Provider>
   );
 };
-
-

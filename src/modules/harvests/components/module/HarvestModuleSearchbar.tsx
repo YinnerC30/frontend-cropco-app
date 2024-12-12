@@ -27,62 +27,64 @@ import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Filter, Search, X } from 'lucide-react';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarvest';
 import { formSchemaSearchBarHarvest } from '../../utils/formSchemaSearchBarHarvest';
 
-const FilterDropdownItem = ({
-  label,
-  content,
-  actionOnSave,
-  actionOnClose,
-}: {
-  label: string;
-  content: JSX.Element;
-  actionOnSave: () => Promise<boolean>;
-  actionOnClose: () => void;
-}) => {
-  const [openMenu, setOpenMenu] = useState(false);
+const FilterDropdownItem = memo(
+  ({
+    label,
+    content,
+    actionOnSave,
+    actionOnClose,
+  }: {
+    label: string;
+    content: JSX.Element;
+    actionOnSave: () => Promise<boolean>;
+    actionOnClose: () => void;
+  }) => {
+    const [openMenu, setOpenMenu] = useState(false);
 
-  return (
-    <DropdownMenuSub open={openMenu} onOpenChange={setOpenMenu}>
-      <DropdownMenuSubTrigger>{label}</DropdownMenuSubTrigger>
-      <DropdownMenuPortal>
-        <DropdownMenuSubContent
-          className="w-[250px] p-4 ml-2"
-          avoidCollisions
-          sideOffset={0}
-        >
-          {content}
-          <div className="flex justify-center gap-2">
-            <Button
-              className="self-end w-24 mt-4"
-              onClick={async (e) => {
-                e.preventDefault();
-                const value = await actionOnSave();
-                setOpenMenu(!value);
-              }}
-            >
-              Aplicar
-            </Button>
-            <Button
-              variant={'destructive'}
-              className="self-end w-24 mt-4"
-              onClick={() => {
-                setOpenMenu(false);
-                actionOnClose();
-              }}
-            >
-              Cerrar
-            </Button>
-          </div>
-        </DropdownMenuSubContent>
-      </DropdownMenuPortal>
-    </DropdownMenuSub>
-  );
-};
+    return (
+      <DropdownMenuSub open={openMenu} onOpenChange={setOpenMenu}>
+        <DropdownMenuSubTrigger>{label}</DropdownMenuSubTrigger>
+        <DropdownMenuPortal>
+          <DropdownMenuSubContent
+            className="w-[250px] p-4 ml-2"
+            avoidCollisions
+            sideOffset={0}
+          >
+            {content}
+            <div className="flex justify-center gap-2">
+              <Button
+                className="self-end w-24 mt-4"
+                onClick={async (e) => {
+                  e.preventDefault();
+                  const value = await actionOnSave();
+                  setOpenMenu(!value);
+                }}
+              >
+                Aplicar
+              </Button>
+              <Button
+                variant={'destructive'}
+                className="self-end w-24 mt-4"
+                onClick={() => {
+                  setOpenMenu(false);
+                  actionOnClose();
+                }}
+              >
+                Cerrar
+              </Button>
+            </div>
+          </DropdownMenuSubContent>
+        </DropdownMenuPortal>
+      </DropdownMenuSub>
+    );
+  }
+);
 
 interface FilterSearchBar {
   key: string;
@@ -307,175 +309,181 @@ export const HarvestModuleSearchbar = () => {
   ];
 
   return (
-    <DropdownMenu open={openDropDownMenu} modal={false}>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(handleSearch)}
-          id="formSearch"
-          className="flex flex-col w-full"
-        >
-          <div className="flex flex-col items-center justify-center w-screen md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
-            <div className="flex items-center gap-2">
-              <FormFieldCommand
-                data={queryCrops?.data?.rows || []}
-                form={form}
-                nameToShow="name"
-                control={form.control}
-                name="crop.id"
-                placeholder={formFieldsSearchBarHarvest.crop.placeholder}
-                className="w-auto lg:w-[300px]"
-                description={''}
-                label={''}
-                readOnly={false}
-                actionFinal={() => addFilter('crop.id')}
-              />
-              <div className="flex gap-2">
-                <ToolTipTemplate content="Ejecutar consulta">
-                  <Button type="submit" form="formSearch" size={'icon'}>
-                    <Search className="w-4 h-4" />
-                  </Button>
-                </ToolTipTemplate>
-
-                <ToolTipTemplate content="Borrar consulta">
-                  <Button variant="outline" onClick={handleReset} size={'icon'}>
-                    <X className="w-4 h-4" />
-                  </Button>
-                </ToolTipTemplate>
-              </div>
-            </div>
-
-            <div className="self-start mb-2 sm:self-center sm:m-0">
-              <ToolTipTemplate content="Filtros">
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      setOpenDropDownMenu((prev: boolean) => !prev)
-                    }
-                    size={'icon'}
-                  >
-                    <Filter className="w-4 h-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-              </ToolTipTemplate>
-            </div>
-          </div>
-
-          <DropdownMenuContent
-            className="w-32"
-            // side="right"
-            onPointerDownOutside={(e) => {
-              e.preventDefault();
-              setOpenDropDownMenu((prev: boolean) => !prev);
-            }}
-            onCloseAutoFocus={(e) => e.preventDefault()}
+    <div className="flex flex-col items-start justify-start w-[1000px]">
+      <DropdownMenu open={openDropDownMenu} modal={false}>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleSearch)}
+            id="formSearch"
+            className="flex flex-col w-full"
           >
-            <FilterDropdownItem
-              label={'Fecha'}
-              content={
-                <>
-                  <FormFieldSelect
-                    items={[
-                      {
-                        key: TypeFilterDate.after,
-                        value: TypeFilterDate.after,
-                        label: 'Despues del',
-                      },
-                      {
-                        key: TypeFilterDate.before,
-                        value: TypeFilterDate.before,
-                        label: 'Antes del',
-                      },
-                    ]}
-                    readOnly={false}
-                    {...formFieldsSearchBarHarvest.type_filter_date}
-                    name="filter_by_date.type_filter_date"
-                    control={form.control}
-                  />
-                  <FormFieldCalendar
-                    readOnly={false}
-                    {...formFieldsSearchBarHarvest.date}
-                    control={form.control}
-                    name="filter_by_date.date"
-                    className="w-[95%]"
-                  />
-                </>
-              }
-              actionOnSave={() => addFilter('filter_by_date')}
-              actionOnClose={() => clearErrorsForm('filter_by_date')}
-            />
-            <FilterDropdownItem
-              label={'Total'}
-              actionOnSave={() => addFilter('filter_by_total')}
-              actionOnClose={() => clearErrorsForm('filter_by_total')}
-              content={
-                <>
-                  <FormFieldSelect
-                    readOnly={false}
-                    items={numberFilterOptions}
-                    {...formFieldsSearchBarHarvest.type_filter_total}
-                    control={form.control}
-                    name="filter_by_total.type_filter_total"
-                  />
-                  <FormFieldInput
-                    readOnly={false}
-                    {...formFieldsSearchBarHarvest.total}
-                    control={form.control}
-                    type="number"
-                    name="filter_by_total.total"
-                  />
-                </>
-              }
-            />
-            <FilterDropdownItem
-              label={'Valor a pagar'}
-              actionOnSave={() => addFilter('filter_by_value_pay')}
-              actionOnClose={() => clearErrorsForm('filter_by_value_pay')}
-              content={
-                <>
-                  <FormFieldSelect
-                    readOnly={false}
-                    items={numberFilterOptions}
-                    {...formFieldsSearchBarHarvest.type_filter_value_pay}
-                    control={form.control}
-                    name="filter_by_value_pay.type_filter_value_pay"
-                  />
-                  <FormFieldInput
-                    readOnly={false}
-                    {...formFieldsSearchBarHarvest.value_pay}
-                    control={form.control}
-                    type="number"
-                    name="filter_by_value_pay.value_pay"
-                  />
-                </>
-              }
-            />
-          </DropdownMenuContent>
+            <div className="flex flex-col items-center justify-center w-screen md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
+              <div className="flex items-center gap-2">
+                <FormFieldCommand
+                  data={queryCrops?.data?.rows || []}
+                  form={form}
+                  nameToShow="name"
+                  control={form.control}
+                  name="crop.id"
+                  placeholder={formFieldsSearchBarHarvest.crop.placeholder}
+                  className="w-auto lg:w-[300px]"
+                  description={''}
+                  label={''}
+                  readOnly={false}
+                  actionFinal={() => addFilter('crop.id')}
+                />
+                <div className="flex gap-2">
+                  <ToolTipTemplate content="Ejecutar consulta">
+                    <Button type="submit" form="formSearch" size={'icon'}>
+                      <Search className="w-4 h-4" />
+                    </Button>
+                  </ToolTipTemplate>
 
-          {appliedFilters.length > 0 && (
-            <div className="mt-2 ">
-              <Label className="block">Filtros aplicados:</Label>
-              <div className="flex flex-wrap gap-2 my-4 ">
-                {appliedFilters.map((filter, index) => (
-                  <Badge key={index} variant="secondary">
-                    {filter.label}
-                    <ToolTipTemplate content="Eliminar filtro">
-                      <Button
-                        className="ml-3"
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => removeFilter(filter)}
-                      >
-                        <X className="w-3 h-3" />
-                      </Button>
-                    </ToolTipTemplate>
-                  </Badge>
-                ))}
+                  <ToolTipTemplate content="Borrar consulta">
+                    <Button
+                      variant="outline"
+                      onClick={handleReset}
+                      size={'icon'}
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </ToolTipTemplate>
+                </div>
+              </div>
+
+              <div className="self-start mb-2 sm:self-center sm:m-0">
+                <ToolTipTemplate content="Filtros">
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      onClick={() =>
+                        setOpenDropDownMenu((prev: boolean) => !prev)
+                      }
+                      size={'icon'}
+                    >
+                      <Filter className="w-4 h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                </ToolTipTemplate>
               </div>
             </div>
-          )}
-        </form>
-      </Form>
-    </DropdownMenu>
+
+            <DropdownMenuContent
+              className="w-32"
+              // side="right"
+              onPointerDownOutside={(e) => {
+                e.preventDefault();
+                setOpenDropDownMenu((prev: boolean) => !prev);
+              }}
+              onCloseAutoFocus={(e) => e.preventDefault()}
+            >
+              <FilterDropdownItem
+                label={'Fecha'}
+                content={
+                  <>
+                    <FormFieldSelect
+                      items={[
+                        {
+                          key: TypeFilterDate.after,
+                          value: TypeFilterDate.after,
+                          label: 'Despues del',
+                        },
+                        {
+                          key: TypeFilterDate.before,
+                          value: TypeFilterDate.before,
+                          label: 'Antes del',
+                        },
+                      ]}
+                      readOnly={false}
+                      {...formFieldsSearchBarHarvest.type_filter_date}
+                      name="filter_by_date.type_filter_date"
+                      control={form.control}
+                    />
+                    <FormFieldCalendar
+                      readOnly={false}
+                      {...formFieldsSearchBarHarvest.date}
+                      control={form.control}
+                      name="filter_by_date.date"
+                      className="w-[95%]"
+                    />
+                  </>
+                }
+                actionOnSave={() => addFilter('filter_by_date')}
+                actionOnClose={() => clearErrorsForm('filter_by_date')}
+              />
+              <FilterDropdownItem
+                label={'Total'}
+                actionOnSave={() => addFilter('filter_by_total')}
+                actionOnClose={() => clearErrorsForm('filter_by_total')}
+                content={
+                  <>
+                    <FormFieldSelect
+                      readOnly={false}
+                      items={numberFilterOptions}
+                      {...formFieldsSearchBarHarvest.type_filter_total}
+                      control={form.control}
+                      name="filter_by_total.type_filter_total"
+                    />
+                    <FormFieldInput
+                      readOnly={false}
+                      {...formFieldsSearchBarHarvest.total}
+                      control={form.control}
+                      type="number"
+                      name="filter_by_total.total"
+                    />
+                  </>
+                }
+              />
+              <FilterDropdownItem
+                label={'Valor a pagar'}
+                actionOnSave={() => addFilter('filter_by_value_pay')}
+                actionOnClose={() => clearErrorsForm('filter_by_value_pay')}
+                content={
+                  <>
+                    <FormFieldSelect
+                      readOnly={false}
+                      items={numberFilterOptions}
+                      {...formFieldsSearchBarHarvest.type_filter_value_pay}
+                      control={form.control}
+                      name="filter_by_value_pay.type_filter_value_pay"
+                    />
+                    <FormFieldInput
+                      readOnly={false}
+                      {...formFieldsSearchBarHarvest.value_pay}
+                      control={form.control}
+                      type="number"
+                      name="filter_by_value_pay.value_pay"
+                    />
+                  </>
+                }
+              />
+            </DropdownMenuContent>
+
+            {appliedFilters.length > 0 && (
+              <div className="mt-2 ">
+                <Label className="block">Filtros aplicados:</Label>
+                <div className="flex flex-wrap gap-2 my-4 ">
+                  {appliedFilters.map((filter, index) => (
+                    <Badge key={index} variant="secondary">
+                      {filter.label}
+                      <ToolTipTemplate content="Eliminar filtro">
+                        <Button
+                          className="ml-3"
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => removeFilter(filter)}
+                        >
+                          <X className="w-3 h-3" />
+                        </Button>
+                      </ToolTipTemplate>
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            )}
+          </form>
+        </Form>
+      </DropdownMenu>
+    </div>
   );
 };

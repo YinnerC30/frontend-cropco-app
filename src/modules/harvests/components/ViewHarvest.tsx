@@ -1,5 +1,4 @@
 import { BreadCrumb } from '@/modules/core/components/';
-import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
 import { useParams } from 'react-router-dom';
 import { Loading } from '../../core/components';
 import { useGetHarvest } from '../hooks/queries/useGetHarvest';
@@ -8,9 +7,7 @@ import { FormHarvest } from './forms/harvest/FormHarvest';
 
 export const ViewHarvest = () => {
   const { id } = useParams();
-
   const { data, isLoading } = useGetHarvest(id!);
-
   if (isLoading) return <Loading />;
 
   return (
@@ -20,14 +17,7 @@ export const ViewHarvest = () => {
         finalItem={` Información de la cosecha`}
       />
 
-      {/* Formulario principal */}
-      <FormHarvest
-        defaultValues={{
-          ...data,
-          date: ConvertStringToDate(data.date),
-        }}
-        readOnly
-      />
+      <FormHarvest defaultValues={data} readOnly />
     </>
   );
 };

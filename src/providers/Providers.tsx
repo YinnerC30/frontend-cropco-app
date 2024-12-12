@@ -1,12 +1,12 @@
-import { FormChangeProvider, ThemeProvider } from '@/modules/core/components';
+import { ThemeProvider } from '@/modules/core/components';
 import { store } from '@/redux/store';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { RouterProvider } from 'react-router-dom';
-import { Provider as ReduxProvider } from 'react-redux';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Router } from '@/routes/Router';
 import { DialogStatusProvider } from '@/components/common/DialogStatusContext';
+import { Router } from '@/routes/Router';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Provider as ReduxProvider } from 'react-redux';
+import { RouterProvider } from 'react-router-dom';
 
 const queryClient = new QueryClient();
 
@@ -20,10 +20,8 @@ export const ProvidersApp = ({ children }: Props) => {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
           <DialogStatusProvider>
-            <FormChangeProvider>
-              <RouterProvider router={Router} />
-              {children}
-            </FormChangeProvider>
+            <RouterProvider router={Router} />
+            {children}
           </DialogStatusProvider>
         </ThemeProvider>
         <ReactQueryDevtools />

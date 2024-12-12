@@ -1,8 +1,7 @@
-import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
 import { useDataTableManual } from '@/modules/core/hooks';
+import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData';
 import { createContext } from 'react';
-import { useWindowSize } from 'react-use';
 import { useGetAllHarvests } from '../../hooks';
 import { useDeleteBulkHarvests } from '../../hooks/mutations/useDeleteBulkHarvests';
 import { ActionsTableHarvest } from './ActionsTableHarvest';
@@ -15,8 +14,6 @@ export const HarvestsModuleProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { width } = useWindowSize();
-
   const { data } = useAdvancedQueryData({
     params: [
       'crop',
@@ -34,13 +31,9 @@ export const HarvestsModuleProvider = ({
       'value_pay',
     ],
   });
-
   const { query, pagination, setPagination } = useGetAllHarvests({ ...data });
 
-  const showActionsInFirstColumn = width < 1024;
-
-  const columnsTable = createColumnsTable({
-    actionsInFirstColumn: showActionsInFirstColumn,
+  const columnsTable = useCreateColumnsTable({
     columns: columnsHarvest,
     actions: ActionsTableHarvest,
   });
