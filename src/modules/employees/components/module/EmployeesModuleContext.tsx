@@ -1,14 +1,12 @@
 import { useAuthContext } from '@/auth/hooks';
-import { createColumnsTable } from '@/modules/core/helpers/createColumnsTable';
 import { useDataTableManual } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
+import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { createContext, useState } from 'react';
-import { useWindowSize } from 'react-use';
 import { useDeleteBulkEmployees, useGetAllEmployees } from '../../hooks';
 import { useGetCertificationEmployee } from '../../hooks/queries/useGetCertificationEmployee';
 import { EmployeesModuleActionsTable } from './EmployeesModuleActionsTable';
 import { columnsTableEmployees } from './columnsTableEmployees';
-import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 
 export const EmployeesModuleContext = createContext<any>(null);
 

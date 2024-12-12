@@ -1,15 +1,11 @@
-import { Button } from '@/components/ui/button';
-
-import { ArrowUpDown } from 'lucide-react';
-
 import { ColumnDef } from '@tanstack/react-table';
 
+import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
 import { TableHarvest } from '../../interfaces/TableHarvest';
 import { formFieldsHarvest } from '../../utils';
-import { ButtonHeaderTable } from '@/modules/core/components';
 
 export const columnsHarvest: ColumnDef<TableHarvest>[] = [
   {

@@ -14,3 +14,5 @@ export const HarvestModule = () => {
     </HarvestsModuleProvider>
   );
 };
+
+export default HarvestModule;

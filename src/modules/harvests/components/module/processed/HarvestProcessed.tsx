@@ -17,3 +17,5 @@ export const HarvestProcessed = () => {
     </HarvestProcessedProvider>
   );
 };
+
+export default HarvestProcessed;

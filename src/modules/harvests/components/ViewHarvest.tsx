@@ -21,3 +21,5 @@ export const ViewHarvest = () => {
     </>
   );
 };
+
+export default ViewHarvest;

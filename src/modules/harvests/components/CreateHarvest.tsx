@@ -31,3 +31,5 @@ export const CreateHarvest = () => {
     </>
   );
 };
+
+export default CreateHarvest;

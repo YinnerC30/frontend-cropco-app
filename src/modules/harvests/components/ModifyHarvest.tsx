@@ -44,3 +44,5 @@ export const ModifyHarvest = () => {
     </>
   );
 };
+
+export default ModifyHarvest;

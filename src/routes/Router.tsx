@@ -12,7 +12,7 @@ import ErrorPage from '@/routes/components/ErrorPage';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { HomeLayout } from '../components/home/HomeLayout';
 import { RoutesController } from './components';
-import { harvestRoutes } from '@/modules/harvests/routes/Routes';
+import { harvestRoutes } from '@/modules/harvests/routes/harvestRoutes';
 import { FormChangeProvider } from '@/modules/core/components';
 
 export const Router = createBrowserRouter([
