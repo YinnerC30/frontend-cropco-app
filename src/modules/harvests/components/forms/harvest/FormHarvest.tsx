@@ -21,7 +21,6 @@ export const FormHarvest = ({
         <ScrollArea className={`h-[72vh] w-full pr-2`}>
           <FormHarvestFields />
         </ScrollArea>
-
         <FormHarvestButtons />
       </div>
     </FormHarvestProvider>

@@ -5,10 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { AxiosError } from 'axios';
-import {
-  useAuthContext,
-  useManageErrorApp,
-} from '@/auth/hooks';
+import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
 
 interface Props {
   search: string;
@@ -59,7 +56,9 @@ export const useGetAllCropsWithHarvest = ({
         offset: pagination.pageIndex,
         allRecords,
       }),
-    enabled: hasPermission('crops', 'find_all_crops_with_harvest'),
+    enabled:
+      hasPermission('crops', 'find_all_crops_with_harvest') &&
+      hasPermission('harvests', 'find_all_harvests'),
     staleTime: 60_000 * 60,
   });
 

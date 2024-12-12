@@ -6,6 +6,7 @@ import { useGetAllHarvests } from '../../hooks';
 import { useDeleteBulkHarvests } from '../../hooks/mutations/useDeleteBulkHarvests';
 import { ActionsTableHarvest } from './ActionsTableHarvest';
 import columnsHarvest from './ColumnsTableHarvest';
+import { useAuthContext } from '@/auth';
 
 export const HarvestsModuleContext = createContext<any>(null);
 
@@ -33,6 +34,8 @@ export const HarvestsModuleProvider = ({
   });
   const { query, pagination, setPagination } = useGetAllHarvests({ ...data });
 
+  const { hasPermission } = useAuthContext();
+
   const columnsTable = useCreateColumnsTable({
     columns: columnsHarvest,
     actions: ActionsTableHarvest,
@@ -50,6 +53,7 @@ export const HarvestsModuleProvider = ({
     rows: query.data?.rows ?? [],
     pagination,
     setPagination,
+    
   });
 
   const { mutate, isPending } = useDeleteBulkHarvests();
@@ -66,6 +70,7 @@ export const HarvestsModuleProvider = ({
   };
 
   const contextValue = {
+    hasPermission,
     query,
     table,
     lengthColumns,

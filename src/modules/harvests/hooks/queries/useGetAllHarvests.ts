@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import { useEffect } from 'react';
-import { useManageErrorApp } from '@/auth';
+import { useAuthContext, useManageErrorApp } from '@/auth';
 import { AxiosError } from 'axios';
 
 export const getHarvests = async ({
@@ -65,6 +65,7 @@ export const useGetAllHarvests = ({
   const { pagination, setPagination, pageIndex, pageSize } =
     usePaginationDataTable();
   const { handleError } = useManageErrorApp();
+  const { hasPermission } = useAuthContext();
 
   const query = useQuery({
     queryKey: [
@@ -99,6 +100,7 @@ export const useGetAllHarvests = ({
         value_pay,
       }),
     staleTime: 60_000 * 60,
+    enabled: hasPermission('harvests', 'find_all_harvests'),
   });
 
   useEffect(() => {

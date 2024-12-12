@@ -34,6 +34,7 @@ import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarve
 import { formSchemaSearchBarHarvest } from '../../utils/formSchemaSearchBarHarvest';
 import { formatTypeFilterDate } from '@/modules/core/helpers/formatting/formatTypeFilterDate';
 import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/formatTypeFilterNumber';
+import { useAuthContext } from '@/auth';
 
 interface FilterSearchBar {
   key: string;
@@ -73,7 +74,8 @@ const dateFilterOptions = [
 ];
 
 export const HarvestModuleSearchbar = () => {
-  const { paramsQuery } = useHarvestModuleContext();
+  const { paramsQuery, hasPermission } = useHarvestModuleContext();
+  const readOnly = !hasPermission('harvests', 'find_all_harvests');
   const navigate = useNavigate();
   const { query: queryCrops } = useGetAllCropsWithHarvest({
     searchParameter: '',
@@ -282,12 +284,17 @@ export const HarvestModuleSearchbar = () => {
                   className="w-auto lg:w-[300px]"
                   description={''}
                   label={''}
-                  readOnly={false}
+                  readOnly={readOnly}
                   actionFinal={() => handleAddFilter('crop.id')}
                 />
                 <div className="flex gap-2">
                   <ToolTipTemplate content="Ejecutar consulta">
-                    <Button type="submit" form="formSearch" size={'icon'}>
+                    <Button
+                      type="submit"
+                      form="formSearch"
+                      size={'icon'}
+                      disabled={readOnly}
+                    >
                       <Search className="w-4 h-4" />
                     </Button>
                   </ToolTipTemplate>
@@ -297,6 +304,7 @@ export const HarvestModuleSearchbar = () => {
                       variant="outline"
                       onClick={handleResetForm}
                       size={'icon'}
+                      disabled={readOnly}
                     >
                       <X className="w-4 h-4" />
                     </Button>
@@ -313,6 +321,7 @@ export const HarvestModuleSearchbar = () => {
                         setOpenDropDownMenu((prev: boolean) => !prev)
                       }
                       size={'icon'}
+                      disabled={readOnly}
                     >
                       <Filter className="w-4 h-4" />
                     </Button>
