@@ -1,3 +1,4 @@
+import { useAuthContext } from '@/auth';
 import { useGetHarvest } from '@/modules/harvests/hooks';
 import React, { createContext, useContext, useState } from 'react';
 
@@ -20,12 +21,17 @@ export const HarvestProcessedProvider = ({
     total: 0,
   });
 
+  const { validatePermissionsInModule } = useAuthContext();
+
+  const permissionsHarvest = validatePermissionsInModule('harvests');
+
   const contextValue = {
     ...queryOneHarvest,
     harvestProcessed,
     setHarvestProcessed,
     openDialog,
     setOpenDialog,
+    permissionsHarvest,
   };
 
   return (

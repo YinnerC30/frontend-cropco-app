@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RootState, useAppSelector } from '@/redux/store';
 import { createContext, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
@@ -19,6 +20,7 @@ import {
   Action,
   Module,
 } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
+import { useGetAllModules } from '@/modules/core/hooks';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
@@ -43,7 +45,7 @@ interface DataActionsAuthorization {
 export const AuthProvider = ({ children }: any) => {
   const { user } = useAppSelector((state: RootState) => state.authentication);
   const queryClient = useQueryClient();
-  const tokenSesion = user?.token;
+  const tokenSession = user?.token;
   const dispatch = useDispatch();
 
   const saveUserInState = (user: UserActive) => {
@@ -122,7 +124,7 @@ export const AuthProvider = ({ children }: any) => {
     if (!user.isLogin) {
       navigate(PATH_LOGIN, { replace: true });
     }
-  }, [user]);
+  }, [navigate, user]);
 
   // Authorization
 
@@ -147,6 +149,32 @@ export const AuthProvider = ({ children }: any) => {
     return data[moduleName]?.actions.has(actionName) ?? false;
   };
 
+  const queryGetAllModules = useGetAllModules();
+
+  const getNameActionsModule = (nameModule: string) => {
+    const module = queryGetAllModules.data?.find(
+      (module: Module) =>
+        module.name === nameModule && queryGetAllModules.isSuccess
+    );
+    return module?.actions.map((action: Action) => action.name) ?? [];
+  };
+
+  const validatePermissionsInModule = (moduleName: string) => {
+    const userActions = data[moduleName].actions;
+    const moduleActions = getNameActionsModule(moduleName);
+
+    const finalActions: Record<string, boolean> = moduleActions.reduce(
+      (acc: Record<string, boolean>, action: string | undefined | null) => {
+        if (action) {
+          acc[action] = userActions.has(action);
+        }
+        return acc;
+      },
+      {}
+    );
+    return finalActions;
+  };
+
   const hasMoreThanOnePermission = (moduleName: string) => {
     return data[moduleName]?.actions.size;
   };
@@ -159,12 +187,13 @@ export const AuthProvider = ({ children }: any) => {
         removeUser,
         updateUserActions,
         updateTokenInClient,
-        tokenSesion,
+        tokenSession,
         user,
         handleError,
         nameModulesUser,
         hasMoreThanOnePermission,
         hasPermission,
+        validatePermissionsInModule,
       }}
     >
       {children}

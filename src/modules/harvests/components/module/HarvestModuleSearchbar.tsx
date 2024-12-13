@@ -23,6 +23,8 @@ import { useGetAllCropsWithHarvest } from '@/modules/crops/hooks/queries/useGetA
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
+import { formatTypeFilterDate } from '@/modules/core/helpers/formatting/formatTypeFilterDate';
+import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/formatTypeFilterNumber';
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -32,9 +34,6 @@ import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleCon
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarvest';
 import { formSchemaSearchBarHarvest } from '../../utils/formSchemaSearchBarHarvest';
-import { formatTypeFilterDate } from '@/modules/core/helpers/formatting/formatTypeFilterDate';
-import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/formatTypeFilterNumber';
-import { useAuthContext } from '@/auth';
 
 interface FilterSearchBar {
   key: string;
@@ -74,8 +73,9 @@ const dateFilterOptions = [
 ];
 
 export const HarvestModuleSearchbar = () => {
-  const { paramsQuery, hasPermission } = useHarvestModuleContext();
-  const readOnly = !hasPermission('harvests', 'find_all_harvests');
+  const { paramsQuery, /* hasPermission, */ permissionsHarvest } =
+    useHarvestModuleContext();
+  const readOnly = !permissionsHarvest['find_all_harvests'];
   const navigate = useNavigate();
   const { query: queryCrops } = useGetAllCropsWithHarvest({
     searchParameter: '',

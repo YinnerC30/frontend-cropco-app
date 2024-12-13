@@ -15,14 +15,15 @@ export const HarvestModuleActions = () => {
     resetSelectionRows,
     handleDeleteBulkHarvests,
     isPending,
-    hasPermission,
+    /*     hasPermission, */
+    permissionsHarvest,
   } = useHarvestModuleContext();
 
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
         onClick={query.refetch}
-        disabled={!hasPermission('harvests', 'find_all_harvests')}
+        disabled={!permissionsHarvest['find_all_harvests']}
         className=""
       />
 
@@ -33,16 +34,14 @@ export const HarvestModuleActions = () => {
         />
 
         <ButtonDeleteBulk
-          disabled={
-            isPending || !hasPermission('harvests', 'remove_bulk_harvests')
-          }
+          disabled={isPending || !permissionsHarvest['remove_bulk_harvests']}
           onClick={handleDeleteBulkHarvests}
           visible={hasSelectedRecords}
         />
 
         <ButtonCreateRecord
           route={MODULE_HARVESTS_PATHS.Create}
-          disabled={!hasPermission('harvests', 'create_harvest')}
+          disabled={!permissionsHarvest['create_harvest']}
           className=""
         />
       </div>

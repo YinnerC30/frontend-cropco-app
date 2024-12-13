@@ -34,7 +34,9 @@ export const HarvestsModuleProvider = ({
   });
   const { query, pagination, setPagination } = useGetAllHarvests({ ...data });
 
-  const { hasPermission } = useAuthContext();
+  const { hasPermission, validatePermissionsInModule } = useAuthContext();
+
+  const permissionsHarvest = validatePermissionsInModule('harvests');
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsHarvest,
@@ -53,7 +55,6 @@ export const HarvestsModuleProvider = ({
     rows: query.data?.rows ?? [],
     pagination,
     setPagination,
-    
   });
 
   const { mutate, isPending } = useDeleteBulkHarvests();
@@ -70,6 +71,7 @@ export const HarvestsModuleProvider = ({
   };
 
   const contextValue = {
+    permissionsHarvest,
     hasPermission,
     query,
     table,

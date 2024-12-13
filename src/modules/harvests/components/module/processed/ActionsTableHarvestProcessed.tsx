@@ -1,13 +1,12 @@
+import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import {
   ActionCopyIdRecord,
   ActionDeleteRecord,
   DropDownMenuActions,
 } from '@/modules/core/components';
+import { ActionModifyRecordFormDataTable } from '@/modules/core/components/data-table/menu/actions/ActionModifyRecordFormDataTable';
 import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
-import { ActionModifyRecordFormDataTable } from '@/modules/core/components/data-table/menu/actions/ActionModifyRecordFormDataTable';
-import { useAuthContext } from '@/auth';
 
 type MutateParams = {
   id: string;
@@ -20,8 +19,8 @@ interface Props {
 
 export const ActionsTableHarvestProcessed = ({ mutate, id, values }: Props) => {
   const queryClient = useQueryClient();
-  const { setHarvestProcessed, setOpenDialog } = useHarvestProcessedContext();
-  const { hasPermission } = useAuthContext();
+  const { setHarvestProcessed, setOpenDialog, permissionsHarvest } =
+    useHarvestProcessedContext();
 
   const { setIsActiveDialog } = useDialogStatus();
   const handleDelete = () => {
@@ -43,11 +42,11 @@ export const ActionsTableHarvestProcessed = ({ mutate, id, values }: Props) => {
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!hasPermission('harvests', 'remove_one_harvest_processed')}
+        disabled={!permissionsHarvest['remove_one_harvest_processed']}
       />
       <ActionModifyRecordFormDataTable
         action={handleModify}
-        disabled={!hasPermission('harvests', 'update_one_harvest_processed')}
+        disabled={!permissionsHarvest['update_one_harvest_processed']}
       />
     </DropDownMenuActions>
   );

@@ -31,7 +31,6 @@ import { memo, useEffect } from 'react';
 import { ConvertStringToDate } from '@/modules/core/helpers';
 import { z } from 'zod';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
-import { useAuthContext } from '@/auth';
 
 const formSchemaHarvestProcessed = z.object({
   date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
@@ -51,9 +50,8 @@ export const FormHarvestProcessed = memo(() => {
     setOpenDialog,
     harvestProcessed,
     setHarvestProcessed,
+    permissionsHarvest,
   } = useHarvestProcessedContext();
-
-  const { hasPermission } = useAuthContext();
 
   const formProcessed = useCreateForm({
     schema: formSchemaHarvestProcessed,
@@ -146,7 +144,7 @@ export const FormHarvestProcessed = memo(() => {
             variant="outline"
             size="icon"
             onClick={handleOpenDialogExtended}
-            disabled={!hasPermission('harvests', 'create_harvest_processed')}
+            disabled={!permissionsHarvest['create_harvest_processed']}
           >
             <Plus className="w-4 h-4" />
             <span className="sr-only">Crear nuevo registro</span>

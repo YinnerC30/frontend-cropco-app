@@ -15,13 +15,13 @@ import { SheetNavBar } from './SheetNavBar';
 import { useDialogStatus } from '../common/DialogStatusContext';
 
 export const HomeLayout = () => {
-  const { tokenSesion, isLogin } = useAuthContext();
+  const { tokenSession, isLogin } = useAuthContext();
 
   const { nameModulesUser } = useHome();
   const { isActiveDialog } = useDialogStatus();
 
   const query = useCheckAuthStatus({
-    token: tokenSesion,
+    token: tokenSession,
   });
 
   if (query.isLoading) {

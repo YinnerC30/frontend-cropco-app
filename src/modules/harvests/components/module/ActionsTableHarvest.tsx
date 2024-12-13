@@ -12,7 +12,8 @@ import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleCon
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 
 export const ActionsTableHarvest = ({ row }: any) => {
-  const { resetSelectionRows, hasPermission } = useHarvestModuleContext();
+  const { resetSelectionRows, /* hasPermission, */ permissionsHarvest } =
+    useHarvestModuleContext();
   const { id } = row.original;
   const { mutate } = useDeleteHarvest();
 
@@ -28,23 +29,23 @@ export const ActionsTableHarvest = ({ row }: any) => {
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!hasPermission('harvests', 'remove_one_harvest')}
+        disabled={!permissionsHarvest['remove_one_harvest']}
       />
       <ActionModifyRecord
         id={id}
         path={MODULE_HARVESTS_PATHS.Update + id}
-        disabled={!hasPermission('harvests', 'update_one_harvest')}
+        disabled={!permissionsHarvest['update_one_harvest']}
       />
       <ActionViewRecord
         id={id}
         path={MODULE_HARVESTS_PATHS.ViewOne + id}
-        disabled={!hasPermission('harvests', 'find_one_harvest')}
+        disabled={!permissionsHarvest['find_one_harvest']}
       />
       <ItemNavigate
         path={`../processed/view/${id}`}
         Icon={LayersIcon}
         name={'Inventario'}
-        disabled={!hasPermission('harvests', 'find_one_harvest')}
+        disabled={!permissionsHarvest['find_one_harvest']}
       />
     </DropDownMenuActions>
   );
