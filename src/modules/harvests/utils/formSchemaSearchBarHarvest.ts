@@ -1,7 +1,7 @@
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { z } from 'zod';
 
-const schemaForDate = z.object({
+export const schemaForDate = z.object({
   date: z.date().optional(),
   type_filter_date: z
     .nativeEnum(TypeFilterDate, {
@@ -19,7 +19,7 @@ const schemaForDate = z.object({
     .optional(),
 });
 
-const schemaForTotal = z.object({
+export const schemaForTotal = z.object({
   total: z.coerce.number().optional(),
   type_filter_total: z
     .nativeEnum(TypeFilterNumber, {
@@ -37,7 +37,7 @@ const schemaForTotal = z.object({
     .optional(),
 });
 
-const schemaForValuePay = z.object({
+export const schemaForValuePay = z.object({
   value_pay: z.coerce.number().optional(),
   type_filter_value_pay: z
     .nativeEnum(TypeFilterNumber, {

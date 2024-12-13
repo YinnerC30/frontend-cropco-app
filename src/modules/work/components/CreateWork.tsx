@@ -1,57 +1,45 @@
-import { ScrollArea, Separator } from "@/components";
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 
-import { useNavigate } from "react-router-dom";
-import { z } from "zod";
-import { usePostWork } from "../hooks/usePostUser";
-import { formSchemaWork } from "../utils/formSchemaWork";
+import { formSchemaWork } from '../utils/formSchemaWork';
 
-import { BreadCrumb } from "@/modules/core/components/";
-import { useAppDispatch } from "@/redux/store";
-import { useEffect } from "react";
+import { BreadCrumb } from '@/modules/core/components/';
 
-import { WorkDetail } from "../interfaces/WorkDetail";
-import { reset } from "../utils/workSlice";
-import { FormWork } from "./form/FormWork";
+import { usePostWork } from '../hooks/mutations/usePostUser';
+import { MODULE_WORKS_PATHS } from '../routes/pathRoutes';
+import FormWork from './forms/work/FormWork';
 
 export const CreateWork = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(reset());
-  }, []);
+  const { mutate, isPending } = usePostWork();
 
-  const { mutate, isSuccess, isPending } = usePostWork();
-
-  const onSubmit = async (
-    values: z.infer<typeof formSchemaWork>,
-    total: number,
-    details: WorkDetail[]
-  ) => {
-    mutate({
-      ...values,
-      total,
-      details: details.map(({ id, ...rest }) => ({
-        ...rest,
-        employee: { id: rest.employee.id },
-      })),
-    });
+  const onSubmit = async (values: z.infer<typeof formSchemaWork>) => {
+    mutate(
+      {
+        ...values,
+        details: values.details.map(({ id, ...rest }: any) => ({
+          ...rest,
+          employee: { id: rest.employee.id },
+        })),
+      },
+      {
+        onSuccess: () => {
+          navigate('../view/all');
+        },
+      }
+    );
   };
-
-  if (isSuccess) {
-    navigate("../view/all");
-  }
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/works/view/all", name: "Trabajos" }]}
+        items={[{ link: MODULE_WORKS_PATHS.ViewAll, name: 'Trabajos' }]}
         finalItem={`Registro`}
       />
-      <Separator className="my-2" />
-      <ScrollArea type="auto" className="h-[80vh] w-full  mb-10">
-        <FormWork isSubmitting={isPending} onSubmit={onSubmit} />
-      </ScrollArea>
+
+      <FormWork isSubmitting={isPending} onSubmit={onSubmit} />
     </>
   );
 };
+export default CreateWork;

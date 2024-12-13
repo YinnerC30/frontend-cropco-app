@@ -1,7 +1,11 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { toast } from "sonner";
-import { deleteWork } from "../services/deleteWork";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { toast } from 'sonner';
+
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+
+export const deleteWork = async (id: string) =>
+  await cropcoAPI.delete(`${pathsCropco.works}/remove/one/${id}`);
 
 export const useDeleteWork = () => {
   const queryClient = useQueryClient();
@@ -9,7 +13,7 @@ export const useDeleteWork = () => {
   const mutation = useMutation({
     mutationFn: deleteWork,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["works"] });
+      queryClient.invalidateQueries({ queryKey: ['works'] });
       toast.success(`Trabajo eliminado`);
     },
     onError: (error: AxiosError) => {

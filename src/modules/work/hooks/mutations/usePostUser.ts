@@ -2,11 +2,16 @@ import {
   UseMutationResult,
   useMutation,
   useQueryClient,
-} from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { toast } from "sonner";
-import { Work } from "../interfaces/Work";
-import { createWork } from "../services/createWork";
+} from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { toast } from 'sonner';
+import { Work } from '../../interfaces/Work';
+
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+
+export async function createWork(work: Work): Promise<Work> {
+  return await cropcoAPI.post(`${pathsCropco.works}/create`, work);
+}
 
 export function usePostWork(): UseMutationResult<
   Work,
@@ -18,7 +23,7 @@ export function usePostWork(): UseMutationResult<
   const mutation = useMutation({
     mutationFn: createWork,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["works"] });
+      queryClient.invalidateQueries({ queryKey: ['works'] });
       toast.success(`Trabajo creado`);
     },
     onError: (error: AxiosError) => {

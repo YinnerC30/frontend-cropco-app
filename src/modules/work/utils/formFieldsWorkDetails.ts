@@ -1,6 +1,6 @@
 import { CustomFormField } from "@/modules/core/interfaces/form/CustomFormField";
 
-export const formFieldsWorkDetails: Record<string, CustomFormField> = {
+export const formFieldsWorkDetail: Record<string, CustomFormField> = {
   value_pay: {
     name: "value_pay",
     label: "Valor a pagar:",

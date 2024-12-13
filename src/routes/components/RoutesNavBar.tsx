@@ -4,6 +4,7 @@ import {
   Contact,
   Leaf,
   Monitor,
+  Pickaxe,
   PillIcon,
   Tractor,
   User,
@@ -65,18 +66,19 @@ export const routes: Route[] = [
     Icon: <Tractor />,
     name_module: 'harvests',
   },
+  {
+    label: 'Trabajos',
+    path: 'works/view/all',
+    Icon: <Pickaxe />,
+    name_module: 'works',
+  },
   // {
   //   label: 'Ventas',
   //   path: 'sales/view/all',
   //   Icon: <CircleDollarSign />,
   //   name_module: 'sales',
   // },
-  // {
-  //   label: 'Trabajos',
-  //   path: 'works/view/all',
-  //   Icon: <Pickaxe />,
-  //   name_module: 'works',
-  // },
+  
   // {
   //   label: 'Pagos',
   //   path: 'payments/view/all',
