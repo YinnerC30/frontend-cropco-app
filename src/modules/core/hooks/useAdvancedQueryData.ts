@@ -7,7 +7,7 @@ interface Props {
 export const useAdvancedQueryData = ({ params }: Props) => {
   const [searchParams] = useSearchParams();
 
-  const data = params.reduce((acc, param) => {
+  const paramsValues = params.reduce((acc, param) => {
     if (searchParams.has(param)) {
       acc[param] = searchParams.get(param);
     } else {
@@ -16,5 +16,5 @@ export const useAdvancedQueryData = ({ params }: Props) => {
     return acc;
   }, {} as Record<string, string | null | undefined>);
 
-  return { data };
+  return { paramsValues };
 };

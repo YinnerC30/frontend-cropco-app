@@ -159,7 +159,9 @@ export const AuthProvider = ({ children }: any) => {
     return module?.actions.map((action: Action) => action.name) ?? [];
   };
 
-  const validatePermissionsInModule = (moduleName: string) => {
+  const validatePermissionsInModule = (
+    moduleName: string
+  ): Record<string, boolean> => {
     const userActions = data[moduleName].actions;
     const moduleActions = getNameActionsModule(moduleName);
 

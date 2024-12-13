@@ -7,17 +7,29 @@ import {
 
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
+import { useDeleteBulkHarvests } from '../../hooks/mutations/useDeleteBulkHarvests';
 
 export const HarvestModuleActions = () => {
   const {
     query,
     hasSelectedRecords,
     resetSelectionRows,
-    handleDeleteBulkHarvests,
-    isPending,
-    /*     hasPermission, */
     permissionsHarvest,
+    getIdsToRowsSelected,
   } = useHarvestModuleContext();
+
+  const { mutate, isPending } = useDeleteBulkHarvests();
+
+  const handleDeleteBulkHarvests = () => {
+    mutate(
+      { harvestIds: getIdsToRowsSelected() },
+      {
+        onSuccess: () => {
+          resetSelectionRows();
+        },
+      }
+    );
+  };
 
   return (
     <div className="flex justify-between">

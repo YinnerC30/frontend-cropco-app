@@ -73,8 +73,7 @@ const dateFilterOptions = [
 ];
 
 export const HarvestModuleSearchbar = () => {
-  const { paramsQuery, /* hasPermission, */ permissionsHarvest } =
-    useHarvestModuleContext();
+  const { paramsQuery, permissionsHarvest } = useHarvestModuleContext();
   const readOnly = !permissionsHarvest['find_all_harvests'];
   const navigate = useNavigate();
   const { query: queryCrops } = useGetAllCropsWithHarvest({
