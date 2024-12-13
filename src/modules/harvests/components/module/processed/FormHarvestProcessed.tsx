@@ -138,19 +138,18 @@ export const FormHarvestProcessed = memo(() => {
 
   return (
     <div>
-      <div className="w-[600px] flex justify-end mt-2">
-        <ToolTipTemplate content={'Crear registro'}>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={handleOpenDialogExtended}
-            disabled={!permissionsHarvest['create_harvest_processed']}
-          >
-            <Plus className="w-4 h-4" />
-            <span className="sr-only">Crear nuevo registro</span>
-          </Button>
-        </ToolTipTemplate>
-      </div>
+      <ToolTipTemplate content={'Crear registro'}>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={handleOpenDialogExtended}
+          disabled={!permissionsHarvest['create_harvest_processed']}
+        >
+          <Plus className="w-4 h-4" />
+          <span className="sr-only">Crear nuevo registro</span>
+        </Button>
+      </ToolTipTemplate>
+
       <Dialog open={openDialog} onOpenChange={setOpenDialog} modal={false}>
         <DialogContent
           className="sm:max-w-[425px]"

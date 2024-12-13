@@ -1,9 +1,7 @@
-import { Label } from 'recharts';
-import { FormHarvestProcessed } from './FormHarvestProcessed';
-import HarvestProcessedDataTable from './HarvestProcessedDataTable';
-import { HarvestProcessedFields } from './HarvestProcessedFields';
 import { Loading } from '@/modules/core/components';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
+import HarvestProcessedDataTable from './HarvestProcessedDataTable';
+import { HarvestProcessedFields } from './HarvestProcessedFields';
 
 export const HarvestProcessedUnion = () => {
   const { isLoading } = useHarvestProcessedContext();
@@ -16,20 +14,13 @@ export const HarvestProcessedUnion = () => {
     );
   }
   return (
-    <div className="flex justify-evenly">
-      <div className="w-[500px]">
+    <div className="flex flex-col gap-4 md:flex-row md:justify-evenly">
+      <div className="w-auto">
         <HarvestProcessedFields />
       </div>
-      {/* <Separator className="my-4" /> */}
-      <div className="w-[600px] ">
-        <Label>
-          A continuación registre de forma individual la cosecha procesada que
-          ha salido hasta el momento:
-        </Label>
-        <div className="flex flex-col items-center justify-center ">
-          <FormHarvestProcessed />
-          <HarvestProcessedDataTable />
-        </div>
+
+      <div className="md:w-[40%]">
+        <HarvestProcessedDataTable />
       </div>
     </div>
   );

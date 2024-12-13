@@ -90,6 +90,7 @@ export const HarvestProcessedFields = () => {
           name={'observation'}
           placeholder={formFieldsHarvestProcessed.observation.placeholder}
           readOnly={true}
+          className='w-[300px]'
         />
 
         <FormFieldInput
