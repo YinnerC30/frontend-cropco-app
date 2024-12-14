@@ -1,7 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
-import { deleteSale } from "../services/deleteSale";
+
+import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
+
+export const deleteSale = async (id: string) =>
+  await cropcoAPI.delete(`${pathsCropco.sales}/remove/one/${id}`);
+
 
 export const useDeleteSale = () => {
   const queryClient = useQueryClient();

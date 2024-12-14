@@ -5,6 +5,6 @@ export interface Sale {
   date: Date;
   quantity: number;
   total: number;
-  is_receivable: boolean;
+  
   details: SaleDetail[];
 }

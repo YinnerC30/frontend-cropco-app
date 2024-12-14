@@ -1,12 +1,11 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { ErrorLoading, Loading } from "@/modules/core/components";
-import { useParams } from "react-router-dom";
-import { useGetSale } from "../hooks";
+import { ErrorLoading, Loading } from '@/modules/core/components';
+import { useParams } from 'react-router-dom';
+import { useGetSale } from '../hooks';
 
-import { BreadCrumb } from "@/modules/core/components/";
-import { FormSale } from "./forms/FormSale";
-import { ConvertStringToDate } from "@/modules/core/helpers/conversion/ConvertStringToDate";
+import { BreadCrumb } from '@/modules/core/components/';
+import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
+import { MODULE_SALES_PATHS } from '../routes/pathRoutes';
+import { FormSale } from './forms/sale/FormSale';
 
 export const ViewSale = () => {
   const { id } = useParams();
@@ -20,21 +19,18 @@ export const ViewSale = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/sales/view/all", name: "Ventas" }]}
+        items={[{ link: MODULE_SALES_PATHS.ViewAll, name: 'Ventas' }]}
         finalItem={`Información de la venta`}
       />
 
-      <Separator className="my-2" />
-      <ScrollArea className="w-full h-[80vh]">
-        {/* Formulario principal */}
-        <FormSale
-          defaultValues={{
-            ...data,
-            date: ConvertStringToDate(data.date),
-          }}
-          readOnly
-        />
-      </ScrollArea>
+      {/* Formulario principal */}
+      <FormSale
+        defaultValues={{
+          ...data,
+          date: ConvertStringToDate(data.date),
+        }}
+        readOnly
+      />
     </>
   );
 };

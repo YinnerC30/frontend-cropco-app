@@ -15,6 +15,7 @@ import { RoutesController } from './components';
 import { harvestRoutes } from '@/modules/harvests/routes/harvestRoutes';
 import { FormChangeProvider } from '@/modules/core/components';
 import { workRoutes } from '@/modules/work/routes/workRoutes';
+import { saleRoutes } from '@/modules/sales/routes/salesRoutes';
 
 export const Router = createBrowserRouter([
   {
@@ -54,7 +55,7 @@ export const Router = createBrowserRouter([
           supplyRoutes,
           harvestRoutes,
           workRoutes,
-          // saleRoutes,
+          saleRoutes,
           // paymentsRoutes,
           // shoppingRoutes,
           // consumptionRoutes,

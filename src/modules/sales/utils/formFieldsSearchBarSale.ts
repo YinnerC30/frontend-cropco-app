@@ -7,8 +7,8 @@ export const formFieldsSearchBarSale: Record<string, CustomFormField> = {
     placeholder: "",
     description: "Activa la opción para filtrar por este modo",
   },
-  date_time_selection: {
-    name: "date_time_selection",
+  type_filter_date: {
+    name: "type_filter_date",
     label: "Tiempo de la fecha:",
     placeholder: "Selecciona una opción",
     description: "Filtrar registros por antes o después de la fecha",
@@ -25,8 +25,8 @@ export const formFieldsSearchBarSale: Record<string, CustomFormField> = {
     placeholder: "",
     description: "Activa la opción para filtrar por este modo",
   },
-  minor_or_major_selection: {
-    name: "minor_or_major_selection",
+  type_filter_total: {
+    name: "type_filter_total",
     label: "Valor menor o mayor a:",
     placeholder: "Selecciona una opción",
     description: "Filtrar registros por menor o mayor del valor",
@@ -43,8 +43,8 @@ export const formFieldsSearchBarSale: Record<string, CustomFormField> = {
     placeholder: "",
     description: "Activa la opción para filtrar por este modo",
   },
-  minor_or_major_quantity_selection: {
-    name: "minor_or_major_quantity_selection",
+  type_filter_quantity: {
+    name: "type_filter_quantity",
     label: "Valor menor o mayor a:",
     placeholder: "Selecciona una opción",
     description: "Filtrar registros por menor o mayor del valor",

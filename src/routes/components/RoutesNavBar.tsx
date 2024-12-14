@@ -1,6 +1,7 @@
 import {
   Blocks,
   BookUser,
+  CircleDollarSign,
   Contact,
   Leaf,
   Monitor,
@@ -72,13 +73,13 @@ export const routes: Route[] = [
     Icon: <Pickaxe />,
     name_module: 'works',
   },
-  // {
-  //   label: 'Ventas',
-  //   path: 'sales/view/all',
-  //   Icon: <CircleDollarSign />,
-  //   name_module: 'sales',
-  // },
-  
+  {
+    label: 'Ventas',
+    path: 'sales/view/all',
+    Icon: <CircleDollarSign />,
+    name_module: 'sales',
+  },
+
   // {
   //   label: 'Pagos',
   //   path: 'payments/view/all',

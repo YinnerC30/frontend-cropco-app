@@ -7,4 +7,5 @@ export interface SaleDetail {
   sale?: ObjectWithId;
   crop: ObjectWithId;
   client: ObjectWithId;
+  is_receivable: boolean;
 }
