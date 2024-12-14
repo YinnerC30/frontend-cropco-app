@@ -15,6 +15,7 @@ export const CreateSale = () => {
   const navigate = useNavigate();
 
   const onSubmitSale = (values: z.infer<typeof formSchemaSale>) => {
+    console.log(values);
     mutate(
       {
         ...values,

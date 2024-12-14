@@ -20,14 +20,15 @@ export const ModifySale = () => {
 
   // Handle form submission
   const onSubmitSale = (values: z.infer<typeof formSchemaSale>) => {
+    console.log(values);
     mutate(
       {
         id,
         ...values,
-        details: values.details.map(({ id, ...rest }: SaleDetail) => ({
-          ...rest,
-          client: { id: rest.client.id },
-          crop: { id: rest.crop.id },
+        details: values.details.map((saleDetail: SaleDetail) => ({
+          ...saleDetail,
+          client: { id: saleDetail.client.id },
+          crop: { id: saleDetail.crop.id },
         })),
       },
       {

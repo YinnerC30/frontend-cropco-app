@@ -1,6 +1,11 @@
 import { z } from 'zod';
 
 export const formSchemaSaleDetails = z.object({
+  // id: z
+  //   .string()
+  //   .uuid({
+  //     message: 'El identificador del registro debe ser un UUID válido.',
+  //   }).optional(),
   crop: z.object({
     id: z
       .string({

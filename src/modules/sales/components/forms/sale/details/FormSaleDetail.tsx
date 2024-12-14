@@ -57,7 +57,8 @@ export const FormSaleDetail = () => {
 
       toast.success('Registro añadido');
     } else {
-      modifySaleDetail({ ...values, id: saleDetail.id });
+      const record = { ...values, id: saleDetail.id };
+      modifySaleDetail(record);
       toast.success('Registro actualizado');
     }
 

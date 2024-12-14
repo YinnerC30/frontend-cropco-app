@@ -24,6 +24,7 @@ import { columnsSaleDetail } from './details/ColumnsTableSaleDetail';
 export const FormSaleContext = createContext<any>(null);
 
 export const defaultValuesSaleDetail: SaleDetail | any = {
+  id: '',
   client: {
     id: '',
     first_name: '',
@@ -48,18 +49,26 @@ export const FormSaleProvider = ({
   const detailsDefaultValues = defaultValues?.details ?? [];
   const [detailsSale, setDetailsSale] = useState(detailsDefaultValues);
 
+  console.log(detailsSale);
+
   const removeSaleDetail = (saleDetail: SaleDetail) => {
     setDetailsSale((details: any) =>
       details.filter((detail: SaleDetail) => detail.id !== saleDetail.id)
     );
   };
 
+  const formSale = useCreateForm({
+    schema: formSchemaSale,
+    defaultValues,
+  });
+
   const modifySaleDetail = (saleDetail: SaleDetail) => {
-    setDetailsSale((details = []) =>
-      details.map((item: any) =>
-        item.id !== saleDetail.id ? item : saleDetail
-      )
-    );
+    const data = detailsSale.filter((item: any) => item.id !== saleDetail.id);
+    setDetailsSale([...data, saleDetail]);
+    formSale.setValue('details', [...data, saleDetail], {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
   };
 
   const resetSaleDetails = () => {
@@ -75,11 +84,6 @@ export const FormSaleProvider = ({
       Number(quantity) + Number(detail.quantity),
     0
   );
-
-  const formSale = useCreateForm({
-    schema: formSchemaSale,
-    defaultValues,
-  });
 
   const executeValidationFormSale = async () => {
     return await formSale.trigger();
@@ -213,6 +217,8 @@ export const FormSaleProvider = ({
   }, [total, quantity]);
 
   console.log({ total, quantity, detailsSale, formSale });
+
+  console.log(formSale.getValues('details'));
 
   return (
     <FormSaleContext.Provider
