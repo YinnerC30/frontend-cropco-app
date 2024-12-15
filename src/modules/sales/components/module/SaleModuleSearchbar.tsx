@@ -122,12 +122,13 @@ export const SaleModuleSearchbar = () => {
 
     setAppliedFilters(filters);
     setOpenDropDownMenu(false);
-    handleSearch(form.watch());
+    await handleSearch(form.watch());
     return true;
   };
 
   const handleClearErrorsForm = (name = '') => {
     form.clearErrors(name);
+    form.resetField(name);
   };
 
   const handleRemoveFilter = (filter: FilterSearchBar) => {
@@ -221,91 +222,87 @@ export const SaleModuleSearchbar = () => {
 
   return (
     <div className="flex flex-col items-start justify-start w-[1000px]">
-      <DropdownMenu open={openDropDownMenu} modal={false}>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSearch)}
-            id="formSearch"
-            className="flex flex-col w-full"
-          >
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleSearch)}
+          id="formSearch"
+          className="flex flex-col w-full"
+        >
+          <DropdownMenu open={openDropDownMenu} modal={false}>
             <div className="flex flex-col items-center justify-center w-screen md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
-                <div className="flex gap-2">
-                  <Popover open={openPopover} onOpenChange={setOpenPopover}>
-                    <PopoverTrigger asChild>
-                      <Button
-                        className="w-auto lg:w-[300px]"
-                        variant={'outline'}
-                        onClick={() => setOpenPopover(true)}
-                      >
-                        {!form.getValues('filter_by_date.date')
-                          ? 'Filtrar por fecha'
-                          : formatTypeFilterDate(
-                              form.getValues(
-                                'filter_by_date.type_filter_date'
-                              ) as TypeFilterDate
-                            ) +
-                            format(
-                              form.getValues('filter_by_date.date'),
-                              'PPP',
-                              {
-                                locale: es,
-                              }
-                            )}
-                        <Calendar className="w-4 h-4 ml-4" />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                      <FormFieldSelect
-                        items={dateFilterOptions}
-                        readOnly={false}
-                        {...formFieldsSearchBarSale.type_filter_date}
-                        name="filter_by_date.type_filter_date"
-                        control={form.control}
-                      />
-                      <FormFieldCalendar
-                        readOnly={false}
-                        {...formFieldsSearchBarSale.date}
-                        control={form.control}
-                        name="filter_by_date.date"
-                        className="w-[95%]"
-                      />
-                      <div className="flex justify-center gap-2">
-                        <Button
-                          className="self-end w-24 mt-4"
-                          onClick={async (e) => {
-                            e.preventDefault();
-                            const result = handleAddFilter('filter_by_date');
-                            setOpenPopover(!result);
-                          }}
-                        >
-                          Aplicar
-                        </Button>
-                        <Button
-                          variant={'destructive'}
-                          className="self-end w-24 mt-4"
-                          onClick={() => {
-                            setOpenPopover(false);
-                            handleClearErrorsForm('filter_by_date');
-                          }}
-                        >
-                          Cerrar
-                        </Button>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-
-                  <ToolTipTemplate content="Borrar consulta">
+                <Popover open={openPopover} onOpenChange={setOpenPopover}>
+                  <PopoverTrigger asChild>
                     <Button
-                      variant="outline"
-                      onClick={handleResetForm}
-                      size={'icon'}
-                      disabled={readOnly}
+                      className="w-auto lg:w-[300px]"
+                      variant={'outline'}
+                      onClick={() => setOpenPopover(true)}
                     >
-                      <X className="w-4 h-4" />
+                      {!form.getValues('filter_by_date.date')
+                        ? 'Filtrar por fecha'
+                        : formatTypeFilterDate(
+                            form.getValues(
+                              'filter_by_date.type_filter_date'
+                            ) as TypeFilterDate
+                          ) +
+                          format(form.getValues('filter_by_date.date'), 'PPP', {
+                            locale: es,
+                          })}
+                      <Calendar className="w-4 h-4 ml-4" />
                     </Button>
-                  </ToolTipTemplate>
-                </div>
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <FormFieldSelect
+                      items={dateFilterOptions}
+                      readOnly={false}
+                      {...formFieldsSearchBarSale.type_filter_date}
+                      name="filter_by_date.type_filter_date"
+                      control={form.control}
+                    />
+                    <FormFieldCalendar
+                      readOnly={false}
+                      {...formFieldsSearchBarSale.date}
+                      control={form.control}
+                      name="filter_by_date.date"
+                      className="w-[95%]"
+                    />
+                    <div className="flex justify-center gap-2">
+                      <Button
+                        className="self-end w-24 mt-4"
+                        onClick={async (e) => {
+                          e.preventDefault();
+                          const result = await handleAddFilter(
+                            'filter_by_date'
+                          );
+                          setOpenPopover(!result);
+                        }}
+                      >
+                        Aplicar
+                      </Button>
+                      <Button
+                        variant={'destructive'}
+                        className="self-end w-24 mt-4"
+                        onClick={() => {
+                          setOpenPopover(false);
+                          handleClearErrorsForm('filter_by_date');
+                        }}
+                      >
+                        Cerrar
+                      </Button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+
+                <ToolTipTemplate content="Borrar consulta">
+                  <Button
+                    variant="outline"
+                    onClick={handleResetForm}
+                    size={'icon'}
+                    disabled={readOnly}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </ToolTipTemplate>
               </div>
 
               <div className="self-start my-2 sm:self-center sm:m-0">
@@ -384,14 +381,13 @@ export const SaleModuleSearchbar = () => {
                 }
               />
             </DropdownMenuContent>
-
-            <FiltersBadgedList
-              filters={appliedFilters}
-              handleRemove={handleRemoveFilter}
-            />
-          </form>
-        </Form>
-      </DropdownMenu>
+          </DropdownMenu>
+          <FiltersBadgedList
+            filters={appliedFilters}
+            handleRemove={handleRemoveFilter}
+          />
+        </form>
+      </Form>
     </div>
   );
 };

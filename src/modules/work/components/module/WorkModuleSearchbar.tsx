@@ -28,13 +28,13 @@ import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/format
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { Filter, Search, X } from 'lucide-react';
+import { Filter, X } from 'lucide-react';
 import { memo, useCallback, useState } from 'react';
 
-import { formFieldsSearchBarWork } from '../../utils/formFieldsSearchBarWork';
-import { formSchemaSearchBarWork } from '../../utils/formSchemaSearchBarWork';
 import { useWorkModuleContext } from '../../hooks/context/useWorkModuleContext';
 import { MODULE_WORKS_PATHS } from '../../routes/pathRoutes';
+import { formFieldsSearchBarWork } from '../../utils/formFieldsSearchBarWork';
+import { formSchemaSearchBarWork } from '../../utils/formSchemaSearchBarWork';
 
 interface FilterSearchBar {
   key: string;
