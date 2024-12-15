@@ -7,7 +7,7 @@ import { WorkModuleSearchbar } from './WorkModuleSearchbar';
 export const WorkModule = () => {
   return (
     <WorksModuleProvider>
-      <BreadCrumb finalItem="Trabajos" />
+      <BreadCrumb finalItem="Trabajos" hiddenSeparator/>
       <WorkModuleSearchbar />
       <WorkModuleActions />
       <WorkModuleTable />

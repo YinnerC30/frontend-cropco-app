@@ -29,7 +29,7 @@ import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/format
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { Calendar, Filter, Search, X } from 'lucide-react';
+import { Calendar, Filter, X } from 'lucide-react';
 import { memo, useState } from 'react';
 
 import { Popover } from '@radix-ui/react-popover';
@@ -88,6 +88,7 @@ export const SaleModuleSearchbar = () => {
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
+  const [openPopover, setOpenPopover] = useState(false);
 
   const handleAddFilter = async (name = '') => {
     const isValid = await form.trigger(name);
@@ -218,8 +219,6 @@ export const SaleModuleSearchbar = () => {
     toast.success('Se han limpiado los filtros');
   };
 
-  const [openPopover, setOpenPopover] = useState(false);
-
   return (
     <div className="flex flex-col items-start justify-start w-[1000px]">
       <DropdownMenu open={openDropDownMenu} modal={false}>
@@ -235,7 +234,7 @@ export const SaleModuleSearchbar = () => {
                   <Popover open={openPopover} onOpenChange={setOpenPopover}>
                     <PopoverTrigger asChild>
                       <Button
-                        className="w-auto"
+                        className="w-auto lg:w-[300px]"
                         variant={'outline'}
                         onClick={() => setOpenPopover(true)}
                       >
@@ -295,17 +294,6 @@ export const SaleModuleSearchbar = () => {
                       </div>
                     </PopoverContent>
                   </Popover>
-
-                  <ToolTipTemplate content="Ejecutar consulta">
-                    <Button
-                      type="submit"
-                      form="formSearch"
-                      size={'icon'}
-                      disabled={readOnly}
-                    >
-                      <Search className="w-4 h-4" />
-                    </Button>
-                  </ToolTipTemplate>
 
                   <ToolTipTemplate content="Borrar consulta">
                     <Button

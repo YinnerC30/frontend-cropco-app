@@ -7,7 +7,7 @@ import { HarvestModuleSearchbar } from './HarvestModuleSearchbar';
 export const HarvestModule = () => {
   return (
     <HarvestsModuleProvider>
-      <BreadCrumb finalItem="Cosechas" />
+      <BreadCrumb finalItem="Cosechas" hiddenSeparator />
       <HarvestModuleSearchbar />
       <HarvestModuleActions />
       <HarvestModuleTable />

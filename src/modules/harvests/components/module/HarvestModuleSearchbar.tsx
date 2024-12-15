@@ -287,17 +287,6 @@ export const HarvestModuleSearchbar = () => {
                   actionFinal={() => handleAddFilter('crop.id')}
                 />
                 <div className="flex gap-2">
-                  <ToolTipTemplate content="Ejecutar consulta">
-                    <Button
-                      type="submit"
-                      form="formSearch"
-                      size={'icon'}
-                      disabled={readOnly}
-                    >
-                      <Search className="w-4 h-4" />
-                    </Button>
-                  </ToolTipTemplate>
-
                   <ToolTipTemplate content="Borrar consulta">
                     <Button
                       variant="outline"

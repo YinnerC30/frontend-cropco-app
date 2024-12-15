@@ -1,11 +1,10 @@
 import { ColumnDef } from '@tanstack/react-table';
 
+import { ButtonHeaderTable } from '@/modules/core/components';
+import { FormatNumber } from '@/modules/core/helpers';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { formFieldsSale } from '../../utils/formFieldsSale';
-import { Badge, Button } from '@/components';
-import { ArrowUpDown } from 'lucide-react';
-import { FormatNumber } from '@/modules/core/helpers';
 
 export const columnsSale: ColumnDef<any>[] = [
   {
@@ -15,14 +14,7 @@ export const columnsSale: ColumnDef<any>[] = [
     },
     header: ({ column }: any) => {
       return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {formFieldsSale.date.label}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
+        <ButtonHeaderTable column={column} label={formFieldsSale.date.label} />
       );
     },
   },
@@ -33,14 +25,10 @@ export const columnsSale: ColumnDef<any>[] = [
     },
     header: ({ column }: any) => {
       return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {formFieldsSale.quantity.label}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
+        <ButtonHeaderTable
+          column={column}
+          label={formFieldsSale.quantity.label}
+        />
       );
     },
   },
@@ -51,14 +39,7 @@ export const columnsSale: ColumnDef<any>[] = [
     },
     header: ({ column }: any) => {
       return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Total:
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
+        <ButtonHeaderTable column={column} label={formFieldsSale.total.label} />
       );
     },
   },

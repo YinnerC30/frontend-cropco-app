@@ -7,7 +7,7 @@ import { SaleModuleSearchbar } from './SaleModuleSearchbar';
 export const SaleModule = () => {
   return (
     <SalesModuleProvider>
-      <BreadCrumb finalItem="Ventas" />
+      <BreadCrumb finalItem="Ventas" hiddenSeparator />
       <SaleModuleSearchbar />
       <SaleModuleActions />
       <SaleModuleTable />

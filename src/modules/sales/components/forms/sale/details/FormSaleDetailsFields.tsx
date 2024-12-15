@@ -4,8 +4,6 @@ import {
   FormFieldCommand,
   FormFieldInput,
 } from '@/modules/core/components';
-import { useGetAllCrops } from '@/modules/crops/hooks';
-import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 import { useFormSaleContext } from '@/modules/sales/hooks';
 import { formFieldsSaleDetail } from '@/modules/sales/utils';
 
