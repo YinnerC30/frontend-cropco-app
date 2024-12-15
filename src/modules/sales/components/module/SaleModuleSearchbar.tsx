@@ -238,7 +238,8 @@ export const SaleModuleSearchbar = () => {
                       variant={'outline'}
                       onClick={() => setOpenPopover(true)}
                     >
-                      {!form.getValues('filter_by_date.date')
+                      {!form.getValues('filter_by_date.date') ||
+                      !form.getValues('filter_by_date.type_filter_date')
                         ? 'Filtrar por fecha'
                         : formatTypeFilterDate(
                             form.getValues(
