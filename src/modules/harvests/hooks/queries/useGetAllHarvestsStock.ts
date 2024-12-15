@@ -18,7 +18,7 @@ export const getHarvestStock = async ({
   params.append('offset', offset.toString());
 
   const { data } = await cropcoAPI.get(
-    `${pathsCropco.harvestsStock}/stock/all?${params}`
+    `${pathsCropco.harvestsStock}/all?${params}`
   );
   return data;
 };

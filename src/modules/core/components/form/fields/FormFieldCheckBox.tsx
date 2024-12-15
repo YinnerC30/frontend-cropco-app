@@ -10,7 +10,14 @@ import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 import { memo } from 'react';
 
 export const FormFieldCheckBox = memo(
-  ({ control, name, label, description, readOnly }: FormFieldProps) => {
+  ({
+    control,
+    name,
+    label,
+    description,
+    readOnly,
+    className,
+  }: FormFieldProps) => {
     return (
       <FormField
         control={control}
@@ -19,7 +26,9 @@ export const FormFieldCheckBox = memo(
           <FormItem>
             <FormLabel>{label}</FormLabel>
 
-            <div className="flex flex-row items-start p-4 space-x-3 space-y-0 border rounded-md w-[280px]">
+            <div
+              className={`flex flex-row items-start p-4 space-x-3 space-y-0 border rounded-md ${className}`}
+            >
               <FormControl>
                 <Checkbox
                   disabled={readOnly}

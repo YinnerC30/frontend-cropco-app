@@ -51,7 +51,7 @@ export const FormSaleDataTable = () => {
         />
 
         {/* Botones */}
-        <div className="flex w-full gap-2 pl-2 ml-16 sm:justify-end pr-7 sm:m-0">
+        <div className="flex justify-end sm:w-full gap-2 sm:m-0 w-[80%]">
           <ButtonClearSelection
             onClick={resetSelectionRows}
             visible={hasSelectedRecords}
@@ -73,7 +73,7 @@ export const FormSaleDataTable = () => {
 
         {/* Tabla */}
         <ScrollArea
-          className="h-max-[460px] w-[95%] sm:w-full p-1 border rounded-sm self-start"
+          className="h-max-[460px] w-screen sm:w-full p-1 border rounded-sm self-start"
           type="auto"
         >
           <FormDataTable

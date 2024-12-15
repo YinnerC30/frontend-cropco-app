@@ -104,9 +104,9 @@ export const FormWorkDetail = () => {
             <span className="sr-only">Close</span>
           </DialogClose>
           <DialogHeader>
-            <DialogTitle>Cosecha empleado</DialogTitle>
+            <DialogTitle>Trabajo del empleado</DialogTitle>
             <DialogDescription className="">
-              Información detallada de la cosecha realizada por el empleado
+              Información detallada del trabajo realizado por el empleado
             </DialogDescription>
           </DialogHeader>
 

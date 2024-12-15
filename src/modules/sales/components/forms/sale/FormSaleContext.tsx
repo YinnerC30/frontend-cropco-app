@@ -20,6 +20,7 @@ import { formSchemaSale } from '@/modules/sales/utils';
 import { formSchemaSaleDetails } from '@/modules/sales/utils/formSchemaSaleDetail';
 import { ActionsTableSaleDetail } from './details/ActionsTableSaleDetail';
 import { columnsSaleDetail } from './details/ColumnsTableSaleDetail';
+import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 
 export const FormSaleContext = createContext<any>(null);
 
@@ -125,15 +126,22 @@ export const FormSaleProvider = ({
   const formSaleDetail = useCreateForm({
     schema: formSchemaSaleDetails,
     defaultValues: saleDetail,
-    validationMode: 'onChange',
+    validationMode: 'onSubmit',
   });
 
   const { query: queryClients } = useGetAllClients('');
+
+  const { query: queryCrops } = useGetAllHarvestsStock('');
 
   const findClientName = (id: string): string => {
     return (
       queryClients?.data?.rows.find((item: Client) => item.id === id)
         ?.first_name || ''
+    );
+  };
+  const findCropName = (id: string): string => {
+    return (
+      queryCrops?.data?.rows.find((item: any) => item.id === id)?.name || ''
     );
   };
 
@@ -167,12 +175,15 @@ export const FormSaleProvider = ({
   const getCurrentDataSaleDetail = () => {
     const values = { ...formSaleDetail.getValues() };
     const clientIdForm = values?.client?.id;
+    const cropIdForm = values?.crop?.id;
     const nameClient = findClientName(clientIdForm);
+    const nameCrop = findCropName(cropIdForm);
     const data = {
       ...values,
       total: +values.total,
       quantity: +values.quantity,
       client: { id: clientIdForm, first_name: nameClient },
+      crop: { id: cropIdForm, name: nameCrop },
     };
     return data;
   };
@@ -254,6 +265,7 @@ export const FormSaleProvider = ({
         modifySaleDetail,
         resetSaleDetails,
         quantity,
+        queryCrops
       }}
     >
       {children}

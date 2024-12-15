@@ -58,7 +58,7 @@ export const pathsCropco: PathsCropco = {
   supplies: '/supplies',
   harvests: '/harvests',
   harvestsProcessed: '/harvests/processed',
-  harvestsStock: '/harvest/stock',
+  harvestsStock: '/harvests/stock',
   sales: '/sales',
   works: '/works',
   payments: '/payments',

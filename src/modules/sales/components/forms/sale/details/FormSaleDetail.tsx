@@ -105,9 +105,9 @@ export const FormSaleDetail = () => {
             <span className="sr-only">Close</span>
           </DialogClose>
           <DialogHeader>
-            <DialogTitle>Cosecha empleado</DialogTitle>
+            <DialogTitle>Venta a cliente</DialogTitle>
             <DialogDescription className="">
-              Información detallada de la cosecha realizada por el empleado
+              Información detallada de la venta realizada al cliente
             </DialogDescription>
           </DialogHeader>
 

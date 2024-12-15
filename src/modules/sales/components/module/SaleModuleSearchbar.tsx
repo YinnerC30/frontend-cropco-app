@@ -10,6 +10,8 @@ import {
   DropdownMenuTrigger,
   Form,
   Label,
+  PopoverContent,
+  PopoverTrigger,
 } from '@/components';
 import {
   FormFieldCalendar,
@@ -27,9 +29,10 @@ import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/format
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { Filter, Search, X } from 'lucide-react';
+import { Calendar, Filter, Search, X } from 'lucide-react';
 import { memo, useState } from 'react';
 
+import { Popover } from '@radix-ui/react-popover';
 import { useSaleModuleContext } from '../../hooks/context/useSaleModuleContext';
 import { MODULE_SALES_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarSale } from '../../utils/formFieldsSearchBarSale';
@@ -40,7 +43,6 @@ interface FilterSearchBar {
   label: string;
 }
 
-// Opciones predefinidas para Popover
 const numberFilterOptions = [
   {
     key: TypeFilterNumber.MIN,
@@ -91,27 +93,9 @@ export const SaleModuleSearchbar = () => {
     const isValid = await form.trigger(name);
     if (!isValid) return false;
 
-    const { filter_by_date, filter_by_total, filter_by_quantity } =
-      form.watch();
+    const { filter_by_total, filter_by_quantity } = form.watch();
 
     const filters: FilterSearchBar[] = [];
-
-    const { type_filter_date, date } = filter_by_date;
-
-    if (type_filter_date && date) {
-      const typeFilter = formatTypeFilterDate(
-        type_filter_date as TypeFilterDate
-      );
-
-      const formatDate = format(date, 'PPP', {
-        locale: es,
-      });
-
-      filters.push({
-        key: 'date',
-        label: `Fecha: ${typeFilter} ${formatDate}`,
-      });
-    }
 
     const { type_filter_total, total } = filter_by_total;
     if (type_filter_total && total) {
@@ -134,8 +118,6 @@ export const SaleModuleSearchbar = () => {
         label: `Cantidad: ${typeFilter} ${filter_by_quantity.quantity}`,
       });
     }
-
-    // TODO: IS_Receivable
 
     setAppliedFilters(filters);
     setOpenDropDownMenu(false);
@@ -167,11 +149,6 @@ export const SaleModuleSearchbar = () => {
           shouldDirty: false,
         });
         form.setValue('filter_by_quantity.quantity', 0, { shouldDirty: false });
-        break;
-      case 'is_receivable':
-        form.setValue('filter_by_is_receivable.is_receivable', undefined, {
-          shouldDirty: false,
-        });
         break;
     }
     handleSearch(form.watch());
@@ -212,14 +189,6 @@ export const SaleModuleSearchbar = () => {
       params.append('quantity', `${values.filter_by_quantity.quantity}`);
     }
 
-    if (values.filter_by_is_receivable.is_receivable) {
-      params.append('filter_by_is_receivable', 'true');
-      params.append(
-        'is_receivable',
-        `${values.filter_by_is_receivable.is_receivable}`
-      );
-    }
-
     navigate(`?${params.toString()}`);
   };
 
@@ -227,7 +196,6 @@ export const SaleModuleSearchbar = () => {
     setAppliedFilters([]);
     form.reset(
       {
-        crop: '',
         filter_by_date: {
           date: undefined,
           type_filter_date: TypeFilterDate.after,
@@ -240,9 +208,6 @@ export const SaleModuleSearchbar = () => {
           type_filter_quantity: TypeFilterNumber.MIN,
           quantity: 0,
         },
-        filter_by_is_receivable: {
-          is_receivable: 0,
-        },
       },
       {
         keepErrors: false,
@@ -252,6 +217,8 @@ export const SaleModuleSearchbar = () => {
     navigate(MODULE_SALES_PATHS.ViewAll);
     toast.success('Se han limpiado los filtros');
   };
+
+  const [openPopover, setOpenPopover] = useState(false);
 
   return (
     <div className="flex flex-col items-start justify-start w-[1000px]">
@@ -265,6 +232,70 @@ export const SaleModuleSearchbar = () => {
             <div className="flex flex-col items-center justify-center w-screen md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
                 <div className="flex gap-2">
+                  <Popover open={openPopover} onOpenChange={setOpenPopover}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        className="w-auto"
+                        variant={'outline'}
+                        onClick={() => setOpenPopover(true)}
+                      >
+                        {!form.getValues('filter_by_date.date')
+                          ? 'Filtrar por fecha'
+                          : formatTypeFilterDate(
+                              form.getValues(
+                                'filter_by_date.type_filter_date'
+                              ) as TypeFilterDate
+                            ) +
+                            format(
+                              form.getValues('filter_by_date.date'),
+                              'PPP',
+                              {
+                                locale: es,
+                              }
+                            )}
+                        <Calendar className="w-4 h-4 ml-4" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <FormFieldSelect
+                        items={dateFilterOptions}
+                        readOnly={false}
+                        {...formFieldsSearchBarSale.type_filter_date}
+                        name="filter_by_date.type_filter_date"
+                        control={form.control}
+                      />
+                      <FormFieldCalendar
+                        readOnly={false}
+                        {...formFieldsSearchBarSale.date}
+                        control={form.control}
+                        name="filter_by_date.date"
+                        className="w-[95%]"
+                      />
+                      <div className="flex justify-center gap-2">
+                        <Button
+                          className="self-end w-24 mt-4"
+                          onClick={async (e) => {
+                            e.preventDefault();
+                            const result = handleAddFilter('filter_by_date');
+                            setOpenPopover(!result);
+                          }}
+                        >
+                          Aplicar
+                        </Button>
+                        <Button
+                          variant={'destructive'}
+                          className="self-end w-24 mt-4"
+                          onClick={() => {
+                            setOpenPopover(false);
+                            handleClearErrorsForm('filter_by_date');
+                          }}
+                        >
+                          Cerrar
+                        </Button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+
                   <ToolTipTemplate content="Ejecutar consulta">
                     <Button
                       type="submit"
@@ -289,7 +320,7 @@ export const SaleModuleSearchbar = () => {
                 </div>
               </div>
 
-              <div className="self-start mb-2 sm:self-center sm:m-0">
+              <div className="self-start my-2 sm:self-center sm:m-0">
                 <ToolTipTemplate content="Filtros">
                   <DropdownMenuTrigger asChild>
                     <Button
@@ -316,29 +347,6 @@ export const SaleModuleSearchbar = () => {
               onCloseAutoFocus={(e) => e.preventDefault()}
             >
               <FilterDropdownItem
-                label={'Fecha'}
-                content={
-                  <>
-                    <FormFieldSelect
-                      items={dateFilterOptions}
-                      readOnly={false}
-                      {...formFieldsSearchBarSale.type_filter_date}
-                      name="filter_by_date.type_filter_date"
-                      control={form.control}
-                    />
-                    <FormFieldCalendar
-                      readOnly={false}
-                      {...formFieldsSearchBarSale.date}
-                      control={form.control}
-                      name="filter_by_date.date"
-                      className="w-[95%]"
-                    />
-                  </>
-                }
-                actionOnSave={() => handleAddFilter('filter_by_date')}
-                actionOnClose={() => handleClearErrorsForm('filter_by_date')}
-              />
-              <FilterDropdownItem
                 label={'Total'}
                 actionOnSave={() => handleAddFilter('filter_by_total')}
                 actionOnClose={() => handleClearErrorsForm('filter_by_total')}
@@ -361,6 +369,7 @@ export const SaleModuleSearchbar = () => {
                   </>
                 }
               />
+
               <FilterDropdownItem
                 label={'Cantidad'}
                 actionOnSave={() => handleAddFilter('filter_by_quantity')}
@@ -386,8 +395,6 @@ export const SaleModuleSearchbar = () => {
                   </>
                 }
               />
-
-              {/* TODO: Implementar is_receivable */}
             </DropdownMenuContent>
 
             <FiltersBadgedList

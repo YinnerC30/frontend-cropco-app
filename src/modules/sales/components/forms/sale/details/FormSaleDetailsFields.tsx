@@ -5,6 +5,7 @@ import {
   FormFieldInput,
 } from '@/modules/core/components';
 import { useGetAllCrops } from '@/modules/crops/hooks';
+import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 import { useFormSaleContext } from '@/modules/sales/hooks';
 import { formFieldsSaleDetail } from '@/modules/sales/utils';
 
@@ -17,13 +18,8 @@ export const FormSaleDetailsFields = () => {
     saleDetail,
     queryClients,
     readOnly,
+    queryCrops,
   } = useFormSaleContext();
-
-  const { query: queryCrops } = useGetAllCrops({
-    searchParameter: '',
-    allRecords: true,
-    canExecuteQuery: !readOnly,
-  });
 
   useEffect(() => {
     formSaleDetail.reset(saleDetail);

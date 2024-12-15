@@ -29,13 +29,11 @@ export const SalesModuleProvider = ({
       'type_filter_quantity',
       'quantity',
 
-      'filter_by_is_receivable',
-      'type_filter_is_receivable',
-      'is_receivable',
+      // 'filter_by_is_receivable',
+      // 'is_receivable',
     ],
   });
 
-  // FIX: Por corregir parametros hook
   const { query, pagination, setPagination } = useGetAllSales({
     ...paramsValues,
   });
@@ -64,7 +62,6 @@ export const SalesModuleProvider = ({
     // FIX: Corregir paramsQuery
     paramsQuery: {
       ...paramsValues,
-      crop: { id: paramsValues.crop },
       filter_by_date: {
         type_filter_date: paramsValues.type_filter_date,
         date: !paramsValues.date ? undefined : new Date(paramsValues.date),
@@ -77,6 +74,9 @@ export const SalesModuleProvider = ({
         type_filter_quantity: paramsValues.type_filter_quantity,
         quantity: !paramsValues.quantity ? 0 : paramsValues.quantity,
       },
+      // filter_by_is_receivable: {
+      //   is_receivable: undefined,
+      // },
     },
   };
 

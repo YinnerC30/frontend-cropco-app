@@ -5,6 +5,6 @@ export const formatTypeFilterDate = (value: TypeFilterDate) => {
     throw new Error('El valor de conversión es undefined');
   }
   const formatTypeFilterDate =
-    value === TypeFilterDate.after ? 'Despues del' : 'Antes del';
+    value === TypeFilterDate.after ? 'Despues del ' : 'Antes del ';
   return formatTypeFilterDate;
 };
