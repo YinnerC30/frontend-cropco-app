@@ -15,7 +15,7 @@ import ErrorPage from '@/routes/components/ErrorPage';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { HomeLayout } from '../components/home/HomeLayout';
 import { RoutesController } from './components';
-import { shoppingRoutes } from '@/modules/shopping/routes/Routes';
+import { shoppingRoutes } from '@/modules/shopping/routes/shoppingRoutes';
 
 export const Router = createBrowserRouter([
   {
@@ -52,7 +52,7 @@ export const Router = createBrowserRouter([
           harvestRoutes,
           workRoutes,
           saleRoutes,
-          // shoppingRoutes,
+          shoppingRoutes,
           // paymentsRoutes,
           // consumptionRoutes,
         ],

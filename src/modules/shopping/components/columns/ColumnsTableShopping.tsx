@@ -8,7 +8,7 @@ import { ArrowUpDown } from "lucide-react";
 import { ShoppingSupplies } from "../../interfaces/ShoppingSupplies";
 import { formFieldsShopping } from "../../utils/formFieldsShopping";
 import { ActionsTableShopping } from "./ActionsTableShopping";
-import { useDeleteShopping } from "../../hooks/useDeleteShopping";
+import { useDeleteShopping } from "../../hooks/mutations/useDeleteShopping";
 
 export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
   {

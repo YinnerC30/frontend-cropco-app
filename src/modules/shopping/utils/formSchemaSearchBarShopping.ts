@@ -1,38 +1,58 @@
-import { z } from "zod";
-import { TypeFilterDate } from "../../core/interfaces/general/TypeFilterDate";
-import { TypeFilterNumber } from "../../core/interfaces/general/TypeFilterNumber";
+import {
+  schemaForDate,
+  schemaForTotal,
+} from '@/modules/harvests/utils/formSchemaSearchBarHarvest';
+import { z } from 'zod';
 
 export const formSchemaSearchBarShopping = z.object({
-  filter_by_date: z.boolean().default(false).optional(),
-  date: z.date().optional(),
-  date_time_selection: z
-    .nativeEnum(TypeFilterDate, {
-      errorMap: (issue, _ctx) => {
-        switch (issue.code) {
-          case "invalid_type":
-            return { message: "Debe seleccionar una opción." };
-          case "invalid_enum_value":
-            return { message: "Debe seleccionar AFTER o BEFORE." };
-          default:
-            return { message: "Error en la selección de tiempo." };
+  filter_by_date: schemaForDate
+    .refine(
+      ({ date }: any) => {
+        if (!date) {
+          return false;
         }
+        return true;
       },
-    })
-    .optional(),
-  filter_by_total: z.boolean().default(false).optional(),
-  total: z.coerce.number().optional(),
-  minor_or_major_selection: z
-    .nativeEnum(TypeFilterNumber, {
-      errorMap: (issue, _ctx) => {
-        switch (issue.code) {
-          case "invalid_type":
-            return { message: "Debe seleccionar una opción." };
-          case "invalid_enum_value":
-            return { message: "Debe seleccionar MENOR o MAYOR." };
-          default:
-            return { message: "Error en la selección de tipo." };
+      {
+        message: 'Debes ingresar una fecha',
+        path: ['date'],
+      }
+    )
+    .refine(
+      ({ type_filter_date }: any) => {
+        if (!type_filter_date) {
+          return false;
         }
+        return true;
       },
-    })
-    .optional(),
+      {
+        message: 'Debes seleccionar una opción',
+        path: ['type_filter_date'],
+      }
+    ),
+  filter_by_total: schemaForTotal
+    .refine(
+      ({ total }: any) => {
+        if (total === undefined) {
+          return false;
+        }
+        return true;
+      },
+      {
+        message: 'Debes ingresar un valor',
+        path: ['total'],
+      }
+    )
+    .refine(
+      ({ type_filter_total }: any) => {
+        if (!type_filter_total) {
+          return false;
+        }
+        return true;
+      },
+      {
+        message: 'Debes seleccionar una opción',
+        path: ['type_filter_total'],
+      }
+    ),
 });

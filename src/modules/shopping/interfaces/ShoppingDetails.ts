@@ -1,6 +1,6 @@
 import { ObjectWithId } from "@/modules/core/interfaces/general/ObjectWithId";
 
-export interface ShoppingDetails {
+export interface ShoppingDetail {
   id?: string;
   supply: ObjectWithId;
   supplier: ObjectWithId;

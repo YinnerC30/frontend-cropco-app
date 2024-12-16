@@ -22,7 +22,7 @@ interface PathsCropco {
   works: string;
   payments: string;
   authentication: string;
-  purchase: string;
+  shopping: string;
   consumption: string;
 }
 
@@ -63,6 +63,6 @@ export const pathsCropco: PathsCropco = {
   works: '/works',
   payments: '/payments',
   authentication: '/auth',
-  purchase: 'supplies/purchase',
+  shopping: 'supplies/shopping',
   consumption: 'supplies/consumption',
 };

@@ -7,6 +7,7 @@ import {
   Monitor,
   Pickaxe,
   PillIcon,
+  ShoppingBagIcon,
   Tractor,
   User,
 } from 'lucide-react';
@@ -79,19 +80,19 @@ export const routes: Route[] = [
     Icon: <CircleDollarSign />,
     name_module: 'sales',
   },
-
+  {
+    label: 'Compras',
+    path: 'shopping/view/all',
+    Icon: <ShoppingBagIcon />,
+    name_module: 'sales',
+  },
   // {
   //   label: 'Pagos',
   //   path: 'payments/view/all',
   //   Icon: <CreditCard />,
   //   name_module: 'payments',
   // },
-  // {
-  //   label: 'Compras',
-  //   path: 'shopping/view/all',
-  //   Icon: <ShoppingBagIcon />,
-  //   name_module: 'sales',
-  // },
+  
   // {
   //   label: 'Consumos',
   //   path: 'consumption/view/all',

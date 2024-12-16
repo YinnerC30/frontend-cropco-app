@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ShoppingDetails } from "../interfaces/ShoppingDetails";
+import { ShoppingDetail } from "../interfaces/ShoppingDetails";
 
 
 interface ShoppingState {
-  details: ShoppingDetails[];
+  details: ShoppingDetail[];
   total: number;
 }
 
 interface ModifyShoppingDetails {
-  detail: ShoppingDetails;
+  detail: ShoppingDetail;
 }
 
 const initialState: ShoppingState = {
@@ -20,7 +20,7 @@ export const shoppingSlice = createSlice({
   name: "shopping",
   initialState,
   reducers: {
-    add: (state, action: PayloadAction<ShoppingDetails[]>) => {
+    add: (state, action: PayloadAction<ShoppingDetail[]>) => {
       state.details.push(...action.payload);
     },
     modify: (state, action: PayloadAction<ModifyShoppingDetails>) => {
@@ -30,9 +30,9 @@ export const shoppingSlice = createSlice({
       );
     },
 
-    remove: (state, action: PayloadAction<ShoppingDetails>) => {
+    remove: (state, action: PayloadAction<ShoppingDetail>) => {
       state.details = state.details.filter(
-        (detail: ShoppingDetails) => detail.id !== action.payload.id
+        (detail: ShoppingDetail) => detail.id !== action.payload.id
       );
     },
     reset: (state) => {
@@ -41,7 +41,7 @@ export const shoppingSlice = createSlice({
     },
     calculateTotal: (state) => {
       state.total = state.details.reduce(
-        (total: number, detail: ShoppingDetails) => total + detail.total,
+        (total: number, detail: ShoppingDetail) => total + detail.total,
         0
       );
     },

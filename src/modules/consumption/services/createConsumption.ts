@@ -2,7 +2,7 @@ import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
 import { ConsumptionSupplies } from "../interfaces/ConsuptionSupplies";
 
 export async function createConsumption(
-  purchaseSupplies: ConsumptionSupplies
+  shoppingSupplies: ConsumptionSupplies
 ): Promise<ConsumptionSupplies> {
-  return await cropcoAPI.post(`${pathsCropco.consumption}`, purchaseSupplies);
+  return await cropcoAPI.post(`${pathsCropco.consumption}`, shoppingSupplies);
 }

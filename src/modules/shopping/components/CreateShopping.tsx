@@ -1,58 +1,48 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { useNavigate } from "react-router-dom";
-import { z } from "zod";
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 
-import { BreadCrumb } from "@/modules/core/components/";
-import { useAppDispatch } from "@/redux/store";
-import { usePostShopping } from "../hooks/usePostShopping";
-import { ShoppingDetails } from "../interfaces/ShoppingDetails";
-import { formSchemaShopping } from "../utils/formSchemaShopping";
-import { reset } from "../utils/shoppingSlice";
-import { FormShopping } from "./forms/FormShopping";
+import { BreadCrumb } from '@/modules/core/components/';
+import { usePostShopping } from '../hooks/mutations/usePostShopping';
+import { ShoppingDetail } from '../interfaces/ShoppingDetails';
+import { MODULE_SHOPPING_PATHS } from '../routes/pathRoutes';
+import { formSchemaShopping } from '../utils/formSchemaShopping';
+import { FormShopping } from './forms/shopping/FormShopping';
 
 export const CreateShopping = () => {
-  const dispatch = useAppDispatch();
-
-  const { mutate, isSuccess, isPending } = usePostShopping();
-
-  const onSubmitShopping = (
-    values: z.infer<typeof formSchemaShopping>,
-    details: ShoppingDetails[],
-    total: number
-  ) => {
-    mutate({
-      ...values,
-      total,
-      details: details.map((item: ShoppingDetails) => {
-        const { id, ...rest } = item;
-        return {
-          ...rest,
-          supplier: { id: rest.supplier.id },
-          supply: { id: rest.supply.id },
-        };
-      }),
-    });
-  };
+  const { mutate, isPending } = usePostShopping();
 
   const navigate = useNavigate();
-
-  if (isSuccess) {
-    dispatch(reset());
-    navigate("../view/all");
-  }
+  const onSubmitShopping = (values: z.infer<typeof formSchemaShopping>) => {
+    mutate(
+      {
+        ...values,
+        details: values.details.map((item: ShoppingDetail) => {
+          const { id, ...rest } = item;
+          return {
+            ...rest,
+            supplier: { id: rest.supplier.id },
+            supply: { id: rest.supply.id },
+          };
+        }),
+      },
+      {
+        onSuccess: () => {
+          navigate('../view/all');
+        },
+      }
+    );
+  };
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/shopping/view/all", name: "Compras" }]}
+        items={[{ link: MODULE_SHOPPING_PATHS.ViewAll, name: 'Compras' }]}
         finalItem={`Registro`}
       />
-      <Separator className="my-2" />
-      <ScrollArea className="w-full h-[80vh]">
-        {/* Formulario principal */}
-        <FormShopping onSubmit={onSubmitShopping} isSubmitting={isPending} />
-      </ScrollArea>
+
+      {/* Formulario principal */}
+      <FormShopping onSubmit={onSubmitShopping} isSubmitting={isPending} />
     </>
   );
 };
+export default CreateShopping;

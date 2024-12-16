@@ -7,10 +7,10 @@ import { ColumnDef } from '@tanstack/react-table';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
 
-import { ShoppingDetails } from '../../interfaces/ShoppingDetails';
+import { ShoppingDetail } from '../../interfaces/ShoppingDetails';
 import { ActionsTableShoppingDetail } from './ActionsTableShoppingDetail';
 
-export const columnsShoppingDetail: ColumnDef<ShoppingDetails>[] = [
+export const columnsShoppingDetail: ColumnDef<ShoppingDetail>[] = [
   {
     accessorKey: 'supply.name',
     header: ({ column }: any) => {
