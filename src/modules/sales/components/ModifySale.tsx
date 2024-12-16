@@ -61,3 +61,4 @@ export const ModifySale = () => {
     </>
   );
 };
+export default ModifySale;

@@ -145,6 +145,8 @@ export const AuthProvider = ({ children }: any) => {
     );
   }, [user]);
 
+  // TODO: Crear objeto de permission global de la app y memorizarlo para evitar llamar metodos a cada rato
+
   const hasPermission = (moduleName: string, actionName: string): boolean => {
     return data[moduleName]?.actions.has(actionName) ?? false;
   };

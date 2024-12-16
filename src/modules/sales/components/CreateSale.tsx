@@ -46,3 +46,4 @@ export const CreateSale = () => {
     </>
   );
 };
+export default CreateSale;
