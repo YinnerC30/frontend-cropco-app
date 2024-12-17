@@ -32,18 +32,18 @@ export const formSchemaPayments = z
     total: z.number({
       invalid_type_error: 'Debes introducir un valor numérico',
     }),
-    categories: formSchemaCategories,
+    categories: formSchemaCategories.optional(),
   })
-  .refine(
-    (data: any) => {
-      const { harvests, works } = data.categories;
-      if (harvests.length === 0 && works.length === 0) {
-        return false;
-      }
-      return true;
-    },
-    {
-      message: 'Debes añadir 1 registro de cosecha o 1 registro de trabajo',
-      path: ['categories'],
-    }
-  );
+  // .refine(
+  //   (data: any) => {
+  //     const { harvests, works } = data.categories;
+  //     if (harvests.length === 0 && works.length === 0) {
+  //       return false;
+  //     }
+  //     return true;
+  //   },
+  //   {
+  //     message: 'Debes añadir 1 registro de cosecha o 1 registro de trabajo',
+  //     path: ['categories'],
+  //   }
+  // );

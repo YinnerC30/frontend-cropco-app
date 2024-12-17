@@ -1,28 +1,45 @@
+import {
+  ActionCopyIdRecord,
+  DropDownMenuActions,
+} from '@/modules/core/components';
+import { useAppDispatch } from '@/redux/store';
+import { toast } from 'sonner';
+import { addRecordToPay, calculateTotal } from '../../utils/paymentSlice';
+import { ActionPayPendingPayment } from './ActionPayPendingPayment';
 
-import { ActionsTable } from "@/modules/core/components";
-import { ItemCopyIdRecord } from "@/modules/core/components/table/actions/ItemCopyIdRecord";
-import { ItemTemplate } from "@/modules/core/components/table/actions/ItemTemplate";
-import { CircleDollarSignIcon } from "lucide-react";
-import { useState } from "react";
+export const ActionsTablePaymentsPendingHarvest = ({ row }: any) => {
+  const harvestDetail = row.original;
 
-export const ActionsTablePaymentsPendingHarvest = ({
-  id,
-  handlePayRecord,
-}: any) => {
-  const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
+  const {
+    harvest: { date },
+    id,
+    total,
+    value_pay,
+    payment_is_pending,
+  } = harvestDetail;
+
+  const dispatch = useAppDispatch();
+
+  const handlePayRecord = () => {
+    dispatch(
+      addRecordToPay({
+        date,
+        id,
+        total,
+        value_pay,
+        payment_is_pending,
+        type: 'harvest',
+        harvest: { id: harvestDetail?.harvest?.id },
+      })
+    );
+    dispatch(calculateTotal());
+    toast.success(`Se ha añadido la cosecha para pagarla`);
+  };
 
   return (
-    <ActionsTable
-      open={openDropDownMenu}
-      onChange={setOpenDropDownMenu}
-    >
-      <ItemCopyIdRecord id={id} onChange={setOpenDropDownMenu} />
-      <ItemTemplate
-        setOpenDropDownMenu={setOpenDropDownMenu}
-        action={handlePayRecord}
-        message="Pagar"
-        Icon={CircleDollarSignIcon}
-      />
-    </ActionsTable>
+    <DropDownMenuActions>
+      <ActionCopyIdRecord id={id} />
+      <ActionPayPendingPayment action={handlePayRecord} />
+    </DropDownMenuActions>
   );
 };

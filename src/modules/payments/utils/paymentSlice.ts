@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PaymentsPending } from "../interfaces/PaymentsPending";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { PaymentsPending } from '../interfaces/PaymentsPending';
 
 interface PaymentState {
   employeeId: string;
@@ -9,7 +9,7 @@ interface PaymentState {
 }
 
 const initialState: PaymentState = {
-  employeeId: "",
+  employeeId: '',
   dataEmployee: {
     harvests_detail: [],
     works_detail: [],
@@ -19,7 +19,7 @@ const initialState: PaymentState = {
 };
 
 export const paymentSlice = createSlice({
-  name: "payment",
+  name: 'payment',
   initialState,
   reducers: {
     modifyEmployeeId: (state, action: PayloadAction<any>) => {
@@ -28,7 +28,7 @@ export const paymentSlice = createSlice({
     },
 
     resetEmployeeId: (state) => {
-      state.employeeId = "";
+      state.employeeId = '';
     },
     setDataEmployee: (state, action: PayloadAction<PaymentsPending>) => {
       state.dataEmployee = action.payload;
@@ -38,11 +38,12 @@ export const paymentSlice = createSlice({
         harvests_detail: [],
         works_detail: [],
       };
+      state.paymentsToPay = [];
     },
     addRecordToPay: (state, action: PayloadAction<any>) => {
       state.paymentsToPay.push(action.payload);
       const { type, id } = action.payload;
-      if (type === "harvest") {
+      if (type === 'harvest') {
         state.dataEmployee.harvests_detail =
           state.dataEmployee.harvests_detail.filter((item) => item.id !== id);
       } else {
@@ -58,10 +59,10 @@ export const paymentSlice = createSlice({
       state.paymentsToPay = state.paymentsToPay.filter(
         (item: { id: any }) => item.id !== id
       );
-      if (type === "harvest") {
+      if (type === 'harvest') {
         state.dataEmployee.harvests_detail.push({ ...action.payload });
       }
-      if (type === "work") {
+      if (type === 'work') {
         state.dataEmployee.works_detail.push({ ...action.payload });
       }
     },
@@ -75,7 +76,7 @@ export const paymentSlice = createSlice({
       );
     },
     resetAll: (state) => {
-      state.employeeId = "";
+      state.employeeId = '';
       state.dataEmployee = {
         harvests_detail: [],
         works_detail: [],

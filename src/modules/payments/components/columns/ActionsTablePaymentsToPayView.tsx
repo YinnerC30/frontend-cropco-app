@@ -4,7 +4,8 @@ import { ItemNavigate } from "@/modules/core/components/table/actions/ItemNaviga
 import { Link } from "lucide-react";
 import { useState } from "react";
 
-export const ActionsTablePaymentsToPayView = ({ record }: any) => {
+export const ActionsTablePaymentsToPayView = ({ row }: any) => {
+  const record = row.original;
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
   

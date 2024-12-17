@@ -4,49 +4,36 @@ import {
   FormFieldCommand,
   FormFieldInput,
   FormFieldSelect,
-  Loading,
 } from '@/modules/core/components';
 import { FormatMoneyValue } from '@/modules/core/helpers';
-import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 
 import { useFormPaymentContext } from '@/modules/payments/hooks/context/useFormPaymentContext';
 import { useGetAllEmployeesWithPendingPayments } from '@/modules/payments/hooks/queries/useGetAllEmployeesWithPendingPayments';
-import { useGetEmployeePendingPayments } from '@/modules/payments/hooks/queries/useGetEmployeePendingPayments';
 import { MethodOfPayment } from '@/modules/payments/interfaces/MethodOfPayment';
 import { formFieldsPayments } from '@/modules/payments/utils';
-import { columnsPaymentsPendingHarvest } from '../../columns/ColumnsTablePaymentsPendingHarvest';
-import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
-import { useMemo } from 'react';
+import { FormPaymentHarvestsPendingDataTable } from './FormPaymentHarvestsPendingDataTable';
+import { FormPaymentToPayDataTable } from './FormPaymentToPayDataTable';
+import { FormPaymentWorksPendingDataTable } from './FormPaymentWorksPendingDataTable copy';
 
 export const FormPaymentFields = () => {
-  const { form, onSubmit, employeeId } = useFormPaymentContext();
+  const { form, onSubmit, total, getHarvestToPay, getWorksToPay } =
+    useFormPaymentContext();
   const queryEmployees = useGetAllEmployeesWithPendingPayments();
-
-  const queryPaymentsEmployee = useGetEmployeePendingPayments(employeeId);
-
-  const columnsTable = useCreateColumnsTable({
-    columns: columnsPaymentsPendingHarvest,
-    actions: {},
-    hiddenActions: true,
-  });
-
-  const dataHarvest = useMemo(
-    () => queryPaymentsEmployee.data,
-    [queryPaymentsEmployee.data]
-  );
-
-  const dataTableHarvestPayments = useDataTableGeneric({
-    columns: columnsTable,
-    data: dataHarvest,
-  });
 
   return (
     <>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(() => {
+          onSubmit={form.handleSubmit(async () => {
             const data = form.watch();
-            onSubmit(data);
+            await onSubmit({
+              ...data,
+              total,
+              categories: {
+                harvests: getHarvestToPay(),
+                works: getWorksToPay(),
+              },
+            });
           })}
           id="formPayment"
         >
@@ -72,6 +59,14 @@ export const FormPaymentFields = () => {
             isLoading={queryEmployees.isLoading}
             className="w-52"
           />
+
+          {/* Table */}
+
+          <div className="w-[800px]">
+            <FormPaymentHarvestsPendingDataTable />
+            <FormPaymentWorksPendingDataTable />
+            <FormPaymentToPayDataTable />
+          </div>
 
           <FormFieldSelect
             items={[
@@ -113,12 +108,12 @@ export const FormPaymentFields = () => {
               className="block h-8 text-base text-center w-28"
               variant={'cyan'}
             >
-              {FormatMoneyValue(10)}
+              {FormatMoneyValue(total)}
             </Badge>
           </FormFieldInput>
         </form>
       </Form>
-      <pre>{JSON.stringify(queryPaymentsEmployee.data)}</pre>
+      {/* <pre>{JSON.stringify(queryPaymentsEmployee.data)}</pre> */}
     </>
   );
 };

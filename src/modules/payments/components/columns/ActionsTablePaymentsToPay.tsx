@@ -1,30 +1,37 @@
-import { ActionsTable } from "@/modules/core/components";
-import { ItemCopyIdRecord } from "@/modules/core/components/table/actions/ItemCopyIdRecord";
-import { ItemTemplate } from "@/modules/core/components/table/actions/ItemTemplate";
-import { Trash } from "lucide-react";
-import { useState } from "react";
+import {
+  ActionCopyIdRecord,
+  ActionDeleteRecord,
+  DropDownMenuActions,
+} from '@/modules/core/components';
+import { useAppDispatch } from '@/redux/store';
+import { toast } from 'sonner';
+import { calculateTotal, removeRecordToPay } from '../../utils/paymentSlice';
 
-export const ActionsTablePaymentsToPay = ({ record, action }: any) => {
-  const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
+export const ActionsTablePaymentsToPay = ({ row }: any) => {
+  const record = row.original;
+
+  const dispatch = useAppDispatch();
 
   const handleDelete = () => {
-    action(record.id);
+    const { date, ...rest } = record;
+
+    const data = {
+      ...rest,
+      [rest.type === 'harvest' ? 'harvest' : 'work']: {
+        id: rest[rest.type === 'harvest' ? 'harvest' : 'work'].id,
+        date,
+      },
+    };
+
+    dispatch(removeRecordToPay({ ...data }));
+    dispatch(calculateTotal());
+    toast.success(`Se ha eliminado el registro`);
   };
+
   return (
-    <ActionsTable
-      onChange={setOpenDropDownMenu}
-      open={openDropDownMenu}
-    >
-      <ItemCopyIdRecord
-        id={record.id}
-        onChange={setOpenDropDownMenu}
-      ></ItemCopyIdRecord>
-      <ItemTemplate
-        setOpenDropDownMenu={setOpenDropDownMenu}
-        action={handleDelete}
-        message="Eliminar"
-        Icon={Trash}
-      />
-    </ActionsTable>
+    <DropDownMenuActions>
+      <ActionCopyIdRecord id={record.id} />
+      <ActionDeleteRecord action={handleDelete} />
+    </DropDownMenuActions>
   );
 };
