@@ -5,24 +5,25 @@ import { useState } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { ResponseGetConsumptions } from '../../interfaces/ResponseGetConsumptions';
+import { usePaginationDataTable } from '@/modules/core/hooks';
 
 export async function getAllConsumptions({
-  search = '',
   limit = 10,
   offset = 0,
-  after_date = '',
-  before_date = '',
+
+  filter_by_date = false,
+  type_filter_date = '',
+  date = '',
 }): Promise<ResponseGetConsumptions> {
   const params = new URLSearchParams();
-  params.append('search', search);
+
   params.append('limit', limit.toString());
   params.append('offset', offset.toString());
 
-  if (after_date.length > 0) {
-    params.append('after_date', new Date(after_date).toISOString());
-  }
-  if (before_date.length > 0) {
-    params.append('before_date', new Date(before_date).toISOString());
+  if (filter_by_date) {
+    params.append('filter_by_date', 'true');
+    params.append('type_filter_date', type_filter_date);
+    params.append('date', new Date(date).toISOString());
   }
 
   const { data } = await cropcoAPI.get(
@@ -38,22 +39,25 @@ interface Response {
 }
 
 export function useGetAllConsumptions({
-  before_date,
-  after_date,
+  filter_by_date = false,
+  type_filter_date = '',
+  date = '',
 }: any): Response {
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
+  const { pagination, setPagination, pageIndex, pageSize } =
+    usePaginationDataTable();
 
   const query = useQuery({
-    queryKey: ['consumptions', { before_date, after_date, ...pagination }],
+    queryKey: [
+      'consumptions',
+      { filter_by_date, type_filter_date, date, ...pagination },
+    ],
     queryFn: () =>
       getAllConsumptions({
-        limit: pagination.pageSize,
-        offset: pagination.pageIndex,
-        before_date,
-        after_date,
+        limit: pageSize,
+        offset: pageIndex,
+        filter_by_date,
+        type_filter_date,
+        date,
       }),
   });
 

@@ -34,7 +34,7 @@ export function CommandDialogApp() {
   const navigate = useNavigate();
 
   return (
-    <CommandDialog open={open} onOpenChange={setOpen} modal={false}>
+    <CommandDialog open={open} onOpenChange={setOpen} modal={true}>
       <DialogTitle>
         <VisuallyHidden.Root>Menu</VisuallyHidden.Root>
       </DialogTitle>
