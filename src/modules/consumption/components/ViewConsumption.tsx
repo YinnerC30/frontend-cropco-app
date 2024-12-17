@@ -24,7 +24,7 @@ export const ViewConsumption = () => {
 
       {/* Formulario principal */}
       <FormConsumption
-        defaultValues={{ ...data, date: ConvertStringToDate(data.date) }}
+        defaultValues={{ ...data, date: ConvertStringToDate(data?.date) }}
         readOnly
       />
     </>

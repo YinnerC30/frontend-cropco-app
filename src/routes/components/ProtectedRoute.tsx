@@ -15,7 +15,6 @@ export const ProtectedRoute = ({
     return element;
   }
 
-  console.log(module, action);
   if (!user || !hasPermission(module, action)) {
     setTimeout(
       () =>

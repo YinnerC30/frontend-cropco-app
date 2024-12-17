@@ -53,7 +53,7 @@ export const ModifyConsumption = () => {
       <FormConsumption
         onSubmit={onSubmitShopping}
         isSubmitting={isPending}
-        defaultValues={{ ...data, date: ConvertStringToDate(data.date) }}
+        defaultValues={{ ...data, date: ConvertStringToDate(data?.date) }}
       />
     </>
   );
