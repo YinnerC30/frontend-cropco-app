@@ -16,6 +16,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { HomeLayout } from '../components/home/HomeLayout';
 import { RoutesController } from './components';
 import { shoppingRoutes } from '@/modules/shopping/routes/shoppingRoutes';
+import { consumptionRoutes } from '@/modules/consumption/routes/consumptionRoutes';
 
 export const Router = createBrowserRouter([
   {
@@ -53,8 +54,8 @@ export const Router = createBrowserRouter([
           workRoutes,
           saleRoutes,
           shoppingRoutes,
+          consumptionRoutes,
           // paymentsRoutes,
-          // consumptionRoutes,
         ],
       },
     ],

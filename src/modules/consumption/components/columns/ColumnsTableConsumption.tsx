@@ -6,7 +6,7 @@ import { ArrowUpDown } from "lucide-react";
 import { ConsumptionSupplies } from "../../interfaces/ConsuptionSupplies";
 import { formFieldsConsumption } from "../../utils/formFieldsConsumption";
 import { ActionsTableConsumption } from "./ActionsTableConsumption";
-import { useDeleteConsumption } from "../../hooks/useDeleteConsumption";
+import { useDeleteConsumption } from "../../hooks/mutations/useDeleteConsumption";
 
 export let columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
   {

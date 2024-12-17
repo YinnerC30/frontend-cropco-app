@@ -1,6 +1,7 @@
 import {
   Blocks,
   BookUser,
+  Cable,
   CircleDollarSign,
   Contact,
   Leaf,
@@ -92,11 +93,11 @@ export const routes: Route[] = [
   //   Icon: <CreditCard />,
   //   name_module: 'payments',
   // },
-  
-  // {
-  //   label: 'Consumos',
-  //   path: 'consumption/view/all',
-  //   Icon: <Cable />,
-  //   name_module: 'supplies',
-  // },
+
+  {
+    label: 'Consumos',
+    path: 'consumptions/view/all',
+    Icon: <Cable />,
+    name_module: 'supplies',
+  },
 ];

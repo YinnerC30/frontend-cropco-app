@@ -5,10 +5,7 @@ import { useEffect, useState } from 'react';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { ResponseApiGetAllRecords } from '@/modules/core/interfaces';
 
-import {
-  useAuthContext,
-  useManageErrorApp,
-} from '@/auth/hooks';
+import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
 import { AxiosError } from 'axios';
 import { Supply } from '../../interfaces/Supply';
 
@@ -40,6 +37,7 @@ interface HookProps {
   allRecords: boolean;
 }
 
+const STALE_TIME_DATA = 60_000 * 60;
 export const useGetAllSupplies = ({
   searchParameter,
   allRecords,
@@ -60,6 +58,7 @@ export const useGetAllSupplies = ({
         allRecords,
       }),
     enabled: hasPermission('supplies', 'find_all_supplies'),
+    staleTime: STALE_TIME_DATA,
   });
 
   useEffect(() => {

@@ -9,13 +9,13 @@ export const ProtectedRoute = ({
   action,
   viewComponent = false,
 }: any) => {
-  const { user, hasPermission, hasMoreThanOnePermission } =
-    useAuthContext();
+  const { user, hasPermission, hasMoreThanOnePermission } = useAuthContext();
 
   if (viewComponent && hasMoreThanOnePermission(module) >= 1) {
     return element;
   }
 
+  console.log(module, action);
   if (!user || !hasPermission(module, action)) {
     setTimeout(
       () =>

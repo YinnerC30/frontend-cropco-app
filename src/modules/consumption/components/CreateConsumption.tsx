@@ -1,62 +1,49 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { useNavigate } from "react-router-dom";
-import { z } from "zod";
-import { useConsumptionForm } from "../hooks/useConsumptionForm";
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 
-import { reset } from "../utils/consumptionSlice";
-import { formSchemaConsumption } from "../utils/formSchemaConsumption";
+import { formSchemaConsumption } from '../utils/formSchemaConsumption';
 
-import { BreadCrumb } from "@/modules/core/components/";
-import { useEffect } from "react";
-import { ConsumptionDetails } from "../interfaces/ConsumptionDetails";
-import { FormConsumption } from "./forms/FormConsumption";
-
-
+import { BreadCrumb } from '@/modules/core/components/';
+import { ConsumptionDetails } from '../interfaces/ConsumptionDetails';
+import { MODULE_CONSUMPTION_PATHS } from '../routes/pathRoutes';
+import { FormConsumption } from './forms/consumption/FormConsumption';
+import { usePostConsumption } from '../hooks/mutations/usePostConsumption';
 
 export const CreateConsumption = () => {
-  const { mutate, dispatch, isSuccess, isPending } = useConsumptionForm();
-
-  useEffect(() => {
-    dispatch(reset());
-  }, []);
-
-  const onSubmitShopping = (
-    values: z.infer<typeof formSchemaConsumption>,
-    details: ConsumptionDetails[]
-  ) => {
-    mutate({
-      ...values,
-      details: details.map((item: ConsumptionDetails) => {
-        const { id, ...rest } = item;
-        return {
-          ...rest,
-          crop: { id: rest.crop.id },
-          supply: { id: rest.supply.id },
-        };
-      }),
-    });
-  };
+  const { mutate, isPending } = usePostConsumption();
 
   const navigate = useNavigate();
-
-  if (isSuccess) {
-    dispatch(reset());
-    navigate("../view/all");
-  }
+  const onSubmitShopping = (values: z.infer<typeof formSchemaConsumption>) => {
+    console.log(values);
+    mutate(
+      {
+        ...values,
+        details: values.details.map((item: ConsumptionDetails) => {
+          const { id, ...rest } = item;
+          return {
+            ...rest,
+            crop: { id: rest.crop.id },
+            supply: { id: rest.supply.id },
+          };
+        }),
+      },
+      {
+        onSuccess: () => {
+          navigate('../view/all');
+        },
+      }
+    );
+  };
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: "/consumption/view/all", name: "Consumos" }]}
+        items={[{ link: MODULE_CONSUMPTION_PATHS.ViewAll, name: 'Consumos' }]}
         finalItem={`Crear`}
       />
 
-      <Separator className="my-2" />
-      <ScrollArea className="w-full h-[80vh]">
-        {/* Formulario principal */}
-        <FormConsumption onSubmit={onSubmitShopping} isSubmitting={isPending} />
-      </ScrollArea>
+      <FormConsumption onSubmit={onSubmitShopping} isSubmitting={isPending} />
     </>
   );
 };
+export default CreateConsumption;

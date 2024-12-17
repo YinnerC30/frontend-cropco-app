@@ -18,7 +18,9 @@ export const useManageErrorApp = () => {
     const { response, message, code } = error;
 
     if (message === 'Network Error' || code === 'ERR_NETWORK') {
-      toast.error('No tienes conexión a internet');
+      toast.error(
+        'El servicio no se encuentra disponible, revise su conexión a internet'
+      );
       return;
     }
 

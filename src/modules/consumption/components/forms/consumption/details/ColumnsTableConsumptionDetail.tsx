@@ -2,13 +2,13 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
-import { ShoppingDetail } from '@/modules/shopping/interfaces';
+import { ConsumptionDetails } from '@/modules/consumption/interfaces';
 
-export const columnsShoppingDetail: ColumnDef<ShoppingDetail>[] = [
+export const columnsConsumptionDetail: ColumnDef<ConsumptionDetails>[] = [
   {
-    accessorKey: 'supplier.first_name',
+    accessorKey: 'crop.name',
     header: ({ column }: any) => {
-      return <ButtonHeaderTable column={column} label={'Proveedor:'} />;
+      return <ButtonHeaderTable column={column} label={'Cultivo:'} />;
     },
   },
   {
@@ -26,17 +26,8 @@ export const columnsShoppingDetail: ColumnDef<ShoppingDetail>[] = [
       return <ButtonHeaderTable column={column} label={'Monto:'} />;
     },
   },
-  {
-    accessorKey: 'total',
-    cell: ({ row }) => {
-      return FormatMoneyValue(row.getValue('total'));
-    },
-    header: ({ column }: any) => {
-      return <ButtonHeaderTable column={column} label={'Valor a pagar:'} />;
-    },
-  },
 ];
 
 export default {
-  columnsShoppingDetail,
+  columnsConsumptionDetail,
 };
