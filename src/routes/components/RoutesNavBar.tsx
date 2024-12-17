@@ -4,6 +4,7 @@ import {
   Cable,
   CircleDollarSign,
   Contact,
+  CreditCard,
   Leaf,
   Monitor,
   Pickaxe,
@@ -87,17 +88,16 @@ export const routes: Route[] = [
     Icon: <ShoppingBagIcon />,
     name_module: 'sales',
   },
-  // {
-  //   label: 'Pagos',
-  //   path: 'payments/view/all',
-  //   Icon: <CreditCard />,
-  //   name_module: 'payments',
-  // },
-
   {
     label: 'Consumos',
     path: 'consumptions/view/all',
     Icon: <Cable />,
     name_module: 'supplies',
+  },
+  {
+    label: 'Pagos',
+    path: 'payments/view/all',
+    Icon: <CreditCard />,
+    name_module: 'payments',
   },
 ];

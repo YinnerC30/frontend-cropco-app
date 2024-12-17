@@ -1,30 +1,23 @@
-import { Button } from "@/components/ui/button";
+import { ColumnDef } from '@tanstack/react-table';
 
-import { ArrowUpDown } from "lucide-react";
+import { Badge, Button } from '@/components';
+import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
+import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
+import { ArrowUpDown } from 'lucide-react';
+import { formFieldsPayments } from '../../utils';
 
-import { ColumnDef } from "@tanstack/react-table";
-
-import { FormatDate } from "@/modules/core/helpers/formatting/FormatDate";
-import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
-
-import { Badge } from "@/components";
-import { useDeletePayment } from "../../hooks/mutations/useDeletePayment";
-import { Payment } from "../../interfaces/Payment";
-import { formFieldsPayments } from "../../utils";
-import { ActionsTablePayment } from "./ActionsTablePayment";
-
-export const columnsPayment: ColumnDef<Payment>[] = [
+export const columnsPayment: ColumnDef<any>[] = [
   {
     accessorKey: formFieldsPayments.date.name,
     cell: ({ row }) => {
-      return FormatDate({ date: row.getValue("date") });
+      return FormatDate({ date: row.getValue('date') });
     },
     header: ({ column }: any) => {
       return (
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           {formFieldsPayments.date.label}
           <ArrowUpDown className="w-4 h-4 ml-2" />
@@ -35,7 +28,7 @@ export const columnsPayment: ColumnDef<Payment>[] = [
   {
     accessorKey: formFieldsPayments.employee.name,
     cell: ({ row }) => {
-      const employee: any = row.getValue("employee");
+      const employee: any = row.getValue('employee');
       return employee.first_name;
     },
     header: ({ column }: any) => {
@@ -43,7 +36,7 @@ export const columnsPayment: ColumnDef<Payment>[] = [
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           {formFieldsPayments.employee.label}
           <ArrowUpDown className="w-4 h-4 ml-2" />
@@ -54,17 +47,17 @@ export const columnsPayment: ColumnDef<Payment>[] = [
   {
     accessorKey: formFieldsPayments.method_of_payment.name,
     cell: ({ row }) => {
-      const methodOfPayment = row.getValue("method_of_payment");
+      const methodOfPayment = row.getValue('method_of_payment');
       let badge;
       switch (methodOfPayment) {
-        case "EFECTIVO":
-          badge = <Badge variant={"success"}>Efectivo</Badge>;
+        case 'EFECTIVO':
+          badge = <Badge variant={'success'}>Efectivo</Badge>;
           break;
-        case "TRANSFERENCIA":
-          badge = <Badge variant={"destructive"}>Transferencia</Badge>;
+        case 'TRANSFERENCIA':
+          badge = <Badge variant={'destructive'}>Transferencia</Badge>;
           break;
-        case "INTERCAMBIO":
-          badge = <Badge variant={"default"}>Intercambio</Badge>;
+        case 'INTERCAMBIO':
+          badge = <Badge variant={'default'}>Intercambio</Badge>;
           break;
         default:
           break;
@@ -76,7 +69,7 @@ export const columnsPayment: ColumnDef<Payment>[] = [
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           {formFieldsPayments.method_of_payment.label}
           <ArrowUpDown className="w-4 h-4 ml-2" />
@@ -87,29 +80,19 @@ export const columnsPayment: ColumnDef<Payment>[] = [
   {
     accessorKey: formFieldsPayments.total.name,
     cell: ({ row }) => {
-      return FormatMoneyValue(row.getValue("total"));
+      return FormatMoneyValue(row.getValue('total'));
     },
     header: ({ column }: any) => {
       return (
         <Button
           className="px-0 hover:bg-transparent"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Total a pagar:
           <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
-    },
-  },
-  {
-    id: "actions",
-    cell: ({ row }: any) => {
-      const { id } = row.original;
-
-      const { mutate } = useDeletePayment();
-
-      return <ActionsTablePayment mutate={mutate} id={id} />;
     },
   },
 ];

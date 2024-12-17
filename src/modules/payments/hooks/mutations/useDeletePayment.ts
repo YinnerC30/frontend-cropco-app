@@ -1,7 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { toast } from "sonner";
-import { deletePayment } from "../services/deletePayment";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { toast } from 'sonner';
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+
+export const deletePayment = async (id: string) =>
+  await cropcoAPI.delete(`${pathsCropco.payments}/remove/one/${id}`);
 
 export const useDeletePayment = () => {
   const queryClient = useQueryClient();
@@ -9,7 +12,7 @@ export const useDeletePayment = () => {
   const mutation = useMutation({
     mutationFn: deletePayment,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["payments"] });
+      queryClient.invalidateQueries({ queryKey: ['payments'] });
       toast.success(`Pago eliminado`);
     },
     onError: (error: AxiosError) => {

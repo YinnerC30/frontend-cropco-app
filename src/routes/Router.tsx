@@ -17,6 +17,7 @@ import { HomeLayout } from '../components/home/HomeLayout';
 import { RoutesController } from './components';
 import { shoppingRoutes } from '@/modules/shopping/routes/shoppingRoutes';
 import { consumptionRoutes } from '@/modules/consumption/routes/consumptionRoutes';
+import { paymentsRoutes } from '@/modules/payments/routes/paymentsRoutes';
 
 export const Router = createBrowserRouter([
   {
@@ -55,7 +56,7 @@ export const Router = createBrowserRouter([
           saleRoutes,
           shoppingRoutes,
           consumptionRoutes,
-          // paymentsRoutes,
+          paymentsRoutes,
         ],
       },
     ],

@@ -1,7 +1,7 @@
 import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
 import { RootState, useAppSelector } from "@/redux/store";
 import { formSchemaPayments } from "../utils";
-import { useGetAllEmployeesWithPendingPayments } from "./useGetAllEmployeesWithPendingPayments";
+import { useGetAllEmployeesWithPendingPayments } from "./queries/useGetAllEmployeesWithPendingPayments";
 import { useState } from "react";
 
 export const defaultValues = {
