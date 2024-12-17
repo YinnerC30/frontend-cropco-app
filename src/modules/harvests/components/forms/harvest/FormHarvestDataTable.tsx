@@ -34,6 +34,8 @@ export const FormHarvestDataTable = () => {
     handleOpenDialog();
   };
 
+  console.log('render');
+
   return (
     <FormDataTableProvider
       table={table}

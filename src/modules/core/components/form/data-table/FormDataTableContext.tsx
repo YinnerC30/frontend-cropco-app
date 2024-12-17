@@ -20,7 +20,6 @@ export const FormDataTableProvider = ({
   lengthColumns,
 }: FormDataTableContextProps & { children: React.ReactNode }) => {
   const pageCount = table.getPageCount() > 0 ? table.getPageCount() : 0;
-  // const pageText = `Página ${pageIndex + 1} de ${pageCount}`;
 
   return (
     <FormDataTableContext.Provider

@@ -1,3 +1,4 @@
+import { CreatePayment } from '../components/CreatePayment';
 import PaymentsModule from '../components/module/PaymentModule';
 
 const paymentsRoutes = {
@@ -11,10 +12,10 @@ const paymentsRoutes = {
       path: 'view/all',
       element: <PaymentsModule />,
     },
-    // {
-    //   path: 'create/one',
-    //   element: <CreatePayment />,
-    // },
+    {
+      path: 'create/one',
+      element: <CreatePayment />,
+    },
     // {
     //   path: 'view/one/:id',
     //   element: <ViewPayment />,

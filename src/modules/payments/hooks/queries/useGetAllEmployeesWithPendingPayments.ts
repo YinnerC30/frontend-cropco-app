@@ -12,6 +12,7 @@ export const useGetAllEmployeesWithPendingPayments = () => {
   const query = useQuery({
     queryKey: ['employees', 'pending-payments'],
     queryFn: () => getEmployeesWithPaymentsPending(),
+    staleTime: 60_000 * 60,
   });
-  return { query };
+  return query;
 };

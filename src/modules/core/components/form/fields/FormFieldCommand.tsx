@@ -62,7 +62,6 @@ export const FormFieldCommand = memo(
         control={control}
         name={name}
         render={({ field }: any) => {
-          console.log(field);
           return (
             <FormItem className="my-4">
               <FormLabel className="block">{label}</FormLabel>
