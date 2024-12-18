@@ -16,9 +16,18 @@ import { FormPaymentToPayDataTable } from './FormPaymentToPayDataTable';
 import { FormPaymentWorksPendingDataTable } from './FormPaymentWorksPendingDataTable copy';
 
 export const FormPaymentFields = () => {
-  const { form, onSubmit, total, getHarvestToPay, getWorksToPay } =
-    useFormPaymentContext();
+  const {
+    form,
+    onSubmit,
+    total,
+    getHarvestToPay,
+    getWorksToPay,
+    readOnly,
+    defaultValues,
+  } = useFormPaymentContext();
   const queryEmployees = useGetAllEmployeesWithPendingPayments();
+
+  const employees = queryEmployees?.data?.rows ?? [];
 
   return (
     <>
@@ -43,11 +52,11 @@ export const FormPaymentFields = () => {
             label={formFieldsPayments.date.label}
             name={'date'}
             placeholder={formFieldsPayments.date.placeholder}
-            readOnly={false}
+            readOnly={readOnly}
           />
 
           <FormFieldCommand
-            data={queryEmployees?.data?.rows ?? []}
+            data={readOnly ? [...employees, defaultValues.employee] : employees}
             form={form}
             nameToShow={'first_name'}
             control={form.control}
@@ -55,7 +64,7 @@ export const FormPaymentFields = () => {
             label={formFieldsPayments.employee.label}
             name={'employee.id'}
             placeholder={formFieldsPayments.employee.placeholder}
-            readOnly={false}
+            readOnly={readOnly}
             isLoading={queryEmployees.isLoading}
             className="w-52"
           />
@@ -63,8 +72,13 @@ export const FormPaymentFields = () => {
           {/* Table */}
 
           <div className="w-[800px]">
-            <FormPaymentHarvestsPendingDataTable />
-            <FormPaymentWorksPendingDataTable />
+            {!readOnly && (
+              <>
+                <FormPaymentHarvestsPendingDataTable />
+                <FormPaymentWorksPendingDataTable />
+              </>
+            )}
+
             <FormPaymentToPayDataTable />
           </div>
 
@@ -91,7 +105,7 @@ export const FormPaymentFields = () => {
             label={formFieldsPayments.method_of_payment.label}
             name={'method_of_payment'}
             placeholder={formFieldsPayments.method_of_payment.placeholder}
-            readOnly={false}
+            readOnly={readOnly}
           />
 
           <FormFieldInput
@@ -100,7 +114,7 @@ export const FormPaymentFields = () => {
             label={formFieldsPayments.total.label}
             name={'total'}
             placeholder={formFieldsPayments.total.placeholder}
-            readOnly={true}
+            readOnly={readOnly}
             type="number"
             hiddenInput
           >
@@ -113,7 +127,6 @@ export const FormPaymentFields = () => {
           </FormFieldInput>
         </form>
       </Form>
-      {/* <pre>{JSON.stringify(queryPaymentsEmployee.data)}</pre> */}
     </>
   );
 };

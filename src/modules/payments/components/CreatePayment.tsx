@@ -1,18 +1,18 @@
 import { BreadCrumb } from '@/modules/core/components';
-import FormPayment from './forms/payment/FormPayment';
-import { MODULE_PAYMENTS_PATHS } from '../routes/pathRoutes';
+import { useNavigate } from 'react-router-dom';
 import { usePostPayment } from '../hooks/mutations/usePostPayment';
-import { toast } from 'sonner';
+import { MODULE_PAYMENTS_PATHS } from '../routes/pathRoutes';
+import FormPayment from './forms/payment/FormPayment';
 
 export const CreatePayment = () => {
   const { mutate, isPending } = usePostPayment();
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (values: any) => {
-    console.log('llego');
-    console.log(values);
     mutate(values, {
       onSuccess: () => {
-        toast.success('Se pago al empleado');
+        navigate(MODULE_PAYMENTS_PATHS.ViewAll);
       },
     });
   };

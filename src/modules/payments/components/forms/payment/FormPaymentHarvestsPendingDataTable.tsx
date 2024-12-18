@@ -18,11 +18,12 @@ import { ActionsTablePaymentsPendingHarvest } from '../../columns/ActionsTablePa
 import { columnsPaymentsPendingHarvest } from '../../columns/ColumnsTablePaymentsPendingHarvest';
 
 export const FormPaymentHarvestsPendingDataTable = () => {
-  const { pendingHarvests } = useFormPaymentContext();
+  const { pendingHarvests, readOnly } = useFormPaymentContext();
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsPaymentsPendingHarvest,
     actions: ActionsTablePaymentsPendingHarvest,
+    hiddenActions: readOnly,
   });
 
   const { table, lengthColumns, resetSelectionRows, hasSelectedRecords } =

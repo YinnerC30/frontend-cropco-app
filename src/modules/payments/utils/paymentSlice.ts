@@ -54,6 +54,9 @@ export const paymentSlice = createSlice({
     addRecordsToPay: (state, action: PayloadAction<any[]>) => {
       state.paymentsToPay.push(...action.payload);
     },
+    setRecordsToPay: (state, action: PayloadAction<any>) => {
+      state.paymentsToPay = action.payload;
+    },
     removeRecordToPay: (state, action: PayloadAction<any>) => {
       const { id, type } = action.payload;
       state.paymentsToPay = state.paymentsToPay.filter(
@@ -98,6 +101,7 @@ export const {
   calculateTotal,
   addRecordsToPay,
   resetAll,
+  setRecordsToPay
 } = paymentSlice.actions;
 
 export const paymentReducer = paymentSlice.reducer;

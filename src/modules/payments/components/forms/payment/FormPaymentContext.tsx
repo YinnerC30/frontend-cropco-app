@@ -1,7 +1,14 @@
 import { useCreateForm } from '@/modules/core/hooks';
 import { useGetEmployeePendingPayments } from '@/modules/payments/hooks/queries/useGetEmployeePendingPayments';
+import {
+  PaymentsHarvest,
+  PaymentsWork,
+} from '@/modules/payments/interfaces/ResponseGetOnePayment';
 import { formSchemaPayments } from '@/modules/payments/utils';
-import { resetDataEmployee } from '@/modules/payments/utils/paymentSlice';
+import {
+  resetDataEmployee,
+  setRecordsToPay,
+} from '@/modules/payments/utils/paymentSlice';
 import { RootState, useAppDispatch, useAppSelector } from '@/redux/store';
 import React, { createContext, useEffect, useMemo } from 'react';
 
@@ -18,13 +25,7 @@ export const FormPaymentProvider = ({
 }: any & { children: React.ReactNode }) => {
   const formPayments = useCreateForm({
     schema: formSchemaPayments,
-    defaultValues: {
-      date: undefined,
-      method_of_payment: undefined,
-      employee: undefined,
-      total: 0,
-    },
-    validationMode: 'onSubmit',
+    defaultValues,
   });
 
   const dispatch = useAppDispatch();
@@ -33,7 +34,7 @@ export const FormPaymentProvider = ({
 
   const employeeId: string = formPayments.watch('employee.id') ?? '';
 
-  const queryPaymentsEmployee = useGetEmployeePendingPayments(employeeId);
+  const queryPaymentsEmployee = useGetEmployeePendingPayments(employeeId, true);
 
   const recordsToPay = useMemo(
     () => payment.paymentsToPay,
@@ -75,6 +76,54 @@ export const FormPaymentProvider = ({
     }
   }, [employeeId]);
 
+  useEffect(() => {
+    formPayments.setValue('total', total, { shouldValidate: true });
+  }, [total]);
+
+  useEffect(() => {
+    if (!!defaultValues) {
+      const harvests = defaultValues?.payments_harvest.map(
+        ({
+          harvests_detail: {
+            id,
+            total,
+            value_pay,
+            payment_is_pending,
+            harvest: { date },
+          },
+        }: PaymentsHarvest) => ({
+          id,
+          total,
+          value_pay,
+          payment_is_pending,
+          date,
+          type: 'harvest',
+        })
+      );
+
+      const works = defaultValues?.payments_work.map(
+        ({
+          works_detail: {
+            id,
+            payment_is_pending,
+            value_pay,
+            work: { date },
+          },
+        }: PaymentsWork) => {
+          return {
+            date,
+            id,
+            value_pay,
+            payment_is_pending,
+            type: 'work',
+          };
+        }
+      );
+
+      dispatch(setRecordsToPay([...harvests, ...works]));
+    }
+  }, [defaultValues]);
+
   return (
     <FormPaymentContext.Provider
       value={{
@@ -90,6 +139,7 @@ export const FormPaymentProvider = ({
         readOnly,
         getHarvestToPay,
         getWorksToPay,
+        defaultValues,
       }}
     >
       {children}

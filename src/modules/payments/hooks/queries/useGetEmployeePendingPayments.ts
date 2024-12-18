@@ -11,12 +11,15 @@ export const getEmployeeWithPaymentsPending = async (id: string) => {
   return data;
 };
 
-export const useGetEmployeePendingPayments = (id = '') => {
+export const useGetEmployeePendingPayments = (
+  id = '',
+  canExecuteQuery = true
+) => {
   const dispatch = useAppDispatch();
   const query = useQuery({
     queryKey: ['employee', 'pending-payments', id],
     queryFn: () => getEmployeeWithPaymentsPending(id),
-    enabled: id.length > 0,
+    enabled: id.length > 0 && canExecuteQuery,
     staleTime: 60_000 * 3,
   });
 

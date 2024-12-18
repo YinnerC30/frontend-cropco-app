@@ -4,7 +4,6 @@ import { ArrowUpDown } from 'lucide-react';
 
 import { ColumnDef } from '@tanstack/react-table';
 
-
 import { Badge } from '@/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
@@ -94,6 +93,3 @@ export const columnsPaymentsToPay: ColumnDef<PaymentPending>[] = [
     },
   },
 ];
-
-
-

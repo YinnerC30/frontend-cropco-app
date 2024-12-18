@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 const deleteBulkPayments = async (data: BulkRecords) => {
   await cropcoAPI.delete(`${pathsCropco.payments}/remove/bulk`, {
     data: {
-      recordsIds: data.PaymentIds,
+      recordsIds: data.paymentIds,
     },
   });
 };
@@ -19,7 +19,7 @@ export const useDeleteBulkPayments = () => {
   const mutation = useMutation({
     mutationFn: deleteBulkPayments,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['Payments'] });
+      queryClient.invalidateQueries({ queryKey: ['payments'] });
       toast.success(`Pagos eliminados`);
     },
     onError: (error: AxiosError) => {

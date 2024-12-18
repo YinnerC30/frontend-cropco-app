@@ -18,12 +18,12 @@ import { columnsPaymentsToPay } from '../../columns/ColumnsTablePaymentsToPay';
 import { useFormPaymentContext } from '@/modules/payments/hooks/context/useFormPaymentContext';
 
 export const FormPaymentToPayDataTable = () => {
-  console.log('render');
-  const { recordsToPay } = useFormPaymentContext();
+  const { recordsToPay, readOnly } = useFormPaymentContext();
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsPaymentsToPay,
     actions: ActionsTablePaymentsToPay,
+    hiddenActions: readOnly,
   });
 
   const { table, lengthColumns, resetSelectionRows, hasSelectedRecords } =

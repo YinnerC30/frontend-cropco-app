@@ -18,11 +18,12 @@ import { ActionsTablePaymentsPendingWork } from '../../columns/ActionsTablePayme
 import { columnsPaymentsPendingWork } from '../../columns/ColumnsTablePaymentsPendingWork';
 
 export const FormPaymentWorksPendingDataTable = () => {
-  const { pendingWorks } = useFormPaymentContext();
+  const { pendingWorks,readOnly } = useFormPaymentContext();
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsPaymentsPendingWork,
     actions: ActionsTablePaymentsPendingWork,
+    hiddenActions: readOnly,
   });
 
   const { table, lengthColumns, resetSelectionRows, hasSelectedRecords } =

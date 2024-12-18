@@ -2,7 +2,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { Payment } from '../interfaces/Payment';
+import { Payment } from '../../interfaces/Payment';
+
 
 export const createPayment = async (payment: Payment) =>
   await cropcoAPI.post(`${pathsCropco.payments}/create`, payment);
