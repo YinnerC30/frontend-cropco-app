@@ -27,3 +27,4 @@ export const CreatePayment = () => {
     </>
   );
 };
+export default CreatePayment;
