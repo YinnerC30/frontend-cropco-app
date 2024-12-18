@@ -2,12 +2,13 @@ import { BreadCrumb } from '@/modules/core/components';
 import { PaymentModuleActions } from './PaymentModuleActions';
 import { PaymentsModuleProvider } from './PaymentModuleContext';
 import { PaymentModuleTable } from './PaymentModuleTable';
+import { PaymentModuleSearchbar } from './PaymentModuleSearchbar';
 
 export const PaymentsModule = () => {
   return (
     <PaymentsModuleProvider>
       <BreadCrumb finalItem="Pagos" hiddenSeparator />
-      {/* <PaymentModuleSearchbar /> */}
+      <PaymentModuleSearchbar />
       <PaymentModuleActions />
       <PaymentModuleTable />
     </PaymentsModuleProvider>

@@ -10,11 +10,10 @@ import {
   DropdownMenuTrigger,
   Form,
   Label,
-  PopoverContent,
-  PopoverTrigger,
 } from '@/components';
 import {
   FormFieldCalendar,
+  FormFieldCommand,
   FormFieldInput,
   FormFieldSelect,
   ToolTipTemplate,
@@ -29,12 +28,12 @@ import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/format
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { Calendar, Filter, X } from 'lucide-react';
-import { memo, useState } from 'react';
+import { Filter, X } from 'lucide-react';
+import { memo, useCallback, useState } from 'react';
 
-import { Popover } from '@radix-ui/react-popover';
 import { usePaymentModuleContext } from '../../hooks/context/usePaymentModuleContext';
-import { MODULE_SALES_PATHS } from '../../routes/pathRoutes';
+import { useGetAllEmployeesWithMadePayments } from '../../hooks/queries/useGetAllEmployeesWithMadePayments';
+import { MODULE_PAYMENTS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarPayment } from '../../utils/formFieldsSearchBarPayment';
 import { formSchemaSearchBarPayment } from '../../utils/formSchemaSearchBarPayment';
 
@@ -88,15 +87,50 @@ export const PaymentModuleSearchbar = () => {
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
-  const [openPopover, setOpenPopover] = useState(false);
+
+  const queryEmployees = useGetAllEmployeesWithMadePayments();
+
+  const findEmployeeInData = useCallback(
+    (id: string) => {
+      return queryEmployees?.data?.rows.find((row: any) => row.id === id);
+    },
+    [queryEmployees]
+  );
+
+  // TODO: Agregar filtro de metodo de pago
 
   const handleAddFilter = async (name = '') => {
     const isValid = await form.trigger(name);
     if (!isValid) return false;
 
-    const { filter_by_total, filter_by_quantity } = form.watch();
+    const { filter_by_total, employee, filter_by_date } = form.watch();
 
     const filters: FilterSearchBar[] = [];
+
+    if (employee?.id) {
+      const data = findEmployeeInData(employee.id);
+      filters.push({
+        key: 'employee',
+        label: `Empleado: ${data.first_name}`,
+      });
+    }
+
+    const { type_filter_date, date } = filter_by_date;
+
+    if (type_filter_date && date) {
+      const typeFilter = formatTypeFilterDate(
+        type_filter_date as TypeFilterDate
+      );
+
+      const formatDate = format(date, 'PPP', {
+        locale: es,
+      });
+
+      filters.push({
+        key: 'date',
+        label: `Fecha: ${typeFilter} ${formatDate}`,
+      });
+    }
 
     const { type_filter_total, total } = filter_by_total;
     if (type_filter_total && total) {
@@ -106,17 +140,6 @@ export const PaymentModuleSearchbar = () => {
       filters.push({
         key: 'total',
         label: `Total: ${typeFilter} ${filter_by_total.total}`,
-      });
-    }
-
-    const { type_filter_quantity, quantity } = filter_by_quantity;
-    if (type_filter_quantity && quantity) {
-      const typeFilter = formatTypeFilterNumber(
-        type_filter_quantity as TypeFilterNumber
-      );
-      filters.push({
-        key: 'quantity',
-        label: `Cantidad: ${typeFilter} ${filter_by_quantity.quantity}`,
       });
     }
 
@@ -134,6 +157,9 @@ export const PaymentModuleSearchbar = () => {
   const handleRemoveFilter = (filter: FilterSearchBar) => {
     setAppliedFilters((prev) => prev.filter((f) => f.key !== filter.key));
     switch (filter.key) {
+      case 'employee':
+        form.setValue('employee.id', '', { shouldDirty: false });
+        break;
       case 'date':
         form.setValue('filter_by_date.type_filter_date', undefined, {
           shouldDirty: false,
@@ -146,18 +172,16 @@ export const PaymentModuleSearchbar = () => {
         });
         form.setValue('filter_by_total.total', 0, { shouldDirty: false });
         break;
-      case 'quantity':
-        form.setValue('filter_by_quantity.type_filter_quantity', undefined, {
-          shouldDirty: false,
-        });
-        form.setValue('filter_by_quantity.quantity', 0, { shouldDirty: false });
-        break;
     }
     handleSearch(form.watch());
   };
 
   const handleSearch = async (values: any) => {
     const params = new URLSearchParams();
+
+    if (values.employee?.id) {
+      params.append('employee', values.employee.id);
+    }
 
     if (values.filter_by_date.type_filter_date && values.filter_by_date.date) {
       params.append('filter_by_date', 'true');
@@ -179,17 +203,6 @@ export const PaymentModuleSearchbar = () => {
       );
       params.append('total', `${values.filter_by_total.total}`);
     }
-    if (
-      values.filter_by_quantity.type_filter_quantity &&
-      values.filter_by_quantity.quantity
-    ) {
-      params.append('filter_by_quantity', 'true');
-      params.append(
-        'type_filter_quantity',
-        `${values.filter_by_quantity.type_filter_quantity}`
-      );
-      params.append('quantity', `${values.filter_by_quantity.quantity}`);
-    }
 
     navigate(`?${params.toString()}`);
   };
@@ -198,6 +211,7 @@ export const PaymentModuleSearchbar = () => {
     setAppliedFilters([]);
     form.reset(
       {
+        employee: '',
         filter_by_date: {
           date: undefined,
           type_filter_date: TypeFilterDate.after,
@@ -206,17 +220,13 @@ export const PaymentModuleSearchbar = () => {
           type_filter_total: TypeFilterNumber.MIN,
           total: 0,
         },
-        filter_by_quantity: {
-          type_filter_quantity: TypeFilterNumber.MIN,
-          quantity: 0,
-        },
       },
       {
         keepErrors: false,
         keepDirty: false,
       }
     );
-    navigate(MODULE_SALES_PATHS.ViewAll);
+    navigate(MODULE_PAYMENTS_PATHS.ViewAll);
     toast.success('Se han limpiado los filtros');
   };
 
@@ -231,68 +241,19 @@ export const PaymentModuleSearchbar = () => {
           <DropdownMenu open={openDropDownMenu} modal={false}>
             <div className="flex flex-col items-center justify-center w-screen md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
-                <Popover open={openPopover} onOpenChange={setOpenPopover}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      className="w-auto lg:w-[300px]"
-                      variant={'outline'}
-                      onClick={() => setOpenPopover(true)}
-                    >
-                      {!form.getValues('filter_by_date.date') ||
-                      !form.getValues('filter_by_date.type_filter_date')
-                        ? 'Filtrar por fecha'
-                        : formatTypeFilterDate(
-                            form.getValues(
-                              'filter_by_date.type_filter_date'
-                            ) as TypeFilterDate
-                          ) +
-                          format(form.getValues('filter_by_date.date'), 'PPP', {
-                            locale: es,
-                          })}
-                      <Calendar className="w-4 h-4 ml-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent>
-                    <FormFieldSelect
-                      items={dateFilterOptions}
-                      readOnly={false}
-                      {...formFieldsSearchBarPayment.type_filter_date}
-                      name="filter_by_date.type_filter_date"
-                      control={form.control}
-                    />
-                    <FormFieldCalendar
-                      readOnly={false}
-                      {...formFieldsSearchBarPayment.date}
-                      control={form.control}
-                      name="filter_by_date.date"
-                      className="w-[95%]"
-                    />
-                    <div className="flex justify-center gap-2">
-                      <Button
-                        className="self-end w-24 mt-4"
-                        onClick={async (e) => {
-                          e.preventDefault();
-                          const result = await handleAddFilter(
-                            'filter_by_date'
-                          );
-                          setOpenPopover(!result);
-                        }}
-                      >
-                        Aplicar
-                      </Button>
-                      <Button
-                        variant={'destructive'}
-                        className="self-end w-24 mt-4"
-                        onClick={() => {
-                          setOpenPopover(false);
-                          handleClearErrorsForm('filter_by_date');
-                        }}
-                      >
-                        Cerrar
-                      </Button>
-                    </div>
-                  </PopoverContent>
-                </Popover>
+                <FormFieldCommand
+                  data={queryEmployees?.data?.rows || []}
+                  form={form}
+                  nameToShow="first_name"
+                  control={form.control}
+                  name="employee.id"
+                  placeholder={formFieldsSearchBarPayment.employee.placeholder}
+                  className="w-auto lg:w-[300px]"
+                  description={''}
+                  label={''}
+                  readOnly={readOnly}
+                  actionFinal={() => handleAddFilter('employee.id')}
+                />
 
                 <ToolTipTemplate content="Borrar consulta">
                   <Button
@@ -333,6 +294,29 @@ export const PaymentModuleSearchbar = () => {
               onCloseAutoFocus={(e) => e.preventDefault()}
             >
               <FilterDropdownItem
+                label={'Fecha'}
+                content={
+                  <>
+                    <FormFieldSelect
+                      items={dateFilterOptions}
+                      readOnly={false}
+                      {...formFieldsSearchBarPayment.type_filter_date}
+                      name="filter_by_date.type_filter_date"
+                      control={form.control}
+                    />
+                    <FormFieldCalendar
+                      readOnly={false}
+                      {...formFieldsSearchBarPayment.date}
+                      control={form.control}
+                      name="filter_by_date.date"
+                      className="w-[95%]"
+                    />
+                  </>
+                }
+                actionOnSave={() => handleAddFilter('filter_by_date')}
+                actionOnClose={() => handleClearErrorsForm('filter_by_date')}
+              />
+              <FilterDropdownItem
                 label={'Total'}
                 actionOnSave={() => handleAddFilter('filter_by_total')}
                 actionOnClose={() => handleClearErrorsForm('filter_by_total')}
@@ -351,32 +335,6 @@ export const PaymentModuleSearchbar = () => {
                       control={form.control}
                       type="number"
                       name="filter_by_total.total"
-                    />
-                  </>
-                }
-              />
-
-              <FilterDropdownItem
-                label={'Cantidad'}
-                actionOnSave={() => handleAddFilter('filter_by_quantity')}
-                actionOnClose={() =>
-                  handleClearErrorsForm('filter_by_quantity')
-                }
-                content={
-                  <>
-                    <FormFieldSelect
-                      readOnly={false}
-                      items={numberFilterOptions}
-                      {...formFieldsSearchBarPayment.type_filter_quantity}
-                      control={form.control}
-                      name="filter_by_quantity.type_filter_quantity"
-                    />
-                    <FormFieldInput
-                      readOnly={false}
-                      {...formFieldsSearchBarPayment.quantity}
-                      control={form.control}
-                      type="number"
-                      name="filter_by_quantity.quantity"
                     />
                   </>
                 }

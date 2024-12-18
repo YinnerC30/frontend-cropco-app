@@ -17,6 +17,7 @@ export const PaymentsModuleProvider = ({
 }) => {
   const { paramsValues } = useAdvancedQueryData({
     params: [
+      'employee',
       'filter_by_date',
       'type_filter_date',
       'date',
@@ -24,13 +25,6 @@ export const PaymentsModuleProvider = ({
       'filter_by_total',
       'type_filter_total',
       'total',
-
-      'filter_by_quantity',
-      'type_filter_quantity',
-      'quantity',
-
-      // 'filter_by_is_receivable',
-      // 'is_receivable',
     ],
   });
 
