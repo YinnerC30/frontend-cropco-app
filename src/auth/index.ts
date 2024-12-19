@@ -15,8 +15,8 @@ export * from './interfaces/UserActive';
 export * from './routes/authenticationRoutes';
 
 export * from './utils/authenticationSlice';
-export * from './utils/extractValueFromParentheses';
+
 export * from './utils/formFieldsLogin';
 export * from './utils/formSchemaLogin';
 export * from './utils/manageUserInLocalStorage';
-export * from './utils/pathsActions';
+

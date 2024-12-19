@@ -27,10 +27,8 @@ export const Login: React.FC = () => {
     },
   });
 
-  // Control de visibilidad del campo de contraseña
   const [showPassword, setShowPassword] = useState(false);
 
-  // Modificar la visibilidad de la contraseña
   const togglePasswordVisibility = (event: any) => {
     event.preventDefault();
     setShowPassword(!showPassword);
