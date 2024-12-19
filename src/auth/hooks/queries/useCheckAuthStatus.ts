@@ -33,15 +33,13 @@ export const checkAuthStatus = async (
   return data;
 };
 
-interface Props {
-  token: string;
-}
-
 export const useCheckAuthStatus = ({
   token = '',
-}: Props): UseQueryResult<ResponseCheckAuth, AxiosError> => {
+}: {
+  token: string;
+}): UseQueryResult<ResponseCheckAuth, AxiosError> => {
   const { isLogin, handleError } = useAuthContext();
-  const query: UseQueryResult<any, AxiosError> = useQuery({
+  const query: UseQueryResult<ResponseCheckAuth, AxiosError> = useQuery({
     queryKey: ['valid-sesion-user'],
     queryFn: () => checkAuthStatus(token),
     enabled: isLogin,

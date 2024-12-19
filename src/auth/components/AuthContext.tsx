@@ -19,26 +19,12 @@ import {
   renewTokenInLocalStorage,
   saveUserInLocalStorage,
 } from '../utils/manageUserInLocalStorage';
+import { AuthContextProps } from '../interfaces/AuthContextProps';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
 
-export interface AuthContextProps {
-  saveUser: (user: UserActive) => void;
-  isLogin: boolean;
-  removeUser: () => void;
-  updateUserActions: (modules: Module[]) => void;
-  updateTokenInClient: (token: string) => void;
-  tokenSession: string | undefined;
-  user: UserActive | null;
-  handleError: (props: HandleErrorProps) => void;
-  nameModulesUser: string[];
-  hasMoreThanOnePermission: (moduleName: string) => number;
-  hasPermission: (moduleName: string, actionName: string) => boolean;
-  validatePermissionsInModule: (moduleName: string) => Record<string, boolean>;
-}
-
-interface HandleErrorProps {
+export interface HandleErrorProps {
   error: AxiosError;
   messagesStatusError: {
     notFound?: string;
@@ -181,9 +167,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     return module?.actions.map((action: Action) => action.name) ?? [];
   };
 
+  // TODO: Crear valor memo de los permisos de cada modulo
+
   const validatePermissionsInModule = (
     moduleName: string
   ): Record<string, boolean> => {
+    // REFACTOR: Obtener las acciones del modulo del usuario del valor memo
     const userActions = data[moduleName].actions;
     const moduleActions = getNameActionsModule(moduleName);
 

@@ -1,4 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
@@ -6,8 +10,11 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { CapitalizeFirstWord } from '@/auth/helpers';
 import { LoginUserData } from '@/auth/interfaces';
 import { useAuthContext } from '..';
+import { User } from '@/modules/users/interfaces';
 
-export const loginUser = async (loginUserData: LoginUserData) => {
+export const loginUser = async (
+  loginUserData: LoginUserData
+): Promise<User> => {
   const { data } = await cropcoAPI.post(
     `${pathsCropco.authentication}/login`,
     loginUserData
@@ -15,7 +22,12 @@ export const loginUser = async (loginUserData: LoginUserData) => {
   return data;
 };
 
-export const useLoginUser = () => {
+export const useLoginUser = (): UseMutationResult<
+  User,
+  AxiosError,
+  LoginUserData,
+  unknown
+> => {
   const { saveUser } = useAuthContext();
 
   const queryClient = useQueryClient();

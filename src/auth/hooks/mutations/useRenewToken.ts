@@ -1,4 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
@@ -6,19 +10,27 @@ import { useAuthContext } from '../useAuthContext';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
-export const renewToken = async () => {
-  return await cropcoAPI.patch(`${pathsCropco.authentication}/renew-token`);
+export const renewToken = async (): Promise<{ token: string }> => {
+  const { data } = await cropcoAPI.patch(
+    `${pathsCropco.authentication}/renew-token`
+  );
+  return data;
 };
 
-export const useRenewToken = () => {
+export const useRenewToken = (): UseMutationResult<
+  { token: string },
+  AxiosError,
+  void,
+  unknown
+> => {
   const { updateTokenInClient, handleError } = useAuthContext();
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: renewToken,
-    onSuccess: ({ data }) => {
+    onSuccess: ({ token }) => {
       queryClient.invalidateQueries({ queryKey: ['user-sesion-status'] });
-      updateTokenInClient(data.token);
+      updateTokenInClient(token);
       toast.success('Tu sesión se ha extendido un poco más 😊');
     },
     onError: (error: AxiosError | any) => {

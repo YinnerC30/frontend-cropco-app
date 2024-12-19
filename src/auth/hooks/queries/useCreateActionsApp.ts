@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
+// INFO: Metodo de uso solo en desarrollo
 const createActionsApp = async () => {
   return await cropcoAPI.get('auth/module-actions/create');
 };
