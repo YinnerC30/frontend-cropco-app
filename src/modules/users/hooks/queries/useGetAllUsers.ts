@@ -1,18 +1,27 @@
-import { useQuery } from '@tanstack/react-query';
-
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useAuthContext } from '@/auth/hooks';
-import { useManageErrorApp } from '@/auth/hooks/useManageErrorApp';
+import { useAuthContext } from '@/auth';
+import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import {
   BasicQueryData,
   ResponseApiGetAllRecords,
 } from '@/modules/core/interfaces';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { PaginationState } from '@tanstack/react-table';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
-import { User } from '../../interfaces';
 import { toast } from 'sonner';
-import { error } from 'console';
+import { User } from '../../interfaces';
+
+interface UseGetAllUsersProps {
+  value: string;
+}
+
+interface UseGetAllUsersReturn {
+  query: UseQueryResult<ResponseApiGetAllRecords<User>, AxiosError>;
+  pagination: PaginationState;
+  setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
+}
 
 async function getUsers(
   values: BasicQueryData
@@ -29,13 +38,9 @@ async function getUsers(
   return data;
 }
 
-interface Props {
-  value: string;
-}
-
-const STALE_TIME_DATA = 60_000 * 60;
-
-export function useGetAllUsers({ value }: Props) {
+export function useGetAllUsers({
+  value,
+}: UseGetAllUsersProps): UseGetAllUsersReturn {
   const { hasPermission, handleError } = useAuthContext();
 
   const { pagination, setPagination, pageIndex, pageSize } =
@@ -43,7 +48,10 @@ export function useGetAllUsers({ value }: Props) {
 
   const isAuthorized = hasPermission('users', 'find_all_users');
 
-  const query = useQuery({
+  const query: UseQueryResult<
+    ResponseApiGetAllRecords<User>,
+    AxiosError
+  > = useQuery({
     queryKey: ['users', { value, ...pagination }],
     queryFn: () =>
       getUsers({
@@ -51,7 +59,7 @@ export function useGetAllUsers({ value }: Props) {
         limit: pageSize,
         offset: pageIndex,
       }),
-    staleTime: STALE_TIME_DATA,
+    staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
     enabled: isAuthorized,
   });
 

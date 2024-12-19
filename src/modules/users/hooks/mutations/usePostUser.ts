@@ -1,4 +1,4 @@
-import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext } from '@/auth/hooks';
 import {
   UseMutationResult,
   useMutation,
@@ -12,15 +12,13 @@ import { User } from '../../interfaces';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
 async function createUser(user: User): Promise<User> {
-  return await cropcoAPI.post(`${pathsCropco.users}/create`, user);
+  const { data } = await cropcoAPI.post(`${pathsCropco.users}/create`, user);
+  return data;
 }
 
-export function usePostUser(): UseMutationResult<
-  User,
-  AxiosError<unknown, any>,
-  User,
-  unknown
-> {
+type UsePostUserReturn = UseMutationResult<User, AxiosError, User, unknown>;
+
+export function usePostUser(): UsePostUserReturn {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -33,16 +31,14 @@ export function usePostUser(): UseMutationResult<
       toast.success(`Usuario creado`);
     },
     onError: (error: AxiosError) => {
-      const createError: AxiosError = error;
       handleError({
-        error: createError as AxiosError,
+        error,
         messagesStatusError: {
           badRequest: 'La solicitud no es válida',
           unauthorized: 'No tienes permisos para crear un usuario',
         },
       });
     },
-
     retry: 1,
   });
 

@@ -1,6 +1,14 @@
 import { CustomFormField } from '@/modules/core/interfaces';
 
-export const formFieldsUser: Record<string, CustomFormField> = {
+type UserFormFields =
+  | 'first_name'
+  | 'last_name'
+  | 'email'
+  | 'cell_phone_number'
+  | 'password1'
+  | 'password2';
+
+export const formFieldsUser: Record<UserFormFields, CustomFormField> = {
   first_name: {
     name: 'first_name',
     label: 'Nombre(s):',
@@ -25,7 +33,6 @@ export const formFieldsUser: Record<string, CustomFormField> = {
     placeholder: '3148009870',
     description: 'Su número celular personal',
   },
-
   password1: {
     name: 'password',
     label: 'Contraseña:',

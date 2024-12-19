@@ -1,4 +1,4 @@
-import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext } from '@/auth/hooks';
 import { RootState, useAppSelector } from '@/redux/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -8,7 +8,7 @@ import { User } from '../../interfaces';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
-async function updateUser({ id, ...rest }: User): Promise<void> {
+async function updateUser({ id, ...rest }: Partial<User>): Promise<void> {
   const { data } = await cropcoAPI.patch(
     `${pathsCropco.users}/update/one/${id}`,
     rest

@@ -27,7 +27,7 @@ const formSchemaChangePassword = z.object({
     }),
 });
 
-export const FormChangePassword = () => {
+export const FormChangePassword: React.FC = () => {
   const { id } = useAppSelector(
     (state: RootState) => state.authentication.user
   );

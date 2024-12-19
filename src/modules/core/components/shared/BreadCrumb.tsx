@@ -23,7 +23,7 @@ interface Props {
   hiddenSeparator?: boolean;
 }
 
-export const BreadCrumb = memo(
+export const BreadCrumb: React.FC<Props> = memo(
   ({ items = [], finalItem, hiddenSeparator = false }: Props) => {
     const { hasUnsavedChanges } = useFormChange();
     const navigate = useNavigate();

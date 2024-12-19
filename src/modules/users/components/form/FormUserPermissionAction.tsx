@@ -15,7 +15,7 @@ export interface UserAction {
   isActive?: boolean;
 }
 
-export const FormUserPermissionAction = ({
+export const FormUserPermissionAction: React.FC<Props> = ({
   action,
   readOnly,
   isChecked,

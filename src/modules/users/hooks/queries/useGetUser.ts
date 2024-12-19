@@ -1,8 +1,9 @@
 import { useAuthContext } from '@/auth/hooks';
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { Action, Module } from '@/modules/core/interfaces';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { User } from '../../interfaces';
@@ -12,15 +13,25 @@ async function getUserById(id: string): Promise<User> {
   return data;
 }
 
-export function useGetUser(id: string): UseQueryResult<User, Error> {
+interface UseGetUserReturn {
+  query: UseQueryResult<User, AxiosError>;
+}
+
+export function useGetUser(id: string): UseGetUserReturn {
   const { hasPermission, handleError } = useAuthContext();
 
   const isAuthorized = hasPermission('users', 'find_one_user');
 
-  const query = useQuery({
+  const query: UseQueryResult<User, AxiosError> = useQuery({
     queryKey: ['user', id],
     queryFn: () => getUserById(id),
     enabled: isAuthorized,
+    select: (data: User) => ({
+      ...data,
+      actions: data?.modules?.flatMap((module: Module) =>
+        module.actions.map((action: Action) => ({ id: action.id }))
+      ),
+    }),
   });
 
   useEffect(() => {
@@ -37,7 +48,6 @@ export function useGetUser(id: string): UseQueryResult<User, Error> {
         error: query.error as AxiosError,
         messagesStatusError: {
           notFound: 'El usuario solicitado no fue encontrado',
-          badRequest: 'La solicitud al usuario es incorrecta',
           unauthorized:
             'No tienes permiso para obtener la información del usuario',
         },
@@ -45,5 +55,5 @@ export function useGetUser(id: string): UseQueryResult<User, Error> {
     }
   }, [query.isError]);
 
-  return query;
+  return { query };
 }

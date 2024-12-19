@@ -5,8 +5,9 @@ import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
 import { formSchemaUserWithPassword } from '../utils';
 import { FormUser } from './form';
 import { User } from '../interfaces';
+import React from 'react';
 
-export const CreateUser = () => {
+export const CreateUser: React.FC = () => {
   const { mutate, isPending } = usePostUser();
 
   const handleSubmit = async (
@@ -17,7 +18,6 @@ export const CreateUser = () => {
       ...rest,
       password: passwords.password1,
     } as User;
-    console.log(data);
     mutate(data);
   };
 

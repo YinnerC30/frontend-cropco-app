@@ -1,7 +1,11 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from 'react-router-dom';
 
-export const useBasicQueryData = () => {
+interface UseBasicQueryDataReturn {
+  value: string;
+}
+
+export const useBasicQueryData = (): UseBasicQueryDataReturn => {
   const [URLSearchParams] = useSearchParams();
-  const value = URLSearchParams.get("query") ?? "";
+  const value = URLSearchParams.get('query') ?? '';
   return { value };
 };

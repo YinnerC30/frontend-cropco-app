@@ -2,7 +2,7 @@ import { Button } from '@/components';
 import { ButtonsForm } from '@/modules/core/components';
 import { useFormUserContext } from '../../hooks';
 
-export const FormUserButtons = () => {
+export const FormUserButtons: React.FC = () => {
   const { readOnly, handleReturnToModule, isSubmitting } = useFormUserContext();
 
   return readOnly ? (

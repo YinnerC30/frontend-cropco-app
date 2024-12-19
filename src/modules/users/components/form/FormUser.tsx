@@ -5,7 +5,7 @@ import { FormUserFields } from './FormUserFields';
 import { FormUserFieldsPermissions } from './FormUserFieldsPermissions';
 import { FormUserScrollArea } from './FormUserScrollArea';
 
-export const FormUser = ({
+export const FormUser: React.FC<FormUserProps> = ({
   defaultValues,
   hiddenPassword = false,
   isSubmitting = false,

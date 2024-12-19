@@ -1,10 +1,8 @@
-// path: /routes/userRoutes.tsx
 import { generateRoutes } from '@/routes/helpers/generateRoutes';
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import { RouteConfig } from '../../../routes/interfaces/RouteConfig';
 
-// Lazy load de los componentes
 const CreateUser = lazy(() => import('../components/CreateUser'));
 const ModifyUser = lazy(() => import('../components/ModifyUser'));
 const UsersModule = lazy(() => import('../components/module/UsersModule'));

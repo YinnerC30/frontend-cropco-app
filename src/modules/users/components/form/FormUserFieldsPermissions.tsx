@@ -11,7 +11,7 @@ import { useFormUserContext } from '../../hooks';
 import { Module } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 import { FormUserPermissionAction } from './FormUserPermissionAction';
 
-export const FormUserFieldsPermissions = () => {
+export const FormUserFieldsPermissions: React.FC = () => {
   const {
     data,
     handleSelectAllActions,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollArea } from '@/components';
 
-export const FormUserScrollArea = ({
+export const FormUserScrollArea: React.FC<{ children: React.ReactNode }> = ({
   children,
 }: {
   children: React.ReactNode;

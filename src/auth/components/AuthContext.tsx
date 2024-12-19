@@ -1,9 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { PATH_LOGIN } from '@/config';
+import { useGetAllModules } from '@/modules/core/hooks';
+import {
+  Action,
+  Module,
+} from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 import { RootState, useAppSelector } from '@/redux/store';
-import { createContext, useEffect, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
-
 import { useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { createContext, ReactNode, useEffect, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { UserActive } from '../interfaces';
 import { removeUserActive, setUserActive } from '../utils';
 import { setToken } from '../utils/authenticationSlice';
@@ -12,19 +19,24 @@ import {
   renewTokenInLocalStorage,
   saveUserInLocalStorage,
 } from '../utils/manageUserInLocalStorage';
-import { useNavigate } from 'react-router-dom';
-import { PATH_LOGIN } from '@/config';
-import { toast } from 'sonner';
-import { AxiosError } from 'axios';
-import {
-  Action,
-  Module,
-} from '@/modules/core/interfaces/responses/ResponseGetAllModules';
-import { useGetAllModules } from '@/modules/core/hooks';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
-export const AuthContext = createContext<any>(undefined);
+
+export interface AuthContextProps {
+  saveUser: (user: UserActive) => void;
+  isLogin: boolean;
+  removeUser: () => void;
+  updateUserActions: (modules: Module[]) => void;
+  updateTokenInClient: (token: string) => void;
+  tokenSession: string | undefined;
+  user: UserActive | null;
+  handleError: (props: HandleErrorProps) => void;
+  nameModulesUser: string[];
+  hasMoreThanOnePermission: (moduleName: string) => number;
+  hasPermission: (moduleName: string, actionName: string) => boolean;
+  validatePermissionsInModule: (moduleName: string) => Record<string, boolean>;
+}
 
 interface HandleErrorProps {
   error: AxiosError;
@@ -42,7 +54,13 @@ interface DataActionsAuthorization {
   };
 }
 
-export const AuthProvider = ({ children }: any) => {
+export const AuthContext = createContext<AuthContextProps | undefined>(
+  undefined
+);
+
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const { user } = useAppSelector((state: RootState) => state.authentication);
   const queryClient = useQueryClient();
   const tokenSession = user?.token;
@@ -67,9 +85,11 @@ export const AuthProvider = ({ children }: any) => {
     queryClient.clear();
   };
 
-  const updateUserActions = (modules: any) => {
-    saveUserInLocalStorage({ ...user, modules });
-    saveUserInState({ ...user, modules });
+  const updateUserActions = (modules: Module[]) => {
+    if (user) {
+      saveUserInLocalStorage({ ...user, modules });
+      saveUserInState({ ...user, modules });
+    }
   };
 
   const renewTokenInState = (token: string) => {
@@ -77,8 +97,10 @@ export const AuthProvider = ({ children }: any) => {
   };
 
   const updateTokenInClient = (token: string) => {
-    renewTokenInLocalStorage(user, token);
-    renewTokenInState(token);
+    if (user) {
+      renewTokenInLocalStorage(user, token);
+      renewTokenInState(token);
+    }
   };
 
   const handleError = ({ error, messagesStatusError }: HandleErrorProps) => {
@@ -90,7 +112,6 @@ export const AuthProvider = ({ children }: any) => {
       notFound = 'No se encontró la información solicitada',
     } = messagesStatusError;
 
-    // Función auxiliar para errores de red
     const handleNetworkError = () => {
       if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
         toast.error('No tienes conexión a internet');
@@ -99,10 +120,8 @@ export const AuthProvider = ({ children }: any) => {
       return false;
     };
 
-    // Si es un error de red, se maneja aquí
     if (handleNetworkError()) return;
 
-    // Si no es un error de red, manejamos el status
     switch (response?.status) {
       case 400:
         toast.error(badRequest);
@@ -126,20 +145,18 @@ export const AuthProvider = ({ children }: any) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user.isLogin) {
+    if (!user?.isLogin) {
       navigate(PATH_LOGIN, { replace: true });
     }
   }, [navigate, user]);
 
-  // Authorization
-
   const nameModulesUser: string[] = useMemo(() => {
-    return user?.modules?.map((module: any) => module?.name) ?? [];
+    return user?.modules?.map((module: Module) => module?.name) ?? [];
   }, [user]);
 
   const data: DataActionsAuthorization = useMemo(() => {
     return (
-      user?.modules?.reduce((acc: any, module: Module) => {
+      user?.modules?.reduce((acc: DataActionsAuthorization, module: Module) => {
         acc[module.name] = {
           actions: new Set(
             module?.actions.map((action: Action) => action.name)
@@ -149,8 +166,6 @@ export const AuthProvider = ({ children }: any) => {
       }, {}) ?? {}
     );
   }, [user]);
-
-  // TODO: Crear objeto de permission global de la app y memorizarlo para evitar llamar metodos a cada rato
 
   const hasPermission = (moduleName: string, actionName: string): boolean => {
     return data[moduleName]?.actions.has(actionName) ?? false;
@@ -185,14 +200,14 @@ export const AuthProvider = ({ children }: any) => {
   };
 
   const hasMoreThanOnePermission = (moduleName: string) => {
-    return data[moduleName]?.actions.size;
+    return data[moduleName]?.actions.size ?? 0;
   };
 
   return (
     <AuthContext.Provider
       value={{
         saveUser,
-        isLogin: user.isLogin,
+        isLogin: user?.isLogin ?? false,
         removeUser,
         updateUserActions,
         updateTokenInClient,
@@ -209,3 +224,5 @@ export const AuthProvider = ({ children }: any) => {
     </AuthContext.Provider>
   );
 };
+
+export default AuthProvider;

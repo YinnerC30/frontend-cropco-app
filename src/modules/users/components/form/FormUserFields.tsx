@@ -15,7 +15,7 @@ import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { formFieldsUser } from '../../utils';
 import { FormFieldInput } from '@/modules/core/components';
 
-export const FormUserFields = () => {
+export const FormUserFields: React.FC = () => {
   const {
     form,
     onSubmit,
