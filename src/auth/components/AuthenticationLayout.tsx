@@ -2,7 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthContext } from '../hooks';
 import { PATH_HOME_APP } from '@/config';
 
-export const AuthenticationLayout = () => {
+export const AuthenticationLayout: React.FC = () => {
   const { isLogin } = useAuthContext();
 
   if (isLogin) {

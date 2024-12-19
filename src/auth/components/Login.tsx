@@ -10,14 +10,31 @@ import {
 import { FormFieldInput } from '@/modules/core/components/form/fields/FormFieldInput';
 import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from '@radix-ui/react-icons';
 import { z } from 'zod';
-import { useLoginForm } from '../hooks/useLoginForm';
 import { formFieldsLogin, formSchemaLogin } from '../utils';
-import { useLoginUser } from '../hooks/useLoginUser';
-import { Link } from 'react-router-dom';
-import { PATH_HOME_APP } from '@/config';
 
-export const Login = () => {
-  const { formLogin, showPassword, togglePasswordVisibility } = useLoginForm();
+import { PATH_HOME_APP } from '@/config';
+import { useCreateForm } from '@/modules/core/hooks';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useLoginUser } from '../hooks/mutations/useLoginUser';
+
+export const Login: React.FC = () => {
+  const formLogin = useCreateForm({
+    schema: formSchemaLogin,
+    defaultValues: {
+      email: 'yinnerchilito@example.com',
+      password: '123456',
+    },
+  });
+
+  // Control de visibilidad del campo de contraseña
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Modificar la visibilidad de la contraseña
+  const togglePasswordVisibility = (event: any) => {
+    event.preventDefault();
+    setShowPassword(!showPassword);
+  };
 
   const { mutate, isPending } = useLoginUser();
 

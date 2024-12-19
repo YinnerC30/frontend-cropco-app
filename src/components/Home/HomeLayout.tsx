@@ -21,7 +21,7 @@ export const HomeLayout = () => {
   const { isActiveDialog } = useDialogStatus();
 
   const query = useCheckAuthStatus({
-    token: tokenSession,
+    token: tokenSession!,
   });
 
   if (query.isLoading) {

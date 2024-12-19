@@ -41,10 +41,10 @@ export interface AuthContextProps {
 interface HandleErrorProps {
   error: AxiosError;
   messagesStatusError: {
-    notFound: string;
-    badRequest: string;
-    unauthorized: string;
-    other: string;
+    notFound?: string;
+    badRequest?: string;
+    unauthorized?: string;
+    other?: string;
   };
 }
 

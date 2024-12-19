@@ -1,5 +1,5 @@
 import { AuthenticationLayout } from '@/auth';
-import { authenticationRoutes } from '@/auth/routes/Routes';
+import { authenticationRoutes } from '@/auth/routes/authenticationRoutes';
 import { LandingPage } from '@/components/common/LandingPage';
 import { clientRoutes } from '@/modules/clients/routes/clientRoutes';
 import { cropRoutes } from '@/modules/crops/routes/Routes';

@@ -1,9 +1,19 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { CapitalizeFirstWord } from '../helpers/CapitalizeFirstWord';
-import { loginUser } from '../services/loginUser';
-import { useAuthContext } from './useAuthContext';
+
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { CapitalizeFirstWord } from '@/auth/helpers';
+import { LoginUserData } from '@/auth/interfaces';
+import { useAuthContext } from '..';
+
+export const loginUser = async (loginUserData: LoginUserData) => {
+  const { data } = await cropcoAPI.post(
+    `${pathsCropco.authentication}/login`,
+    loginUserData
+  );
+  return data;
+};
 
 export const useLoginUser = () => {
   const { saveUser } = useAuthContext();

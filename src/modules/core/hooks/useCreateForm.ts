@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { useFormChange } from '../components/form/FormChangeContext';
 
@@ -16,7 +16,7 @@ export const useCreateForm = ({
   defaultValues,
   skiptDirty = false,
   validationMode = 'onChange',
-}: Props) => {
+}: Props): UseFormReturn<any, any, undefined> => {
   const { markChanges } = useFormChange();
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),

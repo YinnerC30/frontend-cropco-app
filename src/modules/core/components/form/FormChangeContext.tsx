@@ -8,7 +8,15 @@ import { useNavigate } from 'react-router-dom';
 interface FormChangeContextType {
   hasUnsavedChanges: boolean;
   markChanges: (hasChanges: boolean) => void;
-  showToast: any;
+  showToast: ({
+    route,
+    skiptRedirection,
+    action,
+  }: {
+    route?: string;
+    skiptRedirection?: boolean;
+    action?: () => void;
+  }) => void;
 }
 
 // Crear el contexto con un valor inicial vacío para su tipado

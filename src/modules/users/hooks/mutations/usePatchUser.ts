@@ -1,6 +1,10 @@
 import { useAuthContext } from '@/auth/hooks';
 import { RootState, useAppSelector } from '@/redux/store';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -15,8 +19,8 @@ async function updateUser({ id, ...rest }: Partial<User>): Promise<void> {
   );
   return data;
 }
-
-export function usePatchUser() {
+type UsePatchUserReturn = UseMutationResult<User, AxiosError, User, unknown>;
+export function usePatchUser(): UsePatchUserReturn {
   const navigate = useNavigate();
   const user = useAppSelector((state: RootState) => state.authentication.user);
 

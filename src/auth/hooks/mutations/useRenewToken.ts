@@ -1,13 +1,18 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { renewToken } from '../services/renewToken';
-import { useAuthContext } from './useAuthContext';
-import { useManageErrorApp } from './useManageErrorApp';
+
+import { useAuthContext } from '../useAuthContext';
+
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+
+export const renewToken = async () => {
+  return await cropcoAPI.patch(`${pathsCropco.authentication}/renew-token`);
+};
 
 export const useRenewToken = () => {
-  const { updateTokenInClient } = useAuthContext();
-  const { handleError } = useManageErrorApp();
+  const { updateTokenInClient, handleError } = useAuthContext();
+
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: renewToken,
@@ -20,7 +25,10 @@ export const useRenewToken = () => {
       const loginError: AxiosError | any = error;
       handleError({
         error: loginError,
-        messageUnauthoraizedError: 'Su sesión es invalida',
+        messagesStatusError: {
+          unauthorized:
+            'Tu sesión ha expirado, por favor vuelve a iniciar sesión',
+        },
       });
     },
     retry: 0,

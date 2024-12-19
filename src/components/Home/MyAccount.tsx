@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { useAuthContext } from '@/auth/hooks/useAuthContext';
-import { useImplantSeed } from '@/auth/hooks/useImplantSeed';
+import { useImplantSeed } from '@/auth/hooks/queries/useImplantSeed';
 import { useTheme } from '@/modules/core/components/shared/ThemeProvider';
 import { DialogChangePassword } from '@/modules/users/components/DialogChangePassword';
 import { useGetConvertToAdmin } from '@/modules/users/hooks';
@@ -23,7 +23,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
-import { useCreationsApp } from '@/auth/hooks/useCreateActionsApp';
+import { useCreationsApp } from '@/auth/hooks/queries/useCreateActionsApp';
 
 export const MyAccount = () => {
   const [, setOpenMenu] = useState(false);

@@ -1,6 +1,13 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
-import { getModuleActions } from '../services/getModuleActions';
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+
+export const getModuleActions = async (name: string) => {
+  const { data } = await cropcoAPI.get(
+    `${pathsCropco.authentication}/modules/one/${name}`
+  );
+  return data;
+};
 
 export function useGetModuleActions(name: string): UseQueryResult<any, Error> {
   const query = useQuery({

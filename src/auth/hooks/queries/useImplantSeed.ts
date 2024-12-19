@@ -1,6 +1,10 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
-import { implantSeed } from '../services/implantSeed';
+import { cropcoAPI } from '@/api/cropcoAPI';
+
+export const implantSeed = async () => {
+  return await cropcoAPI.get(`/seed`);
+};
 
 export function useImplantSeed(
   isRunningSeed: boolean
