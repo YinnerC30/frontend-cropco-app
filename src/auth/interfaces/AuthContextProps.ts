@@ -15,4 +15,5 @@ export interface AuthContextProps {
   hasMoreThanOnePermission: (moduleName: string) => number;
   hasPermission: (moduleName: string, actionName: string) => boolean;
   validatePermissionsInModule: (moduleName: string) => Record<string, boolean>;
+  globalActionsUser: Record<string, Record<string, boolean>>;
 }

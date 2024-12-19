@@ -47,9 +47,11 @@ export const AuthContext = createContext<AuthContextProps | undefined>(
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const queryGetAllModules = useGetAllModules();
   const { user } = useAppSelector((state: RootState) => state.authentication);
   const queryClient = useQueryClient();
   const tokenSession = user?.token;
+
   const dispatch = useDispatch();
 
   const saveUserInState = (user: UserActive) => {
@@ -140,7 +142,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     return user?.modules?.map((module: Module) => module?.name) ?? [];
   }, [user]);
 
-  const data: DataActionsAuthorization = useMemo(() => {
+  const userAuthData: DataActionsAuthorization = useMemo(() => {
     return (
       user?.modules?.reduce((acc: DataActionsAuthorization, module: Module) => {
         acc[module.name] = {
@@ -154,10 +156,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, [user]);
 
   const hasPermission = (moduleName: string, actionName: string): boolean => {
-    return data[moduleName]?.actions.has(actionName) ?? false;
+    return userAuthData[moduleName]?.actions.has(actionName) ?? false;
   };
-
-  const queryGetAllModules = useGetAllModules();
 
   const getNameActionsModule = (nameModule: string) => {
     const module = queryGetAllModules.data?.find(
@@ -167,13 +167,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     return module?.actions.map((action: Action) => action.name) ?? [];
   };
 
-  // TODO: Crear valor memo de los permisos de cada modulo
-
   const validatePermissionsInModule = (
     moduleName: string
   ): Record<string, boolean> => {
     // REFACTOR: Obtener las acciones del modulo del usuario del valor memo
-    const userActions = data[moduleName].actions;
+    const userActions = userAuthData[moduleName].actions;
     const moduleActions = getNameActionsModule(moduleName);
 
     const finalActions: Record<string, boolean> = moduleActions.reduce(
@@ -188,8 +186,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     return finalActions;
   };
 
+  const globalActionsUser: Record<
+    string,
+    Record<string, boolean>
+  > = queryGetAllModules.data?.reduce((acc, module) => {
+    acc[module.name] = validatePermissionsInModule(module.name);
+    return acc;
+  }, {} as any);
+
   const hasMoreThanOnePermission = (moduleName: string) => {
-    return data[moduleName]?.actions.size ?? 0;
+    return userAuthData[moduleName]?.actions.size ?? 0;
   };
 
   return (
@@ -207,6 +213,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         hasMoreThanOnePermission,
         hasPermission,
         validatePermissionsInModule,
+        globalActionsUser,
       }}
     >
       {children}
