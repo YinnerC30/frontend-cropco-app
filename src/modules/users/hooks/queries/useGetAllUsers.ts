@@ -12,6 +12,7 @@ import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { User } from '../../interfaces';
 import { toast } from 'sonner';
+import { error } from 'console';
 
 async function getUsers(
   values: BasicQueryData
@@ -35,11 +36,10 @@ interface Props {
 const STALE_TIME_DATA = 60_000 * 60;
 
 export function useGetAllUsers({ value }: Props) {
-  const { hasPermission } = useAuthContext();
+  const { hasPermission, handleError } = useAuthContext();
+
   const { pagination, setPagination, pageIndex, pageSize } =
     usePaginationDataTable();
-
-  const { handleError } = useManageErrorApp();
 
   const isAuthorized = hasPermission('users', 'find_all_users');
 
@@ -65,8 +65,10 @@ export function useGetAllUsers({ value }: Props) {
     if (query.isError) {
       handleError({
         error: query.error as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso para ver el listado de usuarios 😑',
+        messagesStatusError: {
+          badRequest: 'La solicitud contiene información incorrecta',
+          unauthorized: 'No tienes permiso para ver el listado de usuarios 😑',
+        },
       });
     }
   }, [query.isError, query.error]);

@@ -1,5 +1,5 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext } from '@/auth/hooks';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -15,7 +15,7 @@ const deleteBulkUsers = async (data: BulkRecords) => {
 
 export const useDeleteBulkUsers = () => {
   const queryClient = useQueryClient();
-  const { handleError } = useManageErrorApp();
+  const { handleError } = useAuthContext();
   const mutation = useMutation({
     mutationFn: deleteBulkUsers,
     onSuccess: () => {
@@ -26,11 +26,13 @@ export const useDeleteBulkUsers = () => {
       const deleteError: AxiosError = error;
       handleError({
         error: deleteError as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso para eliminar varios usuarios',
+        messagesStatusError: {
+          notFound: 'No se encontro el usuario a eliminar',
+          badRequest: 'La solicitud no es válida',
+          unauthorized: 'No tienes permisos para eliminar usuarios',
+        },
       });
     },
-
     retry: 1,
   });
 

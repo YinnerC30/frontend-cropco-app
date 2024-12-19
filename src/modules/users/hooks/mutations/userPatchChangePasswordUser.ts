@@ -1,6 +1,6 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { PATH_HOME_APP } from '@/config';
-import { useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +23,7 @@ async function changePasswordUser({
 }
 
 export function userPatchChangePasswordUser() {
-  const { handleError } = useManageErrorApp();
+  const { handleError } = useAuthContext();
   const navigate = useNavigate();
 
   const mutation = useMutation({
@@ -36,8 +36,10 @@ export function userPatchChangePasswordUser() {
       const patchPasswordError: AxiosError = error;
       handleError({
         error: patchPasswordError as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso cambiar la contraseña del usuario',
+        messagesStatusError: {
+          notFound: 'No se encontro el usuario a actualizar su contraseña',
+          unauthorized: 'No tienes permisos para actualizar la contraseña',
+        },
       });
     },
     retry: 1,

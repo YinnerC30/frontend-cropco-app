@@ -20,8 +20,7 @@ export function usePatchUser() {
   const navigate = useNavigate();
   const user = useAppSelector((state: RootState) => state.authentication.user);
 
-  const { updateUserActions } = useAuthContext();
-  const { handleError } = useManageErrorApp();
+  const { updateUserActions, handleError } = useAuthContext();
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -37,15 +36,17 @@ export function usePatchUser() {
       } else {
         toast.success(`Usuario actualizado`);
       }
-
       navigate('../view/all');
     },
     onError: (error: AxiosError) => {
       const updateError: AxiosError = error;
       handleError({
         error: updateError as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso para actualizar el usuario',
+        messagesStatusError: {
+          notFound: 'No se encontro el usuario a actualizar',
+          badRequest: 'La solicitud no es válida',
+          unauthorized: 'No tienes permisos para actualizar el usuario',
+        },
       });
     },
     retry: 1,

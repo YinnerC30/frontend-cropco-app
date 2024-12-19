@@ -1,5 +1,5 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
@@ -16,7 +16,7 @@ async function resetPasswordUser(id: string): Promise<DataResetPassword> {
 }
 
 export function usePatchPasswordUser() {
-  const { handleError } = useManageErrorApp();
+  const { handleError } = useAuthContext();
 
   const mutation = useMutation({
     mutationFn: resetPasswordUser,
@@ -28,8 +28,10 @@ export function usePatchPasswordUser() {
 
       handleError({
         error: patchPasswordError as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso restablecer la contraseña del usuario',
+        messagesStatusError: {
+          notFound: 'No se encontro el usuario para restablecer su contraseña',
+          unauthorized: 'No tienes permiso para restablecer la contraseña',
+        },
       });
     },
     retry: 1,

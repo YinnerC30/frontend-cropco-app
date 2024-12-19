@@ -1,5 +1,5 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext } from '@/auth/hooks';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
@@ -10,7 +10,7 @@ export const deleteUser = async (id: string) => {
 
 export const useDeleteUser = () => {
   const queryClient = useQueryClient();
-  const { handleError } = useManageErrorApp();
+  const { handleError } = useAuthContext();
   const mutation = useMutation({
     mutationFn: deleteUser,
     onSuccess: () => {
@@ -19,10 +19,13 @@ export const useDeleteUser = () => {
     },
     onError: (error: AxiosError) => {
       const deleteError: AxiosError = error;
-
       handleError({
         error: deleteError,
-        messageUnauthoraizedError: 'No tienes permiso para eliminar el usuario',
+        messagesStatusError: {
+          notFound: 'No se encontro el usuario a eliminar',
+          badRequest: 'La solicitud no es válida',
+          unauthorized: 'No tienes permisos para elimina el usuario',
+        },
       });
     },
     retry: 1,

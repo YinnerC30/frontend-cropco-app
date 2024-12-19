@@ -1,4 +1,4 @@
-import { useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
 import {
   UseMutationResult,
   useMutation,
@@ -24,20 +24,22 @@ export function usePostUser(): UseMutationResult<
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { handleError } = useManageErrorApp();
+  const { handleError } = useAuthContext();
   const mutation = useMutation({
     mutationFn: createUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       navigate('../view/all');
-
       toast.success(`Usuario creado`);
     },
     onError: (error: AxiosError) => {
       const createError: AxiosError = error;
       handleError({
         error: createError as AxiosError,
-        messageUnauthoraizedError: 'No tienes permiso para crear el usuario',
+        messagesStatusError: {
+          badRequest: 'La solicitud no es válida',
+          unauthorized: 'No tienes permisos para crear un usuario',
+        },
       });
     },
 

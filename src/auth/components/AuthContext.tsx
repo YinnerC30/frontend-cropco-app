@@ -83,7 +83,12 @@ export const AuthProvider = ({ children }: any) => {
 
   const handleError = ({ error, messagesStatusError }: HandleErrorProps) => {
     const { response } = error;
-    const { badRequest, unauthorized, other, notFound } = messagesStatusError;
+    const {
+      badRequest = 'La solicitud contiene información incorrecta',
+      unauthorized = 'No tienes permiso para realizar esta acción',
+      other = 'Ocurrió un error inesperado',
+      notFound = 'No se encontró la información solicitada',
+    } = messagesStatusError;
 
     // Función auxiliar para errores de red
     const handleNetworkError = () => {
