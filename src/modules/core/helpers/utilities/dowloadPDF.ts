@@ -1,4 +1,4 @@
-export const dowloadPDF = (data: Blob, namePDF: string) => {
+export const dowloadPDF = (data: Blob, namePDF: string): void => {
   const url = window.URL.createObjectURL(new Blob([data]));
   const link = document.createElement('a');
   link.href = url;

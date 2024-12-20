@@ -1,6 +1,8 @@
 import { TypeFilterNumber } from '../../interfaces';
 
-export const formatTypeFilterNumber = (value: TypeFilterNumber) => {
+export const formatTypeFilterNumber = (
+  value: TypeFilterNumber
+): 'Mayor a:' | 'Menor a:' | 'Igual a:' => {
   if (!value) {
     throw new Error('El valor recibido es undefined');
   }

@@ -1,6 +1,8 @@
 import {
+  ColumnDef,
   ColumnFiltersState,
   SortingState,
+  Table,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
@@ -15,11 +17,23 @@ interface RowData {
 }
 
 interface Props {
-  columns: any[];
-  data: any[];
+  columns: ColumnDef<unknown>[];
+  data: unknown[];
 }
 
-export const useDataTableGeneric = ({ columns, data = [] }: Props) => {
+export interface DataTableGenericReturn {
+  table: Table<unknown>;
+  rowSelection: {};
+  lengthColumns: number;
+  getIdsToRowsSelected: () => RowData[];
+  resetSelectionRows: () => void;
+  hasSelectedRecords: boolean;
+}
+
+export const useDataTableGeneric = ({
+  columns,
+  data = [],
+}: Props): DataTableGenericReturn => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);

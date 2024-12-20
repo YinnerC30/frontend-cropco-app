@@ -1,4 +1,4 @@
-import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext } from '@/auth/hooks';
 import {
   UseQueryResult,
   useQuery,
