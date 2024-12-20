@@ -1,11 +1,15 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
-const deleteBulkUsers = async (data: BulkRecords) => {
+const deleteBulkUsers = async (data: BulkRecords): Promise<void> => {
   await cropcoAPI.delete(`${pathsCropco.users}/remove/bulk`, {
     data: {
       recordsIds: data.userIds,
@@ -13,7 +17,12 @@ const deleteBulkUsers = async (data: BulkRecords) => {
   });
 };
 
-export const useDeleteBulkUsers = () => {
+export const useDeleteBulkUsers = (): UseMutationResult<
+  void,
+  AxiosError,
+  BulkRecords,
+  unknown
+> => {
   const queryClient = useQueryClient();
   const { handleError } = useAuthContext();
   const mutation = useMutation({

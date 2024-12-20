@@ -12,7 +12,6 @@ export * from './ModifyUser';
 export * from './module/ActionResetPassword';
 export * from './module/columnsTableUsers';
 export * from './module/UsersActions';
-export * from './module/UsersBreadCrumb';
 export * from './module/UsersModule';
 export * from './module/UsersModuleActionsTable';
 export * from './module/UsersModuleContext';

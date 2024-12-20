@@ -1,7 +1,7 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth/hooks';
 import { PATH_HOME_APP } from '@/config';
-import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -22,7 +22,11 @@ async function changePasswordUser({
   );
 }
 
-export function userPatchChangePasswordUser() {
+export function userPatchChangePasswordUser(): UseMutationResult<
+  void,
+  AxiosError,
+  DataChangePassword
+> {
   const { handleError } = useAuthContext();
   const navigate = useNavigate();
 

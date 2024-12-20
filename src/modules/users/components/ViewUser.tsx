@@ -7,9 +7,7 @@ import { FormUser } from './form';
 
 export const ViewUser: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const {
-    query: { isLoading, data },
-  } = useGetUser(id!);
+  const { data, isLoading } = useGetUser(id!);
 
   if (isLoading) {
     return <Loading />;

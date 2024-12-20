@@ -1,8 +1,7 @@
 import { useContext } from 'react';
-import { UsersModuleContext } from '../../components';
+import { UsersModuleContext, UsersModuleContextProps } from '../../components';
 
-
-export const useUsersModuleContext = () => {
+export const useUsersModuleContext = (): UsersModuleContextProps => {
   const context = useContext(UsersModuleContext);
   if (!context) {
     throw new Error(

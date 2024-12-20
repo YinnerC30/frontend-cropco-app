@@ -1,7 +1,4 @@
-import {
-  useAuthContext,
-  useManageErrorApp,
-} from '@/auth/hooks';
+import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
 import {
   UseQueryResult,
   useQuery,
@@ -9,9 +6,9 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useEffect } from 'react';
 import { User } from '../../interfaces';
-import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
 async function convertToAdmin(id: string): Promise<User> {
   const { data } = await cropcoAPI.get(
@@ -23,11 +20,10 @@ async function convertToAdmin(id: string): Promise<User> {
 export function useGetConvertToAdmin(
   id: string,
   isRunning: boolean
-): UseQueryResult<User, Error> {
-  const { handleError } = useManageErrorApp();
-  const { hasPermission } = useAuthContext();
+): UseQueryResult<User, AxiosError> {
+  const { hasPermission, handleError } = useAuthContext();
   const queryClient = useQueryClient();
-  const query = useQuery({
+  const query: UseQueryResult<User, AxiosError> = useQuery({
     queryKey: ['convert-to-admin-user', id],
     queryFn: () => convertToAdmin(id),
     enabled: isRunning && hasPermission('auth', 'convert_to_admin'),
@@ -44,8 +40,9 @@ export function useGetConvertToAdmin(
     if (query.isError) {
       handleError({
         error: query.error as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso para convertirte en admin',
+        messagesStatusError: {
+          unauthorized: 'No tienes permisos para convertir a administrador',
+        },
       });
     }
   }, [query.isError]);

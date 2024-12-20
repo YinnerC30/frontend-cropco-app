@@ -4,7 +4,7 @@ import { ToolTipTemplate } from '../shared/ToolTipTemplate';
 import { memo } from 'react';
 
 interface Props {
-  onClick: any;
+  onClick: () => void;
   disabled: boolean;
   className?: string;
 }

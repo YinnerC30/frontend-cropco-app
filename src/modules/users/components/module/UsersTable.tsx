@@ -2,21 +2,27 @@ import { DataTableTemplate } from '@/modules/core/components';
 import { useUsersModuleContext } from '../../hooks';
 
 export const UsersTable = () => {
-  const { table, lengthColumns, query, hasPermission, isPending } =
+  const { dataTable, queryUsers, actionsUsersModule, mutationDeleteUsers } =
     useUsersModuleContext();
+
+  const { table, lengthColumns } = dataTable;
 
   return (
     <DataTableTemplate
       errorMessage={
-        !hasPermission('users', 'find_all_users')
+        !actionsUsersModule['find_all_users']
           ? 'No tienes permiso para ver el listado de usuarios 😢'
           : 'No hay registros.'
       }
-      disabledDoubleClick={!hasPermission('users', 'find_one_user')}
+      disabledDoubleClick={!actionsUsersModule['find_one_user']}
       table={table}
       lengthColumns={lengthColumns}
-      rowCount={query.data?.rowCount ?? 0}
-      isLoading={query.isLoading || query.isRefetching || isPending}
+      rowCount={queryUsers.data?.rowCount ?? 0}
+      isLoading={
+        queryUsers.isLoading ||
+        queryUsers.isRefetching ||
+        mutationDeleteUsers.isPending
+      }
     />
   );
 };

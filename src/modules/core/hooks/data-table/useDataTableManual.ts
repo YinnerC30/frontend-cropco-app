@@ -1,5 +1,8 @@
 import {
+  ColumnDef,
+  PaginationState,
   SortingState,
+  Table,
   VisibilityState,
   getCoreRowModel,
   getFilteredRowModel,
@@ -9,18 +12,36 @@ import {
 
 import { useMemo, useState } from 'react';
 
-interface RowData {
+export interface RowData {
   id: string;
 }
 
-// TODO: Renombre de propiedades data y rows, es confuso su uso, intercambiar
+interface DataTableManualProps {
+  columns: ColumnDef<unknown>[];
+  pagination: PaginationState;
+  setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
+  rows: unknown[];
+  infoPagination: {
+    pageCount: number;
+    rowCount: number;
+  };
+}
+export interface DataTableManualReturn {
+  table: Table<unknown>;
+  rowSelection: {};
+  lengthColumns: number;
+  getIdsToRowsSelected: () => RowData[];
+  resetSelectionRows: () => void;
+  hasSelectedRecords: boolean;
+}
+
 export const useDataTableManual = ({
   columns,
-  data,
+  infoPagination,
   rows,
   pagination,
   setPagination,
-}: any) => {
+}: DataTableManualProps): DataTableManualReturn => {
   const defaultData = useMemo(() => [], []);
 
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -29,8 +50,8 @@ export const useDataTableManual = ({
   const table = useReactTable({
     data: rows ?? defaultData,
     columns,
-    pageCount: data?.pageCount ?? -1,
-    rowCount: data?.rowCount,
+    pageCount: infoPagination?.pageCount ?? -1,
+    rowCount: infoPagination?.rowCount,
     getCoreRowModel: getCoreRowModel(),
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
@@ -47,8 +68,10 @@ export const useDataTableManual = ({
     manualPagination: true,
   });
 
-  const arrayIndexRowsSelected: number[] =
-    Object.keys(rowSelection).map(Number);
+  const arrayIndexRowsSelected: number[] = useMemo(
+    () => Object.keys(rowSelection).map(Number),
+    [rowSelection]
+  );
 
   const getIdsToRowsSelected = (): RowData[] => {
     return arrayIndexRowsSelected

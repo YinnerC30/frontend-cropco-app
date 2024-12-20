@@ -5,7 +5,7 @@ import { ToolTipTemplate } from '../shared/ToolTipTemplate';
 import { memo } from 'react';
 
 interface Props {
-  route: any;
+  route: string;
   className?: string;
   disabled?: boolean;
 }
@@ -16,7 +16,7 @@ export const ButtonCreateRecord = memo(
       <ToolTipTemplate content={'Crear registro'}>
         <Button variant="outline" size="icon" disabled={disabled} asChild>
           <Link
-            to={!disabled && route}
+            to={!disabled ? route : ''}
             className={`${className}  ${
               disabled && 'opacity-50 cursor-default'
             }`}

@@ -12,15 +12,19 @@ import { User } from '../../interfaces';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
-async function updateUser({ id, ...rest }: Partial<User>): Promise<void> {
+async function updateUser({ id, ...rest }: Partial<User>): Promise<User> {
   const { data } = await cropcoAPI.patch(
     `${pathsCropco.users}/update/one/${id}`,
     rest
   );
   return data;
 }
-type UsePatchUserReturn = UseMutationResult<User, AxiosError, User, unknown>;
-export function usePatchUser(): UsePatchUserReturn {
+export function usePatchUser(): UseMutationResult<
+  User,
+  AxiosError,
+  Partial<User>,
+  unknown
+> {
   const navigate = useNavigate();
   const user = useAppSelector((state: RootState) => state.authentication.user);
 
@@ -29,7 +33,7 @@ export function usePatchUser(): UsePatchUserReturn {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: updateUser,
-    onSuccess: (data: any, variables: User) => {
+    onSuccess: (data: User, variables: Partial<User>) => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       queryClient.invalidateQueries({ queryKey: ['user', variables.id] });
 

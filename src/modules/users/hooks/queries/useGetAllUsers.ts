@@ -43,8 +43,7 @@ export function useGetAllUsers({
 }: UseGetAllUsersProps): UseGetAllUsersReturn {
   const { hasPermission, handleError } = useAuthContext();
 
-  const { pagination, setPagination, pageIndex, pageSize } =
-    usePaginationDataTable();
+  const { pagination, setPagination } = usePaginationDataTable();
 
   const isAuthorized = hasPermission('users', 'find_all_users');
 
@@ -56,8 +55,8 @@ export function useGetAllUsers({
     queryFn: () =>
       getUsers({
         query: value,
-        limit: pageSize,
-        offset: pageIndex,
+        limit: pagination.pageSize,
+        offset: pagination.pageIndex,
       }),
     staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
     enabled: isAuthorized,

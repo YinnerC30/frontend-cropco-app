@@ -1,54 +1,78 @@
 import { useAuthContext } from '@/auth/hooks';
-import { useDataTableManual } from '@/modules/core/hooks';
+import {
+  DataTableManualReturn,
+  useDataTableManual,
+} from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { createContext } from 'react';
+import {
+  BulkRecords,
+  ResponseApiGetAllRecords,
+} from '@/modules/core/interfaces';
+import { UseMutationResult, UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import React, { createContext, useMemo } from 'react';
 import { useDeleteBulkUsers, useGetAllUsers } from '../../hooks';
+import { User } from '../../interfaces';
 import { columnsTableUsers } from './columnsTableUsers';
 import { UsersModuleActionsTable } from './UsersModuleActionsTable';
 
-export const UsersModuleContext = createContext<any>(null);
+export interface UsersModuleContextProps {
+  paramQuery: string;
+  queryUsers: UseQueryResult<ResponseApiGetAllRecords<User>, AxiosError>;
+  dataTable: DataTableManualReturn;
+  mutationDeleteUsers: UseMutationResult<
+    void,
+    AxiosError<unknown, any>,
+    BulkRecords,
+    unknown
+  >;
+  handleDeleteBulkUsers: () => void;
+  actionsUsersModule: Record<string, boolean>;
+}
 
-export const UsersModuleProvider = ({
-  children,
-}: {
+export const UsersModuleContext = createContext<
+  UsersModuleContextProps | undefined
+>(undefined);
+
+export const UsersModuleProvider: React.FC<{
   children: React.ReactNode;
-}) => {
+}> = ({ children }) => {
   const { value } = useBasicQueryData();
 
-  const { query, pagination, setPagination } = useGetAllUsers({
+  const {
+    query: queryUsers,
+    pagination,
+    setPagination,
+  } = useGetAllUsers({
     value: value,
   });
 
-  const { hasPermission } = useAuthContext();
+  const { getActionsModule } = useAuthContext();
+
+  const actionsUsersModule = useMemo(() => getActionsModule('users'), []);
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsTableUsers,
     actions: UsersModuleActionsTable,
   });
 
-  const {
-    table,
-    lengthColumns,
-    getIdsToRowsSelected,
-    resetSelectionRows,
-    hasSelectedRecords,
-  } = useDataTableManual({
+  const dataTable = useDataTableManual({
     columns: columnsTable,
-    data: query.data ?? [],
-    rows: (hasPermission('users', 'find_all_users') && query.data?.rows) ?? [],
+    infoPagination: queryUsers.data ?? { pageCount: 0, rowCount: 0 },
+    rows: queryUsers.data?.rows ?? [],
     pagination,
     setPagination,
   });
 
-  const { mutate, isPending } = useDeleteBulkUsers();
+  const mutationDeleteUsers = useDeleteBulkUsers();
 
   const handleDeleteBulkUsers = () => {
-    mutate(
-      { userIds: getIdsToRowsSelected() },
+    mutationDeleteUsers.mutate(
+      { userIds: dataTable.getIdsToRowsSelected() },
       {
         onSuccess: () => {
-          resetSelectionRows();
+          dataTable.resetSelectionRows();
         },
       }
     );
@@ -56,16 +80,12 @@ export const UsersModuleProvider = ({
 
   const contextValue = {
     value,
-    query,
-    hasPermission,
-    table,
-    lengthColumns,
-    hasSelectedRecords,
-    resetSelectionRows,
+    queryUsers,
+    dataTable,
     handleDeleteBulkUsers,
-    isPending,
-    pagination,
-    setPagination,
+    mutationDeleteUsers,
+    actionsUsersModule,
+    paramQuery: value,
   };
 
   return (

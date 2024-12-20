@@ -12,12 +12,12 @@ export const CreateUser: React.FC = () => {
 
   const handleSubmit = async (
     values: z.infer<typeof formSchemaUserWithPassword>
-  ) => {
+  ): Promise<void> => {
     const { passwords, ...rest } = values;
     const data = {
       ...rest,
       password: passwords.password1,
-    } as User;
+    } as Partial<User>;
     mutate(data);
   };
 

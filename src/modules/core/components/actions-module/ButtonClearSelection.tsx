@@ -3,8 +3,14 @@ import { XCircle } from 'lucide-react';
 import { ToolTipTemplate } from '../shared/ToolTipTemplate';
 import { memo } from 'react';
 
+interface Props {
+  onClick: () => void;
+  className?: string;
+  visible: boolean;
+}
+
 export const ButtonClearSelection = memo(
-  ({ onClick, className, visible }: any) => {
+  ({ onClick, className, visible }: Props) => {
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
       onClick();

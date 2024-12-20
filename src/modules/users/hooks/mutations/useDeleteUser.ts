@@ -8,12 +8,16 @@ import {
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
-export const deleteUser = async (id: string) => {
+export const deleteUser = async (id: string): Promise<void> => {
   await cropcoAPI.delete(`${pathsCropco.users}/remove/one/${id}`);
 };
 
-type UseDeleteUserReturn = UseMutationResult<void, AxiosError, string, unknown>;
-export const useDeleteUser = (): UseDeleteUserReturn => {
+export const useDeleteUser = (): UseMutationResult<
+  void,
+  AxiosError,
+  string,
+  unknown
+> => {
   const queryClient = useQueryClient();
   const { handleError } = useAuthContext();
   const mutation = useMutation({

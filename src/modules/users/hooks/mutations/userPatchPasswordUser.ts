@@ -1,6 +1,6 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
-import { useMutation } from '@tanstack/react-query';
+import { useAuthContext } from '@/auth/hooks';
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
@@ -15,7 +15,12 @@ async function resetPasswordUser(id: string): Promise<DataResetPassword> {
   return data;
 }
 
-export function usePatchPasswordUser() {
+export function usePatchPasswordUser(): UseMutationResult<
+  DataResetPassword,
+  AxiosError,
+  string,
+  unknown
+> {
   const { handleError } = useAuthContext();
 
   const mutation = useMutation({

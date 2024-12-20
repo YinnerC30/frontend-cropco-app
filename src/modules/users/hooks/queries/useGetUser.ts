@@ -13,11 +13,7 @@ async function getUserById(id: string): Promise<User> {
   return data;
 }
 
-interface UseGetUserReturn {
-  query: UseQueryResult<User, AxiosError>;
-}
-
-export function useGetUser(id: string): UseGetUserReturn {
+export function useGetUser(id: string): UseQueryResult<User, AxiosError> {
   const { hasPermission, handleError } = useAuthContext();
 
   const isAuthorized = hasPermission('users', 'find_one_user');
@@ -55,5 +51,5 @@ export function useGetUser(id: string): UseGetUserReturn {
     }
   }, [query.isError]);
 
-  return { query };
+  return query;
 }

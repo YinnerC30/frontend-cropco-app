@@ -10,7 +10,7 @@ export interface AuthContextProps {
   updateTokenInClient: (token: string) => void;
   tokenSession: string | undefined;
   user: UserActive | null;
-  handleError: (props: HandleErrorProps) => void;
+  handleError: ({ error, messagesStatusError }: HandleErrorProps) => void;
   nameModulesUser: string[];
   hasMoreThanOnePermission: (moduleName: string) => number;
   hasPermission: (moduleName: string, actionName: string) => boolean;

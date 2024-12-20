@@ -1,5 +1,3 @@
-import { useAuthContext } from '@/auth/hooks';
-
 import {
   ActionCopyIdRecord,
   ActionDeleteRecord,
@@ -8,18 +6,16 @@ import {
 } from '@/modules/core/components/data-table/menu/actions';
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
-import { useDeleteUser } from '../../hooks';
-import { ActionResetPassword } from './ActionResetPassword';
+import { useDeleteUser, useUsersModuleContext } from '../../hooks';
 import { usePatchPasswordUser } from '../../hooks/mutations';
-import { useUsersModuleContext } from '../../hooks';
+import { ActionResetPassword } from './ActionResetPassword';
 
 interface Props {
   row: Row<any>;
 }
 
 export const UsersModuleActionsTable = ({ row }: Props) => {
-  const { resetSelectionRows } = useUsersModuleContext();
-  const { hasPermission } = useAuthContext();
+  const { dataTable, actionsUsersModule } = useUsersModuleContext();
   const { id, email } = row.original;
   const mutationDeleteUser = useDeleteUser();
   const mutationPatchPassword = usePatchPasswordUser();
@@ -27,7 +23,7 @@ export const UsersModuleActionsTable = ({ row }: Props) => {
   const handleDelete = () => {
     mutationDeleteUser.mutate(id, {
       onSuccess: () => {
-        resetSelectionRows();
+        dataTable.resetSelectionRows();
       },
     });
   };
@@ -38,24 +34,24 @@ export const UsersModuleActionsTable = ({ row }: Props) => {
 
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!hasPermission('users', 'remove_one_user')}
+        disabled={!actionsUsersModule['remove_one_user']}
       />
 
       <ActionModifyRecord
         id={id}
-        disabled={!hasPermission('users', 'update_one_user')}
+        disabled={!actionsUsersModule['update_one_user']}
       />
 
       <ActionResetPassword
         id={id}
         mutation={mutationPatchPassword}
-        disabled={!hasPermission('users', 'reset_password_user')}
+        disabled={!actionsUsersModule['reset_password_user']}
         email={email}
       />
 
       <ActionViewRecord
         id={id}
-        disabled={!hasPermission('users', 'find_one_user')}
+        disabled={!actionsUsersModule['find_one_user']}
       />
     </DropDownMenuActions>
   );

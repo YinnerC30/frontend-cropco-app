@@ -1,10 +1,11 @@
+import { ColumnDef, Row } from '@tanstack/react-table';
 import { CheckboxTable } from '../../components';
 import { useResponsiveWindow } from '../useResponsiveWindow';
 
-interface Props {
+interface CreateColumnsProps {
   hiddenActions?: boolean;
-  columns: any;
-  actions: any;
+  columns: ColumnDef<unknown>[];
+  actions: ({ row }: { row: Row<unknown> }) => JSX.Element;
   readOnly?: boolean;
 }
 
@@ -12,7 +13,7 @@ export const useCreateColumnsTable = ({
   columns: columnsTable,
   actions: actionsTable,
   hiddenActions = false,
-}: Props) => {
+}: CreateColumnsProps): ColumnDef<unknown>[] => {
   const { isSmallScreen } = useResponsiveWindow();
   const columns = [...columnsTable];
 

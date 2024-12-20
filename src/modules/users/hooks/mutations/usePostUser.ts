@@ -11,14 +11,17 @@ import { User } from '../../interfaces';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
-async function createUser(user: User): Promise<User> {
+async function createUser(user: Partial<User>): Promise<User> {
   const { data } = await cropcoAPI.post(`${pathsCropco.users}/create`, user);
   return data;
 }
 
-type UsePostUserReturn = UseMutationResult<User, AxiosError, User, unknown>;
-
-export function usePostUser(): UsePostUserReturn {
+export function usePostUser(): UseMutationResult<
+  User,
+  AxiosError,
+  Partial<User>,
+  unknown
+> {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 

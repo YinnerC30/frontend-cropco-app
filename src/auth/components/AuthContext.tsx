@@ -201,7 +201,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
             return acc;
           }, {} as any)
         : {},
-    [user, queryGetAllModules.data]
+    [userAuthData, queryGetAllModules.data]
   );
 
   const getActionsModule = (
