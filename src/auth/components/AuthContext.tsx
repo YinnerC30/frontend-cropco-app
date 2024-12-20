@@ -23,6 +23,20 @@ import { AuthContextProps } from '../interfaces/AuthContextProps';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
+export type ModulesCropco =
+  | 'users'
+  | 'clients'
+  | 'employees'
+  | 'crops'
+  | 'harvests'
+  | 'suppliers'
+  | 'supplies'
+  | 'works'
+  | 'sales'
+  | 'payments'
+  | 'shopping'
+  | 'consumption';
+type GlobalActionsUser = Record<ModulesCropco, Record<string, boolean>>;
 
 export interface HandleErrorProps {
   error: AxiosError;
@@ -132,12 +146,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user?.isLogin) {
-      navigate(PATH_LOGIN, { replace: true });
-    }
-  }, [navigate, user]);
-
   const nameModulesUser: string[] = useMemo(() => {
     return user?.modules?.map((module: Module) => module?.name) ?? [];
   }, [user]);
@@ -170,8 +178,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const validatePermissionsInModule = (
     moduleName: string
   ): Record<string, boolean> => {
-    // REFACTOR: Obtener las acciones del modulo del usuario del valor memo
-    const userActions = userAuthData[moduleName].actions;
+    const userActions = userAuthData[moduleName]?.actions ?? new Set();
     const moduleActions = getNameActionsModule(moduleName);
 
     const finalActions: Record<string, boolean> = moduleActions.reduce(
@@ -186,17 +193,32 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     return finalActions;
   };
 
-  const globalActionsUser: Record<
-    string,
-    Record<string, boolean>
-  > = queryGetAllModules.data?.reduce((acc, module) => {
-    acc[module.name] = validatePermissionsInModule(module.name);
-    return acc;
-  }, {} as any);
+  const globalActionsUser: GlobalActionsUser = useMemo(
+    () =>
+      queryGetAllModules.isSuccess
+        ? queryGetAllModules.data?.reduce((acc, module) => {
+            acc[module.name] = validatePermissionsInModule(module.name);
+            return acc;
+          }, {} as any)
+        : {},
+    [user, queryGetAllModules.data]
+  );
+
+  const getActionsModule = (
+    moduleName: ModulesCropco
+  ): Record<string, boolean> => {
+    return { ...globalActionsUser[moduleName] };
+  };
 
   const hasMoreThanOnePermission = (moduleName: string) => {
     return userAuthData[moduleName]?.actions.size ?? 0;
   };
+
+  useEffect(() => {
+    if (!user?.isLogin) {
+      navigate(PATH_LOGIN, { replace: true });
+    }
+  }, [navigate, user]);
 
   return (
     <AuthContext.Provider
@@ -214,6 +236,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         hasPermission,
         validatePermissionsInModule,
         globalActionsUser,
+        getActionsModule,
       }}
     >
       {children}

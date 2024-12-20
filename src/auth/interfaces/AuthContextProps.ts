@@ -1,5 +1,5 @@
 import { UserActive } from './UserActive';
-import { HandleErrorProps } from '../components';
+import { HandleErrorProps, ModulesCropco } from '../components';
 import { Module } from '@/modules/core/interfaces';
 
 export interface AuthContextProps {
@@ -15,5 +15,6 @@ export interface AuthContextProps {
   hasMoreThanOnePermission: (moduleName: string) => number;
   hasPermission: (moduleName: string, actionName: string) => boolean;
   validatePermissionsInModule: (moduleName: string) => Record<string, boolean>;
-  globalActionsUser: Record<string, Record<string, boolean>>;
+  globalActionsUser?: Record<string, Record<string, boolean>>;
+  getActionsModule: (moduleName: ModulesCropco) => Record<string, boolean>;
 }
