@@ -1,23 +1,22 @@
 import { BreadCrumb } from '@/modules/core/components';
+import React from 'react';
 import { z } from 'zod';
 import { usePostUser } from '../hooks';
 import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
-import { formSchemaUserWithPassword } from '../utils';
+import { formSchemaUserWithPassword, formSchemaUser } from '../utils';
 import { FormUser } from './form';
-import { User } from '../interfaces';
-import React from 'react';
 
 export const CreateUser: React.FC = () => {
   const { mutate, isPending } = usePostUser();
 
-  const handleSubmit = async (
-    values: z.infer<typeof formSchemaUserWithPassword>
-  ): Promise<void> => {
-    const { passwords, ...rest } = values;
+  const handleSubmit = (
+    values: z.infer<typeof formSchemaUserWithPassword | typeof formSchemaUser>
+  ) => {
+    const { passwords, ...rest } = values as any;
     const data = {
       ...rest,
       password: passwords.password1,
-    } as Partial<User>;
+    };
     mutate(data);
   };
 

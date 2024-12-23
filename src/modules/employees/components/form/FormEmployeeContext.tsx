@@ -4,22 +4,32 @@ import { useCreateForm } from '@/modules/core/hooks';
 import { FormContextProps, FormProps } from '@/modules/core/interfaces';
 import { Employee } from '../../interfaces/Employee';
 import { formSchemaEmployee } from '../../utils';
+import { z } from 'zod';
+
+export type FormEmployeeProps = FormProps<
+  z.infer<typeof formSchemaEmployee>,
+  Employee
+>;
 
 interface FormEmployeeContextProps extends FormContextProps {
-  onSubmit: (values: Employee) => Promise<void>;
+  onSubmit: (values: z.infer<typeof formSchemaEmployee>) => void;
 }
 
 export const FormEmployeeContext = createContext<
   FormEmployeeContextProps | undefined
 >(undefined);
 
-export const FormEmployeeProvider = ({
+export const FormEmployeeProvider: React.FC<
+  FormEmployeeProps & {
+    children: React.ReactNode;
+  }
+> = ({
   children,
   defaultValues,
   isSubmitting = false,
-  onSubmit,
+  onSubmit = (values) => console.log(values),
   readOnly = false,
-}: FormProps & { children: React.ReactNode }) => {
+}) => {
   const form = useCreateForm({
     schema: formSchemaEmployee,
     defaultValues,
@@ -30,8 +40,8 @@ export const FormEmployeeProvider = ({
       value={{
         form,
         isSubmitting,
-        onSubmit,
         readOnly,
+        onSubmit,
       }}
     >
       {children}

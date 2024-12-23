@@ -54,7 +54,7 @@ export const FormEmployeeFields: React.FC = () => {
           name={'address'}
           placeholder={formFieldsEmployee.address.placeholder}
           readOnly={readOnly}
-          className="w-56"
+          className="sm:w-2/4"
         />
       </form>
     </Form>

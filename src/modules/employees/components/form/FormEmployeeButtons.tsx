@@ -6,7 +6,7 @@ import { useFormEmployeeContext } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_EMPLOYEE_PATHS } from '../../routes/pathRoutes';
 
-export const FormEmployeeButtons:React.FC = () => {
+export const FormEmployeeButtons: React.FC = () => {
   const { readOnly, isSubmitting } = useFormEmployeeContext();
 
   const navigate = useNavigate();

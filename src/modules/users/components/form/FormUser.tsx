@@ -5,7 +5,7 @@ import { FormUserProvider } from './FormUserContext';
 import { FormUserFields } from './FormUserFields';
 import { FormUserFieldsPermissions } from './FormUserFieldsPermissions';
 
-export const FormUser: React.FC<FormUserProps> = (props: FormUserProps) => {
+export const FormUser: React.FC<FormUserProps> = (props) => {
   return (
     <FormUserProvider {...props}>
       <div className="flex flex-col items-center">

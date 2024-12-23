@@ -46,7 +46,7 @@ export const FormUserProvider: React.FC<
   defaultValues,
   hiddenPassword = false,
   isSubmitting = false,
-  onSubmit,
+  onSubmit = (values) => console.log(values),
   readOnly = false,
 }) => {
   const queryModules = useGetAllModules();

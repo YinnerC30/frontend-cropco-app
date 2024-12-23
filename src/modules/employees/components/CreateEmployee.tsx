@@ -9,7 +9,7 @@ import { BreadCrumb } from '@/modules/core/components';
 export const CreateEmployee: React.FC = () => {
   const { mutate, isPending } = usePostEmployee();
 
-  const onSubmit = async (values: z.infer<typeof formSchemaEmployee>) => {
+  const onSubmit = (values: z.infer<typeof formSchemaEmployee>) => {
     mutate(values);
   };
 

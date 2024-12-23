@@ -25,7 +25,6 @@ export const ViewUser: React.FC = () => {
         defaultValues={data}
         readOnly
         hiddenPassword
-        showAlert
       />
     </>
   );

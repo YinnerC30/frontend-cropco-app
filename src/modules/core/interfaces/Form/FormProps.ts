@@ -1,7 +1,6 @@
-export interface FormProps {
-  onSubmit?: any;
+export interface FormProps<TValuesSubmit, TDefaultValues> {
+  onSubmit?: (values: TValuesSubmit) => void | undefined;
   isSubmitting?: boolean;
-  defaultValues?: any;
+  defaultValues?: TDefaultValues;
   readOnly?: boolean;
-  showAlert?: boolean;
 }

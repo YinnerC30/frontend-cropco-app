@@ -1,5 +1,7 @@
+import { Control } from 'react-hook-form';
+
 export interface FormFieldProps {
-  control: any;
+  control: Control<any>;
   description: string;
   label: string;
   name: string;
@@ -8,5 +10,5 @@ export interface FormFieldProps {
   type?: string;
   value?: any;
   className?: string;
-  children?: any;
+  children?: React.ReactNode;
 }

@@ -2,8 +2,9 @@ import { Module } from '@/modules/core/interfaces';
 import { FormContextProps } from '@/modules/core/interfaces/form/FormContextProps';
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { z } from 'zod';
 import { UserAction } from '../../components';
-import { UserForm } from '../form/UserForm';
+import { formSchemaUser, formSchemaUserWithPassword } from '../../utils';
 
 export interface FormUserContextProps extends FormContextProps {
   userHasAction: ({ id }: { id: string }) => boolean;
@@ -12,7 +13,9 @@ export interface FormUserContextProps extends FormContextProps {
   handleSelectAllActionInModule: (nameModule: string) => void;
   handleSelectAllActions: () => void;
   updateActionsUserForm: (actions: UserAction[]) => void;
-  onSubmit: (values: UserForm) => Promise<void>;
+  onSubmit: (
+    values: z.infer<typeof formSchemaUserWithPassword | typeof formSchemaUser>
+  ) => void;
   hiddenPassword: boolean;
   queryModules: UseQueryResult<Module[], AxiosError>;
 }
