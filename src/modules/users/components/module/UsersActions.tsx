@@ -8,7 +8,7 @@ import {
 import { useUsersModuleContext } from '../../hooks';
 import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
 
-export const UsersActions = () => {
+export const UsersActions: React.FC = () => {
   const {
     queryUsers,
     dataTable,

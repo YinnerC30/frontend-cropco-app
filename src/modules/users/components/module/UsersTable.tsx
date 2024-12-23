@@ -1,7 +1,7 @@
 import { DataTableTemplate } from '@/modules/core/components';
 import { useUsersModuleContext } from '../../hooks';
 
-export const UsersTable = () => {
+export const UsersTable: React.FC = () => {
   const { dataTable, queryUsers, actionsUsersModule, mutationDeleteUsers } =
     useUsersModuleContext();
 

@@ -1,35 +1,12 @@
 import { useAuthContext } from '@/auth/hooks';
-import {
-  DataTableManualReturn,
-  useDataTableManual,
-} from '@/modules/core/hooks';
+import { useDataTableManual } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import {
-  BulkRecords,
-  ResponseApiGetAllRecords,
-} from '@/modules/core/interfaces';
-import { UseMutationResult, UseQueryResult } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import React, { createContext, useMemo } from 'react';
 import { useDeleteBulkUsers, useGetAllUsers } from '../../hooks';
-import { User } from '../../interfaces';
+import { UsersModuleContextProps } from '../../interfaces/';
 import { columnsTableUsers } from './columnsTableUsers';
 import { UsersModuleActionsTable } from './UsersModuleActionsTable';
-
-export interface UsersModuleContextProps {
-  paramQuery: string;
-  queryUsers: UseQueryResult<ResponseApiGetAllRecords<User>, AxiosError>;
-  dataTable: DataTableManualReturn;
-  mutationDeleteUsers: UseMutationResult<
-    void,
-    AxiosError<unknown, any>,
-    BulkRecords,
-    unknown
-  >;
-  handleDeleteBulkUsers: () => void;
-  actionsUsersModule: Record<string, boolean>;
-}
 
 export const UsersModuleContext = createContext<
   UsersModuleContextProps | undefined
@@ -67,7 +44,7 @@ export const UsersModuleProvider: React.FC<{
 
   const mutationDeleteUsers = useDeleteBulkUsers();
 
-  const handleDeleteBulkUsers = () => {
+  const handleDeleteBulkUsers = (): void => {
     mutationDeleteUsers.mutate(
       { userIds: dataTable.getIdsToRowsSelected() },
       {

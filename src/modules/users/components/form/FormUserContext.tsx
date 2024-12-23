@@ -12,7 +12,7 @@ import { FormUserProps } from '../../interfaces/FormUserProps';
 import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
 import { formSchemaUser, formSchemaUserWithPassword } from '../../utils';
 import { UserAction } from './FormUserPermissionAction';
-import { FormUserContextProps } from '../../interfaces/FormUserContextProps';
+import { FormUserContextProps } from '../../interfaces/';
 
 export const defaultValues: UserForm = {
   first_name: 'demo',

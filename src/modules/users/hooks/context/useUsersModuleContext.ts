@@ -1,5 +1,6 @@
 import { useContext } from 'react';
-import { UsersModuleContext, UsersModuleContextProps } from '../../components';
+import { UsersModuleContext } from '../../components';
+import { UsersModuleContextProps } from '../../interfaces/';
 
 export const useUsersModuleContext = (): UsersModuleContextProps => {
   const context = useContext(UsersModuleContext);

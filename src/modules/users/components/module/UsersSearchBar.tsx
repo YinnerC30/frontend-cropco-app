@@ -1,7 +1,7 @@
 import { BasicSearchBar } from '@/modules/core/components';
 import { useUsersModuleContext } from '../../hooks';
 
-export const UsersSearchBar = () => {
+export const UsersSearchBar: React.FC = () => {
   const { paramQuery, actionsUsersModule } = useUsersModuleContext();
 
   return (

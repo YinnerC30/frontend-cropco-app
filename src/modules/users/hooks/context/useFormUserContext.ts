@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { FormUserContextProps } from '../../interfaces/FormUserContextProps';
+import { FormUserContextProps } from '../../interfaces/';
 import { FormUserContext } from '../../components';
 
 export const useFormUserContext = (): FormUserContextProps => {
