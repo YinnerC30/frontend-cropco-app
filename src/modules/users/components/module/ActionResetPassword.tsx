@@ -84,6 +84,7 @@ export function ActionResetPassword({ id, mutation, disabled, email }: Props) {
           event.preventDefault();
         }}
         onDoubleClick={(event) => event.preventDefault()}
+        onOpenAutoFocus={(event) => event.preventDefault()}
       >
         <DialogClose asChild>
           <DialogPrimitive.Close

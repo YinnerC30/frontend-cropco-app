@@ -7,7 +7,7 @@ import {
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
 import { useDeleteUser, useUsersModuleContext } from '../../hooks';
-import { usePatchPasswordUser } from '../../hooks/mutations';
+import { usePatchResetPasswordUser } from '../../hooks/mutations';
 import { ActionResetPassword } from './ActionResetPassword';
 
 interface Props {
@@ -18,7 +18,7 @@ export const UsersModuleActionsTable = ({ row }: Props) => {
   const { dataTable, actionsUsersModule } = useUsersModuleContext();
   const { id, email } = row.original;
   const mutationDeleteUser = useDeleteUser();
-  const mutationPatchPassword = usePatchPasswordUser();
+  const mutationPatchPassword = usePatchResetPasswordUser();
 
   const handleDelete = () => {
     mutationDeleteUser.mutate(id, {

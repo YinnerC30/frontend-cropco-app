@@ -15,7 +15,7 @@ async function resetPasswordUser(id: string): Promise<DataResetPassword> {
   return data;
 }
 
-export function usePatchPasswordUser(): UseMutationResult<
+export function usePatchResetPasswordUser(): UseMutationResult<
   DataResetPassword,
   AxiosError,
   string,

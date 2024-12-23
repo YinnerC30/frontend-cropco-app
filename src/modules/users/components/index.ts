@@ -7,7 +7,7 @@ export * from './form/FormUserContext';
 export * from './form/FormUserFields';
 export * from './form/FormUserFieldsPermissions';
 export * from './form/FormUserPermissionAction';
-export * from './form/FormUserScrollArea';
+
 export * from './ModifyUser';
 export * from './module/ActionResetPassword';
 export * from './module/columnsTableUsers';

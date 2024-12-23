@@ -1,9 +1,9 @@
+import { ScrollArea } from '@/components';
 import { FormUserProps } from '../../interfaces/FormUserProps';
 import { FormUserButtons } from './FormUserButtons';
 import { FormUserProvider } from './FormUserContext';
 import { FormUserFields } from './FormUserFields';
 import { FormUserFieldsPermissions } from './FormUserFieldsPermissions';
-import { FormUserScrollArea } from './FormUserScrollArea';
 
 export const FormUser: React.FC<FormUserProps> = ({
   defaultValues,
@@ -21,10 +21,10 @@ export const FormUser: React.FC<FormUserProps> = ({
       readOnly={readOnly}
     >
       <div className="flex flex-col items-center">
-        <FormUserScrollArea>
+        <ScrollArea className="h-[72vh] w-full pb-2">
           <FormUserFields />
           <FormUserFieldsPermissions />
-        </FormUserScrollArea>
+        </ScrollArea>
         <FormUserButtons />
       </div>
     </FormUserProvider>

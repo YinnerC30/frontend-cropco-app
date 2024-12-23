@@ -33,7 +33,7 @@ export const useDeleteUser = (): UseMutationResult<
         messagesStatusError: {
           notFound: 'No se encontro el usuario a eliminar',
           badRequest: 'La solicitud no es válida',
-          unauthorized: 'No tienes permisos para elimina el usuario',
+          unauthorized: 'No tienes permisos para eliminar el usuario',
         },
       });
     },

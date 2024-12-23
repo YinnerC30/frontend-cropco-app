@@ -33,13 +33,13 @@ export function usePatchUser(): UseMutationResult<
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: updateUser,
-    onSuccess: (data: User, variables: Partial<User>) => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
-      queryClient.invalidateQueries({ queryKey: ['user', variables.id] });
+    onSuccess: async (data: User, variables: Partial<User>) => {
+      await queryClient.invalidateQueries({ queryKey: ['users'] });
+      await queryClient.invalidateQueries({ queryKey: ['user', variables.id] });
 
       if (variables.id === user.id) {
         updateUserActions(data?.modules);
-        queryClient.invalidateQueries();
+        await queryClient.invalidateQueries();
         toast.success(`Tu información han sido actualizada`);
       } else {
         toast.success(`Usuario actualizado`);

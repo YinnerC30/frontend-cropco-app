@@ -32,7 +32,6 @@ export const ModifyUser: React.FC = () => {
         isSubmitting={isPending}
         defaultValues={data}
         hiddenPassword
-        showAlert
       />
     </>
   );

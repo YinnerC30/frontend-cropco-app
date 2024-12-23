@@ -8,19 +8,63 @@ import {
 } from '@/components';
 import { useFormUserContext } from '../../hooks';
 
-import { Module } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
+import {
+  Module,
+  Action,
+} from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 import { FormUserPermissionAction } from './FormUserPermissionAction';
+import { memo } from 'react';
+
+interface ModuleCardProps {
+  label: string;
+  actions: Action[];
+  name: string;
+}
+
+export const ModuleCard: React.FC<ModuleCardProps> = memo<ModuleCardProps>(
+  ({ label, actions, name }) => {
+    const {
+      handleSelectAllActionInModule,
+      handleInselectAllActionsInModule,
+      userHasAction,
+      readOnly,
+    } = useFormUserContext();
+
+    return (
+      <Card key={name} className="mb-2 w-72">
+        <CardHeader className="border-b">
+          <CardTitle className="capitalize">{label}</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col flex-wrap gap-4 m-2 rounded-md">
+          <Button
+            variant="ghost"
+            onClick={() => handleSelectAllActionInModule(name)}
+          >
+            Marcar todo
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => handleInselectAllActionsInModule(name)}
+          >
+            Desmarcar todo
+          </Button>
+          {actions.map((action) => (
+            <FormUserPermissionAction
+              key={action.id}
+              action={action}
+              readOnly={readOnly}
+              isChecked={userHasAction({ id: action.id })}
+            />
+          ))}
+        </CardContent>
+      </Card>
+    );
+  }
+);
 
 export const FormUserFieldsPermissions: React.FC = () => {
-  const {
-    data,
-    handleSelectAllActions,
-    handleInselectAllActions,
-    handleSelectAllActionInModule,
-    handleInselectAllActionsInModule,
-    userHasAction,
-    readOnly,
-  } = useFormUserContext();
+  const { data, handleSelectAllActions, handleInselectAllActions, readOnly } =
+    useFormUserContext();
 
   return (
     <div>
@@ -36,33 +80,7 @@ export const FormUserFieldsPermissions: React.FC = () => {
       </div>
       <div className="flex flex-wrap gap-2 my-2 justify-evenly">
         {data?.map(({ label, actions, name }: Module) => (
-          <Card key={name} className="mb-2 w-72">
-            <CardHeader className="border-b">
-              <CardTitle className="capitalize">{label}</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col flex-wrap gap-4 m-2 rounded-md">
-              <Button
-                variant="ghost"
-                onClick={() => handleSelectAllActionInModule(name)}
-              >
-                Marcar todo
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() => handleInselectAllActionsInModule(name)}
-              >
-                Desmarcar todo
-              </Button>
-              {actions.map((action) => (
-                <FormUserPermissionAction
-                  key={action.id}
-                  action={action}
-                  readOnly={readOnly}
-                  isChecked={userHasAction({ id: action.id })}
-                />
-              ))}
-            </CardContent>
-          </Card>
+          <ModuleCard key={name} label={label} actions={actions} name={name} />
         ))}
       </div>
     </div>
