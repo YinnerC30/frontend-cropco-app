@@ -9,7 +9,7 @@ import { MODULE_CLIENTS_PATHS } from '../routes/pathRoutes';
 import { formSchemaClient } from '../utils';
 import FormClient from './form/FormClient';
 
-export const ModifyClient = () => {
+export const ModifyClient:React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetClient(id!);
   const { mutate, isPending } = usePatchClient();

@@ -6,7 +6,7 @@ import { MODULE_CLIENTS_PATHS } from '../routes/pathRoutes';
 import { FormClient } from './form';
 import { Loading } from '@/modules/core/components';
 
-export const ViewClient = () => {
+export const ViewClient: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetClient(id!);
 

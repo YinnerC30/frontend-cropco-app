@@ -1,21 +1,30 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext } from '@/auth/hooks';
 import { Client } from '@/modules/clients/interfaces/Client';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_CLIENTS_PATHS } from '../../routes/pathRoutes';
 
-export const updateClient = async (client: Client) => {
+export const updateClient = async (client: Client): Promise<void> => {
   const { id, ...rest } = client;
   await cropcoAPI.patch(`${pathsCropco.clients}/update/one/${id}`, rest);
 };
 
-export const usePatchClient = () => {
+export const usePatchClient = (): UseMutationResult<
+  void,
+  AxiosError,
+  Client,
+  unknown
+> => {
   const queryClient = useQueryClient();
-  const { handleError } = useManageErrorApp();
+  const { handleError } = useAuthContext();
   const navigate = useNavigate();
   const mutation = useMutation({
     mutationFn: updateClient,
@@ -28,8 +37,7 @@ export const usePatchClient = () => {
       const updateError: AxiosError | any = error;
       handleError({
         error: updateError as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso para actualizar el cliente',
+        messagesStatusError: {},
       });
     },
     retry: 1,

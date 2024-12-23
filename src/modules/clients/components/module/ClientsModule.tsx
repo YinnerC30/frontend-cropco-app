@@ -1,14 +1,16 @@
+import React from 'react';
 import { ClientsActions } from './ClientsActions';
-import { ClientsBreadCrumb } from './ClientsBreadCrumb';
+
 import { ClientsModuleProvider } from './ClientsModuleContext';
 import { ClientsSearchBar } from './ClientsSearchBar';
 import { ClientsTable } from './ClientsTable';
+import { BreadCrumb } from '@/modules/core/components';
 
-export const ClientsModule = () => {
+export const ClientsModule: React.FC = () => {
   return (
     <ClientsModuleProvider>
       <div className="select-none">
-        <ClientsBreadCrumb />
+        <BreadCrumb finalItem="Clientes" hiddenSeparator />
         <ClientsSearchBar />
         <ClientsActions />
         <ClientsTable />

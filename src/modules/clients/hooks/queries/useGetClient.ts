@@ -1,26 +1,25 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import {
-  useAuthContext,
-  useManageErrorApp,
-} from '@/auth/hooks';
+import { useAuthContext } from '@/auth/hooks';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
+import { Client } from '../../interfaces/Client';
 
-export const getClientById = async (id: string) => {
+export const getClientById = async (id: string): Promise<Client> => {
   const { data } = await cropcoAPI.get(`${pathsCropco.clients}/one/${id}`);
   return data;
 };
 
-export const useGetClient = (id: string) => {
-  const { handleError } = useManageErrorApp();
-  const { hasPermission } = useAuthContext();
+export const useGetClient = (
+  id: string
+): UseQueryResult<Client, AxiosError> => {
+  const { hasPermission, handleError } = useAuthContext();
 
   const isAuthorized = hasPermission('clients', 'find_one_client');
 
-  const query = useQuery({
+  const query: UseQueryResult<Client, AxiosError> = useQuery({
     queryKey: ['client', id],
     queryFn: () => getClientById(id),
     enabled: isAuthorized,
@@ -38,8 +37,7 @@ export const useGetClient = (id: string) => {
     if (query.isError) {
       handleError({
         error: query.error as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso para ver la información del cliente 😑',
+        messagesStatusError: {},
       });
     }
   }, [query.isError, query.error]);

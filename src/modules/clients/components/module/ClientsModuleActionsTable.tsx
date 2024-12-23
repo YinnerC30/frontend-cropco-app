@@ -8,23 +8,24 @@ import {
 } from '@/modules/core/components';
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
-import { useDeleteClient } from '../../hooks/mutations/useDeleteClient';
 import { useClientsModuleContext } from '../../hooks';
+import { useDeleteClient } from '../../hooks/mutations/useDeleteClient';
+import { Client } from '../../interfaces/Client';
 
 interface Props {
-  row: Row<any>;
+  row: Row<Client>;
 }
 
-export const ClientsModuleActionsTable = ({ row }: Props) => {
-  const { resetSelectionRows } = useClientsModuleContext();
-  const { hasPermission } = useAuthContext();
-  const { id } = row.original;
+export const ClientsModuleActionsTable: React.FC<Props> = ({ row }) => {
+  const { dataTable, actionsClientsModule } = useClientsModuleContext();
+
+  const id = row?.original?.id ?? '';
   const mutationDeleteClient = useDeleteClient();
 
   const handleDelete = () => {
     mutationDeleteClient.mutate(id, {
       onSuccess: () => {
-        resetSelectionRows();
+        dataTable.resetSelectionRows();
       },
     });
   };
@@ -35,17 +36,17 @@ export const ClientsModuleActionsTable = ({ row }: Props) => {
 
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!hasPermission('clients', 'remove_one_client')}
+        disabled={!actionsClientsModule['remove_one_client']}
       />
 
       <ActionModifyRecord
         id={id}
-        disabled={!hasPermission('clients', 'update_one_client')}
+        disabled={!actionsClientsModule['update_one_client']}
       />
 
       <ActionViewRecord
         id={id}
-        disabled={!hasPermission('clients', 'find_one_client')}
+        disabled={!actionsClientsModule['find_one_client']}
       />
     </DropDownMenuActions>
   );

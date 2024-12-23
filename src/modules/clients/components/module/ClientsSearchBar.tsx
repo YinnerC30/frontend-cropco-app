@@ -1,14 +1,14 @@
 import { BasicSearchBar } from '@/modules/core/components';
 import { useClientsModuleContext } from '../../hooks';
 
-export const ClientsSearchBar = () => {
-  const { value, hasPermission } = useClientsModuleContext();
+export const ClientsSearchBar: React.FC = () => {
+  const { paramQuery, actionsClientsModule } = useClientsModuleContext();
 
   return (
     <div className="flex items-center justify-center w-full">
       <BasicSearchBar
-        query={value}
-        disabled={!hasPermission('clients', 'find_all_clients')}
+        query={paramQuery}
+        disabled={!actionsClientsModule['find_all_clients']}
       />
     </div>
   );

@@ -9,45 +9,56 @@ import { useClientsModuleContext } from '../../hooks';
 import { MODULE_CLIENTS_PATHS } from '../../routes/pathRoutes';
 import { ButtonExportClients } from './ButtonExportClients';
 
-export const ClientsActions = () => {
+export const ClientsActions: React.FC = () => {
   const {
-    query,
-    hasPermission,
-    hasSelectedRecords,
-    resetSelectionRows,
-    isPending,
-    handleDeleteBulkClients,
+    dataTable,
+    mutationDeleteClients,
+    queryClients,
+    actionsClientsModule,
   } = useClientsModuleContext();
+
+  const handleDeleteBulkClients = () => {
+    mutationDeleteClients.mutate(
+      { clientsIds: dataTable.getIdsToRowsSelected() },
+      {
+        onSuccess: () => {
+          dataTable.resetSelectionRows();
+        },
+      }
+    );
+  };
 
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={query.refetch}
-        disabled={!hasPermission('clients', 'find_all_clients')}
+        onClick={queryClients.refetch}
+        // disabled={!hasPermission('clients', 'find_all_clients')}
+        disabled={!actionsClientsModule['find_all_clients']}
         className=""
       />
 
       <div className="flex items-center gap-1">
         <ButtonExportClients
-          disabled={!hasPermission('clients', 'export_clients_pdf')}
+          disabled={!actionsClientsModule['export_clients_pdf']}
         />
 
         <ButtonClearSelection
-          onClick={() => resetSelectionRows()}
-          visible={hasSelectedRecords}
+          onClick={() => dataTable.resetSelectionRows()}
+          visible={dataTable.hasSelectedRecords}
         />
 
         <ButtonDeleteBulk
           disabled={
-            isPending || !hasPermission('clients', 'remove_bulk_clients')
+            mutationDeleteClients.isPending ||
+            !actionsClientsModule['delete_bulk_clients']
           }
           onClick={handleDeleteBulkClients}
-          visible={hasSelectedRecords}
+          visible={dataTable.hasSelectedRecords}
         />
 
         <ButtonCreateRecord
           route={MODULE_CLIENTS_PATHS.Create}
-          disabled={!hasPermission('clients', 'create_client')}
+          disabled={!actionsClientsModule['create_client']}
           className=""
         />
       </div>

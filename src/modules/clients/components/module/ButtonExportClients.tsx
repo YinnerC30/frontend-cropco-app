@@ -1,10 +1,12 @@
 import { Button } from '@/components';
+import { ToolTipTemplate } from '@/modules/core/components';
 import { FileUp } from 'lucide-react';
 import { useState } from 'react';
 import { useGetReportClients } from '../../hooks/queries/useGetReportClients';
-import { ToolTipTemplate } from '@/modules/core/components';
 
-export const ButtonExportClients = ({ disabled }: { disabled: boolean }) => {
+export const ButtonExportClients: React.FC<{ disabled: boolean }> = ({
+  disabled,
+}) => {
   const [runQuery, setRunQuery] = useState(false);
   const [showReport, setSetShowReport] = useState(false);
 

@@ -1,66 +1,84 @@
 import { useAuthContext } from '@/auth/hooks';
 import { useDataTableManual } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import { createContext } from 'react';
+import React, { createContext, useMemo } from 'react';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useDeleteBulkClients } from '../../hooks/mutations/useDeleteBulkClients';
 import { useGetAllClients } from '../../hooks/queries/useGetAllClients';
+import { Client } from '../../interfaces/Client';
 import { ClientsModuleActionsTable } from './ClientsModuleActionsTable';
 import { columnsTableClients } from './columnsTableClients';
 
-export const ClientsModuleContext = createContext<any>(null);
+import { DataTableManualReturn } from '@/modules/core/hooks';
+import {
+  BulkRecords,
+  ResponseApiGetAllRecords,
+} from '@/modules/core/interfaces';
+import { UseMutationResult, UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
-export const ClientsModuleProvider = ({ children }: any) => {
+export interface ClientsModuleContextProps {
+  paramQuery: string;
+  queryClients: UseQueryResult<ResponseApiGetAllRecords<Client>, AxiosError>;
+  dataTable: DataTableManualReturn<Client>;
+  mutationDeleteClients: UseMutationResult<
+    void,
+    AxiosError,
+    BulkRecords,
+    unknown
+  >;
+
+  actionsClientsModule: Record<string, boolean>;
+}
+
+export const ClientsModuleContext = createContext<
+  ClientsModuleContextProps | undefined
+>(undefined);
+
+export const ClientsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const { value } = useBasicQueryData();
 
-  const { query, pagination, setPagination } = useGetAllClients(value);
+  const {
+    query: queryClients,
+    pagination,
+    setPagination,
+  } = useGetAllClients({
+    queryValue: value,
+  });
 
-  const { hasPermission } = useAuthContext();
+  const { getActionsModule } = useAuthContext();
+
+  const actionsClientsModule = useMemo(() => getActionsModule('clients'), []);
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsTableClients,
     actions: ClientsModuleActionsTable,
   });
 
-  const { table, lengthColumns, getIdsToRowsSelected, resetSelectionRows } =
-    useDataTableManual({
-      columns: columnsTable,
-      data: query.data ?? [],
-      rows:
-        (hasPermission('clients', 'find_all_clients') && query.data?.rows) ??
-        [],
-      pagination,
-      setPagination,
-    });
-
-  const hasSelectedRecords = getIdsToRowsSelected().length > 0;
-
-  const { mutate, isPending } = useDeleteBulkClients();
-
-  const handleDeleteBulkClients = () => {
-    mutate(
-      { clientsIds: getIdsToRowsSelected() },
-      {
-        onSuccess: () => {
-          resetSelectionRows();
-        },
-      }
-    );
-  };
-
-  const contextValue = {
-    value,
-    query,
-    hasPermission,
-    table,
-    lengthColumns,
-    hasSelectedRecords,
-    resetSelectionRows,
+  const dataTable = useDataTableManual<Client>({
+    columns: columnsTable,
+    infoPagination: queryClients.isSuccess
+      ? {
+          pageCount: queryClients.data?.pageCount ?? 0,
+          rowCount: queryClients.data?.rowCount ?? 0,
+        }
+      : { pageCount: 0, rowCount: 0 },
+    rows: queryClients.data?.rows ?? [],
     pagination,
     setPagination,
-    handleDeleteBulkClients,
-    isPending,
+  });
+
+  const mutationDeleteClients = useDeleteBulkClients();
+
+  const contextValue: ClientsModuleContextProps = {
+    paramQuery: value,
+    queryClients,
+    dataTable,
+    mutationDeleteClients,
+    actionsClientsModule,
   };
 
   return (

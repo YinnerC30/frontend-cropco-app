@@ -3,8 +3,9 @@ import { useFormClientContext } from '../../hooks';
 import { Form } from '@/components';
 import { FormFieldInput, FormFieldTextArea } from '@/modules/core/components';
 import { formFieldsClient } from '../../utils';
+import React from 'react';
 
-export const FormClientFields = () => {
+export const FormClientFields: React.FC = () => {
   const { form, onSubmit, readOnly } = useFormClientContext();
 
   return (
@@ -54,6 +55,7 @@ export const FormClientFields = () => {
           name={'address'}
           placeholder={formFieldsClient.address.placeholder}
           readOnly={readOnly}
+          className="sm:w-2/4"
         />
       </form>
     </Form>

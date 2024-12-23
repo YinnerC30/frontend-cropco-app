@@ -1,26 +1,17 @@
-import { FormProps } from '@/modules/core/interfaces';
+import { ScrollArea } from '@/components';
 import { FormClientButtons } from './FormClientButtons';
-import { FormClientProvider } from './FormClientContext';
+import { FormClientProps, FormClientProvider } from './FormClientContext';
 import { FormClientFields } from './FormClientFields';
-import { FormClientScrollArea } from './FormClientScrollArea';
 
-export const FormClient = ({
-  defaultValues,
-  isSubmitting = false,
-  onSubmit,
-  readOnly = false,
-}: FormProps) => {
+export const FormClient: React.FC<FormClientProps> = (
+  props: FormClientProps
+) => {
   return (
-    <FormClientProvider
-      defaultValues={defaultValues}
-      isSubmitting={isSubmitting}
-      onSubmit={onSubmit}
-      readOnly={readOnly}
-    >
+    <FormClientProvider {...props}>
       <div className="flex flex-col items-center">
-        <FormClientScrollArea>
+        <ScrollArea className="h-[72vh] w-full pb-2">
           <FormClientFields />
-        </FormClientScrollArea>
+        </ScrollArea>
         <FormClientButtons />
       </div>
     </FormClientProvider>

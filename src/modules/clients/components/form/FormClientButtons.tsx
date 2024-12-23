@@ -1,10 +1,18 @@
 import { Button } from '@/components';
 import { useFormClientContext } from '../../hooks';
 import { ButtonsForm } from '@/modules/core/components';
+import { useNavigate } from 'react-router-dom';
+import { MODULE_CLIENTS_PATHS } from '../../routes/pathRoutes';
 
-export const FormClientButtons = () => {
-  const { readOnly, handleReturnToModule, isSubmitting } =
+export const FormClientButtons: React.FC = () => {
+  const { readOnly, isSubmitting } =
     useFormClientContext();
+
+  const navigate = useNavigate();
+
+  const handleReturnToModule = () => {
+    navigate(MODULE_CLIENTS_PATHS.ViewAll);
+  };
 
   return readOnly ? (
     <Button className="my-2" onClick={handleReturnToModule}>

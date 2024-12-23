@@ -7,10 +7,10 @@ import { formSchemaClient } from '../utils';
 import FormClient from './form/FormClient';
 import { MODULE_CLIENTS_PATHS } from '../routes/pathRoutes';
 
-export const CreateClient = () => {
+export const CreateClient: React.FC = () => {
   const { mutate, isPending } = usePostClient();
 
-  const onSubmit = async (values: z.infer<typeof formSchemaClient>) => {
+  const onSubmit = (values: z.infer<typeof formSchemaClient>) => {
     mutate(values);
   };
 

@@ -1,17 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
+import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
-import {
-  useAuthContext,
-  useManageErrorApp,
-} from '@/auth/hooks';
-import { AxiosError } from 'axios';
 
-export const getReportClients = async () => {
-  const response = await cropcoAPI.get(
+export const getReportClients = async (): Promise<Blob> => {
+  const response = await cropcoAPI.get<Blob>(
     `${pathsCropco.clients}/export/all/pdf`,
     {
       responseType: 'blob', // Indicamos que la respuesta será un archivo binario (blob)
@@ -30,10 +27,10 @@ export const useGetReportClients = ({
   executeQuery,
   showReport,
   actionOnSuccess,
-}: Props) => {
+}: Props): UseQueryResult<Blob, AxiosError> => {
   const { handleError } = useManageErrorApp();
   const { hasPermission } = useAuthContext();
-  const query = useQuery({
+  const query: UseQueryResult<Blob, AxiosError> = useQuery({
     queryKey: ['report-clients'],
     queryFn: () => {
       const fetchReportClients = getReportClients();

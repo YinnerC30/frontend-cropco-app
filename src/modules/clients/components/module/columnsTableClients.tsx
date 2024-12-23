@@ -1,11 +1,13 @@
 import { ButtonHeaderTable } from '@/modules/core/components';
 
 import { formFieldsClient } from '../../utils';
+import { ColumnDef, HeaderContext } from '@tanstack/react-table';
+import { Client } from '../../interfaces/Client';
 
-export const columnsTableClients = [
+export const columnsTableClients: ColumnDef<Client>[] = [
   {
     accessorKey: formFieldsClient.first_name.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Client, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -16,7 +18,7 @@ export const columnsTableClients = [
   },
   {
     accessorKey: formFieldsClient.last_name.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Client, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -27,7 +29,7 @@ export const columnsTableClients = [
   },
   {
     accessorKey: formFieldsClient.email.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Client, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -38,7 +40,7 @@ export const columnsTableClients = [
   },
   {
     accessorKey: formFieldsClient.cell_phone_number.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Client, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -49,7 +51,7 @@ export const columnsTableClients = [
   },
   {
     accessorKey: formFieldsClient.address.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Client, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}

@@ -1,16 +1,26 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext } from '@/auth/hooks';
 
-export const deleteClient = async (id: string) =>
+export const deleteClient = async (id: string): Promise<void> => {
   await cropcoAPI.delete(`${pathsCropco.clients}/remove/one/${id}`);
+};
 
-export const useDeleteClient = () => {
+export const useDeleteClient = (): UseMutationResult<
+  void,
+  AxiosError,
+  string,
+  unknown
+> => {
   const queryClient = useQueryClient();
-  const { handleError } = useManageErrorApp();
+  const { handleError } = useAuthContext();
   const mutation = useMutation({
     mutationFn: deleteClient,
     onSuccess: () => {
@@ -21,7 +31,7 @@ export const useDeleteClient = () => {
       const deleteError: AxiosError | any = error;
       handleError({
         error: deleteError as AxiosError,
-        messageUnauthoraizedError: 'No tienes permiso para eliminar el cliente',
+        messagesStatusError: {},
       });
     },
     retry: 1,

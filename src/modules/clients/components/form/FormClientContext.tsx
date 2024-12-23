@@ -1,44 +1,50 @@
 import React, { createContext } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useCreateForm } from '@/modules/core/hooks';
+import { FormContextProps, FormProps } from '@/modules/core/interfaces';
+import { z } from 'zod';
+import { Client } from '../../interfaces/Client';
+import { formSchemaClient } from '../../utils';
 
-import { useAuthContext } from '@/auth/hooks';
-import { useClientForm } from '../../hooks/useClientForm';
-import { MODULE_CLIENTS_PATHS } from '../../routes/pathRoutes';
+export type FormClientProps = FormProps<
+  z.infer<typeof formSchemaClient>,
+  Client
+>;
 
-export const FormClientContext = createContext<any>(null);
+export interface FormClientContextProps extends FormContextProps {
+  onSubmit: (values: z.infer<typeof formSchemaClient>) => void;
+}
 
-export const FormClientProvider = ({
+export const FormClientContext = createContext<
+  FormClientContextProps | undefined
+>(undefined);
+
+export const FormClientProvider: React.FC<
+  FormClientProps & {
+    children: React.ReactNode;
+  }
+> = ({
   children,
   defaultValues,
-  isSubmitting,
-  onSubmit,
-  readOnly,
-}: any & { children: React.ReactNode }) => {
-  const formState = useClientForm({
-    values: defaultValues,
+  isSubmitting = false,
+  onSubmit = (values) => console.log(values),
+  readOnly = false,
+}) => {
+  const form = useCreateForm({
+    schema: formSchemaClient,
+    defaultValues,
   });
-  const navigate = useNavigate();
-
-  const { hasPermission } = useAuthContext();
-
-  const handleReturnToModule = () => {
-    navigate(MODULE_CLIENTS_PATHS.ViewAll);
-  };
 
   return (
     <FormClientContext.Provider
       value={{
-        ...formState,
+        form,
         isSubmitting,
         onSubmit,
         readOnly,
-        handleReturnToModule,
-        hasPermission,
       }}
     >
       {children}
     </FormClientContext.Provider>
   );
 };
-
