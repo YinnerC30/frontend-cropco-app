@@ -5,6 +5,7 @@ import { FormContextProps, FormProps } from '@/modules/core/interfaces';
 import { Employee } from '../../interfaces/Employee';
 import { formSchemaEmployee } from '../../utils';
 import { z } from 'zod';
+import { toast } from 'sonner';
 
 export type FormEmployeeProps = FormProps<
   z.infer<typeof formSchemaEmployee>,
@@ -35,13 +36,20 @@ export const FormEmployeeProvider: React.FC<
     defaultValues,
   });
 
+  const handleOnSubmit = (values: z.infer<typeof formSchemaEmployee>) => {
+    if (!form.formState.isDirty) {
+      return toast.info('No se han realizado cambios');
+    }
+    onSubmit(values);
+  };
+
   return (
     <FormEmployeeContext.Provider
       value={{
         form,
         isSubmitting,
         readOnly,
-        onSubmit,
+        onSubmit: handleOnSubmit,
       }}
     >
       {children}

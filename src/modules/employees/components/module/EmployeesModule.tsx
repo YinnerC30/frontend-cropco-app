@@ -8,7 +8,7 @@ export const EmployeesModule: React.FC = () => {
   return (
     <EmployeesModuleProvider>
       <div className="select-none">
-        <BreadCrumb finalItem="Empleados" hiddenSeparator />;
+        <BreadCrumb finalItem="Empleados" hiddenSeparator />
         <EmployeesSearchBar />
         <EmployeesActions />
         <EmployeesTable />
