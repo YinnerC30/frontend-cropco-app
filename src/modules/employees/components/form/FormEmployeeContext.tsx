@@ -1,41 +1,37 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useCreateForm } from '@/modules/core/hooks';
+import { FormContextProps, FormProps } from '@/modules/core/interfaces';
+import { Employee } from '../../interfaces/Employee';
+import { formSchemaEmployee } from '../../utils';
 
-import { useAuthContext } from '@/auth/hooks';
-import { useEmployeeForm } from '../../hooks/useEmployeeForm';
-import { MODULE_EMPLOYEE_PATHS } from '../../routes/pathRoutes';
+interface FormEmployeeContextProps extends FormContextProps {
+  onSubmit: (values: Employee) => Promise<void>;
+}
 
-export const FormEmployeeContext = createContext<any>(null);
+export const FormEmployeeContext = createContext<
+  FormEmployeeContextProps | undefined
+>(undefined);
 
 export const FormEmployeeProvider = ({
   children,
   defaultValues,
-
-  isSubmitting,
+  isSubmitting = false,
   onSubmit,
-  readOnly,
-}: any & { children: React.ReactNode }) => {
-  const formState = useEmployeeForm({
-    values: defaultValues,
+  readOnly = false,
+}: FormProps & { children: React.ReactNode }) => {
+  const form = useCreateForm({
+    schema: formSchemaEmployee,
+    defaultValues,
   });
-  const navigate = useNavigate();
-
-  const { hasPermission } = useAuthContext();
-
-  const handleReturnToModule = () => {
-    navigate(MODULE_EMPLOYEE_PATHS.ViewAll);
-  };
 
   return (
     <FormEmployeeContext.Provider
       value={{
-        ...formState,
+        form,
         isSubmitting,
         onSubmit,
         readOnly,
-        handleReturnToModule,
-        hasPermission,
       }}
     >
       {children}

@@ -1,14 +1,14 @@
+import { BreadCrumb } from '@/modules/core/components';
 import { EmployeesActions } from './EmployeesActions';
-import { EmployeesBreadCrumb } from './EmployeesBreadCrumb';
 import { EmployeesModuleProvider } from './EmployeesModuleContext';
 import { EmployeesSearchBar } from './EmployeesSearchBar';
 import { EmployeesTable } from './EmployeesTable';
 
-export const EmployeesModule = () => {
+export const EmployeesModule: React.FC = () => {
   return (
     <EmployeesModuleProvider>
       <div className="select-none">
-        <EmployeesBreadCrumb />
+        <BreadCrumb finalItem="Empleados" hiddenSeparator />;
         <EmployeesSearchBar />
         <EmployeesActions />
         <EmployeesTable />

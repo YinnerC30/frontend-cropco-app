@@ -1,11 +1,15 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext } from '@/auth/hooks';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
-const deleteBulkEmployees = async (data: BulkRecords) => {
+const deleteBulkEmployees = async (data: BulkRecords): Promise<void> => {
   await cropcoAPI.delete(`${pathsCropco.employees}/remove/bulk`, {
     data: {
       recordsIds: data.employeesIds,
@@ -13,9 +17,14 @@ const deleteBulkEmployees = async (data: BulkRecords) => {
   });
 };
 
-export const useDeleteBulkEmployees = () => {
+export const useDeleteBulkEmployees = (): UseMutationResult<
+  void,
+  AxiosError,
+  BulkRecords,
+  unknown
+> => {
   const queryClient = useQueryClient();
-  const { handleError } = useManageErrorApp();
+  const { handleError } = useAuthContext();
   const mutation = useMutation({
     mutationFn: deleteBulkEmployees,
     onSuccess: () => {
@@ -26,8 +35,7 @@ export const useDeleteBulkEmployees = () => {
       const deleteError: AxiosError | any = error;
       handleError({
         error: deleteError as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso para eliminar varios empleados',
+        messagesStatusError: {},
       });
     },
 

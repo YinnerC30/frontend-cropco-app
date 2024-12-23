@@ -1,14 +1,18 @@
-import { useAuthContext } from '@/auth/hooks';
 import { useDataTableManual } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { createContext, useState } from 'react';
+import { createContext, useMemo, useState } from 'react';
 import { useDeleteBulkEmployees, useGetAllEmployees } from '../../hooks';
 import { useGetCertificationEmployee } from '../../hooks/queries/useGetCertificationEmployee';
+import { Employee } from '../../interfaces/Employee';
 import { EmployeesModuleActionsTable } from './EmployeesModuleActionsTable';
 import { columnsTableEmployees } from './columnsTableEmployees';
+import { EmployeesModuleContextProps } from '../../interfaces/EmployeesModuleContextProps';
+import { useAuthContext } from '@/auth';
 
-export const EmployeesModuleContext = createContext<any>(null);
+export const EmployeesModuleContext = createContext<
+  EmployeesModuleContextProps | undefined
+>(undefined);
 
 export const EmployeesModuleProvider = ({
   children,
@@ -17,30 +21,36 @@ export const EmployeesModuleProvider = ({
 }) => {
   const { value } = useBasicQueryData();
 
-  const { query, pagination, setPagination } = useGetAllEmployees({
-    searchParameter: value,
+  const {
+    query: queryEmployees,
+    pagination,
+    setPagination,
+  } = useGetAllEmployees({
+    queryValue: value,
     allRecords: false,
   });
 
-  const { hasPermission } = useAuthContext();
+  const { getActionsModule } = useAuthContext();
 
-  const columnsTable = useCreateColumnsTable({
+  const actionsEmployeesModule = useMemo(
+    () => getActionsModule('employees'),
+    []
+  );
+
+  const columnsTable = useCreateColumnsTable<Employee>({
     columns: columnsTableEmployees,
     actions: EmployeesModuleActionsTable,
   });
 
-  const {
-    table,
-    lengthColumns,
-    getIdsToRowsSelected,
-    resetSelectionRows,
-    hasSelectedRecords,
-  } = useDataTableManual({
+  const dataTable = useDataTableManual<Employee>({
     columns: columnsTable,
-    data: query.data ?? [],
-    rows:
-      (hasPermission('employees', 'find_all_employees') && query.data?.rows) ??
-      [],
+    infoPagination: queryEmployees.isSuccess
+      ? {
+          pageCount: queryEmployees.data?.pageCount ?? 0,
+          rowCount: queryEmployees.data?.rowCount ?? 0,
+        }
+      : { pageCount: 0, rowCount: 0 },
+    rows: queryEmployees.data?.rows ?? [],
     pagination,
     setPagination,
   });
@@ -48,47 +58,28 @@ export const EmployeesModuleProvider = ({
   const [userIdCertification, setUserIdCertification] = useState('');
   const [executeQuery, setExecuteQuery] = useState(false);
 
-  const handleOnSuccessQuery = () => {
-    setExecuteQuery(false);
-    setUserIdCertification('');
-  };
-
   const queryGetCertification = useGetCertificationEmployee({
     userId: userIdCertification,
     stateQuery: executeQuery,
     actionPDF: 'ViewPDF',
-    actionOnSuccess: handleOnSuccessQuery,
+    actionOnSuccess: () => {
+      setExecuteQuery(false);
+      setUserIdCertification('');
+    },
   });
 
-  const { mutate, isPending } = useDeleteBulkEmployees();
+  const mutationDeleteEmployees = useDeleteBulkEmployees();
 
-  const handleDeleteBulkEmployees = () => {
-    mutate(
-      { employeesIds: getIdsToRowsSelected() },
-      {
-        onSuccess: () => {
-          resetSelectionRows();
-        },
-      }
-    );
-  };
-
-  const contextValue = {
-    value,
-    query,
-    hasPermission,
-    table,
-    lengthColumns,
-    hasSelectedRecords,
-    resetSelectionRows,
-    pagination,
-    setPagination,
-    handleDeleteBulkEmployees,
-    isPending,
+  const contextValue: EmployeesModuleContextProps = {
+    paramQuery: value,
+    queryEmployees,
+    dataTable,
+    mutationDeleteEmployees,
     queryGetCertification,
     userIdCertification,
     setUserIdCertification,
     setExecuteQuery,
+    actionsEmployeesModule,
   };
 
   return (

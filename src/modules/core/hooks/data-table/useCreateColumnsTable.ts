@@ -1,11 +1,12 @@
 import { ColumnDef, Row } from '@tanstack/react-table';
 import { CheckboxTable } from '../../components';
 import { useResponsiveWindow } from '../useResponsiveWindow';
+import React from 'react';
 
 interface CreateColumnsProps<T> {
   hiddenActions?: boolean;
   columns: ColumnDef<T>[];
-  actions: ({ row }: { row: Row<T> }) => JSX.Element;
+  actions: React.FC<{ row: Row<T> }>;
   readOnly?: boolean;
 }
 

@@ -3,10 +3,17 @@ import { Button } from '@/components';
 
 import { ButtonsForm } from '@/modules/core/components';
 import { useFormEmployeeContext } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
+import { MODULE_EMPLOYEE_PATHS } from '../../routes/pathRoutes';
 
-export const FormEmployeeButtons = () => {
-  const { readOnly, handleReturnToModule, isSubmitting } =
-    useFormEmployeeContext();
+export const FormEmployeeButtons:React.FC = () => {
+  const { readOnly, isSubmitting } = useFormEmployeeContext();
+
+  const navigate = useNavigate();
+
+  const handleReturnToModule = () => {
+    navigate(MODULE_EMPLOYEE_PATHS.ViewAll);
+  };
 
   return readOnly ? (
     <Button className="my-2" onClick={handleReturnToModule}>

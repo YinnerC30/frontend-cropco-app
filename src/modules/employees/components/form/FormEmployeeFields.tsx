@@ -4,7 +4,7 @@ import { Form } from '@/components';
 import { FormFieldInput, FormFieldTextArea } from '@/modules/core/components';
 import { formFieldsEmployee } from '../../utils';
 
-export const FormEmployeeFields = () => {
+export const FormEmployeeFields: React.FC = () => {
   const { form, onSubmit, readOnly } = useFormEmployeeContext();
 
   return (
@@ -54,6 +54,7 @@ export const FormEmployeeFields = () => {
           name={'address'}
           placeholder={formFieldsEmployee.address.placeholder}
           readOnly={readOnly}
+          className="w-56"
         />
       </form>
     </Form>

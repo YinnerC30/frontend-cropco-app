@@ -11,13 +11,13 @@ import { usePatchResetPasswordUser } from '../../hooks/mutations';
 import { ActionResetPassword } from './ActionResetPassword';
 import { User } from '../../interfaces';
 
-interface Props<User> {
+interface Props {
   row: Row<User>;
 }
 
-export const UsersModuleActionsTable = <T,>({ row }: Props<T>) => {
+export const UsersModuleActionsTable: React.FC<Props> = ({ row }) => {
   const { dataTable, actionsUsersModule } = useUsersModuleContext();
-  const { id, email } = row.original as User;
+  const { id, email } = row.original;
   const mutationDeleteUser = useDeleteUser();
   const mutationPatchPassword = usePatchResetPasswordUser();
 

@@ -1,20 +1,36 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth/hooks';
 import { Employee } from '../../interfaces/Employee';
-import { useManageErrorApp } from '@/auth/hooks';
 
-export const updateEmployee = async (employee: Employee) => {
+export const updateEmployee = async (
+  employee: Partial<Employee>
+): Promise<void> => {
   const { id, ...rest } = employee;
   await cropcoAPI.patch(`${pathsCropco.employees}/update/one/${id}`, rest);
 };
 
-export const usePatchEmployee = () => {
+export const usePatchEmployee = (): UseMutationResult<
+  void,
+  AxiosError,
+  Partial<Employee>,
+  unknown
+> => {
   const queryClient = useQueryClient();
-  const { handleError } = useManageErrorApp();
-  const mutation = useMutation({
+  const { handleError } = useAuthContext();
+  const mutation: UseMutationResult<
+    void,
+    AxiosError,
+    Partial<Employee>,
+    unknown
+  > = useMutation({
     mutationFn: updateEmployee,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['employees'] });
@@ -24,8 +40,7 @@ export const usePatchEmployee = () => {
       const updateError: AxiosError | any = error;
       handleError({
         error: updateError as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso para actualizar el empleado',
+        messagesStatusError: {},
       });
     },
     retry: 1,

@@ -18,7 +18,7 @@ export const useWorkDetailForm = () => {
   const details: any = useAppSelector((state: RootState) => state.work.details);
 
   const { query: queryEmployees } = useGetAllEmployees({
-    searchParameter: '',
+    queryValue: '',
     allRecords: true,
   });
 

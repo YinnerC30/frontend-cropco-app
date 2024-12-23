@@ -1,5 +1,3 @@
-import { useAuthContext } from '@/auth/hooks';
-
 import {
   ActionCopyIdRecord,
   ActionDeleteRecord,
@@ -8,50 +6,53 @@ import {
 } from '@/modules/core/components/data-table/menu/actions';
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
+import { useEmployeesModuleContext } from '../../hooks';
 import { useDeleteEmployee } from '../../hooks/mutations/useDeleteEmployee';
 import { ActionGetCertification } from './ActionGetCertification';
-import { useEmployeesModuleContext } from '../../hooks';
+import { Employee } from '../../interfaces/Employee';
 
 interface Props {
-  row: Row<any>;
+  row: Row<Employee>;
 }
 
-export const EmployeesModuleActionsTable = ({ row }: Props) => {
-  const { resetSelectionRows } = useEmployeesModuleContext();
-  const { hasPermission } = useAuthContext();
+export const EmployeesModuleActionsTable: React.FC<Props> = ({
+  row,
+}: Props) => {
+  const { dataTable, actionsEmployeesModule } = useEmployeesModuleContext();
+
   const { id } = row.original;
   const mutationDeleteEmployee = useDeleteEmployee();
 
   const handleDelete = () => {
-    mutationDeleteEmployee.mutate(id, {
+    mutationDeleteEmployee.mutate(id!, {
       onSuccess: () => {
-        resetSelectionRows();
+        dataTable.resetSelectionRows();
       },
     });
   };
 
   return (
     <DropDownMenuActions>
-      <ActionCopyIdRecord id={id} />
+      <ActionCopyIdRecord id={id!} />
 
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!hasPermission('employees', 'remove_one_employee')}
+        disabled={!actionsEmployeesModule['remove_one_employee']}
       />
 
       <ActionModifyRecord
-        id={id}
-        disabled={!hasPermission('employees', 'update_one_employee')}
+        id={id!}
+        disabled={!actionsEmployeesModule['update_one_employee']}
       />
 
       <ActionGetCertification
-        id={id}
-        disabled={!hasPermission('employees', 'find_certification_employee')}
+        id={id!}
+        disabled={!actionsEmployeesModule['find_certification_employee']}
       />
 
       <ActionViewRecord
-        id={id}
-        disabled={!hasPermission('employees', 'find_one_employee')}
+        id={id!}
+        disabled={!actionsEmployeesModule['find_one_employee']}
       />
     </DropDownMenuActions>
   );

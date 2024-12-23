@@ -124,7 +124,7 @@ export const FormHarvestProvider = ({
   });
 
   const { query: queryEmployees } = useGetAllEmployees({
-    searchParameter: '',
+    queryValue: '',
     allRecords: true,
   });
 

@@ -1,7 +1,6 @@
 export * from './ActionGetCertification';
 export * from './columnsTableEmployees';
 export * from './EmployeesActions';
-export * from './EmployeesBreadCrumb';
 export * from './EmployeesModule';
 export * from './EmployeesModuleActionsTable';
 export * from './EmployeesModuleContext';

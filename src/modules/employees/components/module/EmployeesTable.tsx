@@ -1,22 +1,30 @@
 import { DataTableTemplate } from '@/modules/core/components';
 import { useEmployeesModuleContext } from '../../hooks';
 
-export const EmployeesTable = () => {
-  const { table, lengthColumns, query, hasPermission, isPending } =
-    useEmployeesModuleContext();
+export const EmployeesTable: React.FC = () => {
+  const {
+    dataTable,
+    actionsEmployeesModule,
+    queryEmployees,
+    mutationDeleteEmployees,
+  } = useEmployeesModuleContext();
 
   return (
     <DataTableTemplate
       errorMessage={
-        !hasPermission('employees', 'find_all_employees')
+        !actionsEmployeesModule['find_all_employees']
           ? 'No tienes permiso para ver el listado de empleados 😢'
           : 'No hay registros.'
       }
-      disabledDoubleClick={!hasPermission('employees', 'find_one_employee')}
-      table={table}
-      lengthColumns={lengthColumns}
-      rowCount={query.data?.rowCount ?? 0}
-      isLoading={query.isLoading || query.isRefetching || isPending}
+      disabledDoubleClick={!actionsEmployeesModule['find_one_employee']}
+      table={dataTable.table}
+      lengthColumns={dataTable.lengthColumns}
+      rowCount={queryEmployees.data?.rowCount ?? 0}
+      isLoading={
+        queryEmployees.isLoading ||
+        queryEmployees.isRefetching ||
+        mutationDeleteEmployees.isPending
+      }
     />
   );
 };

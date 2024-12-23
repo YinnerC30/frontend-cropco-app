@@ -8,7 +8,7 @@ import { formSchemaEmployee } from '../utils';
 import FormEmployee from './form/FormEmployee';
 import { usePatchEmployee } from '../hooks';
 
-export const ModifyEmployee = () => {
+export const ModifyEmployee: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetEmployee(id!);
   const { mutate, isPending } = usePatchEmployee();

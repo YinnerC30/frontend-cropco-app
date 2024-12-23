@@ -5,45 +5,53 @@ import {
   ButtonRefetchData,
 } from '@/modules/core/components';
 
-import { MODULE_EMPLOYEE_PATHS } from '../../routes/pathRoutes';
 import { useEmployeesModuleContext } from '../../hooks';
+import { MODULE_EMPLOYEE_PATHS } from '../../routes/pathRoutes';
 
-
-export const EmployeesActions = () => {
+export const EmployeesActions: React.FC = () => {
   const {
-    query,
-    hasPermission,
-    hasSelectedRecords,
-    resetSelectionRows,
-    isPending,
-    handleDeleteBulkEmployees,
+    queryEmployees,
+    mutationDeleteEmployees,
+    dataTable,
+    actionsEmployeesModule,
   } = useEmployeesModuleContext();
 
+  const handleDeleteBulkEmployees = () => {
+    mutationDeleteEmployees.mutate(
+      { employeesIds: dataTable.getIdsToRowsSelected() },
+      {
+        onSuccess: () => {
+          dataTable.resetSelectionRows();
+        },
+      }
+    );
+  };
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={query.refetch}
-        disabled={!hasPermission('employees', 'find_all_employees')}
+        onClick={queryEmployees.refetch}
+        disabled={!actionsEmployeesModule['find_all_employees']}
         className=""
       />
 
       <div className="flex items-center gap-1">
         <ButtonClearSelection
-          onClick={() => resetSelectionRows()}
-          visible={hasSelectedRecords}
+          onClick={() => dataTable.resetSelectionRows()}
+          visible={dataTable.hasSelectedRecords}
         />
 
         <ButtonDeleteBulk
           disabled={
-            isPending || !hasPermission('employees', 'remove_bulk_employees')
+            mutationDeleteEmployees.isPending ||
+            !actionsEmployeesModule['remove_bulk_employees']
           }
           onClick={handleDeleteBulkEmployees}
-          visible={hasSelectedRecords}
+          visible={dataTable.hasSelectedRecords}
         />
 
         <ButtonCreateRecord
           route={MODULE_EMPLOYEE_PATHS.Create}
-          disabled={!hasPermission('employees', 'create_employee')}
+          disabled={!actionsEmployeesModule['create_employee']}
           className=""
         />
       </div>

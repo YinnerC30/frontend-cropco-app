@@ -6,7 +6,7 @@ import FormEmployee from './form/FormEmployee';
 import { usePostEmployee } from '../hooks';
 import { BreadCrumb } from '@/modules/core/components';
 
-export const CreateEmployee = () => {
+export const CreateEmployee: React.FC = () => {
   const { mutate, isPending } = usePostEmployee();
 
   const onSubmit = async (values: z.infer<typeof formSchemaEmployee>) => {

@@ -5,7 +5,7 @@ import { useGetEmployee } from '../hooks/queries/useGetEmployee';
 import { MODULE_EMPLOYEE_PATHS } from '../routes/pathRoutes';
 import FormEmployee from './form/FormEmployee';
 
-export const ViewEmployee = () => {
+export const ViewEmployee: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetEmployee(id!);
 

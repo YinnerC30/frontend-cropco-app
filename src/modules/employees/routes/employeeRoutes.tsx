@@ -45,4 +45,3 @@ const employeeRoutes = {
 };
 
 export { employeeRoutes };
-

@@ -6,30 +6,19 @@ import {
   BasicQueryData,
   ResponseApiGetAllRecords,
 } from '@/modules/core/interfaces';
+import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
-import { PaginationState } from '@tanstack/react-table';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { User } from '../../interfaces';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
 
-interface UseGetAllUsersProps {
-  value: string;
-}
-
-interface UseGetAllUsersReturn {
-  query: UseQueryResult<ResponseApiGetAllRecords<User>, AxiosError>;
-  pagination: PaginationState;
-  setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
-}
-
-async function getUsers(
-  values: BasicQueryData
-): Promise<ResponseApiGetAllRecords<User>> {
-  const { query: value = '', limit = 10, offset = 0 } = values;
+async function getUsers(values: BasicQueryData): TypeGetAllRecordsReturn<User> {
+  const { query = '', limit = 10, offset = 0 } = values;
 
   const params = new URLSearchParams({
-    search: value,
+    query: query,
     limit: limit.toString(),
     offset: offset.toString(),
   });
@@ -40,7 +29,9 @@ async function getUsers(
 
 export function useGetAllUsers({
   value,
-}: UseGetAllUsersProps): UseGetAllUsersReturn {
+}: {
+  value: string;
+}): UseGetAllRecordsReturn<User> {
   const { hasPermission, handleError } = useAuthContext();
 
   const { pagination, setPagination } = usePaginationDataTable();

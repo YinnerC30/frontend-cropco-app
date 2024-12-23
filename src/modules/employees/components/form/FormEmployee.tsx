@@ -1,10 +1,10 @@
+import { ScrollArea } from '@/components';
 import { FormProps } from '@/modules/core/interfaces';
 import { FormEmployeeButtons } from './FormEmployeeButtons';
 import { FormEmployeeProvider } from './FormEmployeeContext';
 import { FormEmployeeFields } from './FormEmployeeFields';
-import { FormEmployeeScrollArea } from './FormEmployeeScrollArea';
 
-export const FormEmployee = ({
+export const FormEmployee: React.FC<FormProps> = ({
   defaultValues,
   isSubmitting = false,
   onSubmit,
@@ -18,9 +18,9 @@ export const FormEmployee = ({
       readOnly={readOnly}
     >
       <div className="flex flex-col items-center">
-        <FormEmployeeScrollArea>
+        <ScrollArea className="h-[72vh] w-full pb-2">
           <FormEmployeeFields />
-        </FormEmployeeScrollArea>
+        </ScrollArea>
         <FormEmployeeButtons />
       </div>
     </FormEmployeeProvider>

@@ -1,16 +1,25 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext } from '@/auth/hooks';
 
-export const deleteEmployee = async (id: string) =>
+export const deleteEmployee = async (id: string): Promise<void> =>
   await cropcoAPI.delete(`${pathsCropco.employees}/remove/one/${id}`);
 
-export const useDeleteEmployee = () => {
+export const useDeleteEmployee = (): UseMutationResult<
+  void,
+  AxiosError,
+  string,
+  unknown
+> => {
   const queryClient = useQueryClient();
-  const { handleError } = useManageErrorApp();
+  const { handleError } = useAuthContext();
   const mutation = useMutation({
     mutationFn: deleteEmployee,
     onSuccess: () => {
@@ -21,8 +30,7 @@ export const useDeleteEmployee = () => {
       const deleteError: AxiosError | any = error;
       handleError({
         error: deleteError as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso para eliminar el empleado',
+        messagesStatusError: {},
       });
     },
     retry: 1,

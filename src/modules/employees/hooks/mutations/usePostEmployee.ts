@@ -1,21 +1,35 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
-import { useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext } from '@/auth/hooks';
 import { useNavigate } from 'react-router-dom';
 import { Employee } from '../../interfaces/Employee';
 import { MODULE_EMPLOYEE_PATHS } from '../../routes/pathRoutes';
 
-export const createEmployee = async (employee: Employee) =>
-  await cropcoAPI.post(`${pathsCropco.employees}/create`, employee);
+export const createEmployee = async (employee: Employee): Promise<Employee> => {
+  const { data } = await cropcoAPI.post(
+    `${pathsCropco.employees}/create`,
+    employee
+  );
+  return data;
+};
 
-export const usePostEmployee = () => {
+export const usePostEmployee = (): UseMutationResult<
+  Employee,
+  AxiosError,
+  Employee,
+  unknown
+> => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { handleError } = useManageErrorApp();
+  const { handleError } = useAuthContext();
   const mutation = useMutation({
     mutationFn: createEmployee,
     onSuccess: () => {
@@ -27,7 +41,7 @@ export const usePostEmployee = () => {
       const createError: AxiosError | any = error;
       handleError({
         error: createError as AxiosError,
-        messageUnauthoraizedError: 'No tienes permiso para crear el empleado',
+        messagesStatusError: {},
       });
     },
     retry: 1,

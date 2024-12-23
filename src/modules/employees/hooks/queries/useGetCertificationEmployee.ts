@@ -1,15 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth/hooks';
 import { dowloadPDF } from '@/modules/core/helpers';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
-import {
-  useAuthContext,
-  useManageErrorApp,
-} from '@/auth/hooks';
 import { AxiosError } from 'axios';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getCertificationEmployee = async (id: string): Promise<Blob> => {
   const response = await cropcoAPI.get<Blob>(
@@ -35,11 +33,10 @@ export const useGetCertificationEmployee = ({
   stateQuery,
   actionPDF,
   actionOnSuccess,
-}: Props) => {
-  const { handleError } = useManageErrorApp();
-  const { hasPermission } = useAuthContext();
+}: Props): UseQueryResult<Blob, AxiosError> => {
+  const { hasPermission, handleError } = useAuthContext();
 
-  const query = useQuery({
+  const query: UseQueryResult<Blob, AxiosError> = useQuery({
     queryKey: ['employee-certification', userId],
     queryFn: () => {
       const fetchCertification = getCertificationEmployee(userId);
@@ -53,7 +50,7 @@ export const useGetCertificationEmployee = ({
 
       return fetchCertification;
     },
-    staleTime: 60_000 * 60 * 24,
+    staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
     enabled:
       stateQuery && hasPermission('employees', 'find_certification_employee'),
     retry: 1,
@@ -79,8 +76,11 @@ export const useGetCertificationEmployee = ({
     if (query.isError) {
       handleError({
         error: query.error as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso para obtener el certificado 😑',
+        messagesStatusError: {
+          notFound: 'La constancia solicitada no fue encontrada',
+          unauthorized:
+            'No tienes permiso para obtener la constancia del empleado',
+        },
       });
     }
   }, [query.isError, query.error]);
