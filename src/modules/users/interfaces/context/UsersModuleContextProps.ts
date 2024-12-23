@@ -5,7 +5,7 @@ import {
 } from '@/modules/core/interfaces';
 import { UseQueryResult, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { User } from './User';
+import { User } from '../User';
 
 export interface UsersModuleContextProps {
   paramQuery: string;
@@ -17,6 +17,6 @@ export interface UsersModuleContextProps {
     BulkRecords,
     unknown
   >;
-  handleDeleteBulkUsers: () => void;
+
   actionsUsersModule: Record<string, boolean>;
 }

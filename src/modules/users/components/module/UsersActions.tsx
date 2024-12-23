@@ -9,13 +9,19 @@ import { useUsersModuleContext } from '../../hooks';
 import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
 
 export const UsersActions: React.FC = () => {
-  const {
-    queryUsers,
-    dataTable,
-    handleDeleteBulkUsers,
-    mutationDeleteUsers,
-    actionsUsersModule,
-  } = useUsersModuleContext();
+  const { queryUsers, dataTable, mutationDeleteUsers, actionsUsersModule } =
+    useUsersModuleContext();
+
+  const handleDeleteBulkUsers = (): void => {
+    mutationDeleteUsers.mutate(
+      { userIds: dataTable.getIdsToRowsSelected() },
+      {
+        onSuccess: () => {
+          dataTable.resetSelectionRows();
+        },
+      }
+    );
+  };
 
   const { resetSelectionRows, hasSelectedRecords } = dataTable;
 

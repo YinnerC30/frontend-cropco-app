@@ -1,5 +1,5 @@
 import { ScrollArea } from '@/components';
-import { FormUserProps } from '../../interfaces/FormUserProps';
+import { FormUserProps } from '../../interfaces/form/FormUserProps';
 import { FormUserButtons } from './FormUserButtons';
 import { FormUserProvider } from './FormUserContext';
 import { FormUserFields } from './FormUserFields';

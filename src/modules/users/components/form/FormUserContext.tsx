@@ -6,7 +6,7 @@ import {
 import React, { createContext, ReactNode, useMemo } from 'react';
 import { UserForm } from '../../interfaces';
 import { FormUserContextProps } from '../../interfaces/';
-import { FormUserProps } from '../../interfaces/FormUserProps';
+import { FormUserProps } from '../../interfaces/form/FormUserProps';
 import { formSchemaUser, formSchemaUserWithPassword } from '../../utils';
 import { UserAction } from './FormUserPermissionAction';
 

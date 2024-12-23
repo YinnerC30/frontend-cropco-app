@@ -3,7 +3,7 @@ import { FormContextProps } from '@/modules/core/interfaces/form/FormContextProp
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { UserAction } from '../../components';
-import { UserForm } from '../UserForm';
+import { UserForm } from '../form/UserForm';
 
 export interface FormUserContextProps extends FormContextProps {
   userHasAction: ({ id }: { id: string }) => boolean;

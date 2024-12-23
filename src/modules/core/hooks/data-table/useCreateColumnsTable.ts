@@ -2,18 +2,18 @@ import { ColumnDef, Row } from '@tanstack/react-table';
 import { CheckboxTable } from '../../components';
 import { useResponsiveWindow } from '../useResponsiveWindow';
 
-interface CreateColumnsProps {
+interface CreateColumnsProps<T> {
   hiddenActions?: boolean;
-  columns: ColumnDef<unknown>[];
-  actions: ({ row }: { row: Row<unknown> }) => JSX.Element;
+  columns: ColumnDef<T>[];
+  actions: ({ row }: { row: Row<T> }) => JSX.Element;
   readOnly?: boolean;
 }
 
-export const useCreateColumnsTable = ({
+export const useCreateColumnsTable = <T>({
   columns: columnsTable,
   actions: actionsTable,
   hiddenActions = false,
-}: CreateColumnsProps): ColumnDef<unknown>[] => {
+}: CreateColumnsProps<T>): ColumnDef<T>[] => {
   const { isSmallScreen } = useResponsiveWindow();
   const columns = [...columnsTable];
 

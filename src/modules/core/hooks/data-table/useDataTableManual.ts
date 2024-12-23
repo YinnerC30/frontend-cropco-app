@@ -16,8 +16,8 @@ export interface RowData {
   id: string;
 }
 
-interface DataTableManualProps {
-  columns: ColumnDef<unknown>[];
+interface DataTableManualProps<T> {
+  columns: ColumnDef<T>[];
   pagination: PaginationState;
   setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
   rows: unknown[];
@@ -26,8 +26,8 @@ interface DataTableManualProps {
     rowCount: number;
   };
 }
-export interface DataTableManualReturn {
-  table: Table<unknown>;
+export interface DataTableManualReturn<T> {
+  table: Table<T> | Table<unknown>;
   rowSelection: {};
   lengthColumns: number;
   getIdsToRowsSelected: () => RowData[];
@@ -35,13 +35,13 @@ export interface DataTableManualReturn {
   hasSelectedRecords: boolean;
 }
 
-export const useDataTableManual = ({
+export const useDataTableManual = <T>({
   columns,
   infoPagination,
   rows,
   pagination,
   setPagination,
-}: DataTableManualProps): DataTableManualReturn => {
+}: DataTableManualProps<T>): DataTableManualReturn<T> => {
   const defaultData = useMemo(() => [], []);
 
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -49,7 +49,7 @@ export const useDataTableManual = ({
   const [rowSelection, setRowSelection] = useState({});
   const table = useReactTable({
     data: rows ?? defaultData,
-    columns,
+    columns: columns as ColumnDef<unknown>[],
     pageCount: infoPagination?.pageCount ?? -1,
     rowCount: infoPagination?.rowCount,
     getCoreRowModel: getCoreRowModel(),

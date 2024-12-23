@@ -4,7 +4,7 @@ import { useBasicQueryData } from '@/modules/core/hooks/';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import React, { createContext, useMemo } from 'react';
 import { useDeleteBulkUsers, useGetAllUsers } from '../../hooks';
-import { UsersModuleContextProps } from '../../interfaces/';
+import { User, UsersModuleContextProps } from '../../interfaces/';
 import { columnsTableUsers } from './columnsTableUsers';
 import { UsersModuleActionsTable } from './UsersModuleActionsTable';
 
@@ -34,9 +34,14 @@ export const UsersModuleProvider: React.FC<{
     actions: UsersModuleActionsTable,
   });
 
-  const dataTable = useDataTableManual({
+  const dataTable = useDataTableManual<User>({
     columns: columnsTable,
-    infoPagination: queryUsers.data ?? { pageCount: 0, rowCount: 0 },
+    infoPagination: queryUsers.isSuccess
+      ? {
+          pageCount: queryUsers.data?.pageCount ?? 0,
+          rowCount: queryUsers.data?.rowCount ?? 0,
+        }
+      : { pageCount: 0, rowCount: 0 },
     rows: queryUsers.data?.rows ?? [],
     pagination,
     setPagination,
@@ -44,22 +49,10 @@ export const UsersModuleProvider: React.FC<{
 
   const mutationDeleteUsers = useDeleteBulkUsers();
 
-  const handleDeleteBulkUsers = (): void => {
-    mutationDeleteUsers.mutate(
-      { userIds: dataTable.getIdsToRowsSelected() },
-      {
-        onSuccess: () => {
-          dataTable.resetSelectionRows();
-        },
-      }
-    );
-  };
-
   const contextValue = {
     value,
     queryUsers,
     dataTable,
-    handleDeleteBulkUsers,
     mutationDeleteUsers,
     actionsUsersModule,
     paramQuery: value,
