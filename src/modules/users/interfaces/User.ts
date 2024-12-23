@@ -1,3 +1,5 @@
+import { Module } from "@/modules/core/interfaces";
+
 export interface User {
   first_name: string;
   last_name: string;
@@ -5,6 +7,6 @@ export interface User {
   cell_phone_number: string;
   id: string;
   is_active: boolean;
-  modules: any[];
+  modules: Module[];
   token: string;
 }

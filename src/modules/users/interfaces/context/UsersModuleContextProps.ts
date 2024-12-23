@@ -10,10 +10,10 @@ import { User } from '../User';
 export interface UsersModuleContextProps {
   paramQuery: string;
   queryUsers: UseQueryResult<ResponseApiGetAllRecords<User>, AxiosError>;
-  dataTable: DataTableManualReturn;
+  dataTable: DataTableManualReturn<User>;
   mutationDeleteUsers: UseMutationResult<
     void,
-    AxiosError<unknown, any>,
+    AxiosError,
     BulkRecords,
     unknown
   >;

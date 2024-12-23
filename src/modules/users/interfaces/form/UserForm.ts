@@ -1,3 +1,5 @@
+import { Module, ObjectWithId } from '@/modules/core/interfaces';
+
 export interface UserForm {
   id?: string;
   first_name: string;
@@ -8,6 +10,6 @@ export interface UserForm {
     password1: string;
     password2: string;
   };
-  actions: any[];
-  modules?: any[];
+  actions: ObjectWithId[];
+  modules?: Module[];
 }

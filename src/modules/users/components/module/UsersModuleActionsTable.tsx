@@ -9,14 +9,15 @@ import { Row } from '@tanstack/react-table';
 import { useDeleteUser, useUsersModuleContext } from '../../hooks';
 import { usePatchResetPasswordUser } from '../../hooks/mutations';
 import { ActionResetPassword } from './ActionResetPassword';
+import { User } from '../../interfaces';
 
-interface Props {
-  row: Row<any>;
+interface Props<User> {
+  row: Row<User>;
 }
 
-export const UsersModuleActionsTable = ({ row }: Props) => {
+export const UsersModuleActionsTable = <T,>({ row }: Props<T>) => {
   const { dataTable, actionsUsersModule } = useUsersModuleContext();
-  const { id, email } = row.original;
+  const { id, email } = row.original as User;
   const mutationDeleteUser = useDeleteUser();
   const mutationPatchPassword = usePatchResetPasswordUser();
 

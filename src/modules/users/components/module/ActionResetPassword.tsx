@@ -30,7 +30,7 @@ interface Props {
   id: string;
   mutation: UseMutationResult<
     DataResetPassword,
-    AxiosError<unknown, any>,
+    AxiosError,
     string,
     unknown
   >;
