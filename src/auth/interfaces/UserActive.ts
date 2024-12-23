@@ -1,8 +1,10 @@
+import { Module } from "@/modules/core/interfaces";
+
 export interface UserActive {
   id: string;
   token: string;
   email: string;
   first_name: string;
-  modules: any;
+  modules: Module[];
   isLogin: boolean;
 }

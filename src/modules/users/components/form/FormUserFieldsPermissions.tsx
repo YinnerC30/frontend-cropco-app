@@ -63,8 +63,12 @@ export const ModuleCard: React.FC<ModuleCardProps> = memo<ModuleCardProps>(
 );
 
 export const FormUserFieldsPermissions: React.FC = () => {
-  const { data, handleSelectAllActions, handleInselectAllActions, readOnly } =
-    useFormUserContext();
+  const {
+    queryModules,
+    handleSelectAllActions,
+    handleInselectAllActions,
+    readOnly,
+  } = useFormUserContext();
 
   return (
     <div>
@@ -79,7 +83,7 @@ export const FormUserFieldsPermissions: React.FC = () => {
         <Button onClick={handleInselectAllActions}>Desmarcar todo</Button>
       </div>
       <div className="flex flex-wrap gap-2 my-2 justify-evenly">
-        {data?.map(({ label, actions, name }: Module) => (
+        {queryModules?.data?.map(({ label, actions, name }: Module) => (
           <ModuleCard key={name} label={label} actions={actions} name={name} />
         ))}
       </div>

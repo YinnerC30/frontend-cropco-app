@@ -14,16 +14,19 @@ import {
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import { formFieldsUser } from '../../utils';
 import { FormFieldInput } from '@/modules/core/components';
+import { useState } from 'react';
 
 export const FormUserFields: React.FC = () => {
-  const {
-    form,
-    onSubmit,
-    readOnly,
-    hiddenPassword,
-    showPassword,
-    togglePasswordVisibility,
-  } = useFormUserContext();
+  const { form, onSubmit, readOnly, hiddenPassword } = useFormUserContext();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void => {
+    event.preventDefault();
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div>

@@ -1,18 +1,14 @@
-import { useAuthContext } from '@/auth/hooks';
 import { useCreateForm, useGetAllModules } from '@/modules/core/hooks';
 import {
   Action,
   Module,
 } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
-import { RootState, useAppSelector } from '@/redux/store';
-import React, { createContext, ReactNode, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { createContext, ReactNode, useMemo } from 'react';
 import { UserForm } from '../../interfaces';
+import { FormUserContextProps } from '../../interfaces/';
 import { FormUserProps } from '../../interfaces/FormUserProps';
-import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
 import { formSchemaUser, formSchemaUserWithPassword } from '../../utils';
 import { UserAction } from './FormUserPermissionAction';
-import { FormUserContextProps } from '../../interfaces/';
 
 export const defaultValues: UserForm = {
   first_name: 'demo',
@@ -52,35 +48,31 @@ export const FormUserProvider: React.FC<
   isSubmitting = false,
   onSubmit,
   readOnly = false,
-  showAlert = false,
 }) => {
-  const { data = [], isLoading, isSuccess } = useGetAllModules();
-  const { modules } = useAppSelector(
-    (state: RootState) => state.authentication.user
-  );
-  const [showPassword, setShowPassword] = useState(false);
+  const queryModules = useGetAllModules();
 
-  const togglePasswordVisibility = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    setShowPassword(!showPassword);
-  };
+  const { data = [] } = queryModules;
 
   const form = useCreateForm({
     schema: hiddenPassword ? formSchemaUser : formSchemaUserWithPassword,
     defaultValues,
   });
 
-  const defaultActionsUser = form.formState.defaultValues?.actions ?? [];
-  const currentActions = form.watch('actions') ?? [];
+  const defaultActionsUser = useMemo(
+    () => form.formState.defaultValues?.actions ?? [],
+    [form.formState]
+  );
+  const currentActions: Action[] = useMemo(
+    () => form.watch('actions') ?? [],
+    [form.formState]
+  );
 
-  const userHasAction = ({ id }: { id: string }) => {
+  const userHasAction = ({ id }: { id: string }): boolean => {
     const actionsIds = currentActions.map((action: UserAction) => action.id);
     return actionsIds.includes(id);
   };
 
-  const updateActionsUserForm = (actions: UserAction[]) => {
+  const updateActionsUserForm = (actions: UserAction[]): void => {
     const actionSet: Set<string> = new Set(
       currentActions.map((action: UserAction) => action.id)
     );
@@ -105,58 +97,49 @@ export const FormUserProvider: React.FC<
     }
   };
 
-  const handleSelectAllActions = () => {
+  const handleSelectAllActions = (): void => {
     const actions = data.flatMap((item: Module): UserAction[] =>
       item.actions.map((act: Action) => ({ id: act.id, isActive: true }))
     );
     updateActionsUserForm(actions);
   };
 
-  const handleInselectAllActions = () => {
+  const handleInselectAllActions = (): void => {
     updateActionsUserForm([]);
   };
 
-  const getIdsActionsModule = (stateActions: boolean, nameModule: string) => {
+  const getIdsActionsModule = (
+    activateActions: boolean,
+    nameModule: string
+  ): {
+    id: string;
+    isActive: boolean;
+  }[] => {
     return (
       data
         .find((module: Module) => module.name === nameModule)
         ?.actions.map((action: Action) => ({
           id: action.id,
-          isActive: stateActions,
+          isActive: activateActions,
         })) || []
     );
   };
 
-  const handleSelectAllActionInModule = (nameModule: string) => {
+  const handleSelectAllActionInModule = (nameModule: string): void => {
     const actions = getIdsActionsModule(true, nameModule);
     updateActionsUserForm(actions);
   };
 
-  const handleInselectAllActionsInModule = (nameModule: string) => {
+  const handleInselectAllActionsInModule = (nameModule: string): void => {
     const actions = getIdsActionsModule(false, nameModule);
     updateActionsUserForm(actions);
-  };
-
-  const navigate = useNavigate();
-  const { hasPermission } = useAuthContext();
-
-  const handleReturnToModule = () => {
-    navigate(MODULE_USER_PATHS.ViewAll);
   };
 
   return (
     <FormUserContext.Provider
       value={{
-        showPassword,
-        setShowPassword,
-        togglePasswordVisibility,
         form,
-        userActions: currentActions,
         userHasAction,
-        modules,
-        data,
-        isLoadingModules: isLoading,
-        isSuccess,
         handleInselectAllActions,
         handleInselectAllActionsInModule,
         handleSelectAllActionInModule,
@@ -165,10 +148,8 @@ export const FormUserProvider: React.FC<
         isSubmitting,
         onSubmit,
         readOnly,
-        handleReturnToModule,
         hiddenPassword,
-        hasPermission,
-        showAlert,
+        queryModules,
       }}
     >
       {children}

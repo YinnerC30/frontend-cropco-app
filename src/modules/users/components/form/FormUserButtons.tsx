@@ -1,9 +1,17 @@
 import { Button } from '@/components';
 import { ButtonsForm } from '@/modules/core/components';
 import { useFormUserContext } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
+import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
 
 export const FormUserButtons: React.FC = () => {
-  const { readOnly, handleReturnToModule, isSubmitting } = useFormUserContext();
+  const { readOnly, isSubmitting } = useFormUserContext();
+
+  const navigate = useNavigate();
+
+  const handleReturnToModule = (): void => {
+    navigate(MODULE_USER_PATHS.ViewAll);
+  };
 
   return readOnly ? (
     <Button className="my-2" onClick={handleReturnToModule}>

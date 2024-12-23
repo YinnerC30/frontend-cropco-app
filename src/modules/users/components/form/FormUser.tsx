@@ -5,21 +5,9 @@ import { FormUserProvider } from './FormUserContext';
 import { FormUserFields } from './FormUserFields';
 import { FormUserFieldsPermissions } from './FormUserFieldsPermissions';
 
-export const FormUser: React.FC<FormUserProps> = ({
-  defaultValues,
-  hiddenPassword = false,
-  isSubmitting = false,
-  onSubmit,
-  readOnly = false,
-}: FormUserProps) => {
+export const FormUser: React.FC<FormUserProps> = (props: FormUserProps) => {
   return (
-    <FormUserProvider
-      defaultValues={defaultValues}
-      hiddenPassword={hiddenPassword}
-      isSubmitting={isSubmitting}
-      onSubmit={onSubmit}
-      readOnly={readOnly}
-    >
+    <FormUserProvider {...props}>
       <div className="flex flex-col items-center">
         <ScrollArea className="h-[72vh] w-full pb-2">
           <FormUserFields />
