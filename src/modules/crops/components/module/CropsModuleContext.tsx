@@ -15,7 +15,7 @@ export const CropsModuleProvider = ({ children }: any) => {
   const { value } = useBasicQueryData();
 
   const { query, pagination, setPagination } = useGetAllCrops({
-    searchParameter: value,
+    queryValue: value,
     allRecords: false,
   });
 

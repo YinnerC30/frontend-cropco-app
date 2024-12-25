@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
-import { PropsUseGetAllRecords } from '@/modules/core/interfaces/props/PropsUseGetAllRecords';
+import { UseGetAllRecordsProps } from '@/modules/core/interfaces/props/PropsUseGetAllRecords';
 
 import { useEffect } from 'react';
 
@@ -36,7 +36,7 @@ export const getEmployees = async (
 export const useGetAllEmployees = ({
   queryValue,
   allRecords = false,
-}: PropsUseGetAllRecords): UseGetAllRecordsReturn<Employee> => {
+}: UseGetAllRecordsProps): UseGetAllRecordsReturn<Employee> => {
   const { pagination, setPagination } = usePaginationDataTable();
 
   const { hasPermission, handleError } = useAuthContext();

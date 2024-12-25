@@ -6,7 +6,7 @@ import { useAuthContext } from '@/auth/hooks';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import {
   BasicQueryData,
-  PropsUseGetAllRecords,
+  UseGetAllRecordsProps,
   ResponseApiGetAllRecords,
 } from '@/modules/core/interfaces';
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
@@ -33,7 +33,7 @@ export const getClients = async (
 export const useGetAllClients = ({
   queryValue,
   allRecords = false,
-}: PropsUseGetAllRecords): UseGetAllRecordsReturn<Client> => {
+}: UseGetAllRecordsProps): UseGetAllRecordsReturn<Client> => {
   const { pagination, setPagination } = usePaginationDataTable();
 
   const { hasPermission, handleError } = useAuthContext();

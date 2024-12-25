@@ -3,18 +3,19 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth/hooks';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { Crop } from '@/modules/crops/interfaces/Crop';
-import { useManageErrorApp } from '@/auth/hooks';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_CROPS_PATHS } from '../../routes/pathRoutes';
 
-export const createCrop = async (crop: Crop) => {
-  return await cropcoAPI.post(`${pathsCropco.crops}/create`, crop);
+export const createCrop = async (crop: Crop): Promise<void> => {
+  await cropcoAPI.post(`${pathsCropco.crops}/create`, crop);
 };
 
-export const usePostCrop = () => {
+export const usePostCrop = (): UseMutationReturn<void, Crop> => {
   const queryClient = useQueryClient();
-  const { handleError } = useManageErrorApp();
+  const { handleError } = useAuthContext();
   const navigate = useNavigate();
   const mutation = useMutation({
     mutationFn: createCrop,
@@ -27,7 +28,7 @@ export const usePostCrop = () => {
       const createError: AxiosError | any = error;
       handleError({
         error: createError as AxiosError,
-        messageUnauthoraizedError: 'No tienes permiso para crear un cultivo',
+        messagesStatusError: {},
       });
     },
     retry: 1,

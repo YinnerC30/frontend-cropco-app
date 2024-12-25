@@ -18,7 +18,7 @@ export const FormHarvestFields = () => {
     useFormHarvestContext();
 
   const { query: queryCrops } = useGetAllCrops({
-    searchParameter: '',
+    queryValue: '',
     allRecords: true,
     canExecuteQuery: !readOnly,
   });

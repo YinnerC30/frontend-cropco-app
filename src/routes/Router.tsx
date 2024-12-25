@@ -2,7 +2,7 @@ import { AuthenticationLayout } from '@/auth';
 import { authenticationRoutes } from '@/auth/routes/authenticationRoutes';
 import { LandingPage } from '@/components/common/LandingPage';
 import { clientRoutes } from '@/modules/clients/routes/clientRoutes';
-import { cropRoutes } from '@/modules/crops/routes/Routes';
+import { cropRoutes } from '@/modules/crops/routes/cropsRoutes';
 import { dashboardRoutes } from '@/modules/dashboard/routes/Routes';
 import { employeeRoutes } from '@/modules/employees/routes/employeeRoutes';
 import { harvestRoutes } from '@/modules/harvests/routes/harvestRoutes';

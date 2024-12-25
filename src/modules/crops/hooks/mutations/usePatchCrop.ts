@@ -3,20 +3,21 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth/hooks';
 import { Crop } from '@/modules/crops/interfaces/Crop';
-import { useManageErrorApp } from '@/auth/hooks';
 
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_CROPS_PATHS } from '../../routes/pathRoutes';
 
-export const updateCrop = async (crop: Crop) => {
+export const updateCrop = async (crop: Crop): Promise<void> => {
   const { id, ...rest } = crop;
-  return await cropcoAPI.patch(`${pathsCropco.crops}/update/one/${id}`, rest);
+  await cropcoAPI.patch(`${pathsCropco.crops}/update/one/${id}`, rest);
 };
 
-export const usePatchCrop = () => {
+export const usePatchCrop = (): UseMutationReturn<void, Crop> => {
   const queryClient = useQueryClient();
-  const { handleError } = useManageErrorApp();
+  const { handleError } = useAuthContext();
   const navigate = useNavigate();
   const mutation = useMutation({
     mutationFn: updateCrop,
@@ -29,8 +30,7 @@ export const usePatchCrop = () => {
       const updateError: AxiosError | any = error;
       handleError({
         error: updateError as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso para actualizar el cultivo',
+        messagesStatusError: {},
       });
     },
     retry: 1,

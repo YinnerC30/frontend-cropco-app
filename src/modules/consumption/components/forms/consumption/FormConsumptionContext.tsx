@@ -123,7 +123,7 @@ export const FormConsumptionProvider = ({
 
   const { query: queryCrops } = useGetAllCrops({
     allRecords: true,
-    searchParameter: '',
+    queryValue: '',
   });
 
   const { query: querySupplies } = useGetAllSupplies({

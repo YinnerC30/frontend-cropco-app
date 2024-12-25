@@ -1,6 +1,14 @@
 import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-export const formFieldsCrop: Record<string, CustomFormField> = {
+type FormFieldsCrop =
+  | 'name'
+  | 'description'
+  | 'units'
+  | 'location'
+  | 'date_of_creation'
+  | 'date_of_termination';
+
+export const formFieldsCrop: Record<FormFieldsCrop, CustomFormField> = {
   name: {
     name: 'name',
     label: 'Nombre:',

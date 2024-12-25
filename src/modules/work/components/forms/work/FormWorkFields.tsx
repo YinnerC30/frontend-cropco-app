@@ -17,7 +17,7 @@ export const FormWorkFields = () => {
   const { form, onSubmit, readOnly, total } = useFormWorkContext();
 
   const { query: queryCrops } = useGetAllCrops({
-    searchParameter: '',
+    queryValue: '',
     allRecords: true,
     canExecuteQuery: !readOnly,
   });
