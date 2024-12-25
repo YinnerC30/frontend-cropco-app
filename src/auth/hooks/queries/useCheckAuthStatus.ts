@@ -1,11 +1,13 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { useQuery } from '@tanstack/react-query';
+
 import { useEffect } from 'react';
 
 import { useAuthContext } from '..';
 import { TIME_ACTIVE_TOKEN } from '../../components/AuthContext';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 
 export interface ResponseCheckAuth {
   message: string;
@@ -20,26 +22,22 @@ declare module 'axios' {
 
 export const checkAuthStatus = async (
   token: string
-): Promise<ResponseCheckAuth> => {
-  const { data } = await cropcoAPI.get(
-    `${pathsCropco.authentication}/check-status`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      skipInterceptor: true,
-    }
-  );
-  return data;
+): PromiseReturnRecord<ResponseCheckAuth> => {
+  return await cropcoAPI.get(`${pathsCropco.authentication}/check-status`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    skipInterceptor: true,
+  });
 };
 
 export const useCheckAuthStatus = ({
   token = '',
 }: {
   token: string;
-}): UseQueryResult<ResponseCheckAuth, AxiosError> => {
+}): UseGetOneRecordReturn<ResponseCheckAuth> => {
   const { isLogin, handleError } = useAuthContext();
-  const query: UseQueryResult<ResponseCheckAuth, AxiosError> = useQuery({
+  const query: UseGetOneRecordReturn<ResponseCheckAuth> = useQuery({
     queryKey: ['valid-sesion-user'],
     queryFn: () => checkAuthStatus(token),
     enabled: isLogin,
@@ -51,9 +49,8 @@ export const useCheckAuthStatus = ({
 
   useEffect(() => {
     if (isError) {
-      const loginError: AxiosError | any = error;
       handleError({
-        error: loginError,
+        error,
         messagesStatusError: {
           unauthorized: 'Tu sesión ha expirado',
         },

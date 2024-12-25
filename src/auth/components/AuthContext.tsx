@@ -20,6 +20,7 @@ import {
   saveUserInLocalStorage,
 } from '../utils/manageUserInLocalStorage';
 import { AuthContextProps } from '../interfaces/AuthContextProps';
+import { TypedAxiosError } from '../interfaces/AxiosErrorResponse';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
@@ -39,7 +40,7 @@ export type ModulesCropco =
 type GlobalActionsUser = Record<ModulesCropco, Record<string, boolean>>;
 
 export interface HandleErrorProps {
-  error: AxiosError;
+  error: AxiosError<TypedAxiosError, unknown>;
   messagesStatusError: {
     notFound?: string;
     badRequest?: string;

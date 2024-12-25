@@ -1,8 +1,9 @@
+import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { UseMutationResult } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 
 export type UseMutationReturn<TData, TVariables> = UseMutationResult<
-  TData,
-  AxiosError,
+  AxiosResponse<TData>,
+  AxiosError<TypedAxiosError, unknown>,
   TVariables
 >;

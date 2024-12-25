@@ -1,42 +1,37 @@
-import {
-  useMutation,
-  UseMutationResult,
-  useQueryClient,
-} from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { useAuthContext } from '../useAuthContext';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 
-export const renewToken = async (): Promise<{ token: string }> => {
-  const { data } = await cropcoAPI.patch(
-    `${pathsCropco.authentication}/renew-token`
-  );
-  return data;
+interface RenewTokenResponse {
+  token: string;
+}
+
+export const renewToken = async (): PromiseReturnRecord<RenewTokenResponse> => {
+  return await cropcoAPI.patch(`${pathsCropco.authentication}/renew-token`);
 };
 
-export const useRenewToken = (): UseMutationResult<
-  { token: string },
-  AxiosError,
-  void,
-  unknown
+export const useRenewToken = (): UseMutationReturn<
+  RenewTokenResponse,
+  void
 > => {
   const { updateTokenInClient, handleError } = useAuthContext();
 
   const queryClient = useQueryClient();
-  const mutation = useMutation({
+  const mutation: UseMutationReturn<RenewTokenResponse, void> = useMutation({
     mutationFn: renewToken,
-    onSuccess: ({ token }) => {
+    onSuccess: ({ data: { token } }) => {
       queryClient.invalidateQueries({ queryKey: ['user-sesion-status'] });
       updateTokenInClient(token);
       toast.success('Tu sesión se ha extendido un poco más 😊');
     },
-    onError: (error: AxiosError | any) => {
-      const loginError: AxiosError | any = error;
+    onError: (error) => {
       handleError({
-        error: loginError,
+        error,
         messagesStatusError: {
           unauthorized:
             'Tu sesión ha expirado, por favor vuelve a iniciar sesión',

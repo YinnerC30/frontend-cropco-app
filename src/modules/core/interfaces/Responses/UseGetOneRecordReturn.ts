@@ -1,4 +1,8 @@
+import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { UseQueryResult } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 
-export type UseGetOneRecordReturn<T> = UseQueryResult<T, AxiosError>;
+export type UseGetOneRecordReturn<T> = UseQueryResult<
+  AxiosResponse<T>,
+  AxiosError<TypedAxiosError, unknown>
+>;
