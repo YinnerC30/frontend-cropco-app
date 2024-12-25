@@ -2,17 +2,14 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
 import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
-import {
-  BasicQueryData,
-  ResponseApiGetAllRecords,
-} from '@/modules/core/interfaces';
+import { BasicQueryData } from '@/modules/core/interfaces';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
 import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { User } from '../../interfaces';
-import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 
 async function getUsers(values: BasicQueryData): TypeGetAllRecordsReturn<User> {
   const { query = '', limit = 10, offset = 0 } = values;
@@ -23,8 +20,7 @@ async function getUsers(values: BasicQueryData): TypeGetAllRecordsReturn<User> {
     offset: offset.toString(),
   });
 
-  const { data } = await cropcoAPI.get(`${pathsCropco.users}/all?${params}`);
-  return data;
+  return await cropcoAPI.get(`${pathsCropco.users}/all?${params}`);
 }
 
 export function useGetAllUsers({
@@ -38,10 +34,7 @@ export function useGetAllUsers({
 
   const isAuthorized = hasPermission('users', 'find_all_users');
 
-  const query: UseQueryResult<
-    ResponseApiGetAllRecords<User>,
-    AxiosError
-  > = useQuery({
+  const query: UseQueryGetAllRecordsReturn<User> = useQuery({
     queryKey: ['users', { value, ...pagination }],
     queryFn: () =>
       getUsers({
@@ -49,6 +42,7 @@ export function useGetAllUsers({
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
       }),
+    select: ({ data }) => data,
     staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
     enabled: isAuthorized,
   });
@@ -62,7 +56,7 @@ export function useGetAllUsers({
   useEffect(() => {
     if (query.isError) {
       handleError({
-        error: query.error as AxiosError,
+        error: query.error,
         messagesStatusError: {
           badRequest: 'La solicitud contiene información incorrecta',
           unauthorized: 'No tienes permiso para ver el listado de usuarios 😑',

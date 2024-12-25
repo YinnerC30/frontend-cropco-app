@@ -1,38 +1,34 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
-import { useMutation, UseMutationResult } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 export interface DataResetPassword {
   password: string;
 }
 
-async function resetPasswordUser(id: string): Promise<DataResetPassword> {
-  const { data } = await cropcoAPI.patch(
-    `${pathsCropco.users}/reset-password/one/${id}`
-  );
-  return data;
+async function resetPasswordUser(
+  id: string
+): PromiseReturnRecord<DataResetPassword> {
+  return await cropcoAPI.patch(`${pathsCropco.users}/reset-password/one/${id}`);
 }
 
-export function usePatchResetPasswordUser(): UseMutationResult<
+export function usePatchResetPasswordUser(): UseMutationReturn<
   DataResetPassword,
-  AxiosError,
-  string,
-  unknown
+  string
 > {
   const { handleError } = useAuthContext();
 
-  const mutation = useMutation({
+  const mutation: UseMutationReturn<DataResetPassword, string> = useMutation({
     mutationFn: resetPasswordUser,
     onSuccess: () => {
       toast.success(`Contraseña restablecida`);
     },
-    onError: (error: AxiosError) => {
-      const patchPasswordError: AxiosError = error;
-
+    onError: (error) => {
       handleError({
-        error: patchPasswordError as AxiosError,
+        error,
         messagesStatusError: {
           notFound: 'No se encontro el usuario para restablecer su contraseña',
           unauthorized: 'No tienes permiso para restablecer la contraseña',

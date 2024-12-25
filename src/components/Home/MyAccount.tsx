@@ -38,7 +38,7 @@ export const MyAccount = () => {
   const [isConvertToAdmin, setIsConvertToAdmin] = useState(false);
 
   const queryImplantedSeed = useImplantSeed(isRunningSeed);
-  const queryConvertToAdmin = useGetConvertToAdmin(user.id, isConvertToAdmin);
+  const queryConvertToAdmin = useGetConvertToAdmin(user?.id!, isConvertToAdmin);
   const [runQuery, setRunQuery] = useState(false);
   const queryCreateActions = useCreationsApp({ stateQuery: runQuery });
 
@@ -87,9 +87,9 @@ export const MyAccount = () => {
         {/* Copy Id */}
         <DropdownMenuItem
           onClick={() => {
-            navigator.clipboard.writeText(user.id);
+            navigator.clipboard.writeText(user?.id!);
 
-            toast.success(`Id copiado al portapapeles ${user.id}`);
+            toast.success(`Id copiado al portapapeles ${user?.id!}`);
           }}
         >
           Copiar mi Id
@@ -98,8 +98,8 @@ export const MyAccount = () => {
         {/* Copy token */}
         <DropdownMenuItem
           onClick={() => {
-            navigator.clipboard.writeText(user.token);
-            toast.success(`Id copiado al portapapeles ${user.token}`);
+            navigator.clipboard.writeText(user?.token!);
+            toast.success(`Id copiado al portapapeles ${user?.token}`);
           }}
         >
           Copiar mi Token
@@ -107,7 +107,7 @@ export const MyAccount = () => {
 
         {/* Modificar permisos */}
         <DropdownMenuItem asChild>
-          <Link to={`${MODULE_USER_PATHS.Update}${user.id}`}>
+          <Link to={`${MODULE_USER_PATHS.Update}${user?.id!}`}>
             Modificar mis permisos
           </Link>
         </DropdownMenuItem>

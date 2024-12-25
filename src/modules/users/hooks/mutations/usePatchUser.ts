@@ -2,38 +2,32 @@ import { useAuthContext } from '@/auth/hooks';
 import { RootState, useAppSelector } from '@/redux/store';
 import {
   useMutation,
-  UseMutationResult,
-  useQueryClient,
+  useQueryClient
 } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { User } from '../../interfaces';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 
-async function updateUser({ id, ...rest }: Partial<User>): Promise<User> {
-  const { data } = await cropcoAPI.patch(
-    `${pathsCropco.users}/update/one/${id}`,
-    rest
-  );
-  return data;
+async function updateUser({
+  id,
+  ...rest
+}: Partial<User>): PromiseReturnRecord<User> {
+  return await cropcoAPI.patch(`${pathsCropco.users}/update/one/${id}`, rest);
 }
-export function usePatchUser(): UseMutationResult<
-  User,
-  AxiosError,
-  Partial<User>,
-  unknown
-> {
+export function usePatchUser(): UseMutationReturn<User, Partial<User>> {
   const navigate = useNavigate();
   const user = useAppSelector((state: RootState) => state.authentication.user);
 
   const { updateUserActions, handleError } = useAuthContext();
 
   const queryClient = useQueryClient();
-  const mutation = useMutation({
+  const mutation: UseMutationReturn<User, Partial<User>> = useMutation({
     mutationFn: updateUser,
-    onSuccess: async (data: User, variables: Partial<User>) => {
+    onSuccess: async ({ data }, variables: Partial<User>) => {
       await queryClient.invalidateQueries({ queryKey: ['users'] });
       await queryClient.invalidateQueries({ queryKey: ['user', variables.id] });
 
@@ -46,10 +40,9 @@ export function usePatchUser(): UseMutationResult<
       }
       navigate('../view/all');
     },
-    onError: (error: AxiosError) => {
-      const updateError: AxiosError = error;
+    onError: (error) => {
       handleError({
-        error: updateError as AxiosError,
+        error,
         messagesStatusError: {
           notFound: 'No se encontro el usuario a actualizar',
           badRequest: 'La solicitud no es válida',

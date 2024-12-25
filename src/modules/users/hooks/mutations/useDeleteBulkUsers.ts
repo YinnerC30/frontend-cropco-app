@@ -1,40 +1,33 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
-import {
-  useMutation,
-  UseMutationResult,
-  useQueryClient,
-} from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-const deleteBulkUsers = async (data: BulkRecords): Promise<void> => {
-  await cropcoAPI.delete(`${pathsCropco.users}/remove/bulk`, {
+const deleteBulkUsers = async (
+  data: BulkRecords
+): PromiseReturnRecord<void> => {
+  return await cropcoAPI.delete(`${pathsCropco.users}/remove/bulk`, {
     data: {
       recordsIds: data.userIds,
     },
   });
 };
 
-export const useDeleteBulkUsers = (): UseMutationResult<
-  void,
-  AxiosError,
-  BulkRecords,
-  unknown
-> => {
+export const useDeleteBulkUsers = (): UseMutationReturn<void, BulkRecords> => {
   const queryClient = useQueryClient();
   const { handleError } = useAuthContext();
-  const mutation = useMutation({
+  const mutation: UseMutationReturn<void, BulkRecords> = useMutation({
     mutationFn: deleteBulkUsers,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       toast.success(`Usuarios eliminados`);
     },
-    onError: (error: AxiosError) => {
-      const deleteError: AxiosError = error;
+    onError: (error) => {
       handleError({
-        error: deleteError as AxiosError,
+        error,
         messagesStatusError: {
           notFound: 'No se encontro el usuario a eliminar',
           badRequest: 'La solicitud no es válida',

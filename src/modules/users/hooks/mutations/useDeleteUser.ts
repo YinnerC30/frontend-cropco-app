@@ -1,35 +1,26 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
-import {
-  useMutation,
-  UseMutationResult,
-  useQueryClient,
-} from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-export const deleteUser = async (id: string): Promise<void> => {
-  await cropcoAPI.delete(`${pathsCropco.users}/remove/one/${id}`);
+export const deleteUser = async (id: string): PromiseReturnRecord<void> => {
+  return await cropcoAPI.delete(`${pathsCropco.users}/remove/one/${id}`);
 };
 
-export const useDeleteUser = (): UseMutationResult<
-  void,
-  AxiosError,
-  string,
-  unknown
-> => {
+export const useDeleteUser = (): UseMutationReturn<void, string> => {
   const queryClient = useQueryClient();
   const { handleError } = useAuthContext();
-  const mutation = useMutation({
+  const mutation: UseMutationReturn<void, string> = useMutation({
     mutationFn: deleteUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       toast.success(`Usuario eliminado`);
     },
-    onError: (error: AxiosError) => {
-      const deleteError: AxiosError = error;
+    onError: (error) => {
       handleError({
-        error: deleteError,
+        error,
         messagesStatusError: {
           notFound: 'No se encontro el usuario a eliminar',
           badRequest: 'La solicitud no es válida',

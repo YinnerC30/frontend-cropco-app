@@ -1,39 +1,30 @@
 import { useAuthContext } from '@/auth/hooks';
-import {
-  UseMutationResult,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { User } from '../../interfaces';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 
-async function createUser(user: Partial<User>): Promise<User> {
-  const { data } = await cropcoAPI.post(`${pathsCropco.users}/create`, user);
-  return data;
+async function createUser(user: Partial<User>): PromiseReturnRecord<User> {
+  return await cropcoAPI.post(`${pathsCropco.users}/create`, user);
 }
 
-export function usePostUser(): UseMutationResult<
-  User,
-  AxiosError,
-  Partial<User>,
-  unknown
-> {
+export function usePostUser(): UseMutationReturn<User, Partial<User>> {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const { handleError } = useAuthContext();
-  const mutation = useMutation({
+  const mutation: UseMutationReturn<User, Partial<User>> = useMutation({
     mutationFn: createUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       navigate('../view/all');
       toast.success(`Usuario creado`);
     },
-    onError: (error: AxiosError) => {
+    onError: (error) => {
       handleError({
         error,
         messagesStatusError: {
