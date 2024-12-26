@@ -7,10 +7,10 @@ import {
   FormMessage,
   Textarea,
 } from '@/components';
+import React, { memo } from 'react';
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
-import { memo } from 'react';
 
-export const FormFieldTextArea = memo(
+export const FormFieldTextArea: React.FC<FormFieldProps> = memo(
   ({
     control,
     description,
@@ -19,7 +19,7 @@ export const FormFieldTextArea = memo(
     placeholder,
     readOnly = false,
     className,
-  }: FormFieldProps) => {
+  }) => {
     return (
       <FormField
         control={control}

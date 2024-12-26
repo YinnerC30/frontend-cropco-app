@@ -17,7 +17,7 @@ interface FormFieldInputProps extends FormFieldProps {
   hiddenInput?: boolean;
 }
 
-export const FormFieldInput = memo(
+export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
   ({
     control,
     description,
@@ -32,7 +32,7 @@ export const FormFieldInput = memo(
     min = 0,
     autoFocus = false,
     hiddenInput = false,
-  }: FormFieldInputProps) => {
+  }) => {
     return (
       <FormField
         control={control}

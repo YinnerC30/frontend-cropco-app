@@ -1,13 +1,14 @@
 import { Button } from '@/components/ui/button';
-import { useFormChange } from '../FormChangeContext';
 import { useToastDiscardChanges } from '@/modules/core/hooks/useToastDiscardChanges';
+import React from 'react';
+import { useFormChange } from '../FormChangeContext';
 
 
 interface Props {
   action: () => void;
 }
 
-export const ButtonCancelRegister = ({ action }: Props) => {
+export const ButtonCancelRegister: React.FC<Props> = ({ action }) => {
   const { hasUnsavedChanges } = useFormChange();
   const { showToast } = useToastDiscardChanges();
   return (

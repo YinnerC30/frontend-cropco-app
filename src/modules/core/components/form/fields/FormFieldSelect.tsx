@@ -14,8 +14,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
+import React, { memo } from 'react';
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
-import { memo } from 'react';
 
 interface SelectItemValues {
   key: string;
@@ -27,7 +27,7 @@ interface FormFieldSelectProps extends FormFieldProps {
   items: SelectItemValues[];
 }
 
-export const FormFieldSelect = memo(
+export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
   ({
     control,
     name,
@@ -37,7 +37,7 @@ export const FormFieldSelect = memo(
     items,
     readOnly = false,
     className = '',
-  }: FormFieldSelectProps) => {
+  }) => {
     return (
       <FormField
         control={control}

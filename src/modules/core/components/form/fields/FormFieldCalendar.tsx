@@ -19,7 +19,7 @@ import { cn } from '@/lib/utils';
 import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 
-import { memo, useState } from 'react';
+import React, { memo, useState } from 'react';
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 import { Matcher } from 'react-day-picker';
 
@@ -27,7 +27,7 @@ interface FieldCalendarProps extends FormFieldProps {
   conditionCalendar?: Matcher | Matcher[];
 }
 
-export const FormFieldCalendar = memo(
+export const FormFieldCalendar: React.FC<FieldCalendarProps> = memo(
   ({
     control,
     description,
@@ -40,7 +40,7 @@ export const FormFieldCalendar = memo(
       before: new Date('1900-01-01'),
       after: new Date(),
     },
-  }: FieldCalendarProps) => {
+  }) => {
     const [openPopover, setOpenPopover] = useState(false);
 
     return (

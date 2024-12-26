@@ -9,15 +9,8 @@ import {
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 import { memo } from 'react';
 
-export const FormFieldCheckBox = memo(
-  ({
-    control,
-    name,
-    label,
-    description,
-    readOnly,
-    className,
-  }: FormFieldProps) => {
+export const FormFieldCheckBox: React.FC<FormFieldProps> = memo(
+  ({ control, name, label, description, readOnly, className }) => {
     return (
       <FormField
         control={control}

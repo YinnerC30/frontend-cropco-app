@@ -9,7 +9,7 @@ import {
   Input,
 } from '@/components';
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
-import { memo, useState } from 'react';
+import React, { memo, useState } from 'react';
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 
 interface FormFieldInputProps extends FormFieldProps {
@@ -18,22 +18,10 @@ interface FormFieldInputProps extends FormFieldProps {
   autoFocus?: boolean;
 }
 
-export const FormFieldInputPassword = memo(
-  ({
-    control,
-    description,
-    label,
-    name,
-    placeholder,
-    readOnly = false,
-    type = 'text',
-    className = '',
-    children,
-    step = 0,
-    min = 0,
-    autoFocus = false,
-  }: FormFieldInputProps) => {
-    const [showPassword, setShowPassword] = useState(false);
+export const FormFieldInputPassword: React.FC<FormFieldInputProps> = memo(
+  ({ control, description, label, name }) => {
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+
     const togglePasswordVisibility = (
       event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {

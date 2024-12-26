@@ -7,14 +7,14 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
-import { memo } from 'react';
+import React, { memo } from 'react';
 
 interface FormFieldDataTable extends FormFieldProps {
   children: React.ReactNode;
 }
 
-export const FormFieldDataTable = memo(
-  ({ control, name, label, description, children }: FormFieldDataTable) => {
+export const FormFieldDataTable: React.FC<FormFieldDataTable> = memo(
+  ({ control, name, label, description, children }) => {
     return (
       <>
         <FormField
