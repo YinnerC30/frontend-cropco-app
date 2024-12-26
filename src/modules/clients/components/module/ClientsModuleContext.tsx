@@ -11,24 +11,15 @@ import { ClientsModuleActionsTable } from './ClientsModuleActionsTable';
 import { columnsTableClients } from './columnsTableClients';
 
 import { DataTableManualReturn } from '@/modules/core/hooks';
-import {
-  BulkRecords,
-  ResponseApiGetAllRecords,
-} from '@/modules/core/interfaces';
-import { UseMutationResult, UseQueryResult } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { BulkRecords } from '@/modules/core/interfaces';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 
 export interface ClientsModuleContextProps {
   paramQuery: string;
-  queryClients: UseQueryResult<ResponseApiGetAllRecords<Client>, AxiosError>;
+  queryClients: UseQueryGetAllRecordsReturn<Client>;
   dataTable: DataTableManualReturn<Client>;
-  mutationDeleteClients: UseMutationResult<
-    void,
-    AxiosError,
-    BulkRecords,
-    unknown
-  >;
-
+  mutationDeleteClients: UseMutationReturn<void, BulkRecords>;
   actionsClientsModule: Record<string, boolean>;
 }
 

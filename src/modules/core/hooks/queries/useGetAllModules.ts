@@ -3,20 +3,26 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { Module } from '../../interfaces/responses/ResponseGetAllModules';
 import { CACHE_CONFIG_TIME } from '@/config';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
+import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 
-export const getModules = async (): Promise<Module[]> => {
-  const { data } = await cropcoAPI.get(
-    `${pathsCropco.authentication}/modules/all`
-  );
-  return data;
+export const getModules = async (): Promise<AxiosResponse<Module[]>> => {
+  return await cropcoAPI.get(`${pathsCropco.authentication}/modules/all`);
 };
 
-export const useGetAllModules = (): UseQueryResult<Module[], AxiosError> => {
-  const query: UseQueryResult<Module[], AxiosError> = useQuery({
+export const useGetAllModules = (): UseQueryResult<
+  Module[],
+  AxiosError<TypedAxiosError, unknown>
+> => {
+  const query: UseQueryResult<
+    Module[],
+    AxiosError<TypedAxiosError, unknown>
+  > = useQuery({
     queryKey: ['modules'],
     queryFn: () => getModules(),
+    select: ({ data }) => data,
     staleTime: CACHE_CONFIG_TIME.longTerm.staleTime,
   });
+
   return query;
 };

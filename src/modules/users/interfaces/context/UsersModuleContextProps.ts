@@ -1,22 +1,13 @@
 import { DataTableManualReturn } from '@/modules/core/hooks';
-import {
-  ResponseApiGetAllRecords,
-  BulkRecords,
-} from '@/modules/core/interfaces';
-import { UseQueryResult, UseMutationResult } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { BulkRecords } from '@/modules/core/interfaces';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { User } from '../User';
 
 export interface UsersModuleContextProps {
   paramQuery: string;
-  queryUsers: UseQueryResult<ResponseApiGetAllRecords<User>, AxiosError>;
+  queryUsers: UseQueryGetAllRecordsReturn<User>;
   dataTable: DataTableManualReturn<User>;
-  mutationDeleteUsers: UseMutationResult<
-    void,
-    AxiosError,
-    BulkRecords,
-    unknown
-  >;
-
+  mutationDeleteUsers: UseMutationReturn<void, BulkRecords>;
   actionsUsersModule: Record<string, boolean>;
 }
