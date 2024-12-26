@@ -17,4 +17,3 @@ export * from './general/YesORNotSelection';
 export * from './props/PropsUseGetAllRecords';
 export * from './responses/ResponseApiGetAllRecords';
 export * from './responses/ResponseGetAllModules';
-export * from './responses/ResponseUseGetAllRecords';
