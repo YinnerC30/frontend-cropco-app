@@ -2,15 +2,14 @@ import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
-import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Crop } from '../../interfaces/Crop';
 
-export const getCropById = async (id: string): Promise<Crop> => {
-  const { data } = await cropcoAPI.get(`${pathsCropco.crops}/one/${id}`);
-  return data;
+export const getCropById = async (id: string): PromiseReturnRecord<Crop> => {
+  return await cropcoAPI.get(`${pathsCropco.crops}/one/${id}`);
 };
 
 export const useGetCrop = (id: string): UseGetOneRecordReturn<Crop> => {
@@ -20,6 +19,7 @@ export const useGetCrop = (id: string): UseGetOneRecordReturn<Crop> => {
   const query: UseGetOneRecordReturn<Crop> = useQuery({
     queryKey: ['crop', id],
     queryFn: () => getCropById(id),
+    select: ({ data }) => data,
     enabled: isAuthorized,
   });
 
@@ -34,7 +34,7 @@ export const useGetCrop = (id: string): UseGetOneRecordReturn<Crop> => {
   useEffect(() => {
     if (query.isError) {
       handleError({
-        error: query.error as AxiosError,
+        error: query.error,
         messagesStatusError: {},
       });
     }

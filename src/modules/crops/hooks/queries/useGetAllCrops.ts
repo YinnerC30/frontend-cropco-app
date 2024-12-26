@@ -1,17 +1,16 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import {
   BasicQueryData,
-  ResponseApiGetAllRecords,
-  UseGetAllRecordsProps,
+  UseGetAllRecordsProps
 } from '@/modules/core/interfaces';
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
 import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
-import { AxiosError } from 'axios';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Crop } from '../../interfaces/Crop';
 
@@ -25,8 +24,7 @@ export const getCrops = async (
     offset: offset.toString(),
     allRecords: allRecords.toString(),
   });
-  const { data } = await cropcoAPI.get(`${pathsCropco.crops}/all?${params}`);
-  return data;
+  return await cropcoAPI.get(`${pathsCropco.crops}/all?${params}`);
 };
 
 export const useGetAllCrops = ({
@@ -38,10 +36,7 @@ export const useGetAllCrops = ({
   const { hasPermission, handleError } = useAuthContext();
   const isAuthorized = hasPermission('crops', 'find_all_crops');
 
-  const query: UseQueryResult<
-    ResponseApiGetAllRecords<Crop>,
-    AxiosError
-  > = useQuery({
+  const query: UseQueryGetAllRecordsReturn<Crop> = useQuery({
     queryKey: ['crops', { queryValue, ...pagination }],
     queryFn: () =>
       getCrops({
@@ -50,6 +45,7 @@ export const useGetAllCrops = ({
         offset: pagination.pageIndex,
         allRecords,
       }),
+    select: ({ data }) => data,
     enabled: isAuthorized && canExecuteQuery,
     staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
   });
@@ -63,7 +59,7 @@ export const useGetAllCrops = ({
   useEffect(() => {
     if (query.isError) {
       handleError({
-        error: query.error as AxiosError,
+        error: query.error,
         messagesStatusError: {},
       });
     }

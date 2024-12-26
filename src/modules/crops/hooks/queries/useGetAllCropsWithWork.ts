@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { useEffect } from 'react';
 
@@ -7,12 +7,11 @@ import { useAuthContext } from '@/auth/hooks';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import {
   BasicQueryData,
-  ResponseApiGetAllRecords,
   UseGetAllRecordsProps,
 } from '@/modules/core/interfaces';
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
 import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
-import { AxiosError } from 'axios';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
 import { Crop } from '../../interfaces/Crop';
 
@@ -26,10 +25,7 @@ export const getCropsWithWork = async (
     offset: offset.toString(),
     allRecords: allRecords.toString(),
   });
-  const { data } = await cropcoAPI.get(
-    `${pathsCropco.crops}/with-work/all?${params}`
-  );
-  return data;
+  return await cropcoAPI.get(`${pathsCropco.crops}/with-work/all?${params}`);
 };
 
 export const useGetAllCropsWithWork = ({
@@ -39,10 +35,7 @@ export const useGetAllCropsWithWork = ({
   const { pagination, setPagination } = usePaginationDataTable();
   const { hasPermission, handleError } = useAuthContext();
   const isAuthorized = hasPermission('crops', 'find_all_crops_with_work');
-  const query: UseQueryResult<
-    ResponseApiGetAllRecords<Crop>,
-    AxiosError
-  > = useQuery({
+  const query: UseQueryGetAllRecordsReturn<Crop> = useQuery({
     queryKey: ['crops-with-work', { queryValue, ...pagination }],
     queryFn: () =>
       getCropsWithWork({
@@ -51,6 +44,7 @@ export const useGetAllCropsWithWork = ({
         offset: pagination.pageIndex,
         allRecords,
       }),
+    select: ({ data }) => data,
     enabled: isAuthorized,
   });
 
@@ -65,7 +59,7 @@ export const useGetAllCropsWithWork = ({
   useEffect(() => {
     if (query.isError) {
       handleError({
-        error: query.error as AxiosError,
+        error: query.error,
         messagesStatusError: {},
       });
     }

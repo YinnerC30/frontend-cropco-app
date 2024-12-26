@@ -1,21 +1,20 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { useEffect } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
+import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
-import { AxiosError } from 'axios';
 import {
   BasicQueryData,
-  ResponseApiGetAllRecords,
-  UseGetAllRecordsProps,
+  UseGetAllRecordsProps
 } from '@/modules/core/interfaces';
-import { toast } from 'sonner';
-import { CACHE_CONFIG_TIME } from '@/config';
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
-import { Crop } from '../../interfaces/Crop';
 import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { toast } from 'sonner';
+import { Crop } from '../../interfaces/Crop';
 
 export const getCropsWithHarvest = async (
   values: BasicQueryData
@@ -27,10 +26,7 @@ export const getCropsWithHarvest = async (
     offset: offset.toString(),
     allRecords: allRecords.toString(),
   });
-  const { data } = await cropcoAPI.get(
-    `${pathsCropco.crops}/with-harvest/all?${params}`
-  );
-  return data;
+  return await cropcoAPI.get(`${pathsCropco.crops}/with-harvest/all?${params}`);
 };
 
 export const useGetAllCropsWithHarvest = ({
@@ -45,10 +41,7 @@ export const useGetAllCropsWithHarvest = ({
     hasPermission('crops', 'find_all_crops_with_harvest') &&
     hasPermission('harvests', 'find_all_harvests');
 
-  const query: UseQueryResult<
-    ResponseApiGetAllRecords<Crop>,
-    AxiosError
-  > = useQuery({
+  const query: UseQueryGetAllRecordsReturn<Crop> = useQuery({
     queryKey: ['crops-with-harvest', { queryValue, ...pagination }],
     queryFn: () =>
       getCropsWithHarvest({
@@ -57,6 +50,7 @@ export const useGetAllCropsWithHarvest = ({
         offset: pagination.pageIndex,
         allRecords,
       }),
+    select: ({ data }) => data,
     enabled: isAuthorized,
     staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
   });
@@ -70,7 +64,7 @@ export const useGetAllCropsWithHarvest = ({
   useEffect(() => {
     if (query.isError) {
       handleError({
-        error: query.error as AxiosError,
+        error: query.error,
         messagesStatusError: {},
       });
     }
