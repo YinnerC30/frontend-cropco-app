@@ -1,45 +1,37 @@
-import {
-  useMutation,
-  UseMutationResult,
-  useQueryClient,
-} from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { Employee } from '../../interfaces/Employee';
 
 export const updateEmployee = async (
   employee: Partial<Employee>
-): Promise<void> => {
+): PromiseReturnRecord<void> => {
   const { id, ...rest } = employee;
-  await cropcoAPI.patch(`${pathsCropco.employees}/update/one/${id}`, rest);
+  return await cropcoAPI.patch(
+    `${pathsCropco.employees}/update/one/${id}`,
+    rest
+  );
 };
 
-export const usePatchEmployee = (): UseMutationResult<
+export const usePatchEmployee = (): UseMutationReturn<
   void,
-  AxiosError,
-  Partial<Employee>,
-  unknown
+  Partial<Employee>
 > => {
   const queryClient = useQueryClient();
   const { handleError } = useAuthContext();
-  const mutation: UseMutationResult<
-    void,
-    AxiosError,
-    Partial<Employee>,
-    unknown
-  > = useMutation({
+  const mutation: UseMutationReturn<void, Partial<Employee>> = useMutation({
     mutationFn: updateEmployee,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['employees'] });
       toast.success(`Empleado actualizado`);
     },
-    onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
+    onError: (error) => {
       handleError({
-        error: updateError as AxiosError,
+        error,
         messagesStatusError: {},
       });
     },

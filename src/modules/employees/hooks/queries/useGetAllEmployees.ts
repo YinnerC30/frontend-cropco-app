@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { UseGetAllRecordsProps } from '@/modules/core/interfaces/props/PropsUseGetAllRecords';
 
@@ -6,15 +6,14 @@ import { useEffect } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
+import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import { BasicQueryData } from '@/modules/core/interfaces';
-import { ResponseApiGetAllRecords } from '@/modules/core/interfaces/responses/ResponseApiGetAllRecords';
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
 import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
-import { AxiosError } from 'axios';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
 import { Employee } from '../../interfaces/Employee';
-import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getEmployees = async (
   values: BasicQueryData
@@ -27,10 +26,7 @@ export const getEmployees = async (
     allRecords: allRecords.toString(),
   });
 
-  const { data } = await cropcoAPI.get(
-    `${pathsCropco.employees}/all?${params}`
-  );
-  return data;
+  return await cropcoAPI.get(`${pathsCropco.employees}/all?${params}`);
 };
 
 export const useGetAllEmployees = ({
@@ -43,10 +39,7 @@ export const useGetAllEmployees = ({
 
   const isAuthorized = hasPermission('employees', 'find_all_employees');
 
-  const query: UseQueryResult<
-    ResponseApiGetAllRecords<Employee>,
-    AxiosError
-  > = useQuery({
+  const query: UseQueryGetAllRecordsReturn<Employee> = useQuery({
     queryKey: ['employees', { queryValue, ...pagination }],
     queryFn: () =>
       getEmployees({
@@ -55,6 +48,7 @@ export const useGetAllEmployees = ({
         offset: pagination.pageIndex,
         allRecords,
       }),
+    select: ({ data }) => data,
     staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
     enabled: isAuthorized,
   });
@@ -68,7 +62,7 @@ export const useGetAllEmployees = ({
   useEffect(() => {
     if (query.isError) {
       handleError({
-        error: query.error as AxiosError,
+        error: query.error,
         messagesStatusError: {
           unauthorized: 'No tienes permiso para ver el listado de empleados 😑',
         },

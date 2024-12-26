@@ -1,22 +1,24 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { CACHE_CONFIG_TIME } from '@/config';
 import { dowloadPDF } from '@/modules/core/helpers';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
-import { AxiosError } from 'axios';
-import { CACHE_CONFIG_TIME } from '@/config';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 
-export const getCertificationEmployee = async (id: string): Promise<Blob> => {
-  const response = await cropcoAPI.get<Blob>(
+export const getCertificationEmployee = async (
+  id: string
+): PromiseReturnRecord<Blob> => {
+  return await cropcoAPI.get<Blob>(
     `${pathsCropco.employees}/find/certification/one/${id}`,
     {
       responseType: 'blob',
     }
   );
-  return response.data;
 };
 
 type ActionToPDF = 'ViewPDF' | 'DownloadPDf';
@@ -33,10 +35,10 @@ export const useGetCertificationEmployee = ({
   stateQuery,
   actionPDF,
   actionOnSuccess,
-}: Props): UseQueryResult<Blob, AxiosError> => {
+}: Props): UseGetOneRecordReturn<Blob> => {
   const { hasPermission, handleError } = useAuthContext();
 
-  const query: UseQueryResult<Blob, AxiosError> = useQuery({
+  const query: UseGetOneRecordReturn<Blob> = useQuery({
     queryKey: ['employee-certification', userId],
     queryFn: () => {
       const fetchCertification = getCertificationEmployee(userId);
@@ -51,6 +53,7 @@ export const useGetCertificationEmployee = ({
       return fetchCertification;
     },
     staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    select: ({ data }) => data,
     enabled:
       stateQuery && hasPermission('employees', 'find_certification_employee'),
     retry: 1,
@@ -75,7 +78,7 @@ export const useGetCertificationEmployee = ({
   useEffect(() => {
     if (query.isError) {
       handleError({
-        error: query.error as AxiosError,
+        error: query.error,
         messagesStatusError: {
           notFound: 'La constancia solicitada no fue encontrada',
           unauthorized:
