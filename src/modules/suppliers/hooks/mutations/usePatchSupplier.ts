@@ -1,14 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { Supplier } from '@/modules/suppliers/interfaces/Supplier';
 import { useManageErrorApp } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { Supplier } from '@/modules/suppliers/interfaces/Supplier';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_SUPPLIER_PATHS } from '../../routes/pathRoutes';
 
-export const updateSupplier = async (supplier: Supplier) => {
+export const updateSupplier = async (
+  supplier: Supplier
+): PromiseReturnRecord<void> => {
   const { id, ...rest } = supplier;
   return await cropcoAPI.patch(
     `${pathsCropco.suppliers}/update/one/${id}`,
@@ -16,21 +19,20 @@ export const updateSupplier = async (supplier: Supplier) => {
   );
 };
 
-export const usePatchSupplier = () => {
+export const usePatchSupplier = (): UseMutationReturn<void, Supplier> => {
   const queryClient = useQueryClient();
   const { handleError } = useManageErrorApp();
   const navigate = useNavigate();
-  const mutation = useMutation({
+  const mutation: UseMutationReturn<void, Supplier> = useMutation({
     mutationFn: updateSupplier,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['suppliers'] });
       navigate(MODULE_SUPPLIER_PATHS.ViewAll);
       toast.success(`Proveedor actualizado`);
     },
-    onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
+    onError: (error) => {
       handleError({
-        error: updateError as AxiosError,
+        error,
         messageUnauthoraizedError:
           'No tienes permiso para eliminar varios empleados',
       });

@@ -1,14 +1,14 @@
+import { BreadCrumb } from '@/modules/core/components';
 import { SuppliersActions } from './SuppliersActions';
-import { SuppliersBreadCrumb } from './SuppliersBreadCrumb';
 import { SuppliersModuleProvider } from './SuppliersModuleContext';
 import { SuppliersSearchBar } from './SuppliersSearchBar';
 import { SuppliersTable } from './SuppliersTable';
 
-export const SuppliersModule = () => {
+export const SuppliersModule: React.FC = () => {
   return (
     <SuppliersModuleProvider>
       <div className="select-none">
-        <SuppliersBreadCrumb />
+        <BreadCrumb finalItem="Proveedores" hiddenSeparator />
         <SuppliersSearchBar />
         <SuppliersActions />
         <SuppliersTable />

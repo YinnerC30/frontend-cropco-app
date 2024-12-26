@@ -1,28 +1,29 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import {
-  useAuthContext,
-  useManageErrorApp,
-} from '@/auth/hooks';
-import { AxiosError } from 'axios';
+import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
+import { Supplier } from '../../interfaces/Supplier';
 
-export const getSupplierById = async (id: string) => {
-  const { data } = await cropcoAPI.get(`${pathsCropco.suppliers}/one/${id}`);
-  return data;
+export const getSupplierById = async (
+  id: string
+): PromiseReturnRecord<Supplier> => {
+  return await cropcoAPI.get(`${pathsCropco.suppliers}/one/${id}`);
 };
 
-export const useGetSupplier = (id: string) => {
+export const useGetSupplier = (id: string): UseGetOneRecordReturn<Supplier> => {
   const { handleError } = useManageErrorApp();
   const { hasPermission } = useAuthContext();
 
   const isAuthorized = hasPermission('suppliers', 'find_one_supplier');
 
-  const query = useQuery({
+  const query: UseGetOneRecordReturn<Supplier> = useQuery({
     queryKey: ['supplier', id],
     queryFn: () => getSupplierById(id),
+    select: ({ data }) => ({ ...data, company_name: undefined }),
     enabled: isAuthorized,
   });
 
@@ -37,7 +38,7 @@ export const useGetSupplier = (id: string) => {
   useEffect(() => {
     if (query.isError) {
       handleError({
-        error: query.error as AxiosError,
+        error: query.error,
         messageUnauthoraizedError:
           'No tienes permiso para ver la información del proveedor 😑',
       });

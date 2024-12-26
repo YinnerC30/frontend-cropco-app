@@ -4,7 +4,7 @@ import { Form } from '@/components';
 import { FormFieldInput, FormFieldTextArea } from '@/modules/core/components';
 import { formFieldsSupplier } from '../../utils/formFieldsSupplier';
 
-export const FormSupplierFields = () => {
+export const FormSupplierFields: React.FC = () => {
   const { form, onSubmit, readOnly } = useFormSupplierContext();
 
   return (

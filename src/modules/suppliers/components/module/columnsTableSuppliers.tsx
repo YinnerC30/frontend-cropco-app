@@ -1,11 +1,13 @@
 import { ButtonHeaderTable } from '@/modules/core/components';
 
+import { ColumnDef, HeaderContext } from '@tanstack/react-table';
+import { Supplier } from '../../interfaces/Supplier';
 import { formFieldsSupplier } from '../../utils/formFieldsSupplier';
 
-export const columnsTableSuppliers = [
+export const columnsTableSuppliers: ColumnDef<Supplier>[] = [
   {
     accessorKey: formFieldsSupplier.first_name.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Supplier, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -16,7 +18,7 @@ export const columnsTableSuppliers = [
   },
   {
     accessorKey: formFieldsSupplier.last_name.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Supplier, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -27,7 +29,7 @@ export const columnsTableSuppliers = [
   },
   {
     accessorKey: formFieldsSupplier.email.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Supplier, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -38,7 +40,7 @@ export const columnsTableSuppliers = [
   },
   {
     accessorKey: formFieldsSupplier.cell_phone_number.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Supplier, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -49,7 +51,7 @@ export const columnsTableSuppliers = [
   },
   {
     accessorKey: formFieldsSupplier.address.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Supplier, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -60,7 +62,7 @@ export const columnsTableSuppliers = [
   },
   {
     accessorKey: formFieldsSupplier.company_name.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Supplier, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}

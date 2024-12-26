@@ -1,29 +1,16 @@
-
+import { ScrollArea } from '@/components';
 import { FormSupplierButtons } from './FormSupplierButtons';
-import { FormSupplierProvider } from './FormSupplierContext';
+import { FormSupplierProps, FormSupplierProvider } from './FormSupplierContext';
 import { FormSupplierFields } from './FormSupplierFields';
-import { FormSupplierScrollArea } from './FormSupplierScrollArea';
 
-export const FormSupplier = ({
-  defaultValues,
-
-  isSubmitting = false,
-  onSubmit,
-  readOnly = false,
-}: any) => {
-  console.log(defaultValues);
+export const FormSupplier: React.FC<FormSupplierProps> = (props) => {
   return (
-    <FormSupplierProvider
-      defaultValues={defaultValues}
-      isSubmitting={isSubmitting}
-      onSubmit={onSubmit}
-      readOnly={readOnly}
-    >
+    <FormSupplierProvider {...props}>
       <div className="flex flex-col items-center">
-        <FormSupplierScrollArea>
-          
+        <ScrollArea className="h-[72vh] w-full pb-2">
           <FormSupplierFields />
-        </FormSupplierScrollArea>
+        </ScrollArea>
+
         <FormSupplierButtons />
       </div>
     </FormSupplierProvider>

@@ -1,68 +1,77 @@
 import { useAuthContext } from '@/auth/hooks/index.ts';
-import { useDataTableManual } from '@/modules/core/hooks';
+import {
+  DataTableManualReturn,
+  useDataTableManual,
+} from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import { createContext } from 'react';
+import { createContext, useMemo } from 'react';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable.ts';
 import { useDeleteBulkSuppliers } from '../../hooks/mutations/useDeleteBulkSuppliers.ts';
 import { useGetAllSuppliers } from '../../hooks/queries/useGetAllSuppliers';
 import { columnsTableSuppliers } from './columnsTableSuppliers.tsx';
 import { SuppliersModuleActionsTable } from './SuppliersModuleActionsTable.tsx';
+import { Supplier } from '../../interfaces/Supplier.ts';
+import { BulkRecords } from '@/modules/core/interfaces/index.ts';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn.ts';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn.ts';
 
-export const SuppliersModuleContext = createContext<any>(null);
+export interface SuppliersModuleContextProps {
+  paramQuery: string;
+  querySuppliers: UseQueryGetAllRecordsReturn<Supplier>;
+  dataTable: DataTableManualReturn<Supplier>;
+  mutationDeleteSuppliers: UseMutationReturn<void, BulkRecords>;
+  actionsSuppliersModule: Record<string, boolean>;
+}
 
-export const SuppliersModuleProvider = ({ children }: any) => {
+export const SuppliersModuleContext = createContext<
+  SuppliersModuleContextProps | undefined
+>(undefined);
+
+export const SuppliersModuleProvider: React.FC<{
+  children: React.ReactNode;
+}> = ({ children }) => {
   const { value } = useBasicQueryData();
 
-  const { query, pagination, setPagination } = useGetAllSuppliers(value);
+  const {
+    query: querySuppliers,
+    pagination,
+    setPagination,
+  } = useGetAllSuppliers({
+    queryValue: value,
+  });
 
-  const { hasPermission } = useAuthContext();
+  const { getActionsModule } = useAuthContext();
+  const actionsSuppliersModule = useMemo(
+    () => getActionsModule('suppliers'),
+    []
+  );
 
-  const columnsTable = useCreateColumnsTable({
+  const columnsTable = useCreateColumnsTable<Supplier>({
     columns: columnsTableSuppliers,
     actions: SuppliersModuleActionsTable,
   });
-  const {
-    table,
-    lengthColumns,
-    getIdsToRowsSelected,
-    resetSelectionRows,
-    hasSelectedRecords,
-  } = useDataTableManual({
+  const dataTable = useDataTableManual<Supplier>({
     columns: columnsTable,
-    data: query.data ?? [],
-    rows:
-      (hasPermission('suppliers', 'find_all_suppliers') && query.data?.rows) ??
-      [],
+    infoPagination: querySuppliers.isSuccess
+      ? {
+          pageCount: querySuppliers.data?.pageCount ?? 0,
+          rowCount: querySuppliers.data?.rowCount ?? 0,
+        }
+      : { pageCount: 0, rowCount: 0 },
+    rows: querySuppliers.data?.rows ?? [],
     pagination,
     setPagination,
   });
 
-  const { mutate, isPending } = useDeleteBulkSuppliers();
+  const mutationDeleteSuppliers = useDeleteBulkSuppliers();
 
-  const handleDeleteBulkSuppliers = () => {
-    mutate(
-      { suppliersIds: getIdsToRowsSelected() },
-      {
-        onSuccess: () => {
-          resetSelectionRows();
-        },
-      }
-    );
-  };
-
-  const contextValue = {
-    value,
-    query,
-    hasPermission,
-    table,
-    lengthColumns,
-    hasSelectedRecords,
-    resetSelectionRows,
-    pagination,
-    setPagination,
-    handleDeleteBulkSuppliers,
-    isPending,
+  const contextValue: SuppliersModuleContextProps = {
+    paramQuery: value,
+    querySuppliers,
+    dataTable,
+    mutationDeleteSuppliers,
+    actionsSuppliersModule,
   };
 
   return (

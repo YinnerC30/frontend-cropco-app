@@ -1,50 +1,55 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { useEffect, useState } from 'react';
-
-import { PaginationState } from '@tanstack/react-table';
+import { useEffect } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
+import { usePaginationDataTable } from '@/modules/core/hooks';
 import {
-  useAuthContext,
-  useManageErrorApp,
-} from '@/auth/hooks';
-import { AxiosError } from 'axios';
+  BasicQueryData,
+  UseGetAllRecordsProps,
+} from '@/modules/core/interfaces';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { Supplier } from '../../interfaces/Supplier';
 
-export const getSuppliers = async ({ search = '', limit = 10, offset = 0 }) => {
-  const params = new URLSearchParams();
-  params.append('search', search);
-  params.append('limit', limit.toString());
-  params.append('offset', offset.toString());
+export const getSuppliers = async ({
+  query = '',
+  limit = 10,
+  offset = 0,
+}: BasicQueryData): TypeGetAllRecordsReturn<Supplier> => {
+  const params = new URLSearchParams({
+    query,
+    limit: limit.toString(),
+    offset: offset.toString(),
+  });
 
-  const { data } = await cropcoAPI.get(
-    `${pathsCropco.suppliers}/all?${params}`
-  );
-  return data;
+  return await cropcoAPI.get(`${pathsCropco.suppliers}/all?${params}`);
 };
 
-export const useGetAllSuppliers = (searchParameter: string) => {
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
+export const useGetAllSuppliers = ({
+  queryValue,
+}: UseGetAllRecordsProps): UseGetAllRecordsReturn<Supplier> => {
+  const { pagination, setPagination } = usePaginationDataTable();
   const { handleError } = useManageErrorApp();
   const { hasPermission } = useAuthContext();
-  const query = useQuery({
-    queryKey: ['suppliers', { searchParameter, ...pagination }],
+  const query: UseQueryGetAllRecordsReturn<Supplier> = useQuery({
+    queryKey: ['suppliers', { queryValue, ...pagination }],
     queryFn: () =>
       getSuppliers({
-        search: searchParameter,
+        query: queryValue,
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
       }),
+      select: ({ data }) => data,
     enabled: hasPermission('suppliers', 'find_all_suppliers'),
   });
 
   useEffect(() => {
     if (query.isError) {
       handleError({
-        error: query.error as AxiosError,
+        error: query.error,
         messageUnauthoraizedError:
           'No tienes permiso para ver el listado de proveedores 😑',
       });

@@ -1,31 +1,36 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useManageErrorApp } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
-const deleteBulkSuppliers = async (data: BulkRecords) => {
-  await cropcoAPI.delete(`${pathsCropco.suppliers}/remove/bulk`, {
+const deleteBulkSuppliers = async (
+  data: BulkRecords
+): PromiseReturnRecord<void> => {
+  return await cropcoAPI.delete(`${pathsCropco.suppliers}/remove/bulk`, {
     data: {
       recordsIds: data.suppliersIds,
     },
   });
 };
 
-export const useDeleteBulkSuppliers = () => {
+export const useDeleteBulkSuppliers = (): UseMutationReturn<
+  void,
+  BulkRecords
+> => {
   const querySupplier = useQueryClient();
   const { handleError } = useManageErrorApp();
-  const mutation = useMutation({
+  const mutation: UseMutationReturn<void, BulkRecords> = useMutation({
     mutationFn: deleteBulkSuppliers,
     onSuccess: () => {
       querySupplier.invalidateQueries({ queryKey: ['suppliers'] });
       toast.success(`Proveedores eliminados`);
     },
-    onError: (error: AxiosError) => {
-      const deleteError: AxiosError | any = error;
+    onError: (error) => {
       handleError({
-        error: deleteError as AxiosError,
+        error,
         messageUnauthoraizedError:
           'No tienes permiso para eliminar varios proveedores',
       });

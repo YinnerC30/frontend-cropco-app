@@ -10,7 +10,7 @@ import { MODULE_SUPPLIER_PATHS } from '../routes/pathRoutes';
 import { formSchemaSupplier } from '../utils/formSchemaSupplier';
 import { FormSupplier } from './form/FormSupplier';
 
-export const ModifySupplier = () => {
+export const ModifySupplier: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetSupplier(id!);
   const { mutate, isPending } = usePatchSupplier();
@@ -33,7 +33,7 @@ export const ModifySupplier = () => {
       <FormSupplier
         onSubmit={onSubmit}
         isSubmitting={isPending}
-        defaultValues={{ ...data, company_name: undefined }}
+        defaultValues={data}
       />
     </>
   );

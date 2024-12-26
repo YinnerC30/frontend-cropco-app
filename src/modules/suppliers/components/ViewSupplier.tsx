@@ -5,7 +5,7 @@ import { useGetSupplier } from '../hooks/queries/useGetSupplier';
 import { MODULE_SUPPLIER_PATHS } from '../routes/pathRoutes';
 import { FormSupplier } from './form/FormSupplier';
 
-export const ViewSupplier = () => {
+export const ViewSupplier: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetSupplier(id!);
 
@@ -20,10 +20,7 @@ export const ViewSupplier = () => {
         finalItem={`Información del proveedor`}
       />
 
-      <FormSupplier
-        defaultValues={{ ...data, company_name: undefined }}
-        readOnly
-      />
+      <FormSupplier defaultValues={data} readOnly />
     </>
   );
 };
