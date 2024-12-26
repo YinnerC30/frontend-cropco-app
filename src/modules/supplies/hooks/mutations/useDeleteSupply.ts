@@ -1,37 +1,31 @@
 import {
-  UseMutationResult,
   useMutation,
-  useQueryClient,
+  useQueryClient
 } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 
-export const deleteSupply = async (id: string): Promise<void> =>
-  await cropcoAPI.delete(`${pathsCropco.supplies}/remove/one/${id}`);
+export const deleteSupply = async (id: string): PromiseReturnRecord<void> => {
+  return await cropcoAPI.delete(`${pathsCropco.supplies}/remove/one/${id}`);
+};
 
-export const useDeleteSupply = (): UseMutationResult<
-  void,
-  AxiosError<unknown, any>,
-  string,
-  unknown
-> => {
+export const useDeleteSupply = (): UseMutationReturn<void, string> => {
   const queryClient = useQueryClient();
-  const { handleError } = useManageErrorApp();
-  const mutation = useMutation({
+  const { handleError } = useAuthContext();
+  const mutation: UseMutationReturn<void, string> = useMutation({
     mutationFn: deleteSupply,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['supplies'] });
       toast.success(`Insumo eliminado`);
     },
-    onError: (error: AxiosError) => {
-      const deleteError: AxiosError | any = error;
+    onError: (error) => {
       handleError({
-        error: deleteError as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso para eliminar un suministro',
+        error,
+        messagesStatusError: {},
       });
     },
     retry: 1,

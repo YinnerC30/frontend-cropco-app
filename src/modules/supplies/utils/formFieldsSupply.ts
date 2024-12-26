@@ -1,6 +1,7 @@
 import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-export const formFieldsSupply: Record<string, CustomFormField> = {
+type FormFieldsSupply = 'name' | 'brand' | 'unit_of_measure' | 'observation';
+export const formFieldsSupply: Record<FormFieldsSupply, CustomFormField> = {
   name: {
     name: 'name',
     label: 'Nombre:',

@@ -1,45 +1,50 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useCreateForm } from '@/modules/core/hooks';
+import { FormContextProps, FormProps } from '@/modules/core/interfaces';
+import { z } from 'zod';
+import { Supply } from '../../interfaces/Supply';
+import { formSchemaSupply } from '../../utils';
 
-import { useAuthContext } from '@/auth/hooks';
-import { useSupplyForm } from '../../hooks/useSupplyForm';
-import { MODULE_SUPPLIES_PATHS } from '../../routes/pathRoutes';
+export type FormSupplyProps = FormProps<
+  z.infer<typeof formSchemaSupply>,
+  Supply
+>;
 
-export const FormSupplyContext = createContext<any>(null);
+export interface FormSupplyContextProps extends FormContextProps {
+  onSubmit: (values: z.infer<typeof formSchemaSupply>) => void;
+}
 
-export const FormSupplyProvider = ({
+export const FormSupplyContext = createContext<
+  FormSupplyContextProps | undefined
+>(undefined);
+
+export const FormSupplyProvider: React.FC<
+  FormSupplyProps & {
+    children: React.ReactNode;
+  }
+> = ({
   children,
   defaultValues,
-  isSubmitting,
-  onSubmit,
-  readOnly,
-}: any & { children: React.ReactNode }) => {
-  const formState = useSupplyForm({
-    values: defaultValues,
+  isSubmitting = false,
+  onSubmit = (values) => console.log(values),
+  readOnly = false,
+}) => {
+  const form = useCreateForm({
+    schema: formSchemaSupply,
+    defaultValues,
   });
-  const navigate = useNavigate();
-
-  const { hasPermission } = useAuthContext();
-
-  const handleReturnToModule = () => {
-    navigate(MODULE_SUPPLIES_PATHS.ViewAll);
-  };
 
   return (
     <FormSupplyContext.Provider
       value={{
-        ...formState,
+        form,
         isSubmitting,
         onSubmit,
         readOnly,
-        handleReturnToModule,
-        hasPermission,
       }}
     >
       {children}
     </FormSupplyContext.Provider>
   );
 };
-
-

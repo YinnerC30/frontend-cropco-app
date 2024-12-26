@@ -2,12 +2,14 @@ import { ButtonHeaderTable } from '@/modules/core/components';
 
 import { Badge } from '@/components';
 
+import { ColumnDef, HeaderContext, Row } from '@tanstack/react-table';
+import { Supply } from '../../interfaces/Supply';
 import { formFieldsSupply } from '../../utils';
 
-export const columnsTableSupplies = [
+export const columnsTableSupplies: ColumnDef<Supply>[] = [
   {
     accessorKey: formFieldsSupply.name.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Supply, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -18,7 +20,7 @@ export const columnsTableSupplies = [
   },
   {
     accessorKey: formFieldsSupply.brand.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Supply, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -29,7 +31,7 @@ export const columnsTableSupplies = [
   },
   {
     accessorKey: formFieldsSupply.unit_of_measure.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Supply, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -37,7 +39,7 @@ export const columnsTableSupplies = [
         />
       );
     },
-    cell: ({ row }: any) => {
+    cell: ({ row }: { row: Row<Supply> }) => {
       const unitOfMeasure: string = row.getValue('unit_of_measure');
       return (
         <Badge variant={unitOfMeasure === 'GRAMOS' ? 'lime' : 'cyan'}>
@@ -48,7 +50,7 @@ export const columnsTableSupplies = [
   },
   {
     accessorKey: formFieldsSupply.observation.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Supply, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}

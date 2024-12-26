@@ -1,72 +1,72 @@
 import { useQuery } from '@tanstack/react-query';
-import { PaginationState } from '@tanstack/react-table';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { ResponseApiGetAllRecords } from '@/modules/core/interfaces';
+import {
+  BasicQueryData,
+  UseGetAllRecordsProps,
+} from '@/modules/core/interfaces';
 
-import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
-import { AxiosError } from 'axios';
+import { useAuthContext } from '@/auth/hooks';
+import { usePaginationDataTable } from '@/modules/core/hooks';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { toast } from 'sonner';
 import { Supply } from '../../interfaces/Supply';
 
-interface Props {
-  search: string;
-  limit: number;
-  offset: number;
-  allRecords: boolean;
-}
-
 export const getSupplies = async ({
-  search = '',
+  query = '',
   limit = 10,
   offset = 0,
   allRecords = false,
-}: Props): Promise<ResponseApiGetAllRecords<Supply>> => {
-  let params = new URLSearchParams();
-  params.append('search', search);
-  params.append('limit', limit.toString());
-  params.append('offset', offset.toString());
-  params.append('allRecords', allRecords.toString());
+}: BasicQueryData): TypeGetAllRecordsReturn<Supply> => {
+  const params = new URLSearchParams({
+    query,
+    limit: limit.toString(),
+    offset: offset.toString(),
+    allRecords: allRecords.toString(),
+  });
 
-  const { data } = await cropcoAPI.get(`${pathsCropco.supplies}/all?${params}`);
-  return data;
+  return await cropcoAPI.get(`${pathsCropco.supplies}/all?${params}`);
 };
 
-interface HookProps {
-  searchParameter: string;
-  allRecords: boolean;
-}
-
+// TODO: Cambiar stale time
 const STALE_TIME_DATA = 60_000 * 60;
 export const useGetAllSupplies = ({
-  searchParameter,
+  queryValue,
   allRecords,
-}: HookProps) => {
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
-  const { handleError } = useManageErrorApp();
-  const { hasPermission } = useAuthContext();
-  const query = useQuery({
-    queryKey: ['supplies', { searchParameter, ...pagination }],
+}: UseGetAllRecordsProps): UseGetAllRecordsReturn<Supply> => {
+  const { pagination, setPagination } = usePaginationDataTable();
+  const { hasPermission, handleError } = useAuthContext();
+
+  const isAuthorized = hasPermission('supplies', 'find_all_supplies');
+
+  const query: UseQueryGetAllRecordsReturn<Supply> = useQuery({
+    queryKey: ['supplies', { queryValue, ...pagination }],
     queryFn: () =>
       getSupplies({
-        search: searchParameter,
+        query: queryValue,
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
         allRecords,
       }),
-    enabled: hasPermission('supplies', 'find_all_supplies'),
+      select: ({ data }) => data,
+    enabled: isAuthorized,
     staleTime: STALE_TIME_DATA,
   });
 
   useEffect(() => {
+    if (!isAuthorized) {
+      toast.error('No tienes permiso para ver el listado de suministros 😑');
+    }
+  }, [isAuthorized]);
+
+  useEffect(() => {
     if (query.isError) {
       handleError({
-        error: query.error as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso para ver el listado de suministros 😑',
+        error: query.error,
+        messagesStatusError: {},
       });
     }
   }, [query.isError, query.error]);

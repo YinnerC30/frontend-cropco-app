@@ -1,14 +1,15 @@
 import { BasicSearchBar } from '@/modules/core/components';
+import React from 'react';
 import { useSuppliesModuleContext } from '../../hooks';
 
-export const SuppliesSearchBar = () => {
-  const { value, hasPermission } = useSuppliesModuleContext();
+export const SuppliesSearchBar: React.FC = () => {
+  const { paramQuery, actionsSuppliesModule } = useSuppliesModuleContext();
 
   return (
     <div className="flex items-center justify-center w-full">
       <BasicSearchBar
-        query={value}
-        disabled={!hasPermission('supplies', 'find_all_supplies')}
+        query={paramQuery}
+        disabled={!actionsSuppliesModule['find_all_supplies']}
       />
     </div>
   );

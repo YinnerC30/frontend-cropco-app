@@ -6,13 +6,11 @@ import {
   FormFieldSelect,
   FormFieldTextArea,
 } from '@/modules/core/components';
-import { formFieldsSupply } from '../../utils';
 import { UnitOfMeasure } from '../../interfaces/UnitOfMeasure';
+import { formFieldsSupply } from '../../utils';
 
 export const FormSupplyFields = () => {
   const { form, onSubmit, readOnly } = useFormSupplyContext();
-
-  console.log(form.formState);
 
   return (
     <Form {...form}>

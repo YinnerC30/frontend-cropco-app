@@ -1,10 +1,19 @@
 import { Button } from '@/components';
-import { useFormSupplyContext } from '../../hooks';
 import { ButtonsForm } from '@/modules/core/components';
+import { useNavigate } from 'react-router-dom';
+import { useFormSupplyContext } from '../../hooks';
+import { MODULE_SUPPLIES_PATHS } from '../../routes/pathRoutes';
 
 export const FormSupplyButtons = () => {
-  const { readOnly, handleReturnToModule, isSubmitting } =
+  const { readOnly, isSubmitting } =
     useFormSupplyContext();
+
+
+    const navigate = useNavigate();
+    
+      const handleReturnToModule = () => {
+        navigate(MODULE_SUPPLIES_PATHS.ViewAll);
+      };
 
   return readOnly ? (
     <Button className="my-2" onClick={handleReturnToModule}>

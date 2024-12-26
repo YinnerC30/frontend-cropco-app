@@ -1,14 +1,14 @@
+import { BreadCrumb } from '@/modules/core/components';
 import { SuppliesActions } from './SuppliesActions';
-import { SuppliesBreadCrumb } from './SuppliesBreadCrumb';
 import { SuppliesModuleProvider } from './SuppliesModuleContext';
 import { SuppliesSearchBar } from './SuppliesSearchBar';
 import { SuppliesTable } from './SuppliesTable';
 
-export const SuppliesModule = () => {
+export const SuppliesModule: React.FC = () => {
   return (
     <SuppliesModuleProvider>
       <div className="select-none">
-        <SuppliesBreadCrumb />
+      <BreadCrumb finalItem="Suministros" hiddenSeparator />
         <SuppliesSearchBar />
         <SuppliesActions />
         <SuppliesTable />

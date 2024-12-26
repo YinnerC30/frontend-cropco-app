@@ -12,6 +12,7 @@ import {
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
 import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { toast } from 'sonner';
 import { Supplier } from '../../interfaces/Supplier';
 
 export const getSuppliers = async ({
@@ -34,6 +35,9 @@ export const useGetAllSuppliers = ({
   const { pagination, setPagination } = usePaginationDataTable();
   const { handleError } = useManageErrorApp();
   const { hasPermission } = useAuthContext();
+
+  const isAuthorized = hasPermission('suppliers', 'find_all_suppliers');
+
   const query: UseQueryGetAllRecordsReturn<Supplier> = useQuery({
     queryKey: ['suppliers', { queryValue, ...pagination }],
     queryFn: () =>
@@ -42,9 +46,15 @@ export const useGetAllSuppliers = ({
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
       }),
-      select: ({ data }) => data,
-    enabled: hasPermission('suppliers', 'find_all_suppliers'),
+    select: ({ data }) => data,
+    enabled: isAuthorized,
   });
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      toast.error('No tienes permiso para ver el listado de proveedores 😑');
+    }
+  }, [isAuthorized]);
 
   useEffect(() => {
     if (query.isError) {
