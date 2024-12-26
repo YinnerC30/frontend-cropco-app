@@ -7,8 +7,9 @@ import {
   FormFieldTextArea,
 } from '@/modules/core/components';
 import { formFieldsCrop } from '../../utils';
+import React from 'react';
 
-export const FormCropFields = () => {
+export const FormCropFields: React.FC = () => {
   const { form, onSubmit, readOnly } = useFormCropContext();
 
   return (

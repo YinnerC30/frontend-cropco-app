@@ -1,4 +1,3 @@
-import { useAuthContext } from '@/auth/hooks';
 
 import {
   ActionCopyIdRecord,

@@ -1,26 +1,15 @@
-import { FormProps } from '@/modules/core/interfaces';
+import { ScrollArea } from '@/components';
 import { FormCropButtons } from './FormCropButtons';
-import { FormCropProvider } from './FormCropContext';
+import { FormCropProps, FormCropProvider } from './FormCropContext';
 import { FormCropFields } from './FormCropFields';
-import { FormCropScrollArea } from './FormCropScrollArea';
 
-export const FormCrop = ({
-  defaultValues,
-  isSubmitting = false,
-  onSubmit,
-  readOnly = false,
-}: FormProps) => {
+export const FormCrop: React.FC<FormCropProps> = (props) => {
   return (
-    <FormCropProvider
-      defaultValues={defaultValues}
-      isSubmitting={isSubmitting}
-      onSubmit={onSubmit}
-      readOnly={readOnly}
-    >
+    <FormCropProvider {...props}>
       <div className="flex flex-col items-center">
-        <FormCropScrollArea>
+        <ScrollArea className="h-[72vh] w-full pb-2">
           <FormCropFields />
-        </FormCropScrollArea>
+        </ScrollArea>
         <FormCropButtons />
       </div>
     </FormCropProvider>

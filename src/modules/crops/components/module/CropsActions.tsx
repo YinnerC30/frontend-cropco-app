@@ -8,39 +8,47 @@ import {
 import { MODULE_CROPS_PATHS } from '../../routes/pathRoutes';
 import { useCropsModuleContext } from '../../hooks';
 
-export const CropsActions = () => {
-  const {
-    query,
-    hasPermission,
-    hasSelectedRecords,
-    resetSelectionRows,
-    isPending,
-    handleDeleteBulkCrops,
-  } = useCropsModuleContext();
+export const CropsActions: React.FC = () => {
+  const { queryCrops, dataTable, mutationDeleteCrops, actionsCropsModule } =
+    useCropsModuleContext();
+
+  const handleDeleteBulkCrops = () => {
+    mutationDeleteCrops.mutate(
+      { cropsIds: dataTable.getIdsToRowsSelected() },
+      {
+        onSuccess: () => {
+          dataTable.resetSelectionRows();
+        },
+      }
+    );
+  };
 
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={query.refetch}
-        disabled={!hasPermission('crops', 'find_all_crops')}
+        onClick={queryCrops.refetch}
+        disabled={!actionsCropsModule['find_all_crops']}
         className=""
       />
 
       <div className="flex items-center gap-1">
         <ButtonClearSelection
-          onClick={() => resetSelectionRows()}
-          visible={hasSelectedRecords}
+          onClick={() => dataTable.resetSelectionRows()}
+          visible={dataTable.hasSelectedRecords}
         />
 
         <ButtonDeleteBulk
-          disabled={isPending || !hasPermission('crops', 'remove_bulk_crops')}
+          disabled={
+            mutationDeleteCrops.isPending ||
+            !actionsCropsModule['remove_bulk_crops']
+          }
           onClick={handleDeleteBulkCrops}
-          visible={hasSelectedRecords}
+          visible={dataTable.hasSelectedRecords}
         />
 
         <ButtonCreateRecord
           route={MODULE_CROPS_PATHS.Create}
-          disabled={!hasPermission('crops', 'create_crop')}
+          disabled={!actionsCropsModule['create_crop']}
           className=""
         />
       </div>

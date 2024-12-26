@@ -37,7 +37,10 @@ export interface DataTableManualReturn<T> {
 
 export const useDataTableManual = <T>({
   columns,
-  infoPagination,
+  infoPagination = {
+    pageCount: 0,
+    rowCount: 0,
+  },
   rows,
   pagination,
   setPagination,

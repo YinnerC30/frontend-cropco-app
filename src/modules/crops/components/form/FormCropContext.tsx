@@ -1,42 +1,41 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useCreateForm } from '@/modules/core/hooks';
+import { FormContextProps, FormProps } from '@/modules/core/interfaces';
+import { z } from 'zod';
+import { Crop } from '../../interfaces/Crop';
+import { formSchemaCrop } from '../../utils';
 
-import { useAuthContext } from '@/auth/hooks';
-import { useCropForm } from '../../hooks/useCropForm';
-import { MODULE_CROPS_PATHS } from '../../routes/pathRoutes';
+export type FormCropProps = FormProps<z.infer<typeof formSchemaCrop>, Crop>;
 
-export const FormCropContext = createContext<any>(null);
+export interface FormCropContextProps extends FormContextProps {
+  onSubmit: (values: z.infer<typeof formSchemaCrop>) => void;
+}
 
-export const FormCropProvider = ({
+export const FormCropContext = createContext<FormCropContextProps | undefined>(
+  undefined
+);
+
+export const FormCropProvider: React.FC<
+  FormCropProps & {
+    children: React.ReactNode;
+  }
+> = ({
   children,
   defaultValues,
-
-  isSubmitting,
-  onSubmit,
-  readOnly,
-}: any & { children: React.ReactNode }) => {
-  const formState = useCropForm({
-    values: defaultValues,
-  });
-  const navigate = useNavigate();
-
-  const { hasPermission } = useAuthContext();
-
-  const handleReturnToModule = () => {
-    navigate(MODULE_CROPS_PATHS.ViewAll);
-  };
+  isSubmitting = false,
+  onSubmit = (values) => console.log(values),
+  readOnly = false,
+}) => {
+  const form = useCreateForm({ schema: formSchemaCrop, defaultValues });
 
   return (
     <FormCropContext.Provider
       value={{
-        ...formState,
+        form,
         isSubmitting,
         onSubmit,
         readOnly,
-        handleReturnToModule,
-
-        hasPermission,
       }}
     >
       {children}

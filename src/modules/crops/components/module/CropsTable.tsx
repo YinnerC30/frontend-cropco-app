@@ -1,22 +1,26 @@
 import { DataTableTemplate } from '@/modules/core/components';
 import { useCropsModuleContext } from '../../hooks';
 
-export const CropsTable = () => {
-  const { table, lengthColumns, query, hasPermission, isPending } =
+export const CropsTable: React.FC = () => {
+  const { dataTable, queryCrops, mutationDeleteCrops, actionsCropsModule } =
     useCropsModuleContext();
 
   return (
     <DataTableTemplate
       errorMessage={
-        !hasPermission('crops', 'find_all_crops')
+        !actionsCropsModule['find_all_crops']
           ? 'No tienes permiso para ver el listado de cultivos 😢'
           : 'No hay registros.'
       }
-      disabledDoubleClick={!hasPermission('crops', 'find_one_crop')}
-      table={table}
-      lengthColumns={lengthColumns}
-      rowCount={query.data?.rowCount ?? 0}
-      isLoading={query.isLoading || query.isRefetching || isPending}
+      disabledDoubleClick={!actionsCropsModule['find_one_crop']}
+      table={dataTable.table}
+      lengthColumns={dataTable.lengthColumns}
+      rowCount={queryCrops.data?.rowCount ?? 0}
+      isLoading={
+        queryCrops.isLoading ||
+        queryCrops.isRefetching ||
+        mutationDeleteCrops.isPending
+      }
     />
   );
 };

@@ -1,13 +1,12 @@
 import { useParams } from 'react-router-dom';
 
-import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
-import { Loading } from '../../core/components';
 import { BreadCrumb } from '@/modules/core/components/';
+import { Loading } from '../../core/components';
 import { useGetCrop } from '../hooks/queries/useGetCrop';
 import { MODULE_CROPS_PATHS } from '../routes/pathRoutes';
 import { FormCrop } from './form/FormCrop';
 
-export const ViewCrop = () => {
+export const ViewCrop: React.FC = () => {
   const { id } = useParams();
 
   const { data, isLoading } = useGetCrop(id!);
@@ -21,18 +20,7 @@ export const ViewCrop = () => {
         finalItem={'Información del cultivo'}
       />
 
-      <FormCrop
-        defaultValues={{
-          ...data,
-          dates: {
-            date_of_creation: ConvertStringToDate(data.date_of_creation),
-            date_of_termination: data.date_of_termination
-              ? ConvertStringToDate(data.date_of_termination)
-              : undefined,
-          },
-        }}
-        readOnly
-      />
+      <FormCrop defaultValues={data} readOnly />
     </>
   );
 };

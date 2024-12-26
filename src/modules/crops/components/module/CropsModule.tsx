@@ -1,14 +1,14 @@
+import { BreadCrumb } from '@/modules/core/components';
 import { CropsActions } from './CropsActions';
-import { CropsBreadCrumb } from './CropsBreadCrumb';
 import { CropsModuleProvider } from './CropsModuleContext';
 import { CropsSearchBar } from './CropsSearchBar';
 import { CropsTable } from './CropsTable';
 
-export const CropsModule = () => {
+export const CropsModule: React.FC = () => {
   return (
     <CropsModuleProvider>
       <div className="select-none">
-        <CropsBreadCrumb />
+        <BreadCrumb finalItem="Cultivos" hiddenSeparator />
         <CropsSearchBar />
         <CropsActions />
         <CropsTable />

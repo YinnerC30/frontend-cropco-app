@@ -1,4 +1,3 @@
-import { useAuthContext } from '@/auth/hooks';
 
 import {
   ActionCopyIdRecord,
@@ -8,23 +7,25 @@ import {
 } from '@/modules/core/components/data-table/menu/actions';
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
-import { useDeleteCrop } from '../../hooks/mutations/useDeleteCrop';
+import React from 'react';
 import { useCropsModuleContext } from '../../hooks';
+import { useDeleteCrop } from '../../hooks/mutations/useDeleteCrop';
+import { Crop } from '../../interfaces/Crop';
 
 interface Props {
-  row: Row<any>;
+  row: Row<Crop>;
 }
 
-export const CropsModuleActionsTable = ({ row }: Props) => {
-  const { resetSelectionRows } = useCropsModuleContext();
-  const { hasPermission } = useAuthContext();
-  const { id } = row.original;
+export const CropsModuleActionsTable: React.FC<Props> = ({ row }) => {
+  const { dataTable, actionsCropsModule } = useCropsModuleContext();
+
+  const id = row?.original?.id ?? '';
   const mutationDeleteCrop = useDeleteCrop();
 
   const handleDelete = () => {
     mutationDeleteCrop.mutate(id, {
       onSuccess: () => {
-        resetSelectionRows();
+        dataTable.resetSelectionRows();
       },
     });
   };
@@ -35,17 +36,17 @@ export const CropsModuleActionsTable = ({ row }: Props) => {
 
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!hasPermission('crops', 'remove_one_crop')}
+        disabled={actionsCropsModule['remove_one_crop']}
       />
 
       <ActionModifyRecord
         id={id}
-        disabled={!hasPermission('crops', 'update_one_crop')}
+        disabled={actionsCropsModule['update_one_crop']}
       />
 
       <ActionViewRecord
         id={id}
-        disabled={!hasPermission('crops', 'find_one_crop')}
+        disabled={actionsCropsModule['find_one_crop']}
       />
     </DropDownMenuActions>
   );

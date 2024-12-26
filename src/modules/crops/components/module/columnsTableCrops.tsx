@@ -2,11 +2,13 @@ import { ButtonHeaderTable } from '@/modules/core/components';
 
 import { FormatDate, FormatNumber } from '@/modules/core/helpers';
 import { formFieldsCrop } from '../../utils';
+import { ColumnDef, HeaderContext, Row } from '@tanstack/react-table';
+import { Crop } from '../../interfaces/Crop';
 
-export const columnsTableCrops = [
+export const columnsTableCrops: ColumnDef<Crop>[] = [
   {
     accessorKey: formFieldsCrop.name.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Crop, unknown>) => {
       return (
         <ButtonHeaderTable column={column} label={formFieldsCrop.name.label} />
       );
@@ -14,7 +16,7 @@ export const columnsTableCrops = [
   },
   {
     accessorKey: formFieldsCrop.description.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Crop, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -25,10 +27,10 @@ export const columnsTableCrops = [
   },
   {
     accessorKey: formFieldsCrop.units.name,
-    cell: ({ row }: any) => {
+    cell: ({ row }: { row: Row<Crop> }) => {
       return FormatNumber(row.getValue('units'));
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Crop, unknown>) => {
       return (
         <ButtonHeaderTable column={column} label={formFieldsCrop.units.label} />
       );
@@ -36,7 +38,7 @@ export const columnsTableCrops = [
   },
   {
     accessorKey: formFieldsCrop.location.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Crop, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -47,13 +49,12 @@ export const columnsTableCrops = [
   },
   {
     accessorKey: formFieldsCrop.date_of_creation.name,
-    cell: ({ row }: any) => {
+    cell: ({ row }: { row: Row<Crop> }) => {
       const date: string = row.getValue(formFieldsCrop.date_of_creation.name);
-      console.log(date);
-      console.log(typeof date);
+
       return FormatDate({ date });
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Crop, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -64,13 +65,13 @@ export const columnsTableCrops = [
   },
   {
     accessorKey: formFieldsCrop.date_of_termination.name,
-    cell: ({ row }: any) => {
+    cell: ({ row }: { row: Row<Crop> }) => {
       const date: string = row.getValue(
         formFieldsCrop.date_of_termination.name
       );
       return FormatDate({ date });
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Crop, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
