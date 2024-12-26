@@ -1,40 +1,36 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
-import {
-  useMutation,
-  UseMutationResult,
-  useQueryClient,
-} from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-const deleteBulkClients = async (data: BulkRecords): Promise<void> => {
-  await cropcoAPI.delete(`${pathsCropco.clients}/remove/bulk`, {
+const deleteBulkClients = async (
+  data: BulkRecords
+): PromiseReturnRecord<void> => {
+  return await cropcoAPI.delete(`${pathsCropco.clients}/remove/bulk`, {
     data: {
       recordsIds: data.clientsIds,
     },
   });
 };
 
-export const useDeleteBulkClients = (): UseMutationResult<
+export const useDeleteBulkClients = (): UseMutationReturn<
   void,
-  AxiosError,
-  BulkRecords,
-  unknown
+  BulkRecords
 > => {
   const queryClient = useQueryClient();
   const { handleError } = useAuthContext();
-  const mutation = useMutation({
+  const mutation: UseMutationReturn<void, BulkRecords> = useMutation({
     mutationFn: deleteBulkClients,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['clients'] });
       toast.success(`Clientes eliminados`);
     },
-    onError: (error: AxiosError) => {
-      const deleteError: AxiosError | any = error;
+    onError: (error) => {
       handleError({
-        error: deleteError as AxiosError,
+        error,
         messagesStatusError: {},
       });
     },

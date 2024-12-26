@@ -1,27 +1,28 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
-import { AxiosError } from 'axios';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Client } from '../../interfaces/Client';
 
-export const getClientById = async (id: string): Promise<Client> => {
-  const { data } = await cropcoAPI.get(`${pathsCropco.clients}/one/${id}`);
-  return data;
+export const getClientById = async (
+  id: string
+): PromiseReturnRecord<Client> => {
+  return await cropcoAPI.get(`${pathsCropco.clients}/one/${id}`);
 };
 
-export const useGetClient = (
-  id: string
-): UseQueryResult<Client, AxiosError> => {
+export const useGetClient = (id: string): UseGetOneRecordReturn<Client> => {
   const { hasPermission, handleError } = useAuthContext();
 
   const isAuthorized = hasPermission('clients', 'find_one_client');
 
-  const query: UseQueryResult<Client, AxiosError> = useQuery({
+  const query: UseGetOneRecordReturn<Client> = useQuery({
     queryKey: ['client', id],
     queryFn: () => getClientById(id),
+    select: ({ data }) => data,
     enabled: isAuthorized,
   });
 
@@ -36,7 +37,7 @@ export const useGetClient = (
   useEffect(() => {
     if (query.isError) {
       handleError({
-        error: query.error as AxiosError,
+        error: query.error,
         messagesStatusError: {},
       });
     }

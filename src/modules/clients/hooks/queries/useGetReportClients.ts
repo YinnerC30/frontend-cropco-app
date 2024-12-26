@@ -1,20 +1,18 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
-export const getReportClients = async (): Promise<Blob> => {
-  const response = await cropcoAPI.get<Blob>(
-    `${pathsCropco.clients}/export/all/pdf`,
-    {
-      responseType: 'blob', // Indicamos que la respuesta será un archivo binario (blob)
-    }
-  );
-  return response.data; // Retornamos solo el blob (contenido del PDF)
+export const getReportClients = async (): PromiseReturnRecord<Blob> => {
+  return await cropcoAPI.get<Blob>(`${pathsCropco.clients}/export/all/pdf`, {
+    responseType: 'blob',
+  });
 };
 
 interface Props {
@@ -27,10 +25,10 @@ export const useGetReportClients = ({
   executeQuery,
   showReport,
   actionOnSuccess,
-}: Props): UseQueryResult<Blob, AxiosError> => {
+}: Props): UseGetOneRecordReturn<Blob> => {
   const { handleError } = useManageErrorApp();
   const { hasPermission } = useAuthContext();
-  const query: UseQueryResult<Blob, AxiosError> = useQuery({
+  const query: UseGetOneRecordReturn<Blob> = useQuery({
     queryKey: ['report-clients'],
     queryFn: () => {
       const fetchReportClients = getReportClients();
@@ -44,6 +42,7 @@ export const useGetReportClients = ({
 
       return fetchReportClients;
     },
+    select: ({ data }) => data,
     enabled: executeQuery && hasPermission('clients', 'export_clients_pdf'),
     staleTime: 60_000 * 60 * 24,
     retry: 1,

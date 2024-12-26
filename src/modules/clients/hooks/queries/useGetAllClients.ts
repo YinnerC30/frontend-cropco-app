@@ -1,20 +1,19 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
+import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import {
   BasicQueryData,
   UseGetAllRecordsProps,
-  ResponseApiGetAllRecords,
 } from '@/modules/core/interfaces';
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
 import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
-import { AxiosError } from 'axios';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
 import { Client } from '../../interfaces/Client';
-import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getClients = async (
   values: BasicQueryData
@@ -26,8 +25,7 @@ export const getClients = async (
     offset: offset.toString(),
     allRecords: allRecords.toString(),
   });
-  const { data } = await cropcoAPI.get(`${pathsCropco.clients}/all?${params}`);
-  return data;
+  return await cropcoAPI.get(`${pathsCropco.clients}/all?${params}`);
 };
 
 export const useGetAllClients = ({
@@ -39,10 +37,7 @@ export const useGetAllClients = ({
   const { hasPermission, handleError } = useAuthContext();
 
   const isAuthorized = hasPermission('clients', 'find_all_clients');
-  const query: UseQueryResult<
-    ResponseApiGetAllRecords<Client>,
-    AxiosError
-  > = useQuery({
+  const query: UseQueryGetAllRecordsReturn<Client> = useQuery({
     queryKey: ['clients', { queryValue, ...pagination }],
     queryFn: () =>
       getClients({
@@ -51,6 +46,7 @@ export const useGetAllClients = ({
         offset: pagination.pageIndex,
         allRecords,
       }),
+    select: ({ data }) => data,
     staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
     enabled: isAuthorized,
   });
@@ -64,7 +60,7 @@ export const useGetAllClients = ({
   useEffect(() => {
     if (query.isError) {
       handleError({
-        error: query.error as AxiosError,
+        error: query.error,
         messagesStatusError: {},
       });
     }
