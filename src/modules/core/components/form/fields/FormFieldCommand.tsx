@@ -31,12 +31,14 @@ import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 import { Loading } from '../../shared/Loading';
 
 interface FormFieldCommandProps extends FormFieldProps {
-  data: { id: string | number; [key: string]: any }[];
+  data: { id: string; [key: string]: any }[] | any[];
   form: UseFormReturn<any, any, undefined>;
   nameToShow: string;
   isLoading?: boolean;
   nameEntity?: string;
   actionFinal?: () => void;
+  // namePrincipalEntity: string;
+  // nameAditionalProperty?: string;
 }
 
 export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({

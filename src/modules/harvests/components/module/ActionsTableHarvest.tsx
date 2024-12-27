@@ -6,21 +6,26 @@ import {
   DropDownMenuActions,
   ItemNavigate,
 } from '@/modules/core/components';
+import { Row } from '@tanstack/react-table';
 import { LayersIcon } from 'lucide-react';
 import { useDeleteHarvest } from '../../hooks';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
+import { TableHarvest } from '../../interfaces';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 
-export const ActionsTableHarvest = ({ row }: any) => {
-  const { resetSelectionRows, /* hasPermission, */ permissionsHarvest } =
-    useHarvestModuleContext();
-  const { id } = row.original;
+interface Props {
+  row: Row<TableHarvest>;
+}
+
+export const ActionsTableHarvest: React.FC<Props> = ({ row }) => {
+  const { dataTable, actionsHarvestsModule } = useHarvestModuleContext();
+  const id = row.original.id ?? '';
   const { mutate } = useDeleteHarvest();
 
   const handleDelete = () => {
     mutate(id, {
       onSuccess: () => {
-        resetSelectionRows();
+        dataTable.resetSelectionRows();
       },
     });
   };
@@ -29,23 +34,23 @@ export const ActionsTableHarvest = ({ row }: any) => {
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!permissionsHarvest['remove_one_harvest']}
+        disabled={!actionsHarvestsModule['remove_one_harvest']}
       />
       <ActionModifyRecord
         id={id}
         path={MODULE_HARVESTS_PATHS.Update + id}
-        disabled={!permissionsHarvest['update_one_harvest']}
+        disabled={!actionsHarvestsModule['update_one_harvest']}
       />
       <ActionViewRecord
         id={id}
         path={MODULE_HARVESTS_PATHS.ViewOne + id}
-        disabled={!permissionsHarvest['find_one_harvest']}
+        disabled={!actionsHarvestsModule['find_one_harvest']}
       />
       <ItemNavigate
         path={`../processed/view/${id}`}
         Icon={LayersIcon}
         name={'Inventario'}
-        disabled={!permissionsHarvest['find_one_harvest']}
+        disabled={!actionsHarvestsModule['find_one_harvest']}
       />
     </DropDownMenuActions>
   );

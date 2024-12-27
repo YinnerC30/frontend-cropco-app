@@ -7,8 +7,9 @@ import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 import { formSchemaHarvest } from '../utils';
 import { FormHarvest } from './forms/harvest/FormHarvest';
 import { Harvest } from '../interfaces';
+import React from 'react';
 
-export const CreateHarvest = () => {
+export const CreateHarvest: React.FC = () => {
   const { mutate, isPending } = usePostHarvest();
 
   const onSubmit = (values: z.infer<typeof formSchemaHarvest>) => {

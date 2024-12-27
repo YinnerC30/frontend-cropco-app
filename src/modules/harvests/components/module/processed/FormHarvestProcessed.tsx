@@ -50,7 +50,7 @@ export const FormHarvestProcessed = memo(() => {
     setOpenDialog,
     harvestProcessed,
     setHarvestProcessed,
-    permissionsHarvest,
+    actionsHarvestsModule,
   } = useHarvestProcessedContext();
 
   const formProcessed = useCreateForm({
@@ -143,7 +143,7 @@ export const FormHarvestProcessed = memo(() => {
           variant="outline"
           size="icon"
           onClick={handleOpenDialogExtended}
-          disabled={!permissionsHarvest['create_harvest_processed']}
+          disabled={!actionsHarvestsModule['create_harvest_processed']}
         >
           <Plus className="w-4 h-4" />
           <span className="sr-only">Crear nuevo registro</span>

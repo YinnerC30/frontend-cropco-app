@@ -5,7 +5,7 @@ import { useGetHarvest } from '../hooks/queries/useGetHarvest';
 import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 import { FormHarvest } from './forms/harvest/FormHarvest';
 
-export const ViewHarvest = () => {
+export const ViewHarvest: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetHarvest(id!);
   if (isLoading) return <Loading />;

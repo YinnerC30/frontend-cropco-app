@@ -26,61 +26,56 @@ import { toast } from 'sonner';
 import { formatTypeFilterDate } from '@/modules/core/helpers/formatting/formatTypeFilterDate';
 import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/formatTypeFilterNumber';
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
+import { Crop } from '@/modules/crops/interfaces/Crop';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { Filter, Search, X } from 'lucide-react';
-import { memo, useCallback, useState } from 'react';
+import { Filter, X } from 'lucide-react';
+import React, { memo, useCallback, useState } from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarvest';
 import { formSchemaSearchBarHarvest } from '../../utils/formSchemaSearchBarHarvest';
-
-interface FilterSearchBar {
-  key: string;
-  label: string;
-}
+import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
+import {
+  dateFilterOptions,
+  numberFilterOptions,
+} from '@/modules/core/interfaces/queries/FilterOptions';
 
 // Opciones predefinidas para Popover
-const numberFilterOptions = [
-  {
-    key: TypeFilterNumber.MIN,
-    value: TypeFilterNumber.MIN,
-    label: 'Menor a',
-  },
-  {
-    key: TypeFilterNumber.EQUAL,
-    value: TypeFilterNumber.EQUAL,
-    label: 'Igual a',
-  },
-  {
-    key: TypeFilterNumber.MAX,
-    value: TypeFilterNumber.MAX,
-    label: 'Mayor a',
-  },
-];
 
-const dateFilterOptions = [
-  {
-    key: TypeFilterDate.after,
-    value: TypeFilterDate.after,
-    label: 'Despues del',
+const valuesResetForm = {
+  crop: {
+    id: '',
   },
-  {
-    key: TypeFilterDate.before,
-    value: TypeFilterDate.before,
-    label: 'Antes del',
+  filter_by_date: {
+    date: undefined,
+    type_filter_date: TypeFilterDate.after,
   },
-];
+  filter_by_total: {
+    type_filter_total: TypeFilterNumber.MIN,
+    total: 0,
+  },
+  filter_by_value_pay: {
+    type_filter_value_pay: TypeFilterNumber.MIN,
+    value_pay: 0,
+  },
+};
 
-export const HarvestModuleSearchbar = () => {
-  const { paramsQuery, permissionsHarvest } = useHarvestModuleContext();
-  const readOnly = !permissionsHarvest['find_all_harvests'];
+export const HarvestModuleSearchbar: React.FC = () => {
+  const { paramsQuery, actionsHarvestsModule } = useHarvestModuleContext();
+  const readOnly = !actionsHarvestsModule['find_all_harvests'];
   const navigate = useNavigate();
   const { query: queryCrops } = useGetAllCropsWithHarvest({
-    searchParameter: '',
+    queryValue: '',
     allRecords: true,
   });
-  const form = useCreateForm({
+
+  const form: UseFormReturn<
+    z.infer<typeof formSchemaSearchBarHarvest>,
+    unknown
+  > = useCreateForm({
     schema: formSchemaSearchBarHarvest,
     defaultValues: paramsQuery,
     skiptDirty: true,
@@ -92,13 +87,15 @@ export const HarvestModuleSearchbar = () => {
 
   const findCropInData = useCallback(
     (id: string) => {
-      return queryCrops?.data?.rows.find((row: any) => row.id === id);
+      return queryCrops?.data?.rows.find((row: Crop) => row.id === id);
     },
-    [queryCrops]
+    [queryCrops.data]
   );
 
-  const handleAddFilter = async (name = '') => {
-    const isValid = await form.trigger(name);
+  const handleAddFilter = async (name: string) => {
+    const isValid = await form.trigger(
+      name as unknown as keyof z.infer<typeof formSchemaSearchBarHarvest>
+    );
     if (!isValid) return false;
 
     const { crop, filter_by_date, filter_by_total, filter_by_value_pay } =
@@ -110,7 +107,7 @@ export const HarvestModuleSearchbar = () => {
       const data = findCropInData(crop.id);
       filters.push({
         key: 'crop',
-        label: `Cultivo: ${data.name}`,
+        label: `Cultivo: ${data?.name ?? ''}`,
       });
     }
 
@@ -159,8 +156,10 @@ export const HarvestModuleSearchbar = () => {
     return true;
   };
 
-  const handleClearErrorsForm = (name = '') => {
-    form.clearErrors(name);
+  const handleClearErrorsForm = (name: string) => {
+    form.clearErrors(
+      name as unknown as keyof z.infer<typeof formSchemaSearchBarHarvest>
+    );
   };
 
   const handleRemoveFilter = (filter: FilterSearchBar) => {
@@ -193,7 +192,9 @@ export const HarvestModuleSearchbar = () => {
     handleSearch(form.watch());
   };
 
-  const handleSearch = async (values: any) => {
+  const handleSearch = async (
+    values: z.infer<typeof formSchemaSearchBarHarvest>
+  ) => {
     const params = new URLSearchParams();
 
     if (values.crop?.id) {
@@ -237,27 +238,10 @@ export const HarvestModuleSearchbar = () => {
 
   const handleResetForm = () => {
     setAppliedFilters([]);
-    form.reset(
-      {
-        crop: '',
-        filter_by_date: {
-          date: undefined,
-          type_filter_date: TypeFilterDate.after,
-        },
-        filter_by_total: {
-          type_filter_total: TypeFilterNumber.MIN,
-          total: 0,
-        },
-        filter_by_value_pay: {
-          type_filter_value_pay: TypeFilterNumber.MIN,
-          value_pay: 0,
-        },
-      },
-      {
-        keepErrors: false,
-        keepDirty: false,
-      }
-    );
+    form.reset(valuesResetForm, {
+      keepErrors: false,
+      keepDirty: false,
+    });
     navigate(MODULE_HARVESTS_PATHS.ViewAll);
     toast.success('Se han limpiado los filtros');
   };
@@ -285,6 +269,7 @@ export const HarvestModuleSearchbar = () => {
                   label={''}
                   readOnly={readOnly}
                   actionFinal={() => handleAddFilter('crop.id')}
+                  // namePrincipalEntity='crop'
                 />
                 <div className="flex gap-2">
                   <ToolTipTemplate content="Borrar consulta">
@@ -465,7 +450,7 @@ const FilterDropdownItem = memo(
 
 interface Props {
   filters: FilterSearchBar[];
-  handleRemove: any;
+  handleRemove: (filter: FilterSearchBar) => void;
 }
 
 const FiltersBadgedList = ({ filters, handleRemove }: Props) => {

@@ -23,7 +23,7 @@ export const HarvestProcessedProvider = ({
 
   const { validatePermissionsInModule } = useAuthContext();
 
-  const permissionsHarvest = validatePermissionsInModule('harvests');
+  const actionsHarvestsModule = validatePermissionsInModule('harvests');
 
   const contextValue = {
     ...queryOneHarvest,
@@ -31,7 +31,7 @@ export const HarvestProcessedProvider = ({
     setHarvestProcessed,
     openDialog,
     setOpenDialog,
-    permissionsHarvest,
+    actionsHarvestsModule,
   };
 
   return (

@@ -11,7 +11,7 @@ import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 import { formSchemaHarvest } from '../utils';
 import FormHarvest from './forms/harvest/FormHarvest';
 
-export const ModifyHarvest = () => {
+export const ModifyHarvest: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetHarvest(id!);
   const { mutate, isPending } = usePatchHarvest();

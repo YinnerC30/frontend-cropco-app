@@ -19,7 +19,7 @@ interface Props {
 
 export const ActionsTableHarvestProcessed = ({ mutate, id, values }: Props) => {
   const queryClient = useQueryClient();
-  const { setHarvestProcessed, setOpenDialog, permissionsHarvest } =
+  const { setHarvestProcessed, setOpenDialog, actionsHarvestsModule } =
     useHarvestProcessedContext();
 
   const { setIsActiveDialog } = useDialogStatus();
@@ -42,11 +42,11 @@ export const ActionsTableHarvestProcessed = ({ mutate, id, values }: Props) => {
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!permissionsHarvest['remove_one_harvest_processed']}
+        disabled={!actionsHarvestsModule['remove_one_harvest_processed']}
       />
       <ActionModifyRecordFormDataTable
         action={handleModify}
-        disabled={!permissionsHarvest['update_one_harvest_processed']}
+        disabled={!actionsHarvestsModule['update_one_harvest_processed']}
       />
     </DropDownMenuActions>
   );

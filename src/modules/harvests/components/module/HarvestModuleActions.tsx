@@ -5,27 +5,24 @@ import {
   ButtonRefetchData,
 } from '@/modules/core/components';
 
-import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
+import React from 'react';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
-import { useDeleteBulkHarvests } from '../../hooks/mutations/useDeleteBulkHarvests';
+import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 
-export const HarvestModuleActions = () => {
+export const HarvestModuleActions: React.FC = () => {
   const {
-    query,
-    hasSelectedRecords,
-    resetSelectionRows,
-    permissionsHarvest,
-    getIdsToRowsSelected,
+    queryHarvests,
+    dataTable,
+    actionsHarvestsModule,
+    mutationDeleteHarvests,
   } = useHarvestModuleContext();
 
-  const { mutate, isPending } = useDeleteBulkHarvests();
-
   const handleDeleteBulkHarvests = () => {
-    mutate(
-      { harvestIds: getIdsToRowsSelected() },
+    mutationDeleteHarvests.mutate(
+      { harvestIds: dataTable.getIdsToRowsSelected() },
       {
         onSuccess: () => {
-          resetSelectionRows();
+          dataTable.resetSelectionRows();
         },
       }
     );
@@ -34,26 +31,29 @@ export const HarvestModuleActions = () => {
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={query.refetch}
-        disabled={!permissionsHarvest['find_all_harvests']}
+        onClick={queryHarvests.refetch}
+        disabled={!actionsHarvestsModule['find_all_harvests']}
         className=""
       />
 
       <div className="flex items-center gap-1">
         <ButtonClearSelection
-          onClick={() => resetSelectionRows()}
-          visible={hasSelectedRecords}
+          onClick={() => dataTable.resetSelectionRows()}
+          visible={dataTable.hasSelectedRecords}
         />
 
         <ButtonDeleteBulk
-          disabled={isPending || !permissionsHarvest['remove_bulk_harvests']}
+          disabled={
+            mutationDeleteHarvests.isPending ||
+            !actionsHarvestsModule['remove_bulk_harvests']
+          }
           onClick={handleDeleteBulkHarvests}
-          visible={hasSelectedRecords}
+          visible={dataTable.hasSelectedRecords}
         />
 
         <ButtonCreateRecord
           route={MODULE_HARVESTS_PATHS.Create}
-          disabled={!permissionsHarvest['create_harvest']}
+          disabled={!actionsHarvestsModule['create_harvest']}
           className=""
         />
       </div>

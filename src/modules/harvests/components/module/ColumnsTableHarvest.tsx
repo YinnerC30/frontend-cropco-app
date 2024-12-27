@@ -1,4 +1,4 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
@@ -13,7 +13,7 @@ export const columnsHarvest: ColumnDef<TableHarvest>[] = [
     cell: ({ row }) => {
       return FormatDate({ date: row.getValue('date') });
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<TableHarvest, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -24,7 +24,7 @@ export const columnsHarvest: ColumnDef<TableHarvest>[] = [
   },
   {
     accessorKey: formFieldsHarvest.crop.name,
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<TableHarvest, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -38,7 +38,7 @@ export const columnsHarvest: ColumnDef<TableHarvest>[] = [
     cell: ({ row }) => {
       return FormatNumber(row.getValue('total'));
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<TableHarvest, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
@@ -52,7 +52,7 @@ export const columnsHarvest: ColumnDef<TableHarvest>[] = [
     cell: ({ row }) => {
       return FormatMoneyValue(row.getValue('value_pay'));
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<TableHarvest, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}

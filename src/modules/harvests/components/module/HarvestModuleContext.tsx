@@ -1,19 +1,51 @@
 import { useAuthContext } from '@/auth';
-import { useDataTableManual } from '@/modules/core/hooks';
+import {
+  DataTableManualReturn,
+  useDataTableManual,
+} from '@/modules/core/hooks';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData';
-import { createContext } from 'react';
+import { BulkRecords } from '@/modules/core/interfaces';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import React, { createContext, useMemo } from 'react';
 import { useGetAllHarvests } from '../../hooks';
+import { useDeleteBulkHarvests } from '../../hooks/mutations/useDeleteBulkHarvests';
+import { Harvest, TableHarvest } from '../../interfaces';
 import { ActionsTableHarvest } from './ActionsTableHarvest';
 import columnsHarvest from './ColumnsTableHarvest';
 
-export const HarvestsModuleContext = createContext<any>(null);
+export interface paramQueryHarvest {
+  crop: { id: string | null | undefined };
+  filter_by_date: {
+    type_filter_date: string | null | undefined;
+    date: string | null | undefined | Date | unknown;
+  };
+  filter_by_total: {
+    type_filter_total: string | null | undefined;
+    total: string | null | undefined | unknown;
+  };
+  filter_by_value_pay: {
+    type_filter_value_pay: string | null | undefined;
+    value_pay: string | null | undefined | unknown;
+  };
+}
 
-export const HarvestsModuleProvider = ({
-  children,
-}: {
+export interface HarvestsModuleContextProps {
+  paramsQuery: paramQueryHarvest;
+  queryHarvests: UseQueryGetAllRecordsReturn<Harvest>;
+  dataTable: DataTableManualReturn<TableHarvest>;
+  mutationDeleteHarvests: UseMutationReturn<void, BulkRecords>;
+  actionsHarvestsModule: Record<string, boolean>;
+}
+
+export const HarvestsModuleContext = createContext<
+  HarvestsModuleContextProps | undefined
+>(undefined);
+
+export const HarvestsModuleProvider: React.FC<{
   children: React.ReactNode;
-}) => {
+}> = ({ children }) => {
   const { paramsValues } = useAdvancedQueryData({
     params: [
       'crop',
@@ -31,31 +63,43 @@ export const HarvestsModuleProvider = ({
       'value_pay',
     ],
   });
-  const { query, pagination, setPagination } = useGetAllHarvests({
+  const {
+    query: queryHarvests,
+    pagination,
+    setPagination,
+  } = useGetAllHarvests({
     ...paramsValues,
   });
 
-  const { validatePermissionsInModule } = useAuthContext();
+  const { getActionsModule } = useAuthContext();
 
-  const permissionsHarvest = validatePermissionsInModule('harvests');
+  const actionsHarvestsModule = useMemo(() => getActionsModule('harvests'), []);
 
-  const columnsTable = useCreateColumnsTable({
+  const columnsTable = useCreateColumnsTable<TableHarvest>({
     columns: columnsHarvest,
     actions: ActionsTableHarvest,
   });
 
-  const dataTable = useDataTableManual({
+  const dataTable = useDataTableManual<TableHarvest>({
     columns: columnsTable,
-    data: query.data ?? [],
-    rows: query.data?.rows ?? [],
+    infoPagination: queryHarvests.isSuccess
+      ? {
+          pageCount: queryHarvests.data?.pageCount ?? 0,
+          rowCount: queryHarvests.data?.rowCount ?? 0,
+        }
+      : { pageCount: 0, rowCount: 0 },
+    rows: queryHarvests.data?.rows ?? [],
     pagination,
     setPagination,
   });
 
-  const contextValue = {
-    permissionsHarvest,
-    query,
-    ...dataTable,
+  const mutationDeleteHarvests = useDeleteBulkHarvests();
+
+  const contextValue: HarvestsModuleContextProps = {
+    mutationDeleteHarvests,
+    actionsHarvestsModule,
+    queryHarvests,
+    dataTable,
     paramsQuery: {
       ...paramsValues,
       crop: { id: paramsValues.crop },

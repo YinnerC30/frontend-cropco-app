@@ -15,7 +15,7 @@ import { toast } from 'sonner';
 import { Harvest } from '../../interfaces';
 import { CACHE_CONFIG_TIME } from '@/config';
 
-interface GetHarvestsProps
+export interface GetHarvestsProps
   extends QueryPaginationProps,
     QueryDateProps,
     QueryTotalProps,
