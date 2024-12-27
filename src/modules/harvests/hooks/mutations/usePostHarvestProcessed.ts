@@ -1,35 +1,41 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { HarvestProcessed } from '@/modules/harvests/interfaces/HarvestProcessed';
 
 export const createHarvestProcessed = async (
   harvestProcessed: HarvestProcessed
-) =>
-  await cropcoAPI.post(
+): PromiseReturnRecord<void> => {
+  return await cropcoAPI.post(
     `${pathsCropco.harvestsProcessed}/create`,
     harvestProcessed
   );
+};
 
-export const usePostHarvestProcessed = () => {
+export const usePostHarvestProcessed = (): UseMutationReturn<
+  void,
+  HarvestProcessed
+> => {
   const queryClient = useQueryClient();
-  const mutation = useMutation({
+  const { handleError } = useAuthContext();
+  const mutation: UseMutationReturn<void, HarvestProcessed> = useMutation({
     mutationFn: createHarvestProcessed,
-    onSuccess: (data, variables) => {
+    onSuccess: async (_, variables) => {
       const { id } = variables.harvest;
-      queryClient.invalidateQueries({ queryKey: ['harvests_processed'] });
-      queryClient.invalidateQueries({ queryKey: ['harvest', id] });
+      await queryClient.invalidateQueries({ queryKey: ['harvests_processed'] });
+      await queryClient.invalidateQueries({ queryKey: ['harvest', id] });
 
       toast.success(`Cosecha procesada creada`);
     },
-    onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
-      toast.error(
-        `Hubo un problema durante la creación de la cosecha procesada, ${data.message}`
-      );
+    onError: (error) => {
+      handleError({
+        error,
+        messagesStatusError: {},
+      });
     },
     retry: 1,
   });

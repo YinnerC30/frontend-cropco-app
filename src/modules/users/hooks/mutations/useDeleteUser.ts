@@ -14,8 +14,8 @@ export const useDeleteUser = (): UseMutationReturn<void, string> => {
   const { handleError } = useAuthContext();
   const mutation: UseMutationReturn<void, string> = useMutation({
     mutationFn: deleteUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['users'] });
       toast.success(`Usuario eliminado`);
     },
     onError: (error) => {

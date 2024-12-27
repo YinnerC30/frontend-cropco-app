@@ -1,5 +1,5 @@
 export interface BasicQueryData {
-  query: string;
+  query?: string;
   limit: number;
   offset: number;
   allRecords?: boolean;

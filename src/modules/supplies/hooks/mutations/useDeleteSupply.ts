@@ -18,8 +18,8 @@ export const useDeleteSupply = (): UseMutationReturn<void, string> => {
   const { handleError } = useAuthContext();
   const mutation: UseMutationReturn<void, string> = useMutation({
     mutationFn: deleteSupply,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['supplies'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['supplies'] });
       toast.success(`Insumo eliminado`);
     },
     onError: (error) => {

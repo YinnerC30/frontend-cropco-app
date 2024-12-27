@@ -21,8 +21,8 @@ export const useDeleteBulkCrops = (): UseMutationReturn<void, BulkRecords> => {
   const { handleError } = useAuthContext();
   const mutation: UseMutationReturn<void, BulkRecords> = useMutation({
     mutationFn: deleteBulkCrops,
-    onSuccess: () => {
-      queryCrop.invalidateQueries({ queryKey: ['crops'] });
+    onSuccess: async () => {
+      await queryCrop.invalidateQueries({ queryKey: ['crops'] });
       toast.success(`Cultivos eliminados`);
     },
     onError: (error) => {

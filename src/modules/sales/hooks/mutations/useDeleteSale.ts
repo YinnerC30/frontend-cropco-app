@@ -13,8 +13,8 @@ export const useDeleteSale = () => {
 
   const mutation = useMutation({
     mutationFn: deleteSale,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["sales"] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["sales"] });
       toast.success(`Venta eliminada`);
     },
     onError: (error: AxiosError) => {

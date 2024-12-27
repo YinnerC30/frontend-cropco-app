@@ -24,8 +24,8 @@ export const useDeleteBulkEmployees = (): UseMutationReturn<
   const { handleError } = useAuthContext();
   const mutation: UseMutationReturn<void, BulkRecords> = useMutation({
     mutationFn: deleteBulkEmployees,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['employees'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['employees'] });
       toast.success(`Empleados eliminados`);
     },
     onError: (error) => {

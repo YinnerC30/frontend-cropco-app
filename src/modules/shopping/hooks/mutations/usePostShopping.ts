@@ -17,8 +17,8 @@ export const usePostShopping = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: createShopping,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['shopping'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['shopping'] });
       toast.success(`Compra registrada`);
     },
     onError: (error: AxiosError) => {

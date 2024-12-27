@@ -26,8 +26,8 @@ export const useLoginUser = (): UseMutationReturn<User, LoginUserData> => {
   const queryClient = useQueryClient();
   const mutation: UseMutationReturn<User, LoginUserData> = useMutation({
     mutationFn: loginUser,
-    onSuccess: ({ data }) => {
-      queryClient.invalidateQueries({ queryKey: ['user-active'] });
+    onSuccess: async ({ data }) => {
+      await queryClient.invalidateQueries({ queryKey: ['user-active'] });
       saveUser({ ...data, isLogin: true });
       toast.success(`Bienvenido, ${CapitalizeFirstWord(data.first_name)}`);
     },

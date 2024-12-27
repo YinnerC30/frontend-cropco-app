@@ -19,8 +19,8 @@ export const usePostCrop = (): UseMutationReturn<void, Crop> => {
   const navigate = useNavigate();
   const mutation: UseMutationReturn<void, Crop> = useMutation({
     mutationFn: createCrop,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['crops'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['crops'] });
       navigate(MODULE_CROPS_PATHS.ViewAll);
       toast.success(`Cultivo creado`);
     },

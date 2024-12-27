@@ -14,9 +14,9 @@ export const usePostConsumption = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: createConsumption,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['consumptions'] });
-      queryClient.invalidateQueries({ queryKey: ['supplies'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['consumptions'] });
+      await queryClient.invalidateQueries({ queryKey: ['supplies'] });
       toast.success(`Consumo de insumo registrado`);
     },
     onError: (error: AxiosError) => {

@@ -15,8 +15,8 @@ export const useDeleteClient = (): UseMutationReturn<void, string> => {
   const { handleError } = useAuthContext();
   const mutation: UseMutationReturn<void, string> = useMutation({
     mutationFn: deleteClient,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['clients'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['clients'] });
       toast.success(`Cliente eliminado`);
     },
     onError: (error) => {

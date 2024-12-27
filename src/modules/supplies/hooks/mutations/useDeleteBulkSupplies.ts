@@ -24,8 +24,8 @@ export const useDeleteBulkSupplies = (): UseMutationReturn<
   const { handleError } = useAuthContext();
   const mutation: UseMutationReturn<void, BulkRecords> = useMutation({
     mutationFn: deleteBulkSupplies,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['supplies'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['supplies'] });
       toast.success(`Suministros eliminados`);
     },
     onError: (error) => {

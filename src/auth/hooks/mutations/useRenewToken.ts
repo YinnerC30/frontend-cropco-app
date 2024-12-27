@@ -24,8 +24,8 @@ export const useRenewToken = (): UseMutationReturn<
   const queryClient = useQueryClient();
   const mutation: UseMutationReturn<RenewTokenResponse, void> = useMutation({
     mutationFn: renewToken,
-    onSuccess: ({ data: { token } }) => {
-      queryClient.invalidateQueries({ queryKey: ['user-sesion-status'] });
+    onSuccess: async ({ data: { token } }) => {
+      await queryClient.invalidateQueries({ queryKey: ['user-sesion-status'] });
       updateTokenInClient(token);
       toast.success('Tu sesión se ha extendido un poco más 😊');
     },

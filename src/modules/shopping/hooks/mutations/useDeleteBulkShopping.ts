@@ -18,8 +18,8 @@ export const useDeleteBulkShopping = () => {
   const { handleError } = useManageErrorApp();
   const mutation = useMutation({
     mutationFn: deleteBulkShopping,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['shopping'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['shopping'] });
       toast.success(`Compras eliminadas`);
     },
     onError: (error: AxiosError) => {

@@ -18,8 +18,8 @@ export const useDeleteBulkPayments = () => {
   const { handleError } = useManageErrorApp();
   const mutation = useMutation({
     mutationFn: deleteBulkPayments,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['payments'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['payments'] });
       toast.success(`Pagos eliminados`);
     },
     onError: (error: AxiosError) => {

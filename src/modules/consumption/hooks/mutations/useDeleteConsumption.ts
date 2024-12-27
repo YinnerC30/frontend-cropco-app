@@ -12,8 +12,8 @@ export const useDeleteConsumption = () => {
 
   const mutation = useMutation({
     mutationFn: deleteConsumption,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["consumptions"] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["consumptions"] });
       toast.success(`Registro de Consumo de insumos eliminada`);
     },
     onError: (error: AxiosError) => {

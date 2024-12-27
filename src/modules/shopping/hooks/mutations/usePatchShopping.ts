@@ -13,9 +13,9 @@ export const usePatchShopping = (id: string) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: updateShopping,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['shopping'] });
-      queryClient.invalidateQueries({ queryKey: ['shopping', id] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['shopping'] });
+      await queryClient.invalidateQueries({ queryKey: ['shopping', id] });
       toast.success(`Compra actualizada`);
     },
     onError: (error: AxiosError) => {

@@ -22,8 +22,8 @@ export const usePostClient = (): UseMutationReturn<Client, Client> => {
   const navigate = useNavigate();
   const mutation: UseMutationReturn<Client, Client> = useMutation({
     mutationFn: createClient,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['clients'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['clients'] });
       navigate(MODULE_CLIENTS_PATHS.ViewAll);
       toast.success(`Cliente creado`);
     },

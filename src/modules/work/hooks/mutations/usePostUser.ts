@@ -22,8 +22,8 @@ export function usePostWork(): UseMutationResult<
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: createWork,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['works'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['works'] });
       toast.success(`Trabajo creado`);
     },
     onError: (error: AxiosError) => {

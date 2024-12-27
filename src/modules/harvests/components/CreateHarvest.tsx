@@ -6,6 +6,7 @@ import { HarvestDetail } from '../interfaces/HarvestDetail';
 import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 import { formSchemaHarvest } from '../utils';
 import { FormHarvest } from './forms/harvest/FormHarvest';
+import { Harvest } from '../interfaces';
 
 export const CreateHarvest = () => {
   const { mutate, isPending } = usePostHarvest();
@@ -18,7 +19,7 @@ export const CreateHarvest = () => {
         const { id, ...rest } = item;
         return { ...rest, employee: { id: rest.employee.id } };
       }),
-    });
+    } as unknown as Harvest);
   };
 
   return (

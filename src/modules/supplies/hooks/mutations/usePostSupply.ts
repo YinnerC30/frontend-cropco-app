@@ -20,8 +20,8 @@ export const usePostSupply = (): UseMutationReturn<Supply, Supply> => {
   const navigate = useNavigate();
   const mutation: UseMutationReturn<Supply, Supply> = useMutation({
     mutationFn: createSupply,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['suppliers'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['suppliers'] });
       navigate(MODULE_SUPPLIES_PATHS.ViewAll);
       toast.success(`Insumo creado`);
     },

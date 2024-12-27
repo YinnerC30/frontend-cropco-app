@@ -15,8 +15,8 @@ export const useDeleteSupplier = (): UseMutationReturn<void, string> => {
   const { handleError } = useManageErrorApp();
   const mutation: UseMutationReturn<void, string> = useMutation({
     mutationFn: deleteSupplier,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['suppliers'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['suppliers'] });
       toast.success(`Proveedor eliminado`);
     },
     onError: (error) => {

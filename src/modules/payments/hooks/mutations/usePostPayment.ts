@@ -12,9 +12,9 @@ export const usePostPayment = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: createPayment,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['payments'] });
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['payments'] });
+      await queryClient.invalidateQueries({
         queryKey: ['employee', 'pending-payments'],
       });
       toast.success(`Pago registrado`);

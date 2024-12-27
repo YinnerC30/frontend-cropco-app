@@ -25,8 +25,8 @@ export const ActionsTableHarvestProcessed = ({ mutate, id, values }: Props) => {
   const { setIsActiveDialog } = useDialogStatus();
   const handleDelete = () => {
     mutate(id, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['harvest', id] });
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({ queryKey: ['harvest', id] });
       },
     });
   };

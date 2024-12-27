@@ -1,31 +1,36 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useManageErrorApp } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
-const deleteBulkHarvests = async (data: BulkRecords) => {
-  await cropcoAPI.delete(`${pathsCropco.harvests}/remove/bulk`, {
+const deleteBulkHarvests = async (
+  data: BulkRecords
+): PromiseReturnRecord<void> => {
+  return await cropcoAPI.delete(`${pathsCropco.harvests}/remove/bulk`, {
     data: {
       recordsIds: data.harvestIds,
     },
   });
 };
 
-export const useDeleteBulkHarvests = () => {
+export const useDeleteBulkHarvests = (): UseMutationReturn<
+  void,
+  BulkRecords
+> => {
   const queryClient = useQueryClient();
   const { handleError } = useManageErrorApp();
-  const mutation = useMutation({
+  const mutation: UseMutationReturn<void, BulkRecords> = useMutation({
     mutationFn: deleteBulkHarvests,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['harvests'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['harvests'] });
       toast.success(`Cosechas eliminadas`);
     },
-    onError: (error: AxiosError) => {
-      const deleteError: AxiosError = error;
+    onError: (error) => {
       handleError({
-        error: deleteError as AxiosError,
+        error,
         messageUnauthoraizedError:
           'No tienes permiso para eliminar varias cosechas',
       });

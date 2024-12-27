@@ -11,8 +11,8 @@ export const useDeletePayment = () => {
 
   const mutation = useMutation({
     mutationFn: deletePayment,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['payments'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['payments'] });
       toast.success(`Pago eliminado`);
     },
     onError: (error: AxiosError) => {

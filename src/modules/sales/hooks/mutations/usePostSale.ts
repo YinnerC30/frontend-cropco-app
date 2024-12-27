@@ -12,8 +12,8 @@ export const usePostSale = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: createSale,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['sales'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['sales'] });
       toast.success(`Venta creada`);
     },
     onError: (error: AxiosError) => {

@@ -5,16 +5,16 @@ import { BreadCrumb } from '@/modules/core/components/';
 import { Loading } from '../../core/components';
 import { usePatchHarvest } from '../hooks/mutations/usePatchHarvest';
 import { useGetHarvest } from '../hooks/queries/useGetHarvest';
+import { Harvest } from '../interfaces';
 import { HarvestDetail } from '../interfaces/HarvestDetail';
 import { MODULE_HARVESTS_PATHS } from '../routes/pathRoutes';
 import { formSchemaHarvest } from '../utils';
 import FormHarvest from './forms/harvest/FormHarvest';
 
-
 export const ModifyHarvest = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetHarvest(id!);
-  const { mutate, isPending } = usePatchHarvest(id!);
+  const { mutate, isPending } = usePatchHarvest();
 
   const onSubmitHarvest = (values: z.infer<typeof formSchemaHarvest>) => {
     mutate({
@@ -25,7 +25,7 @@ export const ModifyHarvest = () => {
         const { id, payments_harvest, ...rest } = item;
         return { ...rest, employee: { id: rest.employee.id } };
       }),
-    });
+    } as unknown as Harvest);
   };
 
   if (isLoading) return <Loading />;

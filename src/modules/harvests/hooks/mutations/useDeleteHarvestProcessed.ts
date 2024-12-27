@@ -1,27 +1,36 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 
-export const deleteHarvestProcessed = async (id: string) =>
-  await cropcoAPI.delete(`${pathsCropco.harvestsProcessed}/remove/one/${id}`);
+export const deleteHarvestProcessed = async (
+  id: string
+): PromiseReturnRecord<void> => {
+  return await cropcoAPI.delete(
+    `${pathsCropco.harvestsProcessed}/remove/one/${id}`
+  );
+};
 
-export const useDeleteHarvestProcessed = () => {
+export const useDeleteHarvestProcessed = (): UseMutationReturn<
+  void,
+  string
+> => {
   const queryClient = useQueryClient();
-
-  const mutation = useMutation({
+  const { handleError } = useAuthContext();
+  const mutation: UseMutationReturn<void, string> = useMutation({
     mutationFn: deleteHarvestProcessed,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['harvest'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['harvest'] });
       toast.success(`Cosecha procesada eliminada`);
     },
-    onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
-      toast.error(
-        `Hubo un problema durante la eliminación de la cosecha procesada, ${data.message}`
-      );
+    onError: (error) => {
+      handleError({
+        error,
+        messagesStatusError: {},
+      });
     },
     retry: 1,
   });

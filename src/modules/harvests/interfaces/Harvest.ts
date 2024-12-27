@@ -4,7 +4,7 @@ import { HarvestProcessed } from "./HarvestProcessed";
 
 export interface Harvest {
   crop: ObjectWithId;
-  date: Date;
+  date: string;
   details: HarvestDetail[];
   id?: string;
   observation?: string | undefined;

@@ -18,8 +18,8 @@ export const useDeleteBulkWorks = () => {
   const { handleError } = useManageErrorApp();
   const mutation = useMutation({
     mutationFn: deleteBulkWorks,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['works'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['works'] });
       toast.success(`Trabajos eliminados`);
     },
     onError: (error: AxiosError) => {

@@ -14,9 +14,9 @@ export const usePatchSale = (id: string) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: updateSale,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['sales'] });
-      queryClient.invalidateQueries({ queryKey: ['sales', id] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['sales'] });
+      await queryClient.invalidateQueries({ queryKey: ['sales', id] });
       toast.success(`Venta actualizada`);
     },
     onError: (error: AxiosError) => {

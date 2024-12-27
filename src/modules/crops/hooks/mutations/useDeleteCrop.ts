@@ -15,8 +15,8 @@ export const useDeleteCrop = (): UseMutationReturn<void, string> => {
   const { handleError } = useAuthContext();
   const mutation: UseMutationReturn<void, string> = useMutation({
     mutationFn: deleteCrop,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['crops'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['crops'] });
       toast.success(`Cultivo eliminado`);
     },
     onError: (error) => {

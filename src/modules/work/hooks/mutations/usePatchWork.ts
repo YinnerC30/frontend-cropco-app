@@ -20,9 +20,9 @@ export function usePatchWork(
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: updateWork,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['works'] });
-      queryClient.invalidateQueries({ queryKey: ['works', id] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['works'] });
+      await queryClient.invalidateQueries({ queryKey: ['works', id] });
       toast.success(`Trabajo actualizado`);
     },
     onError: (error: AxiosError) => {

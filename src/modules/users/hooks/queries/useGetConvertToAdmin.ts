@@ -29,7 +29,9 @@ export function useGetConvertToAdmin(
 
   useEffect(() => {
     if (query.isSuccess) {
-      queryClient.invalidateQueries({ queryKey: ['user', id] });
+      queryClient
+        .invalidateQueries({ queryKey: ['user', id] })
+        .then(() => console.log('User converted to admin'));
     }
   }, [query.isSuccess]);
 

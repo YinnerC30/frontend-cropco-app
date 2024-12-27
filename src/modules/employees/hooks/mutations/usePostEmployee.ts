@@ -22,8 +22,8 @@ export const usePostEmployee = (): UseMutationReturn<Employee, Employee> => {
   const { handleError } = useAuthContext();
   const mutation: UseMutationReturn<Employee, Employee> = useMutation({
     mutationFn: createEmployee,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['employees'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['employees'] });
       navigate(MODULE_EMPLOYEE_PATHS.ViewAll);
       toast.success(`Empleado creado`);
     },

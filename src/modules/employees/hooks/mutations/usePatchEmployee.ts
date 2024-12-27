@@ -25,8 +25,8 @@ export const usePatchEmployee = (): UseMutationReturn<
   const { handleError } = useAuthContext();
   const mutation: UseMutationReturn<void, Partial<Employee>> = useMutation({
     mutationFn: updateEmployee,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['employees'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['employees'] });
       toast.success(`Empleado actualizado`);
     },
     onError: (error) => {

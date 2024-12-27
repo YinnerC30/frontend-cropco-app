@@ -19,8 +19,8 @@ export function usePostUser(): UseMutationReturn<User, Partial<User>> {
   const { handleError } = useAuthContext();
   const mutation: UseMutationReturn<User, Partial<User>> = useMutation({
     mutationFn: createUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['users'] });
       navigate('../view/all');
       toast.success(`Usuario creado`);
     },

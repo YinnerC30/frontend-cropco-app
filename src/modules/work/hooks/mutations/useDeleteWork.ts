@@ -12,8 +12,8 @@ export const useDeleteWork = () => {
 
   const mutation = useMutation({
     mutationFn: deleteWork,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['works'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['works'] });
       toast.success(`Trabajo eliminado`);
     },
     onError: (error: AxiosError) => {

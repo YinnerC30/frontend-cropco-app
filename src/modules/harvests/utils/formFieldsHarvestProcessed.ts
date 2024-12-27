@@ -1,6 +1,16 @@
 import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-export const formFieldsHarvestProcessed: Record<string, CustomFormField> = {
+type HarvestProcessedFormFields =
+  | 'date'
+  | 'crop'
+  | 'total'
+  | 'value_pay'
+  | 'observation';
+
+export const formFieldsHarvestProcessed: Record<
+  HarvestProcessedFormFields,
+  CustomFormField
+> = {
   date: {
     name: 'date',
     label: 'Fecha:',

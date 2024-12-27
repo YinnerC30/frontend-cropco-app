@@ -1,30 +1,39 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth';
+import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { Harvest } from '@/modules/harvests/interfaces/Harvest';
+import { AxiosError } from 'axios';
 
-export const updateHarvest = async (harvest: Harvest) => {
+export const updateHarvest = async (
+  harvest: Harvest
+): PromiseReturnRecord<void> => {
   const { id, ...rest } = harvest;
-  await cropcoAPI.patch(`${pathsCropco.harvests}/update/one/${id}`, rest);
+  return await cropcoAPI.patch(
+    `${pathsCropco.harvests}/update/one/${id}`,
+    rest
+  );
 };
 
-export const usePatchHarvest = (id: string) => {
+export const usePatchHarvest = (): UseMutationReturn<void, Harvest> => {
+  const { handleError } = useAuthContext();
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: updateHarvest,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['harvests'] });
-      queryClient.invalidateQueries({ queryKey: ['harvest', id] });
+    onSuccess: async (_, variables) => {
+      await queryClient.invalidateQueries({ queryKey: ['harvests'] });
+      await queryClient.invalidateQueries({ queryKey: ['harvest', variables.id] });
       toast.success(`Cosecha actualizada`);
     },
-    onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
-      toast.error(
-        `Hubo un problema durante la actualización del cosecha, ${data.message}`
-      );
+    onError: (error: AxiosError<TypedAxiosError, unknown>) => {
+      handleError({
+        error,
+        messagesStatusError: {},
+      });
     },
     retry: 1,
   });

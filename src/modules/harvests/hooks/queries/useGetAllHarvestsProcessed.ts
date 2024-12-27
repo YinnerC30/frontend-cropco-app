@@ -1,43 +1,41 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { PaginationState } from '@tanstack/react-table';
-import { useState } from 'react';
-
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth';
 import { ResponseApiGetAllRecords } from '@/modules/core/interfaces';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { HarvestProcessed } from '@/modules/harvests/interfaces/HarvestProcessed';
+import { useEffect } from 'react';
 
-export const getHarvestsProcessed = async ({
-  search = '',
-  limit = 10,
-  offset = 0,
-}): Promise<ResponseApiGetAllRecords<HarvestProcessed>> => {
-  const params = new URLSearchParams();
-  params.append('search', search);
-  params.append('limit', limit.toString());
-  params.append('offset', offset.toString());
+export const getHarvestsProcessed =
+  async (): TypeGetAllRecordsReturn<HarvestProcessed> => {
+    return await cropcoAPI.get(`${pathsCropco.harvestsProcessed}/all`);
+  };
 
-  const { data } = await cropcoAPI.get(
-    `${pathsCropco.harvestsProcessed}/all?${params}`
-  );
-  return data;
-};
+export const useGetAllHarvestsProcessed = (): UseGetOneRecordReturn<
+  ResponseApiGetAllRecords<HarvestProcessed>
+> => {
+  const { handleError } = useAuthContext();
 
-export const useGetAllHarvestsProcessed = (searchParameter: string) => {
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
+  const query: UseGetOneRecordReturn<
+    ResponseApiGetAllRecords<HarvestProcessed>
+  > = useQuery({
+    queryKey: ['harvests_processed'],
+    queryFn: () => getHarvestsProcessed(),
+    select: ({ data }) => {
+      return data;
+    },
   });
 
-  const query = useQuery({
-    queryKey: ['harvests_processed', { searchParameter, ...pagination }],
-    queryFn: () =>
-      getHarvestsProcessed({
-        search: searchParameter,
-        limit: pagination.pageSize,
-        offset: pagination.pageIndex,
-      }),
-  });
+  useEffect(() => {
+    if (query.isError) {
+      handleError({
+        error: query.error,
+        messagesStatusError: {},
+      });
+    }
+  }, [query.isError, query.error]);
 
-  return { query, pagination, setPagination };
+  return query;
 };

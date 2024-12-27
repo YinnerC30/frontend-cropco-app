@@ -13,9 +13,9 @@ export const usePatchConsumption = (id: string) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: updateConsumption,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['consumptions'] });
-      queryClient.invalidateQueries({ queryKey: ['consumptions', id] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['consumptions'] });
+      await queryClient.invalidateQueries({ queryKey: ['consumptions', id] });
       toast.success(`Registro de consumo de insumo actualizado`);
     },
     onError: (error: AxiosError) => {
