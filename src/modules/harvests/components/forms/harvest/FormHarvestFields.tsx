@@ -20,10 +20,7 @@ export const FormHarvestFields = () => {
   const { query: queryCrops } = useGetAllCrops({
     queryValue: '',
     allRecords: true,
-    canExecuteQuery: !readOnly,
   });
-
-  console.log(formHarvest.formState)
 
   return (
     <Form {...formHarvest}>

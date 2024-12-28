@@ -10,21 +10,24 @@ import { FormDataTableRowCount } from '@/modules/core/components/form/data-table
 import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data-table/FormDataTableSelectPageSize';
 import { FormatNumber } from '@/modules/core/helpers';
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
-import { Harvest } from '@/modules/harvests/interfaces';
+import { HarvestProcessed } from '@/modules/harvests/interfaces';
 import { memo, useMemo } from 'react';
 import columnsHarvestProcessed from './ColumnsTableHarvestProcessed';
 import { FormHarvestProcessed } from './FormHarvestProcessed';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
 const HarvestProcessedDataTable = memo(() => {
-  const { data, isSuccess, setHarvestProcessed, setOpenDialog } =
-    useHarvestProcessedContext();
+  const {
+    queryOneHarvest: { data, isSuccess },
+    setHarvestProcessed,
+    setOpenDialog,
+  } = useHarvestProcessedContext();
 
   const { setIsActiveDialog } = useDialogStatus();
 
   const finalData = useMemo(() => {
     return isSuccess
-      ? data.processed.map((item: Harvest) => {
+      ? data?.processed!.map((item: HarvestProcessed) => {
           return {
             ...item,
             crop: data.crop,
@@ -34,9 +37,9 @@ const HarvestProcessedDataTable = memo(() => {
       : [];
   }, [data]);
 
-  const { table, lengthColumns } = useDataTableGeneric({
+  const { table, lengthColumns } = useDataTableGeneric<HarvestProcessed>({
     columns: columnsHarvestProcessed,
-    data: finalData,
+    rows: finalData,
   });
 
   const handleDoubleClick = (data: any) => {
@@ -80,7 +83,7 @@ const HarvestProcessedDataTable = memo(() => {
             className="block h-8 my-2 text-base text-center w-28"
             variant={'cyan'}
           >
-            {FormatNumber(isSuccess ? data.total_processed : 0)}
+            {FormatNumber(isSuccess ? data?.total_processed ?? 0 : 0)}
           </Badge>
           <p className="text-[0.8rem] text-muted-foreground">{''}</p>
         </div>

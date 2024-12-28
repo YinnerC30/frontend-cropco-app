@@ -44,8 +44,7 @@ const formSchemaHarvestProcessed = z.object({
 
 export const FormHarvestProcessed = memo(() => {
   const {
-    data,
-    isLoading,
+    queryOneHarvest: { data, isLoading },
     openDialog,
     setOpenDialog,
     harvestProcessed,
@@ -92,10 +91,10 @@ export const FormHarvestProcessed = memo(() => {
       ...values,
       total: +values.total,
       crop: {
-        id: data.crop.id,
+        id: data?.crop.id,
       },
       harvest: {
-        id: data.id,
+        id: data?.id,
       },
     };
 
@@ -186,7 +185,7 @@ export const FormHarvestProcessed = memo(() => {
                   placeholder={formFieldsHarvestProcessed.date.placeholder}
                   readOnly={false}
                   conditionCalendar={{
-                    before: new Date(data.date),
+                    before: new Date(data?.date!),
                     after: new Date(),
                   }}
                 />

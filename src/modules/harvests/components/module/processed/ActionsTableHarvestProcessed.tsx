@@ -5,26 +5,28 @@ import {
   DropDownMenuActions,
 } from '@/modules/core/components';
 import { ActionModifyRecordFormDataTable } from '@/modules/core/components/data-table/menu/actions/ActionModifyRecordFormDataTable';
-import { UseMutateFunction, useQueryClient } from '@tanstack/react-query';
+import { useDeleteHarvestProcessed } from '@/modules/harvests/hooks';
+import { HarvestProcessed } from '@/modules/harvests/interfaces';
+import { useQueryClient } from '@tanstack/react-query';
+import { Row } from '@tanstack/react-table';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
-type MutateParams = {
-  id: string;
-};
-interface Props {
-  mutate: UseMutateFunction<any, unknown, MutateParams, unknown> | any;
-  id: string;
-  values: any;
-}
-
-export const ActionsTableHarvestProcessed = ({ mutate, id, values }: Props) => {
+export const ActionsTableHarvestProcessed = ({
+  row,
+}: {
+  row: Row<HarvestProcessed>;
+}) => {
   const queryClient = useQueryClient();
   const { setHarvestProcessed, setOpenDialog, actionsHarvestsModule } =
     useHarvestProcessedContext();
 
+  const id = row.original?.id ?? '';
+
+  const mutationDeleteHarvestProcessed = useDeleteHarvestProcessed();
+
   const { setIsActiveDialog } = useDialogStatus();
   const handleDelete = () => {
-    mutate(id, {
+    mutationDeleteHarvestProcessed.mutate(id, {
       onSuccess: async () => {
         await queryClient.invalidateQueries({ queryKey: ['harvest', id] });
       },
@@ -32,7 +34,7 @@ export const ActionsTableHarvestProcessed = ({ mutate, id, values }: Props) => {
   };
 
   const handleModify = () => {
-    setHarvestProcessed(values);
+    setHarvestProcessed(row.original);
     setIsActiveDialog(true);
     setOpenDialog(true);
   };

@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 
 import { ArrowUpDown } from 'lucide-react';
 
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, HeaderContext, Row } from '@tanstack/react-table';
 
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
@@ -18,7 +18,7 @@ export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
       const date: string = row.getValue(formFieldsHarvestProcessed.date.name);
       return FormatDate({ date });
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<HarvestProcessed, unknown>) => {
       return (
         <Button
           className="px-0 hover:bg-transparent"
@@ -37,7 +37,7 @@ export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
       const total: number = row.getValue('total');
       return FormatNumber(total);
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<HarvestProcessed, unknown>) => {
       return (
         <Button
           className="px-0 hover:bg-transparent"
@@ -52,19 +52,7 @@ export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }: any) => {
-      const values = row.original;
-
-      const { mutate } = useDeleteHarvestProcessed();
-
-      return (
-        <ActionsTableHarvestProcessed
-          mutate={mutate}
-          id={row.original.id}
-          values={values}
-        />
-      );
-    },
+    cell: ActionsTableHarvestProcessed,
   },
 ];
 

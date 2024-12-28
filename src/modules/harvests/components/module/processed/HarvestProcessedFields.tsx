@@ -41,7 +41,9 @@ const formSchema = z.object({
 });
 
 export const HarvestProcessedFields = () => {
-  const { data, isSuccess, isLoading } = useHarvestProcessedContext();
+  const {
+    queryOneHarvest: { data, isSuccess, isLoading },
+  } = useHarvestProcessedContext();
 
   if (isLoading) {
     return <Loading />;
@@ -90,7 +92,7 @@ export const HarvestProcessedFields = () => {
           name={'observation'}
           placeholder={formFieldsHarvestProcessed.observation.placeholder}
           readOnly={true}
-          className='w-[300px]'
+          className="w-[300px]"
         />
 
         <FormFieldInput
@@ -107,7 +109,7 @@ export const HarvestProcessedFields = () => {
             className="block h-8 text-base text-center w-28"
             variant={'cyan'}
           >
-            {FormatNumber(data.total)}
+            {FormatNumber(data?.total! ?? 0)}
           </Badge>
         </FormFieldInput>
 
@@ -127,7 +129,7 @@ export const HarvestProcessedFields = () => {
             className="block h-8 text-base text-center w-28"
             variant={'indigo'}
           >
-            {FormatMoneyValue(data.value_pay)}
+            {FormatMoneyValue(data?.value_pay! ?? 0)}
           </Badge>
         </FormFieldInput>
       </form>

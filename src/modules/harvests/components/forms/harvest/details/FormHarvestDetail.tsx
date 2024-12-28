@@ -20,9 +20,9 @@ import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { Plus } from 'lucide-react';
 
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
+import { HarvestDetail } from '@/modules/harvests/interfaces';
 import { FormHarvestDetailsButtons } from './FormHarvestDetailsButtons';
 import { FormHarvestDetailsFields } from './FormHarvestDetailsFields';
-import { HarvestDetail } from '@/modules/harvests/interfaces';
 
 export const FormHarvestDetail = () => {
   const {
@@ -34,7 +34,7 @@ export const FormHarvestDetail = () => {
     handleOpenDialog,
     handleCloseDialog,
     resetHarvestDetail,
-    formHarvestDetail,
+    formHarvest,
     detailsHarvest,
     setDetailsHarvest,
     modifyHarvestDetail,
@@ -50,7 +50,8 @@ export const FormHarvestDetail = () => {
         id: generateUUID(),
       };
       setDetailsHarvest((prev: HarvestDetail[]) => [...prev, record]);
-      formHarvestDetail.setValue('details', [...detailsHarvest, record], {
+
+      formHarvest.setValue('details', [...detailsHarvest, record], {
         shouldValidate: true,
         shouldDirty: true,
       });
@@ -63,7 +64,7 @@ export const FormHarvestDetail = () => {
 
     setIsActiveDialog(false);
     setOpenDialog(false);
-    formHarvestDetail.trigger('details');
+    formHarvest.trigger('details');
   };
 
   const handleOpenDialogExtended = (

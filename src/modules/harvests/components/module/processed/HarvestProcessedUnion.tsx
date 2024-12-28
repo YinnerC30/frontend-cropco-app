@@ -4,7 +4,9 @@ import HarvestProcessedDataTable from './HarvestProcessedDataTable';
 import { HarvestProcessedFields } from './HarvestProcessedFields';
 
 export const HarvestProcessedUnion = () => {
-  const { isLoading } = useHarvestProcessedContext();
+  const {
+    queryOneHarvest: { isLoading },
+  } = useHarvestProcessedContext();
 
   if (isLoading) {
     return (
