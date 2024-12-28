@@ -1,6 +1,5 @@
 import { authenticationReducer } from '@/auth/utils/authenticationSlice';
 import { consumptionReducer } from '@/modules/consumption/utils/consumptionSlice';
-import { harvestReducer } from '@/modules/harvests/utils/harvestSlice';
 import { paymentReducer } from '@/modules/payments/utils/paymentSlice';
 import { saleReducer } from '@/modules/sales/utils/saleSlice';
 import { shoppingReducer } from '@/modules/shopping/utils/shoppingSlice';
@@ -13,13 +12,11 @@ import { useDispatch, useSelector } from 'react-redux';
 export const store = configureStore({
   reducer: {
     authentication: authenticationReducer,
-    harvest: harvestReducer,
     payment: paymentReducer,
     sale: saleReducer,
     work: workReducer,
     shopping: shoppingReducer,
     consumption: consumptionReducer,
-    
   },
 });
 

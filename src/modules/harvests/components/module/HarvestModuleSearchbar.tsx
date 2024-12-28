@@ -1,15 +1,9 @@
 import {
-  Badge,
   Button,
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuPortal,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-  Form,
-  Label,
+  Form
 } from '@/components';
 import {
   FormFieldCalendar,
@@ -23,6 +17,8 @@ import { useGetAllCropsWithHarvest } from '@/modules/crops/hooks/queries/useGetA
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
+import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
+import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
 import { formatTypeFilterDate } from '@/modules/core/helpers/formatting/formatTypeFilterDate';
 import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/formatTypeFilterNumber';
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
@@ -34,7 +30,7 @@ import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchB
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Filter, X } from 'lucide-react';
-import React, { memo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
@@ -79,11 +75,10 @@ export const HarvestModuleSearchbar: React.FC = () => {
     skiptDirty: true,
     validationMode: 'onSubmit',
   });
+
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
-  const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
-
-  const handleAddFilter = async (name: string) => {
+  const handleAddFilter = async (name: string): Promise<boolean> => {
     const isValid = await form.trigger(
       name as unknown as keyof z.infer<typeof formSchemaSearchBarHarvest>
     );
@@ -95,7 +90,6 @@ export const HarvestModuleSearchbar: React.FC = () => {
     const filters: FilterSearchBar[] = [];
 
     if (crop?.id) {
-      console.log(crop);
       filters.push({
         key: 'crop',
         label: `Cultivo: ${crop?.name ?? ''}`,
@@ -120,6 +114,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
     }
 
     const { type_filter_total, total } = filter_by_total;
+
     if (type_filter_total && total) {
       const typeFilter = formatTypeFilterNumber(
         type_filter_total as TypeFilterNumber
@@ -131,6 +126,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
     }
 
     const { type_filter_value_pay, value_pay } = filter_by_value_pay;
+
     if (type_filter_value_pay && value_pay) {
       const typeFilter = formatTypeFilterNumber(
         type_filter_value_pay as TypeFilterNumber
@@ -146,6 +142,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
     handleSearch(form.watch());
     return true;
   };
+  const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
   const handleClearErrorsForm = (name: string) => {
     form.clearErrors(
@@ -236,6 +233,12 @@ export const HarvestModuleSearchbar: React.FC = () => {
     navigate(MODULE_HARVESTS_PATHS.ViewAll);
     toast.success('Se han limpiado los filtros');
   };
+
+  useEffect(() => {
+    Object.keys(paramsQuery).forEach((key) => {
+      handleAddFilter(key).then((value) => console.log(value));
+    });
+  }, []);
 
   return (
     <div className="flex flex-col items-start justify-start w-[1000px]">
@@ -382,92 +385,6 @@ export const HarvestModuleSearchbar: React.FC = () => {
           </form>
         </Form>
       </DropdownMenu>
-    </div>
-  );
-};
-
-const FilterDropdownItem = memo(
-  ({
-    label,
-    content,
-    actionOnSave,
-    actionOnClose,
-  }: {
-    label: string;
-    content: JSX.Element;
-    actionOnSave: () => Promise<boolean>;
-    actionOnClose: () => void;
-  }) => {
-    const [openMenu, setOpenMenu] = useState(false);
-
-    return (
-      <DropdownMenuSub open={openMenu} onOpenChange={setOpenMenu}>
-        <DropdownMenuSubTrigger>{label}</DropdownMenuSubTrigger>
-        <DropdownMenuPortal>
-          <DropdownMenuSubContent
-            className="w-[250px] p-4 ml-2"
-            avoidCollisions
-            sideOffset={0}
-          >
-            {content}
-            <div className="flex justify-center gap-2">
-              <Button
-                className="self-end w-24 mt-4"
-                onClick={async (e) => {
-                  e.preventDefault();
-                  const value = await actionOnSave();
-                  setOpenMenu(!value);
-                }}
-              >
-                Aplicar
-              </Button>
-              <Button
-                variant={'destructive'}
-                className="self-end w-24 mt-4"
-                onClick={() => {
-                  setOpenMenu(false);
-                  actionOnClose();
-                }}
-              >
-                Cerrar
-              </Button>
-            </div>
-          </DropdownMenuSubContent>
-        </DropdownMenuPortal>
-      </DropdownMenuSub>
-    );
-  }
-);
-
-interface Props {
-  filters: FilterSearchBar[];
-  handleRemove: (filter: FilterSearchBar) => void;
-}
-
-const FiltersBadgedList = ({ filters, handleRemove }: Props) => {
-  if (!(filters.length > 0)) {
-    return;
-  }
-  return (
-    <div className="mt-2 ">
-      <Label className="block">Filtros aplicados:</Label>
-      <div className="flex flex-wrap gap-2 my-4 ">
-        {filters.map((filter, index) => (
-          <Badge key={index} variant="secondary">
-            {filter.label}
-            <ToolTipTemplate content="Eliminar filtro">
-              <Button
-                className="ml-3"
-                variant="ghost"
-                size="icon"
-                onClick={() => handleRemove(filter)}
-              >
-                <X className="w-3 h-3" />
-              </Button>
-            </ToolTipTemplate>
-          </Badge>
-        ))}
-      </div>
     </div>
   );
 };
