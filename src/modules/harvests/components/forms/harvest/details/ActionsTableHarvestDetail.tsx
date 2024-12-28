@@ -20,7 +20,7 @@ export const ActionsTableHarvestDetail: React.FC<Props> = ({ row }) => {
     setHarvestDetail,
     handleOpenDialog,
     formHarvestDetail,
-    executeValidationFormHarvest,
+    formHarvest,
     removeHarvestDetail,
   } = useFormHarvestContext();
 
@@ -48,9 +48,9 @@ export const ActionsTableHarvestDetail: React.FC<Props> = ({ row }) => {
     <DropDownMenuActions>
       <ActionCopyIdRecord id={harvestDetail?.id!} />
       <ActionDeleteRecord
-        action={() => {
+        action={async () => {
           handleDelete();
-          executeValidationFormHarvest();
+          await formHarvest.trigger();
         }}
         disabled={false}
       />

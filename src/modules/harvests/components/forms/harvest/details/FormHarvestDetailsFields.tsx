@@ -1,6 +1,8 @@
 import { Form } from '@/components';
 import { FormFieldCommand, FormFieldInput } from '@/modules/core/components';
+import { Employee } from '@/modules/employees/interfaces/Employee';
 import { useFormHarvestContext } from '@/modules/harvests/hooks';
+import { HarvestDetail } from '@/modules/harvests/interfaces';
 
 import { formFieldsHarvestDetail } from '@/modules/harvests/utils';
 import { useEffect } from 'react';
@@ -8,10 +10,25 @@ import { useEffect } from 'react';
 export const FormHarvestDetailsFields: React.FC = () => {
   const {
     formHarvestDetail,
-    filterEmployeesToShow,
+    // filterEmployeesToShow,
     harvestDetail,
     queryEmployees,
+    detailsHarvest,
   } = useFormHarvestContext();
+
+  const filterEmployeesToShow = (): Employee[] => {
+    return (
+      queryEmployees?.data?.rows.filter((record: Employee) => {
+        const state = detailsHarvest.some(
+          (item: HarvestDetail) => item.employee.id === record.id
+        );
+        if (state && record.id !== harvestDetail?.employee?.id) {
+          return;
+        }
+        return record;
+      }) || []
+    );
+  };
 
   useEffect(() => {
     formHarvestDetail.reset(harvestDetail);

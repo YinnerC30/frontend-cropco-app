@@ -22,9 +22,7 @@ export const FormHarvestDataTable: React.FC = () => {
   const {
     dataTableHarvestDetail,
     readOnly,
-
     handleDeleteBulkHarvestDetails,
-
     setHarvestDetail,
     handleOpenDialog,
   } = useFormHarvestContext();

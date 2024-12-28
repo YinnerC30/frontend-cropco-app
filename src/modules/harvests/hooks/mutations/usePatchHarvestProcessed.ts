@@ -26,7 +26,7 @@ export const usePatchHarvestProcessed = (): UseMutationReturn<
   const mutation: UseMutationReturn<void, HarvestProcessed> = useMutation({
     mutationFn: updateHarvestProcessed,
     onSuccess: async (_, variables) => {
-      const { id } = variables.harvest;
+      const id = variables.harvest?.id!;
       await queryClient.invalidateQueries({ queryKey: ['harvests_processed'] });
       await queryClient.invalidateQueries({ queryKey: ['harvest', id] });
       toast.success(`Cosecha procesada actualizada`);

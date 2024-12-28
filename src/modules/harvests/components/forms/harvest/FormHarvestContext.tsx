@@ -1,6 +1,10 @@
-import React, { createContext, useEffect, useMemo, useState } from 'react';
-
-import { useNavigate } from 'react-router-dom';
+import React, {
+  createContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
@@ -14,7 +18,6 @@ import {
   useDataTableGeneric,
 } from '@/modules/core/hooks/data-table/useDataTableGeneric';
 import { Harvest, HarvestDetail } from '@/modules/harvests/interfaces';
-import { MODULE_HARVESTS_PATHS } from '@/modules/harvests/routes/pathRoutes';
 import {
   formSchemaHarvest,
   formSchemaHarvestDetail,
@@ -61,8 +64,6 @@ export interface FormHarvestContextProps {
   onSubmit: (values: z.infer<typeof formSchemaHarvest>) => void;
   total: number;
   value_pay: number;
-  setIsOpenDialogForm: React.Dispatch<React.SetStateAction<boolean>>;
-  isOpenDialogForm: boolean;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
   openDialog: boolean;
   harvestDetail: HarvestDetail;
@@ -73,21 +74,43 @@ export interface FormHarvestContextProps {
     AxiosError<TypedAxiosError, unknown>
   >;
   detailsHarvest: HarvestDetail[];
-  setDetailsHarvest: React.Dispatch<React.SetStateAction<HarvestDetail[]>>;
+  addHarvestDetail: (harvestDetail: HarvestDetail) => void;
   modifyHarvestDetail: (harvestDetail: HarvestDetail) => void;
   resetHarvestDetails: () => void;
-  filterEmployeesToShow: () => Employee[];
-  handleReturnToModule: () => void;
-  getCurrentDataHarvestDetail: () => HarvestDetail;
-  resetForm: () => void;
   handleOpenDialog: () => void;
   handleCloseDialog: (event: React.MouseEvent<HTMLButtonElement>) => void;
   resetHarvestDetail: () => void;
   handleDeleteBulkHarvestDetails: () => void;
-  executeValidationFormHarvest: () => Promise<boolean>;
   removeHarvestDetail: (harvestDetail: HarvestDetail) => void;
   actionsHarvestsModule: Record<string, boolean>;
 }
+
+interface HarvestAction {
+  type: 'REMOVE' | 'MODIFY' | 'RESET' | 'ADD';
+  payload?: HarvestDetail;
+}
+
+const harvestDetailsReducer = (
+  state: HarvestDetail[],
+  action: HarvestAction
+): HarvestDetail[] => {
+  switch (action.type) {
+    case 'ADD':
+      return [...state, action.payload as HarvestDetail];
+    case 'REMOVE':
+      return state.filter((detail) => detail.id !== action.payload?.id);
+    case 'MODIFY':
+      return state.map((item) =>
+        item.id !== action.payload?.id
+          ? item
+          : (action.payload as HarvestDetail)
+      );
+    case 'RESET':
+      return [];
+    default:
+      throw new Error(`Unhandled action type: ${action.type}`);
+  }
+};
 
 export const FormHarvestContext = createContext<
   FormHarvestContextProps | undefined
@@ -106,49 +129,48 @@ export const FormHarvestProvider: React.FC<
 }) => {
   const { getActionsModule } = useAuthContext();
   const actionsHarvestsModule = useMemo(() => getActionsModule('harvests'), []);
-  const [isOpenDialogForm, setIsOpenDialogForm] = useState<boolean>(false);
+
   const detailsDefaultValues = defaultValues?.details ?? [];
 
-  const [detailsHarvest, setDetailsHarvest] =
-    useState<HarvestDetail[]>(detailsDefaultValues);
+  const [detailsHarvest, dispatch] = useReducer(
+    harvestDetailsReducer,
+    detailsDefaultValues
+  );
+
+  const addHarvestDetail = (harvestDetail: HarvestDetail): void => {
+    dispatch({ type: 'ADD', payload: harvestDetail });
+  };
 
   const removeHarvestDetail = (harvestDetail: HarvestDetail): void => {
-    setDetailsHarvest((details: HarvestDetail[]) =>
-      details.filter((detail: HarvestDetail) => detail.id !== harvestDetail.id)
-    );
+    dispatch({ type: 'REMOVE', payload: harvestDetail });
   };
 
   const modifyHarvestDetail = (harvestDetail: HarvestDetail): void => {
-    setDetailsHarvest((details: HarvestDetail[]) =>
-      details.map((item: HarvestDetail) =>
-        item.id !== harvestDetail.id ? item : harvestDetail
-      )
-    );
+    dispatch({ type: 'MODIFY', payload: harvestDetail });
   };
 
   const resetHarvestDetails = (): void => {
-    setDetailsHarvest([]);
+    dispatch({ type: 'RESET' });
   };
 
-  const total = detailsHarvest.reduce(
-    (total: number, detail: HarvestDetail) =>
-      Number(total) + Number(detail.total),
-    0
+  const total = useMemo<number>(
+    () =>
+      detailsHarvest.reduce(
+        (total: number, detail: HarvestDetail) =>
+          Number(total) + Number(detail.total),
+        0
+      ),
+    [detailsHarvest]
   );
-  const value_pay = detailsHarvest.reduce(
-    (total: number, detail: HarvestDetail) =>
-      Number(total) + Number(detail.value_pay),
-    0
+  const value_pay = useMemo<number>(
+    () =>
+      detailsHarvest.reduce(
+        (total: number, detail: HarvestDetail) =>
+          Number(total) + Number(detail.value_pay),
+        0
+      ),
+    [detailsHarvest]
   );
-
-  const formHarvest = useCreateForm({
-    schema: formSchemaHarvest,
-    defaultValues,
-  });
-
-  const executeValidationFormHarvest = async (): Promise<boolean> => {
-    return await formHarvest.trigger();
-  };
 
   const columnsTable = useCreateColumnsTable<HarvestDetail>({
     columns: columnsHarvestDetail,
@@ -174,11 +196,10 @@ export const FormHarvestProvider: React.FC<
 
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
-  const navigate = useNavigate();
-
-  const handleReturnToModule = () => {
-    navigate(MODULE_HARVESTS_PATHS.ViewAll);
-  };
+  const { query: queryEmployees } = useGetAllEmployees({
+    queryValue: '',
+    allRecords: true,
+  });
 
   const formHarvestDetail = useCreateForm({
     schema: formSchemaHarvestDetail,
@@ -186,24 +207,9 @@ export const FormHarvestProvider: React.FC<
     validationMode: 'onChange',
   });
 
-  const { query: queryEmployees } = useGetAllEmployees({
-    queryValue: '',
-    allRecords: true,
-  });
-
-  const resetForm = () => {
-    formHarvestDetail.reset(defaultValuesHarvestDetail);
-  };
-
   const handleOpenDialog = (): void => {
     setIsActiveDialog(true);
     setOpenDialog(true);
-  };
-
-  const ClearFormHarvestDetail = (): void => {
-    resetForm();
-    setIsActiveDialog(false);
-    setOpenDialog(false);
   };
 
   const handleCloseDialog = (
@@ -213,37 +219,17 @@ export const FormHarvestProvider: React.FC<
     if (hasUnsavedChanges) {
       showToast({
         skiptRedirection: true,
-        action: ClearFormHarvestDetail,
+        action: (): void => {
+          formHarvestDetail.reset(defaultValuesHarvestDetail);
+          setIsActiveDialog(false);
+          setOpenDialog(false);
+        },
       });
       return;
     }
-    ClearFormHarvestDetail();
-  };
-
-  const getCurrentDataHarvestDetail = (): HarvestDetail => {
-    const values = { ...formHarvestDetail.getValues() };
-    const employeeIdForm: string = values?.employee?.id;
-    const nameEmployee: string = values?.employee?.first_name;
-    const data: HarvestDetail = {
-      total: +values.total,
-      value_pay: +values.value_pay,
-      employee: { id: employeeIdForm, first_name: nameEmployee },
-    };
-    return data;
-  };
-
-  const filterEmployeesToShow = (): Employee[] => {
-    return (
-      queryEmployees?.data?.rows.filter((record: Employee) => {
-        const state = detailsHarvest.some(
-          (item: HarvestDetail) => item.employee.id === record.id
-        );
-        if (state && record.id !== harvestDetail?.employee?.id) {
-          return;
-        }
-        return record;
-      }) || []
-    );
+    formHarvestDetail.reset(defaultValuesHarvestDetail);
+    setIsActiveDialog(false);
+    setOpenDialog(false);
   };
 
   const handleDeleteBulkHarvestDetails = (): void => {
@@ -268,6 +254,11 @@ export const FormHarvestProvider: React.FC<
     toast.success(`Se han eliminado las cosechas!`);
   };
 
+  const formHarvest = useCreateForm({
+    schema: formSchemaHarvest,
+    defaultValues,
+  });
+
   useEffect(() => {
     formHarvest.setValue('total', total, { shouldValidate: true });
     formHarvest.setValue('value_pay', value_pay, { shouldValidate: true });
@@ -288,29 +279,19 @@ export const FormHarvestProvider: React.FC<
         onSubmit,
         modifyHarvestDetail,
         resetHarvestDetails,
-        filterEmployeesToShow,
-        handleReturnToModule,
-        // state
-        isOpenDialogForm,
-        setIsOpenDialogForm,
         openDialog,
         setOpenDialog,
         harvestDetail,
         setHarvestDetail,
         detailsHarvest,
-        setDetailsHarvest,
+        addHarvestDetail,
         // queries
         queryEmployees,
         dataTableHarvestDetail,
-
-        getCurrentDataHarvestDetail,
-        resetForm,
         handleOpenDialog,
         handleCloseDialog,
         resetHarvestDetail,
         handleDeleteBulkHarvestDetails,
-
-        executeValidationFormHarvest,
         removeHarvestDetail,
         actionsHarvestsModule,
       }}

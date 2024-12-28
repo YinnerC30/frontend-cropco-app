@@ -20,14 +20,12 @@ import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { Plus } from 'lucide-react';
 
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
-import { HarvestDetail } from '@/modules/harvests/interfaces';
 import { FormHarvestDetailsButtons } from './FormHarvestDetailsButtons';
 import { FormHarvestDetailsFields } from './FormHarvestDetailsFields';
 
 export const FormHarvestDetail: React.FC = () => {
   const {
     readOnly,
-    getCurrentDataHarvestDetail,
     openDialog,
     setOpenDialog,
     harvestDetail,
@@ -35,21 +33,22 @@ export const FormHarvestDetail: React.FC = () => {
     handleCloseDialog,
     resetHarvestDetail,
     formHarvest,
+    formHarvestDetail,
     detailsHarvest,
-    setDetailsHarvest,
+    addHarvestDetail,
     modifyHarvestDetail,
   } = useFormHarvestContext();
 
   const { setIsActiveDialog } = useDialogStatus();
 
-  const onSubmitHarvestDetail = () => {
-    const values = getCurrentDataHarvestDetail();
+  const onSubmitHarvestDetail = async (): Promise<void> => {
+    const values = formHarvestDetail.watch();
     if (!harvestDetail.id) {
       const record = {
         ...values,
         id: generateUUID(),
       };
-      setDetailsHarvest((prev: HarvestDetail[]) => [...prev, record]);
+      addHarvestDetail(record);
 
       formHarvest.setValue('details', [...detailsHarvest, record], {
         shouldValidate: true,
@@ -64,7 +63,7 @@ export const FormHarvestDetail: React.FC = () => {
 
     setIsActiveDialog(false);
     setOpenDialog(false);
-    formHarvest.trigger('details');
+    await formHarvest.trigger('details');
   };
 
   const handleOpenDialogExtended = (

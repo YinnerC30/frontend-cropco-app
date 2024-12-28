@@ -25,14 +25,14 @@ const HarvestProcessedDataTable: React.FC = memo(() => {
 
   const { setIsActiveDialog } = useDialogStatus();
 
-  const finalData = useMemo(() => {
+  const finalData: HarvestProcessed[] = useMemo(() => {
     return isSuccess
       ? data?.processed!.map((item: HarvestProcessed) => {
           return {
             ...item,
             crop: data.crop,
             harvest: { id: data.id, date: data.date },
-          };
+          } as HarvestProcessed;
         })
       : [];
   }, [data]);
