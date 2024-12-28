@@ -26,28 +26,26 @@ import { toast } from 'sonner';
 import { formatTypeFilterDate } from '@/modules/core/helpers/formatting/formatTypeFilterDate';
 import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/formatTypeFilterNumber';
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
-import { Crop } from '@/modules/crops/interfaces/Crop';
+import {
+  dateFilterOptions,
+  numberFilterOptions,
+} from '@/modules/core/interfaces/queries/FilterOptions';
+import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Filter, X } from 'lucide-react';
-import React, { memo, useCallback, useState } from 'react';
+import React, { memo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarvest';
 import { formSchemaSearchBarHarvest } from '../../utils/formSchemaSearchBarHarvest';
-import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
-import {
-  dateFilterOptions,
-  numberFilterOptions,
-} from '@/modules/core/interfaces/queries/FilterOptions';
-
-// Opciones predefinidas para Popover
 
 const valuesResetForm = {
   crop: {
     id: '',
+    name: '',
   },
   filter_by_date: {
     date: undefined,
@@ -85,13 +83,6 @@ export const HarvestModuleSearchbar: React.FC = () => {
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
-  const findCropInData = useCallback(
-    (id: string) => {
-      return queryCrops?.data?.rows.find((row: Crop) => row.id === id);
-    },
-    [queryCrops.data]
-  );
-
   const handleAddFilter = async (name: string) => {
     const isValid = await form.trigger(
       name as unknown as keyof z.infer<typeof formSchemaSearchBarHarvest>
@@ -104,10 +95,10 @@ export const HarvestModuleSearchbar: React.FC = () => {
     const filters: FilterSearchBar[] = [];
 
     if (crop?.id) {
-      const data = findCropInData(crop.id);
+      console.log(crop);
       filters.push({
         key: 'crop',
-        label: `Cultivo: ${data?.name ?? ''}`,
+        label: `Cultivo: ${crop?.name ?? ''}`,
       });
     }
 
@@ -166,7 +157,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
     setAppliedFilters((prev) => prev.filter((f) => f.key !== filter.key));
     switch (filter.key) {
       case 'crop':
-        form.setValue('crop.id', '', { shouldDirty: false });
+        form.setValue('crop', { id: '', name: '' }, { shouldDirty: false });
         break;
       case 'date':
         form.setValue('filter_by_date.type_filter_date', undefined, {
@@ -260,16 +251,16 @@ export const HarvestModuleSearchbar: React.FC = () => {
                 <FormFieldCommand
                   data={queryCrops?.data?.rows || []}
                   form={form}
-                  nameToShow="name"
+                  nameToShow={'name'}
                   control={form.control}
-                  name="crop.id"
+                  name={'crop'}
                   placeholder={formFieldsSearchBarHarvest.crop.placeholder}
                   className="w-auto lg:w-[300px]"
                   description={''}
                   label={''}
                   readOnly={readOnly}
                   actionFinal={() => handleAddFilter('crop.id')}
-                  // namePrincipalEntity='crop'
+                  isLoading={queryCrops.isLoading}
                 />
                 <div className="flex gap-2">
                   <ToolTipTemplate content="Borrar consulta">

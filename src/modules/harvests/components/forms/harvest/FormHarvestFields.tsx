@@ -23,6 +23,10 @@ export const FormHarvestFields = () => {
     canExecuteQuery: !readOnly,
   });
 
+  console.log(form.watch());
+
+  console.log(form.formState);
+
   return (
     <Form {...form}>
       <form
@@ -46,7 +50,7 @@ export const FormHarvestFields = () => {
             control={form.control}
             description={formFieldsHarvest.crop.description}
             label={formFieldsHarvest.crop.label}
-            name={'crop.id'}
+            name={'crop'}
             placeholder={formFieldsHarvest.crop.placeholder}
             readOnly={readOnly}
             isLoading={queryCrops.isLoading}

@@ -37,8 +37,7 @@ interface FormFieldCommandProps extends FormFieldProps {
   isLoading?: boolean;
   nameEntity?: string;
   actionFinal?: () => void;
-  // namePrincipalEntity: string;
-  // nameAditionalProperty?: string;
+  nameToControl?: string;
 }
 
 export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
@@ -60,8 +59,9 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
   return (
     <FormField
       control={control}
-      name={name}
+      name={`${name}.id`}
       render={({ field }: { field: ControllerRenderProps<any, string> }) => {
+        console.log(field);
         return (
           <FormItem className="my-4">
             <FormLabel className="block">{label}</FormLabel>
@@ -90,10 +90,10 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                       onBlur={field.onBlur}
                       disabled={readOnly}
                     >
-                      {field.value
-                        ? data.find((item) => item.id === field.value)?.[
-                            nameToShow
-                          ]
+                      {!!field.value
+                        ? data.find((item) => {
+                            return item.id === field.value;
+                          })?.[nameToShow]
                         : placeholder}
 
                       <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
@@ -113,38 +113,52 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                         nameEntity
                       )} no encontrado`}</CommandEmpty>
                       <CommandGroup>
-                        {data &&
-                          Array.isArray(data) &&
-                          data.map((item) => {
-                            return (
-                              <CommandItem
-                                value={item?.[nameToShow]}
-                                key={item.id!}
-                                onSelect={() => {
-                                  if (field.value === item.id) {
-                                    form.setValue(name, '');
-                                  } else {
-                                    form.setValue(name, item.id!, {
+                        {data.map((item) => {
+                          return (
+                            <CommandItem
+                              value={item?.[nameToShow]}
+                              key={item.id!}
+                              onSelect={() => {
+                                if (field?.value === item?.id) {
+                                  form.setValue(name, {
+                                    id: '',
+                                    [nameToShow]: '',
+                                  });
+                                } else {
+                                  form.setValue(
+                                    name,
+                                    {
+                                      id: item?.id,
+                                      [nameToShow]: item[nameToShow],
+                                    },
+                                    {
+                                      shouldValidate: true,
                                       shouldDirty: true,
-                                    });
-                                    form.trigger(name);
-                                  }
-                                  setOpenPopover(false);
-                                  actionFinal && actionFinal();
-                                }}
-                              >
-                                {item?.[nameToShow]}
-                                <CheckIcon
-                                  className={cn(
-                                    'ml-auto h-4 w-4',
-                                    item.id! === field.value
-                                      ? 'opacity-100'
-                                      : 'opacity-0'
-                                  )}
-                                />
-                              </CommandItem>
-                            );
-                          })}
+                                    }
+                                  );
+
+                                  // form.trigger(`${name}.id`);
+                                  // form.trigger(`${name}.${nameToShow}`);
+                                }
+                                setOpenPopover(false);
+                                actionFinal && actionFinal();
+                              }}
+                              onClick={(e) => {
+                                console.log('clic');
+                              }}
+                            >
+                              {item?.[nameToShow]}
+                              <CheckIcon
+                                className={cn(
+                                  'ml-auto h-4 w-4',
+                                  item.id! === field?.value
+                                    ? 'opacity-100'
+                                    : 'opacity-0'
+                                )}
+                              />
+                            </CommandItem>
+                          );
+                        })}
                       </CommandGroup>
                     </ScrollArea>
                   </CommandList>

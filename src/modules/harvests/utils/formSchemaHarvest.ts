@@ -7,10 +7,13 @@ export const formSchemaHarvest = z.object({
     id: z
       .string({
         required_error: 'El cultivo es un campo obligatorio',
+        invalid_type_error: 'El cultivo es un campo obligatorio',
       })
       .uuid({
         message: 'La opción seleccionada no es valida.',
       }),
+
+    name: z.string({ required_error: 'El nombre del cultivo es requerido' }),
   }),
   observation: z
     .string({
@@ -38,3 +41,16 @@ export const formSchemaHarvest = z.object({
       message: 'El valor a pagar debe ser un número que termine en 50 o 00.',
     }),
 });
+
+// const result = formSchemaHarvest.safeParse({
+//   date: undefined,
+//   crop: { id: undefined, name: undefined },
+//   observation: '',
+//   details: [],
+//   total: 0,
+//   value_pay: 0,
+// });
+
+// if (!result.success) {
+//   console.log(result.error.format());
+// }

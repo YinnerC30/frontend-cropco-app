@@ -35,7 +35,14 @@ export const defaultValuesHarvestDetail: HarvestDetail = {
 
 export const FormHarvestProvider = ({
   children,
-  defaultValues,
+  defaultValues = {
+    date: undefined,
+    crop: { id: '', name: '' },
+    observation: '',
+    details: [],
+    total: 0,
+    value_pay: 0,
+  },
   isSubmitting,
   onSubmit,
   readOnly,
@@ -93,6 +100,8 @@ export const FormHarvestProvider = ({
     data: detailsHarvest,
   });
 
+  
+
   const { getIdsToRowsSelected, resetSelectionRows, hasSelectedRecords } =
     dataTableHarvestDetail;
 
@@ -134,6 +143,8 @@ export const FormHarvestProvider = ({
         ?.first_name || ''
     );
   };
+
+  
 
   const resetForm = () => {
     formHarvestDetail.reset(defaultValuesHarvestDetail);

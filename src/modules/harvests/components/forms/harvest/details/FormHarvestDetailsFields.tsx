@@ -27,7 +27,7 @@ export const FormHarvestDetailsFields = () => {
           control={formHarvestDetail.control}
           description={formFieldsHarvestDetail.employee.description}
           label={formFieldsHarvestDetail.employee.label}
-          name={'employee.id'}
+          name={'employee'}
           placeholder={formFieldsHarvestDetail.employee.placeholder}
           readOnly={false}
           nameEntity="empleado"

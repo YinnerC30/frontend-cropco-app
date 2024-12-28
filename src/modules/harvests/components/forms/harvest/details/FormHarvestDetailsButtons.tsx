@@ -1,6 +1,6 @@
 import { Button } from '@/components';
 import { useFormHarvestContext } from '@/modules/harvests/hooks';
-import { toast } from 'sonner';
+// import { toast } from 'sonner';
 
 interface Props {
   onClick: any;
@@ -10,11 +10,11 @@ export const FormHarvestDetailsButtons = ({ onClick }: Props) => {
   const { formHarvestDetail } = useFormHarvestContext();
 
   const handleClick = async () => {
-    const isDirty = formHarvestDetail.formState.isDirty;
-    if (!isDirty) {
-      toast.info('No has realizado cambios;');
-      return;
-    }
+    // const isDirty = formHarvestDetail.formState.isDirty;
+    // if (!isDirty) {
+    //   toast.info('No has realizado cambios;');
+    //   return;
+    // }
     const isValid = await formHarvestDetail.trigger();
     isValid && onClick();
   };

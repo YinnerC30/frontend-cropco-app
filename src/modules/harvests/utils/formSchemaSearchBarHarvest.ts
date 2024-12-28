@@ -59,6 +59,7 @@ export const formSchemaSearchBarHarvest = z.object({
   crop: z
     .object({
       id: z.string().optional(),
+      name: z.string().optional(),
     })
     .optional(),
 
