@@ -1,4 +1,4 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
@@ -8,7 +8,7 @@ import { HarvestDetail } from '@/modules/harvests/interfaces';
 export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
   {
     accessorKey: 'employee.first_name',
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<HarvestDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Empleado:'} />;
     },
   },
@@ -17,7 +17,7 @@ export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
     cell: ({ row }) => {
       return FormatNumber(row.getValue('total'));
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<HarvestDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Total cosechado:'} />;
     },
   },
@@ -26,7 +26,7 @@ export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
     cell: ({ row }) => {
       return FormatMoneyValue(row.getValue('value_pay'));
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<HarvestDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Valor a pagar:'} />;
     },
   },

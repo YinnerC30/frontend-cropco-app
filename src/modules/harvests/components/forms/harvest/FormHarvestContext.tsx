@@ -33,31 +33,34 @@ export const defaultValuesHarvestDetail: HarvestDetail = {
   value_pay: 1000,
 };
 
+const defaultValuesHarvest = {
+  date: undefined,
+  crop: { id: '', name: '' },
+  observation: '',
+  details: [],
+  total: 0,
+  value_pay: 0,
+};
+
 export const FormHarvestProvider = ({
   children,
-  defaultValues = {
-    date: undefined,
-    crop: { id: '', name: '' },
-    observation: '',
-    details: [],
-    total: 0,
-    value_pay: 0,
-  },
+  defaultValues = defaultValuesHarvest,
   isSubmitting,
   onSubmit,
   readOnly,
 }: any & { children: React.ReactNode }) => {
-  const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
+  const [isOpenDialogForm, setIsOpenDialogForm] = useState<boolean>(false);
   const detailsDefaultValues = defaultValues?.details ?? [];
-  const [detailsHarvest, setDetailsHarvest] = useState(detailsDefaultValues);
+  const [detailsHarvest, setDetailsHarvest] =
+    useState<HarvestDetail[]>(detailsDefaultValues);
 
-  const removeHarvestDetail = (harvestDetail: HarvestDetail) => {
+  const removeHarvestDetail = (harvestDetail: HarvestDetail): void => {
     setDetailsHarvest((details: any) =>
       details.filter((detail: HarvestDetail) => detail.id !== harvestDetail.id)
     );
   };
 
-  const modifyHarvestDetail = (harvestDetail: HarvestDetail) => {
+  const modifyHarvestDetail = (harvestDetail: HarvestDetail): void => {
     setDetailsHarvest((details = []) =>
       details.map((item: any) =>
         item.id !== harvestDetail.id ? item : harvestDetail
@@ -65,7 +68,7 @@ export const FormHarvestProvider = ({
     );
   };
 
-  const resetHarvestDetails = () => {
+  const resetHarvestDetails = (): void => {
     setDetailsHarvest([]);
   };
 
@@ -85,38 +88,33 @@ export const FormHarvestProvider = ({
     defaultValues,
   });
 
-  const executeValidationFormHarvest = async () => {
+  const executeValidationFormHarvest = async (): Promise<boolean> => {
     return await formHarvest.trigger();
   };
 
-  const columnsTable = useCreateColumnsTable({
+  const columnsTable = useCreateColumnsTable<HarvestDetail>({
     columns: columnsHarvestDetail,
     actions: ActionsTableHarvestDetail,
     hiddenActions: readOnly,
   });
 
-  const dataTableHarvestDetail = useDataTableGeneric({
+  const dataTableHarvestDetail = useDataTableGeneric<HarvestDetail>({
     columns: columnsTable,
-    data: detailsHarvest,
+    rows: detailsHarvest,
   });
-
-  
-
-  const { getIdsToRowsSelected, resetSelectionRows, hasSelectedRecords } =
-    dataTableHarvestDetail;
 
   const { setIsActiveDialog } = useDialogStatus();
   const { hasUnsavedChanges, showToast } = useFormChange();
 
-  const [harvestDetail, setHarvestDetail] = useState(
+  const [harvestDetail, setHarvestDetail] = useState<HarvestDetail>(
     defaultValuesHarvestDetail
   );
 
-  const resetHarvestDetail = () => {
+  const resetHarvestDetail = (): void => {
     setHarvestDetail(defaultValuesHarvestDetail);
   };
 
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -137,31 +135,24 @@ export const FormHarvestProvider = ({
     allRecords: true,
   });
 
-  const findEmployeeName = (id: string): string => {
-    return (
-      queryEmployees?.data?.rows.find((item: Employee) => item.id === id)
-        ?.first_name || ''
-    );
-  };
-
-  
-
   const resetForm = () => {
     formHarvestDetail.reset(defaultValuesHarvestDetail);
   };
 
-  const handleOpenDialog = () => {
+  const handleOpenDialog = (): void => {
     setIsActiveDialog(true);
     setOpenDialog(true);
   };
 
-  const ClearFormHarvestDetail = () => {
+  const ClearFormHarvestDetail = (): void => {
     resetForm();
     setIsActiveDialog(false);
     setOpenDialog(false);
   };
 
-  const handleCloseDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCloseDialog = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
     event.preventDefault();
     if (hasUnsavedChanges) {
       showToast({
@@ -173,11 +164,11 @@ export const FormHarvestProvider = ({
     ClearFormHarvestDetail();
   };
 
-  const getCurrentDataHarvestDetail = () => {
+  const getCurrentDataHarvestDetail = (): HarvestDetail => {
     const values = { ...formHarvestDetail.getValues() };
-    const employeeIdForm = values?.employee?.id;
-    const nameEmployee = findEmployeeName(employeeIdForm);
-    const data = {
+    const employeeIdForm: string = values?.employee?.id;
+    const nameEmployee: string = values?.employee?.first_name;
+    const data: HarvestDetail = {
       total: +values.total,
       value_pay: +values.value_pay,
       employee: { id: employeeIdForm, first_name: nameEmployee },
@@ -199,19 +190,21 @@ export const FormHarvestProvider = ({
     );
   };
 
-  const handleDeleteBulkHarvestDetails = () => {
-    const recordsIds = getIdsToRowsSelected().map((el: any) => el.id);
+  const handleDeleteBulkHarvestDetails = (): void => {
+    const recordsIds = dataTableHarvestDetail
+      .getIdsToRowsSelected()
+      .map((el: any) => el.id);
     const currentValues = [...formHarvest.watch('details')];
-    const result = currentValues.filter((element: any) => {
+    const result = currentValues.filter((element: HarvestDetail) => {
       if (!recordsIds.includes(element.id)) {
         return element;
       }
     });
 
-    for (const record of getIdsToRowsSelected()) {
+    for (const record of dataTableHarvestDetail.getIdsToRowsSelected()) {
       removeHarvestDetail(record as HarvestDetail);
     }
-    resetSelectionRows();
+    dataTableHarvestDetail.resetSelectionRows();
     formHarvest.setValue('details', result, {
       shouldValidate: true,
       shouldDirty: true,
@@ -250,7 +243,7 @@ export const FormHarvestProvider = ({
         resetHarvestDetail,
         ...dataTableHarvestDetail,
         handleDeleteBulkHarvestDetails,
-        hasSelectedRecords,
+        hasSelectedRecords: dataTableHarvestDetail.hasSelectedRecords,
         executeValidationFormHarvest,
         queryEmployees,
         detailsHarvest,
@@ -258,6 +251,7 @@ export const FormHarvestProvider = ({
         removeHarvestDetail,
         modifyHarvestDetail,
         resetHarvestDetails,
+        dataTableHarvestDetail,
       }}
     >
       {children}

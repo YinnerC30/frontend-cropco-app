@@ -16,13 +16,12 @@ interface RowData {
   id: string;
 }
 
-interface Props {
-  columns: ColumnDef<unknown>[];
-  data: unknown[];
+interface DataTableManualProps<T> {
+  columns: ColumnDef<T>[];
+  rows: unknown[];
 }
-
-export interface DataTableGenericReturn {
-  table: Table<unknown>;
+export interface DataTableGenericReturn<T> {
+  table: Table<T> | Table<unknown>;
   rowSelection: {};
   lengthColumns: number;
   getIdsToRowsSelected: () => RowData[];
@@ -30,16 +29,16 @@ export interface DataTableGenericReturn {
   hasSelectedRecords: boolean;
 }
 
-export const useDataTableGeneric = ({
+export const useDataTableGeneric = <T>({
   columns,
-  data = [],
-}: Props): DataTableGenericReturn => {
+  rows = [],
+}: DataTableManualProps<T>): DataTableGenericReturn<T> => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
-    data,
-    columns,
+    data: rows,
+    columns: columns as ColumnDef<unknown>[],
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
