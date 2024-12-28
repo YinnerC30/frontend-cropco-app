@@ -3,7 +3,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-  Form
+  Form,
 } from '@/components';
 import {
   FormFieldCalendar,
@@ -235,9 +235,12 @@ export const HarvestModuleSearchbar: React.FC = () => {
   };
 
   useEffect(() => {
-    Object.keys(paramsQuery).forEach((key) => {
-      handleAddFilter(key).then((value) => console.log(value));
-    });
+    const addFilters = async () => {
+      for (const key of Object.keys(paramsQuery)) {
+        await handleAddFilter(key);
+      }
+    };
+    addFilters();
   }, []);
 
   return (
