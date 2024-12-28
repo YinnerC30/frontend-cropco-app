@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer className="py-8 bg-gray-100">
+    <footer className="py-8">
       <div className="container px-4 mx-auto">
         <div className="flex flex-wrap items-center justify-between">
           <div className="w-full mb-4 text-center md:w-auto md:text-left md:mb-0">

@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 
 export default function Hero() {
   return (
-    <section className="py-20 bg-green-50">
+    <section className="py-20 bg-green-50 dark:bg-green-200">
       <div className="container px-4 mx-auto text-center">
         <h1 className="mb-6 text-4xl font-bold text-green-800 md:text-5xl">
           Administra tus cultivos con CropCo
