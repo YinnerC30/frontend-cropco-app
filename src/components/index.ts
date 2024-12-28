@@ -1,4 +1,4 @@
-export * from './common/LandingPage';
+export * from './landing/LandingPage';
 export * from './home/Header';
 export * from './home/Main';
 export * from './home/MyAccount';
