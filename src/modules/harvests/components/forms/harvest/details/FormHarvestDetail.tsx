@@ -24,7 +24,7 @@ import { HarvestDetail } from '@/modules/harvests/interfaces';
 import { FormHarvestDetailsButtons } from './FormHarvestDetailsButtons';
 import { FormHarvestDetailsFields } from './FormHarvestDetailsFields';
 
-export const FormHarvestDetail = () => {
+export const FormHarvestDetail: React.FC = () => {
   const {
     readOnly,
     getCurrentDataHarvestDetail,

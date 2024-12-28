@@ -13,7 +13,7 @@ import { formFieldsHarvest } from '@/modules/harvests/utils';
 import { useGetAllCrops } from '@/modules/crops/hooks';
 import { FormHarvestDataTable } from './FormHarvestDataTable';
 
-export const FormHarvestFields = () => {
+export const FormHarvestFields: React.FC = () => {
   const { formHarvest, onSubmit, readOnly, total, value_pay } =
     useFormHarvestContext();
 

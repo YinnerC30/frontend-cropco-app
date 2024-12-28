@@ -8,6 +8,7 @@ import {
 import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { useCreateForm } from '@/modules/core/hooks';
 import { formFieldsHarvestProcessed } from '@/modules/harvests/utils/formFieldsHarvestProcessed';
+import React from 'react';
 import { z } from 'zod';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
@@ -40,7 +41,7 @@ const formSchema = z.object({
     .optional(),
 });
 
-export const HarvestProcessedFields = () => {
+export const HarvestProcessedFields: React.FC = () => {
   const {
     queryOneHarvest: { data, isSuccess, isLoading },
   } = useHarvestProcessedContext();

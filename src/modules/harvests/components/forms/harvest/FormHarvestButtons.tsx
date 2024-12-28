@@ -2,7 +2,7 @@ import { Button } from '@/components';
 import { ButtonsForm } from '@/modules/core/components';
 import { useFormHarvestContext } from '@/modules/harvests/hooks';
 
-export const FormHarvestButtons = () => {
+export const FormHarvestButtons: React.FC = () => {
   const { readOnly, handleReturnToModule, isSubmitting } =
     useFormHarvestContext();
 

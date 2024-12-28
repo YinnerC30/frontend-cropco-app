@@ -6,7 +6,7 @@ interface Props {
   onClick: () => void;
 }
 
-export const FormHarvestDetailsButtons = ({ onClick }: Props) => {
+export const FormHarvestDetailsButtons: React.FC<Props> = ({ onClick }) => {
   const { formHarvestDetail } = useFormHarvestContext();
 
   const handleClick = async () => {

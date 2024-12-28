@@ -9,11 +9,11 @@ import { HarvestDetail } from '@/modules/harvests/interfaces';
 import { Row } from '@tanstack/react-table';
 import { toast } from 'sonner';
 
-export const ActionsTableHarvestDetail = ({
-  row,
-}: {
+interface Props {
   row: Row<HarvestDetail>;
-}) => {
+}
+
+export const ActionsTableHarvestDetail: React.FC<Props> = ({ row }) => {
   const harvestDetail = row.original;
 
   const {

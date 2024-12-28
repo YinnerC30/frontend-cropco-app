@@ -3,7 +3,7 @@ import { FormHarvestButtons } from './FormHarvestButtons';
 import { FormHarvestProps, FormHarvestProvider } from './FormHarvestContext';
 import { FormHarvestFields } from './FormHarvestFields';
 
-export const FormHarvest = (props: FormHarvestProps) => {
+export const FormHarvest: React.FC<FormHarvestProps> = (props) => {
   return (
     <FormHarvestProvider {...props}>
       <div className="flex flex-col items-center">

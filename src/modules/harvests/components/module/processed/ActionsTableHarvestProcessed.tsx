@@ -11,11 +11,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Row } from '@tanstack/react-table';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
-export const ActionsTableHarvestProcessed = ({
-  row,
-}: {
+interface Props {
   row: Row<HarvestProcessed>;
-}) => {
+}
+
+export const ActionsTableHarvestProcessed: React.FC<Props> = ({ row }) => {
   const queryClient = useQueryClient();
   const { setHarvestProcessed, setOpenDialog, actionsHarvestsModule } =
     useHarvestProcessedContext();

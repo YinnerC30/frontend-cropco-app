@@ -2,11 +2,10 @@ import { Button } from '@/components/ui/button';
 
 import { ArrowUpDown } from 'lucide-react';
 
-import { ColumnDef, HeaderContext, Row } from '@tanstack/react-table';
+import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
-import { useDeleteHarvestProcessed } from '../../../hooks/mutations/useDeleteHarvestProcessed';
 import { HarvestProcessed } from '../../../interfaces/HarvestProcessed';
 import { formFieldsHarvestProcessed } from '../../../utils/formFieldsHarvestProcessed';
 import { ActionsTableHarvestProcessed } from './ActionsTableHarvestProcessed';

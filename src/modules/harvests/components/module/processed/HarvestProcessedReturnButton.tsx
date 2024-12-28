@@ -3,7 +3,7 @@ import { MODULE_HARVESTS_PATHS } from '@/modules/harvests/routes/pathRoutes';
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
-export const HarvestProcessedReturnButton = memo(() => {
+export const HarvestProcessedReturnButton: React.FC = memo(() => {
   return (
     <div className="flex justify-center">
       <Button variant="default" asChild>

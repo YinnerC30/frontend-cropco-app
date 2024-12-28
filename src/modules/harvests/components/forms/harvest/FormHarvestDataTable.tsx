@@ -18,7 +18,7 @@ import { FormHarvestDetail } from './details/FormHarvestDetail';
 import { ScrollArea, ScrollBar } from '@/components';
 import { HarvestDetail } from '@/modules/harvests/interfaces';
 
-export const FormHarvestDataTable = () => {
+export const FormHarvestDataTable: React.FC = () => {
   const {
     dataTableHarvestDetail,
     readOnly,

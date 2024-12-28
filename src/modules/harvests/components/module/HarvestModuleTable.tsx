@@ -1,7 +1,7 @@
 import { DataTableTemplate } from '@/modules/core/components';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
 
-export const HarvestModuleTable = () => {
+export const HarvestModuleTable: React.FC = () => {
   const {
     queryHarvests,
     actionsHarvestsModule,

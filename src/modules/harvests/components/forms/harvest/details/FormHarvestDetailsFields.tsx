@@ -5,7 +5,7 @@ import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { formFieldsHarvestDetail } from '@/modules/harvests/utils';
 import { useEffect } from 'react';
 
-export const FormHarvestDetailsFields = () => {
+export const FormHarvestDetailsFields: React.FC = () => {
   const {
     formHarvestDetail,
     filterEmployeesToShow,

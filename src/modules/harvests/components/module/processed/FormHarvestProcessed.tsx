@@ -42,7 +42,7 @@ const formSchemaHarvestProcessed = z.object({
     .positive({ message: `El número debe ser positivo` }),
 });
 
-export const FormHarvestProcessed = memo(() => {
+export const FormHarvestProcessed: React.FC = memo(() => {
   const {
     queryOneHarvest: { data, isLoading },
     openDialog,

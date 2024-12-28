@@ -3,7 +3,7 @@ import { useHarvestProcessedContext } from './HarvestProcessedContext';
 import HarvestProcessedDataTable from './HarvestProcessedDataTable';
 import { HarvestProcessedFields } from './HarvestProcessedFields';
 
-export const HarvestProcessedUnion = () => {
+export const HarvestProcessedUnion: React.FC = () => {
   const {
     queryOneHarvest: { isLoading },
   } = useHarvestProcessedContext();

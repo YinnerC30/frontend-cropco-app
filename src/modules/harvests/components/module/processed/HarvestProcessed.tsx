@@ -1,18 +1,23 @@
+import { ScrollArea } from '@/components';
+import { BreadCrumb } from '@/modules/core/components';
+import { MODULE_HARVESTS_PATHS } from '@/modules/harvests/routes/pathRoutes';
 import { useParams } from 'react-router-dom';
-import { HarvestProcessedBreadCrumb } from './HarvestProcessedBreadCrumb';
 import { HarvestProcessedProvider } from './HarvestProcessedContext';
 import { HarvestProcessedReturnButton } from './HarvestProcessedReturnButton';
-import { HarvestProcessedScrollArea } from './HarvestProcessedScrollArea';
 import { HarvestProcessedUnion } from './HarvestProcessedUnion';
 
-export const HarvestProcessed = () => {
+export const HarvestProcessed: React.FC = () => {
   const { id } = useParams();
   return (
     <HarvestProcessedProvider id={id!}>
-      <HarvestProcessedBreadCrumb />
-      <HarvestProcessedScrollArea>
+      <BreadCrumb
+        items={[{ link: MODULE_HARVESTS_PATHS.ViewAll, name: 'Cosechas' }]}
+        finalItem={`Inventario`}
+      />
+      <ScrollArea className={`h-[75vh] w-full pb-2`}>
         <HarvestProcessedUnion />
-      </HarvestProcessedScrollArea>
+      </ScrollArea>
+
       <HarvestProcessedReturnButton />
     </HarvestProcessedProvider>
   );

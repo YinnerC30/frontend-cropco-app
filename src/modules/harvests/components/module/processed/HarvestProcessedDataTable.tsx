@@ -16,7 +16,7 @@ import columnsHarvestProcessed from './ColumnsTableHarvestProcessed';
 import { FormHarvestProcessed } from './FormHarvestProcessed';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
-const HarvestProcessedDataTable = memo(() => {
+const HarvestProcessedDataTable: React.FC = memo(() => {
   const {
     queryOneHarvest: { data, isSuccess },
     setHarvestProcessed,
