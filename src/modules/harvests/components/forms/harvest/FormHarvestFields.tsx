@@ -14,7 +14,7 @@ import { useGetAllCrops } from '@/modules/crops/hooks';
 import { FormHarvestDataTable } from './FormHarvestDataTable';
 
 export const FormHarvestFields = () => {
-  const { form, onSubmit, readOnly, total, value_pay } =
+  const { formHarvest, onSubmit, readOnly, total, value_pay } =
     useFormHarvestContext();
 
   const { query: queryCrops } = useGetAllCrops({
@@ -23,20 +23,18 @@ export const FormHarvestFields = () => {
     canExecuteQuery: !readOnly,
   });
 
-  console.log(form.watch());
-
-  console.log(form.formState);
+  console.log(formHarvest.formState)
 
   return (
-    <Form {...form}>
+    <Form {...formHarvest}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={formHarvest.handleSubmit(onSubmit)}
         id="formHarvest"
         className="flex flex-col lg:justify-evenly lg:flex-row"
       >
         <div className="w-3/4 lg:w-[40%]">
           <FormFieldCalendar
-            control={form.control}
+            control={formHarvest.control}
             description={formFieldsHarvest.date.description}
             label={formFieldsHarvest.date.label}
             name={'date'}
@@ -45,9 +43,9 @@ export const FormHarvestFields = () => {
           />
           <FormFieldCommand
             data={queryCrops?.data?.rows || []}
-            form={form}
+            form={formHarvest}
             nameToShow={'name'}
-            control={form.control}
+            control={formHarvest.control}
             description={formFieldsHarvest.crop.description}
             label={formFieldsHarvest.crop.label}
             name={'crop'}
@@ -59,7 +57,7 @@ export const FormHarvestFields = () => {
           />
           <FormFieldTextArea
             className="w-72"
-            control={form.control}
+            control={formHarvest.control}
             description={formFieldsHarvest.observation.description}
             label={formFieldsHarvest.observation.label}
             name={'observation'}
@@ -70,7 +68,7 @@ export const FormHarvestFields = () => {
 
         <div className="lg:w-[50%]">
           <FormFieldDataTable
-            control={form.control}
+            control={formHarvest.control}
             description={''}
             label={formFieldsHarvest.details.label}
             name={'details'}
@@ -81,7 +79,7 @@ export const FormHarvestFields = () => {
           </FormFieldDataTable>
 
           <FormFieldInput
-            control={form.control}
+            control={formHarvest.control}
             description={formFieldsHarvest.total.description}
             label={formFieldsHarvest.total.label}
             name={'total'}
@@ -101,7 +99,7 @@ export const FormHarvestFields = () => {
           {/* TODO: Refactor */}
           <FormFieldInput
             className=""
-            control={form.control}
+            control={formHarvest.control}
             description={formFieldsHarvest.value_pay.description}
             label={formFieldsHarvest.value_pay.label}
             name={'value_pay'}

@@ -16,32 +16,30 @@ import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { FormHarvestDetail } from './details/FormHarvestDetail';
 
 import { ScrollArea, ScrollBar } from '@/components';
+import { HarvestDetail } from '@/modules/harvests/interfaces';
 
 export const FormHarvestDataTable = () => {
   const {
-    table,
+    dataTableHarvestDetail,
     readOnly,
-    lengthColumns,
+
     handleDeleteBulkHarvestDetails,
-    hasSelectedRecords,
+
     setHarvestDetail,
     handleOpenDialog,
-    resetSelectionRows,
   } = useFormHarvestContext();
 
-  const handleSetHarvestDetail = (data: any) => {
+  const handleSetHarvestDetail = (data: HarvestDetail) => {
     setHarvestDetail(data);
     handleOpenDialog();
   };
 
-  console.log('render');
-
   return (
     <FormDataTableProvider
-      table={table}
+      table={dataTableHarvestDetail.table}
       disabledDoubleClick={readOnly}
       errorMessage={'Esta vaina tiene errores!!'}
-      lengthColumns={lengthColumns}
+      lengthColumns={dataTableHarvestDetail.lengthColumns}
     >
       <div className="flex flex-col items-center justify-center gap-2 ">
         {/* Barra */}
@@ -54,13 +52,13 @@ export const FormHarvestDataTable = () => {
         {/* Botones */}
         <div className="flex w-full gap-2 pl-2 ml-16 sm:justify-end pr-7 sm:m-0">
           <ButtonClearSelection
-            onClick={resetSelectionRows}
-            visible={hasSelectedRecords}
+            onClick={dataTableHarvestDetail.resetSelectionRows}
+            visible={dataTableHarvestDetail.hasSelectedRecords}
           />
           <ButtonDeleteBulk
             disabled={readOnly}
             onClick={handleDeleteBulkHarvestDetails}
-            visible={hasSelectedRecords}
+            visible={dataTableHarvestDetail.hasSelectedRecords}
           />
           <FormHarvestDetail />
         </div>

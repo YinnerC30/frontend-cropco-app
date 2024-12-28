@@ -1,16 +1,19 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthContext } from '@/auth/hooks';
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
-import { useCreateForm } from '@/modules/core/hooks';
+import { RowData, useCreateForm } from '@/modules/core/hooks';
 import { useGetAllEmployees } from '@/modules/employees/hooks';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 
 import { useFormChange } from '@/modules/core/components';
-import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
-import { HarvestDetail } from '@/modules/harvests/interfaces';
+import {
+  DataTableGenericReturn,
+  useDataTableGeneric,
+} from '@/modules/core/hooks/data-table/useDataTableGeneric';
+import { Harvest, HarvestDetail } from '@/modules/harvests/interfaces';
 import { MODULE_HARVESTS_PATHS } from '@/modules/harvests/routes/pathRoutes';
 import {
   formSchemaHarvest,
@@ -18,11 +21,14 @@ import {
 } from '@/modules/harvests/utils';
 import { toast } from 'sonner';
 
+import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
+import { FormProps, ResponseApiGetAllRecords } from '@/modules/core/interfaces';
+import { UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { z } from 'zod';
 import { ActionsTableHarvestDetail } from './details/ActionsTableHarvestDetail';
 import { columnsHarvestDetail } from './details/ColumnsTableHarvestDetail';
-
-export const FormHarvestContext = createContext<any>(null);
 
 export const defaultValuesHarvestDetail: HarvestDetail = {
   employee: {
@@ -42,27 +48,79 @@ const defaultValuesHarvest = {
   value_pay: 0,
 };
 
-export const FormHarvestProvider = ({
+export type FormHarvestProps = FormProps<
+  z.infer<typeof formSchemaHarvest>,
+  Harvest
+>;
+
+export interface FormHarvestContextProps {
+  formHarvest: ReturnType<typeof useCreateForm>;
+  formHarvestDetail: ReturnType<typeof useCreateForm>;
+  readOnly: boolean;
+  isSubmitting: boolean;
+  onSubmit: (values: z.infer<typeof formSchemaHarvest>) => void;
+  total: number;
+  value_pay: number;
+  setIsOpenDialogForm: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpenDialogForm: boolean;
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  openDialog: boolean;
+  harvestDetail: HarvestDetail;
+  setHarvestDetail: React.Dispatch<React.SetStateAction<HarvestDetail>>;
+  dataTableHarvestDetail: DataTableGenericReturn<HarvestDetail>;
+  queryEmployees: UseQueryResult<
+    ResponseApiGetAllRecords<Employee>,
+    AxiosError<TypedAxiosError, unknown>
+  >;
+  detailsHarvest: HarvestDetail[];
+  setDetailsHarvest: React.Dispatch<React.SetStateAction<HarvestDetail[]>>;
+  modifyHarvestDetail: (harvestDetail: HarvestDetail) => void;
+  resetHarvestDetails: () => void;
+  filterEmployeesToShow: () => Employee[];
+  handleReturnToModule: () => void;
+  getCurrentDataHarvestDetail: () => HarvestDetail;
+  resetForm: () => void;
+  handleOpenDialog: () => void;
+  handleCloseDialog: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  resetHarvestDetail: () => void;
+  handleDeleteBulkHarvestDetails: () => void;
+  executeValidationFormHarvest: () => Promise<boolean>;
+  removeHarvestDetail: (harvestDetail: HarvestDetail) => void;
+  actionsHarvestsModule: Record<string, boolean>;
+}
+
+export const FormHarvestContext = createContext<
+  FormHarvestContextProps | undefined
+>(undefined);
+
+export const FormHarvestProvider: React.FC<
+  FormHarvestProps & {
+    children: React.ReactNode;
+  }
+> = ({
   children,
   defaultValues = defaultValuesHarvest,
-  isSubmitting,
-  onSubmit,
-  readOnly,
-}: any & { children: React.ReactNode }) => {
+  isSubmitting = false,
+  onSubmit = (values) => console.log(values),
+  readOnly = false,
+}) => {
+  const { getActionsModule } = useAuthContext();
+  const actionsHarvestsModule = useMemo(() => getActionsModule('harvests'), []);
   const [isOpenDialogForm, setIsOpenDialogForm] = useState<boolean>(false);
   const detailsDefaultValues = defaultValues?.details ?? [];
+
   const [detailsHarvest, setDetailsHarvest] =
     useState<HarvestDetail[]>(detailsDefaultValues);
 
   const removeHarvestDetail = (harvestDetail: HarvestDetail): void => {
-    setDetailsHarvest((details: any) =>
+    setDetailsHarvest((details: HarvestDetail[]) =>
       details.filter((detail: HarvestDetail) => detail.id !== harvestDetail.id)
     );
   };
 
   const modifyHarvestDetail = (harvestDetail: HarvestDetail): void => {
-    setDetailsHarvest((details = []) =>
-      details.map((item: any) =>
+    setDetailsHarvest((details: HarvestDetail[]) =>
+      details.map((item: HarvestDetail) =>
         item.id !== harvestDetail.id ? item : harvestDetail
       )
     );
@@ -117,8 +175,6 @@ export const FormHarvestProvider = ({
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   const navigate = useNavigate();
-
-  const { hasPermission } = useAuthContext();
 
   const handleReturnToModule = () => {
     navigate(MODULE_HARVESTS_PATHS.ViewAll);
@@ -191,12 +247,12 @@ export const FormHarvestProvider = ({
   };
 
   const handleDeleteBulkHarvestDetails = (): void => {
-    const recordsIds = dataTableHarvestDetail
+    const recordsIds: string[] = dataTableHarvestDetail
       .getIdsToRowsSelected()
-      .map((el: any) => el.id);
+      .map((el: RowData) => el.id);
     const currentValues = [...formHarvest.watch('details')];
     const result = currentValues.filter((element: HarvestDetail) => {
-      if (!recordsIds.includes(element.id)) {
+      if (!recordsIds.includes(element?.id!)) {
         return element;
       }
     });
@@ -220,38 +276,43 @@ export const FormHarvestProvider = ({
   return (
     <FormHarvestContext.Provider
       value={{
-        form: formHarvest,
-        isOpenDialogForm,
-        setIsOpenDialogForm,
-        isSubmitting,
-        onSubmit,
+        // forms
+        formHarvest,
+        formHarvestDetail,
+        // primitives values
         readOnly,
-        handleReturnToModule,
-        hasPermission,
+        isSubmitting,
         total,
         value_pay,
-        harvestDetail,
-        setHarvestDetail,
+        // methods
+        onSubmit,
+        modifyHarvestDetail,
+        resetHarvestDetails,
         filterEmployeesToShow,
-        getCurrentDataHarvestDetail,
-        resetForm,
-        formHarvestDetail,
+        handleReturnToModule,
+        // state
+        isOpenDialogForm,
+        setIsOpenDialogForm,
         openDialog,
         setOpenDialog,
+        harvestDetail,
+        setHarvestDetail,
+        detailsHarvest,
+        setDetailsHarvest,
+        // queries
+        queryEmployees,
+        dataTableHarvestDetail,
+
+        getCurrentDataHarvestDetail,
+        resetForm,
         handleOpenDialog,
         handleCloseDialog,
         resetHarvestDetail,
-        ...dataTableHarvestDetail,
         handleDeleteBulkHarvestDetails,
-        hasSelectedRecords: dataTableHarvestDetail.hasSelectedRecords,
+
         executeValidationFormHarvest,
-        queryEmployees,
-        detailsHarvest,
-        setDetailsHarvest,
         removeHarvestDetail,
-        modifyHarvestDetail,
-        resetHarvestDetails,
-        dataTableHarvestDetail,
+        actionsHarvestsModule,
       }}
     >
       {children}

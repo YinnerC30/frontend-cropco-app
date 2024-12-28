@@ -3,7 +3,7 @@ import { useFormHarvestContext } from '@/modules/harvests/hooks';
 // import { toast } from 'sonner';
 
 interface Props {
-  onClick: any;
+  onClick: () => void;
 }
 
 export const FormHarvestDetailsButtons = ({ onClick }: Props) => {
