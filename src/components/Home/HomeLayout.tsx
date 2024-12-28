@@ -44,11 +44,8 @@ export const HomeLayout = () => {
         <SheetNavBar nameModulesUser={nameModulesUser} />
         <div className="flex items-center w-auto">
           <img src="/public/icon.png" width={30} />
-          <Link
-            className="mx-1 text-3xl font-medium hover:text-blue-500"
-            to="/app/home"
-          >
-            Cropco
+          <Link className="mx-1 text-3xl font-medium " to="/app/home">
+            CropCo
           </Link>
         </div>
 
