@@ -1,4 +1,6 @@
-import { Input } from '@/components';
+import { Button, Input } from '@/components';
+import { X } from 'lucide-react';
+import { ToolTipTemplate } from '../../shared/ToolTipTemplate';
 import { useFormDataTableContext } from './FormDataTableContext';
 
 interface Props {
@@ -11,17 +13,22 @@ interface Props {
 export const FormDataTableFilter = ({
   placeholder,
   nameColumnFilter,
-
   className,
 }: Props) => {
-  const { table, readOnly } = useFormDataTableContext();
+  const { table } = useFormDataTableContext();
+
+  const handleClearFilter = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    table.getColumn(nameColumnFilter)?.setFilterValue('');
+    document
+      .querySelector<HTMLInputElement>(`input[name="${nameColumnFilter}"]`)
+      ?.focus();
+  };
+
   return (
-    <div
-      className={`flex justify-between gap-2 ${
-        !readOnly ? '' : 'hidden'
-      } ${className}`}
-    >
+    <div className={`flex justify-between gap-2  ${className}`}>
       <Input
+        name={nameColumnFilter}
         placeholder={placeholder}
         value={
           (table.getColumn(nameColumnFilter)?.getFilterValue() as string) ?? ''
@@ -31,6 +38,17 @@ export const FormDataTableFilter = ({
         }
         className="max-w-sm"
       />
+      <ToolTipTemplate content="Eliminar busqueda">
+        <Button
+          type="button"
+          onClick={handleClearFilter}
+          size={'icon'}
+          variant={'outline'}
+        >
+          <X className="w-4 h-4" />
+          <span className="sr-only">Limpiar</span>
+        </Button>
+      </ToolTipTemplate>
     </div>
   );
 };

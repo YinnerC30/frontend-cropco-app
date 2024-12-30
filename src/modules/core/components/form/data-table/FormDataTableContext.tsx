@@ -8,9 +8,9 @@ interface FormDataTableContextProps {
   lengthColumns: number;
 }
 
-const FormDataTableContext = createContext<FormDataTableContextProps | any>(
-  undefined
-);
+const FormDataTableContext = createContext<
+  (FormDataTableContextProps & { pageCount: number }) | undefined
+>(undefined);
 
 export const FormDataTableProvider = ({
   children,
