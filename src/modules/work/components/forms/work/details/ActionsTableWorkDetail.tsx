@@ -16,20 +16,20 @@ export const ActionsTableWorkDetail = ({ row }: { row: Row<WorkDetail> }) => {
   const {
     setWorkDetail,
     handleOpenDialog,
-    formWorkDetail,
+
     removeWorkDetail,
     formWork,
   } = useFormWorkContext();
 
   const handleDelete = async () => {
-    const detailsForm = formWorkDetail
+    const detailsForm = formWork
       .watch('details')
       .filter((detail: WorkDetail) => detail.id !== workDetail.id);
 
-    formWorkDetail.setValue('details', detailsForm, { shouldDirty: true });
+    formWork.setValue('details', detailsForm, { shouldDirty: true });
     removeWorkDetail(workDetail);
 
-    await formWorkDetail.trigger('details');
+    await formWork.trigger('details');
 
     toast.success(
       `Se ha eliminado la cosecha del empleado ${workDetail.employee.first_name}`

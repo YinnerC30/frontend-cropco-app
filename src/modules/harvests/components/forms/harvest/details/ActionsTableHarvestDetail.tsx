@@ -19,20 +19,20 @@ export const ActionsTableHarvestDetail: React.FC<Props> = ({ row }) => {
   const {
     setHarvestDetail,
     handleOpenDialog,
-    formHarvestDetail,
+
     formHarvest,
     removeHarvestDetail,
   } = useFormHarvestContext();
 
   const handleDelete = async () => {
-    const detailsForm = formHarvestDetail
+    const detailsForm = formHarvest
       .watch('details')
       .filter((detail: HarvestDetail) => detail.id !== harvestDetail.id);
 
-    formHarvestDetail.setValue('details', detailsForm, { shouldDirty: true });
+    formHarvest.setValue('details', detailsForm, { shouldDirty: true });
     removeHarvestDetail(harvestDetail);
 
-    await formHarvestDetail.trigger('details');
+    await formHarvest.trigger('details');
 
     toast.success(
       `Se ha eliminado la cosecha del empleado ${harvestDetail.employee.first_name}`

@@ -61,7 +61,6 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
       control={control}
       name={`${name}.id`}
       render={({ field }: { field: ControllerRenderProps<any, string> }) => {
-        console.log(field);
         return (
           <FormItem className="my-4">
             <FormLabel className="block">{label}</FormLabel>
@@ -136,15 +135,9 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                                       shouldDirty: true,
                                     }
                                   );
-
-                                  // form.trigger(`${name}.id`);
-                                  // form.trigger(`${name}.${nameToShow}`);
                                 }
                                 setOpenPopover(false);
                                 actionFinal && actionFinal();
-                              }}
-                              onClick={(e) => {
-                                console.log('clic');
                               }}
                             >
                               {item?.[nameToShow]}
