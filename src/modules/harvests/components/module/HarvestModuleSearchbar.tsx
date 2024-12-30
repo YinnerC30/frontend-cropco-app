@@ -92,7 +92,11 @@ export const HarvestModuleSearchbar: React.FC = () => {
     if (crop?.id) {
       filters.push({
         key: 'crop',
-        label: `Cultivo: ${crop?.name ?? ''}`,
+        label: `Cultivo: ${
+          !crop.name
+            ? queryCrops.data?.rows.find((c) => c.id === crop.id)?.name
+            : crop?.name
+        }`,
       });
     }
 
@@ -240,8 +244,10 @@ export const HarvestModuleSearchbar: React.FC = () => {
         await handleAddFilter(key);
       }
     };
-    addFilters();
-  }, []);
+    if (queryCrops.isSuccess) {
+      addFilters();
+    }
+  }, [queryCrops.isSuccess]);
 
   return (
     <div className="flex flex-col items-start justify-start w-[1000px]">

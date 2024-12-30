@@ -23,7 +23,7 @@ import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Filter, X } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
 import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
@@ -88,7 +88,11 @@ export const WorkModuleSearchbar = () => {
     if (crop?.id) {
       filters.push({
         key: 'crop',
-        label: `Cultivo: ${crop?.name}`,
+        label: `Cultivo: ${
+          !crop.name
+            ? queryCrops.data?.rows.find((c) => c.id === crop.id)?.name
+            : crop?.name
+        }`,
       });
     }
 
@@ -123,7 +127,6 @@ export const WorkModuleSearchbar = () => {
     setAppliedFilters(filters);
     setOpenDropDownMenu(false);
     handleSearch(form.watch());
-    console.log(appliedFilters);
     return true;
   };
 
@@ -197,6 +200,17 @@ export const WorkModuleSearchbar = () => {
     navigate(MODULE_WORKS_PATHS.ViewAll);
     toast.success('Se han limpiado los filtros');
   };
+
+  useEffect(() => {
+    const addFilters = async () => {
+      for (const key of Object.keys(paramsQuery)) {
+        await handleAddFilter(key);
+      }
+    };
+    if (queryCrops.isSuccess) {
+      addFilters();
+    }
+  }, [queryCrops.isSuccess]);
 
   return (
     <div className="flex flex-col items-start justify-start w-[1000px]">
