@@ -17,20 +17,23 @@ import { FormWorkDetail } from './details/FormWorkDetail';
 
 import { ScrollArea, ScrollBar } from '@/components';
 import { useFormWorkContext } from '@/modules/work/hooks/context/useFormWorkContext';
+import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
 
-export const FormWorkDataTable = () => {
+export const FormWorkDataTable: React.FC = () => {
   const {
-    table,
     readOnly,
-    lengthColumns,
+    dataTableWorkDetail: {
+      table,
+      lengthColumns,
+      hasSelectedRecords,
+      resetSelectionRows,
+    },
     handleDeleteBulkWorkDetails,
-    hasSelectedRecords,
     setWorkDetail,
     handleOpenDialog,
-    resetSelectionRows,
   } = useFormWorkContext();
 
-  const handleSetWorkDetail = (data: any) => {
+  const handleSetWorkDetail = (data: WorkDetail) => {
     setWorkDetail(data);
     handleOpenDialog();
   };

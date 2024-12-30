@@ -1,27 +1,37 @@
-import React, { createContext, useEffect, useState } from 'react';
-
-import { useNavigate } from 'react-router-dom';
+import React, {
+  createContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
-import { useCreateForm } from '@/modules/core/hooks';
+import { RowData, useCreateForm } from '@/modules/core/hooks';
 import { useGetAllEmployees } from '@/modules/employees/hooks';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 
 import { useFormChange } from '@/modules/core/components';
-import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
+import {
+  DataTableGenericReturn,
+  useDataTableGeneric,
+} from '@/modules/core/hooks/data-table/useDataTableGeneric';
 
 import { toast } from 'sonner';
 
+import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { ActionsTableWorkDetail } from './details/ActionsTableWorkDetail';
-import { columnsWorkDetail } from './details/ColumnsTableWorkDetail';
+import { FormProps, ResponseApiGetAllRecords } from '@/modules/core/interfaces';
+import { Work } from '@/modules/work/interfaces/Work';
 import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
 import { formSchemaWork } from '@/modules/work/utils/formSchemaWork';
-import { MODULE_WORKS_PATHS } from '@/modules/work/routes/pathRoutes';
 import { formSchemaWorkDetails } from '@/modules/work/utils/formSchemaWorkDetails';
-
-export const FormWorkContext = createContext<any>(null);
+import { UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { z } from 'zod';
+import { ActionsTableWorkDetail } from './details/ActionsTableWorkDetail';
+import { columnsWorkDetail } from './details/ColumnsTableWorkDetail';
 
 export const defaultValuesWorkDetail: WorkDetail = {
   employee: {
@@ -32,39 +42,117 @@ export const defaultValuesWorkDetail: WorkDetail = {
   payment_is_pending: true,
 };
 
-export const FormWorkProvider = ({
+const defaultValuesWork = {
+  date: undefined,
+  crop: { id: '', name: '' },
+  description: '',
+  details: [],
+  total: 0,
+};
+
+export type FormWorkProps = FormProps<z.infer<typeof formSchemaWork>, Work>;
+
+export interface FormWorkContextValues {
+  formWork: ReturnType<typeof useCreateForm>;
+  formWorkDetail: ReturnType<typeof useCreateForm>;
+  readOnly: boolean;
+  isSubmitting: boolean;
+  onSubmit: (values: z.infer<typeof formSchemaWork>) => void;
+  total: number;
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  openDialog: boolean;
+  workDetail: WorkDetail;
+  setWorkDetail: React.Dispatch<React.SetStateAction<WorkDetail>>;
+  dataTableWorkDetail: DataTableGenericReturn<WorkDetail>;
+  queryEmployees: UseQueryResult<
+    ResponseApiGetAllRecords<Employee>,
+    AxiosError<TypedAxiosError, unknown>
+  >;
+  detailsWork: WorkDetail[];
+  addWorkDetail: (harvestDetail: WorkDetail) => void;
+  modifyWorkDetail: (harvestDetail: WorkDetail) => void;
+  resetWorkDetails: () => void;
+  handleOpenDialog: () => void;
+  handleCloseDialog: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  resetWorkDetail: () => void;
+  handleDeleteBulkWorkDetails: () => void;
+  removeWorkDetail: (harvestDetail: WorkDetail) => void;
+  actionsWorksModule: Record<string, boolean>;
+}
+
+interface WorkAction {
+  type: 'REMOVE' | 'MODIFY' | 'RESET' | 'ADD';
+  payload?: WorkDetail;
+}
+
+const harvestDetailsReducer = (
+  state: WorkDetail[],
+  action: WorkAction
+): WorkDetail[] => {
+  switch (action.type) {
+    case 'ADD':
+      return [...state, action.payload as WorkDetail];
+    case 'REMOVE':
+      return state.filter((detail) => detail.id !== action.payload?.id);
+    case 'MODIFY':
+      return state.map((item) =>
+        item.id !== action.payload?.id ? item : (action.payload as WorkDetail)
+      );
+    case 'RESET':
+      return [];
+    default:
+      throw new Error(`Unhandled action type: ${action.type}`);
+  }
+};
+
+export const FormWorkContext = createContext<FormWorkContextValues | undefined>(
+  undefined
+);
+
+export const FormWorkProvider: React.FC<
+  FormWorkProps & {
+    children: React.ReactNode;
+  }
+> = ({
   children,
-  defaultValues,
-  isSubmitting,
-  onSubmit,
-  readOnly,
-}: any & { children: React.ReactNode }) => {
-  const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
+  defaultValues = defaultValuesWork,
+  isSubmitting = false,
+  onSubmit = (values) => console.log(values),
+  readOnly = false,
+}) => {
+  const { getActionsModule } = useAuthContext();
+  const actionsWorksModule = useMemo(() => getActionsModule('works'), []);
+
   const detailsDefaultValues = defaultValues?.details ?? [];
-  const [detailsWork, setDetailsWork] = useState(detailsDefaultValues);
+  const [detailsWork, dispatch] = useReducer(
+    harvestDetailsReducer,
+    detailsDefaultValues
+  );
 
-  const removeWorkDetail = (workDetail: WorkDetail) => {
-    setDetailsWork((details: any) =>
-      details.filter((detail: WorkDetail) => detail.id !== workDetail.id)
-    );
+  const addWorkDetail = (harvestDetail: WorkDetail): void => {
+    dispatch({ type: 'ADD', payload: harvestDetail });
   };
 
-  const modifyWorkDetail = (workDetail: WorkDetail) => {
-    setDetailsWork((details = []) =>
-      details.map((item: any) =>
-        item.id !== workDetail.id ? item : workDetail
-      )
-    );
+  const removeWorkDetail = (harvestDetail: WorkDetail): void => {
+    dispatch({ type: 'REMOVE', payload: harvestDetail });
   };
 
-  const resetWorkDetails = () => {
-    setDetailsWork([]);
+  const modifyWorkDetail = (harvestDetail: WorkDetail): void => {
+    dispatch({ type: 'MODIFY', payload: harvestDetail });
   };
 
-  const total = detailsWork.reduce(
-    (total: number, detail: WorkDetail) =>
-      Number(total) + Number(detail.value_pay),
-    0
+  const resetWorkDetails = (): void => {
+    dispatch({ type: 'RESET' });
+  };
+
+  const total = useMemo<number>(
+    () =>
+      detailsWork.reduce(
+        (total: number, detail: WorkDetail) =>
+          Number(total) + Number(detail.value_pay),
+        0
+      ),
+    [detailsWork]
   );
 
   const formWork = useCreateForm({
@@ -72,23 +160,18 @@ export const FormWorkProvider = ({
     defaultValues,
   });
 
-  const executeValidationFormWork = async () => {
-    return await formWork.trigger();
-  };
-
   const columnsTable = useCreateColumnsTable({
     columns: columnsWorkDetail,
     actions: ActionsTableWorkDetail,
     hiddenActions: readOnly,
   });
 
-  const dataTableWorkDetail = useDataTableGeneric({
+  const dataTableWorkDetail = useDataTableGeneric<WorkDetail>({
     columns: columnsTable,
-    data: detailsWork,
+    rows: detailsWork,
   });
 
-  const { getIdsToRowsSelected, resetSelectionRows, hasSelectedRecords } =
-    dataTableWorkDetail;
+  const { getIdsToRowsSelected, resetSelectionRows } = dataTableWorkDetail;
 
   const { setIsActiveDialog } = useDialogStatus();
   const { hasUnsavedChanges, showToast } = useFormChange();
@@ -101,14 +184,6 @@ export const FormWorkProvider = ({
 
   const [openDialog, setOpenDialog] = useState(false);
 
-  const navigate = useNavigate();
-
-  const { hasPermission } = useAuthContext();
-
-  const handleReturnToModule = () => {
-    navigate(MODULE_WORKS_PATHS.ViewAll);
-  };
-
   const formWorkDetail = useCreateForm({
     schema: formSchemaWorkDetails,
     defaultValues: workDetail,
@@ -120,24 +195,13 @@ export const FormWorkProvider = ({
     allRecords: true,
   });
 
-  const findEmployeeName = (id: string): string => {
-    return (
-      queryEmployees?.data?.rows.find((item: Employee) => item.id === id)
-        ?.first_name || ''
-    );
-  };
-
-  const resetForm = () => {
-    formWorkDetail.reset(defaultValuesWorkDetail);
-  };
-
   const handleOpenDialog = () => {
     setIsActiveDialog(true);
     setOpenDialog(true);
   };
 
   const ClearFormWorkDetail = () => {
-    resetForm();
+    formWorkDetail.reset(defaultValuesWorkDetail);
     setIsActiveDialog(false);
     setOpenDialog(false);
   };
@@ -154,37 +218,11 @@ export const FormWorkProvider = ({
     ClearFormWorkDetail();
   };
 
-  const getCurrentDataWorkDetail = () => {
-    const values = { ...formWorkDetail.getValues() };
-    const employeeIdForm = values?.employee?.id;
-    const nameEmployee = findEmployeeName(employeeIdForm);
-    const data = {
-      total: +values.total,
-      value_pay: +values.value_pay,
-      employee: { id: employeeIdForm, first_name: nameEmployee },
-    };
-    return data;
-  };
-
-  const filterEmployeesToShow = (): Employee[] => {
-    return (
-      queryEmployees?.data?.rows.filter((record: Employee) => {
-        const state = detailsWork.some(
-          (item: WorkDetail) => item.employee.id === record.id
-        );
-        if (state && record.id !== workDetail?.employee?.id) {
-          return;
-        }
-        return record;
-      }) || []
-    );
-  };
-
   const handleDeleteBulkWorkDetails = () => {
-    const recordsIds = getIdsToRowsSelected().map((el: any) => el.id);
+    const recordsIds = getIdsToRowsSelected().map((el: RowData) => el.id);
     const currentValues = [...formWork.watch('details')];
-    const result = currentValues.filter((element: any) => {
-      if (!recordsIds.includes(element.id)) {
+    const result = currentValues.filter((element: WorkDetail) => {
+      if (!recordsIds.includes(element?.id!)) {
         return element;
       }
     });
@@ -207,36 +245,28 @@ export const FormWorkProvider = ({
   return (
     <FormWorkContext.Provider
       value={{
-        form: formWork,
-        isOpenDialogForm,
-        setIsOpenDialogForm,
+        formWork,
         isSubmitting,
         onSubmit,
         readOnly,
-        handleReturnToModule,
-        hasPermission,
         total,
         workDetail,
         setWorkDetail,
-        filterEmployeesToShow,
-        getCurrentDataWorkDetail,
-        resetForm,
         formWorkDetail,
         openDialog,
         setOpenDialog,
         handleOpenDialog,
         handleCloseDialog,
         resetWorkDetail,
-        ...dataTableWorkDetail,
+        dataTableWorkDetail,
         handleDeleteBulkWorkDetails,
-        hasSelectedRecords,
-        executeValidationFormWork,
         queryEmployees,
         detailsWork,
-        setDetailsWork,
+        addWorkDetail,
         removeWorkDetail,
         modifyWorkDetail,
         resetWorkDetails,
+        actionsWorksModule,
       }}
     >
       {children}

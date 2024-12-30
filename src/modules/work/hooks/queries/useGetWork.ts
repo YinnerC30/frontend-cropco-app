@@ -1,17 +1,46 @@
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { ConvertStringToDate } from '@/modules/core/helpers';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 import { Work } from '../../interfaces/Work';
 
-export async function getWorkById(id: string): Promise<Work> {
-  const { data } = await cropcoAPI.get(`${pathsCropco.works}/one/${id}`);
-  return data[0];
+export async function getWorkById(id: string): PromiseReturnRecord<Work> {
+  return await cropcoAPI.get(`${pathsCropco.works}/one/${id}`);
 }
 
-export function useGetWork(id: string): UseQueryResult<Work, Error> {
-  const query = useQuery({
+export function useGetWork(id: string): UseGetOneRecordReturn<Work> {
+  const { hasPermission, handleError } = useAuthContext();
+  const isAuthorized = hasPermission('works', 'find_one_work');
+
+  const query: UseGetOneRecordReturn<Work> = useQuery({
     queryKey: ['works', id],
     queryFn: () => getWorkById(id),
+    select: ({ data }) => {
+      return { ...data, date: ConvertStringToDate(data?.date) };
+    },
   });
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      toast.error(
+        'Requieres del permiso de lectura para obtener la información del usuario solicitado'
+      );
+    }
+  }, [isAuthorized]);
+
+  useEffect(() => {
+    if (query.isError) {
+      handleError({
+        error: query.error,
+        messagesStatusError: {},
+      });
+    }
+  }, [query.isError, query.error]);
+
   return query;
 }

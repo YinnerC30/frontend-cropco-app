@@ -1,15 +1,9 @@
 import {
-  Badge,
   Button,
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuPortal,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   Form,
-  Label,
 } from '@/components';
 import {
   FormFieldCalendar,
@@ -29,59 +23,49 @@ import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Filter, X } from 'lucide-react';
-import { memo, useCallback, useState } from 'react';
+import { useState } from 'react';
 
+import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
+import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
+import {
+  dateFilterOptions,
+  numberFilterOptions,
+} from '@/modules/core/interfaces/queries/FilterOptions';
+import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
 import { useWorkModuleContext } from '../../hooks/context/useWorkModuleContext';
 import { MODULE_WORKS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarWork } from '../../utils/formFieldsSearchBarWork';
 import { formSchemaSearchBarWork } from '../../utils/formSchemaSearchBarWork';
 
-interface FilterSearchBar {
-  key: string;
-  label: string;
-}
-
-// Opciones predefinidas para Popover
-const numberFilterOptions = [
-  {
-    key: TypeFilterNumber.MIN,
-    value: TypeFilterNumber.MIN,
-    label: 'Menor a',
+const valuesResetForm = {
+  crop: {
+    id: '',
+    name: '',
   },
-  {
-    key: TypeFilterNumber.EQUAL,
-    value: TypeFilterNumber.EQUAL,
-    label: 'Igual a',
+  filter_by_date: {
+    date: undefined,
+    type_filter_date: TypeFilterDate.after,
   },
-  {
-    key: TypeFilterNumber.MAX,
-    value: TypeFilterNumber.MAX,
-    label: 'Mayor a',
+  filter_by_total: {
+    type_filter_total: TypeFilterNumber.MIN,
+    total: 0,
   },
-];
-
-const dateFilterOptions = [
-  {
-    key: TypeFilterDate.after,
-    value: TypeFilterDate.after,
-    label: 'Despues del',
-  },
-  {
-    key: TypeFilterDate.before,
-    value: TypeFilterDate.before,
-    label: 'Antes del',
-  },
-];
+};
 
 export const WorkModuleSearchbar = () => {
-  const { paramsQuery, permissionsWork } = useWorkModuleContext();
-  const readOnly = !permissionsWork['find_all_works'];
+  const { paramsQuery, actionsWorksModule } = useWorkModuleContext();
+  const readOnly = !actionsWorksModule['find_all_works'];
   const navigate = useNavigate();
   const { query: queryCrops } = useGetAllCropsWithWork({
-    searchParameter: '',
+    queryValue: '',
     allRecords: true,
   });
-  const form = useCreateForm({
+  const form: UseFormReturn<
+    z.infer<typeof formSchemaSearchBarWork>,
+    unknown
+  > = useCreateForm({
     schema: formSchemaSearchBarWork,
     defaultValues: paramsQuery,
     skiptDirty: true,
@@ -91,15 +75,10 @@ export const WorkModuleSearchbar = () => {
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
-  const findCropInData = useCallback(
-    (id: string) => {
-      return queryCrops?.data?.rows.find((row: any) => row.id === id);
-    },
-    [queryCrops]
-  );
-
-  const handleAddFilter = async (name = '') => {
-    const isValid = await form.trigger(name);
+  const handleAddFilter = async (name: string) => {
+    const isValid = await form.trigger(
+      name as unknown as keyof z.infer<typeof formSchemaSearchBarWork>
+    );
     if (!isValid) return false;
 
     const { crop, filter_by_date, filter_by_total } = form.watch();
@@ -107,10 +86,9 @@ export const WorkModuleSearchbar = () => {
     const filters: FilterSearchBar[] = [];
 
     if (crop?.id) {
-      const data = findCropInData(crop.id);
       filters.push({
         key: 'crop',
-        label: `Cultivo: ${data.name}`,
+        label: `Cultivo: ${crop?.name}`,
       });
     }
 
@@ -145,18 +123,21 @@ export const WorkModuleSearchbar = () => {
     setAppliedFilters(filters);
     setOpenDropDownMenu(false);
     handleSearch(form.watch());
+    console.log(appliedFilters);
     return true;
   };
 
-  const handleClearErrorsForm = (name = '') => {
-    form.clearErrors(name);
+  const handleClearErrorsForm = (name: string) => {
+    form.clearErrors(
+      name as unknown as keyof z.infer<typeof formSchemaSearchBarWork>
+    );
   };
 
   const handleRemoveFilter = (filter: FilterSearchBar) => {
     setAppliedFilters((prev) => prev.filter((f) => f.key !== filter.key));
     switch (filter.key) {
       case 'crop':
-        form.setValue('crop.id', '', { shouldDirty: false });
+        form.setValue('crop', { id: '', name: '' }, { shouldDirty: false });
         break;
       case 'date':
         form.setValue('filter_by_date.type_filter_date', undefined, {
@@ -174,7 +155,9 @@ export const WorkModuleSearchbar = () => {
     handleSearch(form.watch());
   };
 
-  const handleSearch = async (values: any) => {
+  const handleSearch = async (
+    values: z.infer<typeof formSchemaSearchBarWork>
+  ) => {
     const params = new URLSearchParams();
 
     if (values.crop?.id) {
@@ -205,25 +188,12 @@ export const WorkModuleSearchbar = () => {
     navigate(`?${params.toString()}`);
   };
 
-  const handleResetForm = () => {
+  const handleResetForm = (): void => {
     setAppliedFilters([]);
-    form.reset(
-      {
-        crop: '',
-        filter_by_date: {
-          date: undefined,
-          type_filter_date: TypeFilterDate.after,
-        },
-        filter_by_total: {
-          type_filter_total: TypeFilterNumber.MIN,
-          total: 0,
-        },
-      },
-      {
-        keepErrors: false,
-        keepDirty: false,
-      }
-    );
+    form.reset(valuesResetForm, {
+      keepErrors: false,
+      keepDirty: false,
+    });
     navigate(MODULE_WORKS_PATHS.ViewAll);
     toast.success('Se han limpiado los filtros');
   };
@@ -244,7 +214,7 @@ export const WorkModuleSearchbar = () => {
                   form={form}
                   nameToShow="name"
                   control={form.control}
-                  name="crop.id"
+                  name="crop"
                   placeholder={formFieldsSearchBarWork.crop.placeholder}
                   className="w-auto lg:w-[300px]"
                   description={''}
@@ -347,92 +317,6 @@ export const WorkModuleSearchbar = () => {
           </form>
         </Form>
       </DropdownMenu>
-    </div>
-  );
-};
-
-const FilterDropdownItem = memo(
-  ({
-    label,
-    content,
-    actionOnSave,
-    actionOnClose,
-  }: {
-    label: string;
-    content: JSX.Element;
-    actionOnSave: () => Promise<boolean>;
-    actionOnClose: () => void;
-  }) => {
-    const [openMenu, setOpenMenu] = useState(false);
-
-    return (
-      <DropdownMenuSub open={openMenu} onOpenChange={setOpenMenu}>
-        <DropdownMenuSubTrigger>{label}</DropdownMenuSubTrigger>
-        <DropdownMenuPortal>
-          <DropdownMenuSubContent
-            className="w-[250px] p-4 ml-2"
-            avoidCollisions
-            sideOffset={0}
-          >
-            {content}
-            <div className="flex justify-center gap-2">
-              <Button
-                className="self-end w-24 mt-4"
-                onClick={async (e) => {
-                  e.preventDefault();
-                  const value = await actionOnSave();
-                  setOpenMenu(!value);
-                }}
-              >
-                Aplicar
-              </Button>
-              <Button
-                variant={'destructive'}
-                className="self-end w-24 mt-4"
-                onClick={() => {
-                  setOpenMenu(false);
-                  actionOnClose();
-                }}
-              >
-                Cerrar
-              </Button>
-            </div>
-          </DropdownMenuSubContent>
-        </DropdownMenuPortal>
-      </DropdownMenuSub>
-    );
-  }
-);
-
-interface Props {
-  filters: FilterSearchBar[];
-  handleRemove: any;
-}
-
-const FiltersBadgedList = ({ filters, handleRemove }: Props) => {
-  if (!(filters.length > 0)) {
-    return;
-  }
-  return (
-    <div className="mt-2 ">
-      <Label className="block">Filtros aplicados:</Label>
-      <div className="flex flex-wrap gap-2 my-4 ">
-        {filters.map((filter, index) => (
-          <Badge key={index} variant="secondary">
-            {filter.label}
-            <ToolTipTemplate content="Eliminar filtro">
-              <Button
-                className="ml-3"
-                variant="ghost"
-                size="icon"
-                onClick={() => handleRemove(filter)}
-              >
-                <X className="w-3 h-3" />
-              </Button>
-            </ToolTipTemplate>
-          </Badge>
-        ))}
-      </div>
     </div>
   );
 };

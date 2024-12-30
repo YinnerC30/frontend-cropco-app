@@ -20,37 +20,37 @@ import { ToolTipTemplate } from '@/modules/core/components';
 import { Plus } from 'lucide-react';
 
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
+import { useFormWorkContext } from '@/modules/work/hooks/context/useFormWorkContext';
 import { FormWorkDetailsButtons } from './FormWorkDetailsButtons';
 import { FormWorkDetailsFields } from './FormWorkDetailsFields';
-import { useFormWorkContext } from '@/modules/work/hooks/context/useFormWorkContext';
 
-export const FormWorkDetail = () => {
+export const FormWorkDetail: React.FC = () => {
   const {
     readOnly,
-    getCurrentDataWorkDetail,
     openDialog,
     setOpenDialog,
     workDetail,
     handleOpenDialog,
     handleCloseDialog,
     resetWorkDetail,
-    form,
+    formWork,
     detailsWork,
-    setDetailsWork,
+    addWorkDetail,
     modifyWorkDetail,
+    formWorkDetail,
   } = useFormWorkContext();
 
   const { setIsActiveDialog } = useDialogStatus();
 
-  const onSubmitWorkDetail = () => {
-    const values = getCurrentDataWorkDetail();
+  const onSubmitWorkDetail = async () => {
+    const values = formWorkDetail.watch();
     if (!workDetail.id) {
       const record = {
         ...values,
         id: generateUUID(),
       };
-      setDetailsWork((prev: any) => [...prev, record]);
-      form.setValue('details', [...detailsWork, record], {
+      addWorkDetail(record);
+      formWork.setValue('details', [...detailsWork, record], {
         shouldValidate: true,
         shouldDirty: true,
       });
@@ -63,7 +63,7 @@ export const FormWorkDetail = () => {
 
     setIsActiveDialog(false);
     setOpenDialog(false);
-    form.trigger('details');
+    await formWork.trigger('details');
   };
 
   const handleOpenDialogExtended = (
@@ -78,6 +78,7 @@ export const FormWorkDetail = () => {
     <>
       <ToolTipTemplate content={'Crear registro'}>
         <Button
+          type="button"
           className={`${readOnly && 'hidden'}`}
           variant="outline"
           size="icon"

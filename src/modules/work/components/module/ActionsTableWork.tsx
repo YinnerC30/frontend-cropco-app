@@ -5,13 +5,18 @@ import {
   ActionViewRecord,
   DropDownMenuActions,
 } from '@/modules/core/components';
+import { Row } from '@tanstack/react-table';
 import { useWorkModuleContext } from '../../hooks/context/useWorkModuleContext';
 import { useDeleteWork } from '../../hooks/mutations/useDeleteWork';
+import { Work } from '../../interfaces/Work';
 import { MODULE_WORKS_PATHS } from '../../routes/pathRoutes';
 
-export const ActionsTableWork = ({ row }: any) => {
-  const { resetSelectionRows, permissionsWork } = useWorkModuleContext();
-  const { id } = row.original;
+export const ActionsTableWork = ({ row }: { row: Row<Work> }) => {
+  const {
+    dataTable: { resetSelectionRows },
+    actionsWorksModule,
+  } = useWorkModuleContext();
+  const id = row.original.id ?? '';
   const { mutate } = useDeleteWork();
 
   const handleDelete = () => {
@@ -26,17 +31,17 @@ export const ActionsTableWork = ({ row }: any) => {
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!permissionsWork['remove_one_work']}
+        disabled={!actionsWorksModule['remove_one_work']}
       />
       <ActionModifyRecord
         id={id}
         path={MODULE_WORKS_PATHS.Update + id}
-        disabled={!permissionsWork['update_one_work']}
+        disabled={!actionsWorksModule['update_one_work']}
       />
       <ActionViewRecord
         id={id}
         path={MODULE_WORKS_PATHS.ViewOne + id}
-        disabled={!permissionsWork['find_one_work']}
+        disabled={!actionsWorksModule['find_one_work']}
       />
     </DropDownMenuActions>
   );

@@ -13,25 +13,24 @@ import { useFormWorkContext } from '@/modules/work/hooks/context/useFormWorkCont
 import { formFieldsWork } from '@/modules/work/utils/formFieldsWork';
 import { FormWorkDataTable } from './FormWorkDataTable';
 
-export const FormWorkFields = () => {
-  const { form, onSubmit, readOnly, total } = useFormWorkContext();
+export const FormWorkFields: React.FC = () => {
+  const { formWork, onSubmit, readOnly, total } = useFormWorkContext();
 
   const { query: queryCrops } = useGetAllCrops({
     queryValue: '',
     allRecords: true,
-    canExecuteQuery: !readOnly,
   });
 
   return (
-    <Form {...form}>
+    <Form {...formWork}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={formWork.handleSubmit(onSubmit)}
         id="formWork"
         className="flex flex-col lg:justify-evenly lg:flex-row"
       >
         <div className="w-3/4 lg:w-[40%]">
           <FormFieldCalendar
-            control={form.control}
+            control={formWork.control}
             description={formFieldsWork.date.description}
             label={formFieldsWork.date.label}
             name={'date'}
@@ -40,12 +39,12 @@ export const FormWorkFields = () => {
           />
           <FormFieldCommand
             data={queryCrops?.data?.rows || []}
-            form={form}
+            form={formWork}
             nameToShow={'name'}
-            control={form.control}
+            control={formWork.control}
             description={formFieldsWork.crop.description}
             label={formFieldsWork.crop.label}
-            name={'crop.id'}
+            name={'crop'}
             placeholder={formFieldsWork.crop.placeholder}
             readOnly={readOnly}
             isLoading={queryCrops.isLoading}
@@ -54,7 +53,7 @@ export const FormWorkFields = () => {
           />
           <FormFieldTextArea
             className="w-72"
-            control={form.control}
+            control={formWork.control}
             description={formFieldsWork.description.description}
             label={formFieldsWork.description.label}
             name={'description'}
@@ -65,7 +64,7 @@ export const FormWorkFields = () => {
 
         <div className="lg:w-[50%]">
           <FormFieldDataTable
-            control={form.control}
+            control={formWork.control}
             description={''}
             label={formFieldsWork.details.label}
             name={'details'}
@@ -76,7 +75,7 @@ export const FormWorkFields = () => {
           </FormFieldDataTable>
 
           <FormFieldInput
-            control={form.control}
+            control={formWork.control}
             description={formFieldsWork.total.description}
             label={formFieldsWork.total.label}
             name={'total'}

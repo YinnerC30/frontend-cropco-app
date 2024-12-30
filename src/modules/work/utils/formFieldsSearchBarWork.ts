@@ -1,6 +1,18 @@
 import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-export const formFieldsSearchBarWork: Record<string, CustomFormField> = {
+type FormFieldsSearchBarWork =
+  | 'crop'
+  | 'filter_by_date'
+  | 'type_filter_date'
+  | 'date'
+  | 'filter_by_total'
+  | 'type_filter_total'
+  | 'total';
+
+export const formFieldsSearchBarWork: Record<
+  FormFieldsSearchBarWork,
+  CustomFormField
+> = {
   crop: {
     name: 'crop',
     label: 'Filtrar por cultivo:',

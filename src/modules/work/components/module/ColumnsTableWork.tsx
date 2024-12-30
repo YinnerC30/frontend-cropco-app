@@ -1,46 +1,33 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
+import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
+import { Work } from '../../interfaces/Work';
 import { formFieldsWork } from '../../utils/formFieldsWork';
-import { Button } from '@/components';
-import { ArrowUpDown } from 'lucide-react';
+import { Crop } from '@/modules/crops/interfaces/Crop';
 
-export const columnsWork: ColumnDef<any>[] = [
+export const columnsWork: ColumnDef<Work>[] = [
   {
     accessorKey: formFieldsWork.date.name,
     cell: ({ row }) => {
       return FormatDate({ date: row.getValue('date') });
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Work, unknown>) => {
       return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {formFieldsWork.date.label}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
+        <ButtonHeaderTable column={column} label={formFieldsWork.date.label} />
       );
     },
   },
   {
     accessorKey: formFieldsWork.crop.name,
     cell: ({ row }) => {
-      const crop: any = row.getValue('crop');
+      const crop: Crop = row.getValue('crop');
       return crop.name;
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Work, unknown>) => {
       return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {formFieldsWork.crop.label}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
+        <ButtonHeaderTable column={column} label={formFieldsWork.crop.label} />
       );
     },
   },
@@ -49,16 +36,12 @@ export const columnsWork: ColumnDef<any>[] = [
     cell: ({ row }) => {
       return row.getValue('description');
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Work, unknown>) => {
       return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {formFieldsWork.description.label}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
+        <ButtonHeaderTable
+          column={column}
+          label={formFieldsWork.description.label}
+        />
       );
     },
   },
@@ -67,16 +50,9 @@ export const columnsWork: ColumnDef<any>[] = [
     cell: ({ row }) => {
       return FormatMoneyValue(row.getValue('total'));
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Work, unknown>) => {
       return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Total a pagar:
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
+        <ButtonHeaderTable column={column} label={formFieldsWork.total.label} />
       );
     },
   },

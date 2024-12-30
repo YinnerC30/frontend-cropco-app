@@ -6,30 +6,30 @@ import {
 import { ActionModifyRecordFormDataTable } from '@/modules/core/components/data-table/menu/actions/ActionModifyRecordFormDataTable';
 import { useFormWorkContext } from '@/modules/work/hooks/context/useFormWorkContext';
 import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
-
+import { Row } from '@tanstack/react-table';
 
 import { toast } from 'sonner';
 
-export const ActionsTableWorkDetail = ({ row }: any) => {
-  const workDetail = row.original;
+export const ActionsTableWorkDetail = ({ row }: { row: Row<WorkDetail> }) => {
+  const workDetail: WorkDetail = row.original;
 
   const {
     setWorkDetail,
     handleOpenDialog,
-    form,
-    executeValidationFormWork,
+    formWorkDetail,
     removeWorkDetail,
+    formWork,
   } = useFormWorkContext();
 
   const handleDelete = async () => {
-    const detailsForm = form
+    const detailsForm = formWorkDetail
       .watch('details')
       .filter((detail: WorkDetail) => detail.id !== workDetail.id);
 
-    form.setValue('details', detailsForm, { shouldDirty: true });
+    formWorkDetail.setValue('details', detailsForm, { shouldDirty: true });
     removeWorkDetail(workDetail);
 
-    await form.trigger('details');
+    await formWorkDetail.trigger('details');
 
     toast.success(
       `Se ha eliminado la cosecha del empleado ${workDetail.employee.first_name}`
@@ -43,15 +43,14 @@ export const ActionsTableWorkDetail = ({ row }: any) => {
 
   return (
     <DropDownMenuActions>
-      <ActionCopyIdRecord id={workDetail.id} />
+      <ActionCopyIdRecord id={workDetail?.id!} />
       <ActionDeleteRecord
-        action={() => {
+        action={async () => {
           handleDelete();
-          executeValidationFormWork();
+          await formWork.trigger('details');
         }}
         disabled={false}
       />
-      {/* TODO: Activar disabled */}
       <ActionModifyRecordFormDataTable action={handleModify} />
     </DropDownMenuActions>
   );

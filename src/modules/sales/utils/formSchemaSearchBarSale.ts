@@ -3,7 +3,7 @@ import { YesORNotSelection } from '@/modules/core/interfaces/general/YesORNotSel
 import {
   schemaForDate,
   schemaForTotal,
-} from '@/modules/harvests/utils/formSchemaSearchBarHarvest';
+} from '@/modules/core/helpers/schemas-validation/SchemasSearchBar';
 import { z } from 'zod';
 
 export const formSchemaSearchBarSale = z.object({

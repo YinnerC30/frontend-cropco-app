@@ -1,13 +1,14 @@
 import {
   schemaForDate,
   schemaForTotal,
-} from '@/modules/harvests/utils/formSchemaSearchBarHarvest';
+} from '@/modules/core/helpers/schemas-validation/SchemasSearchBar';
 import { z } from 'zod';
 
 export const formSchemaSearchBarWork = z.object({
   crop: z
     .object({
       id: z.string().optional(),
+      name: z.string().optional(),
     })
     .optional(),
 

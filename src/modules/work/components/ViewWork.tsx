@@ -4,16 +4,14 @@ import { useGetWork } from '../hooks/queries/useGetWork';
 import { Loading } from '@/modules/core/components';
 
 import { BreadCrumb } from '@/modules/core/components/';
-import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
 import { MODULE_WORKS_PATHS } from '../routes/pathRoutes';
 import { FormWork } from './forms/work/FormWork';
 
-export const ViewWork = () => {
+export const ViewWork: React.FC = () => {
   const { id } = useParams();
 
   const { data, isLoading } = useGetWork(id!);
 
-  // Render loading or error states
   if (isLoading) return <Loading />;
 
   return (
@@ -23,10 +21,7 @@ export const ViewWork = () => {
         finalItem={`Información del trabajo`}
       />
 
-      <FormWork
-        readOnly
-        defaultValues={{ ...data, date: ConvertStringToDate(data?.date) }}
-      />
+      <FormWork readOnly defaultValues={data} />
     </>
   );
 };

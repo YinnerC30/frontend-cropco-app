@@ -1,9 +1,18 @@
 import { Button } from '@/components';
 import { ButtonsForm } from '@/modules/core/components';
 import { useFormWorkContext } from '@/modules/work/hooks/context/useFormWorkContext';
+import { MODULE_WORKS_PATHS } from '@/modules/work/routes/pathRoutes';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export const FormWorkButtons = () => {
-  const { readOnly, handleReturnToModule, isSubmitting } = useFormWorkContext();
+export const FormWorkButtons: React.FC = () => {
+  const { readOnly, isSubmitting } = useFormWorkContext();
+
+  const navigate = useNavigate();
+
+  const handleReturnToModule = () => {
+    navigate(MODULE_WORKS_PATHS.ViewAll);
+  };
 
   return readOnly ? (
     <Button className="my-2" onClick={handleReturnToModule}>

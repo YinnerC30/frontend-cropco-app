@@ -1,23 +1,16 @@
 import { Button } from '@/components';
 import { useFormWorkContext } from '@/modules/work/hooks/context/useFormWorkContext';
 
-import { toast } from 'sonner';
-
 interface Props {
-  onClick: any;
+  onClick: () => Promise<void>;
 }
 
-export const FormWorkDetailsButtons = ({ onClick }: Props) => {
+export const FormWorkDetailsButtons: React.FC<Props> = ({ onClick }: Props) => {
   const { formWorkDetail } = useFormWorkContext();
 
   const handleClick = async () => {
-    const isDirty = formWorkDetail.formState.isDirty;
-    if (!isDirty) {
-      toast.info('No has realizado cambios;');
-      return;
-    }
     const isValid = await formWorkDetail.trigger();
-    isValid && onClick();
+    isValid && (await onClick());
   };
   return (
     <div>
