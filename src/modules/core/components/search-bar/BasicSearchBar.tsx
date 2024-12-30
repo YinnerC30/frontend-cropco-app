@@ -36,11 +36,12 @@ export const BasicSearchBar = ({
     defaultValues: {
       query,
     },
+    skiptDirty: true,
   });
 
   const onReset = () => {
     form.reset({ query: '' });
-    navigate(`../view/all`);
+    navigate(window.location.pathname);
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
