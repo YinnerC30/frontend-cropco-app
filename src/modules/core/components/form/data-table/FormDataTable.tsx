@@ -7,7 +7,13 @@ import {
   TableRow,
 } from '@/components';
 import { useFormDataTableContext } from './FormDataTableContext';
-import { flexRender } from '@tanstack/react-table';
+import {
+  Cell,
+  flexRender,
+  Header,
+  HeaderGroup,
+  Row,
+} from '@tanstack/react-table';
 import { memo } from 'react';
 
 interface Props {
@@ -21,9 +27,9 @@ export const FormDataTable = memo(
     return (
       <Table className={`${className}`}>
         <TableHeader>
-          {table.getHeaderGroups().map((headerGroup: any) => (
+          {table.getHeaderGroups().map((headerGroup: HeaderGroup<any>) => (
             <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header: any) => {
+              {headerGroup.headers.map((header: Header<any, unknown>) => {
                 return (
                   <TableHead key={header.id}>
                     {header.isPlaceholder
@@ -40,7 +46,7 @@ export const FormDataTable = memo(
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row: any) => (
+            table.getRowModel().rows.map((row: Row<any>) => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
@@ -48,7 +54,7 @@ export const FormDataTable = memo(
                   !disabledDoubleClick && onCellDoubleClick(row.original);
                 }}
               >
-                {row.getVisibleCells().map((cell: any) => (
+                {row.getVisibleCells().map((cell: Cell<any, unknown>) => (
                   <TableCell key={cell.id} className="py-1">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
