@@ -41,16 +41,3 @@ export const formSchemaHarvest = z.object({
       message: 'El valor a pagar debe ser un número que termine en 50 o 00.',
     }),
 });
-
-// const result = formSchemaHarvest.safeParse({
-//   date: undefined,
-//   crop: { id: undefined, name: undefined },
-//   observation: '',
-//   details: [],
-//   total: 0,
-//   value_pay: 0,
-// });
-
-// if (!result.success) {
-//   console.log(result.error.format());
-// }

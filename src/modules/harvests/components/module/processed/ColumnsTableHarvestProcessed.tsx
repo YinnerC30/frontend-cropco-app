@@ -1,9 +1,8 @@
-import { Button } from '@/components/ui/button';
 
-import { ArrowUpDown } from 'lucide-react';
 
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
+import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
 import { HarvestProcessed } from '../../../interfaces/HarvestProcessed';
@@ -19,14 +18,10 @@ export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
     },
     header: ({ column }: HeaderContext<HarvestProcessed, unknown>) => {
       return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {formFieldsHarvestProcessed.date.label}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
+        <ButtonHeaderTable
+          column={column}
+          label={formFieldsHarvestProcessed.date.label}
+        />
       );
     },
   },
@@ -38,14 +33,10 @@ export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
     },
     header: ({ column }: HeaderContext<HarvestProcessed, unknown>) => {
       return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {formFieldsHarvestProcessed.total.label}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
+        <ButtonHeaderTable
+          column={column}
+          label={formFieldsHarvestProcessed.total.label}
+        />
       );
     },
   },

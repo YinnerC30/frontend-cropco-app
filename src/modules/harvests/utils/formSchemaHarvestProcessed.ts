@@ -1,15 +1,15 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const CreateFormSchemaHarvestProcessed = (
   dateHarvest: string | Date
 ) => {
   const formSchema = z.object({
-    date: z.date({ required_error: "La fecha es un campo obligatorio" }).refine(
+    date: z.date({ required_error: 'La fecha es un campo obligatorio' }).refine(
       (date) => {
         return new Date(date) > new Date(dateHarvest);
       },
       {
-        message: "La fecha debe ser superior a la de la cosecha",
+        message: 'La fecha debe ser superior a la de la cosecha',
       }
     ),
     total: z.coerce

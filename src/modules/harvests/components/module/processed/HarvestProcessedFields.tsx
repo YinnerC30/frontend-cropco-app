@@ -114,7 +114,6 @@ export const HarvestProcessedFields: React.FC = () => {
           </Badge>
         </FormFieldInput>
 
-        {/* TODO: Refactor */}
         <FormFieldInput
           className=""
           control={form.control}
