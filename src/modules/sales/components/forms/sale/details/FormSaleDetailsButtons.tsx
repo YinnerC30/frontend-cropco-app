@@ -1,6 +1,6 @@
 import { Button } from '@/components';
 import { useFormSaleContext } from '@/modules/sales/hooks';
-
+import React from 'react';
 
 import { toast } from 'sonner';
 
@@ -8,7 +8,7 @@ interface Props {
   onClick: any;
 }
 
-export const FormSaleDetailsButtons = ({ onClick }: Props) => {
+export const FormSaleDetailsButtons: React.FC<Props> = ({ onClick }: Props) => {
   const { formSaleDetail } = useFormSaleContext();
 
   const handleClick = async () => {
@@ -18,9 +18,9 @@ export const FormSaleDetailsButtons = ({ onClick }: Props) => {
       return;
     }
     const isValid = await formSaleDetail.trigger();
-    console.log('Paso por')
+    console.log('Paso por');
     console.log(isValid);
-    console.log(formSaleDetail.formState)
+    console.log(formSaleDetail.formState);
     isValid && onClick();
   };
   return (

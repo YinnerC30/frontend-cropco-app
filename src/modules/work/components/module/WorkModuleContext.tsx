@@ -57,7 +57,6 @@ export const WorksModuleProvider: React.FC<{
     ],
   });
 
-  // FIX: Por corregir parametros hook
   const {
     query: queryWorks,
     pagination,

@@ -1,9 +1,8 @@
-import { TypeFilterNumber } from '@/modules/core/interfaces/general/TypeFilterNumber';
-import { YesORNotSelection } from '@/modules/core/interfaces/general/YesORNotSelection';
 import {
   schemaForDate,
   schemaForTotal,
 } from '@/modules/core/helpers/schemas-validation/SchemasSearchBar';
+import { TypeFilterNumber } from '@/modules/core/interfaces/general/TypeFilterNumber';
 import { z } from 'zod';
 
 export const formSchemaSearchBarSale = z.object({

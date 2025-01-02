@@ -11,21 +11,21 @@ import { formFieldsSale } from '@/modules/sales/utils';
 import { FormSaleDataTable } from './FormSaleDataTable';
 
 export const FormSaleFields = () => {
-  const { form, onSubmit, readOnly, total, quantity } = useFormSaleContext();
+  const { formSale, onSubmit, readOnly, total, quantity } =
+    useFormSaleContext();
 
   return (
-    <Form {...form}>
+    <Form {...formSale}>
       <form
-        onSubmit={form.handleSubmit(() => {
-          // Fix: No se envia ID de harvestDetail
-          const data = form.watch();
+        onSubmit={formSale.handleSubmit(() => {
+          const data = formSale.watch();
+          console.log(data)
           onSubmit(data);
         })}
         id="formSale"
-        className=""
       >
         <FormFieldCalendar
-          control={form.control}
+          control={formSale.control}
           description={formFieldsSale.date.description}
           label={formFieldsSale.date.label}
           name={'date'}
@@ -34,7 +34,7 @@ export const FormSaleFields = () => {
         />
         <div className="sm:w-[600px] mt-4">
           <FormFieldDataTable
-            control={form.control}
+            control={formSale.control}
             description={''}
             label={formFieldsSale.details.label}
             name={'details'}
@@ -45,7 +45,7 @@ export const FormSaleFields = () => {
           </FormFieldDataTable>
         </div>
         <FormFieldInput
-          control={form.control}
+          control={formSale.control}
           description={formFieldsSale.total.description}
           label={formFieldsSale.total.label}
           name={'total'}
@@ -62,7 +62,7 @@ export const FormSaleFields = () => {
           </Badge>
         </FormFieldInput>
         <FormFieldInput
-          control={form.control}
+          control={formSale.control}
           description={formFieldsSale.quantity.description}
           label={formFieldsSale.quantity.label}
           name={'quantity'}

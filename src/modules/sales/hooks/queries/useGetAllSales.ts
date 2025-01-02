@@ -1,113 +1,105 @@
 import { useQuery } from '@tanstack/react-query';
 
-
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth';
 import { usePaginationDataTable } from '@/modules/core/hooks';
+import { QueryDateProps } from '@/modules/core/interfaces/queries/QueryDateProps';
+import { QueryPaginationProps } from '@/modules/core/interfaces/queries/QueryPaginationProps';
+import { QueryTotalProps } from '@/modules/core/interfaces/queries/QueryTotalProps';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
+import { Sale } from '../../interfaces';
 
-export const getSales = async ({
-  limit = 10,
-  offset = 0,
+export interface GetSalesProps
+  extends QueryPaginationProps,
+    QueryDateProps,
+    QueryTotalProps {
+  filter_by_quantity?: boolean;
+  type_filter_quantity?: string;
+  quantity?: number;
 
-  filter_by_date = false,
-  type_filter_date = '',
-  date = '',
+  filter_by_is_receivable?: boolean;
+  is_receivable?: boolean;
+}
 
-  filter_by_total = false,
-  type_filter_total = '',
-  total = 0,
+export const getSales = async (
+  props: GetSalesProps
+): TypeGetAllRecordsReturn<Sale> => {
+  const params = new URLSearchParams({
+    limit: props.limit?.toString() || '10',
+    offset: props.offset?.toString() || '0',
+  });
 
-  filter_by_quantity = false,
-  type_filter_quantity = '',
-  quantity = 0,
-
-  filter_by_is_receivable = false,
-  is_receivable = 0,
-}: any) => {
-  const params = new URLSearchParams();
-
-  params.append('limit', limit.toString());
-  params.append('offset', offset.toString());
-
-  if (filter_by_date) {
+  if (props.filter_by_date) {
     params.append('filter_by_date', 'true');
-    params.append('type_filter_date', type_filter_date);
-    params.append('date', new Date(date).toISOString());
+    params.append('type_filter_date', props.type_filter_date || '');
+    params.append('date', new Date(props.date || '').toISOString());
   }
 
-  if (filter_by_total) {
+  if (props.filter_by_total) {
     params.append('filter_by_total', 'true');
-    params.append('type_filter_total', type_filter_total);
-    params.append('total', total.toString());
+    params.append('type_filter_total', props.type_filter_total || '');
+    params.append('total', props.total?.toString() || '0');
   }
 
-  if (filter_by_quantity) {
+  if (props.filter_by_quantity) {
     params.append('filter_by_quantity', 'true');
-    params.append('type_filter_quantity', type_filter_quantity);
-    params.append('quantity', quantity.toString());
+    params.append('type_filter_quantity', props.type_filter_quantity || '');
+    params.append('quantity', props.quantity?.toString() || '0');
   }
 
-  if (filter_by_is_receivable) {
+  if (props.filter_by_is_receivable) {
     params.append('filter_by_is_receivable', 'true');
-    params.append('is_receivable', is_receivable.toString());
+    params.append('is_receivable', props?.is_receivable?.toString() || 'false');
   }
   const { data } = await cropcoAPI.get(`${pathsCropco.sales}/all?${params}`);
   return data;
 };
 
-export const useGetAllSales = ({
-  filter_by_date = false,
-  type_filter_date = '',
-  date = '',
+export const useGetAllSales = (
+  props: GetSalesProps
+): UseGetAllRecordsReturn<Sale> => {
+  const { pagination, setPagination } = usePaginationDataTable();
 
-  filter_by_total = false,
-  type_filter_total = '',
-  total = 0,
+  const { handleError, hasPermission } = useAuthContext();
 
-  filter_by_quantity = false,
-  type_filter_quantity = '',
-  quantity = 0,
+  const isAuthorized = hasPermission('sales', 'find_all_sales');
 
-  filter_by_is_receivable = false,
-  is_receivable = 0,
-}: any) => {
-  const { pagination, setPagination, pageIndex, pageSize } =
-    usePaginationDataTable();
-
-  const query = useQuery({
+  const query: UseQueryGetAllRecordsReturn<Sale> = useQuery({
     queryKey: [
       'sales',
       {
-        filter_by_date,
-        type_filter_date,
-        date,
-        filter_by_total,
-        type_filter_total,
-        total,
-        filter_by_quantity,
-        type_filter_quantity,
-        quantity,
-        filter_by_is_receivable,
-        is_receivable,
+        ...props,
         ...pagination,
       },
     ],
     queryFn: () =>
       getSales({
-        limit: pageSize,
-        offset: pageIndex,
-        filter_by_date,
-        type_filter_date,
-        date,
-        filter_by_total,
-        type_filter_total,
-        total,
-        filter_by_quantity,
-        type_filter_quantity,
-        quantity,
-        filter_by_is_receivable,
-        is_receivable,
+        ...props,
+        offset: pagination.pageIndex,
+        limit: pagination.pageSize,
       }),
+    select: ({ data }) => data,
+    enabled: isAuthorized,
   });
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      toast.error('No tienes permiso para ver el listado de ventas 😑');
+    }
+  }, [isAuthorized]);
+
+  useEffect(() => {
+    if (query.isError) {
+      handleError({
+        error: query.error,
+        messagesStatusError: {},
+      });
+    }
+  }, [query.isError, query.error]);
 
   return { query, pagination, setPagination };
 };

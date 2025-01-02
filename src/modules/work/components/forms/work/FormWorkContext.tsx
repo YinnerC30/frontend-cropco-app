@@ -69,14 +69,14 @@ export interface FormWorkContextValues {
     AxiosError<TypedAxiosError, unknown>
   >;
   detailsWork: WorkDetail[];
-  addWorkDetail: (harvestDetail: WorkDetail) => void;
-  modifyWorkDetail: (harvestDetail: WorkDetail) => void;
+  addWorkDetail: (workDetail: WorkDetail) => void;
+  modifyWorkDetail: (workDetail: WorkDetail) => void;
   resetWorkDetails: () => void;
   handleOpenDialog: () => void;
   handleCloseDialog: (event: React.MouseEvent<HTMLButtonElement>) => void;
   resetWorkDetail: () => void;
   handleDeleteBulkWorkDetails: () => void;
-  removeWorkDetail: (harvestDetail: WorkDetail) => void;
+  removeWorkDetail: (workDetail: WorkDetail) => void;
   actionsWorksModule: Record<string, boolean>;
 }
 
@@ -85,7 +85,7 @@ interface WorkAction {
   payload?: WorkDetail;
 }
 
-const harvestDetailsReducer = (
+const workDetailsReducer = (
   state: WorkDetail[],
   action: WorkAction
 ): WorkDetail[] => {
@@ -125,20 +125,20 @@ export const FormWorkProvider: React.FC<
 
   const detailsDefaultValues = defaultValues?.details ?? [];
   const [detailsWork, dispatch] = useReducer(
-    harvestDetailsReducer,
+    workDetailsReducer,
     detailsDefaultValues
   );
 
-  const addWorkDetail = (harvestDetail: WorkDetail): void => {
-    dispatch({ type: 'ADD', payload: harvestDetail });
+  const addWorkDetail = (workDetail: WorkDetail): void => {
+    dispatch({ type: 'ADD', payload: workDetail });
   };
 
-  const removeWorkDetail = (harvestDetail: WorkDetail): void => {
-    dispatch({ type: 'REMOVE', payload: harvestDetail });
+  const removeWorkDetail = (workDetail: WorkDetail): void => {
+    dispatch({ type: 'REMOVE', payload: workDetail });
   };
 
-  const modifyWorkDetail = (harvestDetail: WorkDetail): void => {
-    dispatch({ type: 'MODIFY', payload: harvestDetail });
+  const modifyWorkDetail = (workDetail: WorkDetail): void => {
+    dispatch({ type: 'MODIFY', payload: workDetail });
   };
 
   const resetWorkDetails = (): void => {

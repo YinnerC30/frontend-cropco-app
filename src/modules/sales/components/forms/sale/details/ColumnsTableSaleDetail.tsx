@@ -1,20 +1,20 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
+import { Badge } from '@/components';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { SaleDetail } from '@/modules/sales/interfaces';
-import { Badge } from '@/components';
 
 export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
   {
     accessorKey: 'client.first_name',
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Empleado:'} />;
     },
   },
   {
     accessorKey: 'crop.name',
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Cultivo:'} />;
     },
   },
@@ -23,7 +23,7 @@ export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
     cell: ({ row }) => {
       return FormatMoneyValue(row.getValue('total'));
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Total:'} />;
     },
   },
@@ -32,7 +32,7 @@ export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
     cell: ({ row }) => {
       return FormatMoneyValue(row.getValue('quantity'));
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Cantidad:'} />;
     },
   },
@@ -46,7 +46,7 @@ export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
         <Badge variant={'success'}>NO</Badge>
       );
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
       return (
         <ButtonHeaderTable column={column} label={'¿Pediente de pago?:'} />
       );

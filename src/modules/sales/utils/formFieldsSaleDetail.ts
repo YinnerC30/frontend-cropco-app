@@ -1,6 +1,16 @@
 import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-export const formFieldsSaleDetail: Record<string, CustomFormField> = {
+type FormFieldsSaleDetail =
+  | 'client'
+  | 'crop'
+  | 'total'
+  | 'quantity'
+  | 'is_receivable';
+
+export const formFieldsSaleDetail: Record<
+  FormFieldsSaleDetail,
+  CustomFormField
+> = {
   client: {
     name: 'client',
     label: 'Cliente:',

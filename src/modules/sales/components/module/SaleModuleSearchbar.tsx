@@ -1,15 +1,9 @@
 import {
-  Badge,
   Button,
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuPortal,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   Form,
-  Label,
   PopoverContent,
   PopoverTrigger,
 } from '@/components';
@@ -30,67 +24,60 @@ import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Calendar, Filter, X } from 'lucide-react';
-import { memo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
+import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
+import {
+  dateFilterOptions,
+  numberFilterOptions,
+} from '@/modules/core/interfaces/queries/FilterOptions';
+import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
 import { Popover } from '@radix-ui/react-popover';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
 import { useSaleModuleContext } from '../../hooks/context/useSaleModuleContext';
 import { MODULE_SALES_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarSale } from '../../utils/formFieldsSearchBarSale';
 import { formSchemaSearchBarSale } from '../../utils/formSchemaSearchBarSale';
 
-interface FilterSearchBar {
-  key: string;
-  label: string;
-}
+const valuesResetForm = {
+  filter_by_date: {
+    date: undefined,
+    type_filter_date: TypeFilterDate.after,
+  },
+  filter_by_total: {
+    type_filter_total: TypeFilterNumber.MIN,
+    total: 0,
+  },
+  filter_by_quantity: {
+    type_filter_quantity: TypeFilterNumber.MIN,
+    quantity: 0,
+  },
+};
 
-const numberFilterOptions = [
-  {
-    key: TypeFilterNumber.MIN,
-    value: TypeFilterNumber.MIN,
-    label: 'Menor a',
-  },
-  {
-    key: TypeFilterNumber.EQUAL,
-    value: TypeFilterNumber.EQUAL,
-    label: 'Igual a',
-  },
-  {
-    key: TypeFilterNumber.MAX,
-    value: TypeFilterNumber.MAX,
-    label: 'Mayor a',
-  },
-];
-
-const dateFilterOptions = [
-  {
-    key: TypeFilterDate.after,
-    value: TypeFilterDate.after,
-    label: 'Despues del',
-  },
-  {
-    key: TypeFilterDate.before,
-    value: TypeFilterDate.before,
-    label: 'Antes del',
-  },
-];
-
-export const SaleModuleSearchbar = () => {
-  const { paramsQuery, permissionsSale } = useSaleModuleContext();
-  const readOnly = !permissionsSale['find_all_sales'];
+export const SaleModuleSearchbar: React.FC = () => {
+  const { paramsQuery, actionsSalesModule } = useSaleModuleContext();
+  const readOnly = !actionsSalesModule['find_all_sales'];
   const navigate = useNavigate();
 
-  const form = useCreateForm({
+  const form: UseFormReturn<
+    z.infer<typeof formSchemaSearchBarSale>,
+    unknown
+  > = useCreateForm({
     schema: formSchemaSearchBarSale,
     defaultValues: paramsQuery,
     skiptDirty: true,
-    validationMode: 'onSubmit',
+    validationMode: 'onChange',
   });
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
   const [openPopover, setOpenPopover] = useState(false);
 
-  const handleAddFilter = async (name = '') => {
+  const handleAddFilter = async (
+    name: keyof z.infer<typeof formSchemaSearchBarSale>
+  ) => {
     const isValid = await form.trigger(name);
     if (!isValid) return false;
 
@@ -126,7 +113,9 @@ export const SaleModuleSearchbar = () => {
     return true;
   };
 
-  const handleClearErrorsForm = (name = '') => {
+  const handleClearErrorsForm = (
+    name: keyof z.infer<typeof formSchemaSearchBarSale>
+  ) => {
     form.clearErrors(name);
     form.resetField(name);
   };
@@ -156,7 +145,9 @@ export const SaleModuleSearchbar = () => {
     handleSearch(form.watch());
   };
 
-  const handleSearch = async (values: any) => {
+  const handleSearch = async (
+    values: z.infer<typeof formSchemaSearchBarSale>
+  ) => {
     const params = new URLSearchParams();
 
     if (values.filter_by_date.type_filter_date && values.filter_by_date.date) {
@@ -196,29 +187,25 @@ export const SaleModuleSearchbar = () => {
 
   const handleResetForm = () => {
     setAppliedFilters([]);
-    form.reset(
-      {
-        filter_by_date: {
-          date: undefined,
-          type_filter_date: TypeFilterDate.after,
-        },
-        filter_by_total: {
-          type_filter_total: TypeFilterNumber.MIN,
-          total: 0,
-        },
-        filter_by_quantity: {
-          type_filter_quantity: TypeFilterNumber.MIN,
-          quantity: 0,
-        },
-      },
-      {
-        keepErrors: false,
-        keepDirty: false,
-      }
-    );
+    form.reset(valuesResetForm, {
+      keepErrors: false,
+      keepDirty: false,
+    });
     navigate(MODULE_SALES_PATHS.ViewAll);
     toast.success('Se han limpiado los filtros');
   };
+
+  useEffect(() => {
+    const addFilters = async () => {
+      for (const key of Object.keys(paramsQuery)) {
+        await handleAddFilter(
+          key as keyof z.infer<typeof formSchemaSearchBarSale>
+        );
+      }
+    };
+
+    addFilters();
+  }, []);
 
   return (
     <div className="flex flex-col items-start justify-start w-[1000px]">
@@ -239,16 +226,20 @@ export const SaleModuleSearchbar = () => {
                       onClick={() => setOpenPopover(true)}
                     >
                       {!form.getValues('filter_by_date.date') ||
-                      !form.getValues('filter_by_date.type_filter_date')
+                      !paramsQuery.filter_by_date?.date
                         ? 'Filtrar por fecha'
                         : formatTypeFilterDate(
                             form.getValues(
                               'filter_by_date.type_filter_date'
                             ) as TypeFilterDate
                           ) +
-                          format(form.getValues('filter_by_date.date'), 'PPP', {
-                            locale: es,
-                          })}
+                          format(
+                            form.getValues('filter_by_date.date') ?? '',
+                            'PPP',
+                            {
+                              locale: es,
+                            }
+                          )}
                       <Calendar className="w-4 h-4 ml-4" />
                     </Button>
                   </PopoverTrigger>
@@ -389,92 +380,6 @@ export const SaleModuleSearchbar = () => {
           />
         </form>
       </Form>
-    </div>
-  );
-};
-
-const FilterDropdownItem = memo(
-  ({
-    label,
-    content,
-    actionOnSave,
-    actionOnClose,
-  }: {
-    label: string;
-    content: JSX.Element;
-    actionOnSave: () => Promise<boolean>;
-    actionOnClose: () => void;
-  }) => {
-    const [openMenu, setOpenMenu] = useState(false);
-
-    return (
-      <DropdownMenuSub open={openMenu} onOpenChange={setOpenMenu}>
-        <DropdownMenuSubTrigger>{label}</DropdownMenuSubTrigger>
-        <DropdownMenuPortal>
-          <DropdownMenuSubContent
-            className="w-[250px] p-4 ml-2"
-            avoidCollisions
-            sideOffset={0}
-          >
-            {content}
-            <div className="flex justify-center gap-2">
-              <Button
-                className="self-end w-24 mt-4"
-                onClick={async (e) => {
-                  e.preventDefault();
-                  const value = await actionOnSave();
-                  setOpenMenu(!value);
-                }}
-              >
-                Aplicar
-              </Button>
-              <Button
-                variant={'destructive'}
-                className="self-end w-24 mt-4"
-                onClick={() => {
-                  setOpenMenu(false);
-                  actionOnClose();
-                }}
-              >
-                Cerrar
-              </Button>
-            </div>
-          </DropdownMenuSubContent>
-        </DropdownMenuPortal>
-      </DropdownMenuSub>
-    );
-  }
-);
-
-interface Props {
-  filters: FilterSearchBar[];
-  handleRemove: any;
-}
-
-const FiltersBadgedList = ({ filters, handleRemove }: Props) => {
-  if (!(filters.length > 0)) {
-    return;
-  }
-  return (
-    <div className="mt-2 ">
-      <Label className="block">Filtros aplicados:</Label>
-      <div className="flex flex-wrap gap-2 my-4 ">
-        {filters.map((filter, index) => (
-          <Badge key={index} variant="secondary">
-            {filter.label}
-            <ToolTipTemplate content="Eliminar filtro">
-              <Button
-                className="ml-3"
-                variant="ghost"
-                size="icon"
-                onClick={() => handleRemove(filter)}
-              >
-                <X className="w-3 h-3" />
-              </Button>
-            </ToolTipTemplate>
-          </Badge>
-        ))}
-      </div>
     </div>
   );
 };

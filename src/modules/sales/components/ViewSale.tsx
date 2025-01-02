@@ -1,20 +1,15 @@
-import { ErrorLoading, Loading } from '@/modules/core/components';
+import { Loading } from '@/modules/core/components';
 import { useParams } from 'react-router-dom';
 import { useGetSale } from '../hooks';
 
 import { BreadCrumb } from '@/modules/core/components/';
-import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
 import { MODULE_SALES_PATHS } from '../routes/pathRoutes';
 import { FormSale } from './forms/sale/FormSale';
 
-export const ViewSale = () => {
+export const ViewSale: React.FC = () => {
   const { id } = useParams();
-
-  const { data, isLoading, isError } = useGetSale(id!);
-
-  // Render loading or error states
+  const { data, isLoading } = useGetSale(id!);
   if (isLoading) return <Loading />;
-  if (isError) return <ErrorLoading />;
 
   return (
     <>
@@ -23,14 +18,7 @@ export const ViewSale = () => {
         finalItem={`Información de la venta`}
       />
 
-      {/* Formulario principal */}
-      <FormSale
-        defaultValues={{
-          ...data,
-          date: ConvertStringToDate(data.date),
-        }}
-        readOnly
-      />
+      <FormSale defaultValues={data} readOnly />
     </>
   );
 };

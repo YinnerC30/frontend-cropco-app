@@ -3,10 +3,10 @@ import { formSchemaSaleDetails } from './formSchemaSaleDetail';
 
 export const formSchemaSale = z.object({
   date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
-  quantity: z.number({
+  quantity: z.coerce.number({
     invalid_type_error: 'Debes introducir un valor numérico',
   }),
-  total: z
+  total: z.coerce
     .number({
       invalid_type_error: 'Debes introducir un valor numérico',
     })

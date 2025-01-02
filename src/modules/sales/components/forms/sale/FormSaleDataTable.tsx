@@ -17,20 +17,23 @@ import { FormSaleDetail } from './details/FormSaleDetail';
 
 import { ScrollArea, ScrollBar } from '@/components';
 import { useFormSaleContext } from '@/modules/sales/hooks';
+import { SaleDetail } from '@/modules/sales/interfaces';
 
 export const FormSaleDataTable = () => {
   const {
-    table,
+    dataTableSaleDetail: {
+      table,
+      lengthColumns,
+      hasSelectedRecords,
+      resetSelectionRows,
+    },
     readOnly,
-    lengthColumns,
     handleDeleteBulkSaleDetails,
-    hasSelectedRecords,
     setSaleDetail,
     handleOpenDialog,
-    resetSelectionRows,
   } = useFormSaleContext();
 
-  const handleSetSaleDetail = (data: any) => {
+  const handleSetSaleDetail = (data: SaleDetail) => {
     setSaleDetail(data);
     handleOpenDialog();
   };

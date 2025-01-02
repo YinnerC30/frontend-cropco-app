@@ -27,44 +27,53 @@ import { FormSaleDetailsFields } from './FormSaleDetailsFields';
 export const FormSaleDetail = () => {
   const {
     readOnly,
-    getCurrentDataSaleDetail,
+    // getCurrentDataSaleDetail,
     openDialog,
     setOpenDialog,
     saleDetail,
     handleOpenDialog,
     handleCloseDialog,
     resetSaleDetail,
-    form,
+    formSale,
     detailsSale,
-    setDetailsSale,
+    addSaleDetail,
     modifySaleDetail,
+    formSaleDetail,
   } = useFormSaleContext();
 
   const { setIsActiveDialog } = useDialogStatus();
 
   const onSubmitSaleDetail = () => {
-    const values = getCurrentDataSaleDetail();
+    // const values = getCurrentDataSaleDetail();
+    const values = formSaleDetail.watch();
     if (!saleDetail.id) {
       const record = {
         ...values,
+        total: +values.total,
+        quantity: +values.quantity,
         id: generateUUID(),
       };
-      setDetailsSale((prev: any) => [...prev, record]);
-      form.setValue('details', [...detailsSale, record], {
+      addSaleDetail(record);
+      formSale.setValue('details', [...detailsSale, record], {
         shouldValidate: true,
         shouldDirty: true,
       });
 
       toast.success('Registro añadido');
     } else {
-      const record = { ...values, id: saleDetail.id };
+      const record = {
+        ...values,
+        total: +values.total,
+        quantity: +values.quantity,
+        id: saleDetail.id,
+      };
       modifySaleDetail(record);
       toast.success('Registro actualizado');
     }
 
     setIsActiveDialog(false);
     setOpenDialog(false);
-    form.trigger('details');
+    formSale.trigger('details');
   };
 
   const handleOpenDialogExtended = (

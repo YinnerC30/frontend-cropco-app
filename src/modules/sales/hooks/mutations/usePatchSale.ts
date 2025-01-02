@@ -1,30 +1,32 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { Sale } from '../../interfaces';
 
-export const updateSale = async (sale: Sale) => {
+export const updateSale = async (sale: Sale): PromiseReturnRecord<void> => {
   const { id, ...rest } = sale;
-  await cropcoAPI.patch(`${pathsCropco.sales}/update/one/${id}`, rest);
+  return await cropcoAPI.patch(`${pathsCropco.sales}/update/one/${id}`, rest);
 };
 
-export const usePatchSale = (id: string) => {
+export const usePatchSale = (id: string): UseMutationReturn<void, Sale> => {
   const queryClient = useQueryClient();
-  const mutation = useMutation({
+  const { handleError } = useAuthContext();
+  const mutation: UseMutationReturn<void, Sale> = useMutation({
     mutationFn: updateSale,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['sales'] });
       await queryClient.invalidateQueries({ queryKey: ['sales', id] });
       toast.success(`Venta actualizada`);
     },
-    onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
-      toast.error(
-        `Hubo un problema durante la actualización de la venta, ${data.message}`
-      );
+    onError: (error) => {
+      handleError({
+        error,
+        messagesStatusError: {},
+      });
     },
     retry: 1,
   });

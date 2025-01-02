@@ -1,30 +1,40 @@
-import React, { createContext, useEffect, useState } from 'react';
-
-import { useNavigate } from 'react-router-dom';
+import React, {
+  createContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
-import { useGetAllClients } from '@/modules/clients/hooks';
-import { Client } from '@/modules/clients/interfaces/Client';
-import { useCreateForm } from '@/modules/core/hooks';
+import { RowData, useCreateForm } from '@/modules/core/hooks';
 
 import { useFormChange } from '@/modules/core/components';
-import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
+import {
+  DataTableGenericReturn,
+  useDataTableGeneric,
+} from '@/modules/core/hooks/data-table/useDataTableGeneric';
 
 import { toast } from 'sonner';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { SaleDetail } from '@/modules/sales/interfaces';
-import { MODULE_SALES_PATHS } from '@/modules/sales/routes/pathRoutes';
+import { FormProps } from '@/modules/core/interfaces';
+import { Sale, SaleDetail } from '@/modules/sales/interfaces';
 import { formSchemaSale } from '@/modules/sales/utils';
 import { formSchemaSaleDetails } from '@/modules/sales/utils/formSchemaSaleDetail';
+import { z } from 'zod';
 import { ActionsTableSaleDetail } from './details/ActionsTableSaleDetail';
 import { columnsSaleDetail } from './details/ColumnsTableSaleDetail';
-import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 
-export const FormSaleContext = createContext<any>(null);
+const defaultValuesSale = {
+  date: undefined,
+  details: [],
+  total: 0,
+  quantity: 0,
+};
 
-export const defaultValuesSaleDetail: SaleDetail | any = {
+const defaultValuesSaleDetail: SaleDetail = {
   id: '',
   client: {
     id: '',
@@ -39,42 +49,102 @@ export const defaultValuesSaleDetail: SaleDetail | any = {
   is_receivable: false,
 };
 
-export const FormSaleProvider = ({
+export type FormSaleProps = FormProps<z.infer<typeof formSchemaSale>, Sale>;
+
+export interface FormSaleContextValues {
+  formSale: ReturnType<typeof useCreateForm>;
+  formSaleDetail: ReturnType<typeof useCreateForm>;
+  readOnly: boolean;
+  isSubmitting: boolean;
+  onSubmit: (values: z.infer<typeof formSchemaSale>) => void;
+  total: number;
+  quantity: number;
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  openDialog: boolean;
+  saleDetail: SaleDetail;
+  setSaleDetail: React.Dispatch<React.SetStateAction<SaleDetail>>;
+  dataTableSaleDetail: DataTableGenericReturn<SaleDetail>;
+  detailsSale: SaleDetail[];
+  addSaleDetail: (saleDetail: SaleDetail) => void;
+  modifySaleDetail: (saleDetail: SaleDetail) => void;
+  resetSaleDetails: () => void;
+  handleOpenDialog: () => void;
+  handleCloseDialog: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  resetSaleDetail: () => void;
+  handleDeleteBulkSaleDetails: () => void;
+  removeSaleDetail: (saleDetail: SaleDetail) => void;
+  actionsSalesModule: Record<string, boolean>;
+}
+
+interface SaleAction {
+  type: 'REMOVE' | 'MODIFY' | 'RESET' | 'ADD';
+  payload?: SaleDetail;
+}
+
+const saleDetailsReducer = (
+  state: SaleDetail[],
+  action: SaleAction
+): SaleDetail[] => {
+  switch (action.type) {
+    case 'ADD':
+      return [...state, action.payload as SaleDetail];
+    case 'REMOVE':
+      return state.filter((detail) => detail.id !== action.payload?.id);
+    case 'MODIFY':
+      return state.map((item) =>
+        item.id !== action.payload?.id ? item : (action.payload as SaleDetail)
+      );
+    case 'RESET':
+      return [];
+    default:
+      throw new Error(`Unhandled action type: ${action.type}`);
+  }
+};
+
+export const FormSaleContext = createContext<FormSaleContextValues | undefined>(
+  undefined
+);
+
+export const FormSaleProvider: React.FC<
+  FormSaleProps & {
+    children: React.ReactNode;
+  }
+> = ({
   children,
-  defaultValues,
-  isSubmitting,
-  onSubmit,
-  readOnly,
-}: any & { children: React.ReactNode }) => {
-  const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
+  defaultValues = defaultValuesSale,
+  isSubmitting = false,
+  onSubmit = (values) => console.log(values),
+  readOnly = false,
+}) => {
+  const { getActionsModule } = useAuthContext();
+  const actionsSalesModule = useMemo(() => getActionsModule('sales'), []);
+
   const detailsDefaultValues = defaultValues?.details ?? [];
-  const [detailsSale, setDetailsSale] = useState(detailsDefaultValues);
+  const [detailsSale, dispatch] = useReducer(
+    saleDetailsReducer,
+    detailsDefaultValues
+  );
 
-  console.log(detailsSale);
+  const addSaleDetail = (saleDetail: SaleDetail): void => {
+    dispatch({ type: 'ADD', payload: saleDetail });
+  };
 
-  const removeSaleDetail = (saleDetail: SaleDetail) => {
-    setDetailsSale((details: any) =>
-      details.filter((detail: SaleDetail) => detail.id !== saleDetail.id)
-    );
+  const removeSaleDetail = (saleDetail: SaleDetail): void => {
+    dispatch({ type: 'REMOVE', payload: saleDetail });
+  };
+
+  const modifySaleDetail = (saleDetail: SaleDetail): void => {
+    dispatch({ type: 'MODIFY', payload: saleDetail });
+  };
+
+  const resetSaleDetails = (): void => {
+    dispatch({ type: 'RESET' });
   };
 
   const formSale = useCreateForm({
     schema: formSchemaSale,
     defaultValues,
   });
-
-  const modifySaleDetail = (saleDetail: SaleDetail) => {
-    const data = detailsSale.filter((item: any) => item.id !== saleDetail.id);
-    setDetailsSale([...data, saleDetail]);
-    formSale.setValue('details', [...data, saleDetail], {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
-
-  const resetSaleDetails = () => {
-    setDetailsSale([]);
-  };
 
   const total = detailsSale.reduce(
     (total: number, detail: SaleDetail) => Number(total) + Number(detail.total),
@@ -86,23 +156,18 @@ export const FormSaleProvider = ({
     0
   );
 
-  const executeValidationFormSale = async () => {
-    return await formSale.trigger();
-  };
-
   const columnsTable = useCreateColumnsTable({
     columns: columnsSaleDetail,
     actions: ActionsTableSaleDetail,
     hiddenActions: readOnly,
   });
 
-  const dataTableSaleDetail = useDataTableGeneric({
+  const dataTableSaleDetail = useDataTableGeneric<SaleDetail>({
     columns: columnsTable,
-    data: detailsSale,
+    rows: detailsSale,
   });
 
-  const { getIdsToRowsSelected, resetSelectionRows, hasSelectedRecords } =
-    dataTableSaleDetail;
+  const { getIdsToRowsSelected, resetSelectionRows } = dataTableSaleDetail;
 
   const { setIsActiveDialog } = useDialogStatus();
   const { hasUnsavedChanges, showToast } = useFormChange();
@@ -115,39 +180,11 @@ export const FormSaleProvider = ({
 
   const [openDialog, setOpenDialog] = useState(false);
 
-  const navigate = useNavigate();
-
-  const { hasPermission } = useAuthContext();
-
-  const handleReturnToModule = () => {
-    navigate(MODULE_SALES_PATHS.ViewAll);
-  };
-
   const formSaleDetail = useCreateForm({
     schema: formSchemaSaleDetails,
     defaultValues: saleDetail,
     validationMode: 'onSubmit',
   });
-
-  const { query: queryClients } = useGetAllClients('');
-
-  const { query: queryCrops } = useGetAllHarvestsStock('');
-
-  const findClientName = (id: string): string => {
-    return (
-      queryClients?.data?.rows.find((item: Client) => item.id === id)
-        ?.first_name || ''
-    );
-  };
-  const findCropName = (id: string): string => {
-    return (
-      queryCrops?.data?.rows.find((item: any) => item.id === id)?.name || ''
-    );
-  };
-
-  const resetForm = () => {
-    formSaleDetail.reset(defaultValuesSaleDetail);
-  };
 
   const handleOpenDialog = () => {
     setIsActiveDialog(true);
@@ -155,7 +192,7 @@ export const FormSaleProvider = ({
   };
 
   const ClearFormSaleDetail = () => {
-    resetForm();
+    formSaleDetail.reset(defaultValuesSaleDetail);
     setIsActiveDialog(false);
     setOpenDialog(false);
   };
@@ -172,41 +209,11 @@ export const FormSaleProvider = ({
     ClearFormSaleDetail();
   };
 
-  const getCurrentDataSaleDetail = () => {
-    const values = { ...formSaleDetail.getValues() };
-    const clientIdForm = values?.client?.id;
-    const cropIdForm = values?.crop?.id;
-    const nameClient = findClientName(clientIdForm);
-    const nameCrop = findCropName(cropIdForm);
-    const data = {
-      ...values,
-      total: +values.total,
-      quantity: +values.quantity,
-      client: { id: clientIdForm, first_name: nameClient },
-      crop: { id: cropIdForm, name: nameCrop },
-    };
-    return data;
-  };
-
-  const filterClientsToShow = (): Client[] => {
-    return (
-      queryClients?.data?.rows.filter((record: Client) => {
-        const state = detailsSale.some(
-          (item: SaleDetail) => item.client.id === record.id
-        );
-        if (state && record.id !== saleDetail?.client?.id) {
-          return;
-        }
-        return record;
-      }) || []
-    );
-  };
-
   const handleDeleteBulkSaleDetails = () => {
-    const recordsIds = getIdsToRowsSelected().map((el: any) => el.id);
+    const recordsIds = getIdsToRowsSelected().map((el: RowData) => el.id);
     const currentValues = [...formSale.watch('details')];
-    const result = currentValues.filter((element: any) => {
-      if (!recordsIds.includes(element.id)) {
+    const result = currentValues.filter((element: SaleDetail) => {
+      if (!recordsIds.includes(element?.id!)) {
         return element;
       }
     });
@@ -227,45 +234,31 @@ export const FormSaleProvider = ({
     formSale.setValue('quantity', quantity, { shouldValidate: true });
   }, [total, quantity]);
 
-  console.log({ total, quantity, detailsSale, formSale });
-
-  console.log(formSale.getValues('details'));
-
   return (
     <FormSaleContext.Provider
       value={{
-        form: formSale,
-        isOpenDialogForm,
-        setIsOpenDialogForm,
+        formSale,
         isSubmitting,
         onSubmit,
         readOnly,
-        handleReturnToModule,
-        hasPermission,
         total,
         saleDetail,
         setSaleDetail,
-        filterClientsToShow,
-        getCurrentDataSaleDetail,
-        resetForm,
         formSaleDetail,
         openDialog,
         setOpenDialog,
         handleOpenDialog,
         handleCloseDialog,
         resetSaleDetail,
-        ...dataTableSaleDetail,
+        dataTableSaleDetail,
         handleDeleteBulkSaleDetails,
-        hasSelectedRecords,
-        executeValidationFormSale,
-        queryClients: queryClients,
         detailsSale,
-        setDetailsSale,
+        addSaleDetail,
         removeSaleDetail,
         modifySaleDetail,
         resetSaleDetails,
         quantity,
-        queryCrops
+        actionsSalesModule,
       }}
     >
       {children}

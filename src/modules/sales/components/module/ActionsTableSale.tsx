@@ -6,13 +6,19 @@ import {
   DropDownMenuActions,
 } from '@/modules/core/components';
 
-import { useDeleteSale } from '../../hooks/mutations/useDeleteSale';
-import { MODULE_SALES_PATHS } from '../../routes/pathRoutes';
+import { Row } from '@tanstack/react-table';
+import React from 'react';
 import { useSaleModuleContext } from '../../hooks/context/useSaleModuleContext';
+import { useDeleteSale } from '../../hooks/mutations/useDeleteSale';
+import { Sale } from '../../interfaces';
+import { MODULE_SALES_PATHS } from '../../routes/pathRoutes';
 
-export const ActionsTableSale = ({ row }: any) => {
-  const { resetSelectionRows, permissionsSale } = useSaleModuleContext();
-  const { id } = row.original;
+export const ActionsTableSale: React.FC<{ row: Row<Sale> }> = ({ row }) => {
+  const {
+    dataTable: { resetSelectionRows },
+    actionsSalesModule,
+  } = useSaleModuleContext();
+  const id = row.original.id ?? '';
   const { mutate } = useDeleteSale();
 
   const handleDelete = () => {
@@ -27,17 +33,17 @@ export const ActionsTableSale = ({ row }: any) => {
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!permissionsSale['remove_one_sale']}
+        disabled={!actionsSalesModule['remove_one_sale']}
       />
       <ActionModifyRecord
         id={id}
         path={MODULE_SALES_PATHS.Update + id}
-        disabled={!permissionsSale['update_one_sale']}
+        disabled={!actionsSalesModule['update_one_sale']}
       />
       <ActionViewRecord
         id={id}
         path={MODULE_SALES_PATHS.ViewOne + id}
-        disabled={!permissionsSale['find_one_sale']}
+        disabled={!actionsSalesModule['find_one_sale']}
       />
     </DropDownMenuActions>
   );

@@ -1,6 +1,22 @@
 import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-export const formFieldsSearchBarSale: Record<string, CustomFormField> = {
+type FormFieldsSearchBarSale =
+  | 'filter_by_date'
+  | 'type_filter_date'
+  | 'date'
+  | 'filter_by_total'
+  | 'type_filter_total'
+  | 'total'
+  | 'filter_by_quantity'
+  | 'type_filter_quantity'
+  | 'quantity'
+  | 'filter_by_is_receivable'
+  | 'is_receivable';
+
+export const formFieldsSearchBarSale: Record<
+  FormFieldsSearchBarSale,
+  CustomFormField
+> = {
   filter_by_date: {
     name: 'filter_by_date',
     label: 'Filtrar por fecha:',

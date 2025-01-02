@@ -1,6 +1,8 @@
 import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-export const formFieldsSale: Record<string, CustomFormField> = {
+type FormFieldsSale = 'date' | 'quantity' | 'total' | 'details';
+
+export const formFieldsSale: Record<FormFieldsSale, CustomFormField> = {
   date: {
     name: 'date',
     label: 'Fecha:',

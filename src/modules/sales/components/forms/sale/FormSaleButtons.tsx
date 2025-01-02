@@ -1,9 +1,18 @@
 import { Button } from '@/components';
 import { ButtonsForm } from '@/modules/core/components';
 import { useFormSaleContext } from '@/modules/sales/hooks/context/useFormSaleContext';
+import { MODULE_SALES_PATHS } from '@/modules/sales/routes/pathRoutes';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export const FormSaleButtons = () => {
-  const { readOnly, handleReturnToModule, isSubmitting } = useFormSaleContext();
+export const FormSaleButtons: React.FC = () => {
+  const { readOnly, isSubmitting } = useFormSaleContext();
+
+  const navigate = useNavigate();
+
+  const handleReturnToModule = () => {
+    navigate(MODULE_SALES_PATHS.ViewAll);
+  };
 
   return readOnly ? (
     <Button className="my-2" onClick={handleReturnToModule}>

@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import { FormSaleContext } from '../../components/forms/sale/FormSaleContext';
+import { FormSaleContext, FormSaleContextValues } from '../../components/forms/sale/FormSaleContext';
 
-export const useFormSaleContext = () => {
+export const useFormSaleContext = (): FormSaleContextValues => {
   const context = useContext(FormSaleContext);
   if (!context) {
     throw new Error(

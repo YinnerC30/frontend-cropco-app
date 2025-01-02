@@ -1,28 +1,29 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { toast } from "sonner";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
-import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 
-export const deleteSale = async (id: string) =>
-  await cropcoAPI.delete(`${pathsCropco.sales}/remove/one/${id}`);
+export const deleteSale = async (id: string): PromiseReturnRecord<void> => {
+  return await cropcoAPI.delete(`${pathsCropco.sales}/remove/one/${id}`);
+};
 
-
-export const useDeleteSale = () => {
+export const useDeleteSale = (): UseMutationReturn<void, string> => {
   const queryClient = useQueryClient();
-
-  const mutation = useMutation({
+  const { handleError } = useAuthContext();
+  const mutation: UseMutationReturn<void, string> = useMutation({
     mutationFn: deleteSale,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["sales"] });
+      await queryClient.invalidateQueries({ queryKey: ['sales'] });
       toast.success(`Venta eliminada`);
     },
-    onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
-      toast.error(
-        `Hubo un problema durante la eliminación de la venta, ${data.message}`
-      );
+    onError: (error) => {
+      handleError({
+        error,
+        messagesStatusError: {},
+      });
     },
     retry: 1,
   });

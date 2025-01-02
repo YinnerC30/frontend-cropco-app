@@ -6,16 +6,15 @@ import {
 } from '@/modules/core/components';
 import { useSaleModuleContext } from '../../hooks/context/useSaleModuleContext';
 
-import { MODULE_SALES_PATHS } from '../../routes/pathRoutes';
+import React from 'react';
 import { useDeleteBulkSales } from '../../hooks/mutations/useDeleteBulkSales';
+import { MODULE_SALES_PATHS } from '../../routes/pathRoutes';
 
-export const SaleModuleActions = () => {
+export const SaleModuleActions: React.FC = () => {
   const {
-    query,
-    hasSelectedRecords,
-    resetSelectionRows,
-    permissionsSale,
-    getIdsToRowsSelected,
+    querySales,
+    dataTable: { hasSelectedRecords, resetSelectionRows, getIdsToRowsSelected },
+    actionsSalesModule,
   } = useSaleModuleContext();
 
   const { mutate, isPending } = useDeleteBulkSales();
@@ -34,8 +33,8 @@ export const SaleModuleActions = () => {
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={query.refetch}
-        disabled={!permissionsSale['find_all_sales']}
+        onClick={querySales.refetch}
+        disabled={!actionsSalesModule['find_all_sales']}
         className=""
       />
 
@@ -46,14 +45,14 @@ export const SaleModuleActions = () => {
         />
 
         <ButtonDeleteBulk
-          disabled={isPending || !permissionsSale['remove_bulk_sales']}
+          disabled={isPending || !actionsSalesModule['remove_bulk_sales']}
           onClick={handleDeleteBulkSales}
           visible={hasSelectedRecords}
         />
 
         <ButtonCreateRecord
           route={MODULE_SALES_PATHS.Create}
-          disabled={!permissionsSale['create_sale']}
+          disabled={!actionsSalesModule['create_sale']}
           className=""
         />
       </div>

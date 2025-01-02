@@ -1,45 +1,32 @@
 import { Loading } from '@/modules/core/components';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { z } from 'zod';
 import { useGetSale, usePatchSale } from '../hooks';
 import { SaleDetail } from '../interfaces';
 import { formSchemaSale } from '../utils';
 
 import { BreadCrumb } from '@/modules/core/components/';
-import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
+import React from 'react';
 import { MODULE_SALES_PATHS } from '../routes/pathRoutes';
 import { FormSale } from './forms/sale/FormSale';
 
-export const ModifySale = () => {
+export const ModifySale: React.FC = () => {
   const { id } = useParams();
-
   const { data, isLoading } = useGetSale(id!);
   const { mutate, isPending } = usePatchSale(id!);
 
-  const navigate = useNavigate();
-
-  // Handle form submission
   const onSubmitSale = (values: z.infer<typeof formSchemaSale>) => {
-    console.log(values);
-    mutate(
-      {
-        id,
-        ...values,
-        details: values.details.map((saleDetail: SaleDetail) => ({
-          ...saleDetail,
-          client: { id: saleDetail.client.id },
-          crop: { id: saleDetail.crop.id },
-        })),
-      },
-      {
-        onSuccess: () => {
-          navigate('../view/all');
-        },
-      }
-    );
+    mutate({
+      id,
+      ...values,
+      details: values.details.map((saleDetail: SaleDetail) => ({
+        ...saleDetail,
+        client: { id: saleDetail.client.id },
+        crop: { id: saleDetail.crop.id },
+      })),
+    });
   };
 
-  // Render loading or error states
   if (isLoading) return <Loading />;
 
   return (
@@ -49,13 +36,9 @@ export const ModifySale = () => {
         finalItem={`Modificar`}
       />
 
-      {/* Formulario principal */}
       <FormSale
         onSubmit={onSubmitSale}
-        defaultValues={{
-          ...data,
-          date: ConvertStringToDate(data.date),
-        }}
+        defaultValues={data}
         isSubmitting={isPending}
       />
     </>
