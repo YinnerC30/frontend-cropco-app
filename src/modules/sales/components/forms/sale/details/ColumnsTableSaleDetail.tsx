@@ -19,15 +19,6 @@ export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
     },
   },
   {
-    accessorKey: 'total',
-    cell: ({ row }) => {
-      return FormatMoneyValue(row.getValue('total'));
-    },
-    header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
-      return <ButtonHeaderTable column={column} label={'Total:'} />;
-    },
-  },
-  {
     accessorKey: 'quantity',
     cell: ({ row }) => {
       return FormatMoneyValue(row.getValue('quantity'));
@@ -36,6 +27,16 @@ export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
       return <ButtonHeaderTable column={column} label={'Cantidad:'} />;
     },
   },
+  {
+    accessorKey: 'total',
+    cell: ({ row }) => {
+      return FormatMoneyValue(row.getValue('total'));
+    },
+    header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
+      return <ButtonHeaderTable column={column} label={'Total:'} />;
+    },
+  },
+  
   {
     accessorKey: 'is_receivable',
     cell: ({ row }) => {

@@ -37,7 +37,7 @@ const defaultValuesSale = {
 };
 
 const defaultValuesSaleDetail: SaleDetail = {
-  id: '',
+  id: undefined,
   client: {
     id: '',
     first_name: '',

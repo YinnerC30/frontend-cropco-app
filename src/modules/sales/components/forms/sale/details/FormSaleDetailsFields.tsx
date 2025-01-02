@@ -9,13 +9,21 @@ import {
 import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 import { useFormSaleContext } from '@/modules/sales/hooks';
 import { SaleDetail } from '@/modules/sales/interfaces';
-import { formFieldsSaleDetail } from '@/modules/sales/utils';
+import {
+  formFieldsSaleDetail
+} from '@/modules/sales/utils';
 
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export const FormSaleDetailsFields = () => {
-  const { formSaleDetail, saleDetail, readOnly, detailsSale } =
-    useFormSaleContext();
+  const {
+    readOnly,
+
+    saleDetail,
+
+    formSaleDetail,
+    detailsSale,
+  } = useFormSaleContext();
 
   const { query: queryClients } = useGetAllClients({
     queryValue: '',
@@ -24,11 +32,11 @@ export const FormSaleDetailsFields = () => {
 
   const queryCrops = useGetAllHarvestsStock();
 
-  const filterClientsToShow = (): Client[] => {
+  const filterClientsToShow = useCallback((): Client[] => {
     return (
       queryClients?.data?.rows.filter((record: Client) => {
         const state = detailsSale.some(
-          (item: SaleDetail) => item.client.id === record.id
+          (item: SaleDetail) => item?.client?.id === record.id
         );
         if (state && record.id !== saleDetail?.client?.id) {
           return;
@@ -36,7 +44,7 @@ export const FormSaleDetailsFields = () => {
         return record;
       }) || []
     );
-  };
+  }, [queryClients?.data, detailsSale]);
 
   useEffect(() => {
     formSaleDetail.reset(saleDetail);
