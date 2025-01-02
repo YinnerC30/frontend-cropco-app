@@ -9,21 +9,13 @@ import {
 import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 import { useFormSaleContext } from '@/modules/sales/hooks';
 import { SaleDetail } from '@/modules/sales/interfaces';
-import {
-  formFieldsSaleDetail
-} from '@/modules/sales/utils';
+import { formFieldsSaleDetail } from '@/modules/sales/utils';
 
 import { useCallback, useEffect } from 'react';
 
 export const FormSaleDetailsFields = () => {
-  const {
-    readOnly,
-
-    saleDetail,
-
-    formSaleDetail,
-    detailsSale,
-  } = useFormSaleContext();
+  const { readOnly, saleDetail, formSaleDetail, detailsSale } =
+    useFormSaleContext();
 
   const { query: queryClients } = useGetAllClients({
     queryValue: '',

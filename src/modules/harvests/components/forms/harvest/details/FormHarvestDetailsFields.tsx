@@ -5,13 +5,13 @@ import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { HarvestDetail } from '@/modules/harvests/interfaces';
 
 import { formFieldsHarvestDetail } from '@/modules/harvests/utils';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export const FormHarvestDetailsFields: React.FC = () => {
   const { formHarvestDetail, harvestDetail, queryEmployees, detailsHarvest } =
     useFormHarvestContext();
 
-  const filterEmployeesToShow = (): Employee[] => {
+  const filterEmployeesToShow = useCallback((): Employee[] => {
     return (
       queryEmployees?.data?.rows.filter((record: Employee) => {
         const state = detailsHarvest.some(
@@ -23,7 +23,7 @@ export const FormHarvestDetailsFields: React.FC = () => {
         return record;
       }) || []
     );
-  };
+  }, [queryEmployees.data, detailsHarvest]);
 
   useEffect(() => {
     formHarvestDetail.reset(harvestDetail);

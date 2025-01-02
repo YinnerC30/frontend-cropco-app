@@ -20,7 +20,8 @@ import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { Plus } from 'lucide-react';
 
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
-import { FormHarvestDetailsButtons } from './FormHarvestDetailsButtons';
+import { formSchemaHarvestDetail } from '@/modules/harvests/utils';
+import { z } from 'zod';
 import { FormHarvestDetailsFields } from './FormHarvestDetailsFields';
 
 export const FormHarvestDetail: React.FC = () => {
@@ -28,11 +29,9 @@ export const FormHarvestDetail: React.FC = () => {
     readOnly,
     openDialog,
     setOpenDialog,
-    harvestDetail,
     handleOpenDialog,
     handleCloseDialog,
     resetHarvestDetail,
-    formHarvest,
     formHarvestDetail,
     addHarvestDetail,
     modifyHarvestDetail,
@@ -40,24 +39,22 @@ export const FormHarvestDetail: React.FC = () => {
 
   const { setIsActiveDialog } = useDialogStatus();
 
-  const onSubmitHarvestDetail = async (): Promise<void> => {
-    const values = formHarvestDetail.watch();
-    if (!harvestDetail.id) {
+  const onSubmitHarvestDetail = (
+    values: z.infer<typeof formSchemaHarvestDetail>
+  ) => {
+    if (!values.id) {
       const record = {
         ...values,
         id: generateUUID(),
       };
       addHarvestDetail(record);
-
       toast.success('Registro añadido');
     } else {
-      modifyHarvestDetail({ ...values, id: harvestDetail.id });
+      modifyHarvestDetail({ ...values, id: values.id });
       toast.success('Registro actualizado');
     }
-
     setIsActiveDialog(false);
     setOpenDialog(false);
-    await formHarvest.trigger('details');
   };
 
   const handleOpenDialogExtended = (
@@ -107,7 +104,12 @@ export const FormHarvestDetail: React.FC = () => {
           <FormHarvestDetailsFields />
 
           <DialogFooter>
-            <FormHarvestDetailsButtons onClick={onSubmitHarvestDetail} />
+            <Button
+              type="submit"
+              onClick={formHarvestDetail.handleSubmit(onSubmitHarvestDetail)}
+            >
+              Guardar
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

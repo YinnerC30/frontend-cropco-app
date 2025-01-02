@@ -35,7 +35,7 @@ import { ActionsTableWorkDetail } from './details/ActionsTableWorkDetail';
 import { columnsWorkDetail } from './details/ColumnsTableWorkDetail';
 
 export const defaultValuesWorkDetail: WorkDetail = {
-  id: '',
+  id: undefined,
   employee: {
     id: '',
     first_name: '',

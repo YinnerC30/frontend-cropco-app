@@ -35,6 +35,7 @@ import { ActionsTableHarvestDetail } from './details/ActionsTableHarvestDetail';
 import { columnsHarvestDetail } from './details/ColumnsTableHarvestDetail';
 
 export const defaultValuesHarvestDetail: HarvestDetail = {
+  id: undefined,
   employee: {
     id: '',
     first_name: '',

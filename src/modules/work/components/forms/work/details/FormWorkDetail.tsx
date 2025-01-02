@@ -21,7 +21,8 @@ import { Plus } from 'lucide-react';
 
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useFormWorkContext } from '@/modules/work/hooks/context/useFormWorkContext';
-import { FormWorkDetailsButtons } from './FormWorkDetailsButtons';
+import { formSchemaWorkDetails } from '@/modules/work/utils/formSchemaWorkDetails';
+import { z } from 'zod';
 import { FormWorkDetailsFields } from './FormWorkDetailsFields';
 
 export const FormWorkDetail: React.FC = () => {
@@ -29,7 +30,6 @@ export const FormWorkDetail: React.FC = () => {
     readOnly,
     openDialog,
     setOpenDialog,
-    workDetail,
     handleOpenDialog,
     handleCloseDialog,
     resetWorkDetail,
@@ -40,9 +40,10 @@ export const FormWorkDetail: React.FC = () => {
 
   const { setIsActiveDialog } = useDialogStatus();
 
-  const onSubmitWorkDetail = async () => {
-    const values = formWorkDetail.watch();
-    if (!workDetail.id) {
+  const onSubmitWorkDetail = (
+    values: z.infer<typeof formSchemaWorkDetails>
+  ) => {
+    if (!values.id) {
       const record = {
         ...values,
         id: generateUUID(),
@@ -50,7 +51,7 @@ export const FormWorkDetail: React.FC = () => {
       addWorkDetail(record);
       toast.success('Registro añadido');
     } else {
-      modifyWorkDetail({ ...values, id: workDetail.id });
+      modifyWorkDetail(values);
       toast.success('Registro actualizado');
     }
     setIsActiveDialog(false);
@@ -105,7 +106,12 @@ export const FormWorkDetail: React.FC = () => {
           <FormWorkDetailsFields />
 
           <DialogFooter>
-            <FormWorkDetailsButtons onClick={onSubmitWorkDetail} />
+            <Button
+              type="submit"
+              onClick={formWorkDetail.handleSubmit(onSubmitWorkDetail)}
+            >
+              Guardar
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
