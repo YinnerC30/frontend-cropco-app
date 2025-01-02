@@ -125,15 +125,11 @@ export const FormWorkProvider: React.FC<
   const { getActionsModule } = useAuthContext();
   const actionsWorksModule = useMemo(() => getActionsModule('works'), []);
 
-  console.log(defaultValues);
-
   const detailsDefaultValues = defaultValues?.details ?? [];
   const [detailsWork, dispatch] = useReducer(
     workDetailsReducer,
     detailsDefaultValues
   );
-
-  console.log(detailsWork);
 
   const addWorkDetail = (workDetail: WorkDetail): void => {
     dispatch({ type: 'ADD', payload: workDetail });
