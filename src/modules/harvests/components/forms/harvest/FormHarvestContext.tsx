@@ -244,7 +244,7 @@ export const FormHarvestProvider: React.FC<
   const formHarvest = useCreateForm({
     schema: formSchemaHarvest,
     defaultValues,
-    validationMode: 'onChange',
+    validationMode: 'onSubmit',
   });
 
   const isFirstRender = useRef(true);

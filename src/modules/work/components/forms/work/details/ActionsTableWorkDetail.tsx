@@ -13,12 +13,11 @@ import { toast } from 'sonner';
 export const ActionsTableWorkDetail = ({ row }: { row: Row<WorkDetail> }) => {
   const workDetail: WorkDetail = row.original;
 
-  const { setWorkDetail, handleOpenDialog, removeWorkDetail, formWork } =
+  const { setWorkDetail, handleOpenDialog, removeWorkDetail } =
     useFormWorkContext();
 
   const handleDelete = async () => {
     removeWorkDetail(workDetail);
-    await formWork.trigger('details');
     toast.success(
       `Se ha eliminado la cosecha del empleado ${workDetail.employee.first_name}`
     );
@@ -33,9 +32,8 @@ export const ActionsTableWorkDetail = ({ row }: { row: Row<WorkDetail> }) => {
     <DropDownMenuActions>
       <ActionCopyIdRecord id={workDetail?.id!} />
       <ActionDeleteRecord
-        action={async () => {
+        action={() => {
           handleDelete();
-          await formWork.trigger('details');
         }}
         disabled={false}
       />

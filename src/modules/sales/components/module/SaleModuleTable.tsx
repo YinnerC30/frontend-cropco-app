@@ -6,6 +6,7 @@ export const SaleModuleTable = () => {
     dataTable: { table, lengthColumns },
     querySales,
     actionsSalesModule,
+    mutationDeleteSales,
   } = useSaleModuleContext();
 
   return (
@@ -19,7 +20,11 @@ export const SaleModuleTable = () => {
       table={table}
       lengthColumns={lengthColumns}
       rowCount={querySales?.data?.rowCount ?? 0}
-      isLoading={querySales.isLoading || querySales.isRefetching}
+      isLoading={
+        querySales.isLoading ||
+        querySales.isRefetching ||
+        mutationDeleteSales.isPending
+      }
     />
   );
 };

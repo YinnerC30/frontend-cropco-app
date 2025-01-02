@@ -3,12 +3,13 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
+  useRef,
   useState,
 } from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
-import { RowData, useCreateForm } from '@/modules/core/hooks';
+import { useCreateForm } from '@/modules/core/hooks';
 import { useGetAllEmployees } from '@/modules/employees/hooks';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 
@@ -34,6 +35,7 @@ import { ActionsTableWorkDetail } from './details/ActionsTableWorkDetail';
 import { columnsWorkDetail } from './details/ColumnsTableWorkDetail';
 
 export const defaultValuesWorkDetail: WorkDetail = {
+  id: '',
   employee: {
     id: '',
     first_name: '',
@@ -123,11 +125,15 @@ export const FormWorkProvider: React.FC<
   const { getActionsModule } = useAuthContext();
   const actionsWorksModule = useMemo(() => getActionsModule('works'), []);
 
+  console.log(defaultValues);
+
   const detailsDefaultValues = defaultValues?.details ?? [];
   const [detailsWork, dispatch] = useReducer(
     workDetailsReducer,
     detailsDefaultValues
   );
+
+  console.log(detailsWork);
 
   const addWorkDetail = (workDetail: WorkDetail): void => {
     dispatch({ type: 'ADD', payload: workDetail });
@@ -158,6 +164,7 @@ export const FormWorkProvider: React.FC<
   const formWork = useCreateForm({
     schema: formSchemaWork,
     defaultValues,
+    validationMode: 'onSubmit',
   });
 
   const columnsTable = useCreateColumnsTable({
@@ -226,9 +233,18 @@ export const FormWorkProvider: React.FC<
     toast.success(`Se han eliminado las cosechas!`);
   };
 
+  const isFirstRender = useRef(true);
+
   useEffect(() => {
-    formWork.setValue('details', detailsWork, { shouldValidate: true });
-  }, [detailsWork]);
+    formWork.setValue('details', detailsWork, {
+      shouldValidate: !isFirstRender.current,
+      shouldDirty: true,
+    });
+
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+    }
+  }, [detailsWork, isFirstRender]);
 
   useEffect(() => {
     formWork.setValue('total', total, { shouldValidate: true });

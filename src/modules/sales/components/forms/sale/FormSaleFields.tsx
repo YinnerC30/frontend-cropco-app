@@ -16,14 +16,7 @@ export const FormSaleFields = () => {
 
   return (
     <Form {...formSale}>
-      <form
-        onSubmit={formSale.handleSubmit(() => {
-          const data = formSale.watch();
-          console.log(data)
-          onSubmit(data);
-        })}
-        id="formSale"
-      >
+      <form onSubmit={formSale.handleSubmit(onSubmit)} id="formSale">
         <FormFieldCalendar
           control={formSale.control}
           description={formFieldsSale.date.description}

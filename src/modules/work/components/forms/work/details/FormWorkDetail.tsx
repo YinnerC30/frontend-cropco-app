@@ -33,8 +33,6 @@ export const FormWorkDetail: React.FC = () => {
     handleOpenDialog,
     handleCloseDialog,
     resetWorkDetail,
-    formWork,
-    detailsWork,
     addWorkDetail,
     modifyWorkDetail,
     formWorkDetail,
@@ -57,7 +55,6 @@ export const FormWorkDetail: React.FC = () => {
     }
     setIsActiveDialog(false);
     setOpenDialog(false);
-    await formWork.trigger('details');
   };
 
   const handleOpenDialogExtended = (

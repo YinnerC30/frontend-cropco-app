@@ -1,6 +1,12 @@
 import { z } from 'zod';
 
 export const formSchemaHarvestDetail = z.object({
+  id: z
+    .string()
+    .uuid({
+      message: 'El identificador del cultivo debe ser un UUID válido.',
+    })
+    .optional(),
   employee: z.object({
     id: z
       .string({ required_error: 'El empleado es un campo obligatorio' })

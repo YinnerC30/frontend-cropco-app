@@ -19,13 +19,20 @@ export const ModifyWork: React.FC = () => {
   const { mutate, isPending } = usePatchWork(id!);
 
   const onSubmitWork = (values: z.infer<typeof formSchemaWork>) => {
+    console.log({
+      ...values,
+      id,
+      details: values.details.map((detail: WorkDetail) => ({
+        ...detail,
+        employee: { id: detail.employee.id },
+      })),
+    });
     mutate({
       ...values,
       id,
       details: values.details.map((detail: WorkDetail) => ({
         ...detail,
         employee: { id: detail.employee.id },
-        id,
       })),
     });
   };
