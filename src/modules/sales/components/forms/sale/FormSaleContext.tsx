@@ -3,12 +3,13 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
+  useRef,
   useState,
 } from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
-import { RowData, useCreateForm } from '@/modules/core/hooks';
+import { useCreateForm } from '@/modules/core/hooks';
 
 import { useFormChange } from '@/modules/core/components';
 import {
@@ -23,6 +24,7 @@ import { FormProps } from '@/modules/core/interfaces';
 import { Sale, SaleDetail } from '@/modules/sales/interfaces';
 import { formSchemaSale } from '@/modules/sales/utils';
 import { formSchemaSaleDetails } from '@/modules/sales/utils/formSchemaSaleDetail';
+import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { ActionsTableSaleDetail } from './details/ActionsTableSaleDetail';
 import { columnsSaleDetail } from './details/ColumnsTableSaleDetail';
@@ -53,7 +55,7 @@ export type FormSaleProps = FormProps<z.infer<typeof formSchemaSale>, Sale>;
 
 export interface FormSaleContextValues {
   formSale: ReturnType<typeof useCreateForm>;
-  formSaleDetail: ReturnType<typeof useCreateForm>;
+  formSaleDetail: UseFormReturn<z.infer<typeof formSchemaSaleDetails>, unknown>;
   readOnly: boolean;
   isSubmitting: boolean;
   onSubmit: (values: z.infer<typeof formSchemaSale>) => void;
@@ -180,10 +182,13 @@ export const FormSaleProvider: React.FC<
 
   const [openDialog, setOpenDialog] = useState(false);
 
-  const formSaleDetail = useCreateForm({
+  const formSaleDetail: UseFormReturn<
+    z.infer<typeof formSchemaSaleDetails>,
+    unknown
+  > = useCreateForm({
     schema: formSchemaSaleDetails,
     defaultValues: saleDetail,
-    validationMode: 'onSubmit',
+    validationMode: 'onChange',
   });
 
   const handleOpenDialog = () => {
@@ -210,24 +215,25 @@ export const FormSaleProvider: React.FC<
   };
 
   const handleDeleteBulkSaleDetails = () => {
-    const recordsIds = getIdsToRowsSelected().map((el: RowData) => el.id);
-    const currentValues = [...formSale.watch('details')];
-    const result = currentValues.filter((element: SaleDetail) => {
-      if (!recordsIds.includes(element?.id!)) {
-        return element;
-      }
-    });
-
     for (const record of getIdsToRowsSelected()) {
       removeSaleDetail(record as SaleDetail);
     }
     resetSelectionRows();
-    formSale.setValue('details', result, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
     toast.success(`Se han eliminado las cosechas!`);
   };
+
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    formSale.setValue('details', detailsSale, {
+      shouldValidate: !isFirstRender.current,
+      shouldDirty: true,
+    });
+
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+    }
+  }, [detailsSale, isFirstRender]);
 
   useEffect(() => {
     formSale.setValue('total', total, { shouldValidate: true });

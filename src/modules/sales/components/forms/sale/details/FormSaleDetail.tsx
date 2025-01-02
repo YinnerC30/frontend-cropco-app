@@ -19,23 +19,22 @@ import { ToolTipTemplate } from '@/modules/core/components';
 
 import { Plus } from 'lucide-react';
 
+import { Form } from '@/components';
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useFormSaleContext } from '@/modules/sales/hooks';
-import { FormSaleDetailsButtons } from './FormSaleDetailsButtons';
+import { formSchemaSaleDetails } from '@/modules/sales/utils';
+import { z } from 'zod';
 import { FormSaleDetailsFields } from './FormSaleDetailsFields';
 
 export const FormSaleDetail = () => {
   const {
     readOnly,
-    // getCurrentDataSaleDetail,
     openDialog,
     setOpenDialog,
     saleDetail,
     handleOpenDialog,
     handleCloseDialog,
     resetSaleDetail,
-    formSale,
-    detailsSale,
     addSaleDetail,
     modifySaleDetail,
     formSaleDetail,
@@ -43,28 +42,21 @@ export const FormSaleDetail = () => {
 
   const { setIsActiveDialog } = useDialogStatus();
 
-  const onSubmitSaleDetail = () => {
-    // const values = getCurrentDataSaleDetail();
-    const values = formSaleDetail.watch();
+  const onSubmitSaleDetail = (
+    // values: any
+    values: z.infer<typeof formSchemaSaleDetails>
+  ) => {
+    console.log('entro');
     if (!saleDetail.id) {
       const record = {
         ...values,
-        total: +values.total,
-        quantity: +values.quantity,
         id: generateUUID(),
       };
       addSaleDetail(record);
-      formSale.setValue('details', [...detailsSale, record], {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-
       toast.success('Registro añadido');
     } else {
       const record = {
         ...values,
-        total: +values.total,
-        quantity: +values.quantity,
         id: saleDetail.id,
       };
       modifySaleDetail(record);
@@ -73,7 +65,6 @@ export const FormSaleDetail = () => {
 
     setIsActiveDialog(false);
     setOpenDialog(false);
-    formSale.trigger('details');
   };
 
   const handleOpenDialogExtended = (
@@ -99,33 +90,37 @@ export const FormSaleDetail = () => {
         </Button>
       </ToolTipTemplate>
       <Dialog open={openDialog} modal={false}>
-        <DialogContent
-          className="sm:max-w-[425px]"
-          onClick={(e) => e.preventDefault()}
-          onPointerDownOutside={(e) => e.preventDefault()}
-          onInteractOutside={(e) => e.preventDefault()}
-          onEscapeKeyDown={(e) => e.preventDefault()}
-        >
-          <DialogClose
-            onClick={handleCloseDialog}
-            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+        <Form {...formSaleDetail}>
+          <DialogContent
+            className="sm:max-w-[425px]"
+            onClick={(e) => e.preventDefault()}
+            onPointerDownOutside={(e) => e.preventDefault()}
+            onInteractOutside={(e) => e.preventDefault()}
+            onEscapeKeyDown={(e) => e.preventDefault()}
           >
-            <Cross2Icon className="w-4 h-4" />
-            <span className="sr-only">Close</span>
-          </DialogClose>
-          <DialogHeader>
-            <DialogTitle>Venta a cliente</DialogTitle>
-            <DialogDescription className="">
-              Información detallada de la venta realizada al cliente
-            </DialogDescription>
-          </DialogHeader>
+            <DialogClose
+              onClick={handleCloseDialog}
+              className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+            >
+              <Cross2Icon className="w-4 h-4" />
+              <span className="sr-only">Close</span>
+            </DialogClose>
+            <DialogHeader>
+              <DialogTitle>Venta a cliente</DialogTitle>
+              <DialogDescription className="">
+                Información detallada de la venta realizada al cliente
+              </DialogDescription>
+            </DialogHeader>
 
-          <FormSaleDetailsFields />
+            <FormSaleDetailsFields action={onSubmitSaleDetail} />
 
-          <DialogFooter>
-            <FormSaleDetailsButtons onClick={onSubmitSaleDetail} />
-          </DialogFooter>
-        </DialogContent>
+            <DialogFooter>
+              <Button type="submit" form="formSaleDetail">
+                Guardar
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Form>
       </Dialog>
     </>
   );

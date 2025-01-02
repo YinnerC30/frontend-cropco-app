@@ -16,19 +16,11 @@ export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
 }) => {
   const saleDetail = row.original;
 
-  const { setSaleDetail, handleOpenDialog, formSale, removeSaleDetail } =
+  const { setSaleDetail, handleOpenDialog, removeSaleDetail } =
     useFormSaleContext();
 
-  const handleDelete = async () => {
-    const detailsForm = formSale
-      .watch('details')
-      .filter((detail: SaleDetail) => detail.id !== saleDetail.id);
-
-    formSale.setValue('details', detailsForm, { shouldDirty: true });
+  const handleDelete = () => {
     removeSaleDetail(saleDetail);
-
-    await formSale.trigger('details');
-
     toast.success(
       `Se ha eliminado la venta del cliente ${saleDetail.client.first_name}`
     );
@@ -43,9 +35,8 @@ export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
     <DropDownMenuActions>
       <ActionCopyIdRecord id={saleDetail?.id!} />
       <ActionDeleteRecord
-        action={async () => {
+        action={() => {
           handleDelete();
-          await formSale.trigger('details');
         }}
         disabled={false}
       />
