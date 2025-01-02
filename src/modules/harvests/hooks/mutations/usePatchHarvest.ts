@@ -8,6 +8,8 @@ import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { Harvest } from '@/modules/harvests/interfaces/Harvest';
 import { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 
 export const updateHarvest = async (
   harvest: Harvest
@@ -22,11 +24,15 @@ export const updateHarvest = async (
 export const usePatchHarvest = (): UseMutationReturn<void, Harvest> => {
   const { handleError } = useAuthContext();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const mutation = useMutation({
     mutationFn: updateHarvest,
     onSuccess: async (_, variables) => {
       await queryClient.invalidateQueries({ queryKey: ['harvests'] });
-      await queryClient.invalidateQueries({ queryKey: ['harvest', variables.id] });
+      await queryClient.invalidateQueries({
+        queryKey: ['harvest', variables.id],
+      });
+      navigate(MODULE_HARVESTS_PATHS.ViewAll);
       toast.success(`Cosecha actualizada`);
     },
     onError: (error: AxiosError<TypedAxiosError, unknown>) => {

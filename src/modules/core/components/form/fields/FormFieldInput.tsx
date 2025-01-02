@@ -7,8 +7,8 @@ import {
   FormMessage,
   Input,
 } from '@/components';
-import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 import { memo } from 'react';
+import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 
 interface FormFieldInputProps extends FormFieldProps {
   step?: number;
@@ -25,7 +25,7 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
     name,
     placeholder,
     readOnly = false,
-    type = 'text',
+    type: typeInput = 'text',
     className = '',
     children,
     step = 0,
@@ -47,10 +47,15 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
                   placeholder={placeholder}
                   {...field}
                   readOnly={readOnly}
-                  type={type}
+                  type={typeInput}
                   step={step}
                   min={min}
                   autoFocus={autoFocus}
+                  onChange={(e) => {
+                    typeInput === 'number'
+                      ? field.onChange(parseInt(e.target.value, 10))
+                      : field.onChange(e.target.value);
+                  }}
                 />
                 {children}
               </div>

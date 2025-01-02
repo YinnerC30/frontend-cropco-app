@@ -3,12 +3,13 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
+  useRef,
   useState,
 } from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
-import { RowData, useCreateForm } from '@/modules/core/hooks';
+import { useCreateForm } from '@/modules/core/hooks';
 import { useGetAllEmployees } from '@/modules/employees/hooks';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 
@@ -233,31 +234,31 @@ export const FormHarvestProvider: React.FC<
   };
 
   const handleDeleteBulkHarvestDetails = (): void => {
-    const recordsIds: string[] = dataTableHarvestDetail
-      .getIdsToRowsSelected()
-      .map((el: RowData) => el.id);
-    const currentValues = [...formHarvest.watch('details')];
-    const result = currentValues.filter((element: HarvestDetail) => {
-      if (!recordsIds.includes(element?.id!)) {
-        return element;
-      }
-    });
-
     for (const record of dataTableHarvestDetail.getIdsToRowsSelected()) {
       removeHarvestDetail(record as HarvestDetail);
     }
     dataTableHarvestDetail.resetSelectionRows();
-    formHarvest.setValue('details', result, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
     toast.success(`Se han eliminado las cosechas!`);
   };
 
   const formHarvest = useCreateForm({
     schema: formSchemaHarvest,
     defaultValues,
+    validationMode: 'onChange',
   });
+
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    formHarvest.setValue('details', detailsHarvest, {
+      shouldValidate: !isFirstRender.current,
+      shouldDirty: true,
+    });
+
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+    }
+  }, [detailsHarvest, isFirstRender]);
 
   useEffect(() => {
     formHarvest.setValue('total', total, { shouldValidate: true });

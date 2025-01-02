@@ -8,13 +8,8 @@ import { formFieldsHarvestDetail } from '@/modules/harvests/utils';
 import { useEffect } from 'react';
 
 export const FormHarvestDetailsFields: React.FC = () => {
-  const {
-    formHarvestDetail,
-    // filterEmployeesToShow,
-    harvestDetail,
-    queryEmployees,
-    detailsHarvest,
-  } = useFormHarvestContext();
+  const { formHarvestDetail, harvestDetail, queryEmployees, detailsHarvest } =
+    useFormHarvestContext();
 
   const filterEmployeesToShow = (): Employee[] => {
     return (

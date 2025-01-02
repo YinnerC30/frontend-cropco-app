@@ -7,7 +7,7 @@ export interface FormFieldProps {
   name: string;
   placeholder: string;
   readOnly: boolean;
-  type?: string;
+  type?: 'number' | 'text' | 'password';
   value?: any;
   className?: string;
   children?: React.ReactNode;

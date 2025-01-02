@@ -50,17 +50,11 @@ export const FormWorkDetail: React.FC = () => {
         id: generateUUID(),
       };
       addWorkDetail(record);
-      formWork.setValue('details', [...detailsWork, record], {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-
       toast.success('Registro añadido');
     } else {
       modifyWorkDetail({ ...values, id: workDetail.id });
       toast.success('Registro actualizado');
     }
-
     setIsActiveDialog(false);
     setOpenDialog(false);
     await formWork.trigger('details');

@@ -34,7 +34,6 @@ export const FormHarvestDetail: React.FC = () => {
     resetHarvestDetail,
     formHarvest,
     formHarvestDetail,
-    detailsHarvest,
     addHarvestDetail,
     modifyHarvestDetail,
   } = useFormHarvestContext();
@@ -49,11 +48,6 @@ export const FormHarvestDetail: React.FC = () => {
         id: generateUUID(),
       };
       addHarvestDetail(record);
-
-      formHarvest.setValue('details', [...detailsHarvest, record], {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
 
       toast.success('Registro añadido');
     } else {

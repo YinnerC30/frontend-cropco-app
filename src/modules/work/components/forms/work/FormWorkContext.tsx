@@ -219,24 +219,16 @@ export const FormWorkProvider: React.FC<
   };
 
   const handleDeleteBulkWorkDetails = () => {
-    const recordsIds = getIdsToRowsSelected().map((el: RowData) => el.id);
-    const currentValues = [...formWork.watch('details')];
-    const result = currentValues.filter((element: WorkDetail) => {
-      if (!recordsIds.includes(element?.id!)) {
-        return element;
-      }
-    });
-
     for (const record of getIdsToRowsSelected()) {
       removeWorkDetail(record as WorkDetail);
     }
     resetSelectionRows();
-    formWork.setValue('details', result, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
     toast.success(`Se han eliminado las cosechas!`);
   };
+
+  useEffect(() => {
+    formWork.setValue('details', detailsWork, { shouldValidate: true });
+  }, [detailsWork]);
 
   useEffect(() => {
     formWork.setValue('total', total, { shouldValidate: true });

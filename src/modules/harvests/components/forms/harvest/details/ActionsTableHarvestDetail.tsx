@@ -16,24 +16,11 @@ interface Props {
 export const ActionsTableHarvestDetail: React.FC<Props> = ({ row }) => {
   const harvestDetail = row.original;
 
-  const {
-    setHarvestDetail,
-    handleOpenDialog,
+  const { setHarvestDetail, handleOpenDialog, removeHarvestDetail } =
+    useFormHarvestContext();
 
-    formHarvest,
-    removeHarvestDetail,
-  } = useFormHarvestContext();
-
-  const handleDelete = async () => {
-    const detailsForm = formHarvest
-      .watch('details')
-      .filter((detail: HarvestDetail) => detail.id !== harvestDetail.id);
-
-    formHarvest.setValue('details', detailsForm, { shouldDirty: true });
+  const handleDelete = () => {
     removeHarvestDetail(harvestDetail);
-
-    await formHarvest.trigger('details');
-
     toast.success(
       `Se ha eliminado la cosecha del empleado ${harvestDetail.employee.first_name}`
     );
@@ -48,9 +35,8 @@ export const ActionsTableHarvestDetail: React.FC<Props> = ({ row }) => {
     <DropDownMenuActions>
       <ActionCopyIdRecord id={harvestDetail?.id!} />
       <ActionDeleteRecord
-        action={async () => {
+        action={() => {
           handleDelete();
-          await formHarvest.trigger();
         }}
         disabled={false}
       />

@@ -16,7 +16,7 @@ import { Button } from '@/components';
 import { TrashIcon } from '@radix-ui/react-icons';
 import { useDataTableMenuActionsContext } from '../DataTableMenuActionsContext';
 interface Props {
-  action: any;
+  action: () => void;
   disabled?: boolean;
 }
 export const ActionDeleteRecord = ({ action, disabled }: Props) => {

@@ -13,24 +13,12 @@ import { toast } from 'sonner';
 export const ActionsTableWorkDetail = ({ row }: { row: Row<WorkDetail> }) => {
   const workDetail: WorkDetail = row.original;
 
-  const {
-    setWorkDetail,
-    handleOpenDialog,
-
-    removeWorkDetail,
-    formWork,
-  } = useFormWorkContext();
+  const { setWorkDetail, handleOpenDialog, removeWorkDetail, formWork } =
+    useFormWorkContext();
 
   const handleDelete = async () => {
-    const detailsForm = formWork
-      .watch('details')
-      .filter((detail: WorkDetail) => detail.id !== workDetail.id);
-
-    formWork.setValue('details', detailsForm, { shouldDirty: true });
     removeWorkDetail(workDetail);
-
     await formWork.trigger('details');
-
     toast.success(
       `Se ha eliminado la cosecha del empleado ${workDetail.employee.first_name}`
     );
