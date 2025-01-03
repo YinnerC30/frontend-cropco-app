@@ -28,6 +28,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { ActionsTableSaleDetail } from './details/ActionsTableSaleDetail';
 import { columnsSaleDetail } from './details/ColumnsTableSaleDetail';
+import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 
 const defaultValuesSale = {
   date: undefined,
@@ -50,6 +51,12 @@ const defaultValuesSaleDetail: SaleDetail = {
   quantity: 0,
   is_receivable: false,
 };
+
+interface CropStock {
+  id: string;
+  name: string;
+  stock: number;
+}
 
 export type FormSaleProps = FormProps<z.infer<typeof formSchemaSale>, Sale>;
 
@@ -76,6 +83,11 @@ export interface FormSaleContextValues {
   handleDeleteBulkSaleDetails: () => void;
   removeSaleDetail: (saleDetail: SaleDetail) => void;
   actionsSalesModule: Record<string, boolean>;
+  queryCropsWithHarvest: ReturnType<typeof useGetAllHarvestsStock>;
+  cropStock: CropStock[];
+  addCropStock: (cropStock: CropStock) => void;
+  removeCropStock: (cropStock: CropStock) => void;
+  validateAvailableStock: (record: CropStock) => boolean;
 }
 
 interface SaleAction {
@@ -103,6 +115,53 @@ const saleDetailsReducer = (
   }
 };
 
+type CropStockAction =
+  | {
+      type: 'ADD';
+      payload: CropStock;
+    }
+  | {
+      type: 'REMOVE';
+      payload: CropStock;
+    }
+  | {
+      type: 'RESET';
+      payload: CropStock[];
+    };
+
+const cropStockReducer = (
+  state: CropStock[],
+  action: CropStockAction
+): CropStock[] => {
+  if (!action) {
+    throw new Error('Action is undefined');
+  }
+  switch (action.type) {
+    case 'ADD':
+      return state.map((item) => {
+        if (item.id === action.payload.id) {
+          return {
+            ...item,
+            stock: item.stock + action.payload.stock,
+          };
+        }
+        return item;
+      });
+    case 'REMOVE':
+      return state.map((item) => {
+        if (item.id === action.payload.id) {
+          return {
+            ...item,
+            stock: item.stock - action.payload.stock,
+          };
+        }
+        return item;
+      });
+    case 'RESET':
+      return [...action.payload];
+  }
+};
+
 export const FormSaleContext = createContext<FormSaleContextValues | undefined>(
   undefined
 );
@@ -122,25 +181,58 @@ export const FormSaleProvider: React.FC<
   const actionsSalesModule = useMemo(() => getActionsModule('sales'), []);
 
   const detailsDefaultValues = defaultValues?.details ?? [];
-  const [detailsSale, dispatch] = useReducer(
+  const [detailsSale, dispatchSaleDetails] = useReducer(
     saleDetailsReducer,
     detailsDefaultValues
   );
 
   const addSaleDetail = (saleDetail: SaleDetail): void => {
-    dispatch({ type: 'ADD', payload: saleDetail });
+    dispatchSaleDetails({ type: 'ADD', payload: saleDetail });
   };
 
   const removeSaleDetail = (saleDetail: SaleDetail): void => {
-    dispatch({ type: 'REMOVE', payload: saleDetail });
+    dispatchSaleDetails({ type: 'REMOVE', payload: saleDetail });
   };
 
   const modifySaleDetail = (saleDetail: SaleDetail): void => {
-    dispatch({ type: 'MODIFY', payload: saleDetail });
+    dispatchSaleDetails({ type: 'MODIFY', payload: saleDetail });
   };
 
   const resetSaleDetails = (): void => {
-    dispatch({ type: 'RESET' });
+    dispatchSaleDetails({ type: 'RESET' });
+  };
+
+  const queryCropsWithStock = useGetAllHarvestsStock();
+
+  const [cropStock, dispatchCropStock] = useReducer(cropStockReducer, []);
+
+  const validateAvailableStock = (record: CropStock): boolean => {
+    const crop = cropStock.find((item) => item.id === record.id);
+    if (!crop) {
+      throw new Error('Cultivo no encontrado');
+    }
+    const result = crop?.stock >= record.stock && record.stock >= 0;
+    if (!result) {
+      toast.error(
+        `No hay suficiente stock para el cultivo ${record.name}. Stock disponible: ${crop.stock}`
+      );
+    }
+    return result;
+  };
+
+  const addCropStock = (cropStock: CropStock): void => {
+    dispatchCropStock({ type: 'ADD', payload: cropStock });
+  };
+
+  const removeCropStock = (cropStock: CropStock): void => {
+    dispatchCropStock({ type: 'REMOVE', payload: cropStock });
+  };
+
+  const resetCropStock = (data: CropStock[]): void => {
+    dispatchCropStock({
+      type: 'RESET',
+      payload: data,
+    });
   };
 
   const formSale = useCreateForm({
@@ -197,6 +289,11 @@ export const FormSaleProvider: React.FC<
   };
 
   const ClearFormSaleDetail = () => {
+    removeCropStock({
+      id: saleDetail.crop.id,
+      name: saleDetail.crop?.name!,
+      stock: saleDetail.quantity,
+    });
     formSaleDetail.reset(defaultValuesSaleDetail);
     setIsActiveDialog(false);
     setOpenDialog(false);
@@ -216,6 +313,12 @@ export const FormSaleProvider: React.FC<
 
   const handleDeleteBulkSaleDetails = () => {
     for (const record of getIdsToRowsSelected()) {
+      const data = detailsSale.find((item) => item.id === record.id);
+      addCropStock({
+        id: data?.crop.id!,
+        name: data?.crop.name,
+        stock: data?.quantity!,
+      });
       removeSaleDetail(record as SaleDetail);
     }
     resetSelectionRows();
@@ -239,6 +342,12 @@ export const FormSaleProvider: React.FC<
     formSale.setValue('total', total, { shouldValidate: true });
     formSale.setValue('quantity', quantity, { shouldValidate: true });
   }, [total, quantity]);
+
+  useEffect(() => {
+    if (queryCropsWithStock.isSuccess) {
+      resetCropStock(queryCropsWithStock.data?.rows as CropStock[]);
+    }
+  }, [queryCropsWithStock.data]);
 
   return (
     <FormSaleContext.Provider
@@ -265,6 +374,11 @@ export const FormSaleProvider: React.FC<
         resetSaleDetails,
         quantity,
         actionsSalesModule,
+        queryCropsWithHarvest: queryCropsWithStock,
+        cropStock,
+        addCropStock,
+        removeCropStock,
+        validateAvailableStock,
       }}
     >
       {children}

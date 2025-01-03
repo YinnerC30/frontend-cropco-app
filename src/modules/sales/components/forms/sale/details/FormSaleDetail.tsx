@@ -22,9 +22,9 @@ import { Plus } from 'lucide-react';
 import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useFormSaleContext } from '@/modules/sales/hooks';
 import { formSchemaSaleDetails } from '@/modules/sales/utils';
+import React from 'react';
 import { z } from 'zod';
 import { FormSaleDetailsFields } from './FormSaleDetailsFields';
-import React from 'react';
 
 export const FormSaleDetail: React.FC = () => {
   const {
@@ -37,6 +37,8 @@ export const FormSaleDetail: React.FC = () => {
     addSaleDetail,
     modifySaleDetail,
     formSaleDetail,
+    removeCropStock,
+    validateAvailableStock,
   } = useFormSaleContext();
 
   const { setIsActiveDialog } = useDialogStatus();
@@ -44,19 +46,36 @@ export const FormSaleDetail: React.FC = () => {
   const onSubmitSaleDetail = (
     values: z.infer<typeof formSchemaSaleDetails>
   ) => {
+    const result = validateAvailableStock({
+      id: values.crop.id,
+      name: values.crop?.name!,
+      stock: values.quantity,
+    });
+
+    if (!result) return;
+
     if (!values.id) {
       const record = {
         ...values,
         id: generateUUID(),
       };
 
+      removeCropStock({
+        id: values.crop.id,
+        name: values.crop?.name!,
+        stock: values.quantity,
+      });
+
       addSaleDetail(record);
       toast.success('Registro añadido');
     } else {
-      const record = {
-        ...values,
-      };
-      modifySaleDetail(record);
+      removeCropStock({
+        id: values.crop.id,
+        name: values.crop?.name!,
+        stock: values.quantity,
+      });
+
+      modifySaleDetail(values);
       toast.success('Registro actualizado');
     }
 

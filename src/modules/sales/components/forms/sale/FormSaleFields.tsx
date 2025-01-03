@@ -12,7 +12,7 @@ import { FormSaleDataTable } from './FormSaleDataTable';
 import React from 'react';
 
 export const FormSaleFields: React.FC = () => {
-  const { formSale, onSubmit, readOnly, total, quantity } =
+  const { formSale, onSubmit, readOnly, total, quantity, cropStock } =
     useFormSaleContext();
 
   return (
@@ -38,6 +38,7 @@ export const FormSaleFields: React.FC = () => {
             <FormSaleDataTable />
           </FormFieldDataTable>
         </div>
+
         <FormFieldInput
           control={formSale.control}
           description={formFieldsSale.total.description}

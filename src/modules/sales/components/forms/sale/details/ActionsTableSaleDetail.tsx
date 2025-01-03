@@ -16,10 +16,15 @@ export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
 }) => {
   const saleDetail = row.original;
 
-  const { setSaleDetail, handleOpenDialog, removeSaleDetail } =
+  const { setSaleDetail, handleOpenDialog, removeSaleDetail, addCropStock } =
     useFormSaleContext();
 
   const handleDelete = () => {
+    addCropStock({
+      id: saleDetail.crop.id,
+      name: saleDetail.crop.name,
+      stock: saleDetail.quantity,
+    });
     removeSaleDetail(saleDetail);
     toast.success(
       `Se ha eliminado la venta del cliente ${saleDetail.client.first_name}`

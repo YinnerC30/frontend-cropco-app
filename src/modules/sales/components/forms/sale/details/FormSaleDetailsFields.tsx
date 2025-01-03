@@ -1,47 +1,36 @@
 import { Form } from '@/components';
 import { useGetAllClients } from '@/modules/clients/hooks';
-import { Client } from '@/modules/clients/interfaces/Client';
 import {
   FormFieldCheckBox,
   FormFieldCommand,
   FormFieldInput,
 } from '@/modules/core/components';
-import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 import { useFormSaleContext } from '@/modules/sales/hooks';
-import { SaleDetail } from '@/modules/sales/interfaces';
 import { formFieldsSaleDetail } from '@/modules/sales/utils';
 
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 
 export const FormSaleDetailsFields: React.FC = () => {
-  const { readOnly, saleDetail, formSaleDetail, detailsSale } =
-    useFormSaleContext();
+  const {
+    readOnly,
+    saleDetail,
+    formSaleDetail,
+    queryCropsWithHarvest,
+    cropStock,
+    addCropStock,
+  } = useFormSaleContext();
 
   const { query: queryClients } = useGetAllClients({
     queryValue: '',
     allRecords: true,
   });
 
-  // TODO: Mover querycrops al context y usar reducer para manejar el estado para reducir o aumentar stock
-  const queryCrops = useGetAllHarvestsStock();
-
-  // console.log(queryCrops.data?.rows)
-
-  const filterClientsToShow = useCallback((): Client[] => {
-    return (
-      queryClients?.data?.rows.filter((record: Client) => {
-        const state = detailsSale.some(
-          (item: SaleDetail) => item?.client?.id === record.id
-        );
-        if (state && record.id !== saleDetail?.client?.id) {
-          return;
-        }
-        return record;
-      }) || []
-    );
-  }, [queryClients?.data, detailsSale]);
-
   useEffect(() => {
+    addCropStock({
+      id: saleDetail.crop.id,
+      name: saleDetail.crop?.name!,
+      stock: saleDetail.quantity,
+    });
     formSaleDetail.reset(saleDetail);
   }, [saleDetail]);
 
@@ -49,7 +38,7 @@ export const FormSaleDetailsFields: React.FC = () => {
     <Form {...formSaleDetail}>
       <form className="z-50 mx-5" id="formSaleDetail">
         <FormFieldCommand
-          data={filterClientsToShow() || []}
+          data={queryClients?.data?.rows || []}
           form={formSaleDetail}
           nameToShow={'first_name'}
           control={formSaleDetail.control}
@@ -63,7 +52,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           className="w-52"
         />
         <FormFieldCommand
-          data={queryCrops?.data?.rows || []}
+          data={cropStock}
           form={formSaleDetail}
           nameToShow={'name'}
           control={formSaleDetail.control}
@@ -72,7 +61,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           name={'crop'}
           placeholder={formFieldsSaleDetail.crop.placeholder}
           readOnly={readOnly}
-          isLoading={queryCrops.isLoading}
+          isLoading={queryCropsWithHarvest.isLoading}
           nameEntity="cultivo"
           className="w-52"
         />
