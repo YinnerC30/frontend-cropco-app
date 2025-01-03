@@ -13,7 +13,7 @@ import { formFieldsSaleDetail } from '@/modules/sales/utils';
 
 import { useCallback, useEffect } from 'react';
 
-export const FormSaleDetailsFields = () => {
+export const FormSaleDetailsFields: React.FC = () => {
   const { readOnly, saleDetail, formSaleDetail, detailsSale } =
     useFormSaleContext();
 
@@ -22,7 +22,10 @@ export const FormSaleDetailsFields = () => {
     allRecords: true,
   });
 
+  // TODO: Mover querycrops al context y usar reducer para manejar el estado para reducir o aumentar stock
   const queryCrops = useGetAllHarvestsStock();
+
+  // console.log(queryCrops.data?.rows)
 
   const filterClientsToShow = useCallback((): Client[] => {
     return (

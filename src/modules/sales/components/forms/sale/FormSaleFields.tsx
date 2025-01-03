@@ -9,8 +9,9 @@ import { FormatNumber } from '@/modules/core/helpers';
 import { useFormSaleContext } from '@/modules/sales/hooks/context/useFormSaleContext';
 import { formFieldsSale } from '@/modules/sales/utils';
 import { FormSaleDataTable } from './FormSaleDataTable';
+import React from 'react';
 
-export const FormSaleFields = () => {
+export const FormSaleFields: React.FC = () => {
   const { formSale, onSubmit, readOnly, total, quantity } =
     useFormSaleContext();
 

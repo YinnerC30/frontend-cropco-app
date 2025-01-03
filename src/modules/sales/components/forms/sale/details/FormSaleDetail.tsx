@@ -24,8 +24,9 @@ import { useFormSaleContext } from '@/modules/sales/hooks';
 import { formSchemaSaleDetails } from '@/modules/sales/utils';
 import { z } from 'zod';
 import { FormSaleDetailsFields } from './FormSaleDetailsFields';
+import React from 'react';
 
-export const FormSaleDetail = () => {
+export const FormSaleDetail: React.FC = () => {
   const {
     readOnly,
     openDialog,

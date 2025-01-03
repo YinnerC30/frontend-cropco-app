@@ -18,8 +18,9 @@ import { FormSaleDetail } from './details/FormSaleDetail';
 import { ScrollArea, ScrollBar } from '@/components';
 import { useFormSaleContext } from '@/modules/sales/hooks';
 import { SaleDetail } from '@/modules/sales/interfaces';
+import React from 'react';
 
-export const FormSaleDataTable = () => {
+export const FormSaleDataTable: React.FC = () => {
   const {
     dataTableSaleDetail: {
       table,

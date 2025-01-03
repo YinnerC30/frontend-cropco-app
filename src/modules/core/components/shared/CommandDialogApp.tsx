@@ -1,3 +1,4 @@
+import { useAuthContext } from '@/auth/hooks/useAuthContext';
 import {
   CommandDialog,
   CommandEmpty,
@@ -6,30 +7,43 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import { useAuthContext } from '@/auth/hooks/useAuthContext';
-import { routes } from '@/routes/components/RoutesNavBar';
+import { Route, routes } from '@/routes/components/RoutesNavBar';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 
+import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useFormChange } from '../form/FormChangeContext';
 
-export function CommandDialogApp() {
+export const CommandDialogApp = () => {
   const [open, setOpen] = useState(false);
 
   const { nameModulesUser } = useAuthContext();
 
+  const { isActiveDialog } = useDialogStatus();
+  const { hasUnsavedChanges, showToast } = useFormChange();
+
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'j' && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 'j' && (e.metaKey || e.ctrlKey) && !isActiveDialog) {
         e.preventDefault();
-        setOpen((open) => !open);
+
+        if (hasUnsavedChanges) {
+          showToast({
+            skiptRedirection: true,
+            action: () => {
+              setOpen((open) => !open);
+            },
+          });
+        } else {
+          setOpen((open) => !open);
+        }
       }
     };
-
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
-  }, []);
+  }, [isActiveDialog, hasUnsavedChanges]);
 
   const navigate = useNavigate();
 
@@ -39,10 +53,11 @@ export function CommandDialogApp() {
         <VisuallyHidden.Root>Menu</VisuallyHidden.Root>
       </DialogTitle>
       <CommandInput placeholder="Escribe el nombre de un módulo..." />
-      <CommandList>
+
+      <CommandList className="">
         <CommandEmpty>No se encontraron resultados</CommandEmpty>
         <CommandGroup heading="Módulos">
-          {routes.map((route: any) => {
+          {routes.map((route: Route) => {
             if (
               nameModulesUser.includes(route.name_module) ||
               route.name_module === 'N/A'
@@ -65,4 +80,4 @@ export function CommandDialogApp() {
       </CommandList>
     </CommandDialog>
   );
-}
+};
