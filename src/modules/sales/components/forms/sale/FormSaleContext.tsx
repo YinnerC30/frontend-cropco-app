@@ -21,6 +21,7 @@ import { toast } from 'sonner';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { FormProps } from '@/modules/core/interfaces';
+import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 import { Sale, SaleDetail } from '@/modules/sales/interfaces';
 import { formSchemaSale } from '@/modules/sales/utils';
 import { formSchemaSaleDetails } from '@/modules/sales/utils/formSchemaSaleDetail';
@@ -28,7 +29,6 @@ import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { ActionsTableSaleDetail } from './details/ActionsTableSaleDetail';
 import { columnsSaleDetail } from './details/ColumnsTableSaleDetail';
-import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 
 const defaultValuesSale = {
   date: undefined,
@@ -52,7 +52,7 @@ const defaultValuesSaleDetail: SaleDetail = {
   is_receivable: false,
 };
 
-interface CropStock {
+export interface CropStock {
   id: string;
   name: string;
   stock: number;
@@ -214,7 +214,7 @@ export const FormSaleProvider: React.FC<
     const result = crop?.stock >= record.stock && record.stock >= 0;
     if (!result) {
       toast.error(
-        `No hay suficiente stock para el cultivo ${record.name}. Stock disponible: ${crop.stock}`
+        `No hay suficiente inventario para el cultivo ${record.name}.\nInventario disponible: ${crop.stock} Kg`
       );
     }
     return result;

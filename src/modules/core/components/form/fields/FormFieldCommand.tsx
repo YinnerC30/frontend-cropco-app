@@ -140,7 +140,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                                 actionFinal && actionFinal();
                               }}
                             >
-                              {item?.[nameToShow]}
+                              <div className="">{item?.[nameToShow]}</div>
                               <CheckIcon
                                 className={cn(
                                   'ml-auto h-4 w-4',
