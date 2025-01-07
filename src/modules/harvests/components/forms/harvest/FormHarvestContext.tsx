@@ -8,7 +8,6 @@ import React, {
 } from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useCreateForm } from '@/modules/core/hooks';
 import { useGetAllEmployees } from '@/modules/employees/hooks';
 import { Employee } from '@/modules/employees/interfaces/Employee';
@@ -184,8 +183,6 @@ export const FormHarvestProvider: React.FC<
     columns: columnsTable,
     rows: detailsHarvest,
   });
-
-  const { setIsActiveDialog } = useDialogStatus();
   const { hasUnsavedChanges, showToast } = useFormChange();
 
   const [harvestDetail, setHarvestDetail] = useState<HarvestDetail>(
@@ -210,7 +207,6 @@ export const FormHarvestProvider: React.FC<
   });
 
   const handleOpenDialog = (): void => {
-    setIsActiveDialog(true);
     setOpenDialog(true);
   };
 
@@ -223,14 +219,12 @@ export const FormHarvestProvider: React.FC<
         skiptRedirection: true,
         action: (): void => {
           formHarvestDetail.reset(defaultValuesHarvestDetail);
-          setIsActiveDialog(false);
           setOpenDialog(false);
         },
       });
       return;
     }
     formHarvestDetail.reset(defaultValuesHarvestDetail);
-    setIsActiveDialog(false);
     setOpenDialog(false);
   };
 

@@ -1,10 +1,22 @@
-import * as React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
+import * as React from 'react';
 
 import { cn } from '@/lib/utils';
+import { useDialogStatus } from '../common/DialogStatusContext';
 
-const Dialog = DialogPrimitive.Root;
+const Dialog: React.FC<DialogPrimitive.DialogProps> = ({
+  open = false,
+  ...props
+}) => {
+  const { setIsActiveDialog } = useDialogStatus();
+
+  React.useEffect(() => {
+    setIsActiveDialog(open);
+  }, [open]);
+
+  return <DialogPrimitive.Root open={open} {...props} />;
+};
 
 const DialogTrigger = DialogPrimitive.Trigger;
 
@@ -113,14 +125,14 @@ DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
 export {
   Dialog,
-  DialogPortal,
-  DialogOverlay,
-  DialogTrigger,
   DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
-  DialogDescription,
   DialogCloseX,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
 };
