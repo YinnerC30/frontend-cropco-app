@@ -25,13 +25,17 @@ export const useCreateForm = ({
     mode: validationMode,
   });
 
-  const { isDirty } = form.formState;
+  const { isDirty, isSubmitSuccessful } = form.formState;
 
   useEffect(() => {
     if (!skiptDirty) {
       isDirty ? markChanges(true) : markChanges(false);
     }
   }, [isDirty]);
+
+  useEffect(() => {
+    isSubmitSuccessful && markChanges(false);
+  }, [isSubmitSuccessful]);
 
   return form;
 };
