@@ -40,8 +40,10 @@ export const columnsHarvest: ColumnDef<TableHarvest>[] = [
       return <ButtonHeaderTable column={column} label={'Empleados:'} />;
     },
     cell: ({ row: { original } }) => {
-      return original.employees.map((employee) => (
-        <Badge className="mb-1 mr-1">{employee.first_name}</Badge>
+      return original.employees.map((employee, index) => (
+        <Badge key={employee?.id! + index} className="mb-1 mr-1">
+          {employee.first_name}
+        </Badge>
       ));
     },
   },
