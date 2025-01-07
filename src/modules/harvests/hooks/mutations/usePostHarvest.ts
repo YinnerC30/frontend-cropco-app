@@ -22,8 +22,12 @@ export const usePostHarvest = (): UseMutationReturn<void, Harvest> => {
   const mutation: UseMutationReturn<void, Harvest> = useMutation({
     mutationFn: createHarvest,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['harvests'] });
-
+      await queryClient.invalidateQueries({
+        queryKey: ['harvests'],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['crops-with-harvest'],
+      });
       navigate(MODULE_HARVESTS_PATHS.ViewAll);
       toast.success(`Cosecha creada`);
     },

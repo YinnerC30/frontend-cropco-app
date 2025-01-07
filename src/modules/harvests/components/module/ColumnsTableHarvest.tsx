@@ -6,6 +6,7 @@ import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyV
 import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
 import { TableHarvest } from '../../interfaces/TableHarvest';
 import { formFieldsHarvest } from '../../utils';
+import { Badge } from '@/components';
 
 export const columnsHarvest: ColumnDef<TableHarvest>[] = [
   {
@@ -23,7 +24,7 @@ export const columnsHarvest: ColumnDef<TableHarvest>[] = [
     },
   },
   {
-    accessorKey: formFieldsHarvest.crop.name,
+    accessorKey: 'crop.name',
     header: ({ column }: HeaderContext<TableHarvest, unknown>) => {
       return (
         <ButtonHeaderTable
@@ -31,6 +32,17 @@ export const columnsHarvest: ColumnDef<TableHarvest>[] = [
           label={formFieldsHarvest.crop.label}
         />
       );
+    },
+  },
+  {
+    accessorKey: 'employees',
+    header: ({ column }: HeaderContext<TableHarvest, unknown>) => {
+      return <ButtonHeaderTable column={column} label={'Empleados:'} />;
+    },
+    cell: ({ row: { original } }) => {
+      return original.employees.map((employee) => (
+        <Badge className="mb-1 mr-1">{employee.first_name}</Badge>
+      ));
     },
   },
   {
