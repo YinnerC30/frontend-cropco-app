@@ -1,15 +1,14 @@
 import { ToastAction, toast } from '@/components';
 import { useNavigate } from 'react-router-dom';
 import { useFormChange } from '../components';
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 
 export const useToastDiscardChanges = () => {
   const navigate = useNavigate();
 
   const { markChanges } = useFormChange();
-  const { setIsActiveDialog } = useDialogStatus();
+  
   const handleToastAction = (route: string, skiptRedirection: boolean) => {
-    setIsActiveDialog(false);
+    
     markChanges(false);
     if (!skiptRedirection) {
       navigate(route);

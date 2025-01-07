@@ -19,7 +19,6 @@ import { ToolTipTemplate } from '@/modules/core/components';
 
 import { Plus } from 'lucide-react';
 
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useFormConsumptionContext } from '@/modules/consumption/hooks/context/useFormConsumptionContext';
 import { FormConsumptionDetailsButtons } from './FormConsumptionDetailsButtons';
 import { FormConsumptionDetailsFields } from './FormConsumptionDetailsFields';
@@ -40,7 +39,7 @@ export const FormConsumptionDetail = () => {
     modifyConsumptionDetail,
   } = useFormConsumptionContext();
 
-  const { setIsActiveDialog } = useDialogStatus();
+  
 
   const onSubmitConsumptionDetail = () => {
     const values = getCurrentDataConsumptionDetail();
@@ -62,7 +61,7 @@ export const FormConsumptionDetail = () => {
       toast.success('Registro actualizado');
     }
 
-    setIsActiveDialog(false);
+    
     setOpenDialog(false);
     form.trigger('details');
   };

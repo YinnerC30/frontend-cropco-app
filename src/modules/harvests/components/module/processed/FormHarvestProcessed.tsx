@@ -9,7 +9,6 @@ import {
   DialogTitle,
   Form,
 } from '@/components';
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import {
   FormFieldCalendar,
   FormFieldInput,
@@ -57,18 +56,15 @@ export const FormHarvestProcessed: React.FC = memo(() => {
     defaultValues: harvestProcessed,
   });
 
-  const { setIsActiveDialog } = useDialogStatus();
-
   const handleOpenDialogExtended = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
     formProcessed.reset();
-    setIsActiveDialog(true);
+
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
-    setIsActiveDialog(false);
     setOpenDialog(false);
     formProcessed.reset({ total: 0, date: undefined });
   };
@@ -109,7 +105,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
               total: 0,
               id: undefined,
             });
-            setIsActiveDialog(false);
+
             setOpenDialog(false);
           },
         }
@@ -118,7 +114,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
       mutationPostHarvestProcessed.mutate(finalData, {
         onSuccess: () => {
           formProcessed.reset({ total: 0, date: undefined });
-          setIsActiveDialog(false);
+
           setOpenDialog(false);
         },
       });

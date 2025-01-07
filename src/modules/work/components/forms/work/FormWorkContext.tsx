@@ -8,7 +8,6 @@ import React, {
 } from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useCreateForm } from '@/modules/core/hooks';
 import { useGetAllEmployees } from '@/modules/employees/hooks';
 import { Employee } from '@/modules/employees/interfaces/Employee';
@@ -176,7 +175,6 @@ export const FormWorkProvider: React.FC<
 
   const { getIdsToRowsSelected, resetSelectionRows } = dataTableWorkDetail;
 
-  const { setIsActiveDialog } = useDialogStatus();
   const { hasUnsavedChanges, showToast } = useFormChange();
 
   const [workDetail, setWorkDetail] = useState(defaultValuesWorkDetail);
@@ -199,13 +197,12 @@ export const FormWorkProvider: React.FC<
   });
 
   const handleOpenDialog = () => {
-    setIsActiveDialog(true);
     setOpenDialog(true);
   };
 
   const ClearFormWorkDetail = () => {
     formWorkDetail.reset(defaultValuesWorkDetail);
-    setIsActiveDialog(false);
+
     setOpenDialog(false);
   };
 

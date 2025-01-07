@@ -19,7 +19,6 @@ import { ToolTipTemplate } from '@/modules/core/components';
 
 import { Plus } from 'lucide-react';
 
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useFormWorkContext } from '@/modules/work/hooks/context/useFormWorkContext';
 import { formSchemaWorkDetails } from '@/modules/work/utils/formSchemaWorkDetails';
 import { z } from 'zod';
@@ -38,8 +37,6 @@ export const FormWorkDetail: React.FC = () => {
     formWorkDetail,
   } = useFormWorkContext();
 
-  const { setIsActiveDialog } = useDialogStatus();
-
   const onSubmitWorkDetail = (
     values: z.infer<typeof formSchemaWorkDetails>
   ) => {
@@ -54,7 +51,6 @@ export const FormWorkDetail: React.FC = () => {
       modifyWorkDetail(values);
       toast.success('Registro actualizado');
     }
-    setIsActiveDialog(false);
     setOpenDialog(false);
   };
 

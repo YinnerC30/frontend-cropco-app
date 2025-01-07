@@ -1,9 +1,8 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthContext } from '@/auth/hooks';
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useCreateForm } from '@/modules/core/hooks';
 
 import { useFormChange } from '@/modules/core/components';
@@ -16,11 +15,11 @@ import { MODULE_CONSUMPTION_PATHS } from '@/modules/consumption/routes/pathRoute
 import { formSchemaConsumption } from '@/modules/consumption/utils';
 import { formSchemaConsumptionDetail } from '@/modules/consumption/utils/formSchemaConsumptionDetail';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
+import { useGetAllCrops } from '@/modules/crops/hooks';
+import { Crop } from '@/modules/crops/interfaces/Crop';
 import { useGetAllSupplies } from '@/modules/supplies/hooks';
 import { ActionsTableConsumptionDetail } from '../consumption/details/ActionsTableConsumptionDetail';
 import { columnsConsumptionDetail } from '../consumption/details/ColumnsTableConsumptionDetail';
-import { useGetAllCrops } from '@/modules/crops/hooks';
-import { Crop } from '@/modules/crops/interfaces/Crop';
 
 export const FormConsumptionContext = createContext<any>(null);
 
@@ -94,7 +93,6 @@ export const FormConsumptionProvider = ({
   const { getIdsToRowsSelected, resetSelectionRows, hasSelectedRecords } =
     dataTableConsumptionDetail;
 
-  const { setIsActiveDialog } = useDialogStatus();
   const { hasUnsavedChanges, showToast } = useFormChange();
 
   const [consumptionDetail, setConsumptionDetail] = useState(
@@ -147,13 +145,12 @@ export const FormConsumptionProvider = ({
   };
 
   const handleOpenDialog = () => {
-    setIsActiveDialog(true);
     setOpenDialog(true);
   };
 
   const ClearFormConsumptionDetail = () => {
     resetForm();
-    setIsActiveDialog(false);
+
     setOpenDialog(false);
   };
 

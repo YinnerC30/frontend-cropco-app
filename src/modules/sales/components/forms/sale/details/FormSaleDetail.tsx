@@ -19,7 +19,6 @@ import { ToolTipTemplate } from '@/modules/core/components';
 
 import { Plus } from 'lucide-react';
 
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useFormSaleContext } from '@/modules/sales/hooks';
 import { formSchemaSaleDetails } from '@/modules/sales/utils';
 import React from 'react';
@@ -40,8 +39,6 @@ export const FormSaleDetail: React.FC = () => {
     removeCropStock,
     validateAvailableStock,
   } = useFormSaleContext();
-
-  const { setIsActiveDialog } = useDialogStatus();
 
   const onSubmitSaleDetail = (
     values: z.infer<typeof formSchemaSaleDetails>
@@ -79,7 +76,6 @@ export const FormSaleDetail: React.FC = () => {
       toast.success('Registro actualizado');
     }
 
-    setIsActiveDialog(false);
     setOpenDialog(false);
   };
 

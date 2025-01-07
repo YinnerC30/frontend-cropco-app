@@ -19,7 +19,6 @@ import { ToolTipTemplate } from '@/modules/core/components';
 
 import { Plus } from 'lucide-react';
 
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useFormShoppingContext } from '@/modules/shopping/hooks/context/useFormShoppingContext';
 import { FormShoppingDetailsButtons } from './FormShoppingDetailsButtons';
 import { FormShoppingDetailsFields } from './FormShoppingDetailsFields';
@@ -40,8 +39,6 @@ export const FormShoppingDetail = () => {
     modifyShoppingDetail,
   } = useFormShoppingContext();
 
-  const { setIsActiveDialog } = useDialogStatus();
-
   const onSubmitShoppingDetail = () => {
     const values = getCurrentDataShoppingDetail();
     if (!shoppingDetail.id) {
@@ -61,8 +58,6 @@ export const FormShoppingDetail = () => {
       modifyShoppingDetail(record);
       toast.success('Registro actualizado');
     }
-
-    setIsActiveDialog(false);
     setOpenDialog(false);
     form.trigger('details');
   };

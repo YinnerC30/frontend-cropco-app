@@ -8,7 +8,6 @@ import React, {
 } from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useCreateForm } from '@/modules/core/hooks';
 
 import { useFormChange } from '@/modules/core/components';
@@ -263,7 +262,7 @@ export const FormSaleProvider: React.FC<
 
   const { getIdsToRowsSelected, resetSelectionRows } = dataTableSaleDetail;
 
-  const { setIsActiveDialog } = useDialogStatus();
+  
   const { hasUnsavedChanges, showToast } = useFormChange();
 
   const [saleDetail, setSaleDetail] = useState(defaultValuesSaleDetail);
@@ -284,7 +283,6 @@ export const FormSaleProvider: React.FC<
   });
 
   const handleOpenDialog = () => {
-    setIsActiveDialog(true);
     setOpenDialog(true);
   };
 
@@ -295,7 +293,6 @@ export const FormSaleProvider: React.FC<
       stock: saleDetail.quantity,
     });
     formSaleDetail.reset(defaultValuesSaleDetail);
-    setIsActiveDialog(false);
     setOpenDialog(false);
   };
 

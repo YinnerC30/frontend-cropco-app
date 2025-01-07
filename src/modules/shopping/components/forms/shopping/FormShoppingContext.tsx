@@ -3,7 +3,6 @@ import React, { createContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthContext } from '@/auth/hooks';
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useCreateForm } from '@/modules/core/hooks';
 import { useGetAllSuppliers } from '@/modules/suppliers/hooks';
 import { Supplier } from '@/modules/suppliers/interfaces/Supplier';
@@ -103,7 +102,6 @@ export const FormShoppingProvider = ({
   const { getIdsToRowsSelected, resetSelectionRows, hasSelectedRecords } =
     dataTableShoppingDetail;
 
-  const { setIsActiveDialog } = useDialogStatus();
   const { hasUnsavedChanges, showToast } = useFormChange();
 
   const [shoppingDetail, setShoppingDetail] = useState(
@@ -154,13 +152,12 @@ export const FormShoppingProvider = ({
   };
 
   const handleOpenDialog = () => {
-    setIsActiveDialog(true);
     setOpenDialog(true);
   };
 
   const ClearFormShoppingDetail = () => {
     resetForm();
-    setIsActiveDialog(false);
+
     setOpenDialog(false);
   };
 

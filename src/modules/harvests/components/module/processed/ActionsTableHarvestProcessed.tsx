@@ -1,4 +1,3 @@
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import {
   ActionCopyIdRecord,
   ActionDeleteRecord,
@@ -24,7 +23,7 @@ export const ActionsTableHarvestProcessed: React.FC<Props> = ({ row }) => {
 
   const mutationDeleteHarvestProcessed = useDeleteHarvestProcessed();
 
-  const { setIsActiveDialog } = useDialogStatus();
+  
   const handleDelete = () => {
     mutationDeleteHarvestProcessed.mutate(id, {
       onSuccess: async () => {
@@ -35,7 +34,7 @@ export const ActionsTableHarvestProcessed: React.FC<Props> = ({ row }) => {
 
   const handleModify = () => {
     setHarvestProcessed(row.original);
-    setIsActiveDialog(true);
+    
     setOpenDialog(true);
   };
 

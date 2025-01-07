@@ -19,7 +19,6 @@ import { ToolTipTemplate } from '@/modules/core/components';
 import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { Plus } from 'lucide-react';
 
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { formSchemaHarvestDetail } from '@/modules/harvests/utils';
 import { z } from 'zod';
 import { FormHarvestDetailsFields } from './FormHarvestDetailsFields';
@@ -37,8 +36,6 @@ export const FormHarvestDetail: React.FC = () => {
     modifyHarvestDetail,
   } = useFormHarvestContext();
 
-  const { setIsActiveDialog } = useDialogStatus();
-
   const onSubmitHarvestDetail = (
     values: z.infer<typeof formSchemaHarvestDetail>
   ) => {
@@ -53,7 +50,6 @@ export const FormHarvestDetail: React.FC = () => {
       modifyHarvestDetail({ ...values, id: values.id });
       toast.success('Registro actualizado');
     }
-    setIsActiveDialog(false);
     setOpenDialog(false);
   };
 

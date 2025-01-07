@@ -1,5 +1,4 @@
 import { Badge, Label, ScrollArea, ScrollBar } from '@/components';
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import {
   FormDataTableButtonsPagination,
   FormDataTableProvider,
@@ -23,8 +22,6 @@ const HarvestProcessedDataTable: React.FC = memo(() => {
     setOpenDialog,
   } = useHarvestProcessedContext();
 
-  const { setIsActiveDialog } = useDialogStatus();
-
   const finalData: HarvestProcessed[] = useMemo(() => {
     return isSuccess
       ? data?.processed!.map((item: HarvestProcessed) => {
@@ -44,7 +41,6 @@ const HarvestProcessedDataTable: React.FC = memo(() => {
 
   const handleDoubleClick = (data: any) => {
     setHarvestProcessed(data);
-    setIsActiveDialog(true);
     setOpenDialog(true);
   };
 
