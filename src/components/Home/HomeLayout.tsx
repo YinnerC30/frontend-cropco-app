@@ -12,13 +12,11 @@ import { MyAccount } from './MyAccount';
 import { NavBar } from './NavBar';
 import { NavElement } from './NavElement';
 import { SheetNavBar } from './SheetNavBar';
-import { useDialogStatus } from '../common/DialogStatusContext';
 
 export const HomeLayout = () => {
   const { tokenSession, isLogin } = useAuthContext();
 
   const { nameModulesUser } = useHome();
-  const { isActiveDialog } = useDialogStatus();
 
   const query = useCheckAuthStatus({
     token: tokenSession!,
@@ -33,11 +31,7 @@ export const HomeLayout = () => {
   }
 
   return (
-    <div
-      className={`grid h-screen grid-cols-12 grid-rows-12 ${
-        isActiveDialog && 'z-50 fixed inset-0 blur-sm pointer-events-none'
-      }`}
-    >
+    <div className={`grid h-screen grid-cols-12 grid-rows-12 `}>
       <CommandDialogApp />
 
       <Header className="fixed top-0 left-0 z-10 flex flex-row items-center w-screen py-4 border-b justify-evenly bg-background">

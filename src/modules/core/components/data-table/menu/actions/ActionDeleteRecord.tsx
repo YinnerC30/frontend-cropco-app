@@ -15,23 +15,29 @@ import {
 import { Button } from '@/components';
 import { TrashIcon } from '@radix-ui/react-icons';
 import { useDataTableMenuActionsContext } from '../DataTableMenuActionsContext';
+import { useState } from 'react';
 interface Props {
   action: () => void;
   disabled?: boolean;
 }
 export const ActionDeleteRecord = ({ action, disabled }: Props) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
+  const [openDialog, setOpenDialog] = useState(false);
   return (
-    <AlertDialog>
+    <AlertDialog open={openDialog} onOpenChange={setOpenDialog} modal={false}>
       <AlertDialogTrigger asChild>
         <DropdownMenuItem disabled={disabled} asChild>
-          <Button variant={'ghost'}>
+          <Button
+            type="button"
+            variant={'ghost'}
+            onClick={() => setOpenDialog(!openDialog)}
+          >
             <TrashIcon className="w-4 h-4 mr-2" /> Eliminar
           </Button>
         </DropdownMenuItem>
       </AlertDialogTrigger>
 
-      <AlertDialogContent>
+      <AlertDialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <AlertDialogHeader>
           <AlertDialogTitle>
             ¿Estas seguro de eliminar el registro?
@@ -42,7 +48,13 @@ export const ActionDeleteRecord = ({ action, disabled }: Props) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel asChild>
-            <Button onClick={() => toggleOpen(false)} variant="secondary">
+            <Button
+              onClick={() => {
+                setOpenDialog(false);
+                toggleOpen(false);
+              }}
+              variant="secondary"
+            >
               Cancelar
             </Button>
           </AlertDialogCancel>
@@ -51,6 +63,7 @@ export const ActionDeleteRecord = ({ action, disabled }: Props) => {
               onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                 event.preventDefault();
                 action();
+                setOpenDialog(false);
                 toggleOpen(false);
               }}
             >

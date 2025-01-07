@@ -11,7 +11,6 @@ import { Route, routes } from '@/routes/components/RoutesNavBar';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormChange } from '../form/FormChangeContext';
@@ -21,12 +20,11 @@ export const CommandDialogApp = () => {
 
   const { nameModulesUser } = useAuthContext();
 
-  const { isActiveDialog } = useDialogStatus();
   const { hasUnsavedChanges, showToast } = useFormChange();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'j' && (e.metaKey || e.ctrlKey) && !isActiveDialog) {
+      if (e.key === 'j' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
 
         if (hasUnsavedChanges) {
@@ -43,7 +41,7 @@ export const CommandDialogApp = () => {
     };
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
-  }, [isActiveDialog, hasUnsavedChanges]);
+  }, [hasUnsavedChanges]);
 
   const navigate = useNavigate();
 

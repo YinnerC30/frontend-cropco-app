@@ -1,7 +1,6 @@
 // FormChangeContext.tsx
 import { toast, ToastAction } from '@/components';
-import { useDialogStatus } from '@/components/common/DialogStatusContext';
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Definir el tipo para el contexto con la nueva propiedad y función
@@ -40,10 +39,10 @@ export const FormChangeProvider: React.FC<FormChangeProviderProps> = ({
 
   const navigate = useNavigate();
 
-  const { setIsActiveDialog } = useDialogStatus();
+  
 
   const handleToastAction = (route: string, skiptRedirection: boolean) => {
-    setIsActiveDialog(false);
+    
     markChanges(false);
     if (!skiptRedirection) {
       navigate(route);
