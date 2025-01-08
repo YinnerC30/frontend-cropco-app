@@ -63,7 +63,6 @@ export interface FormShoppingContextValues {
   isSubmitting: boolean;
   onSubmit: (values: z.infer<typeof formSchemaShopping>) => void;
   total: number;
-  value_pay: number;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
   openDialog: boolean;
   shoppingDetail: ShoppingDetail;
@@ -108,7 +107,9 @@ const shoppingDetailsReducer = (
   }
 };
 
-export const FormShoppingContext = createContext<any>(null);
+export const FormShoppingContext = createContext<
+  FormShoppingContextValues | undefined
+>(undefined);
 
 export const FormShoppingProvider: React.FC<
   FormShoppingProps & {

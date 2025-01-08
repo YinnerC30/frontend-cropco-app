@@ -17,6 +17,7 @@ import { FormShoppingDetail } from './details/FormShoppingDetail';
 
 import { ScrollArea, ScrollBar } from '@/components';
 import { useFormShoppingContext } from '@/modules/shopping/hooks/context/useFormShoppingContext';
+import { ShoppingDetail } from '@/modules/shopping/interfaces';
 
 export const FormShoppingDataTable: React.FC = () => {
   const {
@@ -32,7 +33,7 @@ export const FormShoppingDataTable: React.FC = () => {
     handleOpenDialog,
   } = useFormShoppingContext();
 
-  const handleSetShoppingDetail = (data: any) => {
+  const handleSetShoppingDetail = (data: ShoppingDetail) => {
     setShoppingDetail(data);
     handleOpenDialog();
   };

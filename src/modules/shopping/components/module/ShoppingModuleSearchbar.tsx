@@ -94,7 +94,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
     form.resetField(name);
   };
 
-  const handleRemoveFilter = (filter: FilterSearchBar) => {
+  const handleRemoveFilter = async (filter: FilterSearchBar) => {
     setAppliedFilters((prev) => prev.filter((f) => f.key !== filter.key));
     switch (filter.key) {
       case 'date':
@@ -110,10 +110,12 @@ export const ShoppingModuleSearchbar: React.FC = () => {
         form.setValue('filter_by_total.total', 0, { shouldDirty: false });
         break;
     }
-    handleSearch(form.watch());
+    await handleSearch(form.watch());
   };
 
-  const handleSearch = async (values: any) => {
+  const handleSearch = async (
+    values: z.infer<typeof formSchemaSearchBarShopping>
+  ) => {
     const params = new URLSearchParams();
 
     if (values.filter_by_date.type_filter_date && values.filter_by_date.date) {

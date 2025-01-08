@@ -1,10 +1,11 @@
-import { schemaForDate } from '@/modules/harvests/utils/formSchemaSearchBarHarvest';
+
+import { schemaForDate } from '@/modules/core/helpers/schemas-validation/SchemasSearchBar';
 import { z } from 'zod';
 
 export const formSchemaSearchBarConsumption = z.object({
   filter_by_date: schemaForDate
     .refine(
-      ({ date }: any) => {
+      ({ date }) => {
         if (!date) {
           return false;
         }
@@ -16,7 +17,7 @@ export const formSchemaSearchBarConsumption = z.object({
       }
     )
     .refine(
-      ({ type_filter_date }: any) => {
+      ({ type_filter_date }) => {
         if (!type_filter_date) {
           return false;
         }
