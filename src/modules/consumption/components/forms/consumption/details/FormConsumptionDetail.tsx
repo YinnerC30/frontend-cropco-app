@@ -37,20 +37,39 @@ export const FormConsumptionDetail: React.FC = () => {
     addConsumptionDetail,
     modifyConsumptionDetail,
     formConsumptionDetail,
+    validateAvailableStock,
+    removeSupplyStock,
   } = useFormConsumptionContext();
 
   const onSubmitConsumptionDetail = (
     values: z.infer<typeof formSchemaConsumptionDetail>
   ) => {
+    const result = validateAvailableStock({
+      id: values.supply.id,
+      name: values.supply?.name!,
+      amount: values.amount,
+    } as any);
+
+    if (!result) return;
     if (!consumptionDetail.id) {
       const record = {
         ...values,
         id: generateUUID(),
       };
+      removeSupplyStock({
+        id: values.supply.id,
+        name: values.supply?.name!,
+        amount: values.amount,
+      } as any);
       addConsumptionDetail(record);
       toast.success('Registro añadido');
     } else {
       const record = { ...values, id: consumptionDetail.id };
+      removeSupplyStock({
+        id: values.supply.id,
+        name: values.supply?.name!,
+        amount: values.amount,
+      } as any);
       modifyConsumptionDetail(record);
       toast.success('Registro actualizado');
     }

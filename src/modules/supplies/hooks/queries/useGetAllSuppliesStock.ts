@@ -9,23 +9,24 @@ interface HookProps {
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import {
   BasicQueryData,
+  ResponseApiGetAllRecords,
   UseGetAllRecordsProps,
 } from '@/modules/core/interfaces';
 
 import { useAuthContext } from '@/auth/hooks';
-import { usePaginationDataTable } from '@/modules/core/hooks';
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
-import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { toast } from 'sonner';
-import { Supply } from '../../interfaces/Supply';
+import { SupplyStock } from '../../interfaces/SupplyStock';
+
+// FIX: Eliminar propiedades no utilizadas
 
 export const getAllSuppliesStock = async ({
   query = '',
   limit = 10,
   offset = 0,
   allRecords = false,
-}: BasicQueryData): TypeGetAllRecordsReturn<Supply> => {
+}: BasicQueryData): TypeGetAllRecordsReturn<SupplyStock> => {
   const params = new URLSearchParams({
     query,
     limit: limit.toString(),
@@ -39,25 +40,26 @@ export const getAllSuppliesStock = async ({
 export const useGetAllSuppliesStock = ({
   queryValue,
   allRecords,
-}: UseGetAllRecordsProps): UseGetAllRecordsReturn<Supply> => {
-  const { pagination, setPagination } = usePaginationDataTable();
-
+}: UseGetAllRecordsProps): UseGetOneRecordReturn<
+  ResponseApiGetAllRecords<SupplyStock>
+> => {
   const { handleError, hasPermission } = useAuthContext();
 
   const isAuthorized = hasPermission('supplies', 'find_all_supplies_stock');
 
-  const query: UseQueryGetAllRecordsReturn<Supply> = useQuery({
-    queryKey: ['supplies-stock', { queryValue, ...pagination }],
-    queryFn: () =>
-      getAllSuppliesStock({
-        query: queryValue,
-        limit: pagination.pageSize,
-        offset: pagination.pageIndex,
-        allRecords,
-      }),
-    select: ({ data }) => data,
-    enabled: isAuthorized,
-  });
+  const query: UseGetOneRecordReturn<ResponseApiGetAllRecords<SupplyStock>> =
+    useQuery({
+      queryKey: ['supplies-stock', { queryValue }],
+      queryFn: () =>
+        getAllSuppliesStock({
+          query: queryValue,
+          limit: 10,
+          offset: 0,
+          allRecords,
+        }),
+      select: ({ data }) => data,
+      enabled: isAuthorized,
+    });
 
   useEffect(() => {
     if (!isAuthorized) {
@@ -76,5 +78,5 @@ export const useGetAllSuppliesStock = ({
     }
   }, [query.isError, query.error]);
 
-  return { query, pagination, setPagination };
+  return query;
 };

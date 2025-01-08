@@ -25,7 +25,7 @@ export const useDeleteBulkConsumption = (): UseMutationReturn<
   const mutation: UseMutationReturn<void, BulkRecords> = useMutation({
     mutationFn: deleteBulkConsumption,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['consumption'] });
+      await queryClient.invalidateQueries({ queryKey: ['consumptions'] });
       toast.success(`consumos eliminados`);
     },
     onError: (error) => {

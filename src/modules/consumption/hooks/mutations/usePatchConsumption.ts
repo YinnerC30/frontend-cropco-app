@@ -30,6 +30,7 @@ export const usePatchConsumption = (
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['consumptions'] });
       await queryClient.invalidateQueries({ queryKey: ['consumptions', id] });
+      await queryClient.invalidateQueries({ queryKey: ['supplies-stock'] });
       navigate(MODULE_CONSUMPTION_PATHS.ViewAll);
       toast.success(`Registro de consumo de insumo actualizado`);
     },

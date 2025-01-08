@@ -26,6 +26,8 @@ import { formSchemaConsumption } from '@/modules/consumption/utils';
 import { formSchemaConsumptionDetail } from '@/modules/consumption/utils/formSchemaConsumptionDetail';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { FormProps } from '@/modules/core/interfaces';
+import { useGetAllSuppliesStock } from '@/modules/supplies/hooks';
+import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import { z } from 'zod';
 import { ActionsTableConsumptionDetail } from '../consumption/details/ActionsTableConsumptionDetail';
 import { columnsConsumptionDetail } from '../consumption/details/ColumnsTableConsumptionDetail';
@@ -71,6 +73,11 @@ export interface FormConsumptionContextValues {
   handleDeleteBulkConsumptionDetails: () => void;
   removeConsumptionDetail: (consumptionDetail: ConsumptionDetails) => void;
   actionsConsumptionsModule: Record<string, boolean>;
+  querySuppliesStock: ReturnType<typeof useGetAllSuppliesStock>;
+  suppliesStock: SupplyStock[];
+  addSupplyStock: (supplyStock: SupplyStock) => void;
+  removeSupplyStock: (supplyStock: SupplyStock) => void;
+  validateAvailableStock: (record: SupplyStock) => boolean;
 }
 
 interface ConsumptionAction {
@@ -97,6 +104,53 @@ const consumptionDetailsReducer = (
       return [];
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
+  }
+};
+
+type SupplyStockAction =
+  | {
+      type: 'ADD';
+      payload: SupplyStock;
+    }
+  | {
+      type: 'REMOVE';
+      payload: SupplyStock;
+    }
+  | {
+      type: 'RESET';
+      payload: SupplyStock[];
+    };
+
+const supplyStockReducer = (
+  state: SupplyStock[],
+  action: SupplyStockAction
+): SupplyStock[] => {
+  if (!action) {
+    throw new Error('Action is undefined');
+  }
+  switch (action.type) {
+    case 'ADD':
+      return state.map((item) => {
+        if (item.id === action.payload.id) {
+          return {
+            ...item,
+            amount: item.amount + action.payload.amount,
+          };
+        }
+        return item;
+      });
+    case 'REMOVE':
+      return state.map((item) => {
+        if (item.id === action.payload.id) {
+          return {
+            ...item,
+            amount: item.amount - action.payload.amount,
+          };
+        }
+        return item;
+      });
+    case 'RESET':
+      return [...action.payload];
   }
 };
 
@@ -146,6 +200,48 @@ export const FormConsumptionProvider: React.FC<
   const resetConsumptionDetails = (): void => {
     dispatch({ type: 'RESET' });
   };
+
+  const querySuppliesStock = useGetAllSuppliesStock({
+    queryValue: '',
+    allRecords: true,
+  });
+
+  console.log(querySuppliesStock.data?.rows);
+
+  const [suppliesStock, dispatchSupplyStock] = useReducer(
+    supplyStockReducer,
+    []
+  );
+
+  const validateAvailableStock = (record: SupplyStock): boolean => {
+    const supply = suppliesStock.find((item) => item.id === record.id);
+    if (!supply) {
+      throw new Error('Suplemento no encontrado');
+    }
+    const result = supply?.amount >= record.amount && record.amount >= 0;
+    if (!result) {
+      toast.error(
+        `No hay suficiente inventario para el insumo ${record.name}.\nInventario disponible: ${supply.amount} Kg`
+      );
+    }
+    return result;
+  };
+
+  const addSupplyStock = (suppliesStock: SupplyStock): void => {
+    dispatchSupplyStock({ type: 'ADD', payload: suppliesStock });
+  };
+
+  const removeSupplyStock = (suppliesStock: SupplyStock): void => {
+    dispatchSupplyStock({ type: 'REMOVE', payload: suppliesStock });
+  };
+
+  const resetSupplyStock = (data: SupplyStock[]): void => {
+    dispatchSupplyStock({
+      type: 'RESET',
+      payload: data,
+    });
+  };
+
   const formConsumption = useCreateForm({
     schema: formSchemaConsumption,
     defaultValues,
@@ -188,8 +284,12 @@ export const FormConsumptionProvider: React.FC<
   };
 
   const ClearFormConsumptionDetail = () => {
+    removeSupplyStock({
+      id: consumptionDetail.crop.id,
+      name: consumptionDetail.crop?.name!,
+      amount: consumptionDetail.amount,
+    } as any);
     formConsumptionDetail.reset(defaultValuesConsumptionDetail);
-
     setOpenDialog(false);
   };
 
@@ -207,6 +307,12 @@ export const FormConsumptionProvider: React.FC<
 
   const handleDeleteBulkConsumptionDetails = () => {
     for (const record of getIdsToRowsSelected()) {
+      const data = detailsConsumption.find((item) => item.id === record.id);
+      addSupplyStock({
+        id: data?.supply.id!,
+        name: data?.supply.name,
+        amount: data?.amount!,
+      } as any);
       removeConsumptionDetail(record as ConsumptionDetails);
     }
     resetSelectionRows();
@@ -225,6 +331,16 @@ export const FormConsumptionProvider: React.FC<
       isFirstRender.current = false;
     }
   }, [detailsConsumption, isFirstRender]);
+
+  useEffect(() => {
+    if (querySuppliesStock.isSuccess) {
+      resetSupplyStock(
+        querySuppliesStock.data?.rows as unknown as SupplyStock[]
+      );
+    }
+  }, [querySuppliesStock.data]);
+
+  console.log(suppliesStock);
 
   return (
     <FormConsumptionContext.Provider
@@ -249,6 +365,11 @@ export const FormConsumptionProvider: React.FC<
         resetConsumptionDetails,
         addConsumptionDetail,
         actionsConsumptionsModule,
+        addSupplyStock,
+        removeSupplyStock,
+        validateAvailableStock,
+        suppliesStock,
+        querySuppliesStock,
       }}
     >
       {children}

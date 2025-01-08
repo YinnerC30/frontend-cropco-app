@@ -1,26 +1,67 @@
-import { Form } from '@/components';
+import { CapitalizeFirstWord } from '@/auth';
+import {
+  Badge,
+  Button,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  ScrollArea,
+} from '@/components';
+import { cn } from '@/lib/utils';
 import { useFormConsumptionContext } from '@/modules/consumption/hooks/context/useFormConsumptionContext';
 import { formFieldsConsumptionDetail } from '@/modules/consumption/utils';
-import { FormFieldCommand, FormFieldInput } from '@/modules/core/components';
+import {
+  FormFieldCommand,
+  FormFieldInput,
+  Loading,
+} from '@/modules/core/components';
 
 import { useGetAllCrops } from '@/modules/crops/hooks';
-import { useGetAllSuppliesStock } from '@/modules/supplies/hooks';
-import { useEffect } from 'react';
+import { formFieldsSaleDetail } from '@/modules/sales/utils';
+import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
+import { CaretSortIcon } from '@radix-ui/react-icons';
+import { CheckIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ControllerRenderProps } from 'react-hook-form';
 
 export const FormConsumptionDetailsFields: React.FC = () => {
-  const { formConsumptionDetail, consumptionDetail, readOnly } =
-    useFormConsumptionContext();
+  const {
+    formConsumptionDetail,
+    consumptionDetail,
+    readOnly,
+    querySuppliesStock,
+    suppliesStock,
+    addSupplyStock,
+  } = useFormConsumptionContext();
 
   const { query: queryCrops } = useGetAllCrops({
     allRecords: true,
     queryValue: '',
   });
 
-  // FIX: Traer solo suministros con stock
-  const { query: querySupplies } = useGetAllSuppliesStock({
-    queryValue: '',
-    allRecords: true,
-  });
+  const [openPopover, setOpenPopover] = useState(false);
+
+  useEffect(() => {
+    addSupplyStock({
+      id: consumptionDetail.supply.id,
+      name: consumptionDetail.supply?.name!,
+      amount: consumptionDetail.amount,
+    } as any);
+    formConsumptionDetail.reset(consumptionDetail);
+  }, [consumptionDetail]);
 
   useEffect(() => {
     formConsumptionDetail.reset(consumptionDetail);
@@ -43,19 +84,137 @@ export const FormConsumptionDetailsFields: React.FC = () => {
           isLoading={queryCrops.isLoading}
           className="w-52"
         />
-        <FormFieldCommand
-          data={querySupplies?.data?.rows || []}
-          form={formConsumptionDetail}
-          nameToShow={'name'}
+
+        <FormField
           control={formConsumptionDetail.control}
-          description={formFieldsConsumptionDetail.supply.description}
-          label={formFieldsConsumptionDetail.supply.label}
-          name={'supply'}
-          placeholder={formFieldsConsumptionDetail.supply.placeholder}
-          readOnly={readOnly}
-          isLoading={querySupplies.isLoading}
-          nameEntity="suministro"
-          className="w-52"
+          name={`supply.id`}
+          render={({
+            field,
+          }: {
+            field: ControllerRenderProps<any, string>;
+          }) => {
+            return (
+              <FormItem className="my-4">
+                <FormLabel className="block">
+                  {formFieldsConsumptionDetail.supply.label}
+                </FormLabel>
+
+                <Popover
+                  open={openPopover}
+                  onOpenChange={setOpenPopover}
+                  modal={true}
+                >
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      {querySuppliesStock.isLoading ? (
+                        <div className="w-[200px]">
+                          <Loading className="" />
+                        </div>
+                      ) : (
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          aria-expanded={openPopover}
+                          className={`w-72 ${cn(
+                            'justify-between',
+                            !field.value && 'text-muted-foreground'
+                          )}`}
+                          ref={field.ref}
+                          onBlur={field.onBlur}
+                          disabled={readOnly}
+                        >
+                          {!!field.value
+                            ? suppliesStock.find((item: SupplyStock) => {
+                                return item.id === field.value;
+                              })?.['name']
+                            : formFieldsSaleDetail.crop.placeholder}
+
+                          <Badge
+                            className={`${!field.value ? 'hidden' : 'ml-14'}`}
+                            variant={'cyan'}
+                          >
+                            {'Disponibles: ' +
+                              suppliesStock.find((item: SupplyStock) => {
+                                return item.id === field.value;
+                              })?.['amount'] +
+                              ' Kg'}
+                          </Badge>
+
+                          <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                        </Button>
+                      )}
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput
+                        placeholder={`Buscar ${'cultivo'}...`}
+                        className="h-9"
+                      />
+                      <CommandList>
+                        <ScrollArea className="w-auto h-56 p-1 pr-2">
+                          <CommandEmpty>{`${CapitalizeFirstWord(
+                            'cultivo'
+                          )} no encontrado`}</CommandEmpty>
+                          <CommandGroup>
+                            {suppliesStock.map((item) => {
+                              return (
+                                <CommandItem
+                                  disabled={item?.['amount'] === 0}
+                                  value={item?.['name']}
+                                  key={item.id!}
+                                  onSelect={() => {
+                                    if (field?.value === item?.id) {
+                                      formConsumptionDetail.setValue('supply', {
+                                        id: '',
+                                        ['name']: '',
+                                      });
+                                    } else {
+                                      formConsumptionDetail.setValue(
+                                        'supply',
+                                        {
+                                          id: item?.id,
+                                          ['name']: item['name'],
+                                        },
+                                        {
+                                          shouldValidate: true,
+                                          shouldDirty: true,
+                                        }
+                                      );
+                                    }
+                                    setOpenPopover(false);
+                                  }}
+                                >
+                                  <div className="flex justify-between w-full ">
+                                    <span>{item?.['name']}</span>
+                                    <span className="font-bold">
+                                      {item?.['amount'] + ' Kg'}
+                                    </span>
+                                  </div>
+                                  <CheckIcon
+                                    className={cn(
+                                      'ml-auto h-4 w-4',
+                                      item.id! === field?.value
+                                        ? 'opacity-100'
+                                        : 'opacity-0'
+                                    )}
+                                  />
+                                </CommandItem>
+                              );
+                            })}
+                          </CommandGroup>
+                        </ScrollArea>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+                <FormDescription>
+                  {formFieldsConsumptionDetail.supply.description}
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
         />
 
         <FormFieldInput

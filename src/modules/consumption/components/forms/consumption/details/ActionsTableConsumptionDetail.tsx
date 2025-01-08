@@ -19,13 +19,16 @@ export const ActionsTableConsumptionDetail: React.FC<{
   const {
     setConsumptionDetail,
     handleOpenDialog,
-
+    addSupplyStock,
     removeConsumptionDetail,
   } = useFormConsumptionContext();
 
   const handleDelete = async () => {
+    addSupplyStock({
+      ...consumptionDetail.supply,
+      amount: consumptionDetail.amount,
+    } as any);
     removeConsumptionDetail(consumptionDetail);
-
     toast.success(
       `Se ha eliminado el consumo del cultivo ${consumptionDetail.supply.name}`
     );

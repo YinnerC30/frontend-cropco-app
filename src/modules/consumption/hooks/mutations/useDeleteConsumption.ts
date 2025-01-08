@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 export const deleteConsumption = async (
   id: string
 ): PromiseReturnRecord<void> => {
-  return await cropcoAPI.delete(`${pathsCropco.consumption}/${id}`);
+  return await cropcoAPI.delete(`${pathsCropco.consumption}/remove/one/${id}`);
 };
 
 export const useDeleteConsumption = (): UseMutationReturn<void, string> => {
