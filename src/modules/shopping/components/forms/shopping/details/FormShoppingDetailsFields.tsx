@@ -2,18 +2,21 @@ import { Form } from '@/components';
 import { FormFieldCommand, FormFieldInput } from '@/modules/core/components';
 import { useFormShoppingContext } from '@/modules/shopping/hooks/context/useFormShoppingContext';
 import { formFieldsShoppingDetail } from '@/modules/shopping/utils';
+import { useGetAllSuppliers } from '@/modules/suppliers/hooks';
+import { useGetAllSupplies } from '@/modules/supplies/hooks';
 
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-export const FormShoppingDetailsFields = () => {
-  const {
-    formShoppingDetail,
-    filterSuppliersToShow,
-    shoppingDetail,
-    querySuppliers,
-    readOnly,
-    querySupplies,
-  } = useFormShoppingContext();
+export const FormShoppingDetailsFields: React.FC = () => {
+  const { formShoppingDetail, shoppingDetail, readOnly } =
+    useFormShoppingContext();
+
+  const { query: querySuppliers } = useGetAllSuppliers({ queryValue: '' });
+
+  const { query: querySupplies } = useGetAllSupplies({
+    queryValue: '',
+    allRecords: true,
+  });
 
   useEffect(() => {
     formShoppingDetail.reset(shoppingDetail);
@@ -29,7 +32,7 @@ export const FormShoppingDetailsFields = () => {
           control={formShoppingDetail.control}
           description={formFieldsShoppingDetail.supplier.description}
           label={formFieldsShoppingDetail.supplier.label}
-          name={'supplier.id'}
+          name={'supplier'}
           placeholder={formFieldsShoppingDetail.supplier.placeholder}
           readOnly={false}
           nameEntity="proveedor"
@@ -43,7 +46,7 @@ export const FormShoppingDetailsFields = () => {
           control={formShoppingDetail.control}
           description={formFieldsShoppingDetail.supply.description}
           label={formFieldsShoppingDetail.supply.label}
-          name={'supply.id'}
+          name={'supply'}
           placeholder={formFieldsShoppingDetail.supply.placeholder}
           readOnly={readOnly}
           isLoading={querySupplies.isLoading}

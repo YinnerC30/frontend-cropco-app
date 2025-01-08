@@ -1,15 +1,9 @@
 import {
-  Badge,
   Button,
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuPortal,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   Form,
-  Label,
   PopoverContent,
   PopoverTrigger,
 } from '@/components';
@@ -30,56 +24,32 @@ import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Calendar, Filter, X } from 'lucide-react';
-import { memo, useState } from 'react';
+import { useState } from 'react';
 
+import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
+import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
+import {
+  dateFilterOptions,
+  numberFilterOptions,
+} from '@/modules/core/interfaces/queries/FilterOptions';
+import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
 import { Popover } from '@radix-ui/react-popover';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
 import { useShoppingModuleContext } from '../../hooks/context/useShoppingModuleContext';
 import { MODULE_SHOPPING_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarShopping } from '../../utils/formFieldsSearchBarShopping';
 import { formSchemaSearchBarShopping } from '../../utils/formSchemaSearchBarShopping';
 
-interface FilterSearchBar {
-  key: string;
-  label: string;
-}
-
-const numberFilterOptions = [
-  {
-    key: TypeFilterNumber.MIN,
-    value: TypeFilterNumber.MIN,
-    label: 'Menor a',
-  },
-  {
-    key: TypeFilterNumber.EQUAL,
-    value: TypeFilterNumber.EQUAL,
-    label: 'Igual a',
-  },
-  {
-    key: TypeFilterNumber.MAX,
-    value: TypeFilterNumber.MAX,
-    label: 'Mayor a',
-  },
-];
-
-const dateFilterOptions = [
-  {
-    key: TypeFilterDate.after,
-    value: TypeFilterDate.after,
-    label: 'Despues del',
-  },
-  {
-    key: TypeFilterDate.before,
-    value: TypeFilterDate.before,
-    label: 'Antes del',
-  },
-];
-
-export const ShoppingModuleSearchbar = () => {
-  const { paramsQuery, permissionsShopping } = useShoppingModuleContext();
-  const readOnly = !permissionsShopping['find_all_supplies_shopping'];
+export const ShoppingModuleSearchbar: React.FC = () => {
+  const { paramsQuery, actionsShoppingModule } = useShoppingModuleContext();
+  const readOnly = !actionsShoppingModule['find_all_supplies_shopping'];
   const navigate = useNavigate();
 
-  const form = useCreateForm({
+  const form: UseFormReturn<
+    z.infer<typeof formSchemaSearchBarShopping>,
+    unknown
+  > = useCreateForm({
     schema: formSchemaSearchBarShopping,
     defaultValues: paramsQuery,
     skiptDirty: true,
@@ -90,7 +60,9 @@ export const ShoppingModuleSearchbar = () => {
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
   const [openPopover, setOpenPopover] = useState(false);
 
-  const handleAddFilter = async (name = '') => {
+  const handleAddFilter = async (
+    name: keyof z.infer<typeof formSchemaSearchBarShopping>
+  ) => {
     const isValid = await form.trigger(name);
     if (!isValid) return false;
 
@@ -115,7 +87,9 @@ export const ShoppingModuleSearchbar = () => {
     return true;
   };
 
-  const handleClearErrorsForm = (name = '') => {
+  const handleClearErrorsForm = (
+    name: keyof z.infer<typeof formSchemaSearchBarShopping>
+  ) => {
     form.clearErrors(name);
     form.resetField(name);
   };
@@ -207,16 +181,20 @@ export const ShoppingModuleSearchbar = () => {
                       onClick={() => setOpenPopover(true)}
                     >
                       {!form.getValues('filter_by_date.date') ||
-                      !form.getValues('filter_by_date.type_filter_date')
+                      !paramsQuery.filter_by_date?.date
                         ? 'Filtrar por fecha'
                         : formatTypeFilterDate(
                             form.getValues(
                               'filter_by_date.type_filter_date'
                             ) as TypeFilterDate
                           ) +
-                          format(form.getValues('filter_by_date.date'), 'PPP', {
-                            locale: es,
-                          })}
+                          format(
+                            form.getValues('filter_by_date.date') ?? '',
+                            'PPP',
+                            {
+                              locale: es,
+                            }
+                          )}
                       <Calendar className="w-4 h-4 ml-4" />
                     </Button>
                   </PopoverTrigger>
@@ -331,92 +309,6 @@ export const ShoppingModuleSearchbar = () => {
           />
         </form>
       </Form>
-    </div>
-  );
-};
-
-const FilterDropdownItem = memo(
-  ({
-    label,
-    content,
-    actionOnSave,
-    actionOnClose,
-  }: {
-    label: string;
-    content: JSX.Element;
-    actionOnSave: () => Promise<boolean>;
-    actionOnClose: () => void;
-  }) => {
-    const [openMenu, setOpenMenu] = useState(false);
-
-    return (
-      <DropdownMenuSub open={openMenu} onOpenChange={setOpenMenu}>
-        <DropdownMenuSubTrigger>{label}</DropdownMenuSubTrigger>
-        <DropdownMenuPortal>
-          <DropdownMenuSubContent
-            className="w-[250px] p-4 ml-2"
-            avoidCollisions
-            sideOffset={0}
-          >
-            {content}
-            <div className="flex justify-center gap-2">
-              <Button
-                className="self-end w-24 mt-4"
-                onClick={async (e) => {
-                  e.preventDefault();
-                  const value = await actionOnSave();
-                  setOpenMenu(!value);
-                }}
-              >
-                Aplicar
-              </Button>
-              <Button
-                variant={'destructive'}
-                className="self-end w-24 mt-4"
-                onClick={() => {
-                  setOpenMenu(false);
-                  actionOnClose();
-                }}
-              >
-                Cerrar
-              </Button>
-            </div>
-          </DropdownMenuSubContent>
-        </DropdownMenuPortal>
-      </DropdownMenuSub>
-    );
-  }
-);
-
-interface Props {
-  filters: FilterSearchBar[];
-  handleRemove: any;
-}
-
-const FiltersBadgedList = ({ filters, handleRemove }: Props) => {
-  if (!(filters.length > 0)) {
-    return;
-  }
-  return (
-    <div className="mt-2 ">
-      <Label className="block">Filtros aplicados:</Label>
-      <div className="flex flex-wrap gap-2 my-4 ">
-        {filters.map((filter, index) => (
-          <Badge key={index} variant="secondary">
-            {filter.label}
-            <ToolTipTemplate content="Eliminar filtro">
-              <Button
-                className="ml-3"
-                variant="ghost"
-                size="icon"
-                onClick={() => handleRemove(filter)}
-              >
-                <X className="w-3 h-3" />
-              </Button>
-            </ToolTipTemplate>
-          </Badge>
-        ))}
-      </div>
     </div>
   );
 };

@@ -6,30 +6,22 @@ import {
 import { ActionModifyRecordFormDataTable } from '@/modules/core/components/data-table/menu/actions/ActionModifyRecordFormDataTable';
 import { useFormShoppingContext } from '@/modules/shopping/hooks/context/useFormShoppingContext';
 import { ShoppingDetail } from '@/modules/shopping/interfaces';
+import { Row } from '@tanstack/react-table';
 
 import { toast } from 'sonner';
 
-export const ActionsTableShoppingDetail = ({ row }: any) => {
+export const ActionsTableShoppingDetail = ({
+  row,
+}: {
+  row: Row<ShoppingDetail>;
+}) => {
   const shoppingDetail = row.original;
 
-  const {
-    setShoppingDetail,
-    handleOpenDialog,
-    form,
-    executeValidationFormShopping,
-    removeShoppingDetail,
-  } = useFormShoppingContext();
+  const { setShoppingDetail, handleOpenDialog, removeShoppingDetail } =
+    useFormShoppingContext();
 
-  const handleDelete = async () => {
-    const detailsForm = form
-      .watch('details')
-      .filter((detail: ShoppingDetail) => detail.id !== shoppingDetail.id);
-
-    form.setValue('details', detailsForm, { shouldDirty: true });
+  const handleDelete = () => {
     removeShoppingDetail(shoppingDetail);
-
-    await form.trigger('details');
-
     toast.success(
       `Se ha eliminado la venta del Proveedor ${shoppingDetail.supplier.first_name}`
     );
@@ -42,15 +34,13 @@ export const ActionsTableShoppingDetail = ({ row }: any) => {
 
   return (
     <DropDownMenuActions>
-      <ActionCopyIdRecord id={shoppingDetail.id} />
+      <ActionCopyIdRecord id={shoppingDetail?.id!} />
       <ActionDeleteRecord
         action={() => {
           handleDelete();
-          executeValidationFormShopping();
         }}
         disabled={false}
       />
-      {/* TODO: Activar disabled */}
       <ActionModifyRecordFormDataTable action={handleModify} />
     </DropDownMenuActions>
   );

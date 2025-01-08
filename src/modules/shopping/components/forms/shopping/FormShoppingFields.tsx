@@ -10,22 +10,18 @@ import { useFormShoppingContext } from '@/modules/shopping/hooks/context/useForm
 import { formFieldsShopping } from '@/modules/shopping/utils';
 import { FormShoppingDataTable } from './FormShoppingDataTable';
 
-export const FormShoppingFields = () => {
-  const { form, onSubmit, readOnly, total } = useFormShoppingContext();
+export const FormShoppingFields: React.FC = () => {
+  const { formShopping, onSubmit, readOnly, total } = useFormShoppingContext();
 
   return (
-    <Form {...form}>
+    <Form {...formShopping}>
       <form
-        onSubmit={form.handleSubmit(() => {
-          // Fix: No se envia ID de harvestDetail
-          const data = form.watch();
-          onSubmit(data);
-        })}
+        onSubmit={formShopping.handleSubmit(onSubmit)}
         id="formShopping"
         className=""
       >
         <FormFieldCalendar
-          control={form.control}
+          control={formShopping.control}
           description={formFieldsShopping.date.description}
           label={formFieldsShopping.date.label}
           name={'date'}
@@ -34,7 +30,7 @@ export const FormShoppingFields = () => {
         />
         <div className="sm:w-[600px] mt-4">
           <FormFieldDataTable
-            control={form.control}
+            control={formShopping.control}
             description={''}
             label={formFieldsShopping.details.label}
             name={'details'}
@@ -45,7 +41,7 @@ export const FormShoppingFields = () => {
           </FormFieldDataTable>
         </div>
         <FormFieldInput
-          control={form.control}
+          control={formShopping.control}
           description={formFieldsShopping.total.description}
           label={formFieldsShopping.total.label}
           name={'total'}

@@ -1,87 +1,89 @@
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
-
-import { PaginationState } from '@tanstack/react-table';
+import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth';
+import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
-import { ResponseGetShopping } from '../../interfaces/ResponseGetShopping';
+import { QueryDateProps } from '@/modules/core/interfaces/queries/QueryDateProps';
+import { QueryPaginationProps } from '@/modules/core/interfaces/queries/QueryPaginationProps';
+import { QueryTotalProps } from '@/modules/core/interfaces/queries/QueryTotalProps';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
+import { ShoppingSupplies } from '../../interfaces';
 
-export async function getAllShopping({
-  limit = 10,
-  offset = 0,
+export interface GetShoppingProps
+  extends QueryPaginationProps,
+    QueryDateProps,
+    QueryTotalProps {}
 
-  filter_by_date = false,
-  type_filter_date = '',
-  date = '',
+export async function getAllShopping(
+  props: GetShoppingProps
+): TypeGetAllRecordsReturn<ShoppingSupplies> {
+  const params = new URLSearchParams({
+    limit: props.limit?.toString() || '10',
+    offset: props.offset?.toString() || '0',
+  });
 
-  filter_by_total = false,
-  type_filter_total = '',
-  total = 0,
-}): Promise<ResponseGetShopping> {
-  const params = new URLSearchParams();
-
-  params.append('limit', limit.toString());
-  params.append('offset', offset.toString());
-
-  if (filter_by_date) {
+  if (props.filter_by_date) {
     params.append('filter_by_date', 'true');
-    params.append('type_filter_date', type_filter_date);
-    params.append('date', new Date(date).toISOString());
+    params.append('type_filter_date', props.type_filter_date || '');
+    params.append('date', new Date(props.date || '').toISOString());
   }
 
-  if (filter_by_total) {
+  if (props.filter_by_total) {
     params.append('filter_by_total', 'true');
-    params.append('type_filter_total', type_filter_total);
-    params.append('total', total.toString());
+    params.append('type_filter_total', props.type_filter_total || '');
+    params.append('total', props.total?.toString() || '0');
   }
 
-  const { data } = await cropcoAPI.get(`${pathsCropco.shopping}/all?${params}`);
-  return data;
+  return await cropcoAPI.get(`${pathsCropco.shopping}/all?${params}`);
 }
 
-interface Response {
-  query: UseQueryResult<ResponseGetShopping, Error>;
-  pagination: PaginationState;
-  setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
-}
+export function useGetAllShopping(
+  props: GetShoppingProps
+): UseGetAllRecordsReturn<ShoppingSupplies> {
+  const { pagination, setPagination } = usePaginationDataTable();
 
-export function useGetAllShopping({
-  filter_by_date = false,
-  type_filter_date = '',
-  date = '',
+  const { hasPermission, handleError } = useAuthContext();
 
-  filter_by_total = false,
-  type_filter_total = '',
-  total = 0,
-}: any): Response {
-  const { pagination, setPagination, pageIndex, pageSize } =
-    usePaginationDataTable();
+  const isAuthorized = hasPermission('supplies', 'find_all_supplies_shopping');
 
-  const query = useQuery({
+  const query: UseQueryGetAllRecordsReturn<ShoppingSupplies> = useQuery({
     queryKey: [
       'shopping',
       {
-        filter_by_date,
-        type_filter_date,
-        date,
-        filter_by_total,
-        type_filter_total,
-        total,
+        ...props,
         ...pagination,
       },
     ],
     queryFn: () =>
       getAllShopping({
-        limit: pageSize,
-        offset: pageIndex,
-        filter_by_date,
-        type_filter_date,
-        date,
-        filter_by_total,
-        type_filter_total,
-        total,
+        ...props,
+        limit: pagination.pageSize,
+        offset: pagination.pageIndex,
       }),
+    select: ({ data }) => data,
+    staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    enabled: isAuthorized,
   });
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      toast.error('No tienes permiso para ver el listado de usuarios 😑');
+    }
+  }, [isAuthorized]);
+
+  useEffect(() => {
+    if (query.isError) {
+      handleError({
+        error: query.error,
+        messagesStatusError: {},
+      });
+    }
+  }, [query.isError, query.error]);
 
   return { query, pagination, setPagination };
 }

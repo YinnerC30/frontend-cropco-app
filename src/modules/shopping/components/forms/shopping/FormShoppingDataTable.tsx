@@ -18,16 +18,18 @@ import { FormShoppingDetail } from './details/FormShoppingDetail';
 import { ScrollArea, ScrollBar } from '@/components';
 import { useFormShoppingContext } from '@/modules/shopping/hooks/context/useFormShoppingContext';
 
-export const FormShoppingDataTable = () => {
+export const FormShoppingDataTable: React.FC = () => {
   const {
-    table,
+    dataTableShoppingDetail: {
+      table,
+      lengthColumns,
+      hasSelectedRecords,
+      resetSelectionRows,
+    },
     readOnly,
-    lengthColumns,
     handleDeleteBulkShoppingDetails,
-    hasSelectedRecords,
     setShoppingDetail,
     handleOpenDialog,
-    resetSelectionRows,
   } = useFormShoppingContext();
 
   const handleSetShoppingDetail = (data: any) => {

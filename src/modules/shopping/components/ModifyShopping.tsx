@@ -10,8 +10,9 @@ import { ShoppingDetail } from '../interfaces/ShoppingDetails';
 import { MODULE_SHOPPING_PATHS } from '../routes/pathRoutes';
 import { formSchemaShopping } from '../utils/formSchemaShopping';
 import FormShopping from './forms/shopping/FormShopping';
+import React from 'react';
 
-export const ModifyShopping = () => {
+export const ModifyShopping: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetShopping(id!);
   const { mutate, isPending } = usePatchShopping(id!);
@@ -52,7 +53,7 @@ export const ModifyShopping = () => {
       <FormShopping
         onSubmit={onSubmitShopping}
         isSubmitting={isPending}
-        defaultValues={{ ...data, date: ConvertStringToDate(data.date) }}
+        defaultValues={data}
       />
     </>
   );

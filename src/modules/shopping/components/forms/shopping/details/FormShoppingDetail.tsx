@@ -20,38 +20,34 @@ import { ToolTipTemplate } from '@/modules/core/components';
 import { Plus } from 'lucide-react';
 
 import { useFormShoppingContext } from '@/modules/shopping/hooks/context/useFormShoppingContext';
-import { FormShoppingDetailsButtons } from './FormShoppingDetailsButtons';
+import { formSchemaShoppingDetail } from '@/modules/shopping/utils';
+import { z } from 'zod';
 import { FormShoppingDetailsFields } from './FormShoppingDetailsFields';
 
-export const FormShoppingDetail = () => {
+export const FormShoppingDetail: React.FC = () => {
   const {
     readOnly,
-    getCurrentDataShoppingDetail,
     openDialog,
     setOpenDialog,
     shoppingDetail,
     handleOpenDialog,
     handleCloseDialog,
     resetShoppingDetail,
-    form,
-    detailsShopping,
-    setDetailsShopping,
+    formShoppingDetail,
+    addShoppingDetail,
+
     modifyShoppingDetail,
   } = useFormShoppingContext();
 
-  const onSubmitShoppingDetail = () => {
-    const values = getCurrentDataShoppingDetail();
+  const onSubmitShoppingDetail = (
+    values: z.infer<typeof formSchemaShoppingDetail>
+  ) => {
     if (!shoppingDetail.id) {
       const record = {
         ...values,
         id: generateUUID(),
       };
-      setDetailsShopping((prev: any) => [...prev, record]);
-      form.setValue('details', [...detailsShopping, record], {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-
+      addShoppingDetail(record);
       toast.success('Registro añadido');
     } else {
       const record = { ...values, id: shoppingDetail.id };
@@ -59,7 +55,6 @@ export const FormShoppingDetail = () => {
       toast.success('Registro actualizado');
     }
     setOpenDialog(false);
-    form.trigger('details');
   };
 
   const handleOpenDialogExtended = (
@@ -109,7 +104,12 @@ export const FormShoppingDetail = () => {
           <FormShoppingDetailsFields />
 
           <DialogFooter>
-            <FormShoppingDetailsButtons onClick={onSubmitShoppingDetail} />
+            <Button
+              type="submit"
+              onClick={formShoppingDetail.handleSubmit(onSubmitShoppingDetail)}
+            >
+              Guardar
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -1,29 +1,42 @@
-import React, { createContext, useEffect, useState } from 'react';
-
-import { useNavigate } from 'react-router-dom';
+import React, {
+  createContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
 import { useCreateForm } from '@/modules/core/hooks';
-import { useGetAllSuppliers } from '@/modules/suppliers/hooks';
-import { Supplier } from '@/modules/suppliers/interfaces/Supplier';
 
 import { useFormChange } from '@/modules/core/components';
-import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
+import {
+  DataTableGenericReturn,
+  useDataTableGeneric,
+} from '@/modules/core/hooks/data-table/useDataTableGeneric';
 
 import { toast } from 'sonner';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { ShoppingDetail } from '@/modules/shopping/interfaces';
-import { MODULE_SHOPPING_PATHS } from '@/modules/shopping/routes/pathRoutes';
+import { FormProps } from '@/modules/core/interfaces';
+import {
+  ShoppingDetail,
+  ShoppingSupplies,
+} from '@/modules/shopping/interfaces';
 import { formSchemaShopping } from '@/modules/shopping/utils';
 import { formSchemaShoppingDetail } from '@/modules/shopping/utils/formSchemaShoppingDetail';
-import { useGetAllSupplies } from '@/modules/supplies/hooks';
+import { z } from 'zod';
 import { ActionsTableShoppingDetail } from './details/ActionsTableShoppingDetail';
 import { columnsShoppingDetail } from './details/ColumnsTableShoppingDetail';
 
-export const FormShoppingContext = createContext<any>(null);
+const defaultValuesShopping: ShoppingSupplies = {
+  date: undefined,
+  details: [],
+  total: 0,
+};
 
-export const defaultValuesShoppingDetail: ShoppingDetail | any = {
+const defaultValuesShoppingDetail: ShoppingDetail = {
   id: '',
   supplier: {
     id: '',
@@ -37,25 +50,100 @@ export const defaultValuesShoppingDetail: ShoppingDetail | any = {
   amount: 0,
 };
 
-export const FormShoppingProvider = ({
+export type FormShoppingProps = FormProps<
+  z.infer<typeof formSchemaShopping>,
+  ShoppingSupplies
+>;
+
+export interface FormShoppingContextValues {
+  formShopping: ReturnType<typeof useCreateForm>;
+  formShoppingDetail: ReturnType<typeof useCreateForm>;
+  readOnly: boolean;
+  isSubmitting: boolean;
+  onSubmit: (values: z.infer<typeof formSchemaShopping>) => void;
+  total: number;
+  value_pay: number;
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  openDialog: boolean;
+  shoppingDetail: ShoppingDetail;
+  setShoppingDetail: React.Dispatch<React.SetStateAction<ShoppingDetail>>;
+  dataTableShoppingDetail: DataTableGenericReturn<ShoppingDetail>;
+  detailsShopping: ShoppingDetail[];
+  addShoppingDetail: (shoppingDetail: ShoppingDetail) => void;
+  modifyShoppingDetail: (shoppingDetail: ShoppingDetail) => void;
+  resetShoppingDetails: () => void;
+  handleOpenDialog: () => void;
+  handleCloseDialog: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  resetShoppingDetail: () => void;
+  handleDeleteBulkShoppingDetails: () => void;
+  removeShoppingDetail: (shoppingDetail: ShoppingDetail) => void;
+  actionsShoppingModule: Record<string, boolean>;
+}
+
+interface ShoppingAction {
+  type: 'REMOVE' | 'MODIFY' | 'RESET' | 'ADD';
+  payload?: ShoppingDetail;
+}
+
+const shoppingDetailsReducer = (
+  state: ShoppingDetail[],
+  action: ShoppingAction
+): ShoppingDetail[] => {
+  switch (action.type) {
+    case 'ADD':
+      return [...state, action.payload as ShoppingDetail];
+    case 'REMOVE':
+      return state.filter((detail) => detail.id !== action.payload?.id);
+    case 'MODIFY':
+      return state.map((item) =>
+        item.id !== action.payload?.id
+          ? item
+          : (action.payload as ShoppingDetail)
+      );
+    case 'RESET':
+      return [];
+    default:
+      throw new Error(`Unhandled action type: ${action.type}`);
+  }
+};
+
+export const FormShoppingContext = createContext<any>(null);
+
+export const FormShoppingProvider: React.FC<
+  FormShoppingProps & {
+    children: React.ReactNode;
+  }
+> = ({
   children,
-  defaultValues,
-  isSubmitting,
-  onSubmit,
-  readOnly,
-}: any & { children: React.ReactNode }) => {
-  const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
+  defaultValues = defaultValuesShopping,
+  isSubmitting = false,
+  onSubmit = (values) => console.log(values),
+  readOnly = false,
+}) => {
+  const { getActionsModule } = useAuthContext();
+  const actionsShoppingModule = useMemo(() => getActionsModule('supplies'), []);
+
   const detailsDefaultValues = defaultValues?.details ?? [];
-  const [detailsShopping, setDetailsShopping] = useState(detailsDefaultValues);
 
-  console.log(detailsShopping);
+  const [detailsShopping, dispatch] = useReducer(
+    shoppingDetailsReducer,
+    detailsDefaultValues
+  );
 
-  const removeShoppingDetail = (shoppingDetail: ShoppingDetail) => {
-    setDetailsShopping((details: any) =>
-      details.filter(
-        (detail: ShoppingDetail) => detail.id !== shoppingDetail.id
-      )
-    );
+  const addShoppingDetail = (shoppingDetail: ShoppingDetail): void => {
+    dispatch({ type: 'ADD', payload: shoppingDetail });
+  };
+
+  const removeShoppingDetail = (shoppingDetail: ShoppingDetail): void => {
+    dispatch({ type: 'REMOVE', payload: shoppingDetail });
+  };
+
+  const modifyShoppingDetail = (shoppingDetail: ShoppingDetail): void => {
+    dispatch({ type: 'MODIFY', payload: shoppingDetail });
+  };
+
+  const resetShoppingDetails = (): void => {
+    dispatch({ type: 'RESET' });
   };
 
   const formShopping = useCreateForm({
@@ -63,30 +151,15 @@ export const FormShoppingProvider = ({
     defaultValues,
   });
 
-  const modifyShoppingDetail = (shoppingDetail: ShoppingDetail) => {
-    const data = detailsShopping.filter(
-      (item: any) => item.id !== shoppingDetail.id
-    );
-    setDetailsShopping([...data, shoppingDetail]);
-    formShopping.setValue('details', [...data, shoppingDetail], {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
-
-  const resetShoppingDetails = () => {
-    setDetailsShopping([]);
-  };
-
-  const total = detailsShopping.reduce(
-    (total: number, detail: ShoppingDetail) =>
-      Number(total) + Number(detail.total),
-    0
+  const total = useMemo<number>(
+    () =>
+      detailsShopping.reduce(
+        (total: number, detail: ShoppingDetail) =>
+          Number(total) + Number(detail.total),
+        0
+      ),
+    [detailsShopping]
   );
-
-  const executeValidationFormShopping = async () => {
-    return await formShopping.trigger();
-  };
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsShoppingDetail,
@@ -94,13 +167,12 @@ export const FormShoppingProvider = ({
     hiddenActions: readOnly,
   });
 
-  const dataTableShoppingDetail = useDataTableGeneric({
+  const dataTableShoppingDetail = useDataTableGeneric<ShoppingDetail>({
     columns: columnsTable,
-    data: detailsShopping,
+    rows: detailsShopping,
   });
 
-  const { getIdsToRowsSelected, resetSelectionRows, hasSelectedRecords } =
-    dataTableShoppingDetail;
+  const { getIdsToRowsSelected, resetSelectionRows } = dataTableShoppingDetail;
 
   const { hasUnsavedChanges, showToast } = useFormChange();
 
@@ -114,50 +186,18 @@ export const FormShoppingProvider = ({
 
   const [openDialog, setOpenDialog] = useState(false);
 
-  const navigate = useNavigate();
-
-  const { hasPermission } = useAuthContext();
-
-  const handleReturnToModule = () => {
-    navigate(MODULE_SHOPPING_PATHS.ViewAll);
-  };
-
   const formShoppingDetail = useCreateForm({
     schema: formSchemaShoppingDetail,
     defaultValues: shoppingDetail,
     validationMode: 'onSubmit',
   });
 
-  const { query: querySuppliers } = useGetAllSuppliers('');
-
-  const { query: querySupplies } = useGetAllSupplies({
-    searchParameter: '',
-    allRecords: true,
-  });
-
-  const findSupplierName = (id: string): string => {
-    return (
-      querySuppliers?.data?.rows.find((item: Supplier) => item.id === id)
-        ?.first_name || ''
-    );
-  };
-  const findSupplyName = (id: string): string => {
-    return (
-      querySupplies?.data?.rows.find((item: any) => item.id === id)?.name || ''
-    );
-  };
-
-  const resetForm = () => {
-    formShoppingDetail.reset(defaultValuesShoppingDetail);
-  };
-
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
 
   const ClearFormShoppingDetail = () => {
-    resetForm();
-
+    formShoppingDetail.reset(defaultValuesShoppingDetail);
     setOpenDialog(false);
   };
 
@@ -173,55 +213,25 @@ export const FormShoppingProvider = ({
     ClearFormShoppingDetail();
   };
 
-  const getCurrentDataShoppingDetail = () => {
-    const values = { ...formShoppingDetail.getValues() };
-    const supplierIdForm = values?.supplier?.id;
-    const supplyIdForm = values?.supply?.id;
-    const nameSupplier = findSupplierName(supplierIdForm);
-    const nameSupply = findSupplyName(supplyIdForm);
-    const data = {
-      ...values,
-      total: +values.total,
-      amount: +values.amount,
-      supplier: { id: supplierIdForm, first_name: nameSupplier },
-      supply: { id: supplyIdForm, name: nameSupply },
-    };
-    return data;
-  };
-
-  const filterSuppliersToShow = (): Supplier[] => {
-    return (
-      querySuppliers?.data?.rows.filter((record: Supplier) => {
-        const state = detailsShopping.some(
-          (item: ShoppingDetail) => item.supplier.id === record.id
-        );
-        if (state && record.id !== shoppingDetail?.supplier?.id) {
-          return;
-        }
-        return record;
-      }) || []
-    );
-  };
-
   const handleDeleteBulkShoppingDetails = () => {
-    const recordsIds = getIdsToRowsSelected().map((el: any) => el.id);
-    const currentValues = [...formShopping.watch('details')];
-    const result = currentValues.filter((element: any) => {
-      if (!recordsIds.includes(element.id)) {
-        return element;
-      }
-    });
-
     for (const record of getIdsToRowsSelected()) {
       removeShoppingDetail(record as ShoppingDetail);
     }
     resetSelectionRows();
-    formShopping.setValue('details', result, {
-      shouldValidate: true,
+    toast.success(`Se han eliminado las compras!`);
+  };
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    formShopping.setValue('details', detailsShopping, {
+      shouldValidate: !isFirstRender.current,
       shouldDirty: true,
     });
-    toast.success(`Se han eliminado las cosechas!`);
-  };
+
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+    }
+  }, [detailsShopping, isFirstRender]);
 
   useEffect(() => {
     formShopping.setValue('total', total, { shouldValidate: true });
@@ -230,37 +240,32 @@ export const FormShoppingProvider = ({
   return (
     <FormShoppingContext.Provider
       value={{
-        form: formShopping,
-        isOpenDialogForm,
-        setIsOpenDialogForm,
-        isSubmitting,
-        onSubmit,
-        readOnly,
-        handleReturnToModule,
-        hasPermission,
-        total,
-        shoppingDetail,
-        setShoppingDetail,
-        filterSuppliersToShow,
-        getCurrentDataShoppingDetail,
-        resetForm,
+        // forms
+        formShopping,
         formShoppingDetail,
+        // primitives values
+        readOnly,
+        isSubmitting,
+        total,
+        // methods
+        onSubmit,
+        modifyShoppingDetail,
+        resetShoppingDetail,
         openDialog,
         setOpenDialog,
+        shoppingDetail,
+        setShoppingDetail,
+        detailsShopping,
+        addShoppingDetail,
+        // queries
+        // queryEmployees,
+        dataTableShoppingDetail,
         handleOpenDialog,
         handleCloseDialog,
-        resetShoppingDetail,
-        ...dataTableShoppingDetail,
-        handleDeleteBulkShoppingDetails,
-        hasSelectedRecords,
-        executeValidationFormShopping,
-        querySuppliers: querySuppliers,
-        detailsShopping,
-        setDetailsShopping,
-        removeShoppingDetail,
-        modifyShoppingDetail,
         resetShoppingDetails,
-        querySupplies,
+        handleDeleteBulkShoppingDetails,
+        removeShoppingDetail,
+        actionsShoppingModule,
       }}
     >
       {children}

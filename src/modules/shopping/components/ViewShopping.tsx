@@ -7,8 +7,7 @@ import { useGetShopping } from '../hooks/queries/useGetShopping';
 import { MODULE_SHOPPING_PATHS } from '../routes/pathRoutes';
 import FormShopping from './forms/shopping/FormShopping';
 
-
-export const ViewShopping = () => {
+export const ViewShopping: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetShopping(id!);
 
@@ -23,7 +22,7 @@ export const ViewShopping = () => {
 
       {/* Formulario principal */}
       <FormShopping
-        defaultValues={{ ...data, date: ConvertStringToDate(data.date) }}
+        defaultValues={data}
         readOnly
       />
     </>

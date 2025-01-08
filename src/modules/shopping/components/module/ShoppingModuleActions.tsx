@@ -7,18 +7,15 @@ import {
 import { useShoppingModuleContext } from '../../hooks/context/useShoppingModuleContext';
 
 import { MODULE_SHOPPING_PATHS } from '../../routes/pathRoutes';
-import { useDeleteBulkShopping } from '../../hooks/mutations/useDeleteBulkShopping';
 
-export const ShoppingModuleActions = () => {
+export const ShoppingModuleActions: React.FC = () => {
   const {
-    query,
-    hasSelectedRecords,
-    resetSelectionRows,
-    permissionsShopping,
-    getIdsToRowsSelected,
-  } = useShoppingModuleContext();
+    queryShopping,
+    dataTable: { hasSelectedRecords, resetSelectionRows, getIdsToRowsSelected },
 
-  const { mutate, isPending } = useDeleteBulkShopping();
+    actionsShoppingModule,
+    mutationDeleteShopping: { mutate, isPending },
+  } = useShoppingModuleContext();
 
   const handleDeleteBulkShopping = () => {
     mutate(
@@ -34,8 +31,8 @@ export const ShoppingModuleActions = () => {
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={query.refetch}
-        disabled={!permissionsShopping['find_all_supplies_shopping']}
+        onClick={queryShopping.refetch}
+        disabled={!actionsShoppingModule['find_all_supplies_shopping']}
         className=""
       />
 
@@ -47,7 +44,7 @@ export const ShoppingModuleActions = () => {
 
         <ButtonDeleteBulk
           disabled={
-            isPending || !permissionsShopping['remove_bulk_supplies_shopping']
+            isPending || !actionsShoppingModule['remove_bulk_supplies_shopping']
           }
           onClick={handleDeleteBulkShopping}
           visible={hasSelectedRecords}
@@ -55,7 +52,7 @@ export const ShoppingModuleActions = () => {
 
         <ButtonCreateRecord
           route={MODULE_SHOPPING_PATHS.Create}
-          disabled={!permissionsShopping['create_supply_shopping']}
+          disabled={!actionsShoppingModule['create_supply_shopping']}
           className=""
         />
       </div>

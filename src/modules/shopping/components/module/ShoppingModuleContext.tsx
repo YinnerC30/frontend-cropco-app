@@ -1,20 +1,47 @@
 import { useAuthContext } from '@/auth';
-import { useDataTableManual } from '@/modules/core/hooks';
+import {
+  DataTableManualReturn,
+  useDataTableManual,
+} from '@/modules/core/hooks';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData';
-import { createContext } from 'react';
+import { createContext, useMemo } from 'react';
 
+import { BulkRecords } from '@/modules/core/interfaces';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { useDeleteBulkShopping } from '../../hooks/mutations/useDeleteBulkShopping';
 import { useGetAllShopping } from '../../hooks/queries/useGetAllShopping';
-import columnsShopping from './ColumnsTableShopping';
+import { ShoppingSupplies } from '../../interfaces';
 import { ActionsTableShopping } from './ActionsTableShopping';
+import columnsShopping from './ColumnsTableShopping';
 
-export const ShoppingModuleContext = createContext<any>(null);
+export interface paramQueryShopping {
+  filter_by_date: {
+    type_filter_date: string | null | undefined;
+    date: string | null | undefined | Date | unknown;
+  };
+  filter_by_total: {
+    type_filter_total: string | null | undefined;
+    total: string | null | undefined | unknown;
+  };
+}
 
-export const ShoppingModuleProvider = ({
-  children,
-}: {
+export interface ShoppingModuleContextValues {
+  paramsQuery: paramQueryShopping;
+  queryShopping: UseQueryGetAllRecordsReturn<ShoppingSupplies>;
+  dataTable: DataTableManualReturn<ShoppingSupplies>;
+  mutationDeleteShopping: UseMutationReturn<void, BulkRecords>;
+  actionsShoppingModule: Record<string, boolean>;
+}
+
+export const ShoppingModuleContext = createContext<
+  ShoppingModuleContextValues | undefined
+>(undefined);
+
+export const ShoppingModuleProvider: React.FC<{
   children: React.ReactNode;
-}) => {
+}> = ({ children }: { children: React.ReactNode }) => {
   const { paramsValues } = useAdvancedQueryData({
     params: [
       'filter_by_date',
@@ -27,34 +54,43 @@ export const ShoppingModuleProvider = ({
     ],
   });
 
-  const { query, pagination, setPagination } = useGetAllShopping({
+  const {
+    query: queryShopping,
+    pagination,
+    setPagination,
+  } = useGetAllShopping({
     ...paramsValues,
   });
 
-  const { validatePermissionsInModule } = useAuthContext();
+  const { getActionsModule } = useAuthContext();
 
-  const permissionsShopping = validatePermissionsInModule('supplies');
+  const actionsShoppingModule = useMemo(() => getActionsModule('supplies'), []);
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsShopping,
     actions: ActionsTableShopping,
   });
 
-  const dataTable = useDataTableManual({
+  const dataTable = useDataTableManual<ShoppingSupplies>({
     columns: columnsTable,
-    data: query.data ?? [],
-    rows: query.data?.rows ?? [],
+    infoPagination: queryShopping.isSuccess
+      ? {
+          pageCount: queryShopping.data?.pageCount ?? 0,
+          rowCount: queryShopping.data?.rowCount ?? 0,
+        }
+      : { pageCount: 0, rowCount: 0 },
+    rows: queryShopping.data?.rows ?? [],
     pagination,
     setPagination,
   });
 
-  const contextValue = {
-    permissionsShopping,
-    query,
-    ...dataTable,
+  const mutationDeleteShopping = useDeleteBulkShopping();
 
+  const contextValue: ShoppingModuleContextValues = {
+    actionsShoppingModule,
+    queryShopping,
+    dataTable,
     paramsQuery: {
-      ...paramsValues,
       filter_by_date: {
         type_filter_date: paramsValues.type_filter_date,
         date: !paramsValues.date ? undefined : new Date(paramsValues.date),
@@ -64,6 +100,7 @@ export const ShoppingModuleProvider = ({
         total: !paramsValues.total ? 0 : paramsValues.total,
       },
     },
+    mutationDeleteShopping,
   };
 
   return (

@@ -6,14 +6,21 @@ import {
   DropDownMenuActions,
 } from '@/modules/core/components';
 
-import { useDeleteShopping } from '../../hooks/mutations/useDeleteShopping';
-import { MODULE_SHOPPING_PATHS } from '../../routes/pathRoutes';
+import { Row } from '@tanstack/react-table';
 import { useShoppingModuleContext } from '../../hooks/context/useShoppingModuleContext';
+import { useDeleteShopping } from '../../hooks/mutations/useDeleteShopping';
+import { ShoppingSupplies } from '../../interfaces';
+import { MODULE_SHOPPING_PATHS } from '../../routes/pathRoutes';
+import React from 'react';
 
-export const ActionsTableShopping = ({ row }: any) => {
-  const { resetSelectionRows, permissionsShopping } =
-    useShoppingModuleContext();
-  const { id } = row.original;
+export const ActionsTableShopping: React.FC<{
+  row: Row<ShoppingSupplies>;
+}> = ({ row }) => {
+  const {
+    dataTable: { resetSelectionRows },
+    actionsShoppingModule,
+  } = useShoppingModuleContext();
+  const id = row.original.id ?? '';
   const { mutate } = useDeleteShopping();
 
   const handleDelete = () => {
@@ -28,17 +35,17 @@ export const ActionsTableShopping = ({ row }: any) => {
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!permissionsShopping['remove_one_supplies_shopping']}
+        disabled={!actionsShoppingModule['remove_one_supplies_shopping']}
       />
       <ActionModifyRecord
         id={id}
         path={MODULE_SHOPPING_PATHS.Update + id}
-        disabled={!permissionsShopping['update_one_supplies_shopping']}
+        disabled={!actionsShoppingModule['update_one_supplies_shopping']}
       />
       <ActionViewRecord
         id={id}
         path={MODULE_SHOPPING_PATHS.ViewOne + id}
-        disabled={!permissionsShopping['find_one_supplies_shopping']}
+        disabled={!actionsShoppingModule['find_one_supplies_shopping']}
       />
     </DropDownMenuActions>
   );

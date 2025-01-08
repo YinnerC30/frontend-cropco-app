@@ -1,7 +1,7 @@
 import { ObjectWithId } from "@/modules/core/interfaces/general/ObjectWithId";
 
 export interface ShoppingDetail {
-  id?: string;
+  id: string;
   supply: ObjectWithId;
   supplier: ObjectWithId;
   amount: number;
