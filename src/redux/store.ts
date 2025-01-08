@@ -2,7 +2,6 @@ import { authenticationReducer } from '@/auth/utils/authenticationSlice';
 import { consumptionReducer } from '@/modules/consumption/utils/consumptionSlice';
 import { paymentReducer } from '@/modules/payments/utils/paymentSlice';
 
-import { shoppingReducer } from '@/modules/shopping/utils/shoppingSlice';
 
 import { configureStore } from '@reduxjs/toolkit';
 
@@ -12,7 +11,6 @@ export const store = configureStore({
   reducer: {
     authentication: authenticationReducer,
     payment: paymentReducer,
-    shopping: shoppingReducer,
     consumption: consumptionReducer,
   },
 });
