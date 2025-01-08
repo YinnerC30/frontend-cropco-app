@@ -64,7 +64,6 @@ export const FormShoppingDetail: React.FC = () => {
     resetShoppingDetail();
     handleOpenDialog();
   };
-
   return (
     <>
       <ToolTipTemplate content={'Crear registro'}>

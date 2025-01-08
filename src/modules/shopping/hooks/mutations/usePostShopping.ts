@@ -1,11 +1,12 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { toast } from 'sonner';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { ShoppingSupplies } from '../../interfaces/ShoppingSupplies';
+import { useAuthContext } from '@/auth';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
-import { useAuthContext } from '@/auth';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { ShoppingSupplies } from '../../interfaces/ShoppingSupplies';
+import { MODULE_SHOPPING_PATHS } from '../../routes/pathRoutes';
 
 export async function createShopping(
   shoppingSupplies: ShoppingSupplies
@@ -22,11 +23,13 @@ export const usePostShopping = (): UseMutationReturn<
 > => {
   const queryClient = useQueryClient();
   const { handleError } = useAuthContext();
+  const navigate = useNavigate();
   const mutation: UseMutationReturn<ShoppingSupplies, ShoppingSupplies> =
     useMutation({
       mutationFn: createShopping,
       onSuccess: async () => {
         await queryClient.invalidateQueries({ queryKey: ['shopping'] });
+        navigate(MODULE_SHOPPING_PATHS.ViewAll);
         toast.success(`Compra registrada`);
       },
       onError: (error) => {

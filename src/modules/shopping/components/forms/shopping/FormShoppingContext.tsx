@@ -31,13 +31,14 @@ import { ActionsTableShoppingDetail } from './details/ActionsTableShoppingDetail
 import { columnsShoppingDetail } from './details/ColumnsTableShoppingDetail';
 
 const defaultValuesShopping: ShoppingSupplies = {
+  id: undefined,
   date: undefined,
   details: [],
   total: 0,
 };
 
 const defaultValuesShoppingDetail: ShoppingDetail = {
-  id: '',
+  id: undefined,
   supplier: {
     id: '',
     first_name: '',

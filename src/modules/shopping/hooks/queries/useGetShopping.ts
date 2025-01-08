@@ -25,7 +25,7 @@ export const useGetShopping = (
     select: ({ data }) =>
       ({
         ...data,
-        date: ConvertStringToDate(data?.date),
+        date: ConvertStringToDate(data?.date!),
       } as unknown as ShoppingSupplies),
   });
 

@@ -1,9 +1,8 @@
-import { ShoppingDetail } from "./ShoppingDetails";
-
+import { ShoppingDetail } from './ShoppingDetails';
 
 export interface ShoppingSupplies {
   id?: string;
-  date: string | any;
+  date: string | Date | undefined;
   total: number;
   details: ShoppingDetail[];
 }
