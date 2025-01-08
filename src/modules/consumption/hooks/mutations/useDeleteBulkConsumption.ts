@@ -1,33 +1,37 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
-const deleteBulkConsumption = async (data: BulkRecords) => {
-  await cropcoAPI.delete(`${pathsCropco.consumption}/remove/bulk`, {
+const deleteBulkConsumption = async (
+  data: BulkRecords
+): PromiseReturnRecord<void> => {
+  return await cropcoAPI.delete(`${pathsCropco.consumption}/remove/bulk`, {
     data: {
       recordsIds: data.consumptionIds,
     },
   });
 };
 
-export const useDeleteBulkConsumption = () => {
+export const useDeleteBulkConsumption = (): UseMutationReturn<
+  void,
+  BulkRecords
+> => {
   const queryClient = useQueryClient();
-  const { handleError } = useManageErrorApp();
-  const mutation = useMutation({
+  const { handleError } = useAuthContext();
+  const mutation: UseMutationReturn<void, BulkRecords> = useMutation({
     mutationFn: deleteBulkConsumption,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['consumption'] });
       toast.success(`consumos eliminados`);
     },
-    onError: (error: AxiosError) => {
-      const deleteError: AxiosError = error;
+    onError: (error) => {
       handleError({
-        error: deleteError as AxiosError,
-        messageUnauthoraizedError:
-          'No tienes permiso para eliminar varios consumos',
+        error,
+        messagesStatusError: {},
       });
     },
 

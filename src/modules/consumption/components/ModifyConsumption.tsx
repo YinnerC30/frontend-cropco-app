@@ -12,32 +12,24 @@ import { MODULE_CONSUMPTION_PATHS } from '../routes/pathRoutes';
 import { formSchemaConsumption } from '../utils/formSchemaConsumption';
 import { FormConsumption } from './forms/consumption/FormConsumption';
 
-export const ModifyConsumption = () => {
+export const ModifyConsumption: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetConsumption(id!);
   const { mutate, isPending } = usePatchConsumption(id!);
-  const navigate = useNavigate();
 
   const onSubmitShopping = (values: z.infer<typeof formSchemaConsumption>) => {
-    mutate(
-      {
-        id,
-        ...values,
+    mutate({
+      id,
+      ...values,
 
-        details: values.details.map((item: ConsumptionDetails) => {
-          return {
-            ...item,
-            crop: { id: item.crop.id },
-            supply: { id: item.supply.id },
-          };
-        }),
-      },
-      {
-        onSuccess: () => {
-          navigate('../view/all');
-        },
-      }
-    );
+      details: values.details.map((item: ConsumptionDetails) => {
+        return {
+          ...item,
+          crop: { id: item.crop.id },
+          supply: { id: item.supply.id },
+        };
+      }),
+    });
   };
 
   if (isLoading) return <Loading />;
@@ -53,7 +45,7 @@ export const ModifyConsumption = () => {
       <FormConsumption
         onSubmit={onSubmitShopping}
         isSubmitting={isPending}
-        defaultValues={{ ...data, date: ConvertStringToDate(data?.date) }}
+        defaultValues={data}
       />
     </>
   );

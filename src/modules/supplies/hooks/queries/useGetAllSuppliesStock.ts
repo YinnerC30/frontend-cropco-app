@@ -44,13 +44,10 @@ export const useGetAllSuppliesStock = ({
 
   const { handleError, hasPermission } = useAuthContext();
 
-  const isAuthorized = hasPermission(
-    'supplies',
-    'find_all_supplies_with_stock'
-  );
+  const isAuthorized = hasPermission('supplies', 'find_all_supplies_stock');
 
   const query: UseQueryGetAllRecordsReturn<Supply> = useQuery({
-    queryKey: ['supplies', { queryValue, ...pagination }],
+    queryKey: ['supplies-stock', { queryValue, ...pagination }],
     queryFn: () =>
       getAllSuppliesStock({
         query: queryValue,
@@ -58,6 +55,7 @@ export const useGetAllSuppliesStock = ({
         offset: pagination.pageIndex,
         allRecords,
       }),
+    select: ({ data }) => data,
     enabled: isAuthorized,
   });
 

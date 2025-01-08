@@ -1,9 +1,4 @@
-import {
-  Button,
-  Form,
-  PopoverContent,
-  PopoverTrigger
-} from '@/components';
+import { Button, Form, PopoverContent, PopoverTrigger } from '@/components';
 import {
   FormFieldCalendar,
   FormFieldSelect,
@@ -19,33 +14,27 @@ import { TypeFilterDate } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Calendar, X } from 'lucide-react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
+import { dateFilterOptions } from '@/modules/core/interfaces/queries/FilterOptions';
 import { Popover } from '@radix-ui/react-popover';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
 import { useConsumptionModuleContext } from '../../hooks/context/useConsumptionModuleContext';
 import { MODULE_CONSUMPTION_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarConsumption } from '../../utils/formFieldsSearchBarConsumption';
 import { formSchemaSearchBarConsumption } from '../../utils/formSchemaSearchBarConsumption';
 
-const dateFilterOptions = [
-  {
-    key: TypeFilterDate.after,
-    value: TypeFilterDate.after,
-    label: 'Despues del',
-  },
-  {
-    key: TypeFilterDate.before,
-    value: TypeFilterDate.before,
-    label: 'Antes del',
-  },
-];
-
-export const ConsumptionModuleSearchbar = () => {
-  const { paramsQuery, permissionsConsumption } = useConsumptionModuleContext();
-  const readOnly = !permissionsConsumption['find_all_supplies_consumption'];
+export const ConsumptionModuleSearchbar: React.FC = () => {
+  const { paramsQuery, actionsConsumptionsModule } =
+    useConsumptionModuleContext();
+  const readOnly = !actionsConsumptionsModule['find_all_supplies_consumption'];
   const navigate = useNavigate();
 
-  const form = useCreateForm({
+  const form: UseFormReturn<
+    z.infer<typeof formSchemaSearchBarConsumption>,
+    unknown
+  > = useCreateForm({
     schema: formSchemaSearchBarConsumption,
     defaultValues: paramsQuery,
     skiptDirty: true,
@@ -54,7 +43,9 @@ export const ConsumptionModuleSearchbar = () => {
 
   const [openPopover, setOpenPopover] = useState(false);
 
-  const handleAddFilter = async (name = '') => {
+  const handleAddFilter = async (
+    name: keyof z.infer<typeof formSchemaSearchBarConsumption>
+  ) => {
     const isValid = await form.trigger(name);
     if (!isValid) return false;
 
@@ -62,7 +53,9 @@ export const ConsumptionModuleSearchbar = () => {
     return true;
   };
 
-  const handleClearErrorsForm = (name = '') => {
+  const handleClearErrorsForm = (
+    name: keyof z.infer<typeof formSchemaSearchBarConsumption>
+  ) => {
     form.clearErrors(name);
     form.resetField(name);
   };
@@ -117,16 +110,20 @@ export const ConsumptionModuleSearchbar = () => {
                     onClick={() => setOpenPopover(true)}
                   >
                     {!form.getValues('filter_by_date.date') ||
-                    !form.getValues('filter_by_date.type_filter_date')
+                    !paramsQuery.filter_by_date?.date
                       ? 'Filtrar por fecha'
                       : formatTypeFilterDate(
                           form.getValues(
                             'filter_by_date.type_filter_date'
                           ) as TypeFilterDate
                         ) +
-                        format(form.getValues('filter_by_date.date'), 'PPP', {
-                          locale: es,
-                        })}
+                        format(
+                          form.getValues('filter_by_date.date') ?? '',
+                          'PPP',
+                          {
+                            locale: es,
+                          }
+                        )}
                     <Calendar className="w-4 h-4 ml-4" />
                   </Button>
                 </PopoverTrigger>

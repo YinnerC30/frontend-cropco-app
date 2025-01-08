@@ -6,16 +6,15 @@ import {
 } from '@/modules/core/components';
 import { useConsumptionModuleContext } from '../../hooks/context/useConsumptionModuleContext';
 
-import { MODULE_CONSUMPTION_PATHS } from '../../routes/pathRoutes';
 import { useDeleteBulkConsumption } from '../../hooks/mutations/useDeleteBulkConsumption';
+import { MODULE_CONSUMPTION_PATHS } from '../../routes/pathRoutes';
 
-export const ConsumptionModuleActions = () => {
+export const ConsumptionModuleActions: React.FC = () => {
   const {
-    query,
-    hasSelectedRecords,
-    resetSelectionRows,
-    permissionsConsumption,
-    getIdsToRowsSelected,
+    queryConsumptions,
+    dataTable: { hasSelectedRecords, resetSelectionRows, getIdsToRowsSelected },
+
+    actionsConsumptionsModule,
   } = useConsumptionModuleContext();
 
   const { mutate, isPending } = useDeleteBulkConsumption();
@@ -34,8 +33,8 @@ export const ConsumptionModuleActions = () => {
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={query.refetch}
-        disabled={!permissionsConsumption['find_all_supplies_consumption']}
+        onClick={queryConsumptions.refetch}
+        disabled={!actionsConsumptionsModule['find_all_supplies_consumption']}
         className=""
       />
 
@@ -47,7 +46,8 @@ export const ConsumptionModuleActions = () => {
 
         <ButtonDeleteBulk
           disabled={
-            isPending || !permissionsConsumption['remove_bulk_supplies_consumption']
+            isPending ||
+            !actionsConsumptionsModule['remove_bulk_supplies_consumption']
           }
           onClick={handleDeleteBulkConsumption}
           visible={hasSelectedRecords}
@@ -55,7 +55,7 @@ export const ConsumptionModuleActions = () => {
 
         <ButtonCreateRecord
           route={MODULE_CONSUMPTION_PATHS.Create}
-          disabled={!permissionsConsumption['create_supply_consumption']}
+          disabled={!actionsConsumptionsModule['create_supply_consumption']}
           className=""
         />
       </div>

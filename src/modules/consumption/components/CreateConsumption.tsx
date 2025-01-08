@@ -9,30 +9,21 @@ import { MODULE_CONSUMPTION_PATHS } from '../routes/pathRoutes';
 import { FormConsumption } from './forms/consumption/FormConsumption';
 import { usePostConsumption } from '../hooks/mutations/usePostConsumption';
 
-export const CreateConsumption = () => {
+export const CreateConsumption: React.FC = () => {
   const { mutate, isPending } = usePostConsumption();
 
-  const navigate = useNavigate();
   const onSubmitShopping = (values: z.infer<typeof formSchemaConsumption>) => {
-    console.log(values);
-    mutate(
-      {
-        ...values,
-        details: values.details.map((item: ConsumptionDetails) => {
-          const { id, ...rest } = item;
-          return {
-            ...rest,
-            crop: { id: rest.crop.id },
-            supply: { id: rest.supply.id },
-          };
-        }),
-      },
-      {
-        onSuccess: () => {
-          navigate('../view/all');
-        },
-      }
-    );
+    mutate({
+      ...values,
+      details: values.details.map((item: ConsumptionDetails) => {
+        const { id, ...rest } = item;
+        return {
+          ...rest,
+          crop: { id: rest.crop.id },
+          supply: { id: rest.supply.id },
+        };
+      }),
+    });
   };
 
   return (

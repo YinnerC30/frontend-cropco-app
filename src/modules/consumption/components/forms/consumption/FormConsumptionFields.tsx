@@ -1,29 +1,25 @@
 import { Form } from '@/components';
 import {
   FormFieldCalendar,
-  FormFieldDataTable
+  FormFieldDataTable,
 } from '@/modules/core/components';
 
 import { useFormConsumptionContext } from '@/modules/consumption/hooks/context/useFormConsumptionContext';
 import { formFieldsConsumption } from '@/modules/consumption/utils';
 import { FormConsumptionDataTable } from './FormConsumptionDataTable';
 
-export const FormConsumptionFields = () => {
-  const { form, onSubmit, readOnly } = useFormConsumptionContext();
+export const FormConsumptionFields: React.FC = () => {
+  const { formConsumption, onSubmit, readOnly } = useFormConsumptionContext();
 
   return (
-    <Form {...form}>
+    <Form {...formConsumption}>
       <form
-        onSubmit={form.handleSubmit(() => {
-          // Fix: No se envia ID de harvestDetail
-          const data = form.watch();
-          onSubmit(data);
-        })}
+        onSubmit={formConsumption.handleSubmit(onSubmit)}
         id="formConsumption"
         className=""
       >
         <FormFieldCalendar
-          control={form.control}
+          control={formConsumption.control}
           description={formFieldsConsumption.date.description}
           label={formFieldsConsumption.date.label}
           name={'date'}
@@ -32,7 +28,7 @@ export const FormConsumptionFields = () => {
         />
         <div className="sm:w-[600px] mt-4">
           <FormFieldDataTable
-            control={form.control}
+            control={formConsumption.control}
             description={''}
             label={formFieldsConsumption.details.label}
             name={'details'}

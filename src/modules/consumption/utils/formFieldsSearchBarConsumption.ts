@@ -1,6 +1,14 @@
-import { CustomFormField } from "@/modules/core/interfaces/form/CustomFormField";
+import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-export const formFieldsSearchBarConsumption: Record<string, CustomFormField> = {
+type FormFieldsSearchBarConsumption =
+  | 'filter_by_date'
+  | 'type_filter_date'
+  | 'date';
+
+export const formFieldsSearchBarConsumption: Record<
+  FormFieldsSearchBarConsumption,
+  CustomFormField
+> = {
   filter_by_date: {
     name: 'filter_by_date',
     label: 'Filtrar por fecha:',

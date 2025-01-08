@@ -17,20 +17,24 @@ import { FormConsumptionDetail } from '../consumption/details/FormConsumptionDet
 
 import { ScrollArea, ScrollBar } from '@/components';
 import { useFormConsumptionContext } from '@/modules/consumption/hooks/context/useFormConsumptionContext';
+import { ConsumptionDetails } from '@/modules/consumption/interfaces';
+import React from 'react';
 
-export const FormConsumptionDataTable = () => {
+export const FormConsumptionDataTable: React.FC = () => {
   const {
-    table,
+    dataTableConsumptionDetail: {
+      table,
+      lengthColumns,
+      hasSelectedRecords,
+      resetSelectionRows,
+    },
     readOnly,
-    lengthColumns,
     handleDeleteBulkConsumptionDetails,
-    hasSelectedRecords,
     setConsumptionDetail,
     handleOpenDialog,
-    resetSelectionRows,
   } = useFormConsumptionContext();
 
-  const handleSetConsumptionDetail = (data: any) => {
+  const handleSetConsumptionDetail = (data: ConsumptionDetails) => {
     setConsumptionDetail(data);
     handleOpenDialog();
   };

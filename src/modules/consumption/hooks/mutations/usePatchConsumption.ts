@@ -1,29 +1,43 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { ConsumptionSupplies } from '../../interfaces/ConsuptionSupplies';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { useAuthContext } from '@/auth';
+import { useNavigate } from 'react-router-dom';
+import { MODULE_CONSUMPTION_PATHS } from '../../routes/pathRoutes';
 
-export const updateConsumption = async (consumption: ConsumptionSupplies) => {
+export const updateConsumption = async (
+  consumption: ConsumptionSupplies
+): PromiseReturnRecord<void> => {
   const { id, ...rest } = consumption;
-  await cropcoAPI.patch(`${pathsCropco.consumption}/update/one/${id}`, rest);
+  return await cropcoAPI.patch(
+    `${pathsCropco.consumption}/update/one/${id}`,
+    rest
+  );
 };
 
-export const usePatchConsumption = (id: string) => {
+export const usePatchConsumption = (
+  id: string
+): UseMutationReturn<void, ConsumptionSupplies> => {
   const queryClient = useQueryClient();
-  const mutation = useMutation({
+  const { handleError } = useAuthContext();
+  const navigate = useNavigate();
+  const mutation: UseMutationReturn<void, ConsumptionSupplies> = useMutation({
     mutationFn: updateConsumption,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['consumptions'] });
       await queryClient.invalidateQueries({ queryKey: ['consumptions', id] });
+      navigate(MODULE_CONSUMPTION_PATHS.ViewAll);
       toast.success(`Registro de consumo de insumo actualizado`);
     },
-    onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
-      toast.error(
-        `Hubo un problema durante la actualización del registro de consumo de insumos, ${data.message}`
-      );
+    onError: (error) => {
+      handleError({
+        error,
+        messagesStatusError: {},
+      });
     },
     retry: 1,
   });

@@ -1,25 +1,30 @@
 import { Form } from '@/components';
-import { FormFieldCommand, FormFieldInput } from '@/modules/core/components';
 import { useFormConsumptionContext } from '@/modules/consumption/hooks/context/useFormConsumptionContext';
 import { formFieldsConsumptionDetail } from '@/modules/consumption/utils';
+import { FormFieldCommand, FormFieldInput } from '@/modules/core/components';
 
+import { useGetAllCrops } from '@/modules/crops/hooks';
+import { useGetAllSuppliesStock } from '@/modules/supplies/hooks';
 import { useEffect } from 'react';
 
-export const FormConsumptionDetailsFields = () => {
-  const {
-    formConsumptionDetail,
-    consumptionDetail,
-    queryCrops,
-    readOnly,
-    querySupplies,
-  } = useFormConsumptionContext();
+export const FormConsumptionDetailsFields: React.FC = () => {
+  const { formConsumptionDetail, consumptionDetail, readOnly } =
+    useFormConsumptionContext();
+
+  const { query: queryCrops } = useGetAllCrops({
+    allRecords: true,
+    queryValue: '',
+  });
+
+  // FIX: Traer solo suministros con stock
+  const { query: querySupplies } = useGetAllSuppliesStock({
+    queryValue: '',
+    allRecords: true,
+  });
 
   useEffect(() => {
     formConsumptionDetail.reset(consumptionDetail);
   }, [consumptionDetail]);
-
-  console.log(formConsumptionDetail.formState);
-  console.log(consumptionDetail);
 
   return (
     <Form {...formConsumptionDetail}>
@@ -31,7 +36,7 @@ export const FormConsumptionDetailsFields = () => {
           control={formConsumptionDetail.control}
           description={formFieldsConsumptionDetail.crop.description}
           label={formFieldsConsumptionDetail.crop.label}
-          name={'crop.id'}
+          name={'crop'}
           placeholder={formFieldsConsumptionDetail.crop.placeholder}
           readOnly={false}
           nameEntity="cultivo"
@@ -45,7 +50,7 @@ export const FormConsumptionDetailsFields = () => {
           control={formConsumptionDetail.control}
           description={formFieldsConsumptionDetail.supply.description}
           label={formFieldsConsumptionDetail.supply.label}
-          name={'supply.id'}
+          name={'supply'}
           placeholder={formFieldsConsumptionDetail.supply.placeholder}
           readOnly={readOnly}
           isLoading={querySupplies.isLoading}

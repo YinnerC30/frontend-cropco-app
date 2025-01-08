@@ -1,4 +1,3 @@
-export * from './consumptionSlice';
 export * from './formFieldsConsumption';
 export * from './formFieldsConsumptionDetail';
 export * from './formFieldsSearchBarConsumption';

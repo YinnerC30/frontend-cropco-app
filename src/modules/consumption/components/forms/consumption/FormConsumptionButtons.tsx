@@ -1,11 +1,17 @@
 import { Button } from '@/components';
 import { useFormConsumptionContext } from '@/modules/consumption/hooks/context/useFormConsumptionContext';
+import { MODULE_CONSUMPTION_PATHS } from '@/modules/consumption/routes/pathRoutes';
 import { ButtonsForm } from '@/modules/core/components';
+import { useNavigate } from 'react-router-dom';
 
+export const FormConsumptionButtons: React.FC = () => {
+  const { readOnly, isSubmitting } = useFormConsumptionContext();
 
-export const FormConsumptionButtons = () => {
-  const { readOnly, handleReturnToModule, isSubmitting } =
-    useFormConsumptionContext();
+  const navigate = useNavigate();
+
+  const handleReturnToModule = () => {
+    navigate(MODULE_CONSUMPTION_PATHS.ViewAll);
+  };
 
   return readOnly ? (
     <Button className="my-2" onClick={handleReturnToModule}>

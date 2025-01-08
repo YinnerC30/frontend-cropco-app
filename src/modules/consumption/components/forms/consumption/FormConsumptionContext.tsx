@@ -1,83 +1,155 @@
-import React, { createContext, useState } from 'react';
-
-import { useNavigate } from 'react-router-dom';
+import React, {
+  createContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
 import { useCreateForm } from '@/modules/core/hooks';
 
 import { useFormChange } from '@/modules/core/components';
-import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
+import {
+  DataTableGenericReturn,
+  useDataTableGeneric,
+} from '@/modules/core/hooks/data-table/useDataTableGeneric';
 
 import { toast } from 'sonner';
 
-import { ConsumptionDetails } from '@/modules/consumption/interfaces';
-import { MODULE_CONSUMPTION_PATHS } from '@/modules/consumption/routes/pathRoutes';
+import {
+  ConsumptionDetails,
+  ConsumptionSupplies,
+} from '@/modules/consumption/interfaces';
 import { formSchemaConsumption } from '@/modules/consumption/utils';
 import { formSchemaConsumptionDetail } from '@/modules/consumption/utils/formSchemaConsumptionDetail';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { useGetAllCrops } from '@/modules/crops/hooks';
-import { Crop } from '@/modules/crops/interfaces/Crop';
-import { useGetAllSupplies } from '@/modules/supplies/hooks';
+import { FormProps } from '@/modules/core/interfaces';
+import { z } from 'zod';
 import { ActionsTableConsumptionDetail } from '../consumption/details/ActionsTableConsumptionDetail';
 import { columnsConsumptionDetail } from '../consumption/details/ColumnsTableConsumptionDetail';
 
-export const FormConsumptionContext = createContext<any>(null);
-
-export const defaultValuesConsumptionDetail: ConsumptionDetails | any = {
-  id: '',
-  crop: {
-    id: '',
-    name: '',
-  },
-  supply: {
-    id: '',
-    name: '',
-  },
+export const defaultValuesConsumptionDetail: ConsumptionDetails = {
+  id: undefined,
+  supply: { id: '', name: '' },
+  crop: { id: '', name: '' },
+  amount: 0,
 };
 
-export const FormConsumptionProvider = ({
-  children,
-  defaultValues,
-  isSubmitting,
-  onSubmit,
-  readOnly,
-}: any & { children: React.ReactNode }) => {
-  const [isOpenDialogForm, setIsOpenDialogForm] = useState(false);
-  const detailsDefaultValues = defaultValues?.details ?? [];
-  const [detailsConsumption, setDetailsConsumption] =
-    useState(detailsDefaultValues);
+const defaultValuesConsumption: ConsumptionSupplies = {
+  id: undefined,
+  date: undefined,
+  details: [],
+};
 
-  const removeConsumptionDetail = (consumptionDetail: ConsumptionDetails) => {
-    setDetailsConsumption((details: any) =>
-      details.filter(
-        (detail: ConsumptionDetails) => detail.id !== consumptionDetail.id
-      )
-    );
+export type FormConsumptionProps = FormProps<
+  z.infer<typeof formSchemaConsumption>,
+  ConsumptionSupplies
+>;
+
+export interface FormConsumptionContextValues {
+  formConsumption: ReturnType<typeof useCreateForm>;
+  formConsumptionDetail: ReturnType<typeof useCreateForm>;
+  readOnly: boolean;
+  isSubmitting: boolean;
+  onSubmit: (values: z.infer<typeof formSchemaConsumption>) => void;
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  openDialog: boolean;
+  consumptionDetail: ConsumptionDetails;
+  setConsumptionDetail: React.Dispatch<
+    React.SetStateAction<ConsumptionDetails>
+  >;
+  dataTableConsumptionDetail: DataTableGenericReturn<ConsumptionDetails>;
+  detailsConsumption: ConsumptionDetails[];
+  addConsumptionDetail: (consumptionDetail: ConsumptionDetails) => void;
+  modifyConsumptionDetail: (consumptionDetail: ConsumptionDetails) => void;
+  resetConsumptionDetails: () => void;
+  handleOpenDialog: () => void;
+  handleCloseDialog: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  resetConsumptionDetail: () => void;
+  handleDeleteBulkConsumptionDetails: () => void;
+  removeConsumptionDetail: (consumptionDetail: ConsumptionDetails) => void;
+  actionsConsumptionsModule: Record<string, boolean>;
+}
+
+interface ConsumptionAction {
+  type: 'REMOVE' | 'MODIFY' | 'RESET' | 'ADD';
+  payload?: ConsumptionDetails;
+}
+
+const consumptionDetailsReducer = (
+  state: ConsumptionDetails[],
+  action: ConsumptionAction
+): ConsumptionDetails[] => {
+  switch (action.type) {
+    case 'ADD':
+      return [...state, action.payload as ConsumptionDetails];
+    case 'REMOVE':
+      return state.filter((detail) => detail.id !== action.payload?.id);
+    case 'MODIFY':
+      return state.map((item) =>
+        item.id !== action.payload?.id
+          ? item
+          : (action.payload as ConsumptionDetails)
+      );
+    case 'RESET':
+      return [];
+    default:
+      throw new Error(`Unhandled action type: ${action.type}`);
+  }
+};
+
+export const FormConsumptionContext = createContext<
+  FormConsumptionContextValues | undefined
+>(undefined);
+
+export const FormConsumptionProvider: React.FC<
+  FormConsumptionProps & { children: React.ReactNode }
+> = ({
+  children,
+  defaultValues = defaultValuesConsumption,
+  isSubmitting = false,
+  onSubmit = (values) => console.log(values),
+  readOnly = false,
+}) => {
+  const { getActionsModule } = useAuthContext();
+  const actionsConsumptionsModule = useMemo(
+    () => getActionsModule('supplies'),
+    []
+  );
+
+  const detailsDefaultValues = defaultValues?.details ?? [];
+  const [detailsConsumption, dispatch] = useReducer(
+    consumptionDetailsReducer,
+    detailsDefaultValues
+  );
+
+  const addConsumptionDetail = (
+    consumptionDetail: ConsumptionDetails
+  ): void => {
+    dispatch({ type: 'ADD', payload: consumptionDetail });
   };
 
+  const removeConsumptionDetail = (
+    consumptionDetail: ConsumptionDetails
+  ): void => {
+    dispatch({ type: 'REMOVE', payload: consumptionDetail });
+  };
+
+  const modifyConsumptionDetail = (
+    consumptionDetail: ConsumptionDetails
+  ): void => {
+    dispatch({ type: 'MODIFY', payload: consumptionDetail });
+  };
+
+  const resetConsumptionDetails = (): void => {
+    dispatch({ type: 'RESET' });
+  };
   const formConsumption = useCreateForm({
     schema: formSchemaConsumption,
     defaultValues,
   });
-
-  const modifyConsumptionDetail = (consumptionDetail: ConsumptionDetails) => {
-    const data = detailsConsumption.filter(
-      (item: any) => item.id !== consumptionDetail.id
-    );
-    setDetailsConsumption([...data, consumptionDetail]);
-    formConsumption.setValue('details', [...data, consumptionDetail], {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
-
-  const resetConsumptionDetails = () => {
-    setDetailsConsumption([]);
-  };
-
-  const executeValidationFormConsumption = async () => {
-    return await formConsumption.trigger();
-  };
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsConsumptionDetail,
@@ -85,12 +157,12 @@ export const FormConsumptionProvider = ({
     hiddenActions: readOnly,
   });
 
-  const dataTableConsumptionDetail = useDataTableGeneric({
+  const dataTableConsumptionDetail = useDataTableGeneric<ConsumptionDetails>({
     columns: columnsTable,
-    data: detailsConsumption,
+    rows: detailsConsumption,
   });
 
-  const { getIdsToRowsSelected, resetSelectionRows, hasSelectedRecords } =
+  const { getIdsToRowsSelected, resetSelectionRows } =
     dataTableConsumptionDetail;
 
   const { hasUnsavedChanges, showToast } = useFormChange();
@@ -105,51 +177,18 @@ export const FormConsumptionProvider = ({
 
   const [openDialog, setOpenDialog] = useState(false);
 
-  const navigate = useNavigate();
-
-  const { hasPermission } = useAuthContext();
-
-  const handleReturnToModule = () => {
-    navigate(MODULE_CONSUMPTION_PATHS.ViewAll);
-  };
-
   const formConsumptionDetail = useCreateForm({
     schema: formSchemaConsumptionDetail,
     defaultValues: consumptionDetail,
     validationMode: 'onSubmit',
   });
 
-  const { query: queryCrops } = useGetAllCrops({
-    allRecords: true,
-    queryValue: '',
-  });
-
-  const { query: querySupplies } = useGetAllSupplies({
-    searchParameter: '',
-    allRecords: true,
-  });
-
-  const findCropName = (id: string): string => {
-    return (
-      queryCrops?.data?.rows.find((item: Crop) => item.id === id)?.name || ''
-    );
-  };
-  const findSupplyName = (id: string): string => {
-    return (
-      querySupplies?.data?.rows.find((item: any) => item.id === id)?.name || ''
-    );
-  };
-
-  const resetForm = () => {
-    formConsumptionDetail.reset(defaultValuesConsumptionDetail);
-  };
-
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
 
   const ClearFormConsumptionDetail = () => {
-    resetForm();
+    formConsumptionDetail.reset(defaultValuesConsumptionDetail);
 
     setOpenDialog(false);
   };
@@ -166,87 +205,50 @@ export const FormConsumptionProvider = ({
     ClearFormConsumptionDetail();
   };
 
-  const getCurrentDataConsumptionDetail = () => {
-    const values = { ...formConsumptionDetail.getValues() };
-    const cropIdForm = values?.crop?.id;
-    const supplyIdForm = values?.supply?.id;
-    const nameCrop = findCropName(cropIdForm);
-    const nameSupply = findSupplyName(supplyIdForm);
-    const data = {
-      ...values,
-      amount: +values.amount,
-      supply: { id: supplyIdForm, name: nameSupply },
-      crop: { id: cropIdForm, name: nameCrop },
-    };
-    return data;
-  };
-
-  // const filterCropsToShow = (): Crop[] => {
-  //   return (
-  //     queryCrops?.data?.rows.filter((record: Crop) => {
-  //       const state = detailsConsumption.some(
-  //         (item: ConsumptionDetails) => item.supplier.id === record.id
-  //       );
-  //       if (state && record.id !== consumptionDetail?.supplier?.id) {
-  //         return;
-  //       }
-  //       return record;
-  //     }) || []
-  //   );
-  // };
-
   const handleDeleteBulkConsumptionDetails = () => {
-    const recordsIds = getIdsToRowsSelected().map((el: any) => el.id);
-    const currentValues = [...formConsumption.watch('details')];
-    const result = currentValues.filter((element: any) => {
-      if (!recordsIds.includes(element.id)) {
-        return element;
-      }
-    });
-
     for (const record of getIdsToRowsSelected()) {
       removeConsumptionDetail(record as ConsumptionDetails);
     }
     resetSelectionRows();
-    formConsumption.setValue('details', result, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
     toast.success(`Se han eliminado las cosechas!`);
   };
+
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    formConsumption.setValue('details', detailsConsumption, {
+      shouldValidate: !isFirstRender.current,
+      shouldDirty: true,
+    });
+
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+    }
+  }, [detailsConsumption, isFirstRender]);
 
   return (
     <FormConsumptionContext.Provider
       value={{
-        form: formConsumption,
-        isOpenDialogForm,
-        setIsOpenDialogForm,
+        formConsumption,
         isSubmitting,
         onSubmit,
         readOnly,
-        handleReturnToModule,
-        hasPermission,
         consumptionDetail,
         setConsumptionDetail,
-        getCurrentDataConsumptionDetail,
-        resetForm,
         formConsumptionDetail,
         openDialog,
         setOpenDialog,
         handleOpenDialog,
         handleCloseDialog,
         resetConsumptionDetail,
-        ...dataTableConsumptionDetail,
+        dataTableConsumptionDetail,
         handleDeleteBulkConsumptionDetails,
-        hasSelectedRecords,
-        executeValidationFormConsumption,
-        queryCrops: queryCrops,
         detailsConsumption,
-        setDetailsConsumption,
         removeConsumptionDetail,
         modifyConsumptionDetail,
         resetConsumptionDetails,
-        querySupplies,
+        addConsumptionDetail,
+        actionsConsumptionsModule,
       }}
     >
       {children}

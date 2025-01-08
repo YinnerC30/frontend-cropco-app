@@ -1,22 +1,11 @@
 import { ScrollArea } from '@/components';
-import { FormProps } from '@/modules/core/interfaces';
 import { FormConsumptionButtons } from './FormConsumptionButtons';
-import { FormConsumptionProvider } from './FormConsumptionContext';
+import { FormConsumptionProps, FormConsumptionProvider } from './FormConsumptionContext';
 import { FormConsumptionFields } from './FormConsumptionFields';
 
-export const FormConsumption = ({
-  defaultValues,
-  isSubmitting = false,
-  onSubmit,
-  readOnly = false,
-}: FormProps) => {
+export const FormConsumption: React.FC<FormConsumptionProps> = (props: FormConsumptionProps) => {
   return (
-    <FormConsumptionProvider
-      defaultValues={defaultValues}
-      isSubmitting={isSubmitting}
-      onSubmit={onSubmit}
-      readOnly={readOnly}
-    >
+    <FormConsumptionProvider {...props}>
       <div className="flex flex-col items-center">
         <ScrollArea className={`h-[72vh] w-full pr-2`}>
           <FormConsumptionFields />

@@ -4,7 +4,7 @@ import { ConsumptionModuleTable } from './ConsumptionModuleTable';
 import { ConsumptionModuleActions } from './ConsumptionModuleActions';
 import { ConsumptionModuleSearchbar } from './ConsumptionModuleSearchbar';
 
-export const ConsumptionModule = () => {
+export const ConsumptionModule: React.FC = () => {
   return (
     <ConsumptionModuleProvider>
       <BreadCrumb finalItem="Consumos" hiddenSeparator />

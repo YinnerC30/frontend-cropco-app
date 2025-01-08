@@ -20,40 +20,34 @@ import { ToolTipTemplate } from '@/modules/core/components';
 import { Plus } from 'lucide-react';
 
 import { useFormConsumptionContext } from '@/modules/consumption/hooks/context/useFormConsumptionContext';
-import { FormConsumptionDetailsButtons } from './FormConsumptionDetailsButtons';
+
+import { formSchemaConsumptionDetail } from '@/modules/consumption/utils';
+import { z } from 'zod';
 import { FormConsumptionDetailsFields } from './FormConsumptionDetailsFields';
 
-export const FormConsumptionDetail = () => {
+export const FormConsumptionDetail: React.FC = () => {
   const {
     readOnly,
-    getCurrentDataConsumptionDetail,
     openDialog,
     setOpenDialog,
     consumptionDetail,
     handleOpenDialog,
     handleCloseDialog,
     resetConsumptionDetail,
-    form,
-    detailsConsumption,
-    setDetailsConsumption,
+    addConsumptionDetail,
     modifyConsumptionDetail,
+    formConsumptionDetail,
   } = useFormConsumptionContext();
 
-  
-
-  const onSubmitConsumptionDetail = () => {
-    const values = getCurrentDataConsumptionDetail();
+  const onSubmitConsumptionDetail = (
+    values: z.infer<typeof formSchemaConsumptionDetail>
+  ) => {
     if (!consumptionDetail.id) {
       const record = {
         ...values,
         id: generateUUID(),
       };
-      setDetailsConsumption((prev: any) => [...prev, record]);
-      form.setValue('details', [...detailsConsumption, record], {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-
+      addConsumptionDetail(record);
       toast.success('Registro añadido');
     } else {
       const record = { ...values, id: consumptionDetail.id };
@@ -61,9 +55,7 @@ export const FormConsumptionDetail = () => {
       toast.success('Registro actualizado');
     }
 
-    
     setOpenDialog(false);
-    form.trigger('details');
   };
 
   const handleOpenDialogExtended = (
@@ -113,9 +105,14 @@ export const FormConsumptionDetail = () => {
           <FormConsumptionDetailsFields />
 
           <DialogFooter>
-            <FormConsumptionDetailsButtons
-              onClick={onSubmitConsumptionDetail}
-            />
+            <Button
+              type="submit"
+              onClick={formConsumptionDetail.handleSubmit(
+                onSubmitConsumptionDetail
+              )}
+            >
+              Guardar
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

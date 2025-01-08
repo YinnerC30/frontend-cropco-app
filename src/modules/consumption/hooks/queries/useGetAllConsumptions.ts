@@ -1,65 +1,79 @@
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
-
-import { PaginationState } from '@tanstack/react-table';
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { ResponseGetConsumptions } from '../../interfaces/ResponseGetConsumptions';
+import { useAuthContext } from '@/auth';
+import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
+import { QueryDateProps } from '@/modules/core/interfaces/queries/QueryDateProps';
+import { QueryPaginationProps } from '@/modules/core/interfaces/queries/QueryPaginationProps';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
+import { ConsumptionSupplies } from '../../interfaces';
 
-export async function getAllConsumptions({
-  limit = 10,
-  offset = 0,
+export interface GetConsumptionsProps
+  extends QueryPaginationProps,
+    QueryDateProps {}
 
-  filter_by_date = false,
-  type_filter_date = '',
-  date = '',
-}): Promise<ResponseGetConsumptions> {
-  const params = new URLSearchParams();
+export async function getAllConsumptions(
+  props: GetConsumptionsProps
+): TypeGetAllRecordsReturn<ConsumptionSupplies> {
+  const params = new URLSearchParams({
+    limit: props.limit?.toString() || '10',
+    offset: props.offset?.toString() || '0',
+  });
 
-  params.append('limit', limit.toString());
-  params.append('offset', offset.toString());
-
-  if (filter_by_date) {
+  if (props.filter_by_date) {
     params.append('filter_by_date', 'true');
-    params.append('type_filter_date', type_filter_date);
-    params.append('date', new Date(date).toISOString());
+    params.append('type_filter_date', props.type_filter_date || '');
+    params.append('date', new Date(props.date || '').toISOString());
   }
+  return await cropcoAPI.get(`${pathsCropco.consumption}/all?${params}`);
+}
 
-  const { data } = await cropcoAPI.get(
-    `${pathsCropco.consumption}/all?${params}`
+export function useGetAllConsumptions(
+  props: GetConsumptionsProps
+): UseGetAllRecordsReturn<ConsumptionSupplies> {
+  const { pagination, setPagination } = usePaginationDataTable();
+
+  const { hasPermission, handleError } = useAuthContext();
+
+  const isAuthorized = hasPermission(
+    'supplies',
+    'find_all_supplies_consumption'
   );
-  return data;
-}
 
-interface Response {
-  query: UseQueryResult<ResponseGetConsumptions, Error>;
-  pagination: PaginationState;
-  setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
-}
-
-export function useGetAllConsumptions({
-  filter_by_date = false,
-  type_filter_date = '',
-  date = '',
-}: any): Response {
-  const { pagination, setPagination, pageIndex, pageSize } =
-    usePaginationDataTable();
-
-  const query = useQuery({
-    queryKey: [
-      'consumptions',
-      { filter_by_date, type_filter_date, date, ...pagination },
-    ],
+  const query: UseQueryGetAllRecordsReturn<ConsumptionSupplies> = useQuery({
+    queryKey: ['consumptions', { ...props, ...pagination }],
     queryFn: () =>
       getAllConsumptions({
-        limit: pageSize,
-        offset: pageIndex,
-        filter_by_date,
-        type_filter_date,
-        date,
+        ...props,
+        limit: pagination.pageSize,
+        offset: pagination.pageIndex,
       }),
+    select: ({ data }) => data,
+    staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    enabled: isAuthorized,
   });
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      toast.error(
+        'No tienes permiso para ver el listado de consumos de insumos 😑'
+      );
+    }
+  }, [isAuthorized]);
+
+  useEffect(() => {
+    if (query.isError) {
+      handleError({
+        error: query.error,
+        messagesStatusError: {},
+      });
+    }
+  }, [query.isError, query.error]);
 
   return { query, pagination, setPagination };
 }

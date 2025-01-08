@@ -6,14 +6,20 @@ import {
   DropDownMenuActions,
 } from '@/modules/core/components';
 
-import { useDeleteConsumption } from '../../hooks/mutations/useDeleteConsumption';
-import { MODULE_CONSUMPTION_PATHS } from '../../routes/pathRoutes';
+import { Row } from '@tanstack/react-table';
 import { useConsumptionModuleContext } from '../../hooks/context/useConsumptionModuleContext';
+import { useDeleteConsumption } from '../../hooks/mutations/useDeleteConsumption';
+import { ConsumptionSupplies } from '../../interfaces';
+import { MODULE_CONSUMPTION_PATHS } from '../../routes/pathRoutes';
 
-export const ActionsTableConsumption = ({ row }: any) => {
-  const { resetSelectionRows, permissionsConsumption } =
-    useConsumptionModuleContext();
-  const { id } = row.original;
+export const ActionsTableConsumption: React.FC<{
+  row: Row<ConsumptionSupplies>;
+}> = ({ row }) => {
+  const {
+    dataTable: { resetSelectionRows },
+    actionsConsumptionsModule,
+  } = useConsumptionModuleContext();
+  const id = row.original.id ?? '';
   const { mutate } = useDeleteConsumption();
 
   const handleDelete = () => {
@@ -28,17 +34,17 @@ export const ActionsTableConsumption = ({ row }: any) => {
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!permissionsConsumption['remove_one_supplies_consumption']}
+        disabled={!actionsConsumptionsModule['remove_one_supplies_consumption']}
       />
       <ActionModifyRecord
         id={id}
         path={MODULE_CONSUMPTION_PATHS.Update + id}
-        disabled={!permissionsConsumption['update_one_supplies_consumption']}
+        disabled={!actionsConsumptionsModule['update_one_supplies_consumption']}
       />
       <ActionViewRecord
         id={id}
         path={MODULE_CONSUMPTION_PATHS.ViewOne + id}
-        disabled={!permissionsConsumption['find_one_supplies_consumption']}
+        disabled={!actionsConsumptionsModule['find_one_supplies_consumption']}
       />
     </DropDownMenuActions>
   );
