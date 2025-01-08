@@ -1,6 +1,12 @@
 import { z } from 'zod';
 
 export const formSchemaConsumptionDetail = z.object({
+  id: z
+    .string()
+    .uuid({
+      message: 'El identificador del cultivo debe ser un UUID válido.',
+    })
+    .optional(),
   supply: z.object({
     id: z
       .string({

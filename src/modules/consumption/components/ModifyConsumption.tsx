@@ -1,12 +1,11 @@
 import { Loading } from '@/modules/core/components';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { z } from 'zod';
 import { useGetConsumption } from '../hooks/queries/useGetConsumption';
 
 import { ConsumptionDetails } from '../interfaces/ConsumptionDetails';
 
 import { BreadCrumb } from '@/modules/core/components/';
-import { ConvertStringToDate } from '@/modules/core/helpers/conversion/ConvertStringToDate';
 import { usePatchConsumption } from '../hooks/mutations/usePatchConsumption';
 import { MODULE_CONSUMPTION_PATHS } from '../routes/pathRoutes';
 import { formSchemaConsumption } from '../utils/formSchemaConsumption';
@@ -21,7 +20,6 @@ export const ModifyConsumption: React.FC = () => {
     mutate({
       id,
       ...values,
-
       details: values.details.map((item: ConsumptionDetails) => {
         return {
           ...item,

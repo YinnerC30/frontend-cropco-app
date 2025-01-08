@@ -285,8 +285,8 @@ export const FormConsumptionProvider: React.FC<
 
   const ClearFormConsumptionDetail = () => {
     removeSupplyStock({
-      id: consumptionDetail.crop.id,
-      name: consumptionDetail.crop?.name!,
+      id: consumptionDetail.supply.id,
+      name: consumptionDetail.supply?.name!,
       amount: consumptionDetail.amount,
     } as any);
     formConsumptionDetail.reset(defaultValuesConsumptionDetail);
