@@ -16,6 +16,9 @@ export const useDeletePayment = (): UseMutationReturn<void, string> => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['payments'] });
       await queryClient.invalidateQueries({
+        queryKey: ['employee', 'pending-payments'],
+      });
+      await queryClient.invalidateQueries({
         queryKey: ['employees', 'pending-payments'],
       });
       toast.success(`Pago eliminado`);

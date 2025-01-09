@@ -22,6 +22,9 @@ export const usePostPayment = (): UseMutationReturn<void, Payment> => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['payments'] });
       await queryClient.invalidateQueries({
+        queryKey: ['employee', 'pending-payments'],
+      });
+      await queryClient.invalidateQueries({
         queryKey: ['employees', 'pending-payments'],
       });
       navigate(MODULE_PAYMENTS_PATHS.ViewAll);
