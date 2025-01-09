@@ -29,7 +29,7 @@ export const useGetConsumption = (
     select: ({ data }) =>
       ({
         ...data,
-        date: ConvertStringToDate(data?.date),
+        date: ConvertStringToDate(data?.date!),
       } as unknown as ConsumptionSupplies),
   });
 

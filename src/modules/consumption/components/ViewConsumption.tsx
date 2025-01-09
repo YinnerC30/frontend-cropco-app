@@ -18,8 +18,6 @@ export const ViewConsumption: React.FC = () => {
         items={[{ link: MODULE_CONSUMPTION_PATHS.ViewAll, name: 'Consumos' }]}
         finalItem={`Información del consumo`}
       />
-
-      {/* Formulario principal */}
       <FormConsumption defaultValues={data} readOnly />
     </>
   );

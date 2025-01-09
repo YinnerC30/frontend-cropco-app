@@ -1,4 +1,4 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
@@ -7,13 +7,13 @@ import { ConsumptionDetails } from '@/modules/consumption/interfaces';
 export const columnsConsumptionDetail: ColumnDef<ConsumptionDetails>[] = [
   {
     accessorKey: 'crop.name',
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<ConsumptionDetails, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Cultivo:'} />;
     },
   },
   {
     accessorKey: 'supply.name',
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<ConsumptionDetails, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Suministro:'} />;
     },
   },
@@ -22,7 +22,7 @@ export const columnsConsumptionDetail: ColumnDef<ConsumptionDetails>[] = [
     cell: ({ row }) => {
       return FormatMoneyValue(row.getValue('amount'));
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<ConsumptionDetails, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Monto:'} />;
     },
   },

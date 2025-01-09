@@ -1,13 +1,12 @@
-import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 import { formSchemaConsumption } from '../utils/formSchemaConsumption';
 
 import { BreadCrumb } from '@/modules/core/components/';
+import { usePostConsumption } from '../hooks/mutations/usePostConsumption';
 import { ConsumptionDetails } from '../interfaces/ConsumptionDetails';
 import { MODULE_CONSUMPTION_PATHS } from '../routes/pathRoutes';
 import { FormConsumption } from './forms/consumption/FormConsumption';
-import { usePostConsumption } from '../hooks/mutations/usePostConsumption';
 
 export const CreateConsumption: React.FC = () => {
   const { mutate, isPending } = usePostConsumption();

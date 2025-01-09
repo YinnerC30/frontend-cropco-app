@@ -60,7 +60,9 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
     form.resetField(name);
   };
 
-  const handleSearch = async (values: any) => {
+  const handleSearch = async (
+    values: z.infer<typeof formSchemaSearchBarConsumption>
+  ) => {
     const params = new URLSearchParams();
 
     if (values.filter_by_date.type_filter_date && values.filter_by_date.date) {

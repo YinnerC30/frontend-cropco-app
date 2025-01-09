@@ -1,12 +1,11 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { ConsumptionSupplies } from '../../interfaces/ConsuptionSupplies';
-import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
-import { useAuthContext } from '@/auth';
-import { useNavigate } from 'react-router-dom';
 import { MODULE_CONSUMPTION_PATHS } from '../../routes/pathRoutes';
 
 export const updateConsumption = async (
