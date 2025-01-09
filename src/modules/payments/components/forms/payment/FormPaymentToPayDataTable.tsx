@@ -8,18 +8,25 @@ import { FormDataTableRowCount } from '@/modules/core/components/form/data-table
 import { FormDataTableRowSelection } from '@/modules/core/components/form/data-table/FormDataTableRowSelection';
 import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data-table/FormDataTableSelectPageSize';
 
-import { Label, ScrollArea, ScrollBar } from '@/components';
+import { Button, Label, ScrollArea, ScrollBar } from '@/components';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
 
-import { ButtonClearSelection } from '@/modules/core/components';
+import {
+  ButtonClearSelection,
+  ToolTipTemplate,
+} from '@/modules/core/components';
 import { ActionsTablePaymentsToPay } from '../../columns/ActionsTablePaymentsToPay';
 import { columnsPaymentsToPay } from '../../columns/ColumnsTablePaymentsToPay';
 import { useFormPaymentContext } from '@/modules/payments/hooks/context/useFormPaymentContext';
 import React from 'react';
+import { RecordToPay } from '@/modules/payments/interfaces/RecordToPay';
+import { toast } from 'sonner';
+import { Trash2 } from 'lucide-react';
 
 export const FormPaymentToPayDataTable: React.FC = () => {
-  const { paymentsState, readOnly } = useFormPaymentContext();
+  const { paymentsState, readOnly, removeRecordToPay } =
+    useFormPaymentContext();
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsPaymentsToPay,
@@ -27,11 +34,25 @@ export const FormPaymentToPayDataTable: React.FC = () => {
     hiddenActions: readOnly,
   });
 
-  const { table, lengthColumns, resetSelectionRows, hasSelectedRecords } =
-    useDataTableGeneric({
-      columns: columnsTable,
-      rows: paymentsState.records_to_pay,
-    });
+  const {
+    table,
+    lengthColumns,
+    resetSelectionRows,
+    hasSelectedRecords,
+    getDataOfRowsSelected,
+  } = useDataTableGeneric({
+    columns: columnsTable,
+    rows: paymentsState.records_to_pay,
+  });
+
+  const handleBulkRemoveRecordsToPay = () => {
+    const arrayRecords = getDataOfRowsSelected() as RecordToPay[];
+    for (const record of arrayRecords) {
+      removeRecordToPay(record);
+    }
+    resetSelectionRows();
+    toast.success('Registros eliminados de la lista de pago');
+  };
 
   return (
     <>
@@ -49,12 +70,19 @@ export const FormPaymentToPayDataTable: React.FC = () => {
               onClick={resetSelectionRows}
               visible={hasSelectedRecords}
             />
-            {/* <ButtonDeleteBulk
-              disabled={readOnly}
-              onClick={handleDeleteBulkPaymentDetails}
-              visible={hasSelectedRecords}
-            /> */}
-            {/* <FormPaymentDetail /> */}
+            <ToolTipTemplate content={'Quitar de la lista de pago'}>
+              <Button
+                type="button"
+                className={`${''} ${!hasSelectedRecords ? 'hidden' : ''} `}
+                variant="outline"
+                size="icon"
+                disabled={false}
+                onClick={handleBulkRemoveRecordsToPay}
+              >
+                <Trash2 className="w-4 h-4" />
+                <span className="sr-only">Eliminar</span>
+              </Button>
+            </ToolTipTemplate>
           </div>
 
           {/* Paginacion */}

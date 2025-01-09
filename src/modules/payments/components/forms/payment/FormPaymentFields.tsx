@@ -13,7 +13,7 @@ import { MethodOfPayment } from '@/modules/payments/interfaces/MethodOfPayment';
 import { formFieldsPayments } from '@/modules/payments/utils';
 import { FormPaymentHarvestsPendingDataTable } from './FormPaymentHarvestsPendingDataTable';
 import { FormPaymentToPayDataTable } from './FormPaymentToPayDataTable';
-import { FormPaymentWorksPendingDataTable } from './FormPaymentWorksPendingDataTable copy';
+import { FormPaymentWorksPendingDataTable } from './FormPaymentWorksPendingDataTable';
 
 export const FormPaymentFields: React.FC = () => {
   const {
@@ -35,6 +35,9 @@ export const FormPaymentFields: React.FC = () => {
         <form
           onSubmit={formPayment.handleSubmit(() => {
             const data = formPayment.watch();
+            delete data.payments_harvest;
+            delete data.payments_work;
+            delete data.id;
             onSubmit({
               ...data,
               total,

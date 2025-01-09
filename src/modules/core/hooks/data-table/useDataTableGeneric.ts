@@ -10,7 +10,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 interface RowData {
   id: string;
@@ -27,6 +27,7 @@ export interface DataTableGenericReturn<T> {
   getIdsToRowsSelected: () => RowData[];
   resetSelectionRows: () => void;
   hasSelectedRecords: boolean;
+  getDataOfRowsSelected: () => unknown[];
 }
 
 export const useDataTableGeneric = <T>({
@@ -53,8 +54,10 @@ export const useDataTableGeneric = <T>({
     },
   });
 
-  const arrayIndexRowsSelected: number[] =
-    Object.keys(rowSelection).map(Number);
+  const arrayIndexRowsSelected: number[] = useMemo(
+    () => Object.keys(rowSelection).map(Number),
+    [rowSelection]
+  );
 
   const getIdsToRowsSelected = (): RowData[] => {
     return arrayIndexRowsSelected
@@ -63,6 +66,12 @@ export const useDataTableGeneric = <T>({
         return record ? { id: record.id } : null;
       })
       .filter((item: any): item is RowData => item !== null);
+  };
+
+  const getDataOfRowsSelected = (): unknown[] => {
+    return arrayIndexRowsSelected.map((value) => {
+      return table.getRowModel().rows[value]?.original;
+    });
   };
 
   const resetSelectionRows = () => {
@@ -78,5 +87,6 @@ export const useDataTableGeneric = <T>({
     getIdsToRowsSelected,
     resetSelectionRows,
     hasSelectedRecords,
+    getDataOfRowsSelected,
   };
 };

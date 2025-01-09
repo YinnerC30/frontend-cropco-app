@@ -15,10 +15,10 @@ export const ActionsTablePaymentsToPay = ({
 }) => {
   const record = row.original;
 
-  const { RemoveRecordToPay } = useFormPaymentContext();
+  const { removeRecordToPay } = useFormPaymentContext();
 
   const handleDelete = () => {
-    RemoveRecordToPay(record);
+    removeRecordToPay(record);
     toast.success(`Se ha eliminado el registro`);
   };
 

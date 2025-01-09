@@ -8,18 +8,24 @@ import { FormDataTableRowCount } from '@/modules/core/components/form/data-table
 import { FormDataTableRowSelection } from '@/modules/core/components/form/data-table/FormDataTableRowSelection';
 import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data-table/FormDataTableSelectPageSize';
 
-import { Label, ScrollArea, ScrollBar } from '@/components';
+import { Button, Label, ScrollArea, ScrollBar } from '@/components';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
 import { useFormPaymentContext } from '@/modules/payments/hooks/context/useFormPaymentContext';
 
-import { ButtonClearSelection } from '@/modules/core/components';
+import {
+  ButtonClearSelection,
+  ToolTipTemplate,
+} from '@/modules/core/components';
 import React from 'react';
 import { ActionsTablePaymentsPendingWork } from '../../columns/ActionsTablePaymentsPendingWork';
 import { columnsPaymentsPendingWork } from '../../columns/ColumnsTablePaymentsPendingWork';
+import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
+import { CircleDollarSignIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 export const FormPaymentWorksPendingDataTable: React.FC = () => {
-  const { paymentsState, readOnly } = useFormPaymentContext();
+  const { paymentsState, readOnly, addRecordToPay } = useFormPaymentContext();
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsPaymentsPendingWork,
@@ -27,12 +33,25 @@ export const FormPaymentWorksPendingDataTable: React.FC = () => {
     hiddenActions: readOnly,
   });
 
-  const { table, lengthColumns, resetSelectionRows, hasSelectedRecords } =
-    useDataTableGeneric({
-      columns: columnsTable,
-      rows: paymentsState.current_data.works_detail,
-    });
+  const {
+    table,
+    lengthColumns,
+    resetSelectionRows,
+    hasSelectedRecords,
+    getDataOfRowsSelected,
+  } = useDataTableGeneric({
+    columns: columnsTable,
+    rows: paymentsState.current_data.works_detail,
+  });
 
+  const handleBulkAddRecordsToPay = () => {
+    const arrayRecords = getDataOfRowsSelected() as WorkDetail[];
+    for (const record of arrayRecords) {
+      addRecordToPay({ ...record, date: record.work.date, type: 'work' });
+    }
+    resetSelectionRows();
+    toast.success('Registros añadidos a la lista de pago');
+  };
   return (
     <>
       <Label>Pagos de trabajo pendientes:</Label>
@@ -49,12 +68,20 @@ export const FormPaymentWorksPendingDataTable: React.FC = () => {
               onClick={resetSelectionRows}
               visible={hasSelectedRecords}
             />
-            {/* <ButtonDeleteBulk
-              disabled={readOnly}
-              onClick={handleDeleteBulkPaymentDetails}
-              visible={hasSelectedRecords}
-            /> */}
-            {/* <FormPaymentDetail /> */}
+            {/* Boton pagar todo */}
+            <ToolTipTemplate content={'Agregar a lista de pago'}>
+              <Button
+                type="button"
+                className={`${''} ${!hasSelectedRecords ? 'hidden' : ''} `}
+                variant="outline"
+                size="icon"
+                disabled={false}
+                onClick={handleBulkAddRecordsToPay}
+              >
+                <CircleDollarSignIcon className="w-4 h-4" />
+                <span className="sr-only">Pagar todo</span>
+              </Button>
+            </ToolTipTemplate>
           </div>
 
           {/* Paginacion */}

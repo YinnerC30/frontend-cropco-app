@@ -26,7 +26,7 @@ export interface FormPaymentContextValues {
   getWorksToPay: () => string[];
   defaultValues: Payment;
   addRecordToPay: (record: RecordToPay) => void;
-  RemoveRecordToPay: (record: RecordToPay) => void;
+  removeRecordToPay: (record: RecordToPay) => void;
 }
 
 const initialPaymentState: PaymentsState = {
@@ -215,7 +215,6 @@ export const FormPaymentProvider: React.FC<
   };
 
   const resetRecordsToPay = (data: RecordToPay[]) => {
-    console.log(data);
     dispatch({
       type: 'RESET-RECORDS-TO-PAY',
       payload: data,
@@ -288,7 +287,7 @@ export const FormPaymentProvider: React.FC<
         getWorksToPay,
         defaultValues: defaultValues as any,
         addRecordToPay,
-        RemoveRecordToPay: removeRecordToPay,
+        removeRecordToPay: removeRecordToPay,
       }}
     >
       {children}
