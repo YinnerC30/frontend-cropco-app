@@ -63,7 +63,7 @@ export const FormPaymentWorksPendingDataTable: React.FC = () => {
       >
         <div className="flex flex-col items-center justify-center gap-2 ">
           {/* Botones */}
-          <div className="flex justify-end sm:w-full gap-2 sm:m-0 w-[80%]">
+          <div className="flex justify-end sm:w-full gap-2 sm:m-0 w-[80%] h-12">
             <ButtonClearSelection
               onClick={resetSelectionRows}
               visible={hasSelectedRecords}

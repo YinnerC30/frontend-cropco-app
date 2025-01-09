@@ -9,7 +9,6 @@ import { formSchemaPayments } from '@/modules/payments/utils';
 import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
 import React, { createContext, useEffect, useMemo, useReducer } from 'react';
 import { z } from 'zod';
-import { ToastAction, toast } from '@/components';
 
 export type FormPaymentProps = FormProps<
   z.infer<typeof formSchemaPayments>,
@@ -258,28 +257,6 @@ export const FormPaymentProvider: React.FC<
       ),
     [paymentsState]
   );
-
-  const handleToastAction = () => {
-    console.log('Hola');
-  };
-
-  const showToast = () => {
-    return toast({
-      title: '¡Atención! Has agregado registro a la lista de pago',
-      description: 'Si cambias de empleado los cambios se perderan',
-      duration: 3_000,
-      action: (
-        <ToastAction
-          altText="Descartar cambios y continuar"
-          onClick={() => {
-            handleToastAction();
-          }}
-        >
-          Descartar
-        </ToastAction>
-      ),
-    });
-  };
 
   useEffect(() => {
     resetToDefaultValues();
