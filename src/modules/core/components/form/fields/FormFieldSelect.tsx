@@ -42,7 +42,7 @@ export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
       <FormField
         control={control}
         name={name}
-        render={({ field }: any) => (
+        render={({ field }) => (
           <FormItem className={className + 'ml-1'}>
             <FormLabel>{label}</FormLabel>
             <div className="w-48 ">
@@ -54,7 +54,7 @@ export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
                 value={field.value}
                 disabled={readOnly}
               >
-                <SelectTrigger>
+                <SelectTrigger ref={field.ref}>
                   <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
 
