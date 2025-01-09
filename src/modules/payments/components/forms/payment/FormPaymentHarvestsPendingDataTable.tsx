@@ -18,11 +18,10 @@ import {
   ToolTipTemplate,
 } from '@/modules/core/components';
 import { HarvestDetail } from '@/modules/harvests/interfaces';
-import { RecordToPay } from '@/modules/payments/interfaces/RecordToPay';
 import { CircleDollarSignIcon } from 'lucide-react';
+import { toast } from 'sonner';
 import { ActionsTablePaymentsPendingHarvest } from '../../columns/ActionsTablePaymentsPendingHarvest';
 import { columnsPaymentsPendingHarvest } from '../../columns/ColumnsTablePaymentsPendingHarvest';
-import { toast } from 'sonner';
 
 export const FormPaymentHarvestsPendingDataTable: React.FC = () => {
   const { paymentsState, readOnly, addRecordToPay } = useFormPaymentContext();

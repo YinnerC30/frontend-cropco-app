@@ -9,6 +9,7 @@ import { formSchemaPayments } from '@/modules/payments/utils';
 import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
 import React, { createContext, useEffect, useMemo, useReducer } from 'react';
 import { z } from 'zod';
+import { ToastAction, toast } from '@/components';
 
 export type FormPaymentProps = FormProps<
   z.infer<typeof formSchemaPayments>,
@@ -69,7 +70,8 @@ type PaymentAction =
   | {
       type: 'RESET-RECORDS-TO-PAY';
       payload: RecordToPay[];
-    };
+    }
+  | { type: 'RESET-VALUES'; payload: void };
 
 const paymentsReducer = (
   state: PaymentsState,
@@ -147,6 +149,18 @@ const paymentsReducer = (
         ...state,
         records_to_pay: action.payload,
       };
+    case 'RESET-VALUES':
+      return {
+        records_to_pay: [],
+        original_data: {
+          harvests_detail: [],
+          works_detail: [],
+        },
+        current_data: {
+          harvests_detail: [],
+          works_detail: [],
+        },
+      };
   }
 };
 
@@ -187,7 +201,7 @@ export const FormPaymentProvider: React.FC<
     defaultValues,
   });
 
-  const employeeId = formPayment.watch('employee.id') ?? '';
+  const employeeId: string = formPayment.watch('employee').id;
 
   const queryEmployeePayments = useGetEmployeePendingPayments(employeeId);
 
@@ -221,6 +235,10 @@ export const FormPaymentProvider: React.FC<
     });
   };
 
+  const resetToDefaultValues = () => {
+    dispatch({ type: 'RESET-VALUES', payload: undefined });
+  };
+
   const getHarvestsToPay = (): string[] => {
     return paymentsState.records_to_pay
       .filter((item) => item.type === 'harvest')
@@ -241,7 +259,31 @@ export const FormPaymentProvider: React.FC<
     [paymentsState]
   );
 
-  // FIX: Borrar información de las tablas cuando cambie el ID del empleado
+  const handleToastAction = () => {
+    console.log('Hola');
+  };
+
+  const showToast = () => {
+    return toast({
+      title: '¡Atención! Has agregado registro a la lista de pago',
+      description: 'Si cambias de empleado los cambios se perderan',
+      duration: 3_000,
+      action: (
+        <ToastAction
+          altText="Descartar cambios y continuar"
+          onClick={() => {
+            handleToastAction();
+          }}
+        >
+          Descartar
+        </ToastAction>
+      ),
+    });
+  };
+
+  useEffect(() => {
+    resetToDefaultValues();
+  }, [employeeId]);
 
   useEffect(() => {
     if (defaultValues) {
