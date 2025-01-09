@@ -6,6 +6,5 @@ import { z } from 'zod';
 
 export const formSchemaSearchBarShopping = z.object({
   filter_by_date: schemaForDate,
-
   filter_by_total: schemaForTotal,
 });

@@ -7,6 +7,7 @@ import { usePostConsumption } from '../hooks/mutations/usePostConsumption';
 import { ConsumptionDetails } from '../interfaces/ConsumptionDetails';
 import { MODULE_CONSUMPTION_PATHS } from '../routes/pathRoutes';
 import { FormConsumption } from './forms/consumption/FormConsumption';
+import { ConsumptionSupplies } from '../interfaces';
 
 export const CreateConsumption: React.FC = () => {
   const { mutate, isPending } = usePostConsumption();
@@ -22,7 +23,7 @@ export const CreateConsumption: React.FC = () => {
           supply: { id: rest.supply.id },
         };
       }),
-    });
+    } as unknown as ConsumptionSupplies);
   };
 
   return (

@@ -16,9 +16,10 @@ import { useFormPaymentContext } from '@/modules/payments/hooks/context/useFormP
 import { ButtonClearSelection } from '@/modules/core/components';
 import { ActionsTablePaymentsPendingHarvest } from '../../columns/ActionsTablePaymentsPendingHarvest';
 import { columnsPaymentsPendingHarvest } from '../../columns/ColumnsTablePaymentsPendingHarvest';
+import { HarvestDetail } from '@/modules/harvests/interfaces';
 
-export const FormPaymentHarvestsPendingDataTable = () => {
-  const { pendingHarvests, readOnly } = useFormPaymentContext();
+export const FormPaymentHarvestsPendingDataTable: React.FC = () => {
+  const { paymentsState, readOnly } = useFormPaymentContext();
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsPaymentsPendingHarvest,
@@ -27,9 +28,9 @@ export const FormPaymentHarvestsPendingDataTable = () => {
   });
 
   const { table, lengthColumns, resetSelectionRows, hasSelectedRecords } =
-    useDataTableGeneric({
+    useDataTableGeneric<HarvestDetail>({
       columns: columnsTable,
-      data: pendingHarvests,
+      rows: paymentsState.current_data.harvests_detail,
     });
 
   return (

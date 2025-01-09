@@ -1,3 +1,6 @@
+import { HarvestDetail } from '@/modules/harvests/interfaces';
+import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
+
 export interface Employee {
   id?: string;
   first_name: string;
@@ -5,4 +8,6 @@ export interface Employee {
   email: string;
   cell_phone_number: string;
   address: string;
+  harvests_detail: HarvestDetail[];
+  works_detail: WorkDetail[];
 }

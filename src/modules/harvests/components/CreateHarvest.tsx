@@ -18,7 +18,11 @@ export const CreateHarvest: React.FC = () => {
       crop: { id: values.crop.id },
       details: values.details.map((item: HarvestDetail) => {
         const { id, ...rest } = item;
-        return { ...rest, employee: { id: rest.employee.id } };
+        return {
+          ...rest,
+          employee: { id: rest.employee.id },
+          // payment_is_pending: true,
+        };
       }),
     } as unknown as Harvest);
   };

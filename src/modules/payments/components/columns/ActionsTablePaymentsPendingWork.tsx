@@ -2,43 +2,40 @@ import {
   ActionCopyIdRecord,
   DropDownMenuActions,
 } from '@/modules/core/components';
-import { useAppDispatch } from '@/redux/store';
 import { toast } from 'sonner';
-import { addRecordToPay, calculateTotal } from '../../utils/paymentSlice';
 import { ActionPayPendingPayment } from './ActionPayPendingPayment';
+import { useFormPaymentContext } from '../../hooks/context/useFormPaymentContext';
+import { Row } from '@tanstack/react-table';
+import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
 
-export const ActionsTablePaymentsPendingWork = ({ row }: any) => {
+export const ActionsTablePaymentsPendingWork: React.FC<{
+  row: Row<WorkDetail>;
+}> = ({ row }) => {
   const workDetail = row.original;
 
+  const { addRecordToPay } = useFormPaymentContext();
+
   const {
-    work: { date },
-    id,
-    total,
+    id = '',
     value_pay,
     payment_is_pending,
+    work: { date },
   } = workDetail;
 
-  const dispatch = useAppDispatch();
-
   const handlePayRecord = () => {
-    dispatch(
-      addRecordToPay({
-        date,
-        id,
-        total,
-        value_pay,
-        payment_is_pending,
-        type: 'work',
-        work: { id: workDetail?.work?.id },
-      })
-    );
-    dispatch(calculateTotal());
+    addRecordToPay({
+      id,
+      value_pay,
+      payment_is_pending,
+      date,
+      type: 'work',
+    });
     toast.success(`Se ha añadido el trabajo para pagarlo`);
   };
 
   return (
     <DropDownMenuActions>
-      <ActionCopyIdRecord id={id} />
+      <ActionCopyIdRecord id={id!} />
       <ActionPayPendingPayment action={handlePayRecord} />
     </DropDownMenuActions>
   );

@@ -1,27 +1,24 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
-import { Badge, Button } from '@/components';
+import { Badge } from '@/components';
+import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
-import { ArrowUpDown } from 'lucide-react';
+import { Payment } from '../../interfaces/Payment';
 import { formFieldsPayments } from '../../utils';
 
-export const columnsPayment: ColumnDef<any>[] = [
+export const columnsPayment: ColumnDef<Payment>[] = [
   {
     accessorKey: formFieldsPayments.date.name,
     cell: ({ row }) => {
       return FormatDate({ date: row.getValue('date') });
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Payment, unknown>) => {
       return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {formFieldsPayments.date.label}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
+        <ButtonHeaderTable
+          column={column}
+          label={formFieldsPayments.date.label}
+        />
       );
     },
   },
@@ -31,16 +28,12 @@ export const columnsPayment: ColumnDef<any>[] = [
       const employee: any = row.getValue('employee');
       return employee.first_name;
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Payment, unknown>) => {
       return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {formFieldsPayments.employee.label}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
+        <ButtonHeaderTable
+          column={column}
+          label={formFieldsPayments.employee.label}
+        />
       );
     },
   },
@@ -64,16 +57,12 @@ export const columnsPayment: ColumnDef<any>[] = [
       }
       return badge;
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Payment, unknown>) => {
       return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {formFieldsPayments.method_of_payment.label}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
+        <ButtonHeaderTable
+          column={column}
+          label={formFieldsPayments.method_of_payment.label}
+        />
       );
     },
   },
@@ -82,16 +71,12 @@ export const columnsPayment: ColumnDef<any>[] = [
     cell: ({ row }) => {
       return FormatMoneyValue(row.getValue('total'));
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<Payment, unknown>) => {
       return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Total a pagar:
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
+        <ButtonHeaderTable
+          column={column}
+          label={formFieldsPayments.total.label}
+        />
       );
     },
   },

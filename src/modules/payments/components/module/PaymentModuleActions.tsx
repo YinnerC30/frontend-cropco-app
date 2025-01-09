@@ -6,19 +6,18 @@ import {
 } from '@/modules/core/components';
 import { usePaymentModuleContext } from '../../hooks/context/usePaymentModuleContext';
 
+import React from 'react';
 import { MODULE_PAYMENTS_PATHS } from '../../routes/pathRoutes';
-import { useDeleteBulkPayments } from '../../hooks/mutations/useDeleteBulkPayments';
 
-export const PaymentModuleActions = () => {
+export const PaymentModuleActions: React.FC = () => {
   const {
-    query,
-    hasSelectedRecords,
-    resetSelectionRows,
-    permissionsPayment,
-    getIdsToRowsSelected,
+    queryPayments,
+    dataTable: { hasSelectedRecords, resetSelectionRows, getIdsToRowsSelected },
+    actionsPaymentsModule,
+    mutationDeletePayments,
   } = usePaymentModuleContext();
 
-  const { mutate, isPending } = useDeleteBulkPayments();
+  const { mutate, isPending } = mutationDeletePayments;
 
   const handleDeleteBulkPayments = () => {
     mutate(
@@ -34,8 +33,8 @@ export const PaymentModuleActions = () => {
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={query.refetch}
-        disabled={!permissionsPayment['find_all_payments']}
+        onClick={queryPayments.refetch}
+        disabled={!actionsPaymentsModule['find_all_payments']}
         className=""
       />
 
@@ -46,14 +45,14 @@ export const PaymentModuleActions = () => {
         />
 
         <ButtonDeleteBulk
-          disabled={isPending || !permissionsPayment['remove_bulk_payments']}
+          disabled={isPending || !actionsPaymentsModule['remove_bulk_payments']}
           onClick={handleDeleteBulkPayments}
           visible={hasSelectedRecords}
         />
 
         <ButtonCreateRecord
           route={MODULE_PAYMENTS_PATHS.Create}
-          disabled={!permissionsPayment['create_payment']}
+          disabled={!actionsPaymentsModule['create_payment']}
           className=""
         />
       </div>

@@ -1,7 +1,5 @@
 import { authenticationReducer } from '@/auth/utils/authenticationSlice';
 
-import { paymentReducer } from '@/modules/payments/utils/paymentSlice';
-
 import { configureStore } from '@reduxjs/toolkit';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 export const store = configureStore({
   reducer: {
     authentication: authenticationReducer,
-    payment: paymentReducer,
   },
 });
 

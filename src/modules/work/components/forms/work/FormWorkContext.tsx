@@ -34,13 +34,14 @@ import { ActionsTableWorkDetail } from './details/ActionsTableWorkDetail';
 import { columnsWorkDetail } from './details/ColumnsTableWorkDetail';
 
 export const defaultValuesWorkDetail: WorkDetail = {
-  id: undefined,
+  id: '',
   employee: {
     id: '',
     first_name: '',
   },
   value_pay: 1000,
   payment_is_pending: true,
+  // work: {}
 };
 
 const defaultValuesWork = {

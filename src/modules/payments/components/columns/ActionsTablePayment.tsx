@@ -1,29 +1,29 @@
-import { ActionsTable } from "@/modules/core/components";
-import { ItemCopyIdRecord } from "@/modules/core/components/table/actions/ItemCopyIdRecord";
-import { ItemDeleteRecord } from "@/modules/core/components/table/actions/ItemDeleteRecord";
-import { ItemViewRecord } from "@/modules/core/components/table/actions/ItemViewRecord";
-import { useState } from "react";
+import {
+  ActionCopyIdRecord,
+  ActionDeleteRecord,
+  ActionViewRecord,
+  DropDownMenuActions,
+} from '@/modules/core/components';
+import { Row } from '@tanstack/react-table';
+import React from 'react';
+import { useDeletePayment } from '../../hooks/mutations/useDeletePayment';
+import { Payment } from '../../interfaces/Payment';
 
-export const ActionsTablePayment = ({ id, mutate }: any) => {
-  const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
+export const ActionsTablePayment: React.FC<{ row: Row<Payment> }> = ({
+  row,
+}) => {
+  const id = row.original.id ?? '';
+
+  const { mutate } = useDeletePayment();
 
   const handleDelete = () => {
     mutate(id);
   };
   return (
-    <ActionsTable
-      open={openDropDownMenu}
-      onChange={setOpenDropDownMenu}
-    >
-      <ItemCopyIdRecord
-        id={id}
-        onChange={setOpenDropDownMenu}
-      ></ItemCopyIdRecord>
-      <ItemDeleteRecord
-        action={handleDelete}
-        onChange={setOpenDropDownMenu}
-      ></ItemDeleteRecord>
-      <ItemViewRecord id={id}></ItemViewRecord>
-    </ActionsTable>
+    <DropDownMenuActions>
+      <ActionCopyIdRecord id={id} />
+      <ActionDeleteRecord action={handleDelete} />
+      <ActionViewRecord id={id} />
+    </DropDownMenuActions>
   );
 };

@@ -14,11 +14,12 @@ import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTabl
 import { useFormPaymentContext } from '@/modules/payments/hooks/context/useFormPaymentContext';
 
 import { ButtonClearSelection } from '@/modules/core/components';
+import React from 'react';
 import { ActionsTablePaymentsPendingWork } from '../../columns/ActionsTablePaymentsPendingWork';
 import { columnsPaymentsPendingWork } from '../../columns/ColumnsTablePaymentsPendingWork';
 
-export const FormPaymentWorksPendingDataTable = () => {
-  const { pendingWorks,readOnly } = useFormPaymentContext();
+export const FormPaymentWorksPendingDataTable: React.FC = () => {
+  const { paymentsState, readOnly } = useFormPaymentContext();
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsPaymentsPendingWork,
@@ -29,7 +30,7 @@ export const FormPaymentWorksPendingDataTable = () => {
   const { table, lengthColumns, resetSelectionRows, hasSelectedRecords } =
     useDataTableGeneric({
       columns: columnsTable,
-      data: pendingWorks,
+      rows: paymentsState.current_data.works_detail,
     });
 
   return (

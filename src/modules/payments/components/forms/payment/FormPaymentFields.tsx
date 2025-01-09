@@ -15,31 +15,31 @@ import { FormPaymentHarvestsPendingDataTable } from './FormPaymentHarvestsPendin
 import { FormPaymentToPayDataTable } from './FormPaymentToPayDataTable';
 import { FormPaymentWorksPendingDataTable } from './FormPaymentWorksPendingDataTable copy';
 
-export const FormPaymentFields = () => {
+export const FormPaymentFields: React.FC = () => {
   const {
-    form,
+    formPayment,
     onSubmit,
     total,
-    getHarvestToPay,
+    getHarvestsToPay,
     getWorksToPay,
     readOnly,
     defaultValues,
   } = useFormPaymentContext();
-  const queryEmployees = useGetAllEmployeesWithPendingPayments();
 
+  const queryEmployees = useGetAllEmployeesWithPendingPayments();
   const employees = queryEmployees?.data?.rows ?? [];
 
   return (
     <>
-      <Form {...form}>
+      <Form {...formPayment}>
         <form
-          onSubmit={form.handleSubmit(async () => {
-            const data = form.watch();
-            await onSubmit({
+          onSubmit={formPayment.handleSubmit(() => {
+            const data = formPayment.watch();
+            onSubmit({
               ...data,
               total,
               categories: {
-                harvests: getHarvestToPay(),
+                harvests: getHarvestsToPay(),
                 works: getWorksToPay(),
               },
             });
@@ -47,7 +47,7 @@ export const FormPaymentFields = () => {
           id="formPayment"
         >
           <FormFieldCalendar
-            control={form.control}
+            control={formPayment.control}
             description={formFieldsPayments.date.description}
             label={formFieldsPayments.date.label}
             name={'date'}
@@ -57,12 +57,13 @@ export const FormPaymentFields = () => {
 
           <FormFieldCommand
             data={readOnly ? [...employees, defaultValues.employee] : employees}
-            form={form}
+            // data={employees}
+            form={formPayment}
             nameToShow={'first_name'}
-            control={form.control}
+            control={formPayment.control}
             description={formFieldsPayments.employee.description}
             label={formFieldsPayments.employee.label}
-            name={'employee.id'}
+            name={'employee'}
             placeholder={formFieldsPayments.employee.placeholder}
             readOnly={readOnly}
             isLoading={queryEmployees.isLoading}
@@ -100,7 +101,7 @@ export const FormPaymentFields = () => {
                 label: 'Transferencia',
               },
             ]}
-            control={form.control}
+            control={formPayment.control}
             description={formFieldsPayments.method_of_payment.description}
             label={formFieldsPayments.method_of_payment.label}
             name={'method_of_payment'}
@@ -109,7 +110,7 @@ export const FormPaymentFields = () => {
           />
 
           <FormFieldInput
-            control={form.control}
+            control={formPayment.control}
             description={formFieldsPayments.total.description}
             label={formFieldsPayments.total.label}
             name={'total'}

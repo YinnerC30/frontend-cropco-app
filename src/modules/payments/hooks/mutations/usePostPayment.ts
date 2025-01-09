@@ -1,30 +1,38 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { toast } from 'sonner';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { Payment } from '../../interfaces/Payment';
+import { useNavigate } from 'react-router-dom';
+import { MODULE_PAYMENTS_PATHS } from '../../routes/pathRoutes';
 
-
-export const createPayment = async (payment: Payment) =>
+export const createPayment = async (
+  payment: Payment
+): PromiseReturnRecord<void> =>
   await cropcoAPI.post(`${pathsCropco.payments}/create`, payment);
 
-export const usePostPayment = () => {
+export const usePostPayment = (): UseMutationReturn<void, Payment> => {
   const queryClient = useQueryClient();
-  const mutation = useMutation({
+  const { handleError } = useAuthContext();
+  const navigate = useNavigate();
+  const mutation: UseMutationReturn<void, Payment> = useMutation({
     mutationFn: createPayment,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['payments'] });
       await queryClient.invalidateQueries({
-        queryKey: ['employee', 'pending-payments'],
+        queryKey: ['employees', 'pending-payments'],
       });
+      navigate(MODULE_PAYMENTS_PATHS.ViewAll);
       toast.success(`Pago registrado`);
     },
-    onError: (error: AxiosError) => {
-      const updateError: AxiosError | any = error;
-      const { data } = updateError.response;
-      toast.error(
-        `Hubo un problema durante el registro del pago, ${data.message}`
-      );
+
+    onError: (error) => {
+      handleError({
+        error,
+        messagesStatusError: {},
+      });
     },
     retry: 1,
   });

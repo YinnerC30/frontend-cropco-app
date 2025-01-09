@@ -2,43 +2,41 @@ import {
   ActionCopyIdRecord,
   DropDownMenuActions,
 } from '@/modules/core/components';
-import { useAppDispatch } from '@/redux/store';
 import { toast } from 'sonner';
-import { addRecordToPay, calculateTotal } from '../../utils/paymentSlice';
 import { ActionPayPendingPayment } from './ActionPayPendingPayment';
+import { HarvestDetail } from '@/modules/harvests/interfaces';
+import { Row } from '@tanstack/react-table';
+import { useFormPaymentContext } from '../../hooks/context/useFormPaymentContext';
 
-export const ActionsTablePaymentsPendingHarvest = ({ row }: any) => {
+export const ActionsTablePaymentsPendingHarvest: React.FC<{
+  row: Row<HarvestDetail>;
+}> = ({ row }) => {
   const harvestDetail = row.original;
+
+  const { addRecordToPay } = useFormPaymentContext();
 
   const {
     harvest: { date },
     id,
-    total,
     value_pay,
     payment_is_pending,
   } = harvestDetail;
 
-  const dispatch = useAppDispatch();
-
   const handlePayRecord = () => {
-    dispatch(
-      addRecordToPay({
-        date,
-        id,
-        total,
-        value_pay,
-        payment_is_pending,
-        type: 'harvest',
-        harvest: { id: harvestDetail?.harvest?.id },
-      })
-    );
-    dispatch(calculateTotal());
+    addRecordToPay({
+      id,
+      value_pay,
+      payment_is_pending,
+      date,
+      type: 'harvest',
+    });
+
     toast.success(`Se ha añadido la cosecha para pagarla`);
   };
 
   return (
     <DropDownMenuActions>
-      <ActionCopyIdRecord id={id} />
+      <ActionCopyIdRecord id={id!} />
       <ActionPayPendingPayment action={handlePayRecord} />
     </DropDownMenuActions>
   );

@@ -2,9 +2,10 @@ import { Button } from '@/components';
 import { ButtonsForm } from '@/modules/core/components';
 import { useFormPaymentContext } from '@/modules/payments/hooks/context/useFormPaymentContext';
 import { MODULE_PAYMENTS_PATHS } from '@/modules/payments/routes/pathRoutes';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const FormPaymentButtons = () => {
+export const FormPaymentButtons: React.FC = () => {
   const { readOnly, isSubmitting } = useFormPaymentContext();
 
   const navigate = useNavigate();

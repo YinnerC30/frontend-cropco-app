@@ -4,10 +4,10 @@ import { useDataTableMenuActionsContext } from '@/modules/core/components';
 import { CircleDollarSignIcon } from 'lucide-react';
 
 interface Props {
-  action: any;
+  action: () => void;
 }
 
-export const ActionPayPendingPayment = ({ action }: Props) => {
+export const ActionPayPendingPayment: React.FC<Props> = ({ action }: Props) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
   return (
     <DropdownMenuItem asChild>

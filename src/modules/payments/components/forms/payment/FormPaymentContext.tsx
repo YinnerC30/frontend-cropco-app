@@ -1,145 +1,294 @@
 import { useCreateForm } from '@/modules/core/hooks';
+import { FormProps } from '@/modules/core/interfaces';
+import { HarvestDetail } from '@/modules/harvests/interfaces';
 import { useGetEmployeePendingPayments } from '@/modules/payments/hooks/queries/useGetEmployeePendingPayments';
-import {
-  PaymentsHarvest,
-  PaymentsWork,
-} from '@/modules/payments/interfaces/ResponseGetOnePayment';
+import { Payment } from '@/modules/payments/interfaces/Payment';
+import { RecordToPay } from '@/modules/payments/interfaces/RecordToPay';
+import { PaymentRecord } from '@/modules/payments/interfaces/ResponseGetOnePayment';
 import { formSchemaPayments } from '@/modules/payments/utils';
-import {
-  resetDataEmployee,
-  setRecordsToPay,
-} from '@/modules/payments/utils/paymentSlice';
-import { RootState, useAppDispatch, useAppSelector } from '@/redux/store';
-import React, { createContext, useEffect, useMemo } from 'react';
+import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
+import React, { createContext, useEffect, useMemo, useReducer } from 'react';
+import { z } from 'zod';
 
-export const FormPaymentContext = createContext<any>(null);
+export type FormPaymentProps = FormProps<
+  z.infer<typeof formSchemaPayments>,
+  PaymentRecord
+>;
 
-export const defaultValuesany: any = {};
+export interface FormPaymentContextValues {
+  formPayment: ReturnType<typeof useCreateForm>;
+  readOnly: boolean;
+  isSubmitting: boolean;
+  onSubmit: (values: z.infer<typeof formSchemaPayments>) => void;
+  total: number;
+  paymentsState: PaymentsState;
+  getHarvestsToPay: () => string[];
+  getWorksToPay: () => string[];
+  defaultValues: Payment;
+  addRecordToPay: (record: RecordToPay) => void;
+  RemoveRecordToPay: (record: RecordToPay) => void;
+}
 
-export const FormPaymentProvider = ({
+const initialPaymentState: PaymentsState = {
+  records_to_pay: [],
+  original_data: {
+    harvests_detail: [],
+    works_detail: [],
+  },
+  current_data: {
+    harvests_detail: [],
+    works_detail: [],
+  },
+};
+
+interface PaymentsState {
+  original_data: {
+    harvests_detail: HarvestDetail[];
+    works_detail: WorkDetail[];
+  };
+  current_data: {
+    harvests_detail: HarvestDetail[];
+    works_detail: WorkDetail[];
+  };
+  records_to_pay: RecordToPay[];
+}
+
+type PaymentAction =
+  | {
+      type: 'ADD';
+      payload: RecordToPay;
+    }
+  | { type: 'REMOVE'; payload: RecordToPay }
+  | {
+      type: 'RESET';
+      payload: {
+        harvests_detail: HarvestDetail[];
+        works_detail: WorkDetail[];
+      };
+    }
+  | {
+      type: 'RESET-RECORDS-TO-PAY';
+      payload: RecordToPay[];
+    };
+
+const paymentsReducer = (
+  state: PaymentsState,
+  action: PaymentAction
+): PaymentsState => {
+  switch (action.type) {
+    case 'ADD':
+      let currentData;
+      if (action.payload.type === 'harvest') {
+        currentData = {
+          works_detail: state.current_data.works_detail,
+          harvests_detail: state.current_data.harvests_detail.filter(
+            (item) => item.id !== action.payload.id
+          ),
+        };
+      } else {
+        currentData = {
+          harvests_detail: state.current_data.harvests_detail,
+          works_detail: state.current_data.works_detail.filter(
+            (item) => item.id !== action.payload.id
+          ),
+        };
+      }
+
+      return {
+        ...state,
+        current_data: currentData,
+        records_to_pay: [...state.records_to_pay, action.payload],
+      };
+    case 'REMOVE':
+      let currentData2;
+      if (action.payload.type === 'harvest') {
+        currentData2 = {
+          works_detail: state.current_data.works_detail,
+          harvests_detail: [
+            ...state.current_data.harvests_detail,
+            state.original_data.harvests_detail.find(
+              (item) => item.id === action.payload.id
+            ),
+          ] as HarvestDetail[],
+        };
+      } else {
+        currentData2 = {
+          harvests_detail: state.current_data.harvests_detail,
+          works_detail: [
+            ...state.current_data.works_detail,
+            state.original_data.works_detail.find(
+              (item) => item.id === action.payload.id
+            ),
+          ] as WorkDetail[],
+        };
+      }
+
+      return {
+        ...state,
+        current_data: currentData2,
+        records_to_pay: state.records_to_pay.filter(
+          (item) => item.id !== action.payload.id
+        ),
+      };
+    case 'RESET':
+      return {
+        ...state,
+        original_data: {
+          harvests_detail: action.payload.harvests_detail,
+          works_detail: action.payload.works_detail,
+        },
+        current_data: {
+          harvests_detail: action.payload.harvests_detail,
+          works_detail: action.payload.works_detail,
+        },
+      };
+    case 'RESET-RECORDS-TO-PAY':
+      return {
+        ...state,
+        records_to_pay: action.payload,
+      };
+  }
+};
+
+const defaultValuesPayment: PaymentRecord = {
+  id: '',
+  date: '',
+  method_of_payment: '',
+  total: 0,
+  employee: {
+    id: '',
+    first_name: '',
+    last_name: '',
+    email: '',
+    cell_phone_number: '',
+    address: '',
+  },
+  payments_harvest: [],
+  payments_work: [],
+};
+
+export const FormPaymentContext = createContext<
+  FormPaymentContextValues | undefined
+>(undefined);
+
+export const FormPaymentProvider: React.FC<
+  FormPaymentProps & {
+    children: React.ReactNode;
+  }
+> = ({
   children,
-  defaultValues,
-  isSubmitting,
-  onSubmit,
-  readOnly,
-}: any & { children: React.ReactNode }) => {
-  const formPayments = useCreateForm({
+  defaultValues = defaultValuesPayment,
+  isSubmitting = false,
+  onSubmit = (values) => console.log(values),
+  readOnly = false,
+}) => {
+  const formPayment = useCreateForm({
     schema: formSchemaPayments,
     defaultValues,
   });
 
-  const dispatch = useAppDispatch();
+  const employeeId = formPayment.watch('employee.id') ?? '';
 
-  const { payment } = useAppSelector((state: RootState) => state);
+  const queryEmployeePayments = useGetEmployeePendingPayments(employeeId);
 
-  const employeeId: string = formPayments.watch('employee.id') ?? '';
-
-  const queryPaymentsEmployee = useGetEmployeePendingPayments(employeeId, true);
-
-  const recordsToPay = useMemo(
-    () => payment.paymentsToPay,
-    [payment, employeeId]
-  );
-  const pendingHarvests = useMemo(
-    () => payment.dataEmployee.harvests_detail,
-    [payment.dataEmployee.harvests_detail, employeeId]
-  );
-  const pendingWorks = useMemo(
-    () => payment.dataEmployee.works_detail,
-    [payment.dataEmployee.works_detail, employeeId]
+  const [paymentsState, dispatch] = useReducer(
+    paymentsReducer,
+    initialPaymentState
   );
 
-  const total = recordsToPay.reduce(
-    (total: number, detail: any) => Number(total) + Number(detail.value_pay),
-    0
-  );
-
-  const getHarvestToPay = () => {
-    const harvests =
-      recordsToPay
-        .filter((item: any) => item.type === 'harvest')
-        .map(({ id }: any) => id) ?? [];
-    return harvests;
+  const addRecordToPay = (record: RecordToPay): void => {
+    dispatch({ type: 'ADD', payload: record });
   };
 
-  const getWorksToPay = () => {
-    const works =
-      recordsToPay
-        .filter((item: any) => item.type === 'work')
-        .map(({ id }: any) => id) ?? [];
-    return works;
+  const removeRecordToPay = (record: RecordToPay): void => {
+    dispatch({ type: 'REMOVE', payload: record });
   };
 
-  useEffect(() => {
-    if (!(employeeId.length > 0)) {
-      dispatch(resetDataEmployee());
-    }
-  }, [employeeId]);
+  const resetPaymentState = (data: {
+    harvests_detail: HarvestDetail[];
+    works_detail: WorkDetail[];
+  }): void => {
+    dispatch({
+      type: 'RESET',
+      payload: data,
+    });
+  };
+
+  const resetRecordsToPay = (data: RecordToPay[]) => {
+    console.log(data);
+    dispatch({
+      type: 'RESET-RECORDS-TO-PAY',
+      payload: data,
+    });
+  };
+
+  const getHarvestsToPay = (): string[] => {
+    return paymentsState.records_to_pay
+      .filter((item) => item.type === 'harvest')
+      .map((value) => value.id);
+  };
+  const getWorksToPay = (): string[] => {
+    return paymentsState.records_to_pay
+      .filter((item) => item.type === 'work')
+      .map((value) => value.id);
+  };
+
+  const total = useMemo(
+    () =>
+      paymentsState.records_to_pay.reduce(
+        (pValue, cValue) => pValue + cValue.value_pay,
+        0
+      ),
+    [paymentsState]
+  );
+
+  // FIX: Borrar información de las tablas cuando cambie el ID del empleado
 
   useEffect(() => {
-    formPayments.setValue('total', total, { shouldValidate: true });
-  }, [total]);
-
-  useEffect(() => {
-    if (!!defaultValues) {
-      const harvests = defaultValues?.payments_harvest.map(
-        ({
-          harvests_detail: {
-            id,
-            total,
-            value_pay,
-            payment_is_pending,
-            harvest: { date },
-          },
-        }: PaymentsHarvest) => ({
-          id,
-          total,
-          value_pay,
-          payment_is_pending,
-          date,
+    if (defaultValues) {
+      const harvests = defaultValues?.payments_harvest?.map(
+        ({ harvests_detail }) => ({
+          ...harvests_detail,
           type: 'harvest',
+          date: harvests_detail.harvest.date,
         })
-      );
-
-      const works = defaultValues?.payments_work.map(
-        ({
-          works_detail: {
-            id,
-            payment_is_pending,
-            value_pay,
-            work: { date },
-          },
-        }: PaymentsWork) => {
-          return {
-            date,
-            id,
-            value_pay,
-            payment_is_pending,
-            type: 'work',
-          };
-        }
-      );
-
-      dispatch(setRecordsToPay([...harvests, ...works]));
+      ) as unknown as RecordToPay[];
+      const works = defaultValues?.payments_work?.map(({ works_detail }) => ({
+        ...works_detail,
+        type: 'work',
+        date: works_detail.work.date,
+      })) as unknown as RecordToPay[];
+      resetRecordsToPay([...harvests, ...works]);
     }
   }, [defaultValues]);
+
+  useEffect(() => {
+    if (queryEmployeePayments.isSuccess && !readOnly) {
+      resetPaymentState({
+        harvests_detail: queryEmployeePayments.data?.harvests_detail ?? [],
+        works_detail: queryEmployeePayments.data?.works_detail ?? [],
+      });
+    }
+  }, [queryEmployeePayments.data, queryEmployeePayments.isSuccess]);
+
+  useEffect(() => {
+    formPayment.setValue('total', total, { shouldValidate: true });
+  }, [total]);
 
   return (
     <FormPaymentContext.Provider
       value={{
-        form: formPayments,
-        employeeId,
-        queryPaymentsEmployee,
-        recordsToPay,
-        pendingHarvests,
-        pendingWorks,
-        total,
-        onSubmit,
-        isSubmitting,
+        formPayment,
         readOnly,
-        getHarvestToPay,
+        isSubmitting,
+        onSubmit,
+        total,
+        paymentsState,
+        getHarvestsToPay,
         getWorksToPay,
-        defaultValues,
+        defaultValues: defaultValues as any,
+        addRecordToPay,
+        RemoveRecordToPay: removeRecordToPay,
       }}
     >
       {children}

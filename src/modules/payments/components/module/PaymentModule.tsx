@@ -4,7 +4,7 @@ import { PaymentsModuleProvider } from './PaymentModuleContext';
 import { PaymentModuleTable } from './PaymentModuleTable';
 import { PaymentModuleSearchbar } from './PaymentModuleSearchbar';
 
-export const PaymentsModule = () => {
+export const PaymentsModule: React.FC = () => {
   return (
     <PaymentsModuleProvider>
       <BreadCrumb finalItem="Pagos" hiddenSeparator />

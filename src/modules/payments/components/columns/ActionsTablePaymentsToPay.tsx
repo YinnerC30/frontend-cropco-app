@@ -3,28 +3,22 @@ import {
   ActionDeleteRecord,
   DropDownMenuActions,
 } from '@/modules/core/components';
-import { useAppDispatch } from '@/redux/store';
+import { Row } from '@tanstack/react-table';
 import { toast } from 'sonner';
-import { calculateTotal, removeRecordToPay } from '../../utils/paymentSlice';
+import { RecordToPay } from '../../interfaces/RecordToPay';
+import { useFormPaymentContext } from '../../hooks/context/useFormPaymentContext';
 
-export const ActionsTablePaymentsToPay = ({ row }: any) => {
+export const ActionsTablePaymentsToPay = ({
+  row,
+}: {
+  row: Row<RecordToPay>;
+}) => {
   const record = row.original;
 
-  const dispatch = useAppDispatch();
+  const { RemoveRecordToPay } = useFormPaymentContext();
 
   const handleDelete = () => {
-    const { date, ...rest } = record;
-
-    const data = {
-      ...rest,
-      [rest.type === 'harvest' ? 'harvest' : 'work']: {
-        id: rest[rest.type === 'harvest' ? 'harvest' : 'work'].id,
-        date,
-      },
-    };
-
-    dispatch(removeRecordToPay({ ...data }));
-    dispatch(calculateTotal());
+    RemoveRecordToPay(record);
     toast.success(`Se ha eliminado el registro`);
   };
 

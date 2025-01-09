@@ -1,31 +1,19 @@
-import { Button } from '@/components/ui/button';
-
-import { ArrowUpDown } from 'lucide-react';
-
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
 import { Badge } from '@/components';
-import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
+import { ButtonHeaderTable } from '@/modules/core/components';
+import { FormatDate } from '@/modules/core/helpers';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
-import { PaymentPending } from '../../interfaces/PaymentPending';
+import { RecordToPay } from '../../interfaces/RecordToPay';
 
-export const columnsPaymentsToPay: ColumnDef<PaymentPending>[] = [
+export const columnsPaymentsToPay: ColumnDef<RecordToPay>[] = [
   {
     accessorKey: 'date',
     cell: ({ row }) => {
       return FormatDate({ date: row.getValue('date') });
     },
-    header: ({ column }: any) => {
-      return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Fecha:
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      );
+    header: ({ column }: HeaderContext<RecordToPay, unknown>) => {
+      return <ButtonHeaderTable column={column} label={'Fecha'} />;
     },
   },
   {
@@ -33,17 +21,8 @@ export const columnsPaymentsToPay: ColumnDef<PaymentPending>[] = [
     cell: ({ row }) => {
       return FormatMoneyValue(row.getValue('value_pay'));
     },
-    header: ({ column }: any) => {
-      return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {'Total a recibir:'}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      );
+    header: ({ column }: HeaderContext<RecordToPay, unknown>) => {
+      return <ButtonHeaderTable column={column} label={'Valor a pagar'} />;
     },
   },
   {
@@ -56,17 +35,8 @@ export const columnsPaymentsToPay: ColumnDef<PaymentPending>[] = [
         <Badge variant={'success'}>NO</Badge>
       );
     },
-    header: ({ column }: any) => {
-      return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {'Pago pendiente:'}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      );
+    header: ({ column }: HeaderContext<RecordToPay, unknown>) => {
+      return <ButtonHeaderTable column={column} label={'Pago pendiente'} />;
     },
   },
   {
@@ -79,17 +49,8 @@ export const columnsPaymentsToPay: ColumnDef<PaymentPending>[] = [
         <Badge variant={'orange'}>Trabajo</Badge>
       );
     },
-    header: ({ column }: any) => {
-      return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {'Tipo:'}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      );
+    header: ({ column }: HeaderContext<RecordToPay, unknown>) => {
+      return <ButtonHeaderTable column={column} label={'Categoria de pago'} />;
     },
   },
 ];

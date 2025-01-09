@@ -1,14 +1,46 @@
 import { useAuthContext } from '@/auth';
-import { useDataTableManual } from '@/modules/core/hooks';
+import {
+  DataTableManualReturn,
+  useDataTableManual,
+} from '@/modules/core/hooks';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData';
-import { createContext } from 'react';
+import { createContext, useMemo } from 'react';
 
 import { useGetAllPayments } from '../../hooks/queries/useGetAllPayments';
 import columnsPayment from './ColumnsTablePayment';
 import { ActionsTablePayment } from './ActionsTablePayment';
+import { BulkRecords } from '@/modules/core/interfaces';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { Payment } from '../../interfaces/Payment';
+import { useDeleteBulkPayments } from '../../hooks/mutations/useDeleteBulkPayments';
 
-export const PaymentsModuleContext = createContext<any>(null);
+export interface paramQueryPayment {
+  employee: { id: string | null | undefined };
+  filter_by_date: {
+    type_filter_date: string | null | undefined;
+    date: string | null | undefined | Date | unknown;
+  };
+  filter_by_total: {
+    type_filter_total: string | null | undefined;
+    total: string | null | undefined | unknown;
+  };
+  // TODO: Pendiente Method of Payment
+  //
+}
+
+export interface PaymentsModuleContextValues {
+  paramsQuery: paramQueryPayment;
+  queryPayments: UseQueryGetAllRecordsReturn<Payment>;
+  dataTable: DataTableManualReturn<Payment>;
+  mutationDeletePayments: UseMutationReturn<void, BulkRecords>;
+  actionsPaymentsModule: Record<string, boolean>;
+}
+
+export const PaymentsModuleContext = createContext<
+  PaymentsModuleContextValues | undefined
+>(undefined);
 
 export const PaymentsModuleProvider = ({
   children,
@@ -28,34 +60,45 @@ export const PaymentsModuleProvider = ({
     ],
   });
 
-  const { query, pagination, setPagination } = useGetAllPayments({
+  const {
+    query: queryPayments,
+    pagination,
+    setPagination,
+  } = useGetAllPayments({
     ...paramsValues,
   });
 
-  const { validatePermissionsInModule } = useAuthContext();
+  const { getActionsModule } = useAuthContext();
 
-  const permissionsPayment = validatePermissionsInModule('payments');
+  const actionsPaymentsModule = useMemo(() => getActionsModule('payments'), []);
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsPayment,
     actions: ActionsTablePayment,
   });
 
-  const dataTable = useDataTableManual({
+  const dataTable = useDataTableManual<Payment>({
     columns: columnsTable,
-    data: query.data ?? [],
-    rows: query.data?.rows ?? [],
+    infoPagination: queryPayments.isSuccess
+      ? {
+          pageCount: queryPayments.data?.pageCount ?? 0,
+          rowCount: queryPayments.data?.rowCount ?? 0,
+        }
+      : { pageCount: 0, rowCount: 0 },
+    rows: queryPayments.data?.rows ?? [],
     pagination,
     setPagination,
   });
 
-  const contextValue = {
-    permissionsPayment,
-    query,
-    ...dataTable,
-    // FIX: Corregir paramsQuery
+  const mutationDeletePayments = useDeleteBulkPayments();
+
+  const contextValue: PaymentsModuleContextValues = {
+    actionsPaymentsModule,
+    queryPayments,
+    dataTable,
+    mutationDeletePayments,
     paramsQuery: {
-      ...paramsValues,
+      employee: { id: paramsValues.employee },
       filter_by_date: {
         type_filter_date: paramsValues.type_filter_date,
         date: !paramsValues.date ? undefined : new Date(paramsValues.date),
@@ -64,13 +107,6 @@ export const PaymentsModuleProvider = ({
         type_filter_total: paramsValues.type_filter_total,
         total: !paramsValues.total ? 0 : paramsValues.total,
       },
-      filter_by_quantity: {
-        type_filter_quantity: paramsValues.type_filter_quantity,
-        quantity: !paramsValues.quantity ? 0 : paramsValues.quantity,
-      },
-      // filter_by_is_receivable: {
-      //   is_receivable: undefined,
-      // },
     },
   };
 

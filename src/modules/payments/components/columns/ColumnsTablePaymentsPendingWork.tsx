@@ -1,36 +1,25 @@
-import { Button } from '@/components/ui/button';
-
-import { ArrowUpDown } from 'lucide-react';
-
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 
 import { Badge } from '@/components';
-import { PaymentPending } from '../../interfaces/PaymentPending';
+import { ButtonHeaderTable } from '@/modules/core/components';
+import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
+import { Work } from '@/modules/work/interfaces/Work';
 
-export const columnsPaymentsPendingWork: ColumnDef<PaymentPending>[] = [
+export const columnsPaymentsPendingWork: ColumnDef<WorkDetail>[] = [
   {
     accessorKey: 'work',
-    cell: ({ row }: any) => {
-      const work = row?.getValue('work');
+    cell: ({ row }) => {
+      const work = row?.getValue('work') as Work;
       if (work) {
         return FormatDate({ date: work.date });
       }
       return null;
     },
-    header: ({ column }: any) => {
-      return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Fecha:
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      );
+    header: ({ column }: HeaderContext<WorkDetail, unknown>) => {
+      return <ButtonHeaderTable column={column} label={'Fecha'} />;
     },
   },
 
@@ -39,17 +28,8 @@ export const columnsPaymentsPendingWork: ColumnDef<PaymentPending>[] = [
     cell: ({ row }) => {
       return FormatMoneyValue(row.getValue('value_pay'));
     },
-    header: ({ column }: any) => {
-      return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {'Total a recibir:'}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      );
+    header: ({ column }: HeaderContext<WorkDetail, unknown>) => {
+      return <ButtonHeaderTable column={column} label={'Valor a pagar'} />;
     },
   },
   {
@@ -62,17 +42,8 @@ export const columnsPaymentsPendingWork: ColumnDef<PaymentPending>[] = [
         <Badge variant={'success'}>NO</Badge>
       );
     },
-    header: ({ column }: any) => {
-      return (
-        <Button
-          className="px-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          {'Pago pendiente:'}
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      );
+    header: ({ column }: HeaderContext<WorkDetail, unknown>) => {
+      return <ButtonHeaderTable column={column} label={'Pago pendiente'} />;
     },
   },
 ];

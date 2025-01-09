@@ -1,15 +1,9 @@
 import {
-  Badge,
   Button,
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuPortal,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   Form,
-  Label,
 } from '@/components';
 import {
   FormFieldCalendar,
@@ -29,53 +23,24 @@ import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Filter, X } from 'lucide-react';
-import { memo, useCallback, useState } from 'react';
+import React, { useState } from 'react';
 
+import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
+import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
+import {
+  dateFilterOptions,
+  numberFilterOptions,
+} from '@/modules/core/interfaces/queries/FilterOptions';
+import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
 import { usePaymentModuleContext } from '../../hooks/context/usePaymentModuleContext';
 import { useGetAllEmployeesWithMadePayments } from '../../hooks/queries/useGetAllEmployeesWithMadePayments';
 import { MODULE_PAYMENTS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarPayment } from '../../utils/formFieldsSearchBarPayment';
 import { formSchemaSearchBarPayment } from '../../utils/formSchemaSearchBarPayment';
 
-interface FilterSearchBar {
-  key: string;
-  label: string;
-}
-
-const numberFilterOptions = [
-  {
-    key: TypeFilterNumber.MIN,
-    value: TypeFilterNumber.MIN,
-    label: 'Menor a',
-  },
-  {
-    key: TypeFilterNumber.EQUAL,
-    value: TypeFilterNumber.EQUAL,
-    label: 'Igual a',
-  },
-  {
-    key: TypeFilterNumber.MAX,
-    value: TypeFilterNumber.MAX,
-    label: 'Mayor a',
-  },
-];
-
-const dateFilterOptions = [
-  {
-    key: TypeFilterDate.after,
-    value: TypeFilterDate.after,
-    label: 'Despues del',
-  },
-  {
-    key: TypeFilterDate.before,
-    value: TypeFilterDate.before,
-    label: 'Antes del',
-  },
-];
-
-export const PaymentModuleSearchbar = () => {
-  const { paramsQuery, permissionsPayment } = usePaymentModuleContext();
-  const readOnly = !permissionsPayment['find_all_payments'];
+export const PaymentModuleSearchbar: React.FC = () => {
+  const { paramsQuery, actionsPaymentsModule } = usePaymentModuleContext();
+  const readOnly = !actionsPaymentsModule['find_all_payments'];
   const navigate = useNavigate();
 
   const form = useCreateForm({
@@ -90,13 +55,6 @@ export const PaymentModuleSearchbar = () => {
 
   const queryEmployees = useGetAllEmployeesWithMadePayments();
 
-  const findEmployeeInData = useCallback(
-    (id: string) => {
-      return queryEmployees?.data?.rows.find((row: any) => row.id === id);
-    },
-    [queryEmployees]
-  );
-
   // TODO: Agregar filtro de metodo de pago
 
   const handleAddFilter = async (name = '') => {
@@ -108,10 +66,9 @@ export const PaymentModuleSearchbar = () => {
     const filters: FilterSearchBar[] = [];
 
     if (employee?.id) {
-      const data = findEmployeeInData(employee.id);
       filters.push({
         key: 'employee',
-        label: `Empleado: ${data.first_name}`,
+        label: `Empleado: ${employee.first_name}`,
       });
     }
 
@@ -158,7 +115,7 @@ export const PaymentModuleSearchbar = () => {
     setAppliedFilters((prev) => prev.filter((f) => f.key !== filter.key));
     switch (filter.key) {
       case 'employee':
-        form.setValue('employee.id', '', { shouldDirty: false });
+        form.setValue('employee', { id: '', name: '' }, { shouldDirty: false });
         break;
       case 'date':
         form.setValue('filter_by_date.type_filter_date', undefined, {
@@ -211,7 +168,10 @@ export const PaymentModuleSearchbar = () => {
     setAppliedFilters([]);
     form.reset(
       {
-        employee: '',
+        employee: {
+          id: '',
+          name: '',
+        },
         filter_by_date: {
           date: undefined,
           type_filter_date: TypeFilterDate.after,
@@ -246,7 +206,7 @@ export const PaymentModuleSearchbar = () => {
                   form={form}
                   nameToShow="first_name"
                   control={form.control}
-                  name="employee.id"
+                  name="employee"
                   placeholder={formFieldsSearchBarPayment.employee.placeholder}
                   className="w-auto lg:w-[300px]"
                   description={''}
@@ -347,92 +307,6 @@ export const PaymentModuleSearchbar = () => {
           />
         </form>
       </Form>
-    </div>
-  );
-};
-
-const FilterDropdownItem = memo(
-  ({
-    label,
-    content,
-    actionOnSave,
-    actionOnClose,
-  }: {
-    label: string;
-    content: JSX.Element;
-    actionOnSave: () => Promise<boolean>;
-    actionOnClose: () => void;
-  }) => {
-    const [openMenu, setOpenMenu] = useState(false);
-
-    return (
-      <DropdownMenuSub open={openMenu} onOpenChange={setOpenMenu}>
-        <DropdownMenuSubTrigger>{label}</DropdownMenuSubTrigger>
-        <DropdownMenuPortal>
-          <DropdownMenuSubContent
-            className="w-[250px] p-4 ml-2"
-            avoidCollisions
-            sideOffset={0}
-          >
-            {content}
-            <div className="flex justify-center gap-2">
-              <Button
-                className="self-end w-24 mt-4"
-                onClick={async (e) => {
-                  e.preventDefault();
-                  const value = await actionOnSave();
-                  setOpenMenu(!value);
-                }}
-              >
-                Aplicar
-              </Button>
-              <Button
-                variant={'destructive'}
-                className="self-end w-24 mt-4"
-                onClick={() => {
-                  setOpenMenu(false);
-                  actionOnClose();
-                }}
-              >
-                Cerrar
-              </Button>
-            </div>
-          </DropdownMenuSubContent>
-        </DropdownMenuPortal>
-      </DropdownMenuSub>
-    );
-  }
-);
-
-interface Props {
-  filters: FilterSearchBar[];
-  handleRemove: any;
-}
-
-const FiltersBadgedList = ({ filters, handleRemove }: Props) => {
-  if (!(filters.length > 0)) {
-    return;
-  }
-  return (
-    <div className="mt-2 ">
-      <Label className="block">Filtros aplicados:</Label>
-      <div className="flex flex-wrap gap-2 my-4 ">
-        {filters.map((filter, index) => (
-          <Badge key={index} variant="secondary">
-            {filter.label}
-            <ToolTipTemplate content="Eliminar filtro">
-              <Button
-                className="ml-3"
-                variant="ghost"
-                size="icon"
-                onClick={() => handleRemove(filter)}
-              >
-                <X className="w-3 h-3" />
-              </Button>
-            </ToolTipTemplate>
-          </Badge>
-        ))}
-      </div>
     </div>
   );
 };

@@ -16,9 +16,10 @@ import { ButtonClearSelection } from '@/modules/core/components';
 import { ActionsTablePaymentsToPay } from '../../columns/ActionsTablePaymentsToPay';
 import { columnsPaymentsToPay } from '../../columns/ColumnsTablePaymentsToPay';
 import { useFormPaymentContext } from '@/modules/payments/hooks/context/useFormPaymentContext';
+import React from 'react';
 
-export const FormPaymentToPayDataTable = () => {
-  const { recordsToPay, readOnly } = useFormPaymentContext();
+export const FormPaymentToPayDataTable: React.FC = () => {
+  const { paymentsState, readOnly } = useFormPaymentContext();
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsPaymentsToPay,
@@ -29,7 +30,7 @@ export const FormPaymentToPayDataTable = () => {
   const { table, lengthColumns, resetSelectionRows, hasSelectedRecords } =
     useDataTableGeneric({
       columns: columnsTable,
-      data: recordsToPay,
+      rows: paymentsState.records_to_pay,
     });
 
   return (

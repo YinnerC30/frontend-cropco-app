@@ -3,9 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useGetPayment } from '../hooks/queries/useGetPayment';
 import { MODULE_PAYMENTS_PATHS } from '../routes/pathRoutes';
 import FormPayment from './forms/payment/FormPayment';
-import { ConvertStringToDate } from '@/modules/core/helpers';
 
-export const ViewPayment = () => {
+export const ViewPayment: React.FC = () => {
   const { id } = useParams();
 
   const { data, isLoading } = useGetPayment(id!);
@@ -20,10 +19,7 @@ export const ViewPayment = () => {
         items={[{ link: MODULE_PAYMENTS_PATHS.ViewAll, name: 'Pagos' }]}
         finalItem={`Información del pago`}
       />
-      <FormPayment
-        defaultValues={{ ...data, date: ConvertStringToDate(data.date) }}
-        readOnly
-      />
+      <FormPayment defaultValues={data} readOnly />
     </>
   );
 };

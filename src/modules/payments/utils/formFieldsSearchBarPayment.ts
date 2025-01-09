@@ -1,6 +1,20 @@
 import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-export const formFieldsSearchBarPayment: Record<string, CustomFormField> = {
+type FormFieldsSearchBarPayment =
+  | 'employee'
+  | 'filter_by_date'
+  | 'type_filter_date'
+  | 'date'
+  | 'type_filter_total'
+  | 'filter_by_total'
+  | 'total'
+  | 'filter_by_method_of_payment'
+  | 'method_of_payment';
+
+export const formFieldsSearchBarPayment: Record<
+  FormFieldsSearchBarPayment,
+  CustomFormField
+> = {
   employee: {
     name: 'employee',
     label: 'Filtrar por empleado:',

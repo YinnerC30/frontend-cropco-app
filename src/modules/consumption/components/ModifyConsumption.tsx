@@ -10,6 +10,7 @@ import { usePatchConsumption } from '../hooks/mutations/usePatchConsumption';
 import { MODULE_CONSUMPTION_PATHS } from '../routes/pathRoutes';
 import { formSchemaConsumption } from '../utils/formSchemaConsumption';
 import { FormConsumption } from './forms/consumption/FormConsumption';
+import { ConsumptionSupplies } from '../interfaces';
 
 export const ModifyConsumption: React.FC = () => {
   const { id } = useParams();
@@ -27,7 +28,7 @@ export const ModifyConsumption: React.FC = () => {
           supply: { id: item.supply.id },
         };
       }),
-    });
+    } as unknown as ConsumptionSupplies);
   };
 
   if (isLoading) return <Loading />;

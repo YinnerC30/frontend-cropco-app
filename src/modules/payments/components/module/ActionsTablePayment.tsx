@@ -2,16 +2,23 @@ import {
   ActionCopyIdRecord,
   ActionDeleteRecord,
   ActionViewRecord,
-  DropDownMenuActions
+  DropDownMenuActions,
 } from '@/modules/core/components';
 
 import { usePaymentModuleContext } from '../../hooks/context/usePaymentModuleContext';
 import { useDeletePayment } from '../../hooks/mutations/useDeletePayment';
 import { MODULE_PAYMENTS_PATHS } from '../../routes/pathRoutes';
+import { Row } from '@tanstack/react-table';
+import { Payment } from '../../interfaces/Payment';
 
-export const ActionsTablePayment = ({ row }: any) => {
-  const { resetSelectionRows, permissionsPayment } = usePaymentModuleContext();
-  const { id } = row.original;
+export const ActionsTablePayment: React.FC<{ row: Row<Payment> }> = ({
+  row,
+}) => {
+  const {
+    dataTable: { resetSelectionRows },
+    actionsPaymentsModule,
+  } = usePaymentModuleContext();
+  const id = row.original.id ?? '';
   const { mutate } = useDeletePayment();
 
   const handleDelete = () => {
@@ -26,13 +33,13 @@ export const ActionsTablePayment = ({ row }: any) => {
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!permissionsPayment['remove_one_payment']}
+        disabled={!actionsPaymentsModule['remove_one_payment']}
       />
 
       <ActionViewRecord
         id={id}
         path={MODULE_PAYMENTS_PATHS.ViewOne + id}
-        disabled={!permissionsPayment['find_one_payment']}
+        disabled={!actionsPaymentsModule['find_one_payment']}
       />
     </DropDownMenuActions>
   );
