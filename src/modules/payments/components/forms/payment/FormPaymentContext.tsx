@@ -7,7 +7,13 @@ import { RecordToPay } from '@/modules/payments/interfaces/RecordToPay';
 import { PaymentRecord } from '@/modules/payments/interfaces/ResponseGetOnePayment';
 import { formSchemaPayments } from '@/modules/payments/utils';
 import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
-import React, { createContext, useEffect, useMemo, useReducer } from 'react';
+import React, {
+  createContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef
+} from 'react';
 import { z } from 'zod';
 
 export type FormPaymentProps = FormProps<
@@ -258,12 +264,34 @@ export const FormPaymentProvider: React.FC<
     [paymentsState]
   );
 
+  const isFirstRender = useRef(true);
+
+  const records_to_pay = useMemo(
+    () => paymentsState.records_to_pay,
+    [paymentsState.records_to_pay]
+  );
+
   useEffect(() => {
-    resetToDefaultValues();
+    formPayment.setValue('records_to_pay', records_to_pay, {
+      shouldValidate: !isFirstRender.current,
+      shouldDirty: true,
+    });
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+    }
+  }, [records_to_pay]);
+
+  useEffect(() => {
+    if (paymentsState.records_to_pay.length > 0) {
+      resetToDefaultValues();
+    }
   }, [employeeId]);
 
   useEffect(() => {
-    if (defaultValues) {
+    if (
+      defaultValues.payments_harvest.length > 0 ||
+      defaultValues.payments_work.length > 0
+    ) {
       const harvests = defaultValues?.payments_harvest?.map(
         ({ harvests_detail }) => ({
           ...harvests_detail,

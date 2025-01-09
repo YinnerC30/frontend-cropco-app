@@ -245,6 +245,7 @@ export const FormHarvestProvider: React.FC<
   const isFirstRender = useRef(true);
 
   useEffect(() => {
+    console.log('Render')
     formHarvest.setValue('details', detailsHarvest, {
       shouldValidate: !isFirstRender.current,
       shouldDirty: true,

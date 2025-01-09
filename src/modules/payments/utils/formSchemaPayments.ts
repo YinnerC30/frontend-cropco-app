@@ -1,9 +1,11 @@
 import { z } from 'zod';
 import { MethodOfPayment } from '../interfaces/MethodOfPayment';
-import { formSchemaCategories } from './formSchemaCategories';
 
 export const formSchemaPayments = z.object({
-  date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
+  date: z.date({
+    required_error: 'La fecha es un campo obligatorio',
+    invalid_type_error: 'La fecha es un campo obligatorio',
+  }),
   employee: z.object({
     id: z
       .string({
@@ -30,5 +32,16 @@ export const formSchemaPayments = z.object({
   total: z.number({
     invalid_type_error: 'Debes introducir un valor numérico',
   }),
-  categories: formSchemaCategories.optional(),
+  records_to_pay: z
+    .array(
+      z.object({
+        id: z.string(),
+        value_pay: z.number(),
+        date: z.coerce.date(),
+        type: z.string(),
+        payment_is_pending: z.boolean(),
+      }),
+      { required_error: 'Debes agregar al menos un registro a pagar' }
+    )
+    .nonempty({ message: 'Debes agregar al menos un registro a pagar' }),
 });

@@ -8,7 +8,7 @@ import { FormDataTableRowCount } from '@/modules/core/components/form/data-table
 import { FormDataTableRowSelection } from '@/modules/core/components/form/data-table/FormDataTableRowSelection';
 import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data-table/FormDataTableSelectPageSize';
 
-import { Button, Label, ScrollArea, ScrollBar } from '@/components';
+import { Button, ScrollArea, ScrollBar } from '@/components';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
 
@@ -16,13 +16,13 @@ import {
   ButtonClearSelection,
   ToolTipTemplate,
 } from '@/modules/core/components';
+import { useFormPaymentContext } from '@/modules/payments/hooks/context/useFormPaymentContext';
+import { RecordToPay } from '@/modules/payments/interfaces/RecordToPay';
+import { Trash2 } from 'lucide-react';
+import React from 'react';
+import { toast } from 'sonner';
 import { ActionsTablePaymentsToPay } from '../../columns/ActionsTablePaymentsToPay';
 import { columnsPaymentsToPay } from '../../columns/ColumnsTablePaymentsToPay';
-import { useFormPaymentContext } from '@/modules/payments/hooks/context/useFormPaymentContext';
-import React from 'react';
-import { RecordToPay } from '@/modules/payments/interfaces/RecordToPay';
-import { toast } from 'sonner';
-import { Trash2 } from 'lucide-react';
 
 export const FormPaymentToPayDataTable: React.FC = () => {
   const { paymentsState, readOnly, removeRecordToPay } =
@@ -56,7 +56,6 @@ export const FormPaymentToPayDataTable: React.FC = () => {
 
   return (
     <>
-      <Label>Pagos a facturar:</Label>
       <FormDataTableProvider
         table={table}
         disabledDoubleClick={true}
