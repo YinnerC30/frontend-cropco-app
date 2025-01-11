@@ -21,6 +21,9 @@ export const usePostSale = (): UseMutationReturn<void, Sale> => {
     mutationFn: createSale,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['sales'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['crops'],
+      });
       navigate(MODULE_SALES_PATHS.ViewAll);
       toast.success(`Venta creada`);
     },

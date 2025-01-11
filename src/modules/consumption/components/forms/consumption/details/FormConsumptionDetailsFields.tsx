@@ -28,6 +28,7 @@ import {
   FormFieldInput,
   Loading,
 } from '@/modules/core/components';
+import { FormatNumber } from '@/modules/core/helpers';
 
 import { useGetAllCrops } from '@/modules/crops/hooks';
 import { formFieldsSaleDetail } from '@/modules/sales/utils';
@@ -115,8 +116,8 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                           variant="outline"
                           role="combobox"
                           aria-expanded={openPopover}
-                          className={`w-72 ${cn(
-                            'justify-between',
+                          className={`w-[300px] ${cn(
+                            `${!field.value && 'flex justify-between'}`,
                             !field.value && 'text-muted-foreground'
                           )}`}
                           ref={field.ref}
@@ -129,23 +130,27 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                               })?.['name']
                             : formFieldsSaleDetail.crop.placeholder}
 
-                          <Badge
-                            className={`${!field.value ? 'hidden' : 'ml-14'}`}
-                            variant={'cyan'}
-                          >
-                            {'Disponibles: ' +
-                              suppliesStock.find((item: SupplyStock) => {
-                                return item.id === field.value;
-                              })?.['amount'] +
-                              ' Kg'}
-                          </Badge>
+                          {!!field.value && (
+                            <Badge
+                              className={`${!field.value ? 'hidden' : 'ml-10'}`}
+                              variant={'cyan'}
+                            >
+                              {'Disponibles: ' +
+                                FormatNumber(
+                                  suppliesStock.find((item: SupplyStock) => {
+                                    return item.id === field.value;
+                                  })?.['amount'] || 0
+                                ) +
+                                ' Kg'}
+                            </Badge>
+                          )}
 
                           <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                         </Button>
                       )}
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
+                  <PopoverContent className="w-[280px] p-0">
                     <Command>
                       <CommandInput
                         placeholder={`Buscar ${'cultivo'}...`}
@@ -188,7 +193,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                                   <div className="flex justify-between w-full ">
                                     <span>{item?.['name']}</span>
                                     <span className="font-bold">
-                                      {item?.['amount'] + ' Kg'}
+                                      {FormatNumber(item?.['amount']) + ' Kg'}
                                     </span>
                                   </div>
                                   <CheckIcon

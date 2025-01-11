@@ -201,11 +201,15 @@ export const FormHarvestProcessed: React.FC = memo(() => {
           <DialogFooter>
             <Button
               onClick={onSubmitHarvestProcessed}
-              disabled={mutationPostHarvestProcessed.isPending}
+              disabled={
+                mutationPostHarvestProcessed.isPending ||
+                mutationPatchHarvestProcessed.isPending
+              }
             >
-              {mutationPostHarvestProcessed.isPending && (
-                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
-              )}
+              {mutationPostHarvestProcessed.isPending ||
+                (mutationPatchHarvestProcessed.isPending && (
+                  <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
+                ))}
               Guardar
             </Button>
           </DialogFooter>

@@ -5,6 +5,7 @@ import { Badge } from '@/components';
 import { ColumnDef, HeaderContext, Row } from '@tanstack/react-table';
 import { Supply } from '../../interfaces/Supply';
 import { formFieldsSupply } from '../../utils';
+import { FormatNumber } from '@/modules/core/helpers';
 
 export const columnsTableSupplies: ColumnDef<Supply>[] = [
   {
@@ -29,6 +30,27 @@ export const columnsTableSupplies: ColumnDef<Supply>[] = [
       );
     },
   },
+
+  {
+    accessorKey: formFieldsSupply.observation.name,
+    header: ({ column }: HeaderContext<Supply, unknown>) => {
+      return (
+        <ButtonHeaderTable
+          column={column}
+          label={formFieldsSupply.observation.label}
+        />
+      );
+    },
+  },
+  {
+    accessorKey: 'stock.amount',
+    cell: ({ row }: { row: Row<Supply> }) => {
+      return FormatNumber(row.original?.stock?.amount ?? 0);
+    },
+    header: ({ column }: HeaderContext<Supply, unknown>) => {
+      return <ButtonHeaderTable column={column} label={'Inventario actual:'} />;
+    },
+  },
   {
     accessorKey: formFieldsSupply.unit_of_measure.name,
     header: ({ column }: HeaderContext<Supply, unknown>) => {
@@ -45,17 +67,6 @@ export const columnsTableSupplies: ColumnDef<Supply>[] = [
         <Badge variant={unitOfMeasure === 'GRAMOS' ? 'lime' : 'cyan'}>
           {unitOfMeasure}
         </Badge>
-      );
-    },
-  },
-  {
-    accessorKey: formFieldsSupply.observation.name,
-    header: ({ column }: HeaderContext<Supply, unknown>) => {
-      return (
-        <ButtonHeaderTable
-          column={column}
-          label={formFieldsSupply.observation.label}
-        />
       );
     },
   },

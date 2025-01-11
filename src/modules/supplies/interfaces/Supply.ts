@@ -6,4 +6,8 @@ export interface Supply {
   brand: string;
   unit_of_measure: UnitOfMeasure | string | undefined;
   observation: string;
+  stock?: {
+    id: string;
+    amount: number;
+  }
 }

@@ -29,6 +29,7 @@ export const usePatchShopping = (
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['shopping'] });
       await queryClient.invalidateQueries({ queryKey: ['shopping', id] });
+      await queryClient.invalidateQueries({ queryKey: ['supplies'] });
       navigate(MODULE_SHOPPING_PATHS.ViewAll);
       toast.success(`Compra actualizada`);
     },

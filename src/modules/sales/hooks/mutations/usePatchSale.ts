@@ -23,6 +23,9 @@ export const usePatchSale = (id: string): UseMutationReturn<void, Sale> => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['sales'] });
       await queryClient.invalidateQueries({ queryKey: ['sales', id] });
+      await queryClient.invalidateQueries({
+        queryKey: ['crops'],
+      });
       navigate(MODULE_SALES_PATHS.ViewAll);
       toast.success(`Venta actualizada`);
     },

@@ -17,6 +17,7 @@ export const useDeleteShopping = (): UseMutationReturn<void, string> => {
     mutationFn: deleteShopping,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['shopping'] });
+      await queryClient.invalidateQueries({ queryKey: ['supplies'] });
       toast.success(`Compra eliminada`);
     },
     onError: (error) => {

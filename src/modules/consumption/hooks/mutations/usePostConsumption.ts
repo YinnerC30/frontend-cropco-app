@@ -30,6 +30,7 @@ export const usePostConsumption = (): UseMutationReturn<
       onSuccess: async () => {
         await queryClient.invalidateQueries({ queryKey: ['consumptions'] });
         await queryClient.invalidateQueries({ queryKey: ['supplies-stock'] });
+        await queryClient.invalidateQueries({ queryKey: ['supplies'] });
         navigate(MODULE_CONSUMPTION_PATHS.ViewAll);
         toast.success(`Consumo de insumo registrado`);
       },

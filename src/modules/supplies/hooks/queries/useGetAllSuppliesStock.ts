@@ -1,10 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
-interface HookProps {
-  searchParameter: string;
-  allRecords: boolean;
-}
+
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import {
