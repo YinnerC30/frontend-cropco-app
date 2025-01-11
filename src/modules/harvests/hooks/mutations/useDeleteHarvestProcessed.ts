@@ -24,6 +24,9 @@ export const useDeleteHarvestProcessed = (): UseMutationReturn<
     mutationFn: deleteHarvestProcessed,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['harvest'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['crops'],
+      });
       toast.success(`Cosecha procesada eliminada`);
     },
     onError: (error) => {

@@ -6,4 +6,8 @@ export interface Crop {
   location: string;
   date_of_creation: string;
   date_of_termination: string;
+  harvests_stock?: {
+    id: string;
+    total: number
+  }
 }

@@ -28,6 +28,9 @@ export const usePatchHarvestProcessed = (): UseMutationReturn<
     onSuccess: async (_, variables) => {
       const id = variables.harvest?.id!;
       await queryClient.invalidateQueries({ queryKey: ['harvests_processed'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['crops'],
+      });
       await queryClient.invalidateQueries({ queryKey: ['harvest', id] });
       toast.success(`Cosecha procesada actualizada`);
     },

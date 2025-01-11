@@ -80,4 +80,13 @@ export const columnsTableCrops: ColumnDef<Crop>[] = [
       );
     },
   },
+  {
+    accessorKey: 'harvests_stock.total',
+    cell: ({ row }: { row: Row<Crop> }) => {
+      return FormatNumber(row.original?.harvests_stock?.total ?? 0) + ' Kg';
+    },
+    header: ({ column }: HeaderContext<Crop, unknown>) => {
+      return <ButtonHeaderTable column={column} label={'Inventario actual:'} />;
+    },
+  },
 ];

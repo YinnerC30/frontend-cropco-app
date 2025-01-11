@@ -26,6 +26,9 @@ export const useDeleteBulkHarvests = (): UseMutationReturn<
     mutationFn: deleteBulkHarvests,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['harvests'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['crops'],
+      });
       toast.success(`Cosechas eliminadas`);
     },
     onError: (error) => {
