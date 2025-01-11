@@ -39,12 +39,6 @@ export const FormSaleFields: React.FC = () => {
           </FormFieldDataTable>
         </div>
 
-        <div className="w-2/4 overflow-x-auto">
-          <pre className="break-all whitespace-pre-wrap">
-            {JSON.stringify(cropStock, null, 2)}
-          </pre>
-        </div>
-
         <FormFieldInput
           control={formSale.control}
           description={formFieldsSale.total.description}

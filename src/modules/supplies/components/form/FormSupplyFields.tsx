@@ -62,6 +62,7 @@ export const FormSupplyFields = () => {
           name={'observation'}
           placeholder={formFieldsSupply.observation.placeholder}
           readOnly={readOnly}
+          className='sm:w-2/4'
         />
       </form>
     </Form>

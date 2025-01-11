@@ -45,16 +45,16 @@ export const FormWorkDataTable: React.FC = () => {
       errorMessage={'Esta vaina tiene errores!!'}
       lengthColumns={lengthColumns}
     >
-      <div className="flex flex-col items-center justify-center gap-2 ">
+      <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-full">
         {/* Barra */}
         <FormDataTableFilter
           placeholder={'Buscar por nombre de empleado...'}
           nameColumnFilter={'employee_first_name'}
-          className="w-[250px] ml-10 self-start sm:self-center sm:m-0"
+          className="w-[280px] ml-10 self-start sm:self-center sm:m-0"
         />
 
         {/* Botones */}
-        <div className="flex w-full gap-2 pl-2 ml-16 sm:justify-end pr-7 sm:m-0">
+        <div className="flex justify-end w-4/5 gap-2">
           <ButtonClearSelection
             onClick={resetSelectionRows}
             visible={hasSelectedRecords}

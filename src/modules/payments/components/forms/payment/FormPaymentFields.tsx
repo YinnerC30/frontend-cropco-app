@@ -15,7 +15,6 @@ import { formFieldsPayments } from '@/modules/payments/utils';
 import { FormPaymentHarvestsPendingDataTable } from './FormPaymentHarvestsPendingDataTable';
 import { FormPaymentToPayDataTable } from './FormPaymentToPayDataTable';
 import { FormPaymentWorksPendingDataTable } from './FormPaymentWorksPendingDataTable';
-import { useEffect, useRef } from 'react';
 
 export const FormPaymentFields: React.FC = () => {
   const {
@@ -26,13 +25,10 @@ export const FormPaymentFields: React.FC = () => {
     getWorksToPay,
     readOnly,
     defaultValues,
-    paymentsState: { records_to_pay },
   } = useFormPaymentContext();
 
   const queryEmployees = useGetAllEmployeesWithPendingPayments();
   const employees = queryEmployees?.data?.rows ?? [];
-
-  
 
   return (
     <>
@@ -43,7 +39,7 @@ export const FormPaymentFields: React.FC = () => {
             delete data.payments_harvest;
             delete data.payments_work;
             delete data.id;
-            delete data.records_to_pay
+            delete data.records_to_pay;
             onSubmit({
               ...data,
               total,
@@ -80,7 +76,7 @@ export const FormPaymentFields: React.FC = () => {
 
           {/* Table */}
 
-          <div className="w-[800px]">
+          <div>
             {!readOnly && (
               <>
                 <FormPaymentHarvestsPendingDataTable />

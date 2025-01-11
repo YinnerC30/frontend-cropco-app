@@ -9,7 +9,7 @@ import { FormSupply } from './form/FormSupply';
 export const CreateSupply = () => {
   const { mutate, isPending } = usePostSupply();
 
-  const onSubmit = async (values: z.infer<typeof formSchemaSupply>) => {
+  const onSubmit = (values: z.infer<typeof formSchemaSupply>) => {
     mutate(values);
   };
 

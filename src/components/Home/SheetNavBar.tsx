@@ -7,8 +7,6 @@ import {
 } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
 
-
-
 import { useState } from 'react';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { routes, Route } from '@/routes/components';
@@ -24,7 +22,7 @@ export function SheetNavBar({ nameModulesUser }: Props) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" className="lg:hidden">
+        <Button type="button" variant="outline" className="lg:hidden">
           <Menu />
         </Button>
       </SheetTrigger>

@@ -54,6 +54,7 @@ export const FormSupplierFields: React.FC = () => {
           name={'address'}
           placeholder={formFieldsSupplier.address.placeholder}
           readOnly={readOnly}
+          className='sm:w-2/4'
         />
         <FormFieldInput
           control={form.control}

@@ -46,7 +46,7 @@ export const FormConsumptionDataTable: React.FC = () => {
       errorMessage={'Esta vaina tiene errores!!'}
       lengthColumns={lengthColumns}
     >
-      <div className="flex flex-col items-center justify-center gap-2 ">
+      <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-full">
         {/* Barra */}
         <FormDataTableFilter
           placeholder={'Buscar por nombre del cultivo...'}
@@ -55,7 +55,7 @@ export const FormConsumptionDataTable: React.FC = () => {
         />
 
         {/* Botones */}
-        <div className="flex justify-end sm:w-full gap-2 sm:m-0 w-[80%]">
+        <div className="flex justify-end w-4/5 gap-2">
           <ButtonClearSelection
             onClick={resetSelectionRows}
             visible={hasSelectedRecords}

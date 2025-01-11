@@ -36,17 +36,17 @@ export const CropsModuleActionsTable: React.FC<Props> = ({ row }) => {
 
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={actionsCropsModule['remove_one_crop']}
+        disabled={!actionsCropsModule['remove_one_crop']}
       />
 
       <ActionModifyRecord
         id={id}
-        disabled={actionsCropsModule['update_one_crop']}
+        disabled={!actionsCropsModule['update_one_crop']}
       />
 
       <ActionViewRecord
         id={id}
-        disabled={actionsCropsModule['find_one_crop']}
+        disabled={!actionsCropsModule['find_one_crop']}
       />
     </DropDownMenuActions>
   );

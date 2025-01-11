@@ -23,6 +23,7 @@ import { columnsPaymentsPendingWork } from '../../columns/ColumnsTablePaymentsPe
 import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
 import { CircleDollarSignIcon } from 'lucide-react';
 import { toast } from 'sonner';
+import { RecordToPay } from '@/modules/payments/interfaces/RecordToPay';
 
 export const FormPaymentWorksPendingDataTable: React.FC = () => {
   const { paymentsState, readOnly, addRecordToPay } = useFormPaymentContext();
@@ -47,7 +48,11 @@ export const FormPaymentWorksPendingDataTable: React.FC = () => {
   const handleBulkAddRecordsToPay = () => {
     const arrayRecords = getDataOfRowsSelected() as WorkDetail[];
     for (const record of arrayRecords) {
-      addRecordToPay({ ...record, date: record.work.date, type: 'work' });
+      addRecordToPay({
+        ...record,
+        date: record.work?.date,
+        type: 'work',
+      } as unknown as RecordToPay);
     }
     resetSelectionRows();
     toast.success('Registros añadidos a la lista de pago');
@@ -61,9 +66,9 @@ export const FormPaymentWorksPendingDataTable: React.FC = () => {
         errorMessage={'Esta vaina tiene errores!!'}
         lengthColumns={lengthColumns}
       >
-        <div className="flex flex-col items-center justify-center gap-2 ">
+        <div className="flex flex-col items-center justify-center w-screen gap-2">
           {/* Botones */}
-          <div className="flex justify-end sm:w-full gap-2 sm:m-0 w-[80%] h-12">
+          <div className="flex justify-end w-4/5 gap-2">
             <ButtonClearSelection
               onClick={resetSelectionRows}
               visible={hasSelectedRecords}
