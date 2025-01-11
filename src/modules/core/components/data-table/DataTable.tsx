@@ -20,7 +20,7 @@ export const DataTable = memo(() => {
   const navigate = useNavigate();
 
   return (
-    <ScrollArea className="h-[44vh] pr-4 pb-2" type="auto">
+    <ScrollArea className="h-[50vh] pr-4 pb-2" type="auto">
       <Table className="mb-4">
         <TableHeader className="w-auto shadow-md">
           {table.getHeaderGroups().map((headerGroup: any) => (

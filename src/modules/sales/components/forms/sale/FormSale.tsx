@@ -8,7 +8,7 @@ export const FormSale: React.FC<FormSaleProps> = (props) => {
   return (
     <FormSaleProvider {...props}>
       <div className="flex flex-col items-center">
-        <ScrollArea className={`h-[72vh] w-full pr-2`}>
+        <ScrollArea className="h-[80vh] w-full pb-2">
           <FormSaleFields />
         </ScrollArea>
         <FormSaleButtons />

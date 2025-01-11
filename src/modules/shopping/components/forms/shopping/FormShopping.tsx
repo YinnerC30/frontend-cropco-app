@@ -9,7 +9,7 @@ export const FormShopping: React.FC<FormShoppingProps> = (
   return (
     <FormShoppingProvider {...props}>
       <div className="flex flex-col items-center">
-        <ScrollArea className={`h-[72vh] w-full pr-2`}>
+        <ScrollArea className="h-[80vh] w-full pb-2">
           <FormShoppingFields />
         </ScrollArea>
         <FormShoppingButtons />

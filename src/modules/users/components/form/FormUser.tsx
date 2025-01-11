@@ -9,7 +9,7 @@ export const FormUser: React.FC<FormUserProps> = (props) => {
   return (
     <FormUserProvider {...props}>
       <div className="flex flex-col items-center">
-        <ScrollArea className="h-[72vh] w-full pb-2">
+        <ScrollArea className="h-[80vh] w-full pb-2">
           <FormUserFields />
           <FormUserFieldsPermissions />
         </ScrollArea>
