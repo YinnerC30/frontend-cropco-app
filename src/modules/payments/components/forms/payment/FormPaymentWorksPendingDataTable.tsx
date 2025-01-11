@@ -66,7 +66,7 @@ export const FormPaymentWorksPendingDataTable: React.FC = () => {
         errorMessage={'Esta vaina tiene errores!!'}
         lengthColumns={lengthColumns}
       >
-        <div className="flex flex-col items-center justify-center w-screen gap-2">
+        <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-full">
           {/* Botones */}
           <div className="flex justify-end w-4/5 gap-2">
             <ButtonClearSelection
