@@ -26,13 +26,8 @@ import { toast } from 'sonner';
 import { SidebarMenuButton } from '../ui/sidebar';
 
 export const MyAccount = () => {
-  const [, setOpenMenu] = useState(false);
   const { removeUser, user, updateUserActions } = useAuthContext();
   const { setTheme } = useTheme();
-
-  const handleOpenMenu = () => {
-    setOpenMenu(true);
-  };
 
   const [isRunningSeed, setIsRunningSeed] = useState(false);
   const [isConvertToAdmin, setIsConvertToAdmin] = useState(false);
@@ -50,7 +45,6 @@ export const MyAccount = () => {
 
   useEffect(() => {
     if (queryImplantedSeed.isSuccess) {
-      toast.success('La semilla fue plantada con exito 🌱');
       setIsRunningSeed(false);
     }
   }, [queryImplantedSeed.isSuccess]);
