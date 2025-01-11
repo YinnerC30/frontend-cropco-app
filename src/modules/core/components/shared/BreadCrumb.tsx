@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useToastDiscardChanges } from '../../hooks/useToastDiscardChanges';
 import { useFormChange } from '../form/FormChangeContext';
 import { memo } from 'react';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 
 interface ItemBreadCrumb {
   link: string;
@@ -33,6 +34,10 @@ export const BreadCrumb: React.FC<Props> = memo(
       <div className="">
         <Breadcrumb>
           <BreadcrumbList>
+            <BreadcrumbItem className='pr-2 border-r'>
+              <SidebarTrigger />
+            </BreadcrumbItem>
+            
             <BreadcrumbItem>
               <BreadcrumbLink
                 className="hover:cursor-pointer"

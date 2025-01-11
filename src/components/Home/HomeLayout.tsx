@@ -3,20 +3,12 @@ import { CommandDialogApp } from '@/modules/core/components/shared/CommandDialog
 import { useAuthContext, useCheckAuthStatus } from '@/auth/hooks';
 import { PATH_LOGIN } from '@/config';
 import { Loading } from '@/modules/core/components';
-import { Link, Navigate, Outlet } from 'react-router-dom';
-import { Route, routes } from '../../routes/components/RoutesNavBar';
-import { useHome } from '../hooks/useHome';
-import { Header } from './Header';
-import { Main } from './Main';
-import { MyAccount } from './MyAccount';
-import { NavBar } from './NavBar';
-import { NavElement } from './NavElement';
-import { SheetNavBar } from './SheetNavBar';
+import { Navigate, Outlet } from 'react-router-dom';
+import { SidebarProvider } from '../ui/sidebar';
+import { AppSidebar } from './AppSideBar';
 
 export const HomeLayout = () => {
   const { tokenSession, isLogin } = useAuthContext();
-
-  const { nameModulesUser } = useHome();
 
   const query = useCheckAuthStatus({
     token: tokenSession!,
@@ -31,37 +23,16 @@ export const HomeLayout = () => {
   }
 
   return (
-    <div className={`grid h-screen grid-cols-12 grid-rows-12 `}>
+    <SidebarProvider>
       <CommandDialogApp />
-
-      <Header className="fixed top-0 left-0 z-10 flex flex-row items-center w-screen py-4 border-b justify-evenly bg-background">
-        <SheetNavBar nameModulesUser={nameModulesUser} />
-        <div className="flex items-center w-auto">
-          <img src="/public/icon.png" width={30} />
-          <Link className="mx-1 text-3xl font-medium " to="/app/home">
-            CropCo
-          </Link>
+      <AppSidebar />
+      <main>
+        <div className="flex justify-center w-[80vw]">
+          <div className="w-full mt-5 ml-10">
+            <Outlet />
+          </div>
         </div>
-
-        <MyAccount />
-        <Link to={PATH_LOGIN}>Login</Link>
-        <Link to={'/'}>Root</Link>
-      </Header>
-
-      <NavBar className="flex-col hidden gap-1 py-2 pl-4 mt-16 border-r lg:flex lg:col-span-2 row-span-11 min-w-44">
-        {routes.map((route: Route) => {
-          if (
-            nameModulesUser.includes(route.name_module) ||
-            route.name_module === 'N/A'
-          ) {
-            return <NavElement key={route.path} route={route} />;
-          }
-        })}
-      </NavBar>
-
-      <Main className="col-span-12 p-2 mt-16 row-span-11 lg:col-span-10 sm:col-span-12">
-        <Outlet />
-      </Main>
-    </div>
+      </main>
+    </SidebarProvider>
   );
 };

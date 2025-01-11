@@ -11,19 +11,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { useAuthContext } from '@/auth/hooks/useAuthContext';
 import { useImplantSeed } from '@/auth/hooks/queries/useImplantSeed';
+import { useAuthContext } from '@/auth/hooks/useAuthContext';
 import { useTheme } from '@/modules/core/components/shared/ThemeProvider';
 import { DialogChangePassword } from '@/modules/users/components/DialogChangePassword';
 import { useGetConvertToAdmin } from '@/modules/users/hooks';
 
+import { useCreationsApp } from '@/auth/hooks/queries/useCreateActionsApp';
 import { MODULE_USER_PATHS } from '@/modules/users/routes/pathsRoutes';
-import { Bolt } from 'lucide-react';
+import { Bolt, ChevronDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-import { Button } from '../ui/button';
-import { useCreationsApp } from '@/auth/hooks/queries/useCreateActionsApp';
+import { SidebarMenuButton } from '../ui/sidebar';
 
 export const MyAccount = () => {
   const [, setOpenMenu] = useState(false);
@@ -67,12 +67,15 @@ export const MyAccount = () => {
     <DropdownMenu modal={false}>
       {/* Trigger */}
       <DropdownMenuTrigger asChild>
-        <Button onClick={handleOpenMenu} variant={'ghost'} size={'icon'}>
-          <Bolt />
-        </Button>
+        <SidebarMenuButton size="lg">
+          <Bolt className="w-4 h-4 mr-2" />
+          <span>Mi Cuenta</span>
+          <ChevronDown className="w-4 h-4 ml-auto" />
+        </SidebarMenuButton>
       </DropdownMenuTrigger>
+
       {/* Content */}
-      <DropdownMenuContent>
+      <DropdownMenuContent side="right">
         {/* Info User Login */}
         <DropdownMenuLabel className="text-center">Mi cuenta</DropdownMenuLabel>
         <DropdownMenuSeparator />
