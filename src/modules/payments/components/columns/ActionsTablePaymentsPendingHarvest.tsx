@@ -15,19 +15,14 @@ export const ActionsTablePaymentsPendingHarvest: React.FC<{
 
   const { addRecordToPay } = useFormPaymentContext();
 
-  const {
-    harvest: { date },
-    id,
-    value_pay,
-    payment_is_pending,
-  } = harvestDetail;
+  const { harvest, id, value_pay } = harvestDetail;
 
   const handlePayRecord = () => {
     addRecordToPay({
-      id,
+      id: id!,
       value_pay,
-      payment_is_pending,
-      date,
+      payment_is_pending: true,
+      date: harvest?.date!,
       type: 'harvest',
     });
 

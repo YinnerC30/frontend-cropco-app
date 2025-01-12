@@ -19,7 +19,7 @@ export const ActionsTablePaymentsPendingWork: React.FC<{
     id = '',
     value_pay,
     payment_is_pending,
-    work: { date },
+    work,
   } = workDetail;
 
   const handlePayRecord = () => {
@@ -27,7 +27,7 @@ export const ActionsTablePaymentsPendingWork: React.FC<{
       id,
       value_pay,
       payment_is_pending,
-      date,
+      date: work?.date!,
       type: 'work',
     });
     toast.success(`Se ha añadido el trabajo para pagarlo`);

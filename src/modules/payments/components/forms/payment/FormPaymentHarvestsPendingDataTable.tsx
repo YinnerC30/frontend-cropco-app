@@ -46,7 +46,13 @@ export const FormPaymentHarvestsPendingDataTable: React.FC = () => {
   const handleBulkAddRecordsToPay = () => {
     const arrayRecords = getDataOfRowsSelected() as HarvestDetail[];
     for (const record of arrayRecords) {
-      addRecordToPay({ ...record, date: record.harvest.date, type: 'harvest' });
+      addRecordToPay({
+        ...record,
+        id: record.id!,
+        date: record.harvest?.date!,
+        type: 'harvest',
+        payment_is_pending: true,
+      });
     }
     resetSelectionRows();
     toast.success('Registros añadidos a la lista de pago');

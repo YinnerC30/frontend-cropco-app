@@ -6,7 +6,7 @@ import FormPayment from './forms/payment/FormPayment';
 export const CreatePayment: React.FC = () => {
   const { mutate, isPending } = usePostPayment();
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = (values: any) => {
     mutate({ ...values, employee: { id: values.employee.id } });
   };
 

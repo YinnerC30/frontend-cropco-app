@@ -35,6 +35,9 @@ export const ModifySupply = () => {
         isSubmitting={isPending}
         defaultValues={{
           ...data,
+          name: data?.name!,
+          brand: data?.brand!,
+          observation: data?.observation!,
           unit_of_measure:
             UnitOfMeasure[data?.unit_of_measure as keyof typeof UnitOfMeasure],
         }}

@@ -12,7 +12,7 @@ import { FormSaleDataTable } from './FormSaleDataTable';
 import React from 'react';
 
 export const FormSaleFields: React.FC = () => {
-  const { formSale, onSubmit, readOnly, total, quantity, cropStock } =
+  const { formSale, onSubmit, readOnly, total, quantity } =
     useFormSaleContext();
 
   return (

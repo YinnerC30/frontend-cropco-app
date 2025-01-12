@@ -21,7 +21,6 @@ export const CreateHarvest: React.FC = () => {
         return {
           ...rest,
           employee: { id: rest.employee.id },
-          // payment_is_pending: true,
         };
       }),
     } as unknown as Harvest);

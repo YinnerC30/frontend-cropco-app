@@ -8,6 +8,6 @@ export interface Employee {
   email: string;
   cell_phone_number: string;
   address: string;
-  harvests_detail: HarvestDetail[];
-  works_detail: WorkDetail[];
+  harvests_detail?: HarvestDetail[];
+  works_detail?: WorkDetail[];
 }

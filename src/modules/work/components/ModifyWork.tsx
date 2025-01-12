@@ -21,6 +21,7 @@ export const ModifyWork: React.FC = () => {
   const onSubmitWork = (values: z.infer<typeof formSchemaWork>) => {
     mutate({
       ...values,
+      date: values.date.toISOString(),
       id,
       details: values.details.map((detail: WorkDetail) => ({
         ...detail,

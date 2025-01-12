@@ -101,7 +101,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           render={({
             field,
           }: {
-            field: ControllerRenderProps<any, string>;
+            field: ControllerRenderProps<any, any>;
           }) => {
             return (
               <FormItem className="my-4">

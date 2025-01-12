@@ -17,23 +17,17 @@ import {
   ToolTipTemplate,
   useDataTableMenuActionsContext,
 } from '@/modules/core/components';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { Copy, KeyRound } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { DataResetPassword } from '../../hooks/mutations';
-import { UseMutationResult } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 
 interface Props {
   id: string;
-  mutation: UseMutationResult<
-    DataResetPassword,
-    AxiosError,
-    string,
-    unknown
-  >;
+  mutation: UseMutationReturn<DataResetPassword, string>;
   disabled: boolean;
   email: string;
 }
@@ -56,7 +50,7 @@ export function ActionResetPassword({ id, mutation, disabled, email }: Props) {
 
   const handleResetPassword = () => {
     mutate(id, {
-      onSuccess: (data: DataResetPassword) => {
+      onSuccess: ({ data }: { data: DataResetPassword }) => {
         setNewPassword(data.password);
       },
     });

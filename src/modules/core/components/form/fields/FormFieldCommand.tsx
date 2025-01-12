@@ -60,7 +60,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
     <FormField
       control={control}
       name={`${name}.id`}
-      render={({ field }: { field: ControllerRenderProps<any, string> }) => {
+      render={({ field }: { field: ControllerRenderProps<any, any> }) => {
         return (
           <FormItem className="my-4">
             <FormLabel className="block">{label}</FormLabel>

@@ -89,11 +89,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
         <FormField
           control={formConsumptionDetail.control}
           name={`supply.id`}
-          render={({
-            field,
-          }: {
-            field: ControllerRenderProps<any, string>;
-          }) => {
+          render={({ field }: { field: ControllerRenderProps<any, any> }) => {
             return (
               <FormItem className="my-4">
                 <FormLabel className="block">

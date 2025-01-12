@@ -2,11 +2,11 @@ import { ObjectWithId } from '@/modules/core/interfaces/general/ObjectWithId';
 import { Harvest } from './Harvest';
 
 export interface HarvestDetail {
+  id?: string;
   employee: ObjectWithId;
-  id: string;
   payments_harvest?: any[];
   total: number;
   value_pay: number;
-  harvest: Harvest;
-  payment_is_pending: boolean;
+  harvest?: Harvest;
+  payment_is_pending?: boolean;
 }

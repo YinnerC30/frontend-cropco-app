@@ -21,8 +21,11 @@ export function useGetWork(id: string): UseGetOneRecordReturn<Work> {
     queryKey: ['works', id],
     queryFn: () => getWorkById(id),
     select: ({ data }) => {
-      console.log(data)
-      return { ...data, date: ConvertStringToDate(data?.date) };
+      console.log(data);
+      return {
+        ...data,
+        date: ConvertStringToDate(data?.date!),
+      } as unknown as Work;
     },
   });
 

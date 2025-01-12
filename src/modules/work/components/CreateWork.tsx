@@ -15,6 +15,7 @@ export const CreateWork: React.FC = () => {
   const onSubmit = (values: z.infer<typeof formSchemaWork>) => {
     mutate({
       ...values,
+      date: values.date.toISOString(),
       details: values.details.map(({ id, ...rest }: WorkDetail) => ({
         ...rest,
         employee: { id: rest.employee.id },
