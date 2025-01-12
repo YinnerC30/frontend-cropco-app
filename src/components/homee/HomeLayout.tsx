@@ -3,9 +3,10 @@ import { CommandDialogApp } from '@/modules/core/components/shared/CommandDialog
 import { useAuthContext, useCheckAuthStatus } from '@/auth/hooks';
 import { PATH_LOGIN } from '@/config';
 import { Loading } from '@/modules/core/components';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { SidebarProvider } from '../ui/sidebar';
 import { AppSidebar } from './AppSideBar';
+import { MainContent } from './MainContent';
 
 export const HomeLayout = () => {
   const { tokenSession, isLogin } = useAuthContext();
@@ -26,13 +27,7 @@ export const HomeLayout = () => {
     <SidebarProvider>
       <CommandDialogApp />
       <AppSidebar />
-      <main>
-        <div className="flex justify-center w-[80vw]">
-          <div className="w-full mt-5 ml-10">
-            <Outlet />
-          </div>
-        </div>
-      </main>
+      <MainContent />
     </SidebarProvider>
   );
 };

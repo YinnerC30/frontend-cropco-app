@@ -1,6 +1,6 @@
 export * from './Header';
 export * from './HomeLayout';
-export * from './Main';
+export * from './MainContent';
 export * from './MyAccount';
 export * from './NavBar';
 export * from './NavElement';
