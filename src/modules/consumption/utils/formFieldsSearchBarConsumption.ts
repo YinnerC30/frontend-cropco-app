@@ -1,4 +1,4 @@
-import { CustomFormField } from '@/modules/core/interfaces/formm/CustomFormField';
+import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
 type FormFieldsSearchBarConsumption =
   | 'filter_by_date'

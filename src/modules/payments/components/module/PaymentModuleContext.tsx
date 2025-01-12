@@ -11,8 +11,8 @@ import { useGetAllPayments } from '../../hooks/queries/useGetAllPayments';
 import columnsPayment from './ColumnsTablePayment';
 import { ActionsTablePayment } from './ActionsTablePayment';
 import { BulkRecords } from '@/modules/core/interfaces';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { Payment } from '../../interfaces/Payment';
 import { useDeleteBulkPayments } from '../../hooks/mutations/useDeleteBulkPayments';
 

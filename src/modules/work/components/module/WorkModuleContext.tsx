@@ -8,8 +8,8 @@ import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData'
 import { createContext, useMemo } from 'react';
 
 import { BulkRecords } from '@/modules/core/interfaces';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { useDeleteBulkWorks } from '../../hooks/mutations/useDeleteBulkWorks';
 import { useGetAllWorks } from '../../hooks/queries/useGetAllWorks';
 import { Work } from '../../interfaces/Work';

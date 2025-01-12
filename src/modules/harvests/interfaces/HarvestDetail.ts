@@ -1,4 +1,4 @@
-import { ObjectWithId } from '@/modules/core/interfaces/generall/ObjectWithId';
+import { ObjectWithId } from '@/modules/core/interfaces/general/ObjectWithId';
 import { Harvest } from './Harvest';
 
 export interface HarvestDetail {

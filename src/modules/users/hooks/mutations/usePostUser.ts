@@ -6,7 +6,7 @@ import { User } from '../../interfaces';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 
 async function createUser(user: Partial<User>): PromiseReturnRecord<User> {
   return await cropcoAPI.post(`${pathsCropco.users}/create`, user);

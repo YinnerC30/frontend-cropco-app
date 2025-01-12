@@ -8,7 +8,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { Client } from '@/modules/clients/interfaces/Client';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_CLIENTS_PATHS } from '../../routes/pathRoutes';
 

@@ -1,5 +1,5 @@
-import { TypeFilterDate } from '../generall/TypeFilterDate';
-import { TypeFilterNumber } from '../generall/TypeFilterNumber';
+import { TypeFilterDate } from '../general/TypeFilterDate';
+import { TypeFilterNumber } from '../general/TypeFilterNumber';
 
 export const numberFilterOptions = [
   {

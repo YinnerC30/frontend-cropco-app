@@ -9,8 +9,8 @@ import { useGetAllCrops } from '../../hooks/queries/useGetAllCrops';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { BulkRecords } from '@/modules/core/interfaces';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { useDeleteBulkCrops } from '../../hooks/mutations/useDeleteBulkCrops';
 import { Crop } from '../../interfaces/Crop';
 import { columnsTableCrops } from './columnsTableCrops';

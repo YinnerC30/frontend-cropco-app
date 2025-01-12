@@ -2,7 +2,7 @@ import {
   schemaForDate,
   schemaForTotal,
 } from '@/modules/core/helpers/schemas-validation/SchemasSearchBar';
-import { TypeFilterNumber } from '@/modules/core/interfaces/generall/TypeFilterNumber';
+import { TypeFilterNumber } from '@/modules/core/interfaces/general/TypeFilterNumber';
 import { z } from 'zod';
 
 export const formSchemaSearchBarSale = z.object({

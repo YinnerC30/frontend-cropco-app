@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/form';
 
 import React, { memo } from 'react';
-import { FormFieldProps } from '../../../interfaces/formm/FormFieldProps';
+import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 
 interface SelectItemValues {
   key: string;
