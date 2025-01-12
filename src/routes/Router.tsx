@@ -2,11 +2,14 @@ import { AuthenticationLayout } from '@/auth';
 import { authenticationRoutes } from '@/auth/routes/authenticationRoutes';
 import { LandingPage } from '@/components/landing/LandingPage';
 import { clientRoutes } from '@/modules/clients/routes/clientRoutes';
+import { consumptionRoutes } from '@/modules/consumption/routes/consumptionRoutes';
 import { cropRoutes } from '@/modules/crops/routes/cropsRoutes';
 import { dashboardRoutes } from '@/modules/dashboard/routes/Routes';
 import { employeeRoutes } from '@/modules/employees/routes/employeeRoutes';
 import { harvestRoutes } from '@/modules/harvests/routes/harvestRoutes';
+import { paymentsRoutes } from '@/modules/payments/routes/paymentsRoutes';
 import { saleRoutes } from '@/modules/sales/routes/salesRoutes';
+import { shoppingRoutes } from '@/modules/shopping/routes/shoppingRoutes';
 import { supplierRoutes } from '@/modules/suppliers/routes/supplierRoutes';
 import { supplyRoutes } from '@/modules/supplies/routes/suppliesRoutes';
 import { userRoutes } from '@/modules/users/routes/userRoutes';
@@ -15,9 +18,6 @@ import ErrorPage from '@/routes/components/ErrorPage';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { HomeLayout } from '../components/homee/HomeLayout';
 import { RoutesController } from './components';
-import { shoppingRoutes } from '@/modules/shopping/routes/shoppingRoutes';
-import { consumptionRoutes } from '@/modules/consumption/routes/consumptionRoutes';
-import { paymentsRoutes } from '@/modules/payments/routes/paymentsRoutes';
 
 export const Router = createBrowserRouter([
   {
@@ -41,7 +41,11 @@ export const Router = createBrowserRouter([
       },
       {
         path: 'home',
-        element: <HomeLayout />,
+        element: (
+          <div className="w-screen h-screen">
+            <HomeLayout />
+          </div>
+        ),
         children: [
           { index: true, element: <Navigate to={'dashboard'} /> },
           dashboardRoutes,

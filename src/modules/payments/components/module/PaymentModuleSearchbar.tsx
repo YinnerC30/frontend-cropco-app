@@ -191,7 +191,7 @@ export const PaymentModuleSearchbar: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-start justify-start w-[1000px]">
+    <div className="flex flex-col items-start justify-start w-screen my-4 sm:w-full">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSearch)}

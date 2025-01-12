@@ -250,7 +250,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
   }, [queryCrops.isSuccess]);
 
   return (
-    <div className="flex flex-col items-start justify-start w-[1000px]">
+    <div className="flex flex-col items-start justify-start w-screen my-4 sm:w-full">
       <DropdownMenu open={openDropDownMenu} modal={false}>
         <Form {...form}>
           <form

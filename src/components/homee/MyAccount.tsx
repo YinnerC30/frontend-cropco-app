@@ -2,12 +2,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
@@ -21,13 +15,18 @@ import { useCreationsApp } from '@/auth/hooks/queries/useCreateActionsApp';
 import { MODULE_USER_PATHS } from '@/modules/users/routes/pathsRoutes';
 import { Bolt, ChevronDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
+
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-import { SidebarMenuButton } from '../ui/sidebar';
+import { Button } from '../ui/button';
+import { useSidebar } from '../ui/sidebar';
 
 export const MyAccount = () => {
   const { removeUser, user, updateUserActions } = useAuthContext();
   const { setTheme } = useTheme();
+  const { isMobile, setOpenMobile } = useSidebar();
+
+  const [openDropDown, setOpenDropDown] = useState(false);
 
   const [isRunningSeed, setIsRunningSeed] = useState(false);
   const [isConvertToAdmin, setIsConvertToAdmin] = useState(false);
@@ -58,28 +57,22 @@ export const MyAccount = () => {
   }, [queryConvertToAdmin.isSuccess]);
 
   return (
-    <DropdownMenu modal={false}>
+    <DropdownMenu
+      open={openDropDown}
+      onOpenChange={setOpenDropDown}
+      modal={true}
+    >
       {/* Trigger */}
       <DropdownMenuTrigger asChild>
-        <SidebarMenuButton size="lg">
-          <Bolt className="w-4 h-4 mr-2" />
-          <span>Mi Cuenta</span>
+        <Button variant={'ghost'}>
+          <span>{user?.email}</span>
           <ChevronDown className="w-4 h-4 ml-auto" />
-        </SidebarMenuButton>
+        </Button>
       </DropdownMenuTrigger>
 
       {/* Content */}
-      <DropdownMenuContent side="right">
+      <DropdownMenuContent side={isMobile ? 'bottom' : 'right'}>
         {/* Info User Login */}
-        <DropdownMenuLabel className="text-center">Mi cuenta</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel className="text-center">
-          {user?.first_name}
-        </DropdownMenuLabel>
-        <DropdownMenuLabel className="text-center">
-          {user?.email}
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
 
         {/* Copy Id */}
         <DropdownMenuItem
@@ -104,36 +97,12 @@ export const MyAccount = () => {
 
         {/* Modificar permisos */}
         <DropdownMenuItem asChild>
-          <Link to={`${MODULE_USER_PATHS.Update}${user?.id!}`}>
+          <Link
+            onClick={() => setOpenMobile(false)}
+            to={`${MODULE_USER_PATHS.Update}${user?.id!}`}
+          >
             Modificar mis permisos
           </Link>
-        </DropdownMenuItem>
-
-        {/* Submenu */}
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Modo</DropdownMenuSubTrigger>
-          <DropdownMenuPortal>
-            <DropdownMenuSubContent>
-              <DropdownMenuItem onClick={() => setTheme('light')}>
-                Claro
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme('dark')}>
-                Oscuro
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme('system')}>
-                Sistema
-              </DropdownMenuItem>
-            </DropdownMenuSubContent>
-          </DropdownMenuPortal>
-        </DropdownMenuSub>
-
-        {/* LogOut */}
-        <DropdownMenuItem
-          onClick={() => {
-            removeUser();
-          }}
-        >
-          Salir
         </DropdownMenuItem>
 
         {/* Run Seed */}

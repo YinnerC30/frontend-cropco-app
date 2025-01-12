@@ -1,4 +1,4 @@
-import { LogOut } from 'lucide-react';
+import { LogOut, Moon, Sun } from 'lucide-react';
 
 import {
   Sidebar,
@@ -13,7 +13,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { useFormChange } from '@/modules/core/components';
+import { useFormChange, useTheme } from '@/modules/core/components';
 import { useToastDiscardChanges } from '@/modules/core/hooks/useToastDiscardChanges';
 import { Route, routes } from '@/routes/components/RoutesNavBar';
 
@@ -21,6 +21,13 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useHome } from '../hooks/useHome';
 import { MyAccount } from './MyAccount';
 import { useAuthContext } from '@/auth';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+import { Button } from '../ui/button';
 
 export function AppSidebar() {
   const { nameModulesUser } = useHome();
@@ -31,6 +38,8 @@ export function AppSidebar() {
   const { showToast } = useToastDiscardChanges();
 
   const { removeUser } = useAuthContext();
+
+  const { setTheme } = useTheme();
 
   const navigate = useNavigate();
 
@@ -88,6 +97,30 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
+        <div className="flex justify-center ">
+          <DropdownMenu>
+            {/* <SidebarMenuButton> */}
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Tema</span>
+              </Button>
+            </DropdownMenuTrigger>
+            {/* </SidebarMenuButton> */}
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => setTheme('light')}>
+                Claro
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme('dark')}>
+                Oscuro
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme('system')}>
+                Sistema
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <SidebarMenuButton onClick={() => removeUser()}>
           <LogOut /> Salir
         </SidebarMenuButton>
