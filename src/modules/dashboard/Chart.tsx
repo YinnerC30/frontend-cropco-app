@@ -6,11 +6,16 @@ import { chartData } from "./ChartData";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import { ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { ChartLegend, ChartLegendContent } from "@/components/ui/chart"
+import { BreadCrumb } from "../core/components";
 
 
 
 export function Chart() {
   return (
+    <div>
+
+    <BreadCrumb finalItem={"Graficas"} hiddenSeparator/>
+    
     <ChartContainer config={chartConfig} className="max-h-[200px] w-full">
       <BarChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />
@@ -27,6 +32,7 @@ export function Chart() {
         <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
       </BarChart>
     </ChartContainer>
+    </div>
   );
 }
 export default Chart;
