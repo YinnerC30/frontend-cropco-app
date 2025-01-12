@@ -7,13 +7,12 @@ import {
 
 import { useImplantSeed } from '@/auth/hooks/queries/useImplantSeed';
 import { useAuthContext } from '@/auth/hooks/useAuthContext';
-import { useTheme } from '@/modules/core/components/shared/ThemeProvider';
 import { DialogChangePassword } from '@/modules/users/components/DialogChangePassword';
 import { useGetConvertToAdmin } from '@/modules/users/hooks';
 
 import { useCreationsApp } from '@/auth/hooks/queries/useCreateActionsApp';
 import { MODULE_USER_PATHS } from '@/modules/users/routes/pathsRoutes';
-import { Bolt, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
@@ -22,8 +21,8 @@ import { Button } from '../ui/button';
 import { useSidebar } from '../ui/sidebar';
 
 export const MyAccount = () => {
-  const { removeUser, user, updateUserActions } = useAuthContext();
-  const { setTheme } = useTheme();
+  const { user, updateUserActions } = useAuthContext();
+
   const { isMobile, setOpenMobile } = useSidebar();
 
   const [openDropDown, setOpenDropDown] = useState(false);
