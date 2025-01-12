@@ -8,7 +8,7 @@ import {
   Input,
 } from '@/components';
 import { memo } from 'react';
-import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
+import { FormFieldProps } from '../../../interfaces/formm/FormFieldProps';
 
 interface FormFieldInputProps extends FormFieldProps {
   step?: number;

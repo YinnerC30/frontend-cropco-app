@@ -8,8 +8,8 @@ import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData'
 import { createContext, useMemo } from 'react';
 
 import { BulkRecords } from '@/modules/core/interfaces';
-import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
 import { useDeleteBulkShopping } from '../../hooks/mutations/useDeleteBulkShopping';
 import { useGetAllShopping } from '../../hooks/queries/useGetAllShopping';
 import { ShoppingSupplies } from '../../interfaces';

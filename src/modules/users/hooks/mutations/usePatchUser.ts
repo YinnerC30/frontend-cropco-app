@@ -10,7 +10,7 @@ import { User } from '../../interfaces';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
 
 async function updateUser({
   id,

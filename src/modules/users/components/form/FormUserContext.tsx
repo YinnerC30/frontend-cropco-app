@@ -2,7 +2,7 @@ import { useCreateForm, useGetAllModules } from '@/modules/core/hooks';
 import {
   Action,
   Module,
-} from '@/modules/core/interfaces/responses/ResponseGetAllModules';
+} from '@/modules/core/interfaces/responsess/ResponseGetAllModules';
 import React, { createContext, ReactNode, useMemo } from 'react';
 import { UserForm } from '../../interfaces';
 import { FormUserContextProps } from '../../interfaces/';

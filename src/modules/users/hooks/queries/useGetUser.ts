@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { Action, Module } from '@/modules/core/interfaces';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responsess/UseGetOneRecordReturn';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { User } from '../../interfaces';

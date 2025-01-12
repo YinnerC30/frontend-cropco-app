@@ -17,7 +17,7 @@ import {
   ToolTipTemplate,
   useDataTableMenuActionsContext,
 } from '@/modules/core/components';
-import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { Copy, KeyRound } from 'lucide-react';

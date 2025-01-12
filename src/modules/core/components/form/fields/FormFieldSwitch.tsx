@@ -7,7 +7,7 @@ import {
 } from '@/components';
 import { Switch } from '@/components/ui/switch';
 import React, { memo } from 'react';
-import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
+import { FormFieldProps } from '../../../interfaces/formm/FormFieldProps';
 
 export const FormFieldSwitch: React.FC<FormFieldProps> = memo(
   ({ control, name, label, description, className }) => {

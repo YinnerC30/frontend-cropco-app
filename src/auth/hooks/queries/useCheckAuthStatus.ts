@@ -7,7 +7,7 @@ import { TIME_ACTIVE_TOKEN } from '../../components/AuthContext';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responsess/UseGetOneRecordReturn';
 
 export interface ResponseCheckAuth {
   message: string;

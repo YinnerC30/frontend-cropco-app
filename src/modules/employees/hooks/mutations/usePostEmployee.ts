@@ -5,7 +5,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
 import { useNavigate } from 'react-router-dom';
 import { Employee } from '../../interfaces/Employee';
 import { MODULE_EMPLOYEE_PATHS } from '../../routes/pathRoutes';

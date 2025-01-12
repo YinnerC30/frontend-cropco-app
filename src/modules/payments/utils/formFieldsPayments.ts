@@ -1,4 +1,4 @@
-import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
+import { CustomFormField } from '@/modules/core/interfaces/formm/CustomFormField';
 
 type FormFieldsPayments = 'date' | 'employee' | 'method_of_payment' | 'total';
 

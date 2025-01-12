@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { Module } from '../../interfaces/responses/ResponseGetAllModules';
+import { Module } from '../../interfaces/responsess/ResponseGetAllModules';
 import { CACHE_CONFIG_TIME } from '@/config';
 import { AxiosError, AxiosResponse } from 'axios';
 import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';

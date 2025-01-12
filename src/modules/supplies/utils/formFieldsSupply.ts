@@ -1,4 +1,4 @@
-import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
+import { CustomFormField } from '@/modules/core/interfaces/formm/CustomFormField';
 
 type FormFieldsSupply = 'name' | 'brand' | 'unit_of_measure' | 'observation';
 export const formFieldsSupply: Record<FormFieldsSupply, CustomFormField> = {

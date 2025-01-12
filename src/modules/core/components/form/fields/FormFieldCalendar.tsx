@@ -20,7 +20,7 @@ import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 
 import React, { memo, useState } from 'react';
-import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
+import { FormFieldProps } from '../../../interfaces/formm/FormFieldProps';
 import { Matcher } from 'react-day-picker';
 
 interface FieldCalendarProps extends FormFieldProps {

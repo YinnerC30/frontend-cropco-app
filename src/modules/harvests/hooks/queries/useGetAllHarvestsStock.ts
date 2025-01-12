@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/TypeGetAllRecordsReturn';
 import { HarvestStock } from '@/modules/harvests/interfaces/HarvestStock';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responsess/UseGetOneRecordReturn';
 import { ResponseApiGetAllRecords } from '@/modules/core/interfaces';
 import { useAuthContext } from '@/auth';
 import { useEffect } from 'react';

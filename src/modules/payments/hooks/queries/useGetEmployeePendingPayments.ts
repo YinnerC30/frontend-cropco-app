@@ -1,7 +1,7 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responsess/UseGetOneRecordReturn';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';

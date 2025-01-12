@@ -1,7 +1,7 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 

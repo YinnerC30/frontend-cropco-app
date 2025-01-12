@@ -1,4 +1,4 @@
-import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
+import { CustomFormField } from '@/modules/core/interfaces/formm/CustomFormField';
 type FormFieldsWorkDetail = 'value_pay' | 'payment_is_pending' | 'employee';
 
 export const formFieldsWorkDetail: Record<

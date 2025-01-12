@@ -3,7 +3,7 @@ import { useGetAllModules } from '@/modules/core/hooks';
 import {
   Action,
   Module,
-} from '@/modules/core/interfaces/responses/ResponseGetAllModules';
+} from '@/modules/core/interfaces/responsess/ResponseGetAllModules';
 import { RootState, useAppSelector } from '@/redux/store';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';

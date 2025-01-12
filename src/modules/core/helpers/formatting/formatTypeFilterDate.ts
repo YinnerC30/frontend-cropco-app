@@ -1,4 +1,4 @@
-import { TypeFilterDate } from '../../interfaces/general/TypeFilterDate';
+import { TypeFilterDate } from '../../interfaces/generall/TypeFilterDate';
 
 export const formatTypeFilterDate = (
   value: TypeFilterDate

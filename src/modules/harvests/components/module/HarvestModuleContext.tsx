@@ -6,8 +6,8 @@ import {
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData';
 import { BulkRecords } from '@/modules/core/interfaces';
-import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
 import React, { createContext, useMemo } from 'react';
 import { useGetAllHarvests } from '../../hooks';
 import { useDeleteBulkHarvests } from '../../hooks/mutations/useDeleteBulkHarvests';

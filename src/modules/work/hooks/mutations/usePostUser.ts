@@ -5,7 +5,7 @@ import { Work } from '../../interfaces/Work';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_WORKS_PATHS } from '../../routes/pathRoutes';
 

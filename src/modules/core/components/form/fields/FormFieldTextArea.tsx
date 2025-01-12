@@ -8,7 +8,7 @@ import {
   Textarea,
 } from '@/components';
 import React, { memo } from 'react';
-import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
+import { FormFieldProps } from '../../../interfaces/formm/FormFieldProps';
 
 export const FormFieldTextArea: React.FC<FormFieldProps> = memo(
   ({

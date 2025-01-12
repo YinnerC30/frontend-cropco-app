@@ -3,8 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
 import { ResponseApiGetAllRecords } from '@/modules/core/interfaces';
-import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/TypeGetAllRecordsReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responsess/UseGetOneRecordReturn';
 import { HarvestProcessed } from '@/modules/harvests/interfaces/HarvestProcessed';
 import { useEffect } from 'react';
 

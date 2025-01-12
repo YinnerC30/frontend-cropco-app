@@ -13,7 +13,7 @@ import { userRoutes } from '@/modules/users/routes/userRoutes';
 import { workRoutes } from '@/modules/work/routes/workRoutes';
 import ErrorPage from '@/routes/components/ErrorPage';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { HomeLayout } from '../components/home/HomeLayout';
+import { HomeLayout } from '../components/homee/HomeLayout';
 import { RoutesController } from './components';
 import { shoppingRoutes } from '@/modules/shopping/routes/shoppingRoutes';
 import { consumptionRoutes } from '@/modules/consumption/routes/consumptionRoutes';

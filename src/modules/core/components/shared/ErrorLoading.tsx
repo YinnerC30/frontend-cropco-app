@@ -17,7 +17,7 @@ export const ErrorLoading = () => {
         <Button className="mt-5 ml-5" onClick={() => window.location.reload()}>
           Reintentar
         </Button>
-        <Button className="mt-5 ml-5" onClick={() => navigate("/app/home/dashboard")}>
+        <Button className="mt-5 ml-5" onClick={() => navigate("/app/homee/dashboard")}>
           Regresar
         </Button>
       </div>

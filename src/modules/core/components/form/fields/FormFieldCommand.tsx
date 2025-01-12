@@ -27,7 +27,7 @@ import { cn } from '@/lib/utils';
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
-import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
+import { FormFieldProps } from '../../../interfaces/formm/FormFieldProps';
 import { Loading } from '../../shared/Loading';
 
 interface FormFieldCommandProps extends FormFieldProps {

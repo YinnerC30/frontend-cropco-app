@@ -7,9 +7,9 @@ import { QueryDateProps } from '@/modules/core/interfaces/queries/QueryDateProps
 import { QueryPaginationProps } from '@/modules/core/interfaces/queries/QueryPaginationProps';
 import { QueryTotalProps } from '@/modules/core/interfaces/queries/QueryTotalProps';
 import { QueryValuePayProps } from '@/modules/core/interfaces/queries/QueryValuePayProps';
-import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
-import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/TypeGetAllRecordsReturn';
+import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Harvest } from '../../interfaces';

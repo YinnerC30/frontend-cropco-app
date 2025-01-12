@@ -1,7 +1,7 @@
 import { DataTableManualReturn } from '@/modules/core/hooks';
 import { BulkRecords } from '@/modules/core/interfaces';
-import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Employee } from './Employee';

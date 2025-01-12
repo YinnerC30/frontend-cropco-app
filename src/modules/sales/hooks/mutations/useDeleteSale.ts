@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
 
 export const deleteSale = async (id: string): PromiseReturnRecord<void> => {
   return await cropcoAPI.delete(`${pathsCropco.sales}/remove/one/${id}`);

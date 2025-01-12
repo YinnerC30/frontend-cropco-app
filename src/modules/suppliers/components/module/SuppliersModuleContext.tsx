@@ -13,8 +13,8 @@ import { columnsTableSuppliers } from './columnsTableSuppliers.tsx';
 import { SuppliersModuleActionsTable } from './SuppliersModuleActionsTable.tsx';
 import { Supplier } from '../../interfaces/Supplier.ts';
 import { BulkRecords } from '@/modules/core/interfaces/index.ts';
-import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn.ts';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn.ts';
+import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn.ts';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn.ts';
 
 export interface SuppliersModuleContextProps {
   paramQuery: string;
