@@ -11,6 +11,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { useFormChange } from '@/modules/core/components';
 import { useToastDiscardChanges } from '@/modules/core/hooks/useToastDiscardChanges';
@@ -24,6 +25,8 @@ import { useAuthContext } from '@/auth';
 export function AppSidebar() {
   const { nameModulesUser } = useHome();
 
+  const { setOpenMobile, isMobile } = useSidebar();
+
   const { hasUnsavedChanges } = useFormChange();
   const { showToast } = useToastDiscardChanges();
 
@@ -33,10 +36,16 @@ export function AppSidebar() {
 
   const handleClick = (e: any, path: string) => {
     e.preventDefault();
-
     if (hasUnsavedChanges) {
-      showToast({ route: path, skiptRedirection: false });
+      showToast({
+        route: path,
+        skiptRedirection: false,
+        action: () => {
+          isMobile && setOpenMobile(false);
+        },
+      });
     } else {
+      isMobile && setOpenMobile(false);
       navigate(path);
     }
   };
