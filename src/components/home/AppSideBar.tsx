@@ -17,22 +17,24 @@ import { useFormChange, useTheme } from '@/modules/core/components';
 import { useToastDiscardChanges } from '@/modules/core/hooks/useToastDiscardChanges';
 import { Route, routes } from '@/routes/components/RoutesNavBar';
 
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useHome } from '../hooks/useHome';
-import { MyAccount } from './MyAccount';
 import { useAuthContext } from '@/auth';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useHome } from '../hooks/useHome';
+import { Button } from '../ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { Button } from '../ui/button';
+import { MyAccount } from './MyAccount';
 
 export function AppSidebar() {
   const { nameModulesUser } = useHome();
 
   const { setOpenMobile, isMobile } = useSidebar();
+
+  const url = useLocation();
 
   const { hasUnsavedChanges } = useFormChange();
   const { showToast } = useToastDiscardChanges();
@@ -74,19 +76,19 @@ export function AppSidebar() {
               {routes.map((route: Route) => {
                 if (
                   nameModulesUser.includes(route.name_module) ||
-                  route.name_module === 'N/A'
+                  route.name_module === 'dashboard'
                 ) {
                   return (
                     <SidebarMenuItem key={route.path}>
-                      <SidebarMenuButton asChild>
-                        <NavLink
-                          onClick={(e) => handleClick(e, route.path)}
-                          to={route.path}
-                        >
-                          <span className="w-4 h-4 mr-2">{route.Icon}</span>
-
+                      <SidebarMenuButton
+                        onClick={(e) => handleClick(e, route.path)}
+                        isActive={url.pathname.includes(route.name_module)}
+                        asChild
+                      >
+                        <div>
+                          {route.Icon}
                           <span>{route.label}</span>
-                        </NavLink>
+                        </div>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   );
