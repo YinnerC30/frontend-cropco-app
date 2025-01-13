@@ -21,7 +21,7 @@ import { Button } from '../ui/button';
 import { useSidebar } from '../ui/sidebar';
 
 export const MyAccount = () => {
-  const { user, updateUserActions } = useAuthContext();
+  const { user, saveUser } = useAuthContext();
 
   const { isMobile, setOpenMobile } = useSidebar();
 
@@ -50,7 +50,11 @@ export const MyAccount = () => {
   useEffect(() => {
     if (queryConvertToAdmin.isSuccess) {
       toast.success('Ya te volviste admin');
-      updateUserActions(queryConvertToAdmin.data?.modules);
+      saveUser({
+        ...queryConvertToAdmin.data!,
+        isLogin: true,
+        token: user?.token!,
+      });
       setIsConvertToAdmin(false);
     }
   }, [queryConvertToAdmin.isSuccess]);
@@ -64,7 +68,9 @@ export const MyAccount = () => {
       {/* Trigger */}
       <DropdownMenuTrigger asChild>
         <Button variant={'ghost'}>
-          <span>{user?.email}</span>
+          <span className="capitalize">
+            {user?.first_name! + ' ' + user?.last_name!}
+          </span>
           <ChevronDown className="w-4 h-4 ml-auto" />
         </Button>
       </DropdownMenuTrigger>

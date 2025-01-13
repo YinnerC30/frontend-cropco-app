@@ -88,13 +88,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     queryClient.clear();
   };
 
-  const updateUserActions = (modules: Module[]) => {
-    if (user) {
-      saveUserInLocalStorage({ ...user, modules });
-      saveUserInState({ ...user, modules });
-    }
-  };
-
   const renewTokenInState = (token: string) => {
     dispatch(setToken(token));
   };
@@ -227,7 +220,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         saveUser,
         isLogin: user?.isLogin ?? false,
         removeUser,
-        updateUserActions,
+        
         updateTokenInClient,
         tokenSession,
         user,

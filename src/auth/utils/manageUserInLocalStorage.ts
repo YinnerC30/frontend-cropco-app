@@ -18,6 +18,7 @@ export const getUserInLocalStorage = (): UserActive => {
     modules: [],
     isLogin: false,
     first_name: '',
+    last_name: '',
   };
   const data = localStorage.getItem(KEY_USER_LOCAL_STORAGE);
   if (!data) {

@@ -1,9 +1,6 @@
 import { useAuthContext } from '@/auth/hooks';
 import { RootState, useAppSelector } from '@/redux/store';
-import {
-  useMutation,
-  useQueryClient
-} from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { User } from '../../interfaces';
@@ -11,6 +8,7 @@ import { User } from '../../interfaces';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
 
 async function updateUser({
   id,
@@ -22,7 +20,7 @@ export function usePatchUser(): UseMutationReturn<User, Partial<User>> {
   const navigate = useNavigate();
   const user = useAppSelector((state: RootState) => state.authentication.user);
 
-  const { updateUserActions, handleError } = useAuthContext();
+  const { handleError, saveUser } = useAuthContext();
 
   const queryClient = useQueryClient();
   const mutation: UseMutationReturn<User, Partial<User>> = useMutation({
@@ -32,13 +30,13 @@ export function usePatchUser(): UseMutationReturn<User, Partial<User>> {
       await queryClient.invalidateQueries({ queryKey: ['user', variables.id] });
 
       if (variables.id === user.id) {
-        updateUserActions(data?.modules);
+        saveUser({ ...data, token: user.token, isLogin: true });
         await queryClient.invalidateQueries();
         toast.success(`Tu información han sido actualizada`);
       } else {
         toast.success(`Usuario actualizado`);
       }
-      navigate('../view/all');
+      navigate(MODULE_USER_PATHS.ViewAll);
     },
     onError: (error) => {
       handleError({
