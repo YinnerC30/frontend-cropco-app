@@ -115,9 +115,10 @@ export const FormConsumptionDetail: React.FC = () => {
             <span className="sr-only">Close</span>
           </DialogClose>
           <DialogHeader>
-            <DialogTitle>Compra a proveedores</DialogTitle>
+            <DialogTitle>Consumo de sumistro</DialogTitle>
             <DialogDescription className="">
-              Información detallada de la compra realizada al proveedor
+              Información detallada del consumo realizado al suminstro por
+              cultivo
             </DialogDescription>
           </DialogHeader>
 

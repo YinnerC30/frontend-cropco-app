@@ -86,7 +86,7 @@ export const routes: Route[] = [
     label: 'Compras',
     path: 'shopping/view/all',
     Icon: <ShoppingBagIcon />,
-    name_module: 'shopping',
+    name_module: 'supplies',
   },
   {
     label: 'Consumos',
