@@ -54,7 +54,7 @@ export const FormShoppingDataTable: React.FC = () => {
         />
 
         {/* Botones */}
-        <div className="flex justify-end w-4/5 gap-2">
+        <div className="flex justify-end w-4/5 gap-2 mr-6 sm:mr-0">
           <ButtonClearSelection
             onClick={resetSelectionRows}
             visible={hasSelectedRecords}
@@ -76,7 +76,7 @@ export const FormShoppingDataTable: React.FC = () => {
 
         {/* Tabla */}
         <ScrollArea
-          className="h-max-[460px] w-screen sm:w-full p-1 border rounded-sm self-start"
+          className="h-max-[460px] w-[85%] sm:w-full p-1 border rounded-sm self-start"
           type="auto"
         >
           <FormDataTable
