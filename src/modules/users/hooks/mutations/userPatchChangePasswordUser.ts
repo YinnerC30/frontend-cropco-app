@@ -28,12 +28,10 @@ export function userPatchChangePasswordUser(): UseMutationReturn<
   DataChangePassword
 > {
   const { handleError } = useAuthContext();
-  const navigate = useNavigate();
 
   const mutation: UseMutationReturn<void, DataChangePassword> = useMutation({
     mutationFn: changePasswordUser,
     onSuccess: () => {
-      navigate(PATH_HOME_APP);
       toast.success(`Contraseña cambiada`);
     },
     onError: (error) => {
