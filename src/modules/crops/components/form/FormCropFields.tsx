@@ -34,7 +34,7 @@ export const FormCropFields: React.FC = () => {
           name={'description'}
           placeholder={formFieldsCrop.description.placeholder}
           readOnly={readOnly}
-          className='w-2/4'
+          className="sm:w-2/4"
         />
         <FormFieldInput
           control={form.control}
@@ -52,7 +52,7 @@ export const FormCropFields: React.FC = () => {
           name={'location'}
           placeholder={formFieldsCrop.location.placeholder}
           readOnly={readOnly}
-          className='w-2/4'
+          className="sm:w-2/4"
         />
         <FormFieldCalendar
           control={form.control}

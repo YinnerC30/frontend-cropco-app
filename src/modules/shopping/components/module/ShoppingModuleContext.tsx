@@ -64,7 +64,9 @@ export const ShoppingModuleProvider: React.FC<{
 
   const { getActionsModule } = useAuthContext();
 
-  const actionsShoppingModule = useMemo(() => getActionsModule('supplies'), []);
+  const actionsShoppingModule = useMemo(() => getActionsModule('shopping'), []);
+
+  console.log(actionsShoppingModule)
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsShopping,

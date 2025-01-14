@@ -36,7 +36,7 @@ export type ModulesCropco =
   | 'sales'
   | 'payments'
   | 'shopping'
-  | 'consumption';
+  | 'consumptions';
 type GlobalActionsUser = Record<ModulesCropco, Record<string, boolean>>;
 
 export interface HandleErrorProps {

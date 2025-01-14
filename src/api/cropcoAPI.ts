@@ -63,6 +63,6 @@ export const pathsCropco: PathsCropco = {
   works: '/works',
   payments: '/payments',
   authentication: '/auth',
-  shopping: 'supplies/shopping',
-  consumption: 'supplies/consumption',
+  shopping: 'shopping',
+  consumption: 'consumptions',
 };

@@ -38,7 +38,7 @@ const consumptionRoutes = {
   path: 'consumptions',
   children: [
     { index: true, element: <Navigate to="view/all" /> },
-    ...generateRoutes('supplies', routeConfig),
+    ...generateRoutes('consumptions', routeConfig),
   ],
 };
 

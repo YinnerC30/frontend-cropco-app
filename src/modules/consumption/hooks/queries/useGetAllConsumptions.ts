@@ -41,7 +41,7 @@ export function useGetAllConsumptions(
   const { hasPermission, handleError } = useAuthContext();
 
   const isAuthorized = hasPermission(
-    'supplies',
+    'consumptions',
     'find_all_supplies_consumption'
   );
 

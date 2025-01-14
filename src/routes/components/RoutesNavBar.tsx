@@ -86,13 +86,13 @@ export const routes: Route[] = [
     label: 'Compras',
     path: 'shopping/view/all',
     Icon: <ShoppingBagIcon />,
-    name_module: 'supplies',
+    name_module: 'shopping',
   },
   {
     label: 'Consumos',
     path: 'consumptions/view/all',
     Icon: <Cable />,
-    name_module: 'supplies',
+    name_module: 'consumptions',
   },
   {
     label: 'Pagos',

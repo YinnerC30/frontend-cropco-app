@@ -49,7 +49,7 @@ export function useGetAllShopping(
 
   const { hasPermission, handleError } = useAuthContext();
 
-  const isAuthorized = hasPermission('supplies', 'find_all_supplies_shopping');
+  const isAuthorized = hasPermission('shopping', 'find_all_supplies_shopping');
 
   const query: UseQueryGetAllRecordsReturn<ShoppingSupplies> = useQuery({
     queryKey: [
@@ -72,7 +72,7 @@ export function useGetAllShopping(
 
   useEffect(() => {
     if (!isAuthorized) {
-      toast.error('No tienes permiso para ver el listado de usuarios 😑');
+      toast.error('No tienes permiso para ver el listado de compras 😑');
     }
   }, [isAuthorized]);
 

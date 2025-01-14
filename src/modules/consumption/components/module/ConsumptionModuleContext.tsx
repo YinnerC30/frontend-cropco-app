@@ -53,7 +53,7 @@ export const ConsumptionModuleProvider: React.FC<{
   const { getActionsModule } = useAuthContext();
 
   const actionsConsumptionsModule = useMemo(
-    () => getActionsModule('supplies'),
+    () => getActionsModule('consumptions'),
     []
   );
 
