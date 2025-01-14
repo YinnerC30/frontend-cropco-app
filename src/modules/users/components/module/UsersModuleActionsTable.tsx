@@ -10,6 +10,7 @@ import { useDeleteUser, useUsersModuleContext } from '../../hooks';
 import { usePatchResetPasswordUser } from '../../hooks/mutations';
 import { ActionResetPassword } from './ActionResetPassword';
 import { User } from '../../interfaces';
+import { ActionToogleStatusUser } from './ActionToogleStatusUser';
 
 interface Props {
   row: Row<User>;
@@ -17,7 +18,7 @@ interface Props {
 
 export const UsersModuleActionsTable: React.FC<Props> = ({ row }) => {
   const { dataTable, actionsUsersModule } = useUsersModuleContext();
-  const { id, email } = row.original;
+  const { id, email, is_active } = row.original;
   const mutationDeleteUser = useDeleteUser();
   const mutationPatchPassword = usePatchResetPasswordUser();
 
@@ -54,6 +55,8 @@ export const UsersModuleActionsTable: React.FC<Props> = ({ row }) => {
         id={id}
         disabled={!actionsUsersModule['find_one_user']}
       />
+
+      <ActionToogleStatusUser id={id} status={is_active} />
     </DropDownMenuActions>
   );
 };
