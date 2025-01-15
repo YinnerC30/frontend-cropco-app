@@ -17,6 +17,7 @@ import { FormHarvestDetail } from './details/FormHarvestDetail';
 
 import { ScrollArea, ScrollBar } from '@/components';
 import { HarvestDetail } from '@/modules/harvests/interfaces';
+import { Row } from '@tanstack/react-table';
 
 export const FormHarvestDataTable: React.FC = () => {
   const {
@@ -30,6 +31,12 @@ export const FormHarvestDataTable: React.FC = () => {
   const handleSetHarvestDetail = (data: HarvestDetail) => {
     setHarvestDetail(data);
     handleOpenDialog();
+  };
+
+  const validateIsDisabled = (row: Row<any>) => {
+    const { deletedDate, payment_is_pending } = row.original;
+    const isDisabled = deletedDate !== null || payment_is_pending === false;
+    return isDisabled;
   };
 
   return (
@@ -76,6 +83,7 @@ export const FormHarvestDataTable: React.FC = () => {
           <FormDataTable
             onCellDoubleClick={handleSetHarvestDetail}
             disabledDoubleClick={readOnly}
+            validationDisabledCell={validateIsDisabled}
           />
 
           <ScrollBar className="mt-2" orientation="horizontal" forceMount />

@@ -36,6 +36,9 @@ export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
     handleOpenDialog();
   };
 
+  const { deletedDate } = row.original;
+  const isDisabled = deletedDate !== null;
+
   return (
     <DropDownMenuActions>
       <ActionCopyIdRecord id={saleDetail?.id!} />
@@ -43,10 +46,13 @@ export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
         action={() => {
           handleDelete();
         }}
-        disabled={false}
+        disabled={isDisabled}
       />
-      {/* TODO: Activar disabled */}
-      <ActionModifyRecordFormDataTable action={handleModify} />
+
+      <ActionModifyRecordFormDataTable
+        disabled={isDisabled}
+        action={handleModify}
+      />
     </DropDownMenuActions>
   );
 };

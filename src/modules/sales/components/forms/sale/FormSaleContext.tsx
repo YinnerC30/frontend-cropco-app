@@ -28,6 +28,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { ActionsTableSaleDetail } from './details/ActionsTableSaleDetail';
 import { columnsSaleDetail } from './details/ColumnsTableSaleDetail';
+import { CheckboxTableCustomClient } from '@/modules/core/components/table/CheckboxTableCustomClient';
 
 const defaultValuesSale = {
   date: undefined,
@@ -253,6 +254,7 @@ export const FormSaleProvider: React.FC<
     columns: columnsSaleDetail,
     actions: ActionsTableSaleDetail,
     hiddenActions: readOnly,
+    customCheckbox: CheckboxTableCustomClient,
   });
 
   const dataTableSaleDetail = useDataTableGeneric<SaleDetail>({
@@ -262,7 +264,6 @@ export const FormSaleProvider: React.FC<
 
   const { getIdsToRowsSelected, resetSelectionRows } = dataTableSaleDetail;
 
-  
   const { hasUnsavedChanges, showToast } = useFormChange();
 
   const [saleDetail, setSaleDetail] = useState(defaultValuesSaleDetail);

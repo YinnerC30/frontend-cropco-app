@@ -10,7 +10,7 @@ export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
   {
     accessorKey: 'client.first_name',
     header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
-      return <ButtonHeaderTable column={column} label={'Empleado:'} />;
+      return <ButtonHeaderTable column={column} label={'Cliente:'} />;
     },
   },
   {

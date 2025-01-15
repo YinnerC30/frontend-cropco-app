@@ -18,6 +18,7 @@ import { FormWorkDetail } from './details/FormWorkDetail';
 import { ScrollArea, ScrollBar } from '@/components';
 import { useFormWorkContext } from '@/modules/work/hooks/context/useFormWorkContext';
 import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
+import { Row } from '@tanstack/react-table';
 
 export const FormWorkDataTable: React.FC = () => {
   const {
@@ -36,6 +37,12 @@ export const FormWorkDataTable: React.FC = () => {
   const handleSetWorkDetail = (data: WorkDetail) => {
     setWorkDetail(data);
     handleOpenDialog();
+  };
+
+  const validateIsDisabled = (row: Row<any>) => {
+    const { deletedDate, payment_is_pending } = row.original;
+    const isDisabled = deletedDate !== null || payment_is_pending === false;
+    return isDisabled;
   };
 
   return (
@@ -82,6 +89,7 @@ export const FormWorkDataTable: React.FC = () => {
           <FormDataTable
             onCellDoubleClick={handleSetWorkDetail}
             disabledDoubleClick={readOnly}
+            validationDisabledCell={validateIsDisabled}
           />
 
           <ScrollBar className="mt-2" orientation="horizontal" forceMount />

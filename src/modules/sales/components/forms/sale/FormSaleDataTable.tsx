@@ -19,6 +19,7 @@ import { ScrollArea, ScrollBar } from '@/components';
 import { useFormSaleContext } from '@/modules/sales/hooks';
 import { SaleDetail } from '@/modules/sales/interfaces';
 import React from 'react';
+import { Row } from '@tanstack/react-table';
 
 export const FormSaleDataTable: React.FC = () => {
   const {
@@ -37,6 +38,12 @@ export const FormSaleDataTable: React.FC = () => {
   const handleSetSaleDetail = (data: SaleDetail) => {
     setSaleDetail(data);
     handleOpenDialog();
+  };
+
+  const validateIsDisabled = (row: Row<any>) => {
+    const { deletedDate } = row.original;
+    const isDisabled = deletedDate !== null;
+    return isDisabled;
   };
 
   return (
@@ -83,6 +90,7 @@ export const FormSaleDataTable: React.FC = () => {
           <FormDataTable
             onCellDoubleClick={handleSetSaleDetail}
             disabledDoubleClick={readOnly}
+            validationDisabledCell={validateIsDisabled}
           />
 
           <ScrollBar className="mt-2" orientation="horizontal" forceMount />

@@ -21,9 +21,15 @@ interface Props {
   onCellDoubleClick: (data: any) => void;
   className?: string;
   disabledDoubleClick?: boolean;
+  validationDisabledCell?: (row: Row<any>) => boolean;
 }
 export const FormDataTable = memo(
-  ({ onCellDoubleClick, className, disabledDoubleClick = false }: Props) => {
+  ({
+    onCellDoubleClick,
+    className,
+    disabledDoubleClick = false,
+    validationDisabledCell = () => false,
+  }: Props) => {
     const { table, lengthColumns } = useFormDataTableContext();
     return (
       <Table className={`${className}`}>
@@ -48,16 +54,17 @@ export const FormDataTable = memo(
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row: Row<any>) => {
-              const { deletedDate, payment_is_pending } = row.original;
-              const isDisabled =
-                deletedDate !== null || payment_is_pending === false;
+              const disabledCell = validationDisabledCell(row);
+
               return (
                 <TableRow
-                  className={isDisabled ? 'bg-secondary' : ''}
+                  className={
+                    disabledCell ? 'bg-red-500/30 hover:bg-red-500/30' : ''
+                  }
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
                   onDoubleClick={() => {
-                    if (isDisabled) {
+                    if (disabledCell) {
                       toast.info(
                         'No puedes modificar o eliminar este registro'
                       );
