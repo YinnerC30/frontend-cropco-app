@@ -10,4 +10,7 @@ export interface Employee {
   address: string;
   harvests_detail?: HarvestDetail[];
   works_detail?: WorkDetail[];
+  createdDate?: Date;
+  updatedDate?: Date;
+  deletedDate?: Date;
 }

@@ -33,7 +33,9 @@ export const FormHarvestDetailsFields: React.FC = () => {
     <Form {...formHarvestDetail}>
       <form className="z-50 mx-5" id="formHarvestDetail">
         <FormFieldCommand
-          data={filterEmployeesToShow() || []}
+          data={
+            filterEmployeesToShow() || []
+          }
           form={formHarvestDetail}
           nameToShow={'first_name'}
           control={formHarvestDetail.control}

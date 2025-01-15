@@ -31,6 +31,9 @@ export const ActionsTableHarvestDetail: React.FC<Props> = ({ row }) => {
     handleOpenDialog();
   };
 
+  const { deletedDate, payment_is_pending } = row.original;
+  const isDisabled = deletedDate !== null || payment_is_pending === false;
+
   return (
     <DropDownMenuActions>
       <ActionCopyIdRecord id={harvestDetail?.id!} />
@@ -38,10 +41,12 @@ export const ActionsTableHarvestDetail: React.FC<Props> = ({ row }) => {
         action={() => {
           handleDelete();
         }}
-        disabled={false}
+        disabled={isDisabled}
       />
-      {/* TODO: Activar disabled */}
-      <ActionModifyRecordFormDataTable action={handleModify} />
+      <ActionModifyRecordFormDataTable
+        disabled={isDisabled}
+        action={handleModify}
+      />
     </DropDownMenuActions>
   );
 };

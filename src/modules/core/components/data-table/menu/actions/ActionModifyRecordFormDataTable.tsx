@@ -2,7 +2,14 @@ import { Button, DropdownMenuItem } from '@/components';
 import { useDataTableMenuActionsContext } from '@/modules/core/components';
 import { Pencil2Icon } from '@radix-ui/react-icons';
 
-export const ActionModifyRecordFormDataTable = ({ action, disabled }: any) => {
+interface Props {
+  action: () => void;
+  disabled?: boolean;
+}
+export const ActionModifyRecordFormDataTable: React.FC<Props> = ({
+  action,
+  disabled = false,
+}) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
 
   const handleClick = () => {

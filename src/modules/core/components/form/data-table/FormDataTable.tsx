@@ -6,7 +6,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components';
-import { useFormDataTableContext } from './FormDataTableContext';
 import {
   Cell,
   flexRender,
@@ -15,6 +14,8 @@ import {
   Row,
 } from '@tanstack/react-table';
 import { memo } from 'react';
+import { toast } from 'sonner';
+import { useFormDataTableContext } from './FormDataTableContext';
 
 interface Props {
   onCellDoubleClick: (data: any) => void;
@@ -46,21 +47,38 @@ export const FormDataTable = memo(
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row: Row<any>) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && 'selected'}
-                onDoubleClick={() => {
-                  !disabledDoubleClick && onCellDoubleClick(row.original);
-                }}
-              >
-                {row.getVisibleCells().map((cell: Cell<any, unknown>) => (
-                  <TableCell key={cell.id} className="py-1">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
+            table.getRowModel().rows.map((row: Row<any>) => {
+              const { deletedDate, payment_is_pending } = row.original;
+              const isDisabled =
+                deletedDate !== null || payment_is_pending === false;
+              return (
+                <TableRow
+                  className={isDisabled ? 'bg-secondary' : ''}
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                  onDoubleClick={() => {
+                    if (isDisabled) {
+                      toast.info(
+                        'No puedes modificar o eliminar este registro'
+                      );
+                      return;
+                    }
+                    if (!disabledDoubleClick) {
+                      onCellDoubleClick(row.original);
+                    }
+                  }}
+                >
+                  {row.getVisibleCells().map((cell: Cell<any, unknown>) => (
+                    <TableCell key={cell.id} className="py-1">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              );
+            })
           ) : (
             <TableRow>
               <TableCell colSpan={lengthColumns} className="h-24 text-center">

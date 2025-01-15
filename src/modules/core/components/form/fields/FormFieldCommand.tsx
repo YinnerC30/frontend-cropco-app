@@ -56,6 +56,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
   actionFinal,
 }) => {
   const [openPopover, setOpenPopover] = useState(false);
+  console.log(data);
   return (
     <FormField
       control={control}
@@ -115,6 +116,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                         {data.map((item) => {
                           return (
                             <CommandItem
+                              disabled={item.disabled}
                               value={item?.[nameToShow]}
                               key={item.id!}
                               onSelect={() => {

@@ -9,4 +9,7 @@ export interface HarvestDetail {
   value_pay: number;
   harvest?: Harvest;
   payment_is_pending?: boolean;
+  createdDate?: Date;
+  updatedDate?: Date;
+  deletedDate?: Date;
 }
