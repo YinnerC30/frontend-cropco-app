@@ -32,6 +32,7 @@ import { AxiosError } from 'axios';
 import { z } from 'zod';
 import { ActionsTableWorkDetail } from './details/ActionsTableWorkDetail';
 import { columnsWorkDetail } from './details/ColumnsTableWorkDetail';
+import { CheckboxTableCustom } from '@/modules/core/components/table/CheckboxTableCustom';
 
 export const defaultValuesWorkDetail: WorkDetail = {
   id: undefined,
@@ -166,6 +167,7 @@ export const FormWorkProvider: React.FC<
     columns: columnsWorkDetail,
     actions: ActionsTableWorkDetail,
     hiddenActions: readOnly,
+    customCheckbox: CheckboxTableCustom,
   });
 
   const dataTableWorkDetail = useDataTableGeneric<WorkDetail>({

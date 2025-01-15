@@ -26,6 +26,8 @@ export const useDeleteBulkEmployees = (): UseMutationReturn<
     mutationFn: deleteBulkEmployees,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['employees'] });
+      await queryClient.invalidateQueries({ queryKey: ['harvests'] });
+      await queryClient.invalidateQueries({ queryKey: ['works'] });
       toast.success(`Empleados eliminados`);
     },
     onError: (error) => {
