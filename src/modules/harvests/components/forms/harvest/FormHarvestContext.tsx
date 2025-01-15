@@ -32,6 +32,7 @@ import { AxiosError } from 'axios';
 import { z } from 'zod';
 import { ActionsTableHarvestDetail } from './details/ActionsTableHarvestDetail';
 import { columnsHarvestDetail } from './details/ColumnsTableHarvestDetail';
+import { CheckboxTableCustom } from '@/modules/core/components/table/CheckboxTableCustom';
 
 export const defaultValuesHarvestDetail: HarvestDetail = {
   id: undefined,
@@ -177,6 +178,7 @@ export const FormHarvestProvider: React.FC<
     columns: columnsHarvestDetail,
     actions: ActionsTableHarvestDetail,
     hiddenActions: readOnly,
+    customCheckbox: CheckboxTableCustom,
   });
 
   const dataTableHarvestDetail = useDataTableGeneric<HarvestDetail>({
@@ -245,7 +247,7 @@ export const FormHarvestProvider: React.FC<
   const isFirstRender = useRef(true);
 
   useEffect(() => {
-    console.log('Render')
+    console.log('Render');
     formHarvest.setValue('details', detailsHarvest, {
       shouldValidate: !isFirstRender.current,
       shouldDirty: true,

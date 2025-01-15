@@ -11,5 +11,5 @@ export interface HarvestDetail {
   payment_is_pending?: boolean;
   createdDate?: Date;
   updatedDate?: Date;
-  deletedDate?: Date;
+  deletedDate?: Date | null;
 }

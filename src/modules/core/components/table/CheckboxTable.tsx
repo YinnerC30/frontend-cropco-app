@@ -1,28 +1,24 @@
 import { Checkbox } from '@/components';
+import { ColumnDef, Table } from '@tanstack/react-table';
 
-export const CheckboxTable = {
+export const CheckboxTable: ColumnDef<any> = {
   id: 'select',
-  // header: ({ table }: { table: Table<unknown> }) => {
-  //   // console.log(table.get)
-  //   return (
-  //     <Checkbox
-  //       checked={
-  //         table.getIsAllPageRowsSelected() ||
-  //         (table.getIsSomePageRowsSelected() && 'indeterminate')
-  //       }
-  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-  //       aria-label="Select all"
-  //       className="-ml-[6px] mr-2"
-  //     />
-  //   );
-  // },
-  cell: ({ row }: any) => {
-    const { deletedDate, payment_is_pending } = row.original;
-    const isDisabled = deletedDate !== null || payment_is_pending === false;
-
+  header: ({ table }: { table: Table<unknown> }) => {
     return (
       <Checkbox
-        disabled={isDisabled}
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+        className="-ml-[6px] mr-2"
+      />
+    );
+  },
+  cell: ({ row }: any) => {
+    return (
+      <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
