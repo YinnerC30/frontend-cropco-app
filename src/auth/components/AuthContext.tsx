@@ -110,7 +110,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
     const handleNetworkError = () => {
       if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
-        toast.error('No tienes conexión a internet');
+        toast.error('El servicio actualmente no se encuentra disponible');
         return true;
       }
       return false;
@@ -220,7 +220,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         saveUser,
         isLogin: user?.isLogin ?? false,
         removeUser,
-        
+
         updateTokenInClient,
         tokenSession,
         user,
