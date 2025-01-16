@@ -22,7 +22,7 @@ export const ModifyHarvest: React.FC = () => {
       ...values,
       crop: { id: values.crop.id },
       details: values.details.map((item: HarvestDetail) => {
-        const { id, payments_harvest, ...rest } = item;
+        const { payments_harvest, ...rest } = item;
         return { ...rest, employee: { id: rest.employee.id } };
       }),
     } as unknown as Harvest);

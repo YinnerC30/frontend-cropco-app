@@ -208,7 +208,7 @@ export const FormPaymentProvider: React.FC<
 
   const employeeId: string = formPayment.watch('employee').id;
 
-  const queryEmployeePayments = useGetEmployeePendingPayments(employeeId);
+  const queryEmployeePayments = useGetEmployeePendingPayments(employeeId, !readOnly);
 
   const [paymentsState, dispatch] = useReducer(
     paymentsReducer,

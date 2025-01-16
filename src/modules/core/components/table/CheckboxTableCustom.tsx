@@ -14,11 +14,12 @@ export const CheckboxTableCustom: ColumnDef<any> = {
     });
 
     const isAllSelected =
-      table.getSelectedRowModel().rows.length === newRowModel.length;
+      table.getSelectedRowModel().rows.length === newRowModel.length &&
+      newRowModel.length !== 0;
 
     return (
       <Checkbox
-        checked={isAllSelected}
+      disabled={newRowModel.length === 0}
         onCheckedChange={() => {
           for (const row of newRowModel) {
             row.toggleSelected(!isAllSelected);
