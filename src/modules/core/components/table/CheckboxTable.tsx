@@ -1,5 +1,5 @@
 import { Checkbox } from '@/components';
-import { ColumnDef, Table } from '@tanstack/react-table';
+import { ColumnDef, Row, Table } from '@tanstack/react-table';
 
 export const CheckboxTable: ColumnDef<any> = {
   id: 'select',
@@ -16,11 +16,13 @@ export const CheckboxTable: ColumnDef<any> = {
       />
     );
   },
-  cell: ({ row }: any) => {
+  cell: ({ row }: { row: Row<any> }) => {
     return (
       <Checkbox
         checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        onCheckedChange={(value) => {
+          row.toggleSelected(!!value);
+        }}
         aria-label="Select row"
       />
     );

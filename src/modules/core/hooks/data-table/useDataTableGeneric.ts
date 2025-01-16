@@ -54,31 +54,23 @@ export const useDataTableGeneric = <T>({
     },
   });
 
-  const arrayIndexRowsSelected: number[] = useMemo(
-    () => Object.keys(rowSelection).map(Number),
-    [rowSelection]
-  );
-
   const getIdsToRowsSelected = (): RowData[] => {
-    return arrayIndexRowsSelected
-      .map((index: number) => {
-        const record = table.getRowModel().rows[index]?.original as RowData;
-        return record ? { id: record.id } : null;
-      })
-      .filter((item: any): item is RowData => item !== null);
+    const data: unknown[] = table
+      .getSelectedRowModel()
+      .rows.map((item) => item?.original);
+
+    return data.map((item: any) => ({ id: item?.id! })) as RowData[];
   };
 
   const getDataOfRowsSelected = (): unknown[] => {
-    return arrayIndexRowsSelected.map((value) => {
-      return table.getRowModel().rows[value]?.original;
-    });
+    return table.getSelectedRowModel().rows.map((item) => item?.original);
   };
 
   const resetSelectionRows = () => {
     setRowSelection({});
   };
 
-  const hasSelectedRecords = getIdsToRowsSelected().length > 0;
+  const hasSelectedRecords = table.getSelectedRowModel().rows.length > 0;
 
   return {
     table,
