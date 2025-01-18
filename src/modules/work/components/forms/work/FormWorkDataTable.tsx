@@ -7,6 +7,7 @@ import {
   FormDataTableButtonsPagination,
   FormDataTableFilter,
   FormDataTableProvider,
+  ValidationCellReturn,
 } from '@/modules/core/components/form/data-table';
 import { FormDataTablePageCount } from '@/modules/core/components/form/data-table/FormDataTablePageCount';
 import { FormDataTableRowCount } from '@/modules/core/components/form/data-table/FormDataTableRowCount';
@@ -39,10 +40,17 @@ export const FormWorkDataTable: React.FC = () => {
     handleOpenDialog();
   };
 
-  const validateIsDisabled = (row: Row<any>) => {
+  const validateIsDisabled = (row: Row<any>): ValidationCellReturn => {
     const { deletedDate, payment_is_pending } = row.original;
     const isDisabled = deletedDate !== null || payment_is_pending === false;
-    return isDisabled;
+    return {
+      status: isDisabled,
+      cellColorError: payment_is_pending === false ? 'restriction' : 'caution',
+      message:
+        payment_is_pending === false
+          ? 'No se puede eliminar o modificar este registro porque ya ha sido pagado'
+          : 'No se puede modificar este registro porque el empleado ya ha sido eliminado',
+    };
   };
 
   return (

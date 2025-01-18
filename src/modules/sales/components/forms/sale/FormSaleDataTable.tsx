@@ -7,6 +7,7 @@ import {
   FormDataTableButtonsPagination,
   FormDataTableFilter,
   FormDataTableProvider,
+  ValidationCellReturn,
 } from '@/modules/core/components/form/data-table';
 import { FormDataTablePageCount } from '@/modules/core/components/form/data-table/FormDataTablePageCount';
 import { FormDataTableRowCount } from '@/modules/core/components/form/data-table/FormDataTableRowCount';
@@ -18,8 +19,8 @@ import { FormSaleDetail } from './details/FormSaleDetail';
 import { ScrollArea, ScrollBar } from '@/components';
 import { useFormSaleContext } from '@/modules/sales/hooks';
 import { SaleDetail } from '@/modules/sales/interfaces';
-import React from 'react';
 import { Row } from '@tanstack/react-table';
+import React from 'react';
 
 export const FormSaleDataTable: React.FC = () => {
   const {
@@ -40,10 +41,14 @@ export const FormSaleDataTable: React.FC = () => {
     handleOpenDialog();
   };
 
-  const validateIsDisabled = (row: Row<any>) => {
+  const validateIsDisabled = (row: Row<any>): ValidationCellReturn => {
     const { deletedDate } = row.original;
     const isDisabled = deletedDate !== null;
-    return isDisabled;
+    return {
+      status: isDisabled,
+      cellColorError: 'restriction',
+      message: 'No se puede modificar o eliminar este registro',
+    };
   };
 
   return (

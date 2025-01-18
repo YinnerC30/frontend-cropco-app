@@ -19,15 +19,17 @@ import { useFormDataTableContext } from './FormDataTableContext';
 
 export type ErrorCell = 'restriction' | 'caution';
 
+export interface ValidationCellReturn {
+  status: boolean;
+  cellColorError: ErrorCell;
+  message: string;
+}
+
 interface Props {
   onCellDoubleClick: (data: any) => void;
   className?: string;
   disabledDoubleClick?: boolean;
-  validationDisabledCell?: (row: Row<any>) => {
-    status: boolean;
-    cellColorError: ErrorCell;
-    message: string;
-  };
+  validationDisabledCell?: (row: Row<any>) => ValidationCellReturn;
 }
 
 export const FormDataTable = memo(

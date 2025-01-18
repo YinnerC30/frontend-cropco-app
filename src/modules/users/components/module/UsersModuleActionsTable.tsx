@@ -6,10 +6,10 @@ import {
 } from '@/modules/core/components/data-table/menu/actions';
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
-import { useDeleteUser, useUsersModuleContext } from '../../hooks';
+import { useUsersModuleContext } from '../../hooks';
 import { usePatchResetPasswordUser } from '../../hooks/mutations';
-import { ActionResetPassword } from './ActionResetPassword';
 import { User } from '../../interfaces';
+import { ActionResetPassword } from './ActionResetPassword';
 import { ActionToogleStatusUser } from './ActionToogleStatusUser';
 
 interface Props {

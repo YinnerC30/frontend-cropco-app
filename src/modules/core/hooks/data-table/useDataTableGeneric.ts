@@ -10,7 +10,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 interface RowData {
   id: string;

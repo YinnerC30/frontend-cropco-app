@@ -8,7 +8,6 @@ import {
 } from '@/modules/core/components';
 import { Row } from '@tanstack/react-table';
 import { LayersIcon } from 'lucide-react';
-import { useDeleteHarvest } from '../../hooks';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
 import { TableHarvest } from '../../interfaces';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
