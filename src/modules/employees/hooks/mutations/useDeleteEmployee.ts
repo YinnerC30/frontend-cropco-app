@@ -26,7 +26,9 @@ export const useDeleteEmployee = (): UseMutationReturn<void, string> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        messagesStatusError: {
+          conflict: 'El empleado tiene cosechas o trabajos pendientes de pago',
+        },
       });
     },
     retry: 1,

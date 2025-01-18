@@ -16,11 +16,11 @@ export const CheckboxTableCustomClient: ColumnDef<any> = {
 
     return (
       <Checkbox
-        disabled={newRowModel.length === 0}
         checked={isAllSelected}
-        onCheckedChange={() => {
+        disabled={newRowModel.length === 0}
+        onCheckedChange={(state: boolean) => {
           for (const row of newRowModel) {
-            row.toggleSelected(!isAllSelected);
+            row.toggleSelected(state);
           }
         }}
         aria-label="Select all"

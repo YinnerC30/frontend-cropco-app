@@ -5,9 +5,6 @@ export const CheckboxTableCustom: ColumnDef<any> = {
   id: 'select',
   header: ({ table }: { table: Table<unknown | any> }) => {
     const newRowModel: Row<any>[] = table.getRowModel().rows.filter((row) => {
-      if (row.original.hasOwnProperty('deletedDate')) {
-        return row.original.deletedDate === null;
-      }
       if (row.original.hasOwnProperty('payment_is_pending')) {
         return row.original.payment_is_pending === true;
       }
@@ -19,10 +16,11 @@ export const CheckboxTableCustom: ColumnDef<any> = {
 
     return (
       <Checkbox
-      disabled={newRowModel.length === 0}
-        onCheckedChange={() => {
+        checked={isAllSelected}
+        disabled={newRowModel.length === 0}
+        onCheckedChange={(state: boolean) => {
           for (const row of newRowModel) {
-            row.toggleSelected(!isAllSelected);
+            row.toggleSelected(state);
           }
         }}
         aria-label="Select all"
