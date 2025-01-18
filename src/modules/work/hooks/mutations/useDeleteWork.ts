@@ -22,7 +22,9 @@ export const useDeleteWork = (): UseMutationReturn<void, string> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        messagesStatusError: {
+          conflict: 'El registro tiene esta conectado con otros registros',
+        },
       });
     },
     retry: 1,

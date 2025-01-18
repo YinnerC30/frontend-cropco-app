@@ -24,7 +24,7 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
     label,
     name,
     placeholder,
-    readOnly = false,
+    disabled: readOnly = false,
     type: typeInput = 'text',
     className = '',
     children,

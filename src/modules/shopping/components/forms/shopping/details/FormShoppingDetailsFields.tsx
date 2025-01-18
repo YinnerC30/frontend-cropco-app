@@ -34,7 +34,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
           label={formFieldsShoppingDetail.supplier.label}
           name={'supplier'}
           placeholder={formFieldsShoppingDetail.supplier.placeholder}
-          readOnly={false}
+          disabled={false}
           nameEntity="proveedor"
           isLoading={querySuppliers.isLoading}
           className="w-52"
@@ -48,7 +48,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
           label={formFieldsShoppingDetail.supply.label}
           name={'supply'}
           placeholder={formFieldsShoppingDetail.supply.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
           isLoading={querySupplies.isLoading}
           nameEntity="cultivo"
           className="w-52"
@@ -60,7 +60,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
           label={formFieldsShoppingDetail.amount.label}
           name={'amount'}
           placeholder={formFieldsShoppingDetail.amount.placeholder}
-          readOnly={false}
+          disabled={false}
           type="number"
           step={50}
         />
@@ -70,7 +70,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
           label={formFieldsShoppingDetail.total.label}
           name={'total'}
           placeholder={formFieldsShoppingDetail.total.placeholder}
-          readOnly={false}
+          disabled={false}
           type="number"
           step={50}
         />

@@ -76,7 +76,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           label={formFieldsSaleDetail.client.label}
           name={'client'}
           placeholder={formFieldsSaleDetail.client.placeholder}
-          readOnly={false}
+          disabled={false}
           nameEntity="cliente"
           isLoading={queryClients.isLoading}
           className="w-52"
@@ -231,7 +231,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           label={formFieldsSaleDetail.is_receivable.label}
           name={'is_receivable'}
           placeholder={formFieldsSaleDetail.is_receivable.placeholder}
-          readOnly={false}
+          disabled={false}
         />
         <FormFieldInput
           control={formSaleDetail.control}
@@ -239,7 +239,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           label={formFieldsSaleDetail.quantity.label}
           name={'quantity'}
           placeholder={formFieldsSaleDetail.quantity.placeholder}
-          readOnly={false}
+          disabled={false}
           type="number"
           step={50}
         />
@@ -249,7 +249,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           label={formFieldsSaleDetail.total.label}
           name={'total'}
           placeholder={formFieldsSaleDetail.total.placeholder}
-          readOnly={false}
+          disabled={false}
           type="number"
           step={50}
         />

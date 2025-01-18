@@ -22,7 +22,9 @@ export const useDeleteCrop = (): UseMutationReturn<void, string> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        messagesStatusError: {
+          conflict: 'El cultivo aun tiene stock disponible',
+        },
       });
     },
     retry: 1,

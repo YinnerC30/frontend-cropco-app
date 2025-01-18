@@ -101,7 +101,7 @@ export const DialogChangePassword: React.FC<Props> = ({
               label={'Vieja contraseña'}
               name={'old_password'}
               placeholder={'arrozconpollo1'}
-              readOnly={false}
+              disabled={false}
               type="password"
             />
             <FormFieldInput
@@ -110,7 +110,7 @@ export const DialogChangePassword: React.FC<Props> = ({
               label={'Nueva contraseña'}
               name={'new_password'}
               placeholder={'arrozconcarne1'}
-              readOnly={false}
+              disabled={false}
               type="password"
             />
           </form>

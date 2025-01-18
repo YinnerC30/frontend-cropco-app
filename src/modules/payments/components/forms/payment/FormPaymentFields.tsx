@@ -57,7 +57,7 @@ export const FormPaymentFields: React.FC = () => {
             label={formFieldsPayments.date.label}
             name={'date'}
             placeholder={formFieldsPayments.date.placeholder}
-            readOnly={readOnly}
+            disabled={readOnly}
           />
 
           <FormFieldCommand
@@ -69,7 +69,7 @@ export const FormPaymentFields: React.FC = () => {
             label={formFieldsPayments.employee.label}
             name={'employee'}
             placeholder={formFieldsPayments.employee.placeholder}
-            readOnly={readOnly}
+            disabled={readOnly}
             isLoading={queryEmployees.isLoading}
             className="w-52"
           />
@@ -90,7 +90,7 @@ export const FormPaymentFields: React.FC = () => {
               label={'Pagos a facturar'}
               name={'records_to_pay'}
               placeholder={''}
-              readOnly={readOnly}
+              disabled={readOnly}
             >
               <FormPaymentToPayDataTable />
             </FormFieldDataTable>
@@ -119,7 +119,7 @@ export const FormPaymentFields: React.FC = () => {
             label={formFieldsPayments.method_of_payment.label}
             name={'method_of_payment'}
             placeholder={formFieldsPayments.method_of_payment.placeholder}
-            readOnly={readOnly}
+            disabled={readOnly}
           />
 
           <FormFieldInput
@@ -128,7 +128,7 @@ export const FormPaymentFields: React.FC = () => {
             label={formFieldsPayments.total.label}
             name={'total'}
             placeholder={formFieldsPayments.total.placeholder}
-            readOnly={readOnly}
+            disabled={readOnly}
             type="number"
             hiddenInput
           >

@@ -36,6 +36,8 @@ export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
     handleOpenDialog();
   };
 
+  // TODO: Implementar opción de toogle pago pendiente
+
   const { deletedDate } = row.original;
   const isDisabled = deletedDate !== null;
 

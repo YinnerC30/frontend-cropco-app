@@ -246,13 +246,13 @@ export const SaleModuleSearchbar: React.FC = () => {
                   <PopoverContent>
                     <FormFieldSelect
                       items={dateFilterOptions}
-                      readOnly={false}
+                      disabled={false}
                       {...formFieldsSearchBarSale.type_filter_date}
                       name="filter_by_date.type_filter_date"
                       control={form.control}
                     />
                     <FormFieldCalendar
-                      readOnly={false}
+                      disabled={false}
                       {...formFieldsSearchBarSale.date}
                       control={form.control}
                       name="filter_by_date.date"
@@ -330,14 +330,14 @@ export const SaleModuleSearchbar: React.FC = () => {
                 content={
                   <>
                     <FormFieldSelect
-                      readOnly={false}
+                      disabled={false}
                       items={numberFilterOptions}
                       {...formFieldsSearchBarSale.type_filter_total}
                       control={form.control}
                       name="filter_by_total.type_filter_total"
                     />
                     <FormFieldInput
-                      readOnly={false}
+                      disabled={false}
                       {...formFieldsSearchBarSale.total}
                       control={form.control}
                       type="number"
@@ -356,14 +356,14 @@ export const SaleModuleSearchbar: React.FC = () => {
                 content={
                   <>
                     <FormFieldSelect
-                      readOnly={false}
+                      disabled={false}
                       items={numberFilterOptions}
                       {...formFieldsSearchBarSale.type_filter_quantity}
                       control={form.control}
                       name="filter_by_quantity.type_filter_quantity"
                     />
                     <FormFieldInput
-                      readOnly={false}
+                      disabled={false}
                       {...formFieldsSearchBarSale.quantity}
                       control={form.control}
                       type="number"

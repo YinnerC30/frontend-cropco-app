@@ -26,7 +26,7 @@ export const FormShoppingFields: React.FC = () => {
           label={formFieldsShopping.date.label}
           name={'date'}
           placeholder={formFieldsShopping.date.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <div className="sm:w-[600px] mt-4">
           <FormFieldDataTable
@@ -35,7 +35,7 @@ export const FormShoppingFields: React.FC = () => {
             label={formFieldsShopping.details.label}
             name={'details'}
             placeholder={''}
-            readOnly={readOnly}
+            disabled={readOnly}
           >
             <FormShoppingDataTable />
           </FormFieldDataTable>
@@ -46,7 +46,7 @@ export const FormShoppingFields: React.FC = () => {
           label={formFieldsShopping.total.label}
           name={'total'}
           placeholder={formFieldsShopping.total.placeholder}
-          readOnly={true}
+          disabled={true}
           type="number"
           hiddenInput
         >

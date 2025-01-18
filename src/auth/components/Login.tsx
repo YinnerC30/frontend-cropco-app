@@ -66,7 +66,7 @@ export const Login: React.FC = () => {
                 label={email.label}
                 name={'email'}
                 placeholder={email.placeholder}
-                readOnly={false}
+                disabled={false}
               />
 
               <FormFieldInput
@@ -75,7 +75,7 @@ export const Login: React.FC = () => {
                 label={password.label}
                 name={'password'}
                 placeholder={password.placeholder}
-                readOnly={false}
+                disabled={false}
                 type={showPassword ? 'text' : 'password'}
               >
                 <Button

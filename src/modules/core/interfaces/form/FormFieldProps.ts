@@ -6,7 +6,7 @@ export interface FormFieldProps {
   label: string;
   name: string;
   placeholder: string;
-  readOnly: boolean;
+  disabled: boolean;
   type?: 'number' | 'text' | 'password';
   value?: any;
   className?: string;

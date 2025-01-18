@@ -24,7 +24,7 @@ export const FormSaleFields: React.FC = () => {
           label={formFieldsSale.date.label}
           name={'date'}
           placeholder={formFieldsSale.date.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <div className="sm:w-[600px] mt-4">
           <FormFieldDataTable
@@ -33,7 +33,7 @@ export const FormSaleFields: React.FC = () => {
             label={formFieldsSale.details.label}
             name={'details'}
             placeholder={''}
-            readOnly={readOnly}
+            disabled={readOnly}
           >
             <FormSaleDataTable />
           </FormFieldDataTable>
@@ -45,7 +45,7 @@ export const FormSaleFields: React.FC = () => {
           label={formFieldsSale.total.label}
           name={'total'}
           placeholder={formFieldsSale.total.placeholder}
-          readOnly={true}
+          disabled={true}
           type="number"
           hiddenInput
         >
@@ -62,7 +62,7 @@ export const FormSaleFields: React.FC = () => {
           label={formFieldsSale.quantity.label}
           name={'quantity'}
           placeholder={formFieldsSale.quantity.placeholder}
-          readOnly={true}
+          disabled={true}
           type="number"
           hiddenInput
         >

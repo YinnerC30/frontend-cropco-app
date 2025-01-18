@@ -179,7 +179,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
                   label={formFieldsHarvestProcessed.date.label}
                   name={'date'}
                   placeholder={formFieldsHarvestProcessed.date.placeholder}
-                  readOnly={false}
+                  disabled={false}
                   conditionCalendar={{
                     before: new Date(data?.date!),
                     after: new Date(),
@@ -191,7 +191,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
                   label={formFieldsHarvestProcessed.total.label}
                   name={'total'}
                   placeholder={formFieldsHarvestProcessed.total.placeholder}
-                  readOnly={false}
+                  disabled={false}
                   type="number"
                 />
               </form>

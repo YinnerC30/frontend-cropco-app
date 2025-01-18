@@ -132,13 +132,13 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
                 <PopoverContent>
                   <FormFieldSelect
                     items={dateFilterOptions}
-                    readOnly={false}
+                    disabled={false}
                     {...formFieldsSearchBarConsumption.type_filter_date}
                     name="filter_by_date.type_filter_date"
                     control={form.control}
                   />
                   <FormFieldCalendar
-                    readOnly={false}
+                    disabled={false}
                     {...formFieldsSearchBarConsumption.date}
                     control={form.control}
                     name="filter_by_date.date"

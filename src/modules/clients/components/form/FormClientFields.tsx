@@ -21,7 +21,7 @@ export const FormClientFields: React.FC = () => {
           label={formFieldsClient.first_name.label}
           name={'first_name'}
           placeholder={formFieldsClient.first_name.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <FormFieldInput
           control={form.control}
@@ -29,7 +29,7 @@ export const FormClientFields: React.FC = () => {
           label={formFieldsClient.last_name.label}
           name={'last_name'}
           placeholder={formFieldsClient.last_name.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <FormFieldInput
           control={form.control}
@@ -37,7 +37,7 @@ export const FormClientFields: React.FC = () => {
           label={formFieldsClient.email.label}
           name={'email'}
           placeholder={formFieldsClient.email.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <FormFieldInput
           control={form.control}
@@ -45,7 +45,7 @@ export const FormClientFields: React.FC = () => {
           label={formFieldsClient.cell_phone_number.label}
           name={'cell_phone_number'}
           placeholder={formFieldsClient.cell_phone_number.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
 
         <FormFieldTextArea
@@ -54,7 +54,7 @@ export const FormClientFields: React.FC = () => {
           label={formFieldsClient.address.label}
           name={'address'}
           placeholder={formFieldsClient.address.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
           className="sm:w-2/4"
         />
       </form>

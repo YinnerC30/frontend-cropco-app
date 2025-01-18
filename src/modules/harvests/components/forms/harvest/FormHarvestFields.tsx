@@ -17,6 +17,9 @@ export const FormHarvestFields: React.FC = () => {
   const { formHarvest, onSubmit, readOnly, total, value_pay } =
     useFormHarvestContext();
 
+  const disabledCropField =
+    formHarvest.formState.defaultValues?.crop?.id !== '';
+
   const { query: queryCrops } = useGetAllCrops({
     queryValue: '',
     allRecords: true,
@@ -36,7 +39,7 @@ export const FormHarvestFields: React.FC = () => {
             label={formFieldsHarvest.date.label}
             name={'date'}
             placeholder={formFieldsHarvest.date.placeholder}
-            readOnly={readOnly}
+            disabled={readOnly}
           />
           <FormFieldCommand
             data={queryCrops?.data?.rows || []}
@@ -47,7 +50,7 @@ export const FormHarvestFields: React.FC = () => {
             label={formFieldsHarvest.crop.label}
             name={'crop'}
             placeholder={formFieldsHarvest.crop.placeholder}
-            readOnly={readOnly}
+            disabled={readOnly || disabledCropField}
             isLoading={queryCrops.isLoading}
             nameEntity="cultivo"
             className="w-52"
@@ -59,7 +62,7 @@ export const FormHarvestFields: React.FC = () => {
             label={formFieldsHarvest.observation.label}
             name={'observation'}
             placeholder={formFieldsHarvest.observation.placeholder}
-            readOnly={readOnly}
+            disabled={readOnly}
           />
         </div>
 
@@ -70,7 +73,7 @@ export const FormHarvestFields: React.FC = () => {
             label={formFieldsHarvest.details.label}
             name={'details'}
             placeholder={''}
-            readOnly={readOnly}
+            disabled={readOnly}
           >
             <FormHarvestDataTable />
           </FormFieldDataTable>
@@ -81,7 +84,7 @@ export const FormHarvestFields: React.FC = () => {
             label={formFieldsHarvest.total.label}
             name={'total'}
             placeholder={formFieldsHarvest.total.placeholder}
-            readOnly={true}
+            disabled={true}
             type="number"
             hiddenInput
           >
@@ -101,7 +104,7 @@ export const FormHarvestFields: React.FC = () => {
             label={formFieldsHarvest.value_pay.label}
             name={'value_pay'}
             placeholder={formFieldsHarvest.value_pay.placeholder}
-            readOnly={true}
+            disabled={true}
             type="number"
             hiddenInput
           >

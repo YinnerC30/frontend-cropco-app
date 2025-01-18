@@ -35,7 +35,7 @@ export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
     placeholder,
     description,
     items,
-    readOnly = false,
+    disabled: readOnly = false,
     className = '',
   }) => {
     return (

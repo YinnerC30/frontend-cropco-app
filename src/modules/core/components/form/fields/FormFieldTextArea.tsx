@@ -17,7 +17,7 @@ export const FormFieldTextArea: React.FC<FormFieldProps> = memo(
     label,
     name,
     placeholder,
-    readOnly = false,
+    disabled: readOnly = false,
     className,
   }) => {
     return (

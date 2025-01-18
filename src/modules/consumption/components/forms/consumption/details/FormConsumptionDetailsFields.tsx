@@ -80,7 +80,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
           label={formFieldsConsumptionDetail.crop.label}
           name={'crop'}
           placeholder={formFieldsConsumptionDetail.crop.placeholder}
-          readOnly={false}
+          disabled={false}
           nameEntity="cultivo"
           isLoading={queryCrops.isLoading}
           className="w-52"
@@ -224,7 +224,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
           label={formFieldsConsumptionDetail.amount.label}
           name={'amount'}
           placeholder={formFieldsConsumptionDetail.amount.placeholder}
-          readOnly={false}
+          disabled={false}
           type="number"
           step={50}
         />

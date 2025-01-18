@@ -34,7 +34,7 @@ export const FormFieldCalendar: React.FC<FieldCalendarProps> = memo(
     label,
     name,
     placeholder,
-    readOnly = false,
+    disabled: readOnly = false,
     className = '',
     conditionCalendar = {
       before: new Date('1900-01-01'),

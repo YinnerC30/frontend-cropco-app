@@ -25,7 +25,7 @@ export const FormSupplyFields = () => {
           label={formFieldsSupply.name.label}
           name={'name'}
           placeholder={formFieldsSupply.name.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <FormFieldInput
           control={form.control}
@@ -33,7 +33,7 @@ export const FormSupplyFields = () => {
           label={formFieldsSupply.brand.label}
           name={'brand'}
           placeholder={formFieldsSupply.brand.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <FormFieldSelect
           items={[
@@ -53,7 +53,7 @@ export const FormSupplyFields = () => {
           label={formFieldsSupply.unit_of_measure.label}
           name={'unit_of_measure'}
           placeholder={formFieldsSupply.unit_of_measure.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <FormFieldTextArea
           control={form.control}
@@ -61,7 +61,7 @@ export const FormSupplyFields = () => {
           label={formFieldsSupply.observation.label}
           name={'observation'}
           placeholder={formFieldsSupply.observation.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
           className='sm:w-2/4'
         />
       </form>

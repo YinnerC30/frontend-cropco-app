@@ -44,7 +44,7 @@ export const FormUserFields: React.FC = () => {
             label={formFieldsUser.first_name.label}
             name={'first_name'}
             placeholder={formFieldsUser.first_name.placeholder}
-            readOnly={readOnly}
+            disabled={readOnly}
           />
           <FormFieldInput
             control={form.control}
@@ -52,7 +52,7 @@ export const FormUserFields: React.FC = () => {
             label={formFieldsUser.last_name.label}
             name={'last_name'}
             placeholder={formFieldsUser.last_name.placeholder}
-            readOnly={readOnly}
+            disabled={readOnly}
           />
           <FormFieldInput
             control={form.control}
@@ -60,7 +60,7 @@ export const FormUserFields: React.FC = () => {
             label={formFieldsUser.email.label}
             name={'email'}
             placeholder={formFieldsUser.email.placeholder}
-            readOnly={readOnly}
+            disabled={readOnly}
           />
           <FormFieldInput
             control={form.control}
@@ -68,7 +68,7 @@ export const FormUserFields: React.FC = () => {
             label={formFieldsUser.cell_phone_number.label}
             name={'cell_phone_number'}
             placeholder={formFieldsUser.cell_phone_number.placeholder}
-            readOnly={readOnly}
+            disabled={readOnly}
           />
 
           {!hiddenPassword && (

@@ -49,7 +49,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
   form,
   description,
   nameToShow,
-  readOnly,
+  disabled: readOnly,
   isLoading = false,
   nameEntity = 'registro',
   className,
