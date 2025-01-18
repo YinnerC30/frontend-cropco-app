@@ -7,6 +7,7 @@ export const EmployeesTable: React.FC = () => {
     actionsEmployeesModule,
     queryEmployees,
     mutationDeleteEmployees,
+    mutationDeleteEmployee
   } = useEmployeesModuleContext();
 
   return (
@@ -23,7 +24,8 @@ export const EmployeesTable: React.FC = () => {
       isLoading={
         queryEmployees.isLoading ||
         queryEmployees.isRefetching ||
-        mutationDeleteEmployees.isPending
+        mutationDeleteEmployees.isPending || 
+        mutationDeleteEmployee.isPending
       }
     />
   );

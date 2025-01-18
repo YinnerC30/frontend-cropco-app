@@ -7,9 +7,8 @@ import {
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
 import { useEmployeesModuleContext } from '../../hooks';
-import { useDeleteEmployee } from '../../hooks/mutations/useDeleteEmployee';
-import { ActionGetCertification } from './ActionGetCertification';
 import { Employee } from '../../interfaces/Employee';
+import { ActionGetCertification } from './ActionGetCertification';
 
 interface Props {
   row: Row<Employee>;
@@ -18,10 +17,10 @@ interface Props {
 export const EmployeesModuleActionsTable: React.FC<Props> = ({
   row,
 }: Props) => {
-  const { dataTable, actionsEmployeesModule } = useEmployeesModuleContext();
+  const { dataTable, actionsEmployeesModule, mutationDeleteEmployee } = useEmployeesModuleContext();
 
   const { id } = row.original;
-  const mutationDeleteEmployee = useDeleteEmployee();
+  
 
   const handleDelete = () => {
     mutationDeleteEmployee.mutate(id!, {

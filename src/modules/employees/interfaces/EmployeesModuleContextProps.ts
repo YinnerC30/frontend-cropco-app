@@ -11,6 +11,7 @@ export interface EmployeesModuleContextProps {
   queryEmployees: UseQueryGetAllRecordsReturn<Employee>;
   dataTable: DataTableManualReturn<Employee>;
   mutationDeleteEmployees: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteEmployee: UseMutationReturn<void, string>;
   actionsEmployeesModule: Record<string, boolean>;
   queryGetCertification: UseQueryResult<Blob, AxiosError>;
   userIdCertification: string;
