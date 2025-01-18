@@ -11,6 +11,7 @@ import { BulkRecords } from '@/modules/core/interfaces';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { useDeleteBulkWorks } from '../../hooks/mutations/useDeleteBulkWorks';
+import { useDeleteWork } from '../../hooks/mutations/useDeleteWork';
 import { useGetAllWorks } from '../../hooks/queries/useGetAllWorks';
 import { Work } from '../../interfaces/Work';
 import { ActionsTableWork } from './ActionsTableWork';
@@ -33,6 +34,7 @@ export interface WorksModuleContextValues {
   queryWorks: UseQueryGetAllRecordsReturn<Work>;
   dataTable: DataTableManualReturn<Work>;
   mutationDeleteWorks: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteWork: UseMutationReturn<void, string>;
   actionsWorksModule: Record<string, boolean>;
 }
 
@@ -88,12 +90,14 @@ export const WorksModuleProvider: React.FC<{
   });
 
   const mutationDeleteWorks = useDeleteBulkWorks();
+  const mutationDeleteWork = useDeleteWork();
 
   const contextValue: WorksModuleContextValues = {
     actionsWorksModule,
     queryWorks,
     dataTable,
     mutationDeleteWorks,
+    mutationDeleteWork,
     paramsQuery: {
       ...paramsValues,
       crop: { id: paramsValues.crop },

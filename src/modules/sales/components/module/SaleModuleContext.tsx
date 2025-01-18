@@ -10,7 +10,7 @@ import { createContext, useMemo } from 'react';
 import { BulkRecords } from '@/modules/core/interfaces';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
-import { useDeleteBulkSales } from '../../hooks';
+import { useDeleteBulkSales, useDeleteSale } from '../../hooks';
 import { useGetAllSales } from '../../hooks/queries/useGetAllSales';
 import { Sale } from '../../interfaces';
 import { ActionsTableSale } from './ActionsTableSale';
@@ -36,6 +36,7 @@ export interface SalesModuleContextValues {
   querySales: UseQueryGetAllRecordsReturn<Sale>;
   dataTable: DataTableManualReturn<Sale>;
   mutationDeleteSales: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteSale: UseMutationReturn<void, string>;
   actionsSalesModule: Record<string, boolean>;
 }
 
@@ -45,9 +46,7 @@ export const SalesModuleContext = createContext<
 
 export const SalesModuleProvider: React.FC<{
   children: React.ReactNode;
-}> = ({
-  children,
-}) => {
+}> = ({ children }) => {
   const { paramsValues } = useAdvancedQueryData({
     params: [
       'filter_by_date',
@@ -98,6 +97,7 @@ export const SalesModuleProvider: React.FC<{
   });
 
   const mutationDeleteSales = useDeleteBulkSales();
+  const mutationDeleteSale = useDeleteSale();
 
   const contextValue: SalesModuleContextValues = {
     actionsSalesModule,
@@ -122,6 +122,7 @@ export const SalesModuleProvider: React.FC<{
       // },
     },
     mutationDeleteSales,
+    mutationDeleteSale,
   };
 
   return (

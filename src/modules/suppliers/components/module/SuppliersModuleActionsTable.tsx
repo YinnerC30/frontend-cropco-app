@@ -8,7 +8,6 @@ import {
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
 import { useSuppliersModuleContext } from '../../hooks';
-import { useDeleteSupplier } from '../../hooks/mutations/useDeleteSupplier';
 import { Supplier } from '../../interfaces/Supplier';
 
 interface Props {
@@ -16,10 +15,10 @@ interface Props {
 }
 
 export const SuppliersModuleActionsTable: React.FC<Props> = ({ row }: Props) => {
-  const { dataTable, actionsSuppliersModule } = useSuppliersModuleContext();
+  const { dataTable, actionsSuppliersModule, mutationDeleteSupplier } = useSuppliersModuleContext();
 
   const id = row.original.id ?? '';
-  const mutationDeleteSupplier = useDeleteSupplier();
+  
 
   const handleDelete = () => {
     mutationDeleteSupplier.mutate(id, {
@@ -35,7 +34,7 @@ export const SuppliersModuleActionsTable: React.FC<Props> = ({ row }: Props) => 
 
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!actionsSuppliersModule['delete_one_supplier']}
+        disabled={!actionsSuppliersModule['remove_one_supplier']}
       />
 
       <ActionModifyRecord

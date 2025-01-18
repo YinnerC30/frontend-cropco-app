@@ -7,6 +7,7 @@ export const ConsumptionModuleTable: React.FC = () => {
     queryConsumptions,
     actionsConsumptionsModule,
     mutationDeleteConsumptions,
+    mutationDeleteConsumption,
   } = useConsumptionModuleContext();
 
   return (
@@ -25,7 +26,8 @@ export const ConsumptionModuleTable: React.FC = () => {
       isLoading={
         queryConsumptions.isLoading ||
         queryConsumptions.isRefetching ||
-        mutationDeleteConsumptions.isPending
+        mutationDeleteConsumptions.isPending ||
+        mutationDeleteConsumption.isPending
       }
     />
   );

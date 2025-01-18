@@ -7,6 +7,7 @@ export const SuppliersTable: React.FC = () => {
     actionsSuppliersModule,
     mutationDeleteSuppliers,
     querySuppliers,
+    mutationDeleteSupplier,
   } = useSuppliersModuleContext();
 
   return (
@@ -23,7 +24,8 @@ export const SuppliersTable: React.FC = () => {
       isLoading={
         querySuppliers.isLoading ||
         querySuppliers.isRefetching ||
-        mutationDeleteSuppliers.isPending
+        mutationDeleteSuppliers.isPending ||
+        mutationDeleteSupplier.isPending
       }
     />
   );

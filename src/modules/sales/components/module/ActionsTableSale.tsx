@@ -9,7 +9,6 @@ import {
 import { Row } from '@tanstack/react-table';
 import React from 'react';
 import { useSaleModuleContext } from '../../hooks/context/useSaleModuleContext';
-import { useDeleteSale } from '../../hooks/mutations/useDeleteSale';
 import { Sale } from '../../interfaces';
 import { MODULE_SALES_PATHS } from '../../routes/pathRoutes';
 
@@ -17,9 +16,10 @@ export const ActionsTableSale: React.FC<{ row: Row<Sale> }> = ({ row }) => {
   const {
     dataTable: { resetSelectionRows },
     actionsSalesModule,
+    mutationDeleteSale,
   } = useSaleModuleContext();
   const id = row.original.id ?? '';
-  const { mutate } = useDeleteSale();
+  const { mutate } = mutationDeleteSale;
 
   const handleDelete = () => {
     mutate(id, {

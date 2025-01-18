@@ -7,11 +7,10 @@ import {
 } from '@/modules/core/components';
 
 import { Row } from '@tanstack/react-table';
+import React from 'react';
 import { useShoppingModuleContext } from '../../hooks/context/useShoppingModuleContext';
-import { useDeleteShopping } from '../../hooks/mutations/useDeleteShopping';
 import { ShoppingSupplies } from '../../interfaces';
 import { MODULE_SHOPPING_PATHS } from '../../routes/pathRoutes';
-import React from 'react';
 
 export const ActionsTableShopping: React.FC<{
   row: Row<ShoppingSupplies>;
@@ -19,9 +18,10 @@ export const ActionsTableShopping: React.FC<{
   const {
     dataTable: { resetSelectionRows },
     actionsShoppingModule,
+    mutationDeleteOneShopping,
   } = useShoppingModuleContext();
   const id = row.original.id ?? '';
-  const { mutate } = useDeleteShopping();
+  const { mutate } = mutationDeleteOneShopping;
 
   const handleDelete = () => {
     mutate(id, {

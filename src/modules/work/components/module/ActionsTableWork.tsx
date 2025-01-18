@@ -7,7 +7,6 @@ import {
 } from '@/modules/core/components';
 import { Row } from '@tanstack/react-table';
 import { useWorkModuleContext } from '../../hooks/context/useWorkModuleContext';
-import { useDeleteWork } from '../../hooks/mutations/useDeleteWork';
 import { Work } from '../../interfaces/Work';
 import { MODULE_WORKS_PATHS } from '../../routes/pathRoutes';
 
@@ -15,9 +14,9 @@ export const ActionsTableWork = ({ row }: { row: Row<Work> }) => {
   const {
     dataTable: { resetSelectionRows },
     actionsWorksModule,
+    mutationDeleteWork: { mutate },
   } = useWorkModuleContext();
   const id = row.original.id ?? '';
-  const { mutate } = useDeleteWork();
 
   const handleDelete = () => {
     mutate(id, {

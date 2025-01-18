@@ -8,7 +8,6 @@ import {
 
 import { Row } from '@tanstack/react-table';
 import { useConsumptionModuleContext } from '../../hooks/context/useConsumptionModuleContext';
-import { useDeleteConsumption } from '../../hooks/mutations/useDeleteConsumption';
 import { ConsumptionSupplies } from '../../interfaces';
 import { MODULE_CONSUMPTION_PATHS } from '../../routes/pathRoutes';
 
@@ -18,9 +17,10 @@ export const ActionsTableConsumption: React.FC<{
   const {
     dataTable: { resetSelectionRows },
     actionsConsumptionsModule,
+    mutationDeleteConsumption,
   } = useConsumptionModuleContext();
   const id = row.original.id ?? '';
-  const { mutate } = useDeleteConsumption();
+  const { mutate } = mutationDeleteConsumption;
 
   const handleDelete = () => {
     mutate(id, {

@@ -7,6 +7,7 @@ export const SaleModuleTable = () => {
     querySales,
     actionsSalesModule,
     mutationDeleteSales,
+    mutationDeleteSale,
   } = useSaleModuleContext();
 
   return (
@@ -23,7 +24,8 @@ export const SaleModuleTable = () => {
       isLoading={
         querySales.isLoading ||
         querySales.isRefetching ||
-        mutationDeleteSales.isPending
+        mutationDeleteSales.isPending ||
+        mutationDeleteSale.isPending
       }
     />
   );

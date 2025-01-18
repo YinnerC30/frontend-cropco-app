@@ -7,7 +7,8 @@ export const SuppliesTable: React.FC = () => {
     dataTable: { table, lengthColumns },
     querySupplies,
     actionsSuppliesModule,
-    mutationDeleteSupplies: { isPending },
+    mutationDeleteSupplies,
+    mutationDeleteSupply,
   } = useSuppliesModuleContext();
 
   return (
@@ -22,7 +23,10 @@ export const SuppliesTable: React.FC = () => {
       lengthColumns={lengthColumns}
       rowCount={querySupplies.data?.rowCount ?? 0}
       isLoading={
-        querySupplies.isLoading || querySupplies.isRefetching || isPending
+        querySupplies.isLoading ||
+        querySupplies.isRefetching ||
+        mutationDeleteSupplies.isPending ||
+        mutationDeleteSupply.isPending
       }
     />
   );

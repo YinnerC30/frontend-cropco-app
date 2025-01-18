@@ -15,6 +15,7 @@ import { useGetAllShopping } from '../../hooks/queries/useGetAllShopping';
 import { ShoppingSupplies } from '../../interfaces';
 import { ActionsTableShopping } from './ActionsTableShopping';
 import columnsShopping from './ColumnsTableShopping';
+import { useDeleteShopping } from '../../hooks/mutations/useDeleteShopping';
 
 export interface paramQueryShopping {
   filter_by_date: {
@@ -32,6 +33,7 @@ export interface ShoppingModuleContextValues {
   queryShopping: UseQueryGetAllRecordsReturn<ShoppingSupplies>;
   dataTable: DataTableManualReturn<ShoppingSupplies>;
   mutationDeleteShopping: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteOneShopping: UseMutationReturn<void, string>;
   actionsShoppingModule: Record<string, boolean>;
 }
 
@@ -66,7 +68,7 @@ export const ShoppingModuleProvider: React.FC<{
 
   const actionsShoppingModule = useMemo(() => getActionsModule('shopping'), []);
 
-  console.log(actionsShoppingModule)
+  console.log(actionsShoppingModule);
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsShopping,
@@ -87,6 +89,7 @@ export const ShoppingModuleProvider: React.FC<{
   });
 
   const mutationDeleteShopping = useDeleteBulkShopping();
+  const mutationDeleteOneShopping = useDeleteShopping();
 
   const contextValue: ShoppingModuleContextValues = {
     actionsShoppingModule,
@@ -103,6 +106,7 @@ export const ShoppingModuleProvider: React.FC<{
       },
     },
     mutationDeleteShopping,
+    mutationDeleteOneShopping,
   };
 
   return (

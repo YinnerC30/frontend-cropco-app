@@ -7,6 +7,7 @@ export const ShoppingModuleTable: React.FC = () => {
     actionsShoppingModule,
     queryShopping,
     mutationDeleteShopping,
+    mutationDeleteOneShopping,
   } = useShoppingModuleContext();
 
   return (
@@ -23,7 +24,8 @@ export const ShoppingModuleTable: React.FC = () => {
       isLoading={
         queryShopping.isLoading ||
         queryShopping.isRefetching ||
-        mutationDeleteShopping.isPending
+        mutationDeleteShopping.isPending ||
+        mutationDeleteOneShopping.isPending
       }
     />
   );

@@ -7,6 +7,7 @@ export const PaymentModuleTable: React.FC = () => {
     queryPayments,
     actionsPaymentsModule,
     mutationDeletePayments,
+    mutationDeletePayment,
   } = usePaymentModuleContext();
 
   return (
@@ -23,7 +24,8 @@ export const PaymentModuleTable: React.FC = () => {
       isLoading={
         queryPayments.isLoading ||
         queryPayments.isRefetching ||
-        mutationDeletePayments.isPending
+        mutationDeletePayments.isPending ||
+        mutationDeletePayment.isPending
       }
     />
   );

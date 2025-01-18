@@ -11,6 +11,7 @@ import { BulkRecords } from '@/modules/core/interfaces';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { useDeleteBulkConsumption } from '../../hooks/mutations/useDeleteBulkConsumption';
+import { useDeleteConsumption } from '../../hooks/mutations/useDeleteConsumption';
 import { useGetAllConsumptions } from '../../hooks/queries/useGetAllConsumptions';
 import { ConsumptionSupplies } from '../../interfaces';
 import { ActionsTableConsumption } from './ActionsTableConsumption';
@@ -28,6 +29,7 @@ export interface ConsumptionsModuleContextValues {
   queryConsumptions: UseQueryGetAllRecordsReturn<ConsumptionSupplies>;
   dataTable: DataTableManualReturn<ConsumptionSupplies>;
   mutationDeleteConsumptions: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteConsumption: UseMutationReturn<void, string>;
   actionsConsumptionsModule: Record<string, boolean>;
 }
 
@@ -76,6 +78,7 @@ export const ConsumptionModuleProvider: React.FC<{
   });
 
   const mutationDeleteConsumptions = useDeleteBulkConsumption();
+  const mutationDeleteConsumption = useDeleteConsumption();
 
   const contextValue: ConsumptionsModuleContextValues = {
     actionsConsumptionsModule,
@@ -88,6 +91,7 @@ export const ConsumptionModuleProvider: React.FC<{
       },
     },
     mutationDeleteConsumptions,
+    mutationDeleteConsumption,
   };
 
   return (

@@ -7,14 +7,15 @@ import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreate
 import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData';
 import { createContext, useMemo } from 'react';
 
-import { useGetAllPayments } from '../../hooks/queries/useGetAllPayments';
-import columnsPayment from './ColumnsTablePayment';
-import { ActionsTablePayment } from './ActionsTablePayment';
 import { BulkRecords } from '@/modules/core/interfaces';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
-import { Payment } from '../../interfaces/Payment';
 import { useDeleteBulkPayments } from '../../hooks/mutations/useDeleteBulkPayments';
+import { useDeletePayment } from '../../hooks/mutations/useDeletePayment';
+import { useGetAllPayments } from '../../hooks/queries/useGetAllPayments';
+import { Payment } from '../../interfaces/Payment';
+import { ActionsTablePayment } from './ActionsTablePayment';
+import columnsPayment from './ColumnsTablePayment';
 
 export interface paramQueryPayment {
   employee: { id: string | null | undefined };
@@ -35,6 +36,7 @@ export interface PaymentsModuleContextValues {
   queryPayments: UseQueryGetAllRecordsReturn<Payment>;
   dataTable: DataTableManualReturn<Payment>;
   mutationDeletePayments: UseMutationReturn<void, BulkRecords>;
+  mutationDeletePayment: UseMutationReturn<void, string>;
   actionsPaymentsModule: Record<string, boolean>;
 }
 
@@ -91,12 +93,14 @@ export const PaymentsModuleProvider = ({
   });
 
   const mutationDeletePayments = useDeleteBulkPayments();
+  const mutationDeletePayment = useDeletePayment();
 
   const contextValue: PaymentsModuleContextValues = {
     actionsPaymentsModule,
     queryPayments,
     dataTable,
     mutationDeletePayments,
+    mutationDeletePayment,
     paramsQuery: {
       employee: { id: paramsValues.employee },
       filter_by_date: {
