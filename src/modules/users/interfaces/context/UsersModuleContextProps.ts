@@ -9,5 +9,6 @@ export interface UsersModuleContextProps {
   queryUsers: UseQueryGetAllRecordsReturn<User>;
   dataTable: DataTableManualReturn<User>;
   mutationDeleteUsers: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteUser: UseMutationReturn<void, string>;
   actionsUsersModule: Record<string, boolean>;
 }

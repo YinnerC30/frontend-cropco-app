@@ -17,9 +17,10 @@ interface Props {
 }
 
 export const UsersModuleActionsTable: React.FC<Props> = ({ row }) => {
-  const { dataTable, actionsUsersModule } = useUsersModuleContext();
+  const { dataTable, actionsUsersModule, mutationDeleteUser } =
+    useUsersModuleContext();
   const { id, email, is_active } = row.original;
-  const mutationDeleteUser = useDeleteUser();
+
   const mutationPatchPassword = usePatchResetPasswordUser();
 
   const handleDelete = () => {
