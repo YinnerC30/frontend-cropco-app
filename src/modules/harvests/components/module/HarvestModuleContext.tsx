@@ -9,7 +9,7 @@ import { BulkRecords } from '@/modules/core/interfaces';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import React, { createContext, useMemo } from 'react';
-import { useGetAllHarvests } from '../../hooks';
+import { useDeleteHarvest, useGetAllHarvests } from '../../hooks';
 import { useDeleteBulkHarvests } from '../../hooks/mutations/useDeleteBulkHarvests';
 import { Harvest, TableHarvest } from '../../interfaces';
 import { ActionsTableHarvest } from './ActionsTableHarvest';
@@ -36,6 +36,7 @@ export interface HarvestsModuleContextProps {
   queryHarvests: UseQueryGetAllRecordsReturn<Harvest>;
   dataTable: DataTableManualReturn<TableHarvest>;
   mutationDeleteHarvests: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteHarvest: UseMutationReturn<void, string>;
   actionsHarvestsModule: Record<string, boolean>;
 }
 
@@ -95,8 +96,11 @@ export const HarvestsModuleProvider: React.FC<{
 
   const mutationDeleteHarvests = useDeleteBulkHarvests();
 
+  const mutationDeleteHarvest = useDeleteHarvest();
+
   const contextValue: HarvestsModuleContextProps = {
     mutationDeleteHarvests,
+    mutationDeleteHarvest,
     actionsHarvestsModule,
     queryHarvests,
     dataTable,

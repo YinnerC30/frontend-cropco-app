@@ -56,7 +56,6 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
   actionFinal,
 }) => {
   const [openPopover, setOpenPopover] = useState(false);
-  console.log(data);
   return (
     <FormField
       control={control}

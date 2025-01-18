@@ -7,6 +7,7 @@ export const HarvestModuleTable: React.FC = () => {
     actionsHarvestsModule,
     dataTable,
     mutationDeleteHarvests,
+    mutationDeleteHarvest,
   } = useHarvestModuleContext();
 
   return (
@@ -23,7 +24,8 @@ export const HarvestModuleTable: React.FC = () => {
       isLoading={
         queryHarvests.isLoading ||
         queryHarvests.isRefetching ||
-        mutationDeleteHarvests.isPending
+        mutationDeleteHarvests.isPending ||
+        mutationDeleteHarvest.isPending
       }
     />
   );

@@ -32,6 +32,12 @@ export const useDeleteBulkPayments = (): UseMutationReturn<
       await queryClient.invalidateQueries({
         queryKey: ['employees', 'pending-payments'],
       });
+      await queryClient.invalidateQueries({
+        queryKey: ['harvest'],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['work'],
+      });
       toast.success(`Pagos eliminados`);
     },
     onError: (error) => {

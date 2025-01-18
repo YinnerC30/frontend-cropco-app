@@ -3,6 +3,7 @@ import {
   ButtonDeleteBulk,
 } from '@/modules/core/components';
 import {
+  ErrorCell,
   FormDataTable,
   FormDataTableButtonsPagination,
   FormDataTableFilter,
@@ -33,10 +34,19 @@ export const FormHarvestDataTable: React.FC = () => {
     handleOpenDialog();
   };
 
-  const validateIsDisabled = (row: Row<any>) => {
+  const validateIsDisabled = (
+    row: Row<any>
+  ): { status: boolean; cellColorError: ErrorCell; message: string } => {
     const { deletedDate, payment_is_pending } = row.original;
     const isDisabled = deletedDate !== null || payment_is_pending === false;
-    return isDisabled;
+    return {
+      status: isDisabled,
+      cellColorError: payment_is_pending === false ? 'restriction' : 'caution',
+      message:
+        payment_is_pending === false
+          ? 'No se puede eliminar o modificar este registro porque ya ha sido pagado'
+          : 'No se puede modificar este registro porque el empleado ya ha sido eliminado',
+    };
   };
 
   return (

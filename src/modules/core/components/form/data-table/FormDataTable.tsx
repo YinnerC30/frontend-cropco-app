@@ -17,18 +17,29 @@ import { memo } from 'react';
 import { toast } from 'sonner';
 import { useFormDataTableContext } from './FormDataTableContext';
 
+export type ErrorCell = 'restriction' | 'caution';
+
 interface Props {
   onCellDoubleClick: (data: any) => void;
   className?: string;
   disabledDoubleClick?: boolean;
-  validationDisabledCell?: (row: Row<any>) => boolean;
+  validationDisabledCell?: (row: Row<any>) => {
+    status: boolean;
+    cellColorError: ErrorCell;
+    message: string;
+  };
 }
+
 export const FormDataTable = memo(
   ({
     onCellDoubleClick,
     className,
     disabledDoubleClick = false,
-    validationDisabledCell = () => false,
+    validationDisabledCell = () => ({
+      status: false,
+      cellColorError: 'restriction',
+      message: '',
+    }),
   }: Props) => {
     const { table, lengthColumns } = useFormDataTableContext();
     return (
@@ -54,20 +65,23 @@ export const FormDataTable = memo(
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row: Row<any>) => {
-              const disabledCell = validationDisabledCell(row);
+              const { status, cellColorError, message } =
+                validationDisabledCell(row);
 
               return (
                 <TableRow
                   className={
-                    disabledCell ? 'bg-red-500/30 hover:bg-red-500/30' : ''
+                    cellColorError === 'restriction' && status
+                      ? 'bg-red-500/30 hover:bg-red-500/30'
+                      : cellColorError === 'caution' && status
+                      ? 'bg-orange-500/30 hover:bg-orange-500/30'
+                      : ''
                   }
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
                   onDoubleClick={() => {
-                    if (disabledCell) {
-                      toast.info(
-                        'No puedes modificar o eliminar este registro'
-                      );
+                    if (status) {
+                      toast.info(message);
                       return;
                     }
                     if (!disabledDoubleClick) {

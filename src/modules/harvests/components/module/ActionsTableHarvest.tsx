@@ -18,9 +18,10 @@ interface Props {
 }
 
 export const ActionsTableHarvest: React.FC<Props> = ({ row }) => {
-  const { dataTable, actionsHarvestsModule } = useHarvestModuleContext();
+  const { dataTable, actionsHarvestsModule, mutationDeleteHarvest } =
+    useHarvestModuleContext();
   const id = row.original.id ?? '';
-  const { mutate } = useDeleteHarvest();
+  const { mutate } = mutationDeleteHarvest;
 
   const handleDelete = () => {
     mutate(id, {
