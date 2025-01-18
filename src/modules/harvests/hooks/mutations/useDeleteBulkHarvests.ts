@@ -1,5 +1,5 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/auth/hooks';
+import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
@@ -21,7 +21,7 @@ export const useDeleteBulkHarvests = (): UseMutationReturn<
   BulkRecords
 > => {
   const queryClient = useQueryClient();
-  const { handleError } = useManageErrorApp();
+  const { handleError } = useAuthContext();
   const mutation: UseMutationReturn<void, BulkRecords> = useMutation({
     mutationFn: deleteBulkHarvests,
     onSuccess: async () => {
@@ -34,8 +34,7 @@ export const useDeleteBulkHarvests = (): UseMutationReturn<
     onError: (error) => {
       handleError({
         error,
-        messageUnauthoraizedError:
-          'No tienes permiso para eliminar varias cosechas',
+        messagesStatusError: {},
       });
     },
 

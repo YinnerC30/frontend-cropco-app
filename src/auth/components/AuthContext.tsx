@@ -45,6 +45,7 @@ export interface HandleErrorProps {
     notFound?: string;
     badRequest?: string;
     unauthorized?: string;
+    conflict?: string;
     other?: string;
   };
 }
@@ -106,6 +107,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       unauthorized = 'No tienes permiso para realizar esta acción',
       other = 'Ocurrió un error inesperado',
       notFound = 'No se encontró la información solicitada',
+      conflict = 'Existe un conflicto al realizar la solicitud',
     } = messagesStatusError;
 
     const handleNetworkError = () => {
@@ -131,6 +133,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         break;
       case 404:
         toast.error(notFound);
+        break;
+      case 409:
+        toast.error(conflict);
         break;
       default:
         toast.error(other);
