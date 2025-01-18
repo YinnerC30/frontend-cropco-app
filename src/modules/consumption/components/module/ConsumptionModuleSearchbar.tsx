@@ -95,14 +95,14 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-start justify-start w-screen my-4 sm:w-full">
+    <div className="flex flex-col items-start justify-start my-4 sm:w-full">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSearch)}
           id="formSearch"
           className="flex flex-col w-full"
         >
-          <div className="flex flex-col items-center justify-center w-screen md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
+          <div className="flex flex-col items-center justify-center  md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
             <div className="flex items-center gap-2">
               <Popover open={openPopover} onOpenChange={setOpenPopover}>
                 <PopoverTrigger asChild>

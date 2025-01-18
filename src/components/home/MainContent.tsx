@@ -9,13 +9,13 @@ export const MainContent: React.FC = () => {
   return (
     <main>
       <div
-        className={`flex justify-center  ${isMobile ? 'w-[90vw]' : 'w-[80vw]'}`}
+        className={`h-screen px-5 pt-5  ${
+          isMobile ? 'w-screen' : 'w-[calc(100vw-var(--sidebar-width))]'
+        }`}
       >
-        <div className="w-full mt-5 ml-10">
-          <Outlet />
-          <Sonner position="top-right" richColors closeButton />
-          <Toaster />
-        </div>
+        <Outlet />
+        <Sonner position="top-right" richColors closeButton />
+        <Toaster />
       </div>
     </main>
   );

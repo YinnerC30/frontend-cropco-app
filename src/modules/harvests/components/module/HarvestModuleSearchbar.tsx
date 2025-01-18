@@ -250,7 +250,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
   }, [queryCrops.isSuccess]);
 
   return (
-    <div className="flex flex-col items-start justify-start w-screen my-4 sm:w-full">
+    <div className="flex flex-col items-start justify-start my-4">
       <DropdownMenu open={openDropDownMenu} modal={false}>
         <Form {...form}>
           <form
@@ -258,7 +258,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
             id="formSearch"
             className="flex flex-col w-full"
           >
-            <div className="flex flex-col items-center justify-center w-screen md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
+            <div className="flex flex-col items-center justify-center md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
                 <FormFieldCommand
                   data={queryCrops?.data?.rows || []}
@@ -267,7 +267,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                   control={form.control}
                   name={'crop'}
                   placeholder={formFieldsSearchBarHarvest.crop.placeholder}
-                  className="w-auto lg:w-[300px]"
+                  className="lg:w-[300px]"
                   description={''}
                   label={''}
                   readOnly={readOnly}
