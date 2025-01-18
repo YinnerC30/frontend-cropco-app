@@ -11,6 +11,7 @@ import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreate
 import { BulkRecords } from '@/modules/core/interfaces';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { useDeleteCrop } from '../../hooks';
 import { useDeleteBulkCrops } from '../../hooks/mutations/useDeleteBulkCrops';
 import { Crop } from '../../interfaces/Crop';
 import { columnsTableCrops } from './columnsTableCrops';
@@ -21,6 +22,7 @@ export interface CropsModuleContextProps {
   queryCrops: UseQueryGetAllRecordsReturn<Crop>;
   dataTable: DataTableManualReturn<Crop>;
   mutationDeleteCrops: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteCrop: UseMutationReturn<void, string>;
   actionsCropsModule: Record<string, boolean>;
 }
 
@@ -66,6 +68,7 @@ export const CropsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
   });
 
   const mutationDeleteCrops = useDeleteBulkCrops();
+  const mutationDeleteCrop = useDeleteCrop();
 
   const contextValue: CropsModuleContextProps = {
     paramQuery: value,
@@ -73,6 +76,7 @@ export const CropsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
     dataTable,
     actionsCropsModule,
     mutationDeleteCrops,
+    mutationDeleteCrop,
   };
 
   return (

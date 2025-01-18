@@ -9,7 +9,6 @@ import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/D
 import { Row } from '@tanstack/react-table';
 import React from 'react';
 import { useCropsModuleContext } from '../../hooks';
-import { useDeleteCrop } from '../../hooks/mutations/useDeleteCrop';
 import { Crop } from '../../interfaces/Crop';
 
 interface Props {
@@ -17,10 +16,10 @@ interface Props {
 }
 
 export const CropsModuleActionsTable: React.FC<Props> = ({ row }) => {
-  const { dataTable, actionsCropsModule } = useCropsModuleContext();
+  const { dataTable, actionsCropsModule,mutationDeleteCrop } = useCropsModuleContext();
 
   const id = row?.original?.id ?? '';
-  const mutationDeleteCrop = useDeleteCrop();
+  
 
   const handleDelete = () => {
     mutationDeleteCrop.mutate(id, {
