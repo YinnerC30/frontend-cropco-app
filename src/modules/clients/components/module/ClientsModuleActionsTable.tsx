@@ -1,4 +1,3 @@
-
 import {
   ActionCopyIdRecord,
   ActionDeleteRecord,
@@ -8,7 +7,6 @@ import {
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
 import { useClientsModuleContext } from '../../hooks';
-import { useDeleteClient } from '../../hooks/mutations/useDeleteClient';
 import { Client } from '../../interfaces/Client';
 
 interface Props {
@@ -16,10 +14,10 @@ interface Props {
 }
 
 export const ClientsModuleActionsTable: React.FC<Props> = ({ row }) => {
-  const { dataTable, actionsClientsModule } = useClientsModuleContext();
+  const { dataTable, actionsClientsModule, mutationDeleteClient } =
+    useClientsModuleContext();
 
   const id = row?.original?.id ?? '';
-  const mutationDeleteClient = useDeleteClient();
 
   const handleDelete = () => {
     mutationDeleteClient.mutate(id, {
