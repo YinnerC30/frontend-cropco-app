@@ -87,10 +87,15 @@ export interface FormHarvestContextProps {
   actionsHarvestsModule: Record<string, boolean>;
 }
 
-interface HarvestAction {
-  type: 'REMOVE' | 'MODIFY' | 'RESET' | 'ADD';
-  payload?: HarvestDetail;
-}
+type HarvestAction =
+  | {
+      type: 'REMOVE' | 'MODIFY' | 'ADD';
+      payload?: HarvestDetail;
+    }
+  | {
+      type: 'RESET';
+      payload: HarvestDetail[];
+    };
 
 const harvestDetailsReducer = (
   state: HarvestDetail[],
@@ -108,9 +113,7 @@ const harvestDetailsReducer = (
           : (action.payload as HarvestDetail)
       );
     case 'RESET':
-      return [];
-    default:
-      throw new Error(`Unhandled action type: ${action.type}`);
+      return [...action.payload];
   }
 };
 
@@ -152,8 +155,12 @@ export const FormHarvestProvider: React.FC<
   };
 
   const resetHarvestDetails = (): void => {
-    dispatch({ type: 'RESET' });
+    dispatch({ type: 'RESET', payload: detailsDefaultValues });
   };
+
+  useEffect(() => {
+    resetHarvestDetails();
+  }, [detailsDefaultValues]);
 
   const total = useMemo<number>(
     () =>

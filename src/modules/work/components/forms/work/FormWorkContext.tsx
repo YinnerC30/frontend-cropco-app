@@ -84,10 +84,10 @@ export interface FormWorkContextValues {
 
 type WorkAction =
   | {
-      type: 'REMOVE' | 'MODIFY' | 'RESET' | 'ADD';
+      type: 'REMOVE' | 'MODIFY' | 'ADD';
       payload?: WorkDetail;
     }
-  | { type: 'SET_DETAILS'; payload: WorkDetail[] };
+  | { type: 'RESET'; payload: WorkDetail[] };
 
 const workDetailsReducer = (
   state: WorkDetail[],
@@ -106,10 +106,8 @@ const workDetailsReducer = (
       return state.map((item) =>
         item.id !== action.payload?.id ? item : (action.payload as WorkDetail)
       );
-    case 'SET_DETAILS':
-      return [...action?.payload] as WorkDetail[];
     case 'RESET':
-      return [];
+      return [...action?.payload];
   }
 };
 
@@ -150,11 +148,19 @@ export const FormWorkProvider: React.FC<
   };
 
   const resetWorkDetails = (): void => {
-    dispatch({ type: 'RESET' });
+    dispatch({ type: 'RESET', payload: detailsDefaultValues });
   };
 
+  // const resetHarvestDetails = (): void => {
+  //     dispatch({ type: 'RESET', payload: detailsDefaultValues });
+  //   };
+
+  //   useEffect(() => {
+  //     resetHarvestDetails();
+  //   }, [detailsDefaultValues]);
+
   useEffect(() => {
-    dispatch({ type: 'SET_DETAILS', payload: detailsDefaultValues });
+    resetWorkDetails();
   }, [detailsDefaultValues]);
 
   const total = useMemo<number>(
