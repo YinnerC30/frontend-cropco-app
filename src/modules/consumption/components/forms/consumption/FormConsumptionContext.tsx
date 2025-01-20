@@ -31,6 +31,7 @@ import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import { z } from 'zod';
 import { ActionsTableConsumptionDetail } from '../consumption/details/ActionsTableConsumptionDetail';
 import { columnsConsumptionDetail } from '../consumption/details/ColumnsTableConsumptionDetail';
+import { CheckboxTableCustomClient } from '@/modules/core/components/table/CheckboxTableCustomClient';
 
 export const defaultValuesConsumptionDetail: ConsumptionDetails = {
   id: undefined,
@@ -249,6 +250,7 @@ export const FormConsumptionProvider: React.FC<
     columns: columnsConsumptionDetail,
     actions: ActionsTableConsumptionDetail,
     hiddenActions: readOnly,
+    customCheckbox: CheckboxTableCustomClient,
   });
 
   const dataTableConsumptionDetail = useDataTableGeneric<ConsumptionDetails>({

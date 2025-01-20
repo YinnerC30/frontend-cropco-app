@@ -19,7 +19,7 @@ export const useGetConsumption = (
 ): UseGetOneRecordReturn<ConsumptionSupplies> => {
   const { handleError, hasPermission } = useAuthContext();
   const isAuthorized = hasPermission(
-    'supplies',
+    'consumptions',
     'find_one_supplies_consumption'
   );
 

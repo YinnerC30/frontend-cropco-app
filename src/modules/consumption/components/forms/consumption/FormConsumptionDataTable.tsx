@@ -3,6 +3,7 @@ import {
   ButtonDeleteBulk,
 } from '@/modules/core/components';
 import {
+  ErrorCell,
   FormDataTable,
   FormDataTableButtonsPagination,
   FormDataTableFilter,
@@ -19,6 +20,7 @@ import { ScrollArea, ScrollBar } from '@/components';
 import { useFormConsumptionContext } from '@/modules/consumption/hooks/context/useFormConsumptionContext';
 import { ConsumptionDetails } from '@/modules/consumption/interfaces';
 import React from 'react';
+import { Row } from '@tanstack/react-table';
 
 export const FormConsumptionDataTable: React.FC = () => {
   const {
@@ -38,6 +40,18 @@ export const FormConsumptionDataTable: React.FC = () => {
     setConsumptionDetail(data);
     handleOpenDialog();
   };
+
+  const validateIsDisabled = (
+      row: Row<any>
+    ): { status: boolean; cellColorError: ErrorCell; message: string } => {
+      const { deletedDate } = row.original;
+      const isDisabled = deletedDate !== null;
+      return {
+        status: isDisabled,
+        cellColorError: 'restriction',
+        message: 'No se puede eliminar o modificar este registro porque...',
+      };
+    };
 
   return (
     <FormDataTableProvider
@@ -83,6 +97,7 @@ export const FormConsumptionDataTable: React.FC = () => {
           <FormDataTable
             onCellDoubleClick={handleSetConsumptionDetail}
             disabledDoubleClick={readOnly}
+            validationDisabledCell={validateIsDisabled}
           />
 
           <ScrollBar className="mt-2" orientation="horizontal" forceMount />

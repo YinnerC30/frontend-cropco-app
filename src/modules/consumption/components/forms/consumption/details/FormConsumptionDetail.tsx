@@ -54,6 +54,7 @@ export const FormConsumptionDetail: React.FC = () => {
     if (!consumptionDetail.id) {
       const record = {
         ...values,
+        deletedDate: null,
         id: generateUUID(),
       };
       removeSupplyStock({
@@ -64,7 +65,7 @@ export const FormConsumptionDetail: React.FC = () => {
       addConsumptionDetail(record);
       toast.success('Registro añadido');
     } else {
-      const record = { ...values, id: consumptionDetail.id };
+      const record = { ...values, id: consumptionDetail.id, deletedDate: null };
       removeSupplyStock({
         id: values.supply.id,
         name: values.supply?.name!,
