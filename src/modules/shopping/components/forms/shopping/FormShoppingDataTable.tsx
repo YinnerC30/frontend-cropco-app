@@ -3,6 +3,7 @@ import {
   ButtonDeleteBulk,
 } from '@/modules/core/components';
 import {
+  ErrorCell,
   FormDataTable,
   FormDataTableButtonsPagination,
   FormDataTableFilter,
@@ -18,6 +19,7 @@ import { FormShoppingDetail } from './details/FormShoppingDetail';
 import { ScrollArea, ScrollBar } from '@/components';
 import { useFormShoppingContext } from '@/modules/shopping/hooks/context/useFormShoppingContext';
 import { ShoppingDetail } from '@/modules/shopping/interfaces';
+import { Row } from '@tanstack/react-table';
 
 export const FormShoppingDataTable: React.FC = () => {
   const {
@@ -36,6 +38,18 @@ export const FormShoppingDataTable: React.FC = () => {
   const handleSetShoppingDetail = (data: ShoppingDetail) => {
     setShoppingDetail(data);
     handleOpenDialog();
+  };
+
+  const validateIsDisabled = (
+    row: Row<any>
+  ): { status: boolean; cellColorError: ErrorCell; message: string } => {
+    const { deletedDate } = row.original;
+    const isDisabled = deletedDate !== null;
+    return {
+      status: isDisabled,
+      cellColorError: 'restriction',
+      message: 'No se puede eliminar o modificar este registro porque...',
+    };
   };
 
   return (
@@ -82,6 +96,7 @@ export const FormShoppingDataTable: React.FC = () => {
           <FormDataTable
             onCellDoubleClick={handleSetShoppingDetail}
             disabledDoubleClick={readOnly}
+            validationDisabledCell={validateIsDisabled}
           />
 
           <ScrollBar className="mt-2" orientation="horizontal" forceMount />

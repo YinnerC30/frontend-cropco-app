@@ -45,13 +45,14 @@ export const FormShoppingDetail: React.FC = () => {
     if (!shoppingDetail.id) {
       const record = {
         ...values,
+        deletedDate: null,
         id: generateUUID(),
       };
       addShoppingDetail(record);
       toast.success('Registro añadido');
     } else {
       const record = { ...values, id: shoppingDetail.id };
-      modifyShoppingDetail(record);
+      modifyShoppingDetail({ ...record, deletedDate: null });
       toast.success('Registro actualizado');
     }
     setOpenDialog(false);

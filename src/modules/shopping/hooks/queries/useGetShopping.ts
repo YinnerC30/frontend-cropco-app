@@ -18,7 +18,7 @@ export const useGetShopping = (
   id: string
 ): UseGetOneRecordReturn<ShoppingSupplies> => {
   const { handleError, hasPermission } = useAuthContext();
-  const isAuthorized = hasPermission('supplies', 'find_one_supplies_shopping');
+  const isAuthorized = hasPermission('shopping', 'find_one_supplies_shopping');
   const query: UseGetOneRecordReturn<ShoppingSupplies> = useQuery({
     queryKey: ['shopping', id],
     queryFn: () => getShoppingById(id),

@@ -17,6 +17,7 @@ export const useDeleteSupplier = (): UseMutationReturn<void, string> => {
     mutationFn: deleteSupplier,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['suppliers'] });
+      await queryClient.invalidateQueries({ queryKey: ['shopping'] });
       toast.success(`Proveedor eliminado`);
     },
     onError: (error) => {

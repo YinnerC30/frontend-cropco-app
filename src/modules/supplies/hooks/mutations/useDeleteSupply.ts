@@ -1,7 +1,4 @@
-import {
-  useMutation,
-  useQueryClient
-} from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
@@ -25,7 +22,9 @@ export const useDeleteSupply = (): UseMutationReturn<void, string> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        messagesStatusError: {
+          conflict: 'El insumo tiene stock disponible',
+        },
       });
     },
     retry: 1,

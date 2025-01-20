@@ -29,6 +29,7 @@ import { formSchemaShoppingDetail } from '@/modules/shopping/utils/formSchemaSho
 import { z } from 'zod';
 import { ActionsTableShoppingDetail } from './details/ActionsTableShoppingDetail';
 import { columnsShoppingDetail } from './details/ColumnsTableShoppingDetail';
+import { CheckboxTableCustomClient } from '@/modules/core/components/table/CheckboxTableCustomClient';
 
 const defaultValuesShopping: ShoppingSupplies = {
   id: undefined,
@@ -167,6 +168,7 @@ export const FormShoppingProvider: React.FC<
     columns: columnsShoppingDetail,
     actions: ActionsTableShoppingDetail,
     hiddenActions: readOnly,
+    customCheckbox: CheckboxTableCustomClient,
   });
 
   const dataTableShoppingDetail = useDataTableGeneric<ShoppingDetail>({
