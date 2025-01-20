@@ -27,6 +27,12 @@ export const usePostPayment = (): UseMutationReturn<void, Payment> => {
       await queryClient.invalidateQueries({
         queryKey: ['employees', 'pending-payments'],
       });
+      await queryClient.invalidateQueries({
+        queryKey: ['work'],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['harvest'],
+      });
       navigate(MODULE_PAYMENTS_PATHS.ViewAll);
       toast.success(`Pago registrado`);
     },

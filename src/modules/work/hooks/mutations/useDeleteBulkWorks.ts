@@ -28,7 +28,9 @@ export const useDeleteBulkWorks = (): UseMutationReturn<void, BulkRecords> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        messagesStatusError: {
+          conflict: 'El registro tiene pagos realizados',
+        },
       });
     },
 

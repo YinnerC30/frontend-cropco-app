@@ -31,7 +31,9 @@ export const useDeleteBulkClients = (): UseMutationReturn<
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        messagesStatusError: {
+          conflict: 'El cliente tiene ventas pendientes de pago',
+        },
       });
     },
 

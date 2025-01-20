@@ -23,7 +23,7 @@ export const useDeleteWork = (): UseMutationReturn<void, string> => {
       handleError({
         error,
         messagesStatusError: {
-          conflict: 'El registro tiene esta conectado con otros registros',
+          conflict: 'El registro tiene pagos realizados',
         },
       });
     },

@@ -23,7 +23,7 @@ export const useDeleteClient = (): UseMutationReturn<void, string> => {
       handleError({
         error,
         messagesStatusError: {
-          conflict: 'El cliente tiene ventas vinculadas',
+          conflict: 'El cliente tiene ventas pendientes de pago',
         },
       });
     },

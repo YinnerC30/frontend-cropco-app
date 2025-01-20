@@ -82,15 +82,21 @@ export interface FormWorkContextValues {
   actionsWorksModule: Record<string, boolean>;
 }
 
-interface WorkAction {
-  type: 'REMOVE' | 'MODIFY' | 'RESET' | 'ADD';
-  payload?: WorkDetail;
-}
+type WorkAction =
+  | {
+      type: 'REMOVE' | 'MODIFY' | 'RESET' | 'ADD';
+      payload?: WorkDetail;
+    }
+  | { type: 'SET_DETAILS'; payload: WorkDetail[] };
 
 const workDetailsReducer = (
   state: WorkDetail[],
   action: WorkAction
 ): WorkDetail[] => {
+  if (action === undefined || action === null) {
+    throw new Error('Action is undefined or null');
+  }
+
   switch (action.type) {
     case 'ADD':
       return [...state, action.payload as WorkDetail];
@@ -100,10 +106,10 @@ const workDetailsReducer = (
       return state.map((item) =>
         item.id !== action.payload?.id ? item : (action.payload as WorkDetail)
       );
+    case 'SET_DETAILS':
+      return [...action?.payload] as WorkDetail[];
     case 'RESET':
       return [];
-    default:
-      throw new Error(`Unhandled action type: ${action.type}`);
   }
 };
 
@@ -146,6 +152,10 @@ export const FormWorkProvider: React.FC<
   const resetWorkDetails = (): void => {
     dispatch({ type: 'RESET' });
   };
+
+  useEffect(() => {
+    dispatch({ type: 'SET_DETAILS', payload: detailsDefaultValues });
+  }, [detailsDefaultValues]);
 
   const total = useMemo<number>(
     () =>
@@ -204,7 +214,6 @@ export const FormWorkProvider: React.FC<
 
   const ClearFormWorkDetail = () => {
     formWorkDetail.reset(defaultValuesWorkDetail);
-
     setOpenDialog(false);
   };
 

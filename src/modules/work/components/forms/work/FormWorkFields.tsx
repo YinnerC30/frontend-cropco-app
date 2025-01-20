@@ -40,7 +40,14 @@ export const FormWorkFields: React.FC = () => {
             disabled={readOnly}
           />
           <FormFieldCommand
-            data={queryCrops?.data?.rows || []}
+            data={
+              queryCrops.isSuccess
+                ? [
+                    ...queryCrops.data?.rows,
+                    formWork.formState.defaultValues?.crop,
+                  ]
+                : []
+            }
             form={formWork}
             nameToShow={'name'}
             control={formWork.control}

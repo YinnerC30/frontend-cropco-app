@@ -42,7 +42,14 @@ export const FormHarvestFields: React.FC = () => {
             disabled={readOnly}
           />
           <FormFieldCommand
-            data={queryCrops?.data?.rows || []}
+            data={
+              queryCrops.isSuccess
+                ? [
+                    ...queryCrops.data?.rows,
+                    formHarvest.formState.defaultValues?.crop,
+                  ]
+                : []
+            }
             form={formHarvest}
             nameToShow={'name'}
             control={formHarvest.control}
