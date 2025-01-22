@@ -159,7 +159,9 @@ export const FormHarvestProvider: React.FC<
   };
 
   useEffect(() => {
-    resetHarvestDetails();
+    if (detailsDefaultValues.length > 0) {
+      resetHarvestDetails();
+    }
   }, [detailsDefaultValues]);
 
   const total = useMemo<number>(
@@ -254,7 +256,6 @@ export const FormHarvestProvider: React.FC<
   const isFirstRender = useRef(true);
 
   useEffect(() => {
-    console.log('Render');
     formHarvest.setValue('details', detailsHarvest, {
       shouldValidate: !isFirstRender.current,
       shouldDirty: true,

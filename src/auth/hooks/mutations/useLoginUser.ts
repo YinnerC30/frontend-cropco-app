@@ -32,6 +32,10 @@ export const useLoginUser = (): UseMutationReturn<User, LoginUserData> => {
       toast.success(`Bienvenido, ${CapitalizeFirstWord(data.first_name)}`);
     },
     onError: (error) => {
+      if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
+        toast.error('El servicio actualmente no se encuentra disponible');
+        return;
+      }
       const { status } = error.response as unknown as TypedAxiosError;
       switch (status) {
         case 401:

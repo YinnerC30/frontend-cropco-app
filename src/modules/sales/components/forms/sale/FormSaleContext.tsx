@@ -206,7 +206,9 @@ export const FormSaleProvider: React.FC<
   };
 
   useEffect(() => {
-    resetSaleDetails();
+    if (detailsDefaultValues.length > 0) {
+      resetSaleDetails();
+    }
   }, [detailsDefaultValues]);
 
   const queryCropsWithStock = useGetAllHarvestsStock();

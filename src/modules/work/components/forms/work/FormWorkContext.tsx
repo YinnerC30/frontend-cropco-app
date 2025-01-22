@@ -21,6 +21,7 @@ import {
 import { toast } from 'sonner';
 
 import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
+import { CheckboxTableCustom } from '@/modules/core/components/table/CheckboxTableCustom';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { FormProps, ResponseApiGetAllRecords } from '@/modules/core/interfaces';
 import { Work } from '@/modules/work/interfaces/Work';
@@ -32,7 +33,6 @@ import { AxiosError } from 'axios';
 import { z } from 'zod';
 import { ActionsTableWorkDetail } from './details/ActionsTableWorkDetail';
 import { columnsWorkDetail } from './details/ColumnsTableWorkDetail';
-import { CheckboxTableCustom } from '@/modules/core/components/table/CheckboxTableCustom';
 
 export const defaultValuesWorkDetail: WorkDetail = {
   id: undefined,
@@ -151,16 +151,10 @@ export const FormWorkProvider: React.FC<
     dispatch({ type: 'RESET', payload: detailsDefaultValues });
   };
 
-  // const resetHarvestDetails = (): void => {
-  //     dispatch({ type: 'RESET', payload: detailsDefaultValues });
-  //   };
-
-  //   useEffect(() => {
-  //     resetHarvestDetails();
-  //   }, [detailsDefaultValues]);
-
   useEffect(() => {
-    resetWorkDetails();
+    if (detailsDefaultValues.length > 0) {
+      resetWorkDetails();
+    }
   }, [detailsDefaultValues]);
 
   const total = useMemo<number>(
