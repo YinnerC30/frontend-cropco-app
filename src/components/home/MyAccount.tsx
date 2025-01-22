@@ -88,10 +88,10 @@ export const MyAccount = () => {
         {/* Trigger */}
         <DropdownMenuTrigger asChild>
           <Button variant={'ghost'}>
-            <span className="capitalize">
+            <span className="overflow-hidden capitalize">
               {user?.first_name! + ' ' + user?.last_name!}
             </span>
-            <ChevronDown className="w-4 h-4 ml-auto" />
+            <ChevronDown className="w-4 h-4 ml-2" />
           </Button>
         </DropdownMenuTrigger>
 
@@ -164,7 +164,10 @@ export const MyAccount = () => {
         </DropdownMenuContent>
       </DropdownMenu>
       {openDialog && (
-        <DialogChangePassword handleCloseDialog={handleCloseDialog} setOpenDialog={setOpenDialog} />
+        <DialogChangePassword
+          handleCloseDialog={handleCloseDialog}
+          setOpenDialog={setOpenDialog}
+        />
       )}
     </Dialog>
   );
