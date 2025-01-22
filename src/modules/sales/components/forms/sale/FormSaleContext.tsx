@@ -18,6 +18,7 @@ import {
 
 import { toast } from 'sonner';
 
+import { CheckboxTableCustomClient } from '@/modules/core/components/table/CheckboxTableCustomClient';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { FormProps } from '@/modules/core/interfaces';
 import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
@@ -28,7 +29,6 @@ import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { ActionsTableSaleDetail } from './details/ActionsTableSaleDetail';
 import { columnsSaleDetail } from './details/ColumnsTableSaleDetail';
-import { CheckboxTableCustomClient } from '@/modules/core/components/table/CheckboxTableCustomClient';
 
 const defaultValuesSale = {
   date: undefined,
@@ -78,6 +78,7 @@ export interface FormSaleContextValues {
   modifySaleDetail: (saleDetail: SaleDetail) => void;
   resetSaleDetails: () => void;
   handleOpenDialog: () => void;
+  toggleStatusPayment: (id: string) => void;
   handleCloseDialog: (event: React.MouseEvent<HTMLButtonElement>) => void;
   resetSaleDetail: () => void;
   handleDeleteBulkSaleDetails: () => void;
@@ -98,6 +99,10 @@ type SaleAction =
   | {
       type: 'RESET';
       payload: SaleDetail[];
+    }
+  | {
+      type: 'TOGGLE_STATUS_PAYMENT';
+      payload: string;
     };
 
 const saleDetailsReducer = (
@@ -115,6 +120,16 @@ const saleDetailsReducer = (
       );
     case 'RESET':
       return [...action.payload];
+    case 'TOGGLE_STATUS_PAYMENT':
+      return state.map((item) => {
+        if (item.id === action.payload) {
+          return {
+            ...item,
+            is_receivable: !item.is_receivable,
+          };
+        }
+        return item;
+      });
   }
 };
 
@@ -203,6 +218,10 @@ export const FormSaleProvider: React.FC<
 
   const resetSaleDetails = (): void => {
     dispatchSaleDetails({ type: 'RESET', payload: detailsDefaultValues });
+  };
+
+  const toggleStatusPayment = (id: string): void => {
+    dispatchSaleDetails({ type: 'TOGGLE_STATUS_PAYMENT', payload: id });
   };
 
   useEffect(() => {
@@ -386,6 +405,7 @@ export const FormSaleProvider: React.FC<
         addCropStock,
         removeCropStock,
         validateAvailableStock,
+        toggleStatusPayment,
       }}
     >
       {children}

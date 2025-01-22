@@ -10,14 +10,20 @@ import { Row } from '@tanstack/react-table';
 import React from 'react';
 
 import { toast } from 'sonner';
+import { ActionToggleStatusSaleDetail } from './ActionToggleStatusSaleDetail';
 
 export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
   row,
 }) => {
   const saleDetail = row.original;
 
-  const { setSaleDetail, handleOpenDialog, removeSaleDetail, addCropStock } =
-    useFormSaleContext();
+  const {
+    setSaleDetail,
+    handleOpenDialog,
+    removeSaleDetail,
+    addCropStock,
+    toggleStatusPayment,
+  } = useFormSaleContext();
 
   const handleDelete = () => {
     addCropStock({
@@ -35,8 +41,9 @@ export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
     setSaleDetail(saleDetail);
     handleOpenDialog();
   };
-
-  // TODO: Implementar opción de toogle pago pendiente
+  const handleToggle = () => {
+    toggleStatusPayment(saleDetail.id!);
+  };
 
   const { deletedDate } = row.original;
   const isDisabled = deletedDate !== null;
@@ -54,6 +61,11 @@ export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
       <ActionModifyRecordFormDataTable
         disabled={isDisabled}
         action={handleModify}
+      />
+
+      <ActionToggleStatusSaleDetail
+        disabled={isDisabled}
+        action={handleToggle}
       />
     </DropDownMenuActions>
   );
