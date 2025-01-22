@@ -14,9 +14,9 @@ export const formFieldsHarvestDetail: Record<
   },
   total: {
     name: 'total',
-    label: 'Total:',
+    label: 'Total (Kg):',
     placeholder: '0',
-    description: 'Introduce la cantidad que ha cosechado',
+    description: 'Introduce la cantidad de Kg que ha cosechado',
   },
   value_pay: {
     name: 'value_pay',

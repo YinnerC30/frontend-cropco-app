@@ -4,11 +4,11 @@ import {
   FormFieldDataTable,
   FormFieldInput,
 } from '@/modules/core/components';
-import { FormatNumber } from '@/modules/core/helpers';
 
 import { useFormShoppingContext } from '@/modules/shopping/hooks/context/useFormShoppingContext';
 import { formFieldsShopping } from '@/modules/shopping/utils';
 import { FormShoppingDataTable } from './FormShoppingDataTable';
+import { FormatMoneyValue } from '@/modules/core/helpers';
 
 export const FormShoppingFields: React.FC = () => {
   const { formShopping, onSubmit, readOnly, total } = useFormShoppingContext();
@@ -54,7 +54,7 @@ export const FormShoppingFields: React.FC = () => {
             className="block h-8 text-base text-center w-28"
             variant={'cyan'}
           >
-            {FormatNumber(total)}
+            {FormatMoneyValue(total)}
           </Badge>
         </FormFieldInput>
       </form>

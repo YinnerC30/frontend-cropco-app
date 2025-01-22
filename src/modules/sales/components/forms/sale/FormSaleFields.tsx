@@ -4,7 +4,7 @@ import {
   FormFieldDataTable,
   FormFieldInput,
 } from '@/modules/core/components';
-import { FormatNumber } from '@/modules/core/helpers';
+import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 
 import { useFormSaleContext } from '@/modules/sales/hooks/context/useFormSaleContext';
 import { formFieldsSale } from '@/modules/sales/utils';
@@ -53,7 +53,7 @@ export const FormSaleFields: React.FC = () => {
             className="block h-8 text-base text-center w-28"
             variant={'cyan'}
           >
-            {FormatNumber(total)}
+            {FormatMoneyValue(total)}
           </Badge>
         </FormFieldInput>
         <FormFieldInput
@@ -70,7 +70,7 @@ export const FormSaleFields: React.FC = () => {
             className="block h-8 text-base text-center w-28"
             variant={'cyan'}
           >
-            {FormatNumber(quantity)}
+            {FormatNumber(quantity) + ' Kg'}
           </Badge>
         </FormFieldInput>
       </form>

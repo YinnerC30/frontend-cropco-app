@@ -99,7 +99,7 @@ export const FormHarvestFields: React.FC = () => {
               className="block h-8 text-base text-center w-28"
               variant={'cyan'}
             >
-              {FormatNumber(total)}
+              {FormatNumber(total) + ' Kg'}
             </Badge>
           </FormFieldInput>
 

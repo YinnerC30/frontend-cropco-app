@@ -136,8 +136,13 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                                   suppliesStock.find((item: SupplyStock) => {
                                     return item.id === field.value;
                                   })?.['amount'] || 0
-                                ) +
-                                ' Kg'}
+                                )}
+
+                              {suppliesStock.find((item: SupplyStock) => {
+                                return item.id === field.value;
+                              })?.['unit_of_measure'] === 'GRAMOS'
+                                ? ' g'
+                                : ' ml'}
                             </Badge>
                           )}
 
@@ -189,7 +194,13 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                                   <div className="flex justify-between w-full ">
                                     <span>{item?.['name']}</span>
                                     <span className="font-bold">
-                                      {FormatNumber(item?.['amount']) + ' Kg'}
+                                      {FormatNumber(item?.['amount']) +
+                                        ' ' +
+                                        CapitalizeFirstWord(
+                                          item?.[
+                                            'unit_of_measure'
+                                          ]?.toLowerCase() || ''
+                                        )}
                                     </span>
                                   </div>
                                   <CheckIcon

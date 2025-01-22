@@ -6,7 +6,7 @@ import {
   FormFieldInput,
   FormFieldTextArea,
 } from '@/modules/core/components';
-import { FormatNumber } from '@/modules/core/helpers';
+import { FormatMoneyValue } from '@/modules/core/helpers';
 
 import { useGetAllCrops } from '@/modules/crops/hooks';
 import { useFormWorkContext } from '@/modules/work/hooks/context/useFormWorkContext';
@@ -97,7 +97,7 @@ export const FormWorkFields: React.FC = () => {
               className="block h-8 text-base text-center w-28"
               variant={'cyan'}
             >
-              {FormatNumber(total)}
+              {FormatMoneyValue(total)}
             </Badge>
           </FormFieldInput>
         </div>

@@ -22,6 +22,6 @@ export const formFieldsConsumptionDetail: Record<
     name: 'amount',
     label: 'Monto:',
     placeholder: '0',
-    description: 'Cantidad a consumir',
+    description: 'Cantidad a consumir (mililitros o gramos)',
   },
 };
