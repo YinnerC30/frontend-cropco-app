@@ -5,6 +5,7 @@ import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { ShoppingSupplies } from '../../interfaces';
 import { formFieldsShopping } from '../../utils/formFieldsShopping';
+import { Badge } from '@/components';
 
 export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
   {
@@ -19,6 +20,45 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
           label={formFieldsShopping.date.label}
         />
       );
+    },
+  },
+
+  {
+    accessorKey: 'supplies',
+    header: ({ column }) => {
+      return <ButtonHeaderTable column={column} label={'Cultivos:'} />;
+    },
+    cell: ({ row: { original } }) => {
+      const setSupplies = new Set(
+        original.details.map((item) => item.supply.name)
+      );
+
+      const iterator = Array.from(setSupplies);
+
+      return iterator.map((name, index) => (
+        <Badge key={name + index} className="mb-1 mr-1">
+          {name}
+        </Badge>
+      ));
+    },
+  },
+  {
+    accessorKey: 'suppliers',
+    header: ({ column }) => {
+      return <ButtonHeaderTable column={column} label={'Cultivos:'} />;
+    },
+    cell: ({ row: { original } }) => {
+      const setSuppliers = new Set(
+        original.details.map((item) => item.supplier.first_name)
+      );
+
+      const iterator = Array.from(setSuppliers);
+
+      return iterator.map((name, index) => (
+        <Badge key={name + index} className="mb-1 mr-1">
+          {name}
+        </Badge>
+      ));
     },
   },
 

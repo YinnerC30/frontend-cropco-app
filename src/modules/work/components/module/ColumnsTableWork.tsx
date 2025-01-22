@@ -1,4 +1,4 @@
-import { ColumnDef, HeaderContext } from '@tanstack/react-table';
+import { Column, ColumnDef, HeaderContext } from '@tanstack/react-table';
 
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
@@ -6,6 +6,9 @@ import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyV
 import { Work } from '../../interfaces/Work';
 import { formFieldsWork } from '../../utils/formFieldsWork';
 import { Crop } from '@/modules/crops/interfaces/Crop';
+import { HarvestDetail } from '@/modules/harvests/interfaces';
+import { Badge } from '@/components';
+import { WorkDetail } from '../../interfaces/WorkDetail';
 
 export const columnsWork: ColumnDef<Work>[] = [
   {
@@ -29,6 +32,19 @@ export const columnsWork: ColumnDef<Work>[] = [
       return (
         <ButtonHeaderTable column={column} label={formFieldsWork.crop.label} />
       );
+    },
+  },
+  {
+    accessorKey: 'details',
+    header: ({ column }) => {
+      return <ButtonHeaderTable column={column} label={'Empleados:'} />;
+    },
+    cell: ({ row: { original } }) => {
+      return original.details.map(({ employee }, index) => (
+        <Badge key={employee?.id! + index} className="mb-1 mr-1">
+          {employee.first_name}
+        </Badge>
+      ));
     },
   },
   {

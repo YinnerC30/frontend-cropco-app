@@ -6,7 +6,7 @@ import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { Sale } from '../../interfaces';
 import { formFieldsSale } from '../../utils/formFieldsSale';
-
+import { Badge } from '@/components';
 
 export const columnsSale: ColumnDef<Sale>[] = [
   {
@@ -18,6 +18,33 @@ export const columnsSale: ColumnDef<Sale>[] = [
       return (
         <ButtonHeaderTable column={column} label={formFieldsSale.date.label} />
       );
+    },
+  },
+
+  {
+    accessorKey: 'clients',
+    header: ({ column }) => {
+      return <ButtonHeaderTable column={column} label={'Clientes:'} />;
+    },
+    cell: ({ row: { original } }) => {
+      return original.details.map(({ client }, index) => (
+        <Badge key={client?.id! + index} className="mb-1 mr-1">
+          {client.first_name}
+        </Badge>
+      ));
+    },
+  },
+  {
+    accessorKey: 'crops',
+    header: ({ column }) => {
+      return <ButtonHeaderTable column={column} label={'Cultivos:'} />;
+    },
+    cell: ({ row: { original } }) => {
+      return original.details.map(({ crop }, index) => (
+        <Badge key={crop?.id! + index} className="mb-1 mr-1">
+          {crop.name}
+        </Badge>
+      ));
     },
   },
   {
