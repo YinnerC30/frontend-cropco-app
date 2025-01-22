@@ -90,10 +90,15 @@ export interface FormSaleContextValues {
   validateAvailableStock: (record: CropStock) => boolean;
 }
 
-interface SaleAction {
-  type: 'REMOVE' | 'MODIFY' | 'RESET' | 'ADD';
-  payload?: SaleDetail;
-}
+type SaleAction =
+  | {
+      type: 'REMOVE' | 'MODIFY' | 'ADD';
+      payload?: SaleDetail;
+    }
+  | {
+      type: 'RESET';
+      payload: SaleDetail[];
+    };
 
 const saleDetailsReducer = (
   state: SaleDetail[],
@@ -109,9 +114,7 @@ const saleDetailsReducer = (
         item.id !== action.payload?.id ? item : (action.payload as SaleDetail)
       );
     case 'RESET':
-      return [];
-    default:
-      throw new Error(`Unhandled action type: ${action.type}`);
+      return [...action.payload];
   }
 };
 
@@ -199,8 +202,12 @@ export const FormSaleProvider: React.FC<
   };
 
   const resetSaleDetails = (): void => {
-    dispatchSaleDetails({ type: 'RESET' });
+    dispatchSaleDetails({ type: 'RESET', payload: detailsDefaultValues });
   };
+
+  useEffect(() => {
+    resetSaleDetails();
+  }, [detailsDefaultValues]);
 
   const queryCropsWithStock = useGetAllHarvestsStock();
 

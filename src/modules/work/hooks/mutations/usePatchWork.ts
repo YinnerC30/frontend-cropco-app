@@ -27,7 +27,7 @@ export function usePatchWork(id: string): UseMutationReturn<void, Work> {
     mutationFn: updateWork,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['works'] });
-      await queryClient.invalidateQueries({ queryKey: ['works', id] });
+      await queryClient.invalidateQueries({ queryKey: ['work', id] });
       navigate(MODULE_WORKS_PATHS.ViewAll);
       toast.success(`Trabajo actualizado`);
     },
