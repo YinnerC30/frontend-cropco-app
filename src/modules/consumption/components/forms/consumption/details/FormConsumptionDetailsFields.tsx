@@ -181,6 +181,8 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                                         {
                                           id: item?.id,
                                           ['name']: item['name'],
+                                          ['unit_of_measure']:
+                                            item?.['unit_of_measure'],
                                         },
                                         {
                                           shouldValidate: true,

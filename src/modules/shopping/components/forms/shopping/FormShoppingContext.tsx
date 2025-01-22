@@ -47,6 +47,7 @@ const defaultValuesShoppingDetail: ShoppingDetail = {
   supply: {
     id: '',
     name: '',
+    unit_of_measure: '',
   },
   total: 0,
   amount: 0,

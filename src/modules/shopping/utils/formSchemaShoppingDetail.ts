@@ -1,11 +1,11 @@
 import { UnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { z } from 'zod';
 
-export const formSchemaConsumptionDetail = z.object({
+export const formSchemaShoppingDetail = z.object({
   id: z
     .string()
     .uuid({
-      message: 'El identificador del cultivo debe ser un UUID válido.',
+      message: 'El identificador del registro detalle debe ser un UUID válido.',
     })
     .optional(),
   supply: z.object({
@@ -14,7 +14,7 @@ export const formSchemaConsumptionDetail = z.object({
         required_error: 'El insumo es un campo obligatorio',
       })
       .uuid({
-        message: 'El identificador del insumo debe ser un UUID válido.',
+        message: 'Debe selecciónar uno de los insumos.',
       }),
     name: z.string().optional(),
     unit_of_measure: z.nativeEnum(UnitOfMeasure, {
@@ -30,20 +30,30 @@ export const formSchemaConsumptionDetail = z.object({
       },
     }),
   }),
-  crop: z.object({
+
+  supplier: z.object({
     id: z
       .string({
-        required_error: 'El cultivo es un campo obligatorio',
+        required_error: 'El proveedor es un campo obligatorio',
       })
       .uuid({
-        message: 'El identificador del cult8vo debe ser un UUID válido.',
+        message: 'Debe selecciónar uno de los proveedores.',
       }),
-    name: z.string().optional(),
+    first_name: z.string().optional(),
   }),
   amount: z.coerce
     .number({
-      required_error: `El valor a consumir es requerido`,
+      required_error: `El valor a comprar es requerido`,
       invalid_type_error: `Debe introducir un valor numérico`,
     })
-    .positive({ message: 'El valor a consumir debe ser un número positivo.' }),
+    .positive({ message: 'El valor a comprar debe ser un número positivo.' }),
+  total: z.coerce
+    .number({
+      required_error: `El valor a pagar es requerido`,
+      invalid_type_error: `Debe introducir un valor numérico`,
+    })
+    .positive({ message: 'El valor a pagar debe ser un número positivo.' })
+    .refine((value) => value % 50 === 0, {
+      message: 'El valor a pagar debe ser un número que termine en 50 o 00.',
+    }),
 });

@@ -35,7 +35,7 @@ import { CheckboxTableCustomClient } from '@/modules/core/components/table/Check
 
 export const defaultValuesConsumptionDetail: ConsumptionDetails = {
   id: undefined,
-  supply: { id: '', name: '' },
+  supply: { id: '', name: '', unit_of_measure: '' },
   crop: { id: '', name: '' },
   amount: 0,
 };

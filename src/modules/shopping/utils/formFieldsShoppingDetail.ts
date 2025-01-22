@@ -22,7 +22,7 @@ export const formFieldsShoppingDetail: Record<
     name: 'amount',
     label: 'Monto:',
     placeholder: '0',
-    description: 'Cantidad a comprar',
+    description: 'Monto a comprar (mililitros o gramos)',
   },
   total: {
     name: 'total',

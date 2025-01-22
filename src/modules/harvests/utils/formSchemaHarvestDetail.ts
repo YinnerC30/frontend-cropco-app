@@ -10,9 +10,6 @@ export const formSchemaHarvestDetail = z.object({
   employee: z.object({
     id: z
       .string({ required_error: 'El empleado es un campo obligatorio' })
-      .min(36, {
-        message: 'El empleado es un campo obligatorio',
-      })
       .uuid({
         message: 'El identificador del cultivo debe ser un UUID válido.',
       }),
