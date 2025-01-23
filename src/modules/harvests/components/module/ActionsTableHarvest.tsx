@@ -9,11 +9,11 @@ import {
 import { Row } from '@tanstack/react-table';
 import { LayersIcon } from 'lucide-react';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
-import { TableHarvest } from '../../interfaces';
+import { Harvest } from '../../interfaces';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 
 interface Props {
-  row: Row<TableHarvest>;
+  row: Row<Harvest>;
 }
 
 export const ActionsTableHarvest: React.FC<Props> = ({ row }) => {

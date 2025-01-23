@@ -11,7 +11,7 @@ import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses
 import React, { createContext, useMemo } from 'react';
 import { useDeleteHarvest, useGetAllHarvests } from '../../hooks';
 import { useDeleteBulkHarvests } from '../../hooks/mutations/useDeleteBulkHarvests';
-import { Harvest, TableHarvest } from '../../interfaces';
+import { Harvest } from '../../interfaces';
 import { ActionsTableHarvest } from './ActionsTableHarvest';
 import columnsHarvest from './ColumnsTableHarvest';
 
@@ -34,7 +34,7 @@ export interface paramQueryHarvest {
 export interface HarvestsModuleContextProps {
   paramsQuery: paramQueryHarvest;
   queryHarvests: UseQueryGetAllRecordsReturn<Harvest>;
-  dataTable: DataTableManualReturn<TableHarvest>;
+  dataTable: DataTableManualReturn<Harvest>;
   mutationDeleteHarvests: UseMutationReturn<void, BulkRecords>;
   mutationDeleteHarvest: UseMutationReturn<void, string>;
   actionsHarvestsModule: Record<string, boolean>;
@@ -76,12 +76,12 @@ export const HarvestsModuleProvider: React.FC<{
 
   const actionsHarvestsModule = useMemo(() => getActionsModule('harvests'), []);
 
-  const columnsTable = useCreateColumnsTable<TableHarvest>({
+  const columnsTable = useCreateColumnsTable<Harvest>({
     columns: columnsHarvest,
     actions: ActionsTableHarvest,
   });
 
-  const dataTable = useDataTableManual<TableHarvest>({
+  const dataTable = useDataTableManual<Harvest>({
     columns: columnsTable,
     infoPagination: queryHarvests.isSuccess
       ? {

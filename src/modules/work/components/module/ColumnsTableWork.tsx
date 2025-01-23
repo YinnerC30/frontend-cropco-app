@@ -1,14 +1,12 @@
-import { Column, ColumnDef, HeaderContext } from '@tanstack/react-table';
+import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
+import { Badge } from '@/components';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
+import { Crop } from '@/modules/crops/interfaces/Crop';
 import { Work } from '../../interfaces/Work';
 import { formFieldsWork } from '../../utils/formFieldsWork';
-import { Crop } from '@/modules/crops/interfaces/Crop';
-import { HarvestDetail } from '@/modules/harvests/interfaces';
-import { Badge } from '@/components';
-import { WorkDetail } from '../../interfaces/WorkDetail';
 
 export const columnsWork: ColumnDef<Work>[] = [
   {
