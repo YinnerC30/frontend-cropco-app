@@ -6,7 +6,9 @@ type FormFieldsSearchBarShopping =
   | 'date'
   | 'filter_by_total'
   | 'type_filter_total'
-  | 'total';
+  | 'total'
+  | 'supplies'
+  | 'suppliers';
 
 export const formFieldsSearchBarShopping: Record<
   FormFieldsSearchBarShopping,
@@ -46,6 +48,18 @@ export const formFieldsSearchBarShopping: Record<
     name: 'total',
     label: 'Total:',
     placeholder: '100',
+    description: 'Valor de referencia para realizar la búsqueda',
+  },
+  suppliers: {
+    name: 'suppliers',
+    label: 'Proveedores:',
+    placeholder: '100',
+    description: 'Valor de referencia para realizar la búsqueda',
+  },
+  supplies: {
+    name: 'supplies',
+    label: 'Insumos:',
+    placeholder: '',
     description: 'Valor de referencia para realizar la búsqueda',
   },
 };

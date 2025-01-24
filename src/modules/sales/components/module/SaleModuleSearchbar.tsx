@@ -280,7 +280,6 @@ export const SaleModuleSearchbar: React.FC = () => {
 
   useEffect(() => {
     const addFilters = async () => {
-      console.log(paramsQuery);
       for (const key of Object.keys(paramsQuery)) {
         await handleAddFilter(
           key as keyof z.infer<typeof formSchemaSearchBarSale>

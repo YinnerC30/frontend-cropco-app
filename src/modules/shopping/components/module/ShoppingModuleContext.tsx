@@ -4,28 +4,36 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData';
 import { createContext, useMemo } from 'react';
 
+import {
+  ItemQueryAdvanced,
+  useAdvancedQueryDataPlus,
+} from '@/modules/core/hooks/useAdvancedQueryDataPlus';
 import { BulkRecords } from '@/modules/core/interfaces';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { useDeleteBulkShopping } from '../../hooks/mutations/useDeleteBulkShopping';
-import { useGetAllShopping } from '../../hooks/queries/useGetAllShopping';
+import { useDeleteShopping } from '../../hooks/mutations/useDeleteShopping';
+import {
+  GetShoppingProps,
+  useGetAllShopping,
+} from '../../hooks/queries/useGetAllShopping';
 import { ShoppingSupplies } from '../../interfaces';
 import { ActionsTableShopping } from './ActionsTableShopping';
 import columnsShopping from './ColumnsTableShopping';
-import { useDeleteShopping } from '../../hooks/mutations/useDeleteShopping';
 
 export interface paramQueryShopping {
   filter_by_date: {
-    type_filter_date: string | null | undefined;
-    date: string | null | undefined | Date | unknown;
+    type_filter_date: string | undefined;
+    date: undefined | Date;
   };
   filter_by_total: {
-    type_filter_total: string | null | undefined;
-    total: string | null | undefined | unknown;
+    type_filter_total: string | undefined;
+    total: number;
   };
+  suppliers: { id: string }[];
+  supplies: { id: string }[];
 }
 
 export interface ShoppingModuleContextValues {
@@ -35,7 +43,46 @@ export interface ShoppingModuleContextValues {
   mutationDeleteShopping: UseMutationReturn<void, BulkRecords>;
   mutationDeleteOneShopping: UseMutationReturn<void, string>;
   actionsShoppingModule: Record<string, boolean>;
+  hasParamsQuery: boolean;
 }
+
+const paramsShopping: ItemQueryAdvanced[] = [
+  {
+    propertyName: 'filter_by_date',
+    defaultValue: false,
+  },
+  {
+    propertyName: 'type_filter_date',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'date',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'filter_by_total',
+    defaultValue: false,
+  },
+  {
+    propertyName: 'type_filter_total',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'filter_by_total',
+    defaultValue: false,
+  },
+
+  {
+    propertyName: 'supplies',
+    defaultValue: [],
+    isArray: true,
+  },
+  {
+    propertyName: 'suppliers',
+    defaultValue: [],
+    isArray: true,
+  },
+];
 
 export const ShoppingModuleContext = createContext<
   ShoppingModuleContextValues | undefined
@@ -44,31 +91,17 @@ export const ShoppingModuleContext = createContext<
 export const ShoppingModuleProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }: { children: React.ReactNode }) => {
-  const { paramsValues } = useAdvancedQueryData({
-    params: [
-      'filter_by_date',
-      'type_filter_date',
-      'date',
-
-      'filter_by_total',
-      'type_filter_total',
-      'total',
-    ],
-  });
+  const { paramsValues, hasValues } = useAdvancedQueryDataPlus(paramsShopping);
 
   const {
     query: queryShopping,
     pagination,
     setPagination,
-  } = useGetAllShopping({
-    ...paramsValues,
-  });
+  } = useGetAllShopping(paramsValues as GetShoppingProps);
 
   const { getActionsModule } = useAuthContext();
 
   const actionsShoppingModule = useMemo(() => getActionsModule('shopping'), []);
-
-  console.log(actionsShoppingModule);
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsShopping,
@@ -104,9 +137,12 @@ export const ShoppingModuleProvider: React.FC<{
         type_filter_total: paramsValues.type_filter_total,
         total: !paramsValues.total ? 0 : paramsValues.total,
       },
+      suppliers: paramsValues.suppliers.map((spr: string) => ({ id: spr })),
+      supplies: paramsValues.supplies.map((sup: string) => ({ id: sup })),
     },
     mutationDeleteShopping,
     mutationDeleteOneShopping,
+    hasParamsQuery: hasValues,
   };
 
   return (

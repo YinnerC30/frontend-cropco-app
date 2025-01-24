@@ -4,9 +4,12 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData';
 import { createContext, useMemo } from 'react';
 
+import {
+  ItemQueryAdvanced,
+  useAdvancedQueryDataPlus,
+} from '@/modules/core/hooks/useAdvancedQueryDataPlus';
 import { BulkRecords } from '@/modules/core/interfaces';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
@@ -16,10 +19,6 @@ import { useGetAllWorks } from '../../hooks/queries/useGetAllWorks';
 import { Work } from '../../interfaces/Work';
 import { ActionsTableWork } from './ActionsTableWork';
 import columnsWork from './ColumnsTableWork';
-import {
-  ItemQueryAdvanced,
-  useAdvancedQueryDataPlus,
-} from '@/modules/core/hooks/useAdvancedQueryDataPlus';
 
 export interface paramQueryWork {
   crop: { id: string };

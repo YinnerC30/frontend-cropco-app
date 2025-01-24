@@ -17,7 +17,10 @@ import { ShoppingSupplies } from '../../interfaces';
 export interface GetShoppingProps
   extends QueryPaginationProps,
     QueryDateProps,
-    QueryTotalProps {}
+    QueryTotalProps {
+  suppliers: [];
+  supplies: [];
+}
 
 export async function getAllShopping(
   props: GetShoppingProps
@@ -25,6 +28,8 @@ export async function getAllShopping(
   const params = new URLSearchParams({
     limit: props.limit?.toString() || '10',
     offset: props.offset?.toString() || '0',
+    suppliers: props.suppliers?.join(',') || '',
+    supplies: props.supplies?.join(',') || '',
   });
 
   if (props.filter_by_date) {

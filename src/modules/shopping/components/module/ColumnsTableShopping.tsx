@@ -26,7 +26,7 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
   {
     accessorKey: 'supplies',
     header: ({ column }) => {
-      return <ButtonHeaderTable column={column} label={'Cultivos:'} />;
+      return <ButtonHeaderTable column={column} label={'Insumos:'} />;
     },
     cell: ({ row: { original } }) => {
       const setSupplies = new Set(
@@ -45,7 +45,7 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
   {
     accessorKey: 'suppliers',
     header: ({ column }) => {
-      return <ButtonHeaderTable column={column} label={'Cultivos:'} />;
+      return <ButtonHeaderTable column={column} label={'Proveedores:'} />;
     },
     cell: ({ row: { original } }) => {
       const setSuppliers = new Set(

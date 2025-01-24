@@ -4,9 +4,12 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData';
 import { createContext, useMemo } from 'react';
 
+import {
+  ItemQueryAdvanced,
+  useAdvancedQueryDataPlus,
+} from '@/modules/core/hooks/useAdvancedQueryDataPlus';
 import { BulkRecords } from '@/modules/core/interfaces';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
@@ -18,10 +21,6 @@ import {
 import { Sale } from '../../interfaces';
 import { ActionsTableSale } from './ActionsTableSale';
 import columnsSale from './ColumnsTableSale';
-import {
-  ItemQueryAdvanced,
-  useAdvancedQueryDataPlus,
-} from '@/modules/core/hooks/useAdvancedQueryDataPlus';
 
 export interface paramQuerySale {
   clients: { id: string }[];
