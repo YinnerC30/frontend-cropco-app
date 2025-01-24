@@ -11,6 +11,14 @@ export const formSchemaSearchBarWork = z.object({
       name: z.string().optional(),
     })
     .optional(),
+  employees: z
+    .array(
+      z.object({
+        id: z.string().optional(),
+        first_name: z.string().optional(),
+      })
+    )
+    .optional(),
 
   filter_by_date: schemaForDate,
 

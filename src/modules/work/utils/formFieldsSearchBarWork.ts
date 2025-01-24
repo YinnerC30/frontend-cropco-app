@@ -2,6 +2,7 @@ import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField'
 
 type FormFieldsSearchBarWork =
   | 'crop'
+  | 'employees'
   | 'filter_by_date'
   | 'type_filter_date'
   | 'date'
@@ -18,6 +19,12 @@ export const formFieldsSearchBarWork: Record<
     label: 'Filtrar por cultivo:',
     placeholder: 'Selecciona un cultivo',
     description: 'Nombre del cultivo al cual se le realizo el trabajo',
+  },
+  employees: {
+    name: 'employees',
+    label: 'Filtrar por empleados:',
+    placeholder: 'Selecciona empleado(s)',
+    description: 'Nombre de empleado(s) que participo en la cosecha',
   },
   filter_by_date: {
     name: 'filter_by_date',

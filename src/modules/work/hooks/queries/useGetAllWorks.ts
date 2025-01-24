@@ -19,6 +19,7 @@ export interface GetWorksProps
     QueryDateProps,
     QueryTotalProps {
   crop?: string;
+  employees?: string[];
 }
 
 export const getWorks = async (
@@ -28,6 +29,7 @@ export const getWorks = async (
     limit: props.limit?.toString() || '10',
     offset: props.offset?.toString() || '0',
     crop: props.crop || '',
+    employees: props.employees?.join(',') || '',
   });
 
   if (props.filter_by_date) {
@@ -75,7 +77,7 @@ export const useGetAllWorks = (
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'Requieres del permiso de lectura para obtener la información del trabajo solicitado'
+        'Requieres del permiso de lectura para obtener la información de los trabajos solicitados'
       );
     }
   }, [isAuthorized]);
