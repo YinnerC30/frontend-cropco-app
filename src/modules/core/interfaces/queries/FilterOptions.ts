@@ -21,6 +21,11 @@ export const numberFilterOptions = [
 
 export const dateFilterOptions = [
   {
+    key: TypeFilterDate.equal,
+    value: TypeFilterDate.equal,
+    label: 'El día',
+  },
+  {
     key: TypeFilterDate.after,
     value: TypeFilterDate.after,
     label: 'Despues del',

@@ -512,7 +512,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                                 </Command>
                               </PopoverContent>
                             </Popover>
-                            <FormDescription>{''}</FormDescription>
+                            <FormDescription>{'Empleado(s) que han participado en el trabajo de cosecha en el cultivo'}</FormDescription>
                             <FormMessage />
                           </FormItem>
                         );
