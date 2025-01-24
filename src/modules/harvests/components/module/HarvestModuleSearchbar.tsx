@@ -305,13 +305,13 @@ export const HarvestModuleSearchbar: React.FC = () => {
   }, [queryCrops.isSuccess, queryEmployees.isSuccess]);
 
   return (
-    <div className="flex flex-col items-start justify-start my-4">
+    <div className="flex flex-col items-start justify-start my-4 ">
       <DropdownMenu open={openDropDownMenu} modal={false}>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSearch)}
             id="formSearch"
-            className="flex flex-col w-full"
+            className="flex flex-col w-full "
           >
             <div className="flex flex-col items-center justify-center md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
@@ -512,7 +512,11 @@ export const HarvestModuleSearchbar: React.FC = () => {
                                 </Command>
                               </PopoverContent>
                             </Popover>
-                            <FormDescription>{'Empleado(s) que han participado en el trabajo de cosecha en el cultivo'}</FormDescription>
+                            <FormDescription>
+                              {
+                                'Empleado(s) que han participado en el trabajo de cosecha en el cultivo'
+                              }
+                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         );

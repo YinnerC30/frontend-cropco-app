@@ -31,13 +31,13 @@ export const BreadCrumb: React.FC<Props> = memo(
     const { showToast } = useToastDiscardChanges();
 
     return (
-      <div className="">
+      <div className="sticky top-0 z-50 pb-4 bg-background">
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem className='pr-2 border-r'>
+            <BreadcrumbItem className="pr-2 border-r">
               <SidebarTrigger />
             </BreadcrumbItem>
-            
+
             <BreadcrumbItem>
               <BreadcrumbLink
                 className="hover:cursor-pointer"
