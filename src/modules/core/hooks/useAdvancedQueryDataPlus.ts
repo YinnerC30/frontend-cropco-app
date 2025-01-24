@@ -9,8 +9,11 @@ export interface ItemQueryAdvanced {
 export const useAdvancedQueryDataPlus = (params: ItemQueryAdvanced[]) => {
   const [searchParams] = useSearchParams();
 
+  let hasValues = false;
+
   const paramsValues = params.reduce((acc, param) => {
     if (searchParams.has(param.propertyName)) {
+      hasValues = true;
       acc[param.propertyName] = !param.isArray
         ? searchParams.get(param.propertyName)
         : searchParams.get(param.propertyName)?.split(',');
@@ -20,5 +23,5 @@ export const useAdvancedQueryDataPlus = (params: ItemQueryAdvanced[]) => {
     return acc;
   }, {} as Record<string, any>);
 
-  return { paramsValues };
+  return { paramsValues, hasValues };
 };

@@ -82,6 +82,7 @@ const valuesResetForm = {
 export const HarvestModuleSearchbar: React.FC = () => {
   const {
     paramsQuery,
+    hasParamsQuery,
     actionsHarvestsModule,
     appliedFilters,
     setAppliedFilters,
@@ -235,9 +236,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
     handleSearch(form.watch());
   };
 
-  const handleSearch = async (
-    values: z.infer<typeof formSchemaSearchBarHarvest>
-  ) => {
+  const handleSearch = (values: z.infer<typeof formSchemaSearchBarHarvest>) => {
     const params = new URLSearchParams();
 
     if (values.crop?.id) {
@@ -300,7 +299,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
         await handleAddFilter(key);
       }
     };
-    if (queryCrops.isSuccess && queryEmployees.isSuccess) {
+    if (queryCrops.isSuccess && queryEmployees.isSuccess && hasParamsQuery) {
       addFilters();
     }
   }, [queryCrops.isSuccess, queryEmployees.isSuccess]);
@@ -389,7 +388,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                         return (
                           <FormItem className="">
                             <FormLabel className="block my-2">
-                              {'Empleados'}
+                              {'Empleados involucrados:'}
                             </FormLabel>
                             <Popover
                               open={openPopover}

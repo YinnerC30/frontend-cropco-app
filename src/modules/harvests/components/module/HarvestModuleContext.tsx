@@ -45,6 +45,7 @@ export interface HarvestsModuleContextProps {
   actionsHarvestsModule: Record<string, boolean>;
   appliedFilters: FilterSearchBar[];
   setAppliedFilters: React.Dispatch<React.SetStateAction<FilterSearchBar[]>>;
+  hasParamsQuery: boolean;
 }
 
 const paramsHarvest: ItemQueryAdvanced[] = [
@@ -102,7 +103,7 @@ export const HarvestsModuleContext = createContext<
 export const HarvestsModuleProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const { paramsValues } = useAdvancedQueryDataPlus(paramsHarvest);
+  const { paramsValues, hasValues } = useAdvancedQueryDataPlus(paramsHarvest);
 
   const {
     query: queryHarvests,
@@ -165,6 +166,7 @@ export const HarvestsModuleProvider: React.FC<{
       },
       employees: paramsValues.employees.map((em: string) => ({ id: em })),
     },
+    hasParamsQuery: hasValues,
   };
 
   return (
