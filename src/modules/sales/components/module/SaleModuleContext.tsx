@@ -11,23 +11,32 @@ import { BulkRecords } from '@/modules/core/interfaces';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { useDeleteBulkSales, useDeleteSale } from '../../hooks';
-import { useGetAllSales } from '../../hooks/queries/useGetAllSales';
+import {
+  GetSalesProps,
+  useGetAllSales,
+} from '../../hooks/queries/useGetAllSales';
 import { Sale } from '../../interfaces';
 import { ActionsTableSale } from './ActionsTableSale';
 import columnsSale from './ColumnsTableSale';
+import {
+  ItemQueryAdvanced,
+  useAdvancedQueryDataPlus,
+} from '@/modules/core/hooks/useAdvancedQueryDataPlus';
 
 export interface paramQuerySale {
+  clients: { id: string }[];
+  crops: { id: string }[];
   filter_by_date: {
-    type_filter_date: string | null | undefined;
-    date: string | null | undefined | Date | unknown;
+    type_filter_date: string | undefined;
+    date: string | undefined | Date;
   };
   filter_by_total: {
-    type_filter_total: string | null | undefined;
-    total: string | null | undefined | unknown;
+    type_filter_total: string | undefined;
+    total: number;
   };
   filter_by_quantity: {
-    type_filter_quantity: string | null | undefined;
-    quantity: string | null | undefined | unknown;
+    type_filter_quantity: string | undefined;
+    quantity: number;
   };
 }
 
@@ -38,7 +47,54 @@ export interface SalesModuleContextValues {
   mutationDeleteSales: UseMutationReturn<void, BulkRecords>;
   mutationDeleteSale: UseMutationReturn<void, string>;
   actionsSalesModule: Record<string, boolean>;
+  hasParamsQuery: boolean;
 }
+
+const paramsSale: ItemQueryAdvanced[] = [
+  {
+    propertyName: 'filter_by_date',
+    defaultValue: false,
+  },
+  {
+    propertyName: 'type_filter_date',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'date',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'filter_by_total',
+    defaultValue: false,
+  },
+  {
+    propertyName: 'type_filter_total',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'filter_by_total',
+    defaultValue: false,
+  },
+  {
+    propertyName: 'type_filter_quantity',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'quantity',
+    defaultValue: 0,
+  },
+
+  {
+    propertyName: 'clients',
+    defaultValue: [],
+    isArray: true,
+  },
+  {
+    propertyName: 'crops',
+    defaultValue: [],
+    isArray: true,
+  },
+];
 
 export const SalesModuleContext = createContext<
   SalesModuleContextValues | undefined
@@ -47,32 +103,13 @@ export const SalesModuleContext = createContext<
 export const SalesModuleProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const { paramsValues } = useAdvancedQueryData({
-    params: [
-      'filter_by_date',
-      'type_filter_date',
-      'date',
-
-      'filter_by_total',
-      'type_filter_total',
-      'total',
-
-      'filter_by_quantity',
-      'type_filter_quantity',
-      'quantity',
-
-      // 'filter_by_is_receivable',
-      // 'is_receivable',
-    ],
-  });
+  const { paramsValues, hasValues } = useAdvancedQueryDataPlus(paramsSale);
 
   const {
     query: querySales,
     pagination,
     setPagination,
-  } = useGetAllSales({
-    ...paramsValues,
-  });
+  } = useGetAllSales(paramsValues as GetSalesProps);
 
   const { getActionsModule } = useAuthContext();
 
@@ -104,25 +141,28 @@ export const SalesModuleProvider: React.FC<{
     querySales,
     dataTable,
     paramsQuery: {
-      ...paramsValues,
+      // ...paramsValues,
       filter_by_date: {
         type_filter_date: paramsValues.type_filter_date,
         date: !paramsValues.date ? undefined : new Date(paramsValues.date),
       },
       filter_by_total: {
         type_filter_total: paramsValues.type_filter_total,
-        total: !paramsValues.total ? 0 : paramsValues.total,
+        total: paramsValues.total,
       },
       filter_by_quantity: {
         type_filter_quantity: paramsValues.type_filter_quantity,
-        quantity: !paramsValues.quantity ? 0 : paramsValues.quantity,
+        quantity: paramsValues.quantity,
       },
+      clients: paramsValues.clients.map((cl: string) => ({ id: cl })),
+      crops: paramsValues.crops.map((cr: string) => ({ id: cr })),
       // filter_by_is_receivable: {
       //   is_receivable: undefined,
       // },
     },
     mutationDeleteSales,
     mutationDeleteSale,
+    hasParamsQuery: hasValues,
   };
 
   return (

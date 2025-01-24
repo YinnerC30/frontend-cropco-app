@@ -69,8 +69,6 @@ import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import { ControllerRenderProps } from 'react-hook-form';
 import { useGetAllEmployeesWithWorks } from '@/modules/payments/hooks/queries/useGetAllEmployeesWithWorks';
 
-
-
 const valuesResetForm = {
   crop: {
     id: '',
@@ -87,7 +85,8 @@ const valuesResetForm = {
 };
 
 export const WorkModuleSearchbar = () => {
-  const { paramsQuery, actionsWorksModule, hasParamsQuery } = useWorkModuleContext();
+  const { paramsQuery, actionsWorksModule, hasParamsQuery } =
+    useWorkModuleContext();
   const readOnly = !actionsWorksModule['find_all_works'];
   const [openPopover, setOpenPopover] = useState(false);
   const navigate = useNavigate();
@@ -97,7 +96,7 @@ export const WorkModuleSearchbar = () => {
   });
 
   const queryEmployees = useGetAllEmployeesWithWorks();
-  
+
   const form: UseFormReturn<
     z.infer<typeof formSchemaSearchBarWork>,
     unknown
@@ -117,7 +116,12 @@ export const WorkModuleSearchbar = () => {
     );
     if (!isValid) return false;
 
-    const { crop, filter_by_date, filter_by_total, employees = [] } = form.watch();
+    const {
+      crop,
+      filter_by_date,
+      filter_by_total,
+      employees = [],
+    } = form.watch();
 
     const filters: FilterSearchBar[] = [];
 
@@ -194,7 +198,7 @@ export const WorkModuleSearchbar = () => {
       case 'crop':
         form.setValue('crop', { id: '', name: '' }, { shouldDirty: false });
         break;
-        case 'employees':
+      case 'employees':
         form.setValue('employees', [], { shouldDirty: false });
         break;
       case 'date':
@@ -225,7 +229,7 @@ export const WorkModuleSearchbar = () => {
     if (values.employees!.length > 0) {
       params.append('employees', values.employees!.map((e) => e.id).join(','));
     }
-    
+
     if (values.filter_by_date.type_filter_date && values.filter_by_date.date) {
       params.append('filter_by_date', 'true');
       params.append(
@@ -269,7 +273,7 @@ export const WorkModuleSearchbar = () => {
     if (queryCrops.isSuccess && queryEmployees.isSuccess && hasParamsQuery) {
       addFilters();
     }
-  }, [queryCrops.isSuccess]);
+  }, [queryCrops.isSuccess,queryEmployees.isSuccess, hasParamsQuery]);
 
   return (
     <div className="flex flex-col items-start justify-start my-4 sm:w-full">
@@ -478,9 +482,7 @@ export const WorkModuleSearchbar = () => {
                               </PopoverContent>
                             </Popover>
                             <FormDescription>
-                              {
-                                'Empleado(s) que han participado en trabajos'
-                              }
+                              {'Empleado(s) que han participado en trabajos'}
                             </FormDescription>
                             <FormMessage />
                           </FormItem>

@@ -23,6 +23,8 @@ export interface GetSalesProps
 
   filter_by_is_receivable?: boolean;
   is_receivable?: boolean;
+  clients: string[]
+  crops: string[]
 }
 
 export const getSales = async (
@@ -31,6 +33,8 @@ export const getSales = async (
   const params = new URLSearchParams({
     limit: props.limit?.toString() || '10',
     offset: props.offset?.toString() || '0',
+    clients: props.clients?.join(',') || '',
+    crops: props.crops?.join(',') || '',
   });
 
   if (props.filter_by_date) {

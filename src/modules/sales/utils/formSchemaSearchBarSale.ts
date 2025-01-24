@@ -28,6 +28,23 @@ export const formSchemaSearchBarSale = z.object({
       .optional(),
   }),
 
+  clients: z
+    .array(
+      z.object({
+        id: z.string().optional(),
+        first_name: z.string().optional(),
+      })
+    )
+    .optional(),
+  crops: z
+    .array(
+      z.object({
+        id: z.string().optional(),
+        name: z.string().optional(),
+      })
+    )
+    .optional(),
+
   // filter_by_is_receivable: z.object({
   //   is_receivable: z
   //     .nativeEnum(YesORNotSelection, {
