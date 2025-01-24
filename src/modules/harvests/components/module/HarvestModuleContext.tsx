@@ -8,15 +8,17 @@ import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData'
 import { BulkRecords } from '@/modules/core/interfaces';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
-import React, { createContext, useMemo } from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 import { useDeleteHarvest, useGetAllHarvests } from '../../hooks';
 import { useDeleteBulkHarvests } from '../../hooks/mutations/useDeleteBulkHarvests';
 import { Harvest } from '../../interfaces';
 import { ActionsTableHarvest } from './ActionsTableHarvest';
 import columnsHarvest from './ColumnsTableHarvest';
+import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
 
 export interface paramQueryHarvest {
   crop: { id: string | null | undefined };
+  employees: string[] | undefined;
   filter_by_date: {
     type_filter_date: string | null | undefined;
     date: string | null | undefined | Date | unknown;
@@ -38,6 +40,8 @@ export interface HarvestsModuleContextProps {
   mutationDeleteHarvests: UseMutationReturn<void, BulkRecords>;
   mutationDeleteHarvest: UseMutationReturn<void, string>;
   actionsHarvestsModule: Record<string, boolean>;
+  appliedFilters: FilterSearchBar[];
+  setAppliedFilters: React.Dispatch<React.SetStateAction<FilterSearchBar[]>>;
 }
 
 export const HarvestsModuleContext = createContext<
@@ -62,17 +66,28 @@ export const HarvestsModuleProvider: React.FC<{
       'filter_by_value_pay',
       'type_filter_value_pay',
       'value_pay',
+
+      'employees',
     ],
   });
+
   const {
     query: queryHarvests,
     pagination,
     setPagination,
   } = useGetAllHarvests({
     ...paramsValues,
+    employees:
+      paramsValues.employees?.split(',').length === 0
+        ? []
+        : Array.isArray(paramsValues.employees?.split(','))
+        ? [...paramsValues.employees?.split(',')]
+        : [],
   });
 
   const { getActionsModule } = useAuthContext();
+
+  const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
   const actionsHarvestsModule = useMemo(() => getActionsModule('harvests'), []);
 
@@ -104,6 +119,8 @@ export const HarvestsModuleProvider: React.FC<{
     actionsHarvestsModule,
     queryHarvests,
     dataTable,
+    appliedFilters,
+    setAppliedFilters,
     paramsQuery: {
       ...paramsValues,
       crop: { id: paramsValues.crop },
@@ -119,6 +136,11 @@ export const HarvestsModuleProvider: React.FC<{
         type_filter_value_pay: paramsValues.type_filter_value_pay,
         value_pay: !paramsValues.value_pay ? 0 : paramsValues.value_pay,
       },
+      employees: !paramsValues.employees
+        ? []
+        : Array.isArray(paramsValues.employees)
+        ? [...paramsValues.employees]
+        : [],
     },
   };
 

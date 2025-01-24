@@ -21,6 +21,7 @@ export interface GetHarvestsProps
     QueryTotalProps,
     QueryValuePayProps {
   crop?: string;
+  employees?: string[];
 }
 
 export const getHarvests = async (
@@ -30,6 +31,7 @@ export const getHarvests = async (
     limit: props.limit?.toString() || '10',
     offset: props.offset?.toString() || '0',
     crop: props.crop || '',
+    employees: props.employees?.join(',') || '',
   });
 
   if (props.filter_by_date) {

@@ -13,11 +13,13 @@ export const FilterDropdownItem = memo(
     content,
     actionOnSave,
     actionOnClose,
+    className = ''
   }: {
     label: string;
     content: JSX.Element;
     actionOnSave: () => Promise<boolean>;
     actionOnClose: () => void;
+    className?: string;
   }) => {
     const [openMenu, setOpenMenu] = useState(false);
 
@@ -26,7 +28,7 @@ export const FilterDropdownItem = memo(
         <DropdownMenuSubTrigger>{label}</DropdownMenuSubTrigger>
         <DropdownMenuPortal>
           <DropdownMenuSubContent
-            className="w-[250px] p-4 ml-2"
+            className={`w-[240px] p-4 ml-2 ${className}`}
             avoidCollisions
             sideOffset={0}
           >
