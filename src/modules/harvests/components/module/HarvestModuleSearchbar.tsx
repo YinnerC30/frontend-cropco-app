@@ -135,7 +135,16 @@ export const HarvestModuleSearchbar: React.FC = () => {
     if (employees?.length > 0) {
       filters.push({
         key: 'employees',
-        label: `Empleados: ${employees.map((e) => e.first_name).join(', ')}`,
+        label: `Empleados: ${
+          employees.some((e) => !e.first_name === true)
+            ? employees
+                .map((e) => {
+                  return queryEmployees.data?.rows.find((em) => em.id === e.id)
+                    ?.first_name;
+                })
+                .join(', ')
+            : employees.map((e) => e.first_name).join(', ')
+        }`,
       });
     }
 
@@ -291,10 +300,10 @@ export const HarvestModuleSearchbar: React.FC = () => {
         await handleAddFilter(key);
       }
     };
-    if (queryCrops.isSuccess) {
+    if (queryCrops.isSuccess && queryEmployees.isSuccess) {
       addFilters();
     }
-  }, [queryCrops.isSuccess]);
+  }, [queryCrops.isSuccess, queryEmployees.isSuccess]);
 
   return (
     <div className="flex flex-col items-start justify-start my-4">
