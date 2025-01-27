@@ -36,7 +36,7 @@ import { TypeFilterDate } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Calendar, CheckIcon, Filter, X } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { dateFilterOptions } from '@/modules/core/interfaces/queries/FilterOptions';
 import { Popover } from '@radix-ui/react-popover';
@@ -56,7 +56,7 @@ import { cn } from '@/lib/utils';
 import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
 
 export const ConsumptionModuleSearchbar: React.FC = () => {
-  const { paramsQuery, actionsConsumptionsModule } =
+  const { paramsQuery, actionsConsumptionsModule, hasParamsQuery } =
     useConsumptionModuleContext();
   const readOnly = !actionsConsumptionsModule['find_all_supplies_consumption'];
   const navigate = useNavigate();
@@ -199,6 +199,20 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
     navigate(MODULE_CONSUMPTION_PATHS.ViewAll);
     toast.success('Se han limpiado los filtros');
   };
+
+  useEffect(() => {
+    const addFilters = async () => {
+      for (const key of Object.keys(paramsQuery)) {
+        await handleAddFilter(
+          key as keyof z.infer<typeof formSchemaSearchBarConsumption>
+        );
+      }
+    };
+
+    if (queryCrops.isSuccess && querySupplies.isSuccess && hasParamsQuery) {
+      addFilters();
+    }
+  }, [queryCrops.isSuccess, querySupplies.isSuccess, hasParamsQuery]);
 
   return (
     <div className="flex flex-col items-start justify-start my-4 sm:w-full">

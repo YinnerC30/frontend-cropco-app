@@ -248,8 +248,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
     const addFilters = async () => {
       for (const key of Object.keys(paramsQuery)) {
         await handleAddFilter(
-          // key as keyof z.infer<typeof formSchemaSearchBarSale>
-          key as any
+          key as keyof z.infer<typeof formSchemaSearchBarShopping>
         );
       }
     };
