@@ -15,7 +15,10 @@ import { ConsumptionSupplies } from '../../interfaces';
 
 export interface GetConsumptionsProps
   extends QueryPaginationProps,
-    QueryDateProps {}
+    QueryDateProps {
+      crops: [],
+      supplies: [],
+    }
 
 export async function getAllConsumptions(
   props: GetConsumptionsProps
@@ -23,6 +26,8 @@ export async function getAllConsumptions(
   const params = new URLSearchParams({
     limit: props.limit?.toString() || '10',
     offset: props.offset?.toString() || '0',
+    supplies: props.supplies?.join(',') || '',
+    crops: props.crops?.join(',') || '',
   });
 
   if (props.filter_by_date) {

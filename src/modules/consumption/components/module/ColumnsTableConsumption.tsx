@@ -24,7 +24,7 @@ export const columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
   {
     accessorKey: 'supplies',
     header: ({ column }) => {
-      return <ButtonHeaderTable column={column} label={'Cultivos:'} />;
+      return <ButtonHeaderTable column={column} label={'Insumos:'} />;
     },
     cell: ({ row: { original } }) => {
       const setSupplies = new Set(

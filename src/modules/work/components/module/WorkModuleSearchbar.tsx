@@ -82,6 +82,7 @@ const valuesResetForm = {
     type_filter_total: TypeFilterNumber.MIN,
     total: 0,
   },
+  employees: [],
 };
 
 export const WorkModuleSearchbar = () => {
@@ -90,10 +91,7 @@ export const WorkModuleSearchbar = () => {
   const readOnly = !actionsWorksModule['find_all_works'];
   const [openPopover, setOpenPopover] = useState(false);
   const navigate = useNavigate();
-  const { query: queryCrops } = useGetAllCropsWithWork({
-    queryValue: '',
-    allRecords: true,
-  });
+  const queryCrops = useGetAllCropsWithWork();
 
   const queryEmployees = useGetAllEmployeesWithWorks();
 
@@ -273,7 +271,7 @@ export const WorkModuleSearchbar = () => {
     if (queryCrops.isSuccess && queryEmployees.isSuccess && hasParamsQuery) {
       addFilters();
     }
-  }, [queryCrops.isSuccess,queryEmployees.isSuccess, hasParamsQuery]);
+  }, [queryCrops.isSuccess, queryEmployees.isSuccess, hasParamsQuery]);
 
   return (
     <div className="flex flex-col items-start justify-start my-4 sm:w-full">
