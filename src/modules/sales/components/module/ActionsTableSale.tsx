@@ -11,6 +11,7 @@ import React from 'react';
 import { useSaleModuleContext } from '../../hooks/context/useSaleModuleContext';
 import { Sale } from '../../interfaces';
 import { MODULE_SALES_PATHS } from '../../routes/pathRoutes';
+import { ActionGetDocument } from './ActionGetDocument';
 
 export const ActionsTableSale: React.FC<{ row: Row<Sale> }> = ({ row }) => {
   const {
@@ -45,6 +46,7 @@ export const ActionsTableSale: React.FC<{ row: Row<Sale> }> = ({ row }) => {
         path={MODULE_SALES_PATHS.ViewOne + id}
         disabled={!actionsSalesModule['find_one_sale']}
       />
+      <ActionGetDocument id={id} disabled={!actionsSalesModule['export_sale_to_pdf']}/>
     </DropDownMenuActions>
   );
 };

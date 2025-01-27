@@ -11,6 +11,7 @@ import React from 'react';
 import { useShoppingModuleContext } from '../../hooks/context/useShoppingModuleContext';
 import { ShoppingSupplies } from '../../interfaces';
 import { MODULE_SHOPPING_PATHS } from '../../routes/pathRoutes';
+import { ActionGetDocument } from './ActionGetDocument';
 
 export const ActionsTableShopping: React.FC<{
   row: Row<ShoppingSupplies>;
@@ -46,6 +47,10 @@ export const ActionsTableShopping: React.FC<{
         id={id}
         path={MODULE_SHOPPING_PATHS.ViewOne + id}
         disabled={!actionsShoppingModule['find_one_supplies_shopping']}
+      />
+      <ActionGetDocument
+        id={id}
+        disabled={!actionsShoppingModule['export_shopping_to_pdf']}
       />
     </DropDownMenuActions>
   );

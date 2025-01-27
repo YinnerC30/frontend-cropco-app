@@ -4,7 +4,7 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { createContext, useMemo } from 'react';
+import { createContext, useMemo, useState } from 'react';
 
 import {
   ItemQueryAdvanced,
@@ -21,6 +21,9 @@ import {
 import { Sale } from '../../interfaces';
 import { ActionsTableSale } from './ActionsTableSale';
 import columnsSale from './ColumnsTableSale';
+import { UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { useGetSalePDF } from '../../hooks/queries/useGetSalePDF';
 
 export interface paramQuerySale {
   clients: { id: string }[];
@@ -47,6 +50,10 @@ export interface SalesModuleContextValues {
   mutationDeleteSale: UseMutationReturn<void, string>;
   actionsSalesModule: Record<string, boolean>;
   hasParamsQuery: boolean;
+  queryGetDocument: UseQueryResult<Blob, AxiosError>;
+  saleIdDocument: string;
+  setSaleIdDocument: React.Dispatch<React.SetStateAction<string>>;
+  setExecuteQuery: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const paramsSale: ItemQueryAdvanced[] = [
@@ -135,6 +142,19 @@ export const SalesModuleProvider: React.FC<{
   const mutationDeleteSales = useDeleteBulkSales();
   const mutationDeleteSale = useDeleteSale();
 
+  const [saleIdDocument, setSaleIdDocument] = useState('');
+  const [executeQuery, setExecuteQuery] = useState(false);
+
+  const queryGetDocument = useGetSalePDF({
+    saleId: saleIdDocument,
+    stateQuery: executeQuery,
+    actionPDF: 'ViewPDF',
+    actionOnSuccess: () => {
+      setExecuteQuery(false);
+      setSaleIdDocument('');
+    },
+  });
+
   const contextValue: SalesModuleContextValues = {
     actionsSalesModule,
     querySales,
@@ -162,6 +182,10 @@ export const SalesModuleProvider: React.FC<{
     mutationDeleteSales,
     mutationDeleteSale,
     hasParamsQuery: hasValues,
+    saleIdDocument,
+    setSaleIdDocument,
+    setExecuteQuery,
+    queryGetDocument,
   };
 
   return (

@@ -4,7 +4,7 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { createContext, useMemo } from 'react';
+import { createContext, useMemo, useState } from 'react';
 
 import {
   ItemQueryAdvanced,
@@ -22,6 +22,9 @@ import {
 import { ShoppingSupplies } from '../../interfaces';
 import { ActionsTableShopping } from './ActionsTableShopping';
 import columnsShopping from './ColumnsTableShopping';
+import { UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { useGetShoppingPDF } from '../../hooks/queries/useGetShoppingPDF';
 
 export interface paramQueryShopping {
   filter_by_date: {
@@ -44,6 +47,10 @@ export interface ShoppingModuleContextValues {
   mutationDeleteOneShopping: UseMutationReturn<void, string>;
   actionsShoppingModule: Record<string, boolean>;
   hasParamsQuery: boolean;
+  queryGetDocument: UseQueryResult<Blob, AxiosError>;
+  shoppingIdDocument: string;
+  setShoppingIdDocument: React.Dispatch<React.SetStateAction<string>>;
+  setExecuteQuery: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const paramsShopping: ItemQueryAdvanced[] = [
@@ -124,6 +131,19 @@ export const ShoppingModuleProvider: React.FC<{
   const mutationDeleteShopping = useDeleteBulkShopping();
   const mutationDeleteOneShopping = useDeleteShopping();
 
+  const [shoppingIdDocument, setShoppingIdDocument] = useState('');
+  const [executeQuery, setExecuteQuery] = useState(false);
+
+  const queryGetDocument = useGetShoppingPDF({
+    shoppingId: shoppingIdDocument,
+    stateQuery: executeQuery,
+    actionPDF: 'ViewPDF',
+    actionOnSuccess: () => {
+      setExecuteQuery(false);
+      setShoppingIdDocument('');
+    },
+  });
+
   const contextValue: ShoppingModuleContextValues = {
     actionsShoppingModule,
     queryShopping,
@@ -143,6 +163,10 @@ export const ShoppingModuleProvider: React.FC<{
     mutationDeleteShopping,
     mutationDeleteOneShopping,
     hasParamsQuery: hasValues,
+    queryGetDocument,
+    setExecuteQuery,
+    shoppingIdDocument,
+    setShoppingIdDocument,
   };
 
   return (
