@@ -5,7 +5,7 @@ import {
 } from '@/modules/core/hooks';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData';
-import { createContext, useMemo } from 'react';
+import { createContext, useMemo, useState } from 'react';
 
 import { BulkRecords } from '@/modules/core/interfaces';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
@@ -16,6 +16,9 @@ import { useGetAllPayments } from '../../hooks/queries/useGetAllPayments';
 import { Payment } from '../../interfaces/Payment';
 import { ActionsTablePayment } from './ActionsTablePayment';
 import columnsPayment from './ColumnsTablePayment';
+import { useGetPaymentPDF } from '../../hooks/queries/useGetPaymentPDF';
+import { UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 export interface paramQueryPayment {
   employee: { id: string | null | undefined };
@@ -38,6 +41,11 @@ export interface PaymentsModuleContextValues {
   mutationDeletePayments: UseMutationReturn<void, BulkRecords>;
   mutationDeletePayment: UseMutationReturn<void, string>;
   actionsPaymentsModule: Record<string, boolean>;
+
+  queryGetDocument: UseQueryResult<Blob, AxiosError>;
+  paymentIdDocument: string;
+  setPaymentIdDocument: React.Dispatch<React.SetStateAction<string>>;
+  setExecuteQuery: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const PaymentsModuleContext = createContext<
@@ -95,6 +103,19 @@ export const PaymentsModuleProvider = ({
   const mutationDeletePayments = useDeleteBulkPayments();
   const mutationDeletePayment = useDeletePayment();
 
+  const [paymentIdDocument, setPaymentIdDocument] = useState('');
+  const [executeQuery, setExecuteQuery] = useState(false);
+
+  const queryGetDocument = useGetPaymentPDF({
+    paymentId: paymentIdDocument,
+    stateQuery: executeQuery,
+    actionPDF: 'ViewPDF',
+    actionOnSuccess: () => {
+      setExecuteQuery(false);
+      setPaymentIdDocument('');
+    },
+  });
+
   const contextValue: PaymentsModuleContextValues = {
     actionsPaymentsModule,
     queryPayments,
@@ -112,6 +133,10 @@ export const PaymentsModuleProvider = ({
         total: !paramsValues.total ? 0 : paramsValues.total,
       },
     },
+    paymentIdDocument,
+    setExecuteQuery,
+    setPaymentIdDocument,
+    queryGetDocument,
   };
 
   return (

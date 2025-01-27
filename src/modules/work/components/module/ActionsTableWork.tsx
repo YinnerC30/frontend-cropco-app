@@ -44,9 +44,9 @@ export const ActionsTableWork = ({ row }: { row: Row<Work> }) => {
         disabled={!actionsWorksModule['find_one_work']}
       />
       <ActionGetDocument
-              id={id!}
-              disabled={!actionsWorksModule['export_work_to_pdf']}
-            />
+        id={id!}
+        disabled={!actionsWorksModule['export_work_to_pdf']}
+      />
     </DropDownMenuActions>
   );
 };
