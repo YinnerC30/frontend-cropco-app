@@ -1,5 +1,5 @@
 import { Button, DropdownMenuItem } from '@/components';
-import { FileText } from 'lucide-react';
+import { Download } from 'lucide-react';
 
 import { useDataTableMenuActionsContext } from '@/modules/core/components';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
@@ -26,7 +26,7 @@ export const ActionGetDocument: React.FC<Props> = ({
   return (
     <DropdownMenuItem asChild disabled={disabled}>
       <Button variant={'ghost'} onClick={handleDocumentHarvest}>
-        <FileText className="w-4 h-4 mr-1" /> Certificar
+        <Download className="w-4 h-4 mr-1" /> Descargar PDF
       </Button>
     </DropdownMenuItem>
   );
