@@ -220,7 +220,7 @@ export const FormConsumptionProvider: React.FC<
     const result = supply?.amount >= record.amount && record.amount >= 0;
     if (!result) {
       toast.error(
-        `No hay suficiente inventario para el insumo ${record.name}.\nInventario disponible: ${supply.amount} Kg`
+        `No hay suficiente inventario para el insumo ${record.name}.\nInventario disponible: ${supply.amount} ${supply.unit_of_measure}`
       );
     }
     return result;

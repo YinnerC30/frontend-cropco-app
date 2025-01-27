@@ -7,7 +7,7 @@ import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
 
 import { formFieldsHarvest } from '../../utils';
 import { Badge } from '@/components';
-import { Harvest } from '../../interfaces';
+import { Harvest, HarvestDetail } from '../../interfaces';
 
 export const columnsHarvest: ColumnDef<Harvest>[] = [
   {
@@ -62,6 +62,7 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
       );
     },
   },
+
   {
     accessorKey: formFieldsHarvest.value_pay.name,
     cell: ({ row }) => {
@@ -73,6 +74,23 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
           column={column}
           label={formFieldsHarvest.value_pay.label}
         />
+      );
+    },
+  },
+  {
+    accessorKey: 'details',
+    cell: ({ row }) => {
+      const array: HarvestDetail[] = row.getValue('details') ?? [];
+      const result = array.some((item) => item.payment_is_pending);
+      return result ? (
+        <Badge variant={'red'}>SI</Badge>
+      ) : (
+        <Badge variant={'indigo'}>NO</Badge>
+      );
+    },
+    header: ({ column }: HeaderContext<Harvest, unknown>) => {
+      return (
+        <ButtonHeaderTable column={column} label={'¿Hay pagos pendientes?'} />
       );
     },
   },

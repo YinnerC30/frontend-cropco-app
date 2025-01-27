@@ -7,6 +7,7 @@ import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyV
 import { Crop } from '@/modules/crops/interfaces/Crop';
 import { Work } from '../../interfaces/Work';
 import { formFieldsWork } from '../../utils/formFieldsWork';
+import { WorkDetail } from '../../interfaces/WorkDetail';
 
 export const columnsWork: ColumnDef<Work>[] = [
   {
@@ -70,6 +71,23 @@ export const columnsWork: ColumnDef<Work>[] = [
       );
     },
   },
+  {
+      accessorKey: 'details',
+      cell: ({ row }) => {
+        const array: WorkDetail[] = row.getValue('details') ?? [];
+        const result = array.some((item) => item.payment_is_pending);
+        return result ? (
+          <Badge variant={'red'}>SI</Badge>
+        ) : (
+          <Badge variant={'indigo'}>NO</Badge>
+        );
+      },
+      header: ({ column }: HeaderContext<Work, unknown>) => {
+        return (
+          <ButtonHeaderTable column={column} label={'¿Hay pagos pendientes?'} />
+        );
+      },
+    },
 ];
 
 export default columnsWork;

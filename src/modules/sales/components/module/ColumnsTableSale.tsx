@@ -4,7 +4,7 @@ import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatNumber } from '@/modules/core/helpers';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
-import { Sale } from '../../interfaces';
+import { Sale, SaleDetail } from '../../interfaces';
 import { formFieldsSale } from '../../utils/formFieldsSale';
 import { Badge } from '@/components';
 
@@ -50,7 +50,7 @@ export const columnsSale: ColumnDef<Sale>[] = [
   {
     accessorKey: formFieldsSale.quantity.name,
     cell: ({ row }) => {
-      return FormatNumber(row.getValue('quantity'));
+      return FormatNumber(row.getValue('quantity')) + ' Kg';
     },
     header: ({ column }: HeaderContext<Sale, unknown>) => {
       return (
@@ -69,6 +69,23 @@ export const columnsSale: ColumnDef<Sale>[] = [
     header: ({ column }: HeaderContext<Sale, unknown>) => {
       return (
         <ButtonHeaderTable column={column} label={formFieldsSale.total.label} />
+      );
+    },
+  },
+  {
+    accessorKey: 'details',
+    cell: ({ row }) => {
+      const array: SaleDetail[] = row.getValue('details') ?? [];
+      const result = array.some((item) => item.is_receivable);
+      return result ? (
+        <Badge variant={'red'}>SI</Badge>
+      ) : (
+        <Badge variant={'indigo'}>NO</Badge>
+      );
+    },
+    header: ({ column }: HeaderContext<Sale, unknown>) => {
+      return (
+        <ButtonHeaderTable column={column} label={'¿Hay pagos pendientes?'} />
       );
     },
   },
