@@ -11,6 +11,7 @@ import { LayersIcon } from 'lucide-react';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
 import { Harvest } from '../../interfaces';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
+import { ActionGetDocument } from './ActionGetDocument';
 
 interface Props {
   row: Row<Harvest>;
@@ -51,6 +52,10 @@ export const ActionsTableHarvest: React.FC<Props> = ({ row }) => {
         Icon={LayersIcon}
         name={'Inventario'}
         disabled={!actionsHarvestsModule['find_one_harvest']}
+      />
+      <ActionGetDocument
+        id={id!}
+        disabled={!actionsHarvestsModule['export_harvest_to_pdf']}
       />
     </DropDownMenuActions>
   );

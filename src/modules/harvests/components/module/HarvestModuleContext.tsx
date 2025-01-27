@@ -18,6 +18,9 @@ import { useDeleteBulkHarvests } from '../../hooks/mutations/useDeleteBulkHarves
 import { Harvest } from '../../interfaces';
 import { ActionsTableHarvest } from './ActionsTableHarvest';
 import columnsHarvest from './ColumnsTableHarvest';
+import { useGetHarvestPDF } from '../../hooks/queries/useGetHarvestPDF';
+import { UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 export interface paramQueryHarvest {
   crop: { id: string };
@@ -46,6 +49,11 @@ export interface HarvestsModuleContextProps {
   appliedFilters: FilterSearchBar[];
   setAppliedFilters: React.Dispatch<React.SetStateAction<FilterSearchBar[]>>;
   hasParamsQuery: boolean;
+
+  queryGetDocument: UseQueryResult<Blob, AxiosError>;
+  harvestIdDocument: string;
+  setHarvestIdDocument: React.Dispatch<React.SetStateAction<string>>;
+  setExecuteQuery: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const paramsHarvest: ItemQueryAdvanced[] = [
@@ -137,6 +145,19 @@ export const HarvestsModuleProvider: React.FC<{
     setPagination,
   });
 
+  const [harvestIdDocument, setHarvestIdDocument] = useState('');
+  const [executeQuery, setExecuteQuery] = useState(false);
+
+  const queryGetDocument = useGetHarvestPDF({
+    harvestId: harvestIdDocument,
+    stateQuery: executeQuery,
+    actionPDF: 'ViewPDF',
+    actionOnSuccess: () => {
+      setExecuteQuery(false);
+      setHarvestIdDocument('');
+    },
+  });
+
   const mutationDeleteHarvests = useDeleteBulkHarvests();
 
   const mutationDeleteHarvest = useDeleteHarvest();
@@ -167,6 +188,10 @@ export const HarvestsModuleProvider: React.FC<{
       employees: paramsValues.employees.map((em: string) => ({ id: em })),
     },
     hasParamsQuery: hasValues,
+    queryGetDocument,
+    harvestIdDocument,
+    setHarvestIdDocument,
+    setExecuteQuery,
   };
 
   return (
