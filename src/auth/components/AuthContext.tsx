@@ -236,6 +236,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         validatePermissionsInModule,
         globalActionsUser,
         getActionsModule,
+        isLoading: queryGetAllModules.isLoading,
       }}
     >
       {children}

@@ -15,4 +15,5 @@ export interface AuthContextProps {
   validatePermissionsInModule: (moduleName: string) => Record<string, boolean>;
   globalActionsUser?: Record<string, Record<string, boolean>>;
   getActionsModule: (moduleName: ModulesCropco) => Record<string, boolean>;
+  isLoading: boolean;
 }
