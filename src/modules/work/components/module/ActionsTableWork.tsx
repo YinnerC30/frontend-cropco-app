@@ -9,6 +9,7 @@ import { Row } from '@tanstack/react-table';
 import { useWorkModuleContext } from '../../hooks/context/useWorkModuleContext';
 import { Work } from '../../interfaces/Work';
 import { MODULE_WORKS_PATHS } from '../../routes/pathRoutes';
+import { ActionGetDocument } from './ActionGetDocument';
 
 export const ActionsTableWork = ({ row }: { row: Row<Work> }) => {
   const {
@@ -42,6 +43,10 @@ export const ActionsTableWork = ({ row }: { row: Row<Work> }) => {
         path={MODULE_WORKS_PATHS.ViewOne + id}
         disabled={!actionsWorksModule['find_one_work']}
       />
+      <ActionGetDocument
+              id={id!}
+              disabled={!actionsWorksModule['export_work_to_pdf']}
+            />
     </DropDownMenuActions>
   );
 };

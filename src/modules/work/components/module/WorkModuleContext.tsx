@@ -4,7 +4,7 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { createContext, useMemo } from 'react';
+import { createContext, useMemo, useState } from 'react';
 
 import {
   ItemQueryAdvanced,
@@ -19,6 +19,9 @@ import { useGetAllWorks } from '../../hooks/queries/useGetAllWorks';
 import { Work } from '../../interfaces/Work';
 import { ActionsTableWork } from './ActionsTableWork';
 import columnsWork from './ColumnsTableWork';
+import { useGetWorkPDF } from '../../hooks/queries/useGetWorkPDF';
+import { UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 export interface paramQueryWork {
   crop: { id: string };
@@ -41,6 +44,11 @@ export interface WorksModuleContextValues {
   mutationDeleteWork: UseMutationReturn<void, string>;
   actionsWorksModule: Record<string, boolean>;
   hasParamsQuery: boolean;
+
+  queryGetDocument: UseQueryResult<Blob, AxiosError>;
+  workIdDocument: string;
+  setWorkIdDocument: React.Dispatch<React.SetStateAction<string>>;
+  setExecuteQuery: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const paramsWorks: ItemQueryAdvanced[] = [
@@ -122,6 +130,19 @@ export const WorksModuleProvider: React.FC<{
   const mutationDeleteWorks = useDeleteBulkWorks();
   const mutationDeleteWork = useDeleteWork();
 
+  const [workIdDocument, setWorkIdDocument] = useState('');
+  const [executeQuery, setExecuteQuery] = useState(false);
+
+  const queryGetDocument = useGetWorkPDF({
+    workId: workIdDocument,
+    stateQuery: executeQuery,
+    actionPDF: 'ViewPDF',
+    actionOnSuccess: () => {
+      setExecuteQuery(false);
+      setWorkIdDocument('');
+    },
+  });
+
   const contextValue: WorksModuleContextValues = {
     actionsWorksModule,
     queryWorks,
@@ -143,6 +164,10 @@ export const WorksModuleProvider: React.FC<{
     },
 
     hasParamsQuery: hasValues,
+    workIdDocument,
+    setWorkIdDocument,
+    setExecuteQuery,
+    queryGetDocument,
   };
 
   return (
