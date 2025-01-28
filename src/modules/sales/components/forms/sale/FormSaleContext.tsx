@@ -292,7 +292,7 @@ export const FormSaleProvider: React.FC<
 
   const { getIdsToRowsSelected, resetSelectionRows } = dataTableSaleDetail;
 
-  const { hasUnsavedChanges, showToast } = useFormChange();
+  const { hasUnsavedChanges, showToast, markChanges } = useFormChange();
 
   const [saleDetail, setSaleDetail] = useState(defaultValuesSaleDetail);
 
@@ -321,13 +321,16 @@ export const FormSaleProvider: React.FC<
       name: saleDetail.crop?.name!,
       stock: saleDetail.quantity,
     });
-    formSaleDetail.reset(defaultValuesSaleDetail);
+    // formSaleDetail.reset(defaultValuesSaleDetail);
+    if (formSale.formState.isDirty) {
+      markChanges(true);
+    }
     setOpenDialog(false);
   };
 
   const handleCloseDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    if (hasUnsavedChanges) {
+    if (formSaleDetail.formState.isDirty) {
       showToast({
         skiptRedirection: true,
         action: ClearFormSaleDetail,

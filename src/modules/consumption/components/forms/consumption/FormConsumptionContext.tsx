@@ -261,7 +261,7 @@ export const FormConsumptionProvider: React.FC<
   const { getIdsToRowsSelected, resetSelectionRows } =
     dataTableConsumptionDetail;
 
-  const { hasUnsavedChanges, showToast } = useFormChange();
+  const { hasUnsavedChanges, showToast, markChanges } = useFormChange();
 
   const [consumptionDetail, setConsumptionDetail] = useState(
     defaultValuesConsumptionDetail
@@ -289,13 +289,17 @@ export const FormConsumptionProvider: React.FC<
       name: consumptionDetail.supply?.name!,
       amount: consumptionDetail.amount,
     } as any);
-    formConsumptionDetail.reset(defaultValuesConsumptionDetail);
+    // formConsumptionDetail.reset(defaultValuesConsumptionDetail);
+    if (formConsumption.formState.isDirty) {
+      markChanges(true);
+    }
+
     setOpenDialog(false);
   };
 
   const handleCloseDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    if (hasUnsavedChanges) {
+    if (formConsumptionDetail.formState.isDirty) {
       showToast({
         skiptRedirection: true,
         action: ClearFormConsumptionDetail,

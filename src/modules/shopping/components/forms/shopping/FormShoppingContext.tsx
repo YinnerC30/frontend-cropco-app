@@ -179,7 +179,7 @@ export const FormShoppingProvider: React.FC<
 
   const { getIdsToRowsSelected, resetSelectionRows } = dataTableShoppingDetail;
 
-  const { hasUnsavedChanges, showToast } = useFormChange();
+  const { hasUnsavedChanges, showToast, markChanges } = useFormChange();
 
   const [shoppingDetail, setShoppingDetail] = useState(
     defaultValuesShoppingDetail
@@ -202,13 +202,15 @@ export const FormShoppingProvider: React.FC<
   };
 
   const ClearFormShoppingDetail = () => {
-    formShoppingDetail.reset(defaultValuesShoppingDetail);
+    if (formShopping.formState.isDirty) {
+      markChanges(true);
+    }
     setOpenDialog(false);
   };
 
   const handleCloseDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    if (hasUnsavedChanges) {
+    if (formShoppingDetail.formState.isDirty) {
       showToast({
         skiptRedirection: true,
         action: ClearFormShoppingDetail,

@@ -8,6 +8,7 @@ import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutati
 import { Sale } from '../../interfaces';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_SALES_PATHS } from '../../routes/pathRoutes';
+import { useFormChange } from '@/modules/core/components';
 
 export const updateSale = async (sale: Sale): PromiseReturnRecord<void> => {
   const { id, ...rest } = sale;
@@ -18,9 +19,11 @@ export const usePatchSale = (id: string): UseMutationReturn<void, Sale> => {
   const queryClient = useQueryClient();
   const { handleError } = useAuthContext();
   const navigate = useNavigate();
+  const { markChanges } = useFormChange();
   const mutation: UseMutationReturn<void, Sale> = useMutation({
     mutationFn: updateSale,
     onSuccess: async () => {
+      markChanges(false)
       await queryClient.invalidateQueries({ queryKey: ['sales'] });
       await queryClient.invalidateQueries({ queryKey: ['sales', id] });
       await queryClient.invalidateQueries({

@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { ConsumptionSupplies } from '../../interfaces/ConsuptionSupplies';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_CONSUMPTION_PATHS } from '../../routes/pathRoutes';
+import { useFormChange } from '@/modules/core/components';
 
 export async function createConsumption(
   shoppingSupplies: ConsumptionSupplies
@@ -24,10 +25,12 @@ export const usePostConsumption = (): UseMutationReturn<
   const queryClient = useQueryClient();
   const { handleError } = useAuthContext();
   const navigate = useNavigate();
+  const { markChanges } = useFormChange()
   const mutation: UseMutationReturn<ConsumptionSupplies, ConsumptionSupplies> =
     useMutation({
       mutationFn: createConsumption,
       onSuccess: async () => {
+        markChanges(true)
         await queryClient.invalidateQueries({ queryKey: ['consumptions'] });
         await queryClient.invalidateQueries({ queryKey: ['supplies-stock'] });
         await queryClient.invalidateQueries({ queryKey: ['supplies'] });

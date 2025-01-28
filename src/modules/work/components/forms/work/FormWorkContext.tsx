@@ -187,7 +187,7 @@ export const FormWorkProvider: React.FC<
 
   const { getIdsToRowsSelected, resetSelectionRows } = dataTableWorkDetail;
 
-  const { hasUnsavedChanges, showToast } = useFormChange();
+  const { showToast, markChanges } = useFormChange();
 
   const [workDetail, setWorkDetail] = useState(defaultValuesWorkDetail);
 
@@ -213,13 +213,15 @@ export const FormWorkProvider: React.FC<
   };
 
   const ClearFormWorkDetail = () => {
-    formWorkDetail.reset(defaultValuesWorkDetail);
+    if (formWork.formState.isDirty) {
+      markChanges(true);
+    }
     setOpenDialog(false);
   };
 
   const handleCloseDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    if (hasUnsavedChanges) {
+    if (formWorkDetail.formState.isDirty) {
       showToast({
         skiptRedirection: true,
         action: ClearFormWorkDetail,

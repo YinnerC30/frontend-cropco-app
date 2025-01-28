@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { Payment } from '../../interfaces/Payment';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_PAYMENTS_PATHS } from '../../routes/pathRoutes';
+import { useFormChange } from '@/modules/core/components';
 
 export const createPayment = async (
   payment: Payment
@@ -17,9 +18,11 @@ export const usePostPayment = (): UseMutationReturn<void, Payment> => {
   const queryClient = useQueryClient();
   const { handleError } = useAuthContext();
   const navigate = useNavigate();
+  const { markChanges } = useFormChange();
   const mutation: UseMutationReturn<void, Payment> = useMutation({
     mutationFn: createPayment,
     onSuccess: async () => {
+      markChanges(false);
       await queryClient.invalidateQueries({ queryKey: ['payments'] });
       await queryClient.invalidateQueries({
         queryKey: ['employee', 'pending-payments'],

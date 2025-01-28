@@ -4,7 +4,7 @@ import { formSchemaWork } from '../utils/formSchemaWork';
 
 import { BreadCrumb } from '@/modules/core/components/';
 
-import { usePostWork } from '../hooks/mutations/usePostUser';
+import { usePostWork } from '../hooks/mutations/usePostWork';
 import { MODULE_WORKS_PATHS } from '../routes/pathRoutes';
 import FormWork from './forms/work/FormWork';
 import { WorkDetail } from '../interfaces/WorkDetail';
