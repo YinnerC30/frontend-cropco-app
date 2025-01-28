@@ -179,7 +179,7 @@ export const FormShoppingProvider: React.FC<
 
   const { getIdsToRowsSelected, resetSelectionRows } = dataTableShoppingDetail;
 
-  const { hasUnsavedChanges, showToast, markChanges } = useFormChange();
+  const { showToast, markChanges } = useFormChange();
 
   const [shoppingDetail, setShoppingDetail] = useState(
     defaultValuesShoppingDetail

@@ -292,7 +292,7 @@ export const FormSaleProvider: React.FC<
 
   const { getIdsToRowsSelected, resetSelectionRows } = dataTableSaleDetail;
 
-  const { hasUnsavedChanges, showToast, markChanges } = useFormChange();
+  const {  showToast, markChanges } = useFormChange();
 
   const [saleDetail, setSaleDetail] = useState(defaultValuesSaleDetail);
 

@@ -261,7 +261,7 @@ export const FormConsumptionProvider: React.FC<
   const { getIdsToRowsSelected, resetSelectionRows } =
     dataTableConsumptionDetail;
 
-  const { hasUnsavedChanges, showToast, markChanges } = useFormChange();
+  const {  showToast, markChanges } = useFormChange();
 
   const [consumptionDetail, setConsumptionDetail] = useState(
     defaultValuesConsumptionDetail
