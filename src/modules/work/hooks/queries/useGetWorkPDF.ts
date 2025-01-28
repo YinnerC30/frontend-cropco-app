@@ -50,7 +50,7 @@ export const useGetWorkPDF = ({
 
       return fetchCertification;
     },
-    staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    // staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
     select: ({ data }) => data,
     enabled: stateQuery && hasPermission('works', 'export_work_to_pdf'),
     retry: 1,
@@ -60,7 +60,7 @@ export const useGetWorkPDF = ({
     if (query.isSuccess) {
       switch (actionPDF) {
         case 'ViewPDF':
-          viewPDF(query.data);
+          viewPDF(query.data, `work-report-${workId}`);
           break;
         case 'DownloadPDf':
           dowloadPDF(query.data, `work-document-${workId}`);
