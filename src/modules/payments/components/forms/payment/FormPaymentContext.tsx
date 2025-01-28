@@ -12,7 +12,7 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
-  useRef
+  useRef,
 } from 'react';
 import { z } from 'zod';
 
@@ -208,7 +208,10 @@ export const FormPaymentProvider: React.FC<
 
   const employeeId: string = formPayment.watch('employee').id;
 
-  const queryEmployeePayments = useGetEmployeePendingPayments(employeeId, !readOnly);
+  const queryEmployeePayments = useGetEmployeePendingPayments(
+    employeeId,
+    !readOnly
+  );
 
   const [paymentsState, dispatch] = useReducer(
     paymentsReducer,
@@ -272,13 +275,20 @@ export const FormPaymentProvider: React.FC<
   );
 
   useEffect(() => {
-    formPayment.setValue('records_to_pay', records_to_pay, {
-      shouldValidate: !isFirstRender.current,
-      shouldDirty: true,
-    });
-    if (isFirstRender.current) {
+    if (
+      (isFirstRender.current &&
+        paymentsState.current_data.harvests_detail.length > 0) ||
+      paymentsState.current_data.works_detail.length > 0
+    ) {
       isFirstRender.current = false;
     }
+  }, [paymentsState.current_data]);
+
+  useEffect(() => {
+    formPayment.setValue('records_to_pay', records_to_pay, {
+      shouldValidate: !isFirstRender.current,
+      shouldDirty: !isFirstRender.current,
+    });
   }, [records_to_pay]);
 
   useEffect(() => {
