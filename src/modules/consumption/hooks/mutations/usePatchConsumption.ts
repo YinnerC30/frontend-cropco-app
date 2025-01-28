@@ -31,7 +31,7 @@ export const usePatchConsumption = (
     onSuccess: async () => {
       markChanges(true);
       await queryClient.invalidateQueries({ queryKey: ['consumptions'] });
-      await queryClient.invalidateQueries({ queryKey: ['consumptions', id] });
+      await queryClient.invalidateQueries({ queryKey: ['consumption', id] });
       await queryClient.invalidateQueries({ queryKey: ['supplies'] });
       await queryClient.invalidateQueries({ queryKey: ['supplies-stock'] });
       navigate(MODULE_CONSUMPTION_PATHS.ViewAll);

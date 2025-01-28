@@ -17,6 +17,8 @@ export const useDeleteSale = (): UseMutationReturn<void, string> => {
     mutationFn: deleteSale,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['sales'] });
+      await queryClient.invalidateQueries({ queryKey: ['sale'] });
+      await queryClient.invalidateQueries({ queryKey: ['crops'] });
       await queryClient.invalidateQueries({
         queryKey: ['crops'],
       });

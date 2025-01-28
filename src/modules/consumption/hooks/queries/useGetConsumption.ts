@@ -24,7 +24,7 @@ export const useGetConsumption = (
   );
 
   const query: UseGetOneRecordReturn<ConsumptionSupplies> = useQuery({
-    queryKey: ['consumptions', id],
+    queryKey: ['consumption', id],
     queryFn: () => getConsumptionById(id),
     select: ({ data }) =>
       ({

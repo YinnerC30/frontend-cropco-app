@@ -27,6 +27,7 @@ export const usePatchClient = (): UseMutationReturn<void, Client> => {
     mutationFn: updateClient,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['clients'] });
+      await queryClient.invalidateQueries({ queryKey: ['client'] });
       navigate(MODULE_CLIENTS_PATHS.ViewAll);
       toast.success(`Cliente actualizado`);
     },

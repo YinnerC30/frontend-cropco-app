@@ -21,7 +21,7 @@ export const usePostSupply = (): UseMutationReturn<Supply, Supply> => {
   const mutation: UseMutationReturn<Supply, Supply> = useMutation({
     mutationFn: createSupply,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['suppliers'] });
+      await queryClient.invalidateQueries({ queryKey: ['supplies'] });
       navigate(MODULE_SUPPLIES_PATHS.ViewAll);
       toast.success(`Insumo creado`);
     },

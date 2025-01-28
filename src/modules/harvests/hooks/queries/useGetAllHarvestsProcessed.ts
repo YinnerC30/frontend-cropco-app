@@ -21,7 +21,7 @@ export const useGetAllHarvestsProcessed = (): UseGetOneRecordReturn<
   const query: UseGetOneRecordReturn<
     ResponseApiGetAllRecords<HarvestProcessed>
   > = useQuery({
-    queryKey: ['harvests_processed'],
+    queryKey: ['harvests-processed'],
     queryFn: () => getHarvestsProcessed(),
     select: ({ data }) => {
       return data;

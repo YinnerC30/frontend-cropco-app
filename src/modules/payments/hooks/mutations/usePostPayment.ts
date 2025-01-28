@@ -31,7 +31,13 @@ export const usePostPayment = (): UseMutationReturn<void, Payment> => {
         queryKey: ['employees', 'pending-payments'],
       });
       await queryClient.invalidateQueries({
+        queryKey: ['works'],
+      });
+      await queryClient.invalidateQueries({
         queryKey: ['work'],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['harvests'],
       });
       await queryClient.invalidateQueries({
         queryKey: ['harvest'],

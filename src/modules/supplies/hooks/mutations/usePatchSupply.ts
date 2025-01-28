@@ -27,6 +27,7 @@ export const usePatchSupply = (): UseMutationReturn<void, Supply> => {
     mutationFn: updateSupply,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['supplies'] });
+      await queryClient.invalidateQueries({ queryKey: ['supply'] });
       navigate(MODULE_SUPPLIES_PATHS.ViewAll);
       toast.success(`Insumo actualizado`);
     },

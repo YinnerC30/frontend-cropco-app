@@ -17,12 +17,16 @@ const deleteBulkCrops = async (
 };
 
 export const useDeleteBulkCrops = (): UseMutationReturn<void, BulkRecords> => {
-  const queryCrop = useQueryClient();
+  const queryClient = useQueryClient();
   const { handleError } = useAuthContext();
   const mutation: UseMutationReturn<void, BulkRecords> = useMutation({
     mutationFn: deleteBulkCrops,
     onSuccess: async () => {
-      await queryCrop.invalidateQueries({ queryKey: ['crops'] });
+      await queryClient.invalidateQueries({ queryKey: ['crops'] });
+      await queryClient.invalidateQueries({ queryKey: ['harvest'] });
+      await queryClient.invalidateQueries({ queryKey: ['work'] });
+      await queryClient.invalidateQueries({ queryKey: ['sale'] });
+      await queryClient.invalidateQueries({ queryKey: ['consumption'] });
       toast.success(`Cultivos eliminados`);
     },
     onError: (error) => {

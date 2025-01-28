@@ -26,6 +26,7 @@ export const useDeleteBulkSuppliers = (): UseMutationReturn<
     mutationFn: deleteBulkSuppliers,
     onSuccess: () => {
       querySupplier.invalidateQueries({ queryKey: ['suppliers'] });
+      querySupplier.invalidateQueries({ queryKey: ['shopping'] });
       toast.success(`Proveedores eliminados`);
     },
     onError: (error) => {

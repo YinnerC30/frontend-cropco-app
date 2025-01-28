@@ -26,6 +26,9 @@ export const useDeleteBulkClients = (): UseMutationReturn<
     mutationFn: deleteBulkClients,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['clients'] });
+      await queryClient.invalidateQueries({ queryKey: ['client'] });
+      await queryClient.invalidateQueries({ queryKey: ['sales'] });
+      await queryClient.invalidateQueries({ queryKey: ['sale'] });
       toast.success(`Clientes eliminados`);
     },
     onError: (error) => {

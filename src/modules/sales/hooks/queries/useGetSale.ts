@@ -19,7 +19,7 @@ export const useGetSale = (id: string): UseGetOneRecordReturn<Sale> => {
   const isAuthorized = hasPermission('sales', 'find_one_sale');
 
   const query: UseGetOneRecordReturn<Sale> = useQuery({
-    queryKey: ['sales', id],
+    queryKey: ['sale', id],
     queryFn: () => getSaleById(id),
     select: ({ data }) => ({...data, date: ConvertStringToDate(data?.date),} as unknown as Sale),
     enabled: isAuthorized,

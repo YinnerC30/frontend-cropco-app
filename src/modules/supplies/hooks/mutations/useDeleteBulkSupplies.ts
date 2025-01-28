@@ -26,6 +26,10 @@ export const useDeleteBulkSupplies = (): UseMutationReturn<
     mutationFn: deleteBulkSupplies,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['supplies'] });
+      await queryClient.invalidateQueries({ queryKey: ['supply'] });
+      await queryClient.invalidateQueries({ queryKey: ['consumption'] });
+      await queryClient.invalidateQueries({ queryKey: ['shopping'] });
+
       toast.success(`Suministros eliminados`);
     },
     onError: (error) => {

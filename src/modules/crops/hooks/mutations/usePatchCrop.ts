@@ -23,6 +23,7 @@ export const usePatchCrop = (): UseMutationReturn<void, Crop> => {
     mutationFn: updateCrop,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['crops'] });
+      await queryClient.invalidateQueries({ queryKey: ['crop'] });
       navigate(MODULE_CROPS_PATHS.ViewAll);
       toast.success(`Cultivo actualizado`);
     },

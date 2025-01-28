@@ -18,7 +18,7 @@ export const useGetHarvestProcessed = (
 ): UseGetOneRecordReturn<HarvestProcessed> => {
   const { handleError } = useAuthContext();
   const query: UseGetOneRecordReturn<HarvestProcessed> = useQuery({
-    queryKey: ['harvest_processed', id],
+    queryKey: ['harvest-processed', id],
     queryFn: () => getHarvestProcessedById(id),
     select: ({ data }) => data,
   });

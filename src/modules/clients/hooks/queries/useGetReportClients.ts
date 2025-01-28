@@ -29,7 +29,7 @@ export const useGetReportClients = ({
   const { handleError } = useManageErrorApp();
   const { hasPermission } = useAuthContext();
   const query: UseGetOneRecordReturn<Blob> = useQuery({
-    queryKey: ['report-clients'],
+    queryKey: ['clients-report'],
     queryFn: () => {
       const fetchReportClients = getReportClients();
 

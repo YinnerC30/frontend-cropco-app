@@ -27,6 +27,7 @@ export const usePatchSupplier = (): UseMutationReturn<void, Supplier> => {
     mutationFn: updateSupplier,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['suppliers'] });
+      await queryClient.invalidateQueries({ queryKey: ['supplier'] });
       navigate(MODULE_SUPPLIER_PATHS.ViewAll);
       toast.success(`Proveedor actualizado`);
     },

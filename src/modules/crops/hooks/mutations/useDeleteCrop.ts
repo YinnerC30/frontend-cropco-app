@@ -17,6 +17,10 @@ export const useDeleteCrop = (): UseMutationReturn<void, string> => {
     mutationFn: deleteCrop,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['crops'] });
+      await queryClient.invalidateQueries({ queryKey: ['harvest'] });
+      await queryClient.invalidateQueries({ queryKey: ['work'] });
+      await queryClient.invalidateQueries({ queryKey: ['sale'] });
+      await queryClient.invalidateQueries({ queryKey: ['consumption'] });
       toast.success(`Cultivo eliminado`);
     },
     onError: (error) => {

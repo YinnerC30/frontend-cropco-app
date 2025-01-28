@@ -25,7 +25,7 @@ export const usePatchSale = (id: string): UseMutationReturn<void, Sale> => {
     onSuccess: async () => {
       markChanges(false)
       await queryClient.invalidateQueries({ queryKey: ['sales'] });
-      await queryClient.invalidateQueries({ queryKey: ['sales', id] });
+      await queryClient.invalidateQueries({ queryKey: ['sale', id] });
       await queryClient.invalidateQueries({
         queryKey: ['crops'],
       });

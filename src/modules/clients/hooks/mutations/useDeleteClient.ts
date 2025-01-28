@@ -17,6 +17,9 @@ export const useDeleteClient = (): UseMutationReturn<void, string> => {
     mutationFn: deleteClient,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['clients'] });
+      await queryClient.invalidateQueries({ queryKey: ['client'] });
+      await queryClient.invalidateQueries({ queryKey: ['sales'] });
+      await queryClient.invalidateQueries({ queryKey: ['sale'] });
       toast.success(`Cliente eliminado`);
     },
     onError: (error) => {
