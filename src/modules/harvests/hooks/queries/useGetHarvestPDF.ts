@@ -5,7 +5,6 @@ import { toast } from 'sonner';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { CACHE_CONFIG_TIME } from '@/config';
 import { dowloadPDF } from '@/modules/core/helpers';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
@@ -50,20 +49,20 @@ export const useGetHarvestPDF = ({
 
       return fetchCertification;
     },
-    staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    // staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
     select: ({ data }) => data,
     enabled: stateQuery && hasPermission('harvests', 'export_harvest_to_pdf'),
-    retry: 1,
+    retry: 0,
   });
 
   useEffect(() => {
     if (query.isSuccess) {
       switch (actionPDF) {
         case 'ViewPDF':
-          viewPDF(query.data);
+          viewPDF(query.data, `harvest-report-${harvestId}`);
           break;
         case 'DownloadPDf':
-          dowloadPDF(query.data, `harvest-document-${harvestId}`);
+          dowloadPDF(query.data, `harvest-report-${harvestId}`);
           break;
         default:
           break;
