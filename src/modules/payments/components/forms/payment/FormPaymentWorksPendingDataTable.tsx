@@ -28,6 +28,8 @@ import { RecordToPay } from '@/modules/payments/interfaces/RecordToPay';
 export const FormPaymentWorksPendingDataTable: React.FC = () => {
   const { paymentsState, readOnly, addRecordToPay } = useFormPaymentContext();
 
+  if (paymentsState.current_data.works_detail.length === 0) return;
+
   const columnsTable = useCreateColumnsTable({
     columns: columnsPaymentsPendingWork,
     actions: ActionsTablePaymentsPendingWork,
