@@ -26,7 +26,7 @@ export const useCreateForm = ({
     mode: validationMode,
   });
 
-  const { isDirty, isSubmitSuccessful, errors } = form.formState;
+  const { isDirty, errors } = form.formState;
 
   useEffect(() => {
     if (Object.keys(errors).length > 0 && skiptDirty === false) {
@@ -35,14 +35,10 @@ export const useCreateForm = ({
   }, [errors]);
 
   useEffect(() => {
-    if (!skiptDirty) {
-      isDirty ? markChanges(true) : markChanges(false);
+    if (skiptDirty === false) {
+      isDirty ? markChanges(true) : null;
     }
   }, [isDirty]);
-
-  useEffect(() => {
-    isSubmitSuccessful && markChanges(false);
-  }, [isSubmitSuccessful]);
 
   return form;
 };

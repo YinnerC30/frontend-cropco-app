@@ -25,6 +25,7 @@ import {
 import { toast } from 'sonner';
 
 import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
+import { CheckboxTableCustom } from '@/modules/core/components/table/CheckboxTableCustom';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { FormProps, ResponseApiGetAllRecords } from '@/modules/core/interfaces';
 import { UseQueryResult } from '@tanstack/react-query';
@@ -32,7 +33,6 @@ import { AxiosError } from 'axios';
 import { z } from 'zod';
 import { ActionsTableHarvestDetail } from './details/ActionsTableHarvestDetail';
 import { columnsHarvestDetail } from './details/ColumnsTableHarvestDetail';
-import { CheckboxTableCustom } from '@/modules/core/components/table/CheckboxTableCustom';
 
 export const defaultValuesHarvestDetail: HarvestDetail = {
   id: undefined,
@@ -194,7 +194,7 @@ export const FormHarvestProvider: React.FC<
     columns: columnsTable,
     rows: detailsHarvest,
   });
-  const { hasUnsavedChanges, showToast } = useFormChange();
+  const { showToast, markChanges } = useFormChange();
 
   const [harvestDetail, setHarvestDetail] = useState<HarvestDetail>(
     defaultValuesHarvestDetail
@@ -225,17 +225,19 @@ export const FormHarvestProvider: React.FC<
     event: React.MouseEvent<HTMLButtonElement>
   ): void => {
     event.preventDefault();
-    if (hasUnsavedChanges) {
+    if (formHarvestDetail.formState.isDirty) {
       showToast({
         skiptRedirection: true,
         action: (): void => {
-          formHarvestDetail.reset(defaultValuesHarvestDetail);
+          if (formHarvest.formState.isDirty) {
+            markChanges(true);
+          }
           setOpenDialog(false);
         },
       });
       return;
     }
-    formHarvestDetail.reset(defaultValuesHarvestDetail);
+
     setOpenDialog(false);
   };
 
