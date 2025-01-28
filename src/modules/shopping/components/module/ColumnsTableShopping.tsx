@@ -1,11 +1,11 @@
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
-import { ButtonHeaderTable } from '@/modules/core/components';
+import { ButtonHeaderTable, ToolTipTemplate } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { ShoppingSupplies } from '../../interfaces';
 import { formFieldsShopping } from '../../utils/formFieldsShopping';
-import { Badge } from '@/components';
+import { Badge, Button } from '@/components';
 
 export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
   {
@@ -33,13 +33,26 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
         original.details.map((item) => item.supply.name)
       );
 
-      const iterator = Array.from(setSupplies);
+      const supplies = Array.from(setSupplies);
 
-      return iterator.map((name, index) => (
-        <Badge key={name + index} className="mb-1 mr-1">
-          {name}
-        </Badge>
-      ));
+      const maxVisible = 2;
+      const hiddenCount = supplies.length - maxVisible;
+
+      return (
+        <div className="flex flex-wrap items-center gap-1">
+          {supplies.slice(0, maxVisible).map((supply, index) => (
+            <Badge key={`${supply}-${index}`} className="mb-1 mr-1">
+              {supply}
+            </Badge>
+          ))}
+
+          {hiddenCount > 0 && (
+            <ToolTipTemplate content={supplies.slice(maxVisible).join(',\n')}>
+              <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
+            </ToolTipTemplate>
+          )}
+        </div>
+      );
     },
   },
   {
@@ -52,13 +65,26 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
         original.details.map((item) => item.supplier.first_name)
       );
 
-      const iterator = Array.from(setSuppliers);
+      const suppliers = Array.from(setSuppliers);
 
-      return iterator.map((name, index) => (
-        <Badge key={name + index} className="mb-1 mr-1">
-          {name}
-        </Badge>
-      ));
+      const maxVisible = 2;
+      const hiddenCount = suppliers.length - maxVisible;
+
+      return (
+        <div className="flex flex-wrap items-center gap-1">
+          {suppliers.slice(0, maxVisible).map((supplier, index) => (
+            <Badge key={`${supplier}-${index}`} className="mb-1 mr-1">
+              {supplier}
+            </Badge>
+          ))}
+
+          {hiddenCount > 0 && (
+            <ToolTipTemplate content={suppliers.slice(maxVisible).join(',\n')}>
+              <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
+            </ToolTipTemplate>
+          )}
+        </div>
+      );
     },
   },
 

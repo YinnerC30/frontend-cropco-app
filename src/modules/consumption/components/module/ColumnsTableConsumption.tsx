@@ -1,10 +1,10 @@
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
-import { ButtonHeaderTable } from '@/modules/core/components';
+import { ButtonHeaderTable, ToolTipTemplate } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { ConsumptionSupplies } from '../../interfaces';
 import { formFieldsConsumption } from '../../utils/formFieldsConsumption';
-import { Badge } from '@/components';
+import { Badge, Button } from '@/components';
 
 export const columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
   {
@@ -31,13 +31,26 @@ export const columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
         original.details.map((item) => item.supply.name)
       );
 
-      const iterator = Array.from(setSupplies);
+      const supplies = Array.from(setSupplies);
 
-      return iterator.map((name, index) => (
-        <Badge key={name + index} className="mb-1 mr-1">
-          {name}
-        </Badge>
-      ));
+      const maxVisible = 2;
+      const hiddenCount = supplies.length - maxVisible;
+
+      return (
+        <div className="flex flex-wrap items-center gap-1">
+          {supplies.slice(0, maxVisible).map((supply, index) => (
+            <Badge key={`${supply}-${index}`} className="mb-1 mr-1">
+              {supply}
+            </Badge>
+          ))}
+
+          {hiddenCount > 0 && (
+            <ToolTipTemplate content={supplies.slice(maxVisible).join(',\n')}>
+              <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
+            </ToolTipTemplate>
+          )}
+        </div>
+      );
     },
   },
   {
@@ -46,11 +59,28 @@ export const columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
       return <ButtonHeaderTable column={column} label={'Cultivos:'} />;
     },
     cell: ({ row: { original } }) => {
-      return original.details.map(({ crop }, index) => (
-        <Badge key={crop?.id! + index} className="mb-1 mr-1">
-          {crop.name}
-        </Badge>
-      ));
+      const setCrops = new Set(original.details.map((item) => item.crop.name));
+
+      const crops = Array.from(setCrops);
+
+      const maxVisible = 2;
+      const hiddenCount = crops.length - maxVisible;
+
+      return (
+        <div className="flex flex-wrap items-center gap-1">
+          {crops.slice(0, maxVisible).map((crop, index) => (
+            <Badge key={`${crop}-${index}`} className="mb-1 mr-1">
+              {crop}
+            </Badge>
+          ))}
+
+          {hiddenCount > 0 && (
+            <ToolTipTemplate content={crops.slice(maxVisible).join(',\n')}>
+              <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
+            </ToolTipTemplate>
+          )}
+        </div>
+      );
     },
   },
 ];

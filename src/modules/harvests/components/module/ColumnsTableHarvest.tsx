@@ -1,12 +1,12 @@
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
-import { ButtonHeaderTable } from '@/modules/core/components';
+import { ButtonHeaderTable, ToolTipTemplate } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
 
 import { formFieldsHarvest } from '../../utils';
-import { Badge } from '@/components';
+import { Badge, Button } from '@/components';
 import { Harvest, HarvestDetail } from '../../interfaces';
 
 export const columnsHarvest: ColumnDef<Harvest>[] = [
@@ -37,17 +37,37 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
   },
   {
     accessorKey: 'details',
-    header: ({ column }) => {
-      return <ButtonHeaderTable column={column} label={'Empleados:'} />;
-    },
+    header: ({ column }) => (
+      <ButtonHeaderTable column={column} label="Empleados:" />
+    ),
     cell: ({ row: { original } }) => {
-      return original.details.map(({ employee }, index) => (
-        <Badge key={employee?.id! + index} className="mb-1 mr-1">
-          {employee.first_name}
-        </Badge>
-      ));
+      const employees = original.details.map(({ employee }) => employee);
+      const maxVisible = 4;
+      const hiddenCount = employees.length - maxVisible;
+
+      return (
+        <div className="flex flex-wrap items-center gap-1">
+          {employees.slice(0, maxVisible).map((employee, index) => (
+            <Badge key={`${employee?.id}-${index}`} className="mb-1 mr-1">
+              {employee.first_name}
+            </Badge>
+          ))}
+
+          {hiddenCount > 0 && (
+            <ToolTipTemplate
+              content={employees
+                .slice(maxVisible)
+                .map((item) => item.first_name)
+                .join(',\n')}
+            >
+              <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
+            </ToolTipTemplate>
+          )}
+        </div>
+      );
     },
   },
+
   {
     accessorKey: formFieldsHarvest.total.name,
     cell: ({ row }) => {

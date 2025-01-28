@@ -1,12 +1,12 @@
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
-import { ButtonHeaderTable } from '@/modules/core/components';
+import { ButtonHeaderTable, ToolTipTemplate } from '@/modules/core/components';
 import { FormatNumber } from '@/modules/core/helpers';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { Sale, SaleDetail } from '../../interfaces';
 import { formFieldsSale } from '../../utils/formFieldsSale';
-import { Badge } from '@/components';
+import { Badge, Button } from '@/components';
 
 export const columnsSale: ColumnDef<Sale>[] = [
   {
@@ -23,28 +23,65 @@ export const columnsSale: ColumnDef<Sale>[] = [
 
   {
     accessorKey: 'clients',
-    header: ({ column }) => {
-      return <ButtonHeaderTable column={column} label={'Clientes:'} />;
-    },
+    header: ({ column }) => (
+      <ButtonHeaderTable column={column} label="Clientes:" />
+    ),
     cell: ({ row: { original } }) => {
-      return original.details.map(({ client }, index) => (
-        <Badge key={client?.id! + index} className="mb-1 mr-1">
-          {client.first_name}
-        </Badge>
-      ));
+      const setClients = new Set(
+        original.details.map((item) => item.client.first_name)
+      );
+      const clients = Array.from(setClients);
+      const maxVisible = 2;
+      const hiddenCount = clients.length - maxVisible;
+
+      return (
+        <div className="flex flex-wrap items-center gap-1">
+          {clients.slice(0, maxVisible).map((client, index) => (
+            <Badge key={`${client}-${index}`} className="mb-1 mr-1">
+              {client}
+            </Badge>
+          ))}
+
+          {hiddenCount > 0 && (
+            <ToolTipTemplate content={clients.slice(maxVisible).join(',\n')}>
+              <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
+            </ToolTipTemplate>
+          )}
+        </div>
+      );
     },
   },
   {
     accessorKey: 'crops',
-    header: ({ column }) => {
-      return <ButtonHeaderTable column={column} label={'Cultivos:'} />;
-    },
+    header: ({ column }) => (
+      <ButtonHeaderTable column={column} label="Cultivos:" />
+    ),
     cell: ({ row: { original } }) => {
-      return original.details.map(({ crop }, index) => (
-        <Badge key={crop?.id! + index} className="mb-1 mr-1">
-          {crop.name}
-        </Badge>
-      ));
+      const setCrops = new Set(original.details.map((item) => item.crop.name));
+      const crops = Array.from(setCrops);
+      const maxVisible = 2;
+      const hiddenCount = crops.length - maxVisible;
+
+      return (
+        <div className="flex flex-wrap items-center gap-1">
+          {crops.slice(0, maxVisible).map((crop, index) => (
+            <Badge key={`${crop}-${index}`} className="mb-1 mr-1">
+              {crop}
+            </Badge>
+          ))}
+
+          {hiddenCount > 0 && (
+            <ToolTipTemplate
+              content={crops
+                .slice(maxVisible)
+                // .map((item) => item)
+                .join(',\n')}
+            >
+              <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
+            </ToolTipTemplate>
+          )}
+        </div>
+      );
     },
   },
   {
