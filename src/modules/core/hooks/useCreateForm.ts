@@ -29,7 +29,7 @@ export const useCreateForm = ({
   const { isDirty, isSubmitSuccessful, errors } = form.formState;
 
   useEffect(() => {
-    if (Object.keys(errors).length > 0) {
+    if (Object.keys(errors).length > 0 && skiptDirty === false) {
       toast.error('Faltan campos por rellenar en el formulario');
     }
   }, [errors]);
