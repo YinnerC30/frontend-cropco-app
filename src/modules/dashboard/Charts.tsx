@@ -5,6 +5,7 @@ import { BreadCrumb } from '../core/components';
 import { ChartTopEmployeesInHarvests } from '../employees/components/charts/ChartTopEmployeesInHarvests';
 import { ChartTopEmployeesInWorks } from '../employees/components/charts/ChartTopEmployeesInWork';
 import { ChartTopClientsInSales } from '../clients/components/charts/ChartTopClientsInSales';
+import { ChartTopCropsWithStock } from '../crops/components/charts/ChartTopCropsWithStock';
 
 export function Charts() {
   return (
@@ -21,9 +22,16 @@ export function Charts() {
       <Label className="text-xl">Graficas para el módulo de clientes</Label>
       <Separator className="my-2 " />
 
-      {/* <div className="flex flex-wrap items-center justify-center w-2/4 gap-4 my-5"> */}
+      <div className="flex flex-wrap items-center justify-center gap-4 my-5">
         <ChartTopClientsInSales />
-      {/* </div> */}
+      </div>
+
+      <Label className="text-xl">Graficas para el módulo de cultivos</Label>
+      <Separator className="my-2 " />
+
+      <div className="flex flex-wrap items-center justify-center gap-4 my-5">
+        <ChartTopCropsWithStock />
+      </div>
 
       {/* <ScrollArea className="w-[80vw]"> */}
       {/* <div className="flex flex-wrap gap-5"> */}
