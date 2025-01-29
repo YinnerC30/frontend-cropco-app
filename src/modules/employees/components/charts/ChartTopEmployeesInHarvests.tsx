@@ -110,7 +110,7 @@ export function ChartTopEmployeesInHarvests() {
                 position="top"
                 offset={12}
                 className="fill-foreground"
-                fontSize={12}
+                fontSize={11}
                 formatter={(value: number) => `${FormatNumber(value)} Kg`} // Agregar "Kg" a cada valor
               />
             </Bar>
@@ -126,7 +126,7 @@ export function ChartTopEmployeesInHarvests() {
                 position="top"
                 offset={12}
                 className="fill-foreground"
-                fontSize={12}
+                fontSize={11}
                 formatter={(value: number) => `${FormatMoneyValue(value)}`}
               />
             </Bar>
