@@ -55,9 +55,7 @@ export function ChartTopEmployeesInWorks() {
   return (
     <Card className="w-auto lg:w-[45%]">
       <CardHeader>
-        <CardTitle>
-          Top de los empleados con mayor presencia en el trabajo
-        </CardTitle>
+        <CardTitle>Top 5 empleados de los trabajos</CardTitle>
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>
       </CardHeader>
       <CardContent className="p-5">
@@ -137,10 +135,8 @@ export function ChartTopEmployeesInWorks() {
             </BarChart>
           </ChartContainer>
         ) : (
-          <div className='w-full text-center h-[200px] flex items-center justify-center'>
-            <span>
-            No hay información del año {selectedYear}
-            </span>
+          <div className="w-full text-center h-[200px] flex items-center justify-center">
+            <span>No hay información del año {selectedYear}</span>
           </div>
         )}
       </CardContent>

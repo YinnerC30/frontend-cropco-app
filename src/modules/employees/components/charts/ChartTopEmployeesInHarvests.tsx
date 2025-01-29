@@ -56,7 +56,7 @@ export function ChartTopEmployeesInHarvests() {
     <Card className="w-auto lg:w-[45%]">
       <CardHeader>
         <CardTitle>
-          Top de los empleados con mayor recolección por año
+          Top 5 empleados de las cosechas
         </CardTitle>
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>
       </CardHeader>
