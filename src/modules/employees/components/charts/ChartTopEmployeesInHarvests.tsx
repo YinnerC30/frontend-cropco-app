@@ -53,7 +53,7 @@ export function ChartTopEmployeesInHarvests() {
   const chartData = [...(queryEmployees.data?.rows || [])];
 
   return (
-    <Card className="w-2/4">
+    <Card className="w-auto lg:w-[45%]">
       <CardHeader>
         <CardTitle>
           Top de los empleados con mayor recolección por año

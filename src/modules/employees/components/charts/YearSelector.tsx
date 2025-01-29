@@ -40,7 +40,7 @@ export default function YearSelector({ selectedYear, setSelectedYear }: Props) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[100px] justify-between"
         >
           {selectedYear ? selectedYear : 'Selecciona un año...'}
           <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />

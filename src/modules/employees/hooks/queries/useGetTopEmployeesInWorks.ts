@@ -8,42 +8,42 @@ import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/Typ
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
 
-interface EmployeeTopHarvest {
+interface EmployeeTopWork {
   id: string;
   first_name: string;
   last_name: string;
-  total_harvests: number;
-  total_value_pay: number
+  total_works: number;
+  value_pay_works: number;
 }
 
-export const getTopEmployeesInHarvests = async ({
+export const getTopEmployeesInWorks = async ({
   year,
 }: {
   year: number;
-}): TypeGetAllRecordsReturn<EmployeeTopHarvest> => {
-    const params = new URLSearchParams({
-        year: year.toString(),
-    })
+}): TypeGetAllRecordsReturn<EmployeeTopWork> => {
+  const params = new URLSearchParams({
+    year: year.toString(),
+  });
   return await cropcoAPI.get(
-    `${pathsCropco.employees}/find/top-employees-in-harvests?${params}`
+    `${pathsCropco.employees}/find/top-employees-in-works?${params}`
   );
 };
 
-export const useGetTopEmployeesInHarvests = ({
+export const useGetTopEmployeesInWorks = ({
   year = new Date().getFullYear(),
 }: {
   year?: number;
-}): UseQueryGetAllRecordsReturn<EmployeeTopHarvest> => {
+}): UseQueryGetAllRecordsReturn<EmployeeTopWork> => {
   const { hasPermission, handleError } = useAuthContext();
 
   const isAuthorized = hasPermission(
     'employees',
-    'find_top_employees_in_harvests'
+    'find_top_employees_in_works'
   );
 
-  const query: UseQueryGetAllRecordsReturn<EmployeeTopHarvest> = useQuery({
-    queryKey: ['employees-top-harvests', year],
-    queryFn: () => getTopEmployeesInHarvests({ year }),
+  const query: UseQueryGetAllRecordsReturn<EmployeeTopWork> = useQuery({
+    queryKey: ['employees-top-works', year],
+    queryFn: () => getTopEmployeesInWorks({ year }),
     select: ({ data }) => data,
     enabled: isAuthorized,
   });
@@ -51,7 +51,7 @@ export const useGetTopEmployeesInHarvests = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado del top usuarios en cosechas 😑'
+        'No tienes permiso para ver el listado del top usuarios en trabajos 😑'
       );
     }
   }, [isAuthorized]);
@@ -62,7 +62,7 @@ export const useGetTopEmployeesInHarvests = ({
         error: query.error,
         messagesStatusError: {
           unauthorized:
-            'No tienes permiso para ver el listado del top usuarios en cosechas 😑',
+            'No tienes permiso para ver el listado del top usuarios en trabajos 😑',
         },
       });
     }
