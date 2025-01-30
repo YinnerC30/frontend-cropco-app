@@ -2,9 +2,8 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
-  LabelList,
   XAxis,
-  YAxis,
+  YAxis
 } from 'recharts';
 
 import {
@@ -23,12 +22,10 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { Loading } from '@/modules/core/components';
-import { FormatNumber } from '@/modules/core/helpers';
 import { useState } from 'react';
 
 import YearSelector from '@/modules/core/components/shared/YearSelector';
 import { useGetTopCropsInHarvests } from '../../hooks/queries/useGetTopCropsInHarvests';
-// import YearSelector from './YearSelector';
 
 const chartConfig: ChartConfig = {
   name: {
@@ -52,10 +49,8 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
 
   const chartData = [...(queryCrops.data?.rows || [])];
 
-  console.log(chartData)
-
   return (
-    <Card className="w-auto lg:w-[45%]">
+    <Card className="w-auto lg:w-[450px] ">
       <CardHeader>
         <CardTitle>
           Top 5 cultivos con más cosechas y total recolectado
@@ -104,36 +99,19 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
 
               <ChartTooltip cursor={true} content={<ChartTooltipContent />} />
 
-              {/* Barra de total_harvests */}
               <Bar
                 dataKey="total_harvests"
                 fill="hsl(var(--chart-1))"
                 radius={4}
                 yAxisId="left"
-              >
-                <LabelList
-                  position="top"
-                  offset={12}
-                  className="fill-foreground"
-                  fontSize={12}
-                  formatter={(value: number) => `${FormatNumber(value)}`} // Agregar "Kg" a cada valor
-                />
-              </Bar>
+              ></Bar>
 
               <Bar
                 dataKey="total_stock"
                 fill="hsl(var(--chart-2))" // Asignando un color distinto para la nueva barra
                 radius={4}
                 yAxisId="right"
-              >
-                <LabelList
-                  position="top"
-                  offset={12}
-                  className="fill-foreground"
-                  fontSize={12}
-                  formatter={(value: number) => `${FormatNumber(value)} kg`}
-                />
-              </Bar>
+              ></Bar>
 
               <ChartLegend content={<ChartLegendContent />} />
             </BarChart>

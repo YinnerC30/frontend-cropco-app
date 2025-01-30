@@ -56,7 +56,7 @@ export function ChartTotalHarvestsInYear() {
   const chartData = organizeHarvestData(queryHarvests.data as any);
 
   return queryHarvests.isSuccess ? (
-    <Card className="w-2/4">
+    <Card className="w-auto lg:w-[650px] ">
       <CardHeader>
         <CardTitle>Total de las cosechas por año</CardTitle>
         <CardDescription>

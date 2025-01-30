@@ -1,11 +1,4 @@
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  LabelList,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 import {
   Card,
@@ -23,10 +16,9 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { Loading } from '@/modules/core/components';
+import YearSelector from '@/modules/core/components/shared/YearSelector';
 import { useState } from 'react';
 import { useGetTopEmployeesInHarvests } from '../../hooks/queries/useGetTopEmployeesInHarvests';
-import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
-import YearSelector from '@/modules/core/components/shared/YearSelector';
 
 const chartConfig: ChartConfig = {
   first_name: {
@@ -53,12 +45,12 @@ export function ChartTopEmployeesInHarvests() {
   const chartData = [...(queryEmployees.data?.rows || [])];
 
   return (
-    <Card className="w-auto lg:w-[45%]">
+    <Card className="w-auto lg:w-[450px] ">
       <CardHeader>
         <CardTitle>Top 5 empleados de las cosechas</CardTitle>
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>
       </CardHeader>
-      <CardContent className="p-5">
+      <CardContent>
         <div className="flex justify-end mb-5">
           <YearSelector
             selectedYear={selectedYear}
@@ -103,15 +95,7 @@ export function ChartTopEmployeesInHarvests() {
               fill="hsl(var(--chart-3))"
               radius={4}
               yAxisId="left"
-            >
-              <LabelList
-                position="top"
-                offset={12}
-                className="fill-foreground"
-                fontSize={11}
-                formatter={(value: number) => `${FormatNumber(value)} Kg`} // Agregar "Kg" a cada valor
-              />
-            </Bar>
+            ></Bar>
 
             {/* Barra de total_value_pay */}
             <Bar
@@ -119,15 +103,7 @@ export function ChartTopEmployeesInHarvests() {
               fill="hsl(var(--chart-4))" // Asignando un color distinto para la nueva barra
               radius={4}
               yAxisId="right"
-            >
-              <LabelList
-                position="top"
-                offset={12}
-                className="fill-foreground"
-                fontSize={11}
-                formatter={(value: number) => `${FormatMoneyValue(value)}`}
-              />
-            </Bar>
+            ></Bar>
 
             <ChartLegend content={<ChartLegendContent />} />
           </BarChart>

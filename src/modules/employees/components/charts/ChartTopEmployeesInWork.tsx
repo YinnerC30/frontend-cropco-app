@@ -2,9 +2,8 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
-  LabelList,
   XAxis,
-  YAxis,
+  YAxis
 } from 'recharts';
 
 import {
@@ -23,10 +22,9 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { Loading } from '@/modules/core/components';
-import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
+import YearSelector from '@/modules/core/components/shared/YearSelector';
 import { useState } from 'react';
 import { useGetTopEmployeesInWorks } from '../../hooks/queries/useGetTopEmployeesInWorks';
-import YearSelector from '@/modules/core/components/shared/YearSelector';
 
 const chartConfig: ChartConfig = {
   first_name: {
@@ -53,7 +51,7 @@ export function ChartTopEmployeesInWorks() {
   const chartData = [...(queryEmployees.data?.rows || [])];
 
   return (
-    <Card className="w-auto lg:w-[45%]">
+    <Card className="w-auto lg:w-[450px] ">
       <CardHeader>
         <CardTitle>Top 5 empleados de los trabajos</CardTitle>
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>
@@ -106,13 +104,13 @@ export function ChartTopEmployeesInWorks() {
                 radius={4}
                 yAxisId="left"
               >
-                <LabelList
+                {/* <LabelList
                   position="top"
                   offset={12}
                   className="fill-foreground"
                   fontSize={12}
                   formatter={(value: number) => `${FormatMoneyValue(value)}`} // Agregar "Kg" a cada valor
-                />
+                /> */}
               </Bar>
 
               {/* Barra de total_works */}
@@ -122,13 +120,13 @@ export function ChartTopEmployeesInWorks() {
                 radius={4}
                 yAxisId="right"
               >
-                <LabelList
+                {/* <LabelList
                   position="top"
                   offset={12}
                   className="fill-foreground"
                   fontSize={12}
                   formatter={(value: number) => `${FormatNumber(value)}`}
-                />
+                /> */}
               </Bar>
 
               <ChartLegend content={<ChartLegendContent />} />

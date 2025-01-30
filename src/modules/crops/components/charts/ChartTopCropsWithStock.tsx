@@ -2,9 +2,8 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
-  LabelList,
   XAxis,
-  YAxis,
+  YAxis
 } from 'recharts';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,7 +16,6 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { Loading } from '@/modules/core/components';
-import { FormatNumber } from '@/modules/core/helpers';
 
 import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 // import YearSelector from './YearSelector';
@@ -38,22 +36,16 @@ export function ChartTopCropsWithStock() {
     return <Loading />;
   }
 
-  const chartData = [...(queryCrops.data?.rows || [])];
+  const chartData = [
+    ...(queryCrops.data?.rows.filter((row) => row.stock > 0) || []),
+  ];
 
   return (
-    <Card className="w-auto lg:w-[45%]">
+    <Card className="w-auto lg:w-[450px] ">
       <CardHeader>
         <CardTitle>Top 5 cultivos con stock disponible</CardTitle>
-        {/* <CardDescription>Enero - Diciembre {selectedYear}</CardDescription> */}
       </CardHeader>
       <CardContent className="">
-        <div className="flex justify-end mb-5">
-          {/* <YearSelector
-            selectedYear={selectedYear}
-            setSelectedYear={setSelectedYear}
-          /> */}
-        </div>
-
         {chartData.length > 0 ? (
           <ChartContainer config={chartConfig}>
             <BarChart
@@ -82,21 +74,12 @@ export function ChartTopCropsWithStock() {
 
               <ChartTooltip cursor={true} content={<ChartTooltipContent />} />
 
-              {/* Barra de stock */}
               <Bar
                 dataKey="stock"
                 fill="hsl(var(--chart-1))"
                 radius={4}
                 yAxisId="left"
-              >
-                <LabelList
-                  position="top"
-                  offset={12}
-                  className="fill-foreground"
-                  fontSize={12}
-                  formatter={(value: number) => `${FormatNumber(value)} kg`} // Agregar "Kg" a cada valor
-                />
-              </Bar>
+              ></Bar>
 
               <ChartLegend content={<ChartLegendContent />} />
             </BarChart>

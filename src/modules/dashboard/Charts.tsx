@@ -1,57 +1,75 @@
 'use client';
 
-import { Label, Separator } from '@/components';
+import { ScrollArea, Separator } from '@/components';
+import { BookUser, Contact, Leaf, Tractor } from 'lucide-react';
+import { ChartTopClientsInSales } from '../clients/components/charts/ChartTopClientsInSales';
 import { BreadCrumb } from '../core/components';
+import { ChartTopCropsWithHarvestsAndTotalStock } from '../crops/components/charts/ChartTopCropsWithHarvestsAndTotalStock';
+import { ChartTopCropsWithStock } from '../crops/components/charts/ChartTopCropsWithStock';
 import { ChartTopEmployeesInHarvests } from '../employees/components/charts/ChartTopEmployeesInHarvests';
 import { ChartTopEmployeesInWorks } from '../employees/components/charts/ChartTopEmployeesInWork';
-import { ChartTopClientsInSales } from '../clients/components/charts/ChartTopClientsInSales';
-import { ChartTopCropsWithStock } from '../crops/components/charts/ChartTopCropsWithStock';
-import { ChartTopCropsWithHarvestsAndTotalStock } from '../crops/components/charts/ChartTopCropsWithHarvestsAndTotalStock';
 import { ChartTotalHarvestsInYear } from '../harvests/components/charts/ChartTotalHarvestsInYear';
 
 export function Charts() {
   return (
     <div>
-      <BreadCrumb finalItem={'Graficas'} hiddenSeparator />
+      <BreadCrumb finalItem={'Graficas'} />
+      <div className="flex justify-center">
+        <ScrollArea className="h-[85vh] w-full pb-2">
+          <div className="flex flex-col gap-10">
+            <div>
+              <div className="flex items-center gap-5">
+                <h1 className="text-xl">Empleados</h1>
+                <Contact />
+              </div>
 
-      <Label className="text-xl">Graficas para el módulo de empleados</Label>
-      <Separator className="my-2 " />
+              <Separator className="my-2 " />
 
-      <div className="flex flex-wrap items-center justify-center gap-4 my-5">
-        <ChartTopEmployeesInHarvests />
-        <ChartTopEmployeesInWorks />
+              <div className="flex flex-wrap gap-10 justify-evenly">
+                <ChartTopEmployeesInHarvests />
+                <ChartTopEmployeesInWorks />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center gap-5">
+                <h1 className="text-xl">Clientes</h1>
+                <BookUser />
+              </div>
+              <Separator className="my-2 " />
+
+              <div className="flex flex-wrap gap-10 justify-evenly">
+                <ChartTopClientsInSales />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center gap-5">
+                <h1 className="text-xl">Cultivos</h1>
+                <Leaf />
+              </div>
+              <Separator className="my-2 " />
+
+              <div className="flex flex-wrap gap-10 justify-evenly">
+                <ChartTopCropsWithStock />
+                <ChartTopCropsWithHarvestsAndTotalStock />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center gap-5">
+                <h1 className="text-xl">Cosechas</h1>
+                <Tractor />
+              </div>
+              <Separator className="my-2 " />
+
+              <div className="flex flex-wrap gap-10 justify-evenly">
+                <ChartTotalHarvestsInYear />
+              </div>
+            </div>
+          </div>
+        </ScrollArea>
       </div>
-      <Label className="text-xl">Graficas para el módulo de clientes</Label>
-      <Separator className="my-2 " />
-
-      <div className="flex flex-wrap items-center justify-center gap-4 my-5">
-        <ChartTopClientsInSales />
-      </div>
-
-      <Label className="text-xl">Graficas para el módulo de cultivos</Label>
-      <Separator className="my-2 " />
-
-      <div className="flex flex-wrap items-center justify-center gap-4 my-5">
-        <ChartTopCropsWithStock />
-        <ChartTopCropsWithHarvestsAndTotalStock />
-      </div>
-      
-      <Label className="text-xl">Graficas para el módulo de cosechas</Label>
-      <Separator className="my-2 " />
-
-      <div className="flex flex-wrap items-center justify-center gap-4 my-5">
-        <ChartTotalHarvestsInYear />
-      </div>
-
-
-      {/* <ScrollArea className="w-[80vw]"> */}
-      {/* <div className="flex flex-wrap gap-5"> */}
-      {/* <CropStockChart /> */}
-      {/* <CropTotalHarvestCrop /> */}
-      {/* <ChartSales /> */}
-      {/* <ChartHarvestTrend /> */}
-      {/* </div> */}
-      {/* </ScrollArea> */}
     </div>
   );
 }
