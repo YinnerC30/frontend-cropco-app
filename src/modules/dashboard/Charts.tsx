@@ -6,6 +6,7 @@ import { ChartTopEmployeesInHarvests } from '../employees/components/charts/Char
 import { ChartTopEmployeesInWorks } from '../employees/components/charts/ChartTopEmployeesInWork';
 import { ChartTopClientsInSales } from '../clients/components/charts/ChartTopClientsInSales';
 import { ChartTopCropsWithStock } from '../crops/components/charts/ChartTopCropsWithStock';
+import { ChartTopCropsWithHarvestsAndTotalStock } from '../crops/components/charts/ChartTopCropsWithHarvestsAndTotalStock';
 
 export function Charts() {
   return (
@@ -31,6 +32,7 @@ export function Charts() {
 
       <div className="flex flex-wrap items-center justify-center gap-4 my-5">
         <ChartTopCropsWithStock />
+        <ChartTopCropsWithHarvestsAndTotalStock/>
       </div>
 
       {/* <ScrollArea className="w-[80vw]"> */}
