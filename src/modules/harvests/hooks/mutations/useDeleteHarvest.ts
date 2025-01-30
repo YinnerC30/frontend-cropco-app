@@ -27,6 +27,9 @@ export const useDeleteHarvest = (): UseMutationReturn<void, string> => {
       await queryClient.invalidateQueries({
         queryKey: ['crops-with-harvest'],
       });
+      await queryClient.invalidateQueries({
+        queryKey: ['harvests-total-year'],
+      });
       toast.success(`Cosecha eliminada`);
     },
     onError: (error) => {

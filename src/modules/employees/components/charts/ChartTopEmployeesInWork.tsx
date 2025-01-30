@@ -26,7 +26,7 @@ import { Loading } from '@/modules/core/components';
 import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { useState } from 'react';
 import { useGetTopEmployeesInWorks } from '../../hooks/queries/useGetTopEmployeesInWorks';
-import YearSelector from './YearSelector';
+import YearSelector from '@/modules/core/components/shared/YearSelector';
 
 const chartConfig: ChartConfig = {
   first_name: {

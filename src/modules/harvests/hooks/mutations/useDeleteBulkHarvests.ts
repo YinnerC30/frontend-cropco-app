@@ -29,6 +29,9 @@ export const useDeleteBulkHarvests = (): UseMutationReturn<
       await queryClient.invalidateQueries({
         queryKey: ['crops'],
       });
+      await queryClient.invalidateQueries({
+        queryKey: ['harvests-total-year'],
+      });
       toast.success(`Cosechas eliminadas`);
     },
     onError: (error) => {

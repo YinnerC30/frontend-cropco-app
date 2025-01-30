@@ -7,13 +7,7 @@ import {
   YAxis,
 } from 'recharts';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartConfig,
   ChartContainer,
@@ -23,10 +17,8 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { Loading } from '@/modules/core/components';
-import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
-import { useState } from 'react';
+import { FormatNumber } from '@/modules/core/helpers';
 
-import YearSelector from '@/modules/core/components/shared/YearSelector';
 import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 // import YearSelector from './YearSelector';
 
@@ -40,7 +32,6 @@ const chartConfig: ChartConfig = {
 } satisfies ChartConfig;
 
 export function ChartTopCropsWithStock() {
-  const [selectedYear, setSelectedYear] = useState(2025);
   const queryCrops = useGetAllHarvestsStock();
 
   if (queryCrops.isLoading) {
@@ -79,7 +70,7 @@ export function ChartTopCropsWithStock() {
                 orientation="left"
                 stroke="hsl(var(--chart-1))"
               />
-             
+
               <CartesianGrid vertical={false} />
               <XAxis
                 dataKey="name"
@@ -107,15 +98,11 @@ export function ChartTopCropsWithStock() {
                 />
               </Bar>
 
-              
-
               <ChartLegend content={<ChartLegendContent />} />
             </BarChart>
           </ChartContainer>
         ) : (
-          <div className="w-full text-center h-[200px] flex items-center justify-center">
-            <span>No hay información del año {selectedYear}</span>
-          </div>
+          <div className="w-full text-center h-[200px] flex items-center justify-center"></div>
         )}
       </CardContent>
     </Card>

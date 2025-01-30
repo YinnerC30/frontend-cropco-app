@@ -1,9 +1,8 @@
 'use client';
 
-import * as React from 'react';
 import { Check, ChevronsUpDown } from 'lucide-react';
+import * as React from 'react';
 
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
   Command,
@@ -18,20 +17,25 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-
-const currentYear = new Date().getFullYear();
-const years = Array.from(
-  { length: currentYear - 2023 },
-  (_, i) => currentYear - i
-);
+import { cn } from '@/lib/utils';
+import { useGetAllCropsWithHarvest } from '@/modules/crops/hooks';
 
 interface Props {
-  selectedYear: number;
-  setSelectedYear: React.Dispatch<React.SetStateAction<number>>;
+  selectedCrop: string;
+  setSelectedCrop: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function YearSelector({ selectedYear, setSelectedYear }: Props) {
+export default function CropSelector({ selectedCrop, setSelectedCrop }: Props) {
   const [open, setOpen] = React.useState(false);
+
+  const { query: queryCrops } = useGetAllCropsWithHarvest({
+    allRecords: true,
+    queryValue: '',
+  });
+
+  const data = queryCrops.data?.rows ?? [];
+
+  const crops = [{ name: 'Todos', id: '' }, ...data];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -40,27 +44,27 @@ export default function YearSelector({ selectedYear, setSelectedYear }: Props) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[100px] justify-between"
+          className="w-[200px] justify-between"
         >
-          {selectedYear ? selectedYear : 'Selecciona un año...'}
+          {!!selectedCrop
+            ?  `Cultivo: ${crops.find((item) => item.id === selectedCrop)?.name}`
+            : 'Selecciona un cultivo...'}
           <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Buscar año..." />
+          <CommandInput placeholder="Buscar cultivo..." />
           <CommandList>
-            <CommandEmpty>No se encontró el año.</CommandEmpty>
+            <CommandEmpty>No se encontró el cultivo</CommandEmpty>
             <CommandGroup>
-              {years.map((year) => (
+              {crops.map((crop) => (
                 <CommandItem
-                  key={year}
-                  value={year.toString()}
+                  key={crop.name}
+                  value={crop.id}
                   onSelect={(currentValue) => {
-                    setSelectedYear(
-                      Number(currentValue) === selectedYear
-                        ? 2025
-                        : Number(currentValue)
+                    setSelectedCrop(
+                      currentValue === selectedCrop ? '' : currentValue
                     );
                     setOpen(false);
                   }}
@@ -68,10 +72,10 @@ export default function YearSelector({ selectedYear, setSelectedYear }: Props) {
                   <Check
                     className={cn(
                       'mr-2 h-4 w-4',
-                      selectedYear === year ? 'opacity-100' : 'opacity-0'
+                      selectedCrop === crop.id ? 'opacity-100' : 'opacity-0'
                     )}
                   />
-                  {year}
+                  {crop.name}
                 </CommandItem>
               ))}
             </CommandGroup>

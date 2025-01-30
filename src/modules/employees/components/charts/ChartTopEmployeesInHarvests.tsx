@@ -25,8 +25,8 @@ import {
 import { Loading } from '@/modules/core/components';
 import { useState } from 'react';
 import { useGetTopEmployeesInHarvests } from '../../hooks/queries/useGetTopEmployeesInHarvests';
-import YearSelector from './YearSelector';
 import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
+import YearSelector from '@/modules/core/components/shared/YearSelector';
 
 const chartConfig: ChartConfig = {
   first_name: {
@@ -55,9 +55,7 @@ export function ChartTopEmployeesInHarvests() {
   return (
     <Card className="w-auto lg:w-[45%]">
       <CardHeader>
-        <CardTitle>
-          Top 5 empleados de las cosechas
-        </CardTitle>
+        <CardTitle>Top 5 empleados de las cosechas</CardTitle>
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>
       </CardHeader>
       <CardContent className="p-5">

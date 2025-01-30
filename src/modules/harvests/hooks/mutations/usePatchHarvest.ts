@@ -33,6 +33,9 @@ export const usePatchHarvest = (): UseMutationReturn<void, Harvest> => {
       markChanges(false);
       await queryClient.invalidateQueries({ queryKey: ['harvests'] });
       await queryClient.invalidateQueries({
+        queryKey: ['harvests-total-year'],
+      });
+      await queryClient.invalidateQueries({
         queryKey: ['harvest', variables.id],
       });
       navigate(MODULE_HARVESTS_PATHS.ViewAll);

@@ -7,6 +7,7 @@ import { ChartTopEmployeesInWorks } from '../employees/components/charts/ChartTo
 import { ChartTopClientsInSales } from '../clients/components/charts/ChartTopClientsInSales';
 import { ChartTopCropsWithStock } from '../crops/components/charts/ChartTopCropsWithStock';
 import { ChartTopCropsWithHarvestsAndTotalStock } from '../crops/components/charts/ChartTopCropsWithHarvestsAndTotalStock';
+import { ChartTotalHarvestsInYear } from '../harvests/components/charts/ChartTotalHarvestsInYear';
 
 export function Charts() {
   return (
@@ -32,8 +33,16 @@ export function Charts() {
 
       <div className="flex flex-wrap items-center justify-center gap-4 my-5">
         <ChartTopCropsWithStock />
-        <ChartTopCropsWithHarvestsAndTotalStock/>
+        <ChartTopCropsWithHarvestsAndTotalStock />
       </div>
+      
+      <Label className="text-xl">Graficas para el módulo de cosechas</Label>
+      <Separator className="my-2 " />
+
+      <div className="flex flex-wrap items-center justify-center gap-4 my-5">
+        <ChartTotalHarvestsInYear />
+      </div>
+
 
       {/* <ScrollArea className="w-[80vw]"> */}
       {/* <div className="flex flex-wrap gap-5"> */}

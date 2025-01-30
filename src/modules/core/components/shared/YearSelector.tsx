@@ -20,18 +20,21 @@ import {
 } from '@/components/ui/popover';
 
 const currentYear = new Date().getFullYear();
-const years = Array.from(
-  { length: currentYear - 2023 },
-  (_, i) => currentYear - i
-);
+
 
 interface Props {
+  initialYear?: number;
   selectedYear: number;
   setSelectedYear: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function YearSelector({ selectedYear, setSelectedYear }: Props) {
+export default function YearSelector({ selectedYear, setSelectedYear, initialYear = 2023 }: Props) {
   const [open, setOpen] = React.useState(false);
+
+  const years = Array.from(
+    { length: currentYear - initialYear },
+    (_, i) => currentYear - i
+  );
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -40,9 +43,9 @@ export default function YearSelector({ selectedYear, setSelectedYear }: Props) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[100px] justify-between"
+          className="w-[120px] justify-between"
         >
-          {selectedYear ? selectedYear : 'Selecciona un año...'}
+          {selectedYear ? `Año: ${selectedYear}` : 'Selecciona un año...'}
           <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
         </Button>
       </PopoverTrigger>
