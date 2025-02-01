@@ -79,95 +79,101 @@ export function ChartTopEmployeesInHarvests() {
             disabled={queryEmployees.isLoading}
           />
         </div>
-        <ChartContainer config={chartConfig}>
-          <BarChart
-            barCategoryGap={15}
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              top: 40,
-            }}
-          >
-            <YAxis
-              dataKey={'total_harvests'}
-              yAxisId="left"
-              orientation="left"
-              stroke="var(--color-total_harvests)"
-            />
-
-            {showValuePayBar && (
+        {chartData.length > 0 ? (
+          <ChartContainer config={chartConfig}>
+            <BarChart
+              barCategoryGap={15}
+              accessibilityLayer
+              data={chartData}
+              margin={{
+                top: 40,
+              }}
+            >
               <YAxis
-                dataKey={'total_value_pay'}
-                yAxisId="right"
-                orientation="right"
-                stroke="var(--color-total_value_pay)"
+                dataKey={'total_harvests'}
+                yAxisId="left"
+                orientation="left"
+                stroke="var(--color-total_harvests)"
               />
-            )}
 
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="first_name"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value}
-            />
-
-            <ChartTooltip
-              cursor={true}
-              content={
-                <ChartTooltipContent
-                  formatter={(value, name, item, index) => {
-                    return (
-                      <>
-                        <div
-                          className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--color-bg]"
-                          style={
-                            {
-                              '--color-bg': `var(--color-${name})`,
-                            } as React.CSSProperties
-                          }
-                        />
-                        {chartConfig[name as keyof typeof chartConfig]?.label ||
-                          name}
-                        <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
-                          {name === 'total_harvests'
-                            ? FormatNumber(Number(value))
-                            : FormatMoneyValue(Number(value))}
-                          {name === 'total_harvests' && (
-                            <span className="font-normal text-muted-foreground">
-                              kg
-                            </span>
-                          )}
-                        </div>
-                      </>
-                    );
-                  }}
+              {showValuePayBar && (
+                <YAxis
+                  dataKey={'total_value_pay'}
+                  yAxisId="right"
+                  orientation="right"
+                  stroke="var(--color-total_value_pay)"
                 />
-              }
-            />
+              )}
 
-            {/* Barra de total_harvests */}
-            <Bar
-              dataKey="total_harvests"
-              fill="var(--color-total_harvests)"
-              radius={4}
-              yAxisId="left"
-            ></Bar>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="first_name"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value}
+              />
 
-            {/* Barra de total_value_pay */}
-            {showValuePayBar && (
+              <ChartTooltip
+                cursor={true}
+                content={
+                  <ChartTooltipContent
+                    formatter={(value, name, item, index) => {
+                      return (
+                        <>
+                          <div
+                            className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--color-bg]"
+                            style={
+                              {
+                                '--color-bg': `var(--color-${name})`,
+                              } as React.CSSProperties
+                            }
+                          />
+                          {chartConfig[name as keyof typeof chartConfig]
+                            ?.label || name}
+                          <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
+                            {name === 'total_harvests'
+                              ? FormatNumber(Number(value))
+                              : FormatMoneyValue(Number(value))}
+                            {name === 'total_harvests' && (
+                              <span className="font-normal text-muted-foreground">
+                                kg
+                              </span>
+                            )}
+                          </div>
+                        </>
+                      );
+                    }}
+                  />
+                }
+              />
+
+              {/* Barra de total_harvests */}
               <Bar
-                dataKey="total_value_pay"
-                fill="var(--color-total_value_pay)"
+                dataKey="total_harvests"
+                fill="var(--color-total_harvests)"
                 radius={4}
-                yAxisId="right"
+                yAxisId="left"
               ></Bar>
-            )}
 
-            <ChartLegend content={<ChartLegendContent />} />
-          </BarChart>
-        </ChartContainer>
+              {/* Barra de total_value_pay */}
+              {showValuePayBar && (
+                <Bar
+                  dataKey="total_value_pay"
+                  fill="var(--color-total_value_pay)"
+                  radius={4}
+                  yAxisId="right"
+                ></Bar>
+              )}
+
+              <ChartLegend content={<ChartLegendContent />} />
+            </BarChart>
+          </ChartContainer>
+        ) : (
+          <div className="w-full text-center h-[200px] flex items-center justify-center">
+            <span>No hay información del año {selectedYear}</span>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
