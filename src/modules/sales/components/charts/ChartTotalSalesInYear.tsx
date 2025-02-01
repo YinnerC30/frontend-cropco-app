@@ -34,11 +34,7 @@ export function ChartTotalSalesInYear() {
   const [selectedCrop, setSelectedCrop] = useState('');
   const [selectedClient, setSelectedClient] = useState('');
 
-  const [isVisible, setIsVisible] = useState(true);
-
-  const handleVisibilityChange = (value: string) => {
-    setIsVisible(value === 'show');
-  };
+  const [showPreviousYear, setShowPreviousYear] = useState(true);
 
   const querySales = useGetTotalSalesInYear({
     year: selectedYear,
@@ -76,7 +72,8 @@ export function ChartTotalSalesInYear() {
         <div>
           <div className="my-4">
             <HiddenPreviousYearSelector
-              handleVisibilityChange={handleVisibilityChange}
+              showPreviousYear={showPreviousYear}
+              setShowPreviousYear={setShowPreviousYear}
             />
           </div>
           <div className="flex justify-between mb-5">
@@ -133,7 +130,7 @@ export function ChartTotalSalesInYear() {
                   />
                 </linearGradient>
 
-                {isVisible && (
+                {showPreviousYear && (
                   <linearGradient
                     id="fillPreviousTotal"
                     x1="0"
@@ -163,7 +160,7 @@ export function ChartTotalSalesInYear() {
                 stroke="var(--color-current_total)"
                 stackId="a"
               />
-              {isVisible && (
+              {showPreviousYear && (
                 <Area
                   dataKey="previous_total"
                   type="natural"

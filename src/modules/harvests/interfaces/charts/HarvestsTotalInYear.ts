@@ -6,7 +6,7 @@ export interface HarvestTotalInYearData {
 export interface Growth {
   growth_value: number;
   diference: number;
-  is_increment: boolean;
+  status: 'increment' | 'decrement' | 'stable' | 'no-valid';
   total_previous: number;
   total_current: number;
 }
@@ -17,8 +17,8 @@ export interface Year {
 }
 
 export interface DataMonth {
-  month: string;
-  monthNumber: number;
+  month_name: string;
+  month_number: number;
   total: number;
   value_pay: number;
 }

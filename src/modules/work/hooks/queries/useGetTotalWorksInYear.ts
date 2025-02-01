@@ -13,11 +13,13 @@ import { WorkTotalInYearData } from '../../interfaces/charts/WorksTotalInYear';
 interface QueryParams {
   year: number;
   crop: string;
+  employee: string;
 }
 
 export const getTotalWorksInYear = async ({
   year,
   crop,
+  employee,
 }: QueryParams): PromiseReturnRecord<WorkTotalInYearData> => {
   const params = new URLSearchParams({
     year: year.toString(),
@@ -25,6 +27,9 @@ export const getTotalWorksInYear = async ({
 
   if (crop.length > 0) {
     params.append('crop', crop);
+  }
+  if (employee.length > 0) {
+    params.append('employee', employee);
   }
 
   return await cropcoAPI.get(
@@ -35,14 +40,15 @@ export const getTotalWorksInYear = async ({
 export const useGetTotalWorksInYear = ({
   year = new Date().getFullYear(),
   crop = '',
+  employee = '',
 }: QueryParams): UseGetOneRecordReturn<WorkTotalInYearData> => {
   const { hasPermission, handleError } = useAuthContext();
 
   const isAuthorized = hasPermission('works', 'find_total_work_in_year');
 
   const query: UseGetOneRecordReturn<WorkTotalInYearData> = useQuery({
-    queryKey: ['works-total-year', year, crop],
-    queryFn: () => getTotalWorksInYear({ year, crop }),
+    queryKey: ['works-total-year', year, crop, employee],
+    queryFn: () => getTotalWorksInYear({ year, crop, employee }),
     select: ({ data }) => data,
     enabled: isAuthorized,
   });

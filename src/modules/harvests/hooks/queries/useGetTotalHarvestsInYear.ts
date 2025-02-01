@@ -12,11 +12,13 @@ import { HarvestTotalInYearData } from '../../interfaces/charts/HarvestsTotalInY
 interface QueryParams {
   year: number;
   crop: string;
+  employee: string;
 }
 
 export const getTotalHarvestsInYear = async ({
   year,
   crop,
+  employee,
 }: QueryParams): PromiseReturnRecord<HarvestTotalInYearData> => {
   const params = new URLSearchParams({
     year: year.toString(),
@@ -24,6 +26,9 @@ export const getTotalHarvestsInYear = async ({
 
   if (crop.length > 0) {
     params.append('crop', crop);
+  }
+  if (employee.length > 0) {
+    params.append('employee', employee);
   }
 
   return await cropcoAPI.get(
@@ -34,14 +39,15 @@ export const getTotalHarvestsInYear = async ({
 export const useGetTotalHarvestsInYear = ({
   year = new Date().getFullYear(),
   crop = '',
+  employee = '',
 }: QueryParams): UseGetOneRecordReturn<HarvestTotalInYearData> => {
   const { hasPermission, handleError } = useAuthContext();
 
   const isAuthorized = hasPermission('harvests', 'find_total_harvest_in_year');
 
   const query: UseGetOneRecordReturn<HarvestTotalInYearData> = useQuery({
-    queryKey: ['harvests-total-year', year, crop],
-    queryFn: () => getTotalHarvestsInYear({ year, crop }),
+    queryKey: ['harvests-total-year', year, crop, employee],
+    queryFn: () => getTotalHarvestsInYear({ year, crop, employee }),
     select: ({ data }) => data,
     enabled: isAuthorized,
   });

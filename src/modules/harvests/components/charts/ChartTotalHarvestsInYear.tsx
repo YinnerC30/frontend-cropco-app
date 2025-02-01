@@ -18,31 +18,30 @@ import {
 } from '@/components/ui/chart';
 import { Loading } from '@/modules/core/components';
 
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import { organizeHarvestData } from '../../helpers/organizeHarvestData';
 import { useGetTotalHarvestsInYear } from '../../hooks/queries/useGetTotalHarvestsInYear';
 
 import YearSelector from '@/modules/core/components/shared/YearSelector';
-import { TrendingDown, TrendingUp } from 'lucide-react';
+import { Equal, TrendingDown, TrendingUp } from 'lucide-react';
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 import { FormatNumber } from '@/modules/core/helpers';
 
 import CropSelector from '@/modules/core/components/shared/CropSelector';
 import { HiddenPreviousYearSelector } from '@/modules/core/components/shared/HiddenPreviousYearSelector';
+import EmployeeSelector from '@/modules/core/components/shared/EmployeeSelector';
 
 export function ChartTotalHarvestsInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
   const [selectedCrop, setSelectedCrop] = useState('');
+  const [selectedEmployee, setSelectedEmployee] = useState('');
 
-  const [isVisible, setIsVisible] = useState(true);
-
-  const handleVisibilityChange = (value: string) => {
-    setIsVisible(value === 'show');
-  };
+  const [showPreviousYear, setShowPreviousYear] = useState(true);
 
   const queryHarvests = useGetTotalHarvestsInYear({
     year: selectedYear,
     crop: selectedCrop,
+    employee: selectedEmployee,
   });
 
   if (queryHarvests.isLoading) {
@@ -64,6 +63,8 @@ export function ChartTotalHarvestsInYear() {
 
   const chartData = organizeHarvestData(queryHarvests.data as any);
 
+  console.log(chartData);
+
   return queryHarvests.isSuccess ? (
     <Card className="w-auto lg:w-[650px] ">
       <CardHeader>
@@ -78,7 +79,8 @@ export function ChartTotalHarvestsInYear() {
         <div>
           <div className="my-4">
             <HiddenPreviousYearSelector
-              handleVisibilityChange={handleVisibilityChange}
+              showPreviousYear={showPreviousYear}
+              setShowPreviousYear={setShowPreviousYear}
             />
           </div>
           <div className="flex justify-between mb-5">
@@ -86,11 +88,15 @@ export function ChartTotalHarvestsInYear() {
               selectedCrop={selectedCrop}
               setSelectedCrop={setSelectedCrop}
             />
-
+            <EmployeeSelector
+              employeesIn="harvests"
+              selectedEmployee={selectedEmployee}
+              setSelectedEmployee={setSelectedEmployee}
+            />
             <YearSelector
               selectedYear={selectedYear}
               setSelectedYear={setSelectedYear}
-              initialYear={2024}
+              initialYear={2023}
             />
           </div>
           <ChartContainer config={chartConfig}>
@@ -105,13 +111,16 @@ export function ChartTotalHarvestsInYear() {
             >
               <CartesianGrid vertical={false} />
               <XAxis
-                dataKey="month"
+                dataKey="month_name"
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
                 tickFormatter={(value) => value.slice(0, 3)}
               />
-              <ChartTooltip cursor={true} content={<ChartTooltipContent />} />
+              <ChartTooltip
+                content={<ChartTooltipContent indicator="line" />}
+              />
+
               <defs>
                 <linearGradient
                   id="fillCurrentTotal"
@@ -132,7 +141,7 @@ export function ChartTotalHarvestsInYear() {
                   />
                 </linearGradient>
 
-                {isVisible && (
+                {showPreviousYear && (
                   <linearGradient
                     id="fillPreviousTotal"
                     x1="0"
@@ -163,7 +172,7 @@ export function ChartTotalHarvestsInYear() {
                 stackId="a"
               />
 
-              {isVisible && (
+              {showPreviousYear && (
                 <Area
                   dataKey="previous_total"
                   type="natural"
@@ -178,36 +187,67 @@ export function ChartTotalHarvestsInYear() {
           </ChartContainer>
         </div>
       </CardContent>
-      <CardFooter>
-        <div className="flex items-start w-full gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Hubo un{' '}
-              {queryHarvests.data?.growth.is_increment
-                ? 'incremento'
-                : 'disminución'}{' '}
-              del {Math.abs(Number(percentage))} % en el año {selectedYear}
-              {queryHarvests.data?.growth.is_increment ? (
-                <TrendingUp className="w-4 h-4" />
-              ) : (
-                <TrendingDown className="w-4 h-4" />
-              )}
-            </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              <span>
-                Total del año {queryHarvests.data?.years[0].year} :
+      {showPreviousYear && (
+        <CardFooter>
+          <div className="flex items-start w-full gap-2 text-sm">
+            <div className="grid gap-2">
+              <div className="flex items-center gap-2 font-medium leading-none">
+                {queryHarvests.data?.growth.status === 'increment' && (
+                  <span>
+                    Hubo un incremento del {Math.abs(Number(percentage))} % en
+                    el año {selectedYear}
+                  </span>
+                )}
+                {queryHarvests.data?.growth.status === 'decrement' && (
+                  <span>
+                    Hubo un decremento del {Math.abs(Number(percentage))} % en
+                    el año {selectedYear}
+                  </span>
+                )}
+
+                {queryHarvests.data?.growth.status === 'stable' && (
+                  <span>No hubieron cambios en el año {selectedYear}</span>
+                )}
+                {queryHarvests.data?.growth.status === 'no-valid' && (
+                  <span>
+                    No hay datos suficientes para realizar la comparación
+                  </span>
+                )}
+
+                {queryHarvests.data?.growth.status === 'increment' && (
+                  <TrendingUp className="w-4 h-4" />
+                )}
+                {queryHarvests.data?.growth.status === 'decrement' && (
+                  <TrendingDown className="w-4 h-4" />
+                )}
+                {queryHarvests.data?.growth.status === 'stable' && (
+                  <Equal className="w-4 h-4" />
+                )}
+                {/* {queryHarvests.data?.growth.status === 'no-valid' && (
+                  <Equal className="w-4 h-4" />
+                )} */}
+              </div>
+
+              <div className="flex items-center gap-2 leading-none text-muted-foreground">
+                <span>
+                  Total del año {queryHarvests.data?.years[0].year} :
+                  {' ' +
+                    FormatNumber(
+                      queryHarvests.data?.growth.total_current ?? 0
+                    ) +
+                    ' kg'}
+                </span>
+                <span>
+                  Total del año {queryHarvests.data?.years[1].year} :{' '}
+                </span>
                 {' ' +
-                  FormatNumber(queryHarvests.data?.growth.total_current ?? 0) +
+                  FormatNumber(queryHarvests.data?.growth.total_previous ?? 0) +
                   ' kg'}
-              </span>
-              <span>Total del año {queryHarvests.data?.years[1].year} : </span>
-              {' ' +
-                FormatNumber(queryHarvests.data?.growth.total_previous ?? 0) +
-                ' kg'}
+              </div>
             </div>
           </div>
-        </div>
-      </CardFooter>
+        </CardFooter>
+      )}
     </Card>
   ) : (
     <div className="h-[200px]">Error al generar el grafico</div>

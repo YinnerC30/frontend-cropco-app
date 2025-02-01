@@ -26,20 +26,19 @@ import { organizeWorkData } from '../../helpers/organizeWorkData';
 import { useGetTotalWorksInYear } from '../../hooks/queries/useGetTotalWorksInYear';
 import CropSelector from '@/modules/core/components/shared/CropSelector';
 import { HiddenPreviousYearSelector } from '@/modules/core/components/shared/HiddenPreviousYearSelector';
+import EmployeeSelector from '@/modules/core/components/shared/EmployeeSelector';
 
 export function ChartTotalWorksInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
   const [selectedCrop, setSelectedCrop] = useState('');
+  const [selectedEmployee, setSelectedEmployee] = useState('');
 
-  const [isVisible, setIsVisible] = useState(true);
-
-  const handleVisibilityChange = (value: string) => {
-    setIsVisible(value === 'show');
-  };
+  const [showPreviousYear, setShowPreviousYear] = useState(true);
 
   const queryWorks = useGetTotalWorksInYear({
     year: selectedYear,
     crop: selectedCrop,
+    employee: selectedEmployee,
   });
 
   if (queryWorks.isLoading) {
@@ -72,13 +71,19 @@ export function ChartTotalWorksInYear() {
         <div>
           <div className="my-4">
             <HiddenPreviousYearSelector
-              handleVisibilityChange={handleVisibilityChange}
+              showPreviousYear={showPreviousYear}
+              setShowPreviousYear={setShowPreviousYear}
             />
           </div>
           <div className="flex justify-between mb-5">
             <CropSelector
               selectedCrop={selectedCrop}
               setSelectedCrop={setSelectedCrop}
+            />
+            <EmployeeSelector
+              employeesIn="works"
+              selectedEmployee={selectedEmployee}
+              setSelectedEmployee={setSelectedEmployee}
             />
             <YearSelector
               selectedYear={selectedYear}
@@ -125,7 +130,7 @@ export function ChartTotalWorksInYear() {
                   />
                 </linearGradient>
 
-                {isVisible && (
+                {showPreviousYear && (
                   <linearGradient
                     id="fillPreviousTotal"
                     x1="0"
@@ -155,7 +160,7 @@ export function ChartTotalWorksInYear() {
                 stroke="var(--color-current_total)"
                 stackId="a"
               />
-              {isVisible && (
+              {showPreviousYear && (
                 <Area
                   dataKey="previous_total"
                   type="natural"
