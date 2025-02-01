@@ -1,10 +1,4 @@
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  XAxis,
-  YAxis
-} from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 import {
   Card,
@@ -25,6 +19,8 @@ import { Loading } from '@/modules/core/components';
 import YearSelector from '@/modules/core/components/shared/YearSelector';
 import { useState } from 'react';
 import { useGetTopClientsInSales } from '../../hooks/queries/useGetTopClientsInSales';
+import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
+import { Label, Switch } from '@/components';
 
 const chartConfig: ChartConfig = {
   first_name: {
@@ -32,14 +28,17 @@ const chartConfig: ChartConfig = {
   },
   total_quantity: {
     label: 'N° Stock',
+    color: 'hsl(var(--chart-7))',
   },
   total_sale: {
     label: 'Pago',
+    color: 'hsl(var(--chart-8))',
   },
 } satisfies ChartConfig;
 
 export function ChartTopClientsInSales() {
   const [selectedYear, setSelectedYear] = useState(2025);
+  const [showTotalSaleBar, setshowTotalSaleBar] = useState(true);
   const queryClients = useGetTopClientsInSales({
     year: Number(selectedYear),
   });
@@ -57,7 +56,17 @@ export function ChartTopClientsInSales() {
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>
       </CardHeader>
       <CardContent className="">
-        <div className="flex justify-end mb-5">
+        <div className="flex justify-between mb-5">
+          <div className="flex items-center px-4 py-2 space-x-2 border rounded-sm">
+            <Switch
+              defaultChecked={showTotalSaleBar}
+              onCheckedChange={(value) => {
+                setshowTotalSaleBar(value);
+              }}
+              id="show-value-pay"
+            />
+            <Label htmlFor="show-value-pay">Mostrar pago</Label>
+          </div>
           <YearSelector
             selectedYear={selectedYear}
             setSelectedYear={setSelectedYear}
@@ -78,14 +87,16 @@ export function ChartTopClientsInSales() {
                 dataKey={'total_quantity'}
                 yAxisId="left"
                 orientation="left"
-                stroke="hsl(var(--chart-1))"
+                stroke="var(--color-total_quantity)"
               />
-              <YAxis
-                dataKey={'total_sale'}
-                yAxisId="right"
-                orientation="right"
-                stroke="hsl(var(--chart-2))"
-              />
+              {showTotalSaleBar && (
+                <YAxis
+                  dataKey={'total_sale'}
+                  yAxisId="right"
+                  orientation="right"
+                  stroke="var(--color-total_sale)"
+                />
+              )}
               <CartesianGrid vertical={false} />
               <XAxis
                 dataKey="first_name"
@@ -95,23 +106,58 @@ export function ChartTopClientsInSales() {
                 tickFormatter={(value) => value}
               />
 
-              <ChartTooltip cursor={true} content={<ChartTooltipContent />} />
+              <ChartTooltip
+                cursor={true}
+                content={
+                  <ChartTooltipContent
+                    formatter={(value, name, item, index) => {
+                      return (
+                        <>
+                          <div
+                            className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--color-bg]"
+                            style={
+                              {
+                                '--color-bg': `var(--color-${name})`,
+                              } as React.CSSProperties
+                            }
+                          />
+                          {chartConfig[name as keyof typeof chartConfig]
+                            ?.label || name}
+                          <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
+                            {name === 'total_quantity'
+                              ? FormatNumber(Number(value))
+                              : FormatMoneyValue(Number(value))}
+                            {name === 'total_quantity' && (
+                              <span className="font-normal text-muted-foreground">
+                                kg
+                              </span>
+                            )}
+                          </div>
+                        </>
+                      );
+                    }}
+                  />
+                }
+              />
 
               {/* Barra de total_quantity */}
               <Bar
                 dataKey="total_quantity"
-                fill="hsl(var(--chart-1))"
+                fill="var(--color-total_quantity)"
                 radius={4}
                 yAxisId="left"
               ></Bar>
 
               {/* Barra de total_sale */}
-              <Bar
-                dataKey="total_sale"
-                fill="hsl(var(--chart-2))" // Asignando un color distinto para la nueva barra
-                radius={4}
-                yAxisId="right"
-              ></Bar>
+
+              {showTotalSaleBar && (
+                <Bar
+                  dataKey="total_sale"
+                  fill="var(--color-total_sale)" // Asignando un color distinto para la nueva barra
+                  radius={4}
+                  yAxisId="right"
+                />
+              )}
 
               <ChartLegend content={<ChartLegendContent />} />
             </BarChart>

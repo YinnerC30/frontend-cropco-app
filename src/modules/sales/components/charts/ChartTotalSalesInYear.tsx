@@ -28,6 +28,8 @@ import CropSelector from '@/modules/core/components/shared/CropSelector';
 import { HiddenPreviousYearSelector } from '@/modules/core/components/shared/HiddenPreviousYearSelector';
 import { organizeSaleData } from '../../helpers/organizeSaleData';
 import { useGetTotalSalesInYear } from '../../hooks/queries/useGetTotalSalesInYear';
+import { Label, Switch } from '@/components';
+import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 
 export function ChartTotalSalesInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
@@ -70,12 +72,19 @@ export function ChartTotalSalesInYear() {
       </CardHeader>
       <CardContent>
         <div>
-          <div className="my-4">
-            <HiddenPreviousYearSelector
-              showPreviousYear={showPreviousYear}
-              setShowPreviousYear={setShowPreviousYear}
+          <div className="inline-flex items-center px-4 py-2 my-4 space-x-2 border rounded-sm">
+            <Switch
+              defaultChecked={showPreviousYear}
+              onCheckedChange={(value) => {
+                setShowPreviousYear(value);
+              }}
+              id="show-previous-year"
             />
+            <Label htmlFor="show-previous-year">
+              Mostrar información del año anterior
+            </Label>
           </div>
+
           <div className="flex justify-between mb-5">
             <ClientSelector
               selectedClient={selectedClient}
@@ -109,7 +118,32 @@ export function ChartTotalSalesInYear() {
                 tickMargin={8}
                 tickFormatter={(value) => value.slice(0, 3)}
               />
-              <ChartTooltip cursor={true} content={<ChartTooltipContent />} />
+              <ChartTooltip
+                cursor={true}
+                content={
+                  <ChartTooltipContent
+                    formatter={(value, name, item, index) => {
+                      return (
+                        <>
+                          <div
+                            className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--color-bg]"
+                            style={
+                              {
+                                '--color-bg': `var(--color-${name})`,
+                              } as React.CSSProperties
+                            }
+                          />
+                          {chartConfig[name as keyof typeof chartConfig]
+                            ?.label || name}
+                          <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
+                            {FormatMoneyValue(Number(value))}
+                          </div>
+                        </>
+                      );
+                    }}
+                  />
+                }
+              />
               <defs>
                 <linearGradient
                   id="fillCurrentTotal"

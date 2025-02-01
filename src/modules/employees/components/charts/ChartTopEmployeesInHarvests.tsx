@@ -19,21 +19,27 @@ import { Loading } from '@/modules/core/components';
 import YearSelector from '@/modules/core/components/shared/YearSelector';
 import { useState } from 'react';
 import { useGetTopEmployeesInHarvests } from '../../hooks/queries/useGetTopEmployeesInHarvests';
+import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
+import { Label, Switch } from '@/components';
 
 const chartConfig: ChartConfig = {
   first_name: {
     label: 'Nombre',
+    color: 'var()',
   },
   total_harvests: {
-    label: 'Total Kg',
+    label: 'Cosecha',
+    color: 'hsl(var(--chart-3))',
   },
   total_value_pay: {
     label: 'Pago',
+    color: 'hsl(var(--chart-4))',
   },
 } satisfies ChartConfig;
 
 export function ChartTopEmployeesInHarvests() {
   const [selectedYear, setSelectedYear] = useState(2025);
+  const [showValuePayBar, setshowValuePayBar] = useState(true);
   const queryEmployees = useGetTopEmployeesInHarvests({
     year: Number(selectedYear),
   });
@@ -51,7 +57,17 @@ export function ChartTopEmployeesInHarvests() {
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex justify-end mb-5">
+        <div className="flex justify-between mb-5">
+          <div className="flex items-center px-4 py-2 space-x-2 border rounded-sm">
+            <Switch
+              defaultChecked={showValuePayBar}
+              onCheckedChange={(value) => {
+                setshowValuePayBar(value);
+              }}
+              id="show-value-pay"
+            />
+            <Label htmlFor="show-value-pay">Mostrar pago</Label>
+          </div>
           <YearSelector
             selectedYear={selectedYear}
             setSelectedYear={setSelectedYear}
@@ -70,14 +86,18 @@ export function ChartTopEmployeesInHarvests() {
               dataKey={'total_harvests'}
               yAxisId="left"
               orientation="left"
-              stroke="hsl(var(--chart-3))"
+              stroke="var(--color-total_harvests)"
             />
-            <YAxis
-              dataKey={'total_value_pay'}
-              yAxisId="right"
-              orientation="right"
-              stroke="hsl(var(--chart-4))"
-            />
+
+            {showValuePayBar && (
+              <YAxis
+                dataKey={'total_value_pay'}
+                yAxisId="right"
+                orientation="right"
+                stroke="var(--color-total_value_pay)"
+              />
+            )}
+
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="first_name"
@@ -87,23 +107,57 @@ export function ChartTopEmployeesInHarvests() {
               tickFormatter={(value) => value}
             />
 
-            <ChartTooltip cursor={true} content={<ChartTooltipContent />} />
+            <ChartTooltip
+              cursor={true}
+              content={
+                <ChartTooltipContent
+                  formatter={(value, name, item, index) => {
+                    return (
+                      <>
+                        <div
+                          className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--color-bg]"
+                          style={
+                            {
+                              '--color-bg': `var(--color-${name})`,
+                            } as React.CSSProperties
+                          }
+                        />
+                        {chartConfig[name as keyof typeof chartConfig]?.label ||
+                          name}
+                        <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
+                          {name === 'total_harvests'
+                            ? FormatNumber(Number(value))
+                            : FormatMoneyValue(Number(value))}
+                          {name === 'total_harvests' && (
+                            <span className="font-normal text-muted-foreground">
+                              kg
+                            </span>
+                          )}
+                        </div>
+                      </>
+                    );
+                  }}
+                />
+              }
+            />
 
             {/* Barra de total_harvests */}
             <Bar
               dataKey="total_harvests"
-              fill="hsl(var(--chart-3))"
+              fill="var(--color-total_harvests)"
               radius={4}
               yAxisId="left"
             ></Bar>
 
             {/* Barra de total_value_pay */}
-            <Bar
-              dataKey="total_value_pay"
-              fill="hsl(var(--chart-4))" // Asignando un color distinto para la nueva barra
-              radius={4}
-              yAxisId="right"
-            ></Bar>
+            {showValuePayBar && (
+              <Bar
+                dataKey="total_value_pay"
+                fill="var(--color-total_value_pay)"
+                radius={4}
+                yAxisId="right"
+              ></Bar>
+            )}
 
             <ChartLegend content={<ChartLegendContent />} />
           </BarChart>

@@ -18,18 +18,19 @@ import {
 } from '@/components/ui/chart';
 import { Loading } from '@/modules/core/components';
 
-import { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { organizeHarvestData } from '../../helpers/organizeHarvestData';
 import { useGetTotalHarvestsInYear } from '../../hooks/queries/useGetTotalHarvestsInYear';
 
 import YearSelector from '@/modules/core/components/shared/YearSelector';
+import { FormatNumber } from '@/modules/core/helpers';
 import { Equal, TrendingDown, TrendingUp } from 'lucide-react';
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
-import { FormatNumber } from '@/modules/core/helpers';
 
 import CropSelector from '@/modules/core/components/shared/CropSelector';
-import { HiddenPreviousYearSelector } from '@/modules/core/components/shared/HiddenPreviousYearSelector';
 import EmployeeSelector from '@/modules/core/components/shared/EmployeeSelector';
+import { HiddenPreviousYearSelector } from '@/modules/core/components/shared/HiddenPreviousYearSelector';
+import { Label, Switch } from '@/components';
 
 export function ChartTotalHarvestsInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
@@ -63,8 +64,6 @@ export function ChartTotalHarvestsInYear() {
 
   const chartData = organizeHarvestData(queryHarvests.data as any);
 
-  console.log(chartData);
-
   return queryHarvests.isSuccess ? (
     <Card className="w-auto lg:w-[650px] ">
       <CardHeader>
@@ -77,12 +76,19 @@ export function ChartTotalHarvestsInYear() {
       <CardContent>
         <div className="space-y-4"></div>
         <div>
-          <div className="my-4">
-            <HiddenPreviousYearSelector
-              showPreviousYear={showPreviousYear}
-              setShowPreviousYear={setShowPreviousYear}
+          <div className="inline-flex items-center px-4 py-2 my-4 space-x-2 border rounded-sm">
+            <Switch
+              defaultChecked={showPreviousYear}
+              onCheckedChange={(value) => {
+                setShowPreviousYear(value);
+              }}
+              id="show-previous-year"
             />
+            <Label htmlFor="show-previous-year">
+              Mostrar información del año anterior
+            </Label>
           </div>
+
           <div className="flex justify-between mb-5">
             <CropSelector
               selectedCrop={selectedCrop}
@@ -118,7 +124,34 @@ export function ChartTotalHarvestsInYear() {
                 tickFormatter={(value) => value.slice(0, 3)}
               />
               <ChartTooltip
-                content={<ChartTooltipContent indicator="line" />}
+                content={
+                  <ChartTooltipContent
+                    indicator="line"
+                    formatter={(value, name, item, index) => {
+                      return (
+                        <>
+                          <div
+                            className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--color-bg]"
+                            style={
+                              {
+                                '--color-bg': `var(--color-${name})`,
+                              } as React.CSSProperties
+                            }
+                          />
+                          {chartConfig[name as keyof typeof chartConfig]
+                            ?.label || name}
+                          <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
+                            {FormatNumber(Number(value))}
+
+                            <span className="font-normal text-muted-foreground">
+                              kg
+                            </span>
+                          </div>
+                        </>
+                      );
+                    }}
+                  />
+                }
               />
 
               <defs>

@@ -1,10 +1,4 @@
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  XAxis,
-  YAxis
-} from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 import {
   Card,
@@ -25,23 +19,28 @@ import { Loading } from '@/modules/core/components';
 import { useState } from 'react';
 
 import YearSelector from '@/modules/core/components/shared/YearSelector';
+import { FormatNumber } from '@/modules/core/helpers';
 import { useGetTopCropsInHarvests } from '../../hooks/queries/useGetTopCropsInHarvests';
+import { Label, Switch } from '@/components';
 
 const chartConfig: ChartConfig = {
   name: {
     label: 'Nombre',
   },
-  total_harvests: {
-    label: 'N° Cosechas',
-  },
   total_stock: {
     label: 'N° Stock',
+    color: 'hsl(var(--chart-6))',
+  },
+  total_harvests: {
+    label: 'N° Cosechas',
+    color: 'hsl(var(--chart-5))',
   },
 } satisfies ChartConfig;
 
 export function ChartTopCropsWithHarvestsAndTotalStock() {
   const [selectedYear, setSelectedYear] = useState(2025);
   const queryCrops = useGetTopCropsInHarvests({ year: selectedYear });
+  const [showQuantityHarvests, setshowQuantityHarvests] = useState(true);
 
   if (queryCrops.isLoading) {
     return <Loading />;
@@ -58,7 +57,17 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>
       </CardHeader>
       <CardContent className="">
-        <div className="flex justify-end mb-5">
+        <div className="flex justify-between mb-5">
+          <div className="flex items-center px-4 py-2 space-x-2 border rounded-sm">
+            <Switch
+              defaultChecked={showQuantityHarvests}
+              onCheckedChange={(value) => {
+                setshowQuantityHarvests(value);
+              }}
+              id="show-value-pay"
+            />
+            <Label htmlFor="show-value-pay">Mostrar N° cosechas</Label>
+          </div>
           <YearSelector
             selectedYear={selectedYear}
             setSelectedYear={setSelectedYear}
@@ -76,17 +85,20 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
               }}
             >
               <YAxis
-                dataKey={'total_harvests'}
+                dataKey={'total_stock'}
                 yAxisId="left"
                 orientation="left"
-                stroke="hsl(var(--chart-5))"
+                stroke="var(--color-total_stock)"
               />
-              <YAxis
-                dataKey={'total_stock'}
-                yAxisId="right"
-                orientation="right"
-                stroke="hsl(var(--chart-5))"
-              />
+
+              {showQuantityHarvests && (
+                <YAxis
+                  dataKey={'total_harvests'}
+                  yAxisId="right"
+                  orientation="right"
+                  stroke="var(--color-total_harvests)"
+                />
+              )}
 
               <CartesianGrid vertical={false} />
               <XAxis
@@ -97,20 +109,52 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
                 tickFormatter={(value) => value}
               />
 
-              <ChartTooltip cursor={true} content={<ChartTooltipContent />} />
+              <ChartTooltip
+                cursor={true}
+                content={
+                  <ChartTooltipContent
+                    formatter={(value, name, item, index) => {
+                      return (
+                        <>
+                          <div
+                            className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--color-bg]"
+                            style={
+                              {
+                                '--color-bg': `var(--color-${name})`,
+                              } as React.CSSProperties
+                            }
+                          />
+                          {chartConfig[name as keyof typeof chartConfig]
+                            ?.label || name}
+                          <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
+                            {FormatNumber(Number(value))}
+                          </div>
+                          {name === 'total_stock' && (
+                            <span className="font-normal text-muted-foreground">
+                              kg
+                            </span>
+                          )}
+                        </>
+                      );
+                    }}
+                  />
+                }
+              />
 
-              <Bar
-                dataKey="total_harvests"
-                fill="hsl(var(--chart-5))"
-                radius={4}
-                yAxisId="left"
-              ></Bar>
+              {showQuantityHarvests && (
+                <Bar
+                  dataKey="total_harvests"
+                  fill="var(--color-total_harvests)"
+                  radius={4}
+                  yAxisId="right"
+                />
+              )}
 
               <Bar
                 dataKey="total_stock"
-                fill="hsl(var(--chart-6))" // Asignando un color distinto para la nueva barra
+                fill="var(--color-total_stock)" // Asignando un color distinto para la nueva barra
                 radius={4}
-                yAxisId="right"
+                yAxisId="left"
               ></Bar>
 
               <ChartLegend content={<ChartLegendContent />} />

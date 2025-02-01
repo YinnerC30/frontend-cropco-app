@@ -27,6 +27,7 @@ import { useGetTotalWorksInYear } from '../../hooks/queries/useGetTotalWorksInYe
 import CropSelector from '@/modules/core/components/shared/CropSelector';
 import { HiddenPreviousYearSelector } from '@/modules/core/components/shared/HiddenPreviousYearSelector';
 import EmployeeSelector from '@/modules/core/components/shared/EmployeeSelector';
+import { Label, Switch } from '@/components';
 
 export function ChartTotalWorksInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
@@ -71,11 +72,17 @@ export function ChartTotalWorksInYear() {
       </CardHeader>
       <CardContent>
         <div>
-          <div className="my-4">
-            <HiddenPreviousYearSelector
-              showPreviousYear={showPreviousYear}
-              setShowPreviousYear={setShowPreviousYear}
+          <div className="inline-flex items-center px-4 py-2 my-4 space-x-2 border rounded-sm">
+            <Switch
+              defaultChecked={showPreviousYear}
+              onCheckedChange={(value) => {
+                setShowPreviousYear(value);
+              }}
+              id="show-previous-year"
             />
+            <Label htmlFor="show-previous-year">
+              Mostrar información del año anterior
+            </Label>
           </div>
           <div className="flex justify-between mb-5">
             <CropSelector
