@@ -15,7 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { Loading } from '@/modules/core/components';
+import { ButtonRefetchData, Loading } from '@/modules/core/components';
 import { useState } from 'react';
 
 import YearSelector from '@/modules/core/components/shared/YearSelector';
@@ -57,7 +57,7 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>
       </CardHeader>
       <CardContent className="">
-        <div className="flex justify-between mb-5">
+        <div className="flex flex-wrap justify-between gap-4 mb-5">
           <div className="flex items-center px-4 py-2 space-x-2 border rounded-sm">
             <Switch
               defaultChecked={showQuantityHarvests}
@@ -71,6 +71,12 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
           <YearSelector
             selectedYear={selectedYear}
             setSelectedYear={setSelectedYear}
+          />
+          <ButtonRefetchData
+            onClick={async () => {
+              await queryCrops.refetch();
+            }}
+            disabled={queryCrops.isLoading}
           />
         </div>
 

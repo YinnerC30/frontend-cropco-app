@@ -16,7 +16,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { Loading } from '@/modules/core/components';
+import { ButtonRefetchData, Loading } from '@/modules/core/components';
 
 import { useState } from 'react';
 import { organizeHarvestData } from '../../helpers/organizeHarvestData';
@@ -88,7 +88,7 @@ export function ChartTotalHarvestsInYear() {
             </Label>
           </div>
 
-          <div className="flex justify-between mb-5">
+          <div className="flex flex-wrap justify-between gap-4 mb-5">
             <CropSelector
               selectedCrop={selectedCrop}
               setSelectedCrop={setSelectedCrop}
@@ -102,6 +102,12 @@ export function ChartTotalHarvestsInYear() {
               selectedYear={selectedYear}
               setSelectedYear={setSelectedYear}
               initialYear={2023}
+            />
+            <ButtonRefetchData
+              onClick={async () => {
+                await queryHarvests.refetch();
+              }}
+              disabled={queryHarvests.isLoading}
             />
           </div>
           <ChartContainer config={chartConfig}>
@@ -255,12 +261,9 @@ export function ChartTotalHarvestsInYear() {
                 {queryHarvests.data?.growth.status === 'stable' && (
                   <Equal className="w-4 h-4" />
                 )}
-                {/* {queryHarvests.data?.growth.status === 'no-valid' && (
-                  <Equal className="w-4 h-4" />
-                )} */}
               </div>
 
-              <div className="flex items-center gap-2 leading-none text-muted-foreground">
+              <div className="flex flex-wrap items-center gap-2 leading-none text-muted-foreground">
                 <span>
                   Total del año {queryHarvests.data?.years[0].year} :
                   {' ' +

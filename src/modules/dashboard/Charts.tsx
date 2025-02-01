@@ -1,6 +1,6 @@
 'use client';
 
-import { ScrollArea, Separator } from '@/components';
+import { ScrollArea, Separator, useSidebar } from '@/components';
 import {
   BookUser,
   CircleDollarSign,
@@ -16,15 +16,24 @@ import { ChartTopCropsWithStock } from '../crops/components/charts/ChartTopCrops
 import { ChartTopEmployeesInHarvests } from '../employees/components/charts/ChartTopEmployeesInHarvests';
 import { ChartTopEmployeesInWorks } from '../employees/components/charts/ChartTopEmployeesInWork';
 import { ChartTotalHarvestsInYear } from '../harvests/components/charts/ChartTotalHarvestsInYear';
-import { ChartTotalWorksInYear } from '../work/components/charts/ChartTotalWorksInYear';
 import { ChartTotalSalesInYear } from '../sales/components/charts/ChartTotalSalesInYear';
+import { ChartTotalWorksInYear } from '../work/components/charts/ChartTotalWorksInYear';
 
 export function Charts() {
+  const { isMobile, open } = useSidebar();
   return (
     <div>
       <BreadCrumb finalItem={'Graficas'} />
       <div className="flex justify-center">
-        <ScrollArea className="h-[85vh] w-full pb-2">
+        <ScrollArea
+          className={`h-[85vh] px-2 pt-5  ${
+            isMobile
+              ? 'w-screen'
+              : open
+              ? 'w-[calc(100vw-var(--sidebar-width))]'
+              : 'w-screen'
+          }`}
+        >
           <div className="flex flex-col gap-10">
             <div>
               <div className="flex items-center gap-5">
@@ -88,6 +97,7 @@ export function Charts() {
                 <ChartTotalWorksInYear />
               </div>
             </div>
+
             <div>
               <div className="flex items-center gap-5">
                 <h1 className="text-xl">Ventas</h1>

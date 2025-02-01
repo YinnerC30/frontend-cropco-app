@@ -24,6 +24,12 @@ export const usePostEmployee = (): UseMutationReturn<Employee, Employee> => {
     mutationFn: createEmployee,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['employees'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['employees-top-harvests'],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['employees-top-works'],
+      });
       navigate(MODULE_EMPLOYEE_PATHS.ViewAll);
       toast.success(`Empleado creado`);
     },

@@ -7,12 +7,13 @@ interface Props {
   onClick: () => void;
   disabled: boolean;
   className?: string;
+  
 }
 
 export const ButtonRefetchData = memo(
   ({ onClick, disabled = false, className }: Props) => {
     return (
-      <ToolTipTemplate content="Recargar datos de la tabla">
+      <ToolTipTemplate content="Actualizar datos de la consulta">
         <Button
           className={className}
           onClick={onClick}

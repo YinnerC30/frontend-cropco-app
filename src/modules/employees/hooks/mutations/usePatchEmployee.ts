@@ -27,6 +27,12 @@ export const usePatchEmployee = (): UseMutationReturn<
     mutationFn: updateEmployee,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['employees'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['employees-top-harvests'],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['employees-top-works'],
+      });
       toast.success(`Empleado actualizado`);
     },
     onError: (error) => {

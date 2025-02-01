@@ -15,7 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { Loading } from '@/modules/core/components';
+import { ButtonRefetchData, Loading } from '@/modules/core/components';
 
 import { useState } from 'react';
 
@@ -84,7 +84,7 @@ export function ChartTotalSalesInYear() {
             </Label>
           </div>
 
-          <div className="flex justify-between mb-5">
+          <div className="flex flex-wrap justify-between gap-4 mb-5">
             <ClientSelector
               selectedClient={selectedClient}
               setSelectedClient={setSelectedClient}
@@ -97,6 +97,12 @@ export function ChartTotalSalesInYear() {
               selectedYear={selectedYear}
               setSelectedYear={setSelectedYear}
               initialYear={2023}
+            />
+            <ButtonRefetchData
+              onClick={async () => {
+                await querySales.refetch();
+              }}
+              disabled={querySales.isLoading}
             />
           </div>
           <ChartContainer config={chartConfig}>

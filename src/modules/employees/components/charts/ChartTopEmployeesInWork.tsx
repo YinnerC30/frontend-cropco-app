@@ -15,7 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { Loading } from '@/modules/core/components';
+import { ButtonRefetchData, Loading } from '@/modules/core/components';
 import YearSelector from '@/modules/core/components/shared/YearSelector';
 import { useState } from 'react';
 import { useGetTopEmployeesInWorks } from '../../hooks/queries/useGetTopEmployeesInWorks';
@@ -56,7 +56,7 @@ export function ChartTopEmployeesInWorks() {
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>
       </CardHeader>
       <CardContent className="p-5">
-        <div className="flex justify-between mb-5">
+        <div className="flex flex-wrap justify-between gap-4 mb-5">
           <div className="flex items-center px-4 py-2 space-x-2 border rounded-sm">
             <Switch
               defaultChecked={showValuePayBar}
@@ -70,6 +70,12 @@ export function ChartTopEmployeesInWorks() {
           <YearSelector
             selectedYear={selectedYear}
             setSelectedYear={setSelectedYear}
+          />
+          <ButtonRefetchData
+            onClick={async () => {
+              await queryEmployees.refetch();
+            }}
+            disabled={queryEmployees.isLoading}
           />
         </div>
 

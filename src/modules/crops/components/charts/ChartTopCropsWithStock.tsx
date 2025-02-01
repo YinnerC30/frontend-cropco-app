@@ -9,7 +9,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { Loading } from '@/modules/core/components';
+import { ButtonRefetchData, Loading } from '@/modules/core/components';
 
 import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 // import YearSelector from './YearSelector';
@@ -40,6 +40,14 @@ export function ChartTopCropsWithStock() {
         <CardTitle>Top 5 cultivos con stock disponible</CardTitle>
       </CardHeader>
       <CardContent className="">
+        <div className='flex justify-end'>
+          <ButtonRefetchData
+            onClick={async () => {
+              await queryCrops.refetch();
+            }}
+            disabled={queryCrops.isLoading}
+          />
+        </div>
         {chartData.length > 0 ? (
           <ChartContainer config={chartConfig}>
             <BarChart

@@ -15,7 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { Loading } from '@/modules/core/components';
+import { ButtonRefetchData, Loading } from '@/modules/core/components';
 
 import { useState } from 'react';
 
@@ -32,7 +32,6 @@ export function ChartTotalWorksInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
   const [selectedCrop, setSelectedCrop] = useState('');
   const [selectedEmployee, setSelectedEmployee] = useState('');
-
   const [showPreviousYear, setShowPreviousYear] = useState(true);
 
   const queryWorks = useGetTotalWorksInYear({
@@ -58,8 +57,6 @@ export function ChartTotalWorksInYear() {
 
   const chartData = organizeWorkData(queryWorks.data as any);
 
-  console.log(chartData);
-
   return queryWorks.isSuccess ? (
     <Card className="w-auto lg:w-[650px] ">
       <CardHeader>
@@ -83,7 +80,7 @@ export function ChartTotalWorksInYear() {
               Mostrar información del año anterior
             </Label>
           </div>
-          <div className="flex justify-between mb-5">
+          <div className="flex flex-wrap justify-between gap-4 mb-5">
             <CropSelector
               selectedCrop={selectedCrop}
               setSelectedCrop={setSelectedCrop}
@@ -97,6 +94,12 @@ export function ChartTotalWorksInYear() {
               selectedYear={selectedYear}
               setSelectedYear={setSelectedYear}
               initialYear={2023}
+            />
+            <ButtonRefetchData
+              onClick={async () => {
+                await queryWorks.refetch();
+              }}
+              disabled={queryWorks.isLoading}
             />
           </div>
           <ChartContainer config={chartConfig}>
