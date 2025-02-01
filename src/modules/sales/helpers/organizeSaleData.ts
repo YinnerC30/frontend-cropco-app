@@ -1,6 +1,6 @@
 interface MonthData {
-  month: string;
-  monthNumber: number;
+  month_name: string;
+  month_number: number;
   total: number;
 }
 
@@ -21,8 +21,8 @@ interface SaleData {
 }
 
 interface OrganizedData {
-  month: string;
-  monthNumber: number;
+  month_name: string;
+  month_number: number;
   current_total: number;
   previous_total: number;
 }
@@ -42,21 +42,21 @@ export function organizeSaleData(harvestData: SaleData): OrganizedData[] {
   // Creamos un mapa para acceder rápidamente a los datos del año anterior
   const previousYearMap = new Map<number, MonthData>();
   previousYearData.data.forEach((monthData) => {
-    previousYearMap.set(monthData.monthNumber, monthData);
+    previousYearMap.set(monthData.month_number, monthData);
   });
 
   // Organizamos los datos en la estructura deseada
   const organizedData: OrganizedData[] = currentYearData.data.map(
     (currentMonthData) => {
       const previousMonthData = previousYearMap.get(
-        currentMonthData.monthNumber
+        currentMonthData.month_number
       ) || {
         total: 0,
       };
 
       return {
-        month: currentMonthData.month,
-        monthNumber: currentMonthData.monthNumber,
+        month_name: currentMonthData.month_name,
+        month_number: currentMonthData.month_number,
         current_total: currentMonthData.total,
         previous_total: previousMonthData.total,
       };

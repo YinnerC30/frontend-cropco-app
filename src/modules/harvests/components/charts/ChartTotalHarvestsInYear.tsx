@@ -165,7 +165,7 @@ export function ChartTotalHarvestsInYear() {
 
               <Area
                 dataKey="current_total"
-                type="natural"
+                type="linear"
                 fill="url(#fillCurrentTotal)"
                 fillOpacity={0.4}
                 stroke="var(--color-current_total)"
@@ -175,7 +175,7 @@ export function ChartTotalHarvestsInYear() {
               {showPreviousYear && (
                 <Area
                   dataKey="previous_total"
-                  type="natural"
+                  type="linear"
                   fill="url(#fillPreviousTotal"
                   fillOpacity={0.4}
                   stroke="var(--color-previous_total)"

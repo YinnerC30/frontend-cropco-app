@@ -88,7 +88,7 @@ export function ChartTotalSalesInYear() {
             <YearSelector
               selectedYear={selectedYear}
               setSelectedYear={setSelectedYear}
-              initialYear={2024}
+              initialYear={2023}
             />
           </div>
           <ChartContainer config={chartConfig}>
@@ -103,7 +103,7 @@ export function ChartTotalSalesInYear() {
             >
               <CartesianGrid vertical={false} />
               <XAxis
-                dataKey="month"
+                dataKey="month_name"
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
@@ -154,7 +154,7 @@ export function ChartTotalSalesInYear() {
 
               <Area
                 dataKey="current_total"
-                type="natural"
+                type="linear"
                 fill="url(#fillCurrentTotal)"
                 fillOpacity={0.4}
                 stroke="var(--color-current_total)"
@@ -163,7 +163,7 @@ export function ChartTotalSalesInYear() {
               {showPreviousYear && (
                 <Area
                   dataKey="previous_total"
-                  type="natural"
+                  type="linear"
                   fill="url(#fillPreviousTotal"
                   fillOpacity={0.4}
                   stroke="var(--color-previous_total)"

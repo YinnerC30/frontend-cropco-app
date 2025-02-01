@@ -58,6 +58,8 @@ export function ChartTotalWorksInYear() {
 
   const chartData = organizeWorkData(queryWorks.data as any);
 
+  console.log(chartData);
+
   return queryWorks.isSuccess ? (
     <Card className="w-auto lg:w-[650px] ">
       <CardHeader>
@@ -88,7 +90,7 @@ export function ChartTotalWorksInYear() {
             <YearSelector
               selectedYear={selectedYear}
               setSelectedYear={setSelectedYear}
-              initialYear={2024}
+              initialYear={2023}
             />
           </div>
           <ChartContainer config={chartConfig}>
@@ -103,7 +105,7 @@ export function ChartTotalWorksInYear() {
             >
               <CartesianGrid vertical={false} />
               <XAxis
-                dataKey="month"
+                dataKey="month_name"
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
@@ -154,7 +156,7 @@ export function ChartTotalWorksInYear() {
 
               <Area
                 dataKey="current_total"
-                type="natural"
+                type="linear"
                 fill="url(#fillCurrentTotal)"
                 fillOpacity={0.4}
                 stroke="var(--color-current_total)"
@@ -163,7 +165,7 @@ export function ChartTotalWorksInYear() {
               {showPreviousYear && (
                 <Area
                   dataKey="previous_total"
-                  type="natural"
+                  type="linear"
                   fill="url(#fillPreviousTotal"
                   fillOpacity={0.4}
                   stroke="var(--color-previous_total)"

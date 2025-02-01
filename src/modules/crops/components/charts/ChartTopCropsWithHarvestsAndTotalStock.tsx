@@ -79,13 +79,13 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
                 dataKey={'total_harvests'}
                 yAxisId="left"
                 orientation="left"
-                stroke="hsl(var(--chart-1))"
+                stroke="hsl(var(--chart-5))"
               />
               <YAxis
                 dataKey={'total_stock'}
                 yAxisId="right"
                 orientation="right"
-                stroke="hsl(var(--chart-1))"
+                stroke="hsl(var(--chart-5))"
               />
 
               <CartesianGrid vertical={false} />
@@ -101,14 +101,14 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
 
               <Bar
                 dataKey="total_harvests"
-                fill="hsl(var(--chart-1))"
+                fill="hsl(var(--chart-5))"
                 radius={4}
                 yAxisId="left"
               ></Bar>
 
               <Bar
                 dataKey="total_stock"
-                fill="hsl(var(--chart-2))" // Asignando un color distinto para la nueva barra
+                fill="hsl(var(--chart-6))" // Asignando un color distinto para la nueva barra
                 radius={4}
                 yAxisId="right"
               ></Bar>
