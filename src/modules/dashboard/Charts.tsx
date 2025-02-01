@@ -1,7 +1,14 @@
 'use client';
 
 import { ScrollArea, Separator } from '@/components';
-import { BookUser, Contact, Leaf, Pickaxe, Tractor } from 'lucide-react';
+import {
+  BookUser,
+  CircleDollarSign,
+  Contact,
+  Leaf,
+  Pickaxe,
+  Tractor,
+} from 'lucide-react';
 import { ChartTopClientsInSales } from '../clients/components/charts/ChartTopClientsInSales';
 import { BreadCrumb } from '../core/components';
 import { ChartTopCropsWithHarvestsAndTotalStock } from '../crops/components/charts/ChartTopCropsWithHarvestsAndTotalStock';
@@ -10,6 +17,7 @@ import { ChartTopEmployeesInHarvests } from '../employees/components/charts/Char
 import { ChartTopEmployeesInWorks } from '../employees/components/charts/ChartTopEmployeesInWork';
 import { ChartTotalHarvestsInYear } from '../harvests/components/charts/ChartTotalHarvestsInYear';
 import { ChartTotalWorksInYear } from '../work/components/charts/ChartTotalWorksInYear';
+import { ChartTotalSalesInYear } from '../sales/components/charts/ChartTotalSalesInYear';
 
 export function Charts() {
   return (
@@ -78,6 +86,17 @@ export function Charts() {
 
               <div className="flex flex-wrap gap-10 justify-evenly">
                 <ChartTotalWorksInYear />
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center gap-5">
+                <h1 className="text-xl">Ventas</h1>
+                <CircleDollarSign />
+              </div>
+              <Separator className="my-2 " />
+
+              <div className="flex flex-wrap gap-10 justify-evenly">
+                <ChartTotalSalesInYear />
               </div>
             </div>
           </div>

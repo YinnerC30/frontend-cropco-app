@@ -21,16 +21,25 @@ import { Loading } from '@/modules/core/components';
 import { useState } from 'react';
 import { organizeHarvestData } from '../../helpers/organizeHarvestData';
 import { useGetTotalHarvestsInYear } from '../../hooks/queries/useGetTotalHarvestsInYear';
-import CropSelector from './CropSelector';
 
 import YearSelector from '@/modules/core/components/shared/YearSelector';
 import { TrendingDown, TrendingUp } from 'lucide-react';
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 import { FormatNumber } from '@/modules/core/helpers';
 
+import CropSelector from '@/modules/core/components/shared/CropSelector';
+import { HiddenPreviousYearSelector } from '@/modules/core/components/shared/HiddenPreviousYearSelector';
+
 export function ChartTotalHarvestsInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
   const [selectedCrop, setSelectedCrop] = useState('');
+
+  const [isVisible, setIsVisible] = useState(true);
+
+  const handleVisibilityChange = (value: string) => {
+    setIsVisible(value === 'show');
+  };
+
   const queryHarvests = useGetTotalHarvestsInYear({
     year: selectedYear,
     crop: selectedCrop,
@@ -65,12 +74,19 @@ export function ChartTotalHarvestsInYear() {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        <div className="space-y-4"></div>
         <div>
+          <div className="my-4">
+            <HiddenPreviousYearSelector
+              handleVisibilityChange={handleVisibilityChange}
+            />
+          </div>
           <div className="flex justify-between mb-5">
             <CropSelector
               selectedCrop={selectedCrop}
               setSelectedCrop={setSelectedCrop}
             />
+
             <YearSelector
               selectedYear={selectedYear}
               setSelectedYear={setSelectedYear}
@@ -116,24 +132,26 @@ export function ChartTotalHarvestsInYear() {
                   />
                 </linearGradient>
 
-                <linearGradient
-                  id="fillPreviousTotal"
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
-                  <stop
-                    offset="5%"
-                    stopColor="var(--color-previous_total)"
-                    stopOpacity={0.8}
-                  />
-                  <stop
-                    offset="95%"
-                    stopColor="var(--color-previous_total)"
-                    stopOpacity={0.1}
-                  />
-                </linearGradient>
+                {isVisible && (
+                  <linearGradient
+                    id="fillPreviousTotal"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop
+                      offset="5%"
+                      stopColor="var(--color-previous_total)"
+                      stopOpacity={0.8}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor="var(--color-previous_total)"
+                      stopOpacity={0.1}
+                    />
+                  </linearGradient>
+                )}
               </defs>
 
               <Area
@@ -144,14 +162,17 @@ export function ChartTotalHarvestsInYear() {
                 stroke="var(--color-current_total)"
                 stackId="a"
               />
-              <Area
-                dataKey="previous_total"
-                type="natural"
-                fill="url(#fillPreviousTotal"
-                fillOpacity={0.4}
-                stroke="var(--color-previous_total)"
-                stackId="a"
-              />
+
+              {isVisible && (
+                <Area
+                  dataKey="previous_total"
+                  type="natural"
+                  fill="url(#fillPreviousTotal"
+                  fillOpacity={0.4}
+                  stroke="var(--color-previous_total)"
+                  stackId="a"
+                />
+              )}
               <ChartLegend content={<ChartLegendContent />} />
             </AreaChart>
           </ChartContainer>

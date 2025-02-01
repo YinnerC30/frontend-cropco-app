@@ -22,14 +22,17 @@ import { useState } from 'react';
 import YearSelector from '@/modules/core/components/shared/YearSelector';
 
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
-import { organizeWorkData } from '../../helpers/organizeWorkData';
-import { useGetTotalWorksInYear } from '../../hooks/queries/useGetTotalWorksInYear';
+
+import ClientSelector from '@/modules/core/components/shared/ClientSelector';
 import CropSelector from '@/modules/core/components/shared/CropSelector';
 import { HiddenPreviousYearSelector } from '@/modules/core/components/shared/HiddenPreviousYearSelector';
+import { organizeSaleData } from '../../helpers/organizeSaleData';
+import { useGetTotalSalesInYear } from '../../hooks/queries/useGetTotalSalesInYear';
 
-export function ChartTotalWorksInYear() {
+export function ChartTotalSalesInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
   const [selectedCrop, setSelectedCrop] = useState('');
+  const [selectedClient, setSelectedClient] = useState('');
 
   const [isVisible, setIsVisible] = useState(true);
 
@@ -37,35 +40,36 @@ export function ChartTotalWorksInYear() {
     setIsVisible(value === 'show');
   };
 
-  const queryWorks = useGetTotalWorksInYear({
+  const querySales = useGetTotalSalesInYear({
     year: selectedYear,
     crop: selectedCrop,
+    client: selectedClient,
   });
 
-  if (queryWorks.isLoading) {
+  if (querySales.isLoading) {
     return <Loading />;
   }
 
   const chartConfig = {
     current_total: {
-      label: queryWorks.data?.years[0].year,
+      label: querySales.data?.years[0].year,
       color: 'hsl(var(--chart-1))',
     },
     previous_total: {
-      label: queryWorks.data?.years[1].year,
+      label: querySales.data?.years[1].year,
       color: 'hsl(var(--chart-2))',
     },
   } satisfies ChartConfig;
 
-  const chartData = organizeWorkData(queryWorks.data as any);
+  const chartData = organizeSaleData(querySales.data as any);
 
-  return queryWorks.isSuccess ? (
+  return querySales.isSuccess ? (
     <Card className="w-auto lg:w-[650px] ">
       <CardHeader>
-        <CardTitle>Total de los trabajos por año</CardTitle>
+        <CardTitle>Total de las ventas por año</CardTitle>
         <CardDescription>
-          Se muestra la cantidad de trabajos en cada mes del año comparado con
-          el año anterior
+          Se muestra la cantidad de ventas en cada mes del año comparado con el
+          año anterior
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -76,6 +80,10 @@ export function ChartTotalWorksInYear() {
             />
           </div>
           <div className="flex justify-between mb-5">
+            <ClientSelector
+              selectedClient={selectedClient}
+              setSelectedClient={setSelectedClient}
+            />
             <CropSelector
               selectedCrop={selectedCrop}
               setSelectedCrop={setSelectedCrop}
