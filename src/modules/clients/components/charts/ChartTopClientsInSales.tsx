@@ -21,6 +21,7 @@ import { useState } from 'react';
 import { useGetTopClientsInSales } from '../../hooks/queries/useGetTopClientsInSales';
 import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { Label, Switch } from '@/components';
+import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 
 const chartConfig: ChartConfig = {
   first_name: {
@@ -44,7 +45,7 @@ export function ChartTopClientsInSales() {
   });
 
   if (queryClients.isLoading) {
-    return <Loading />;
+    return <ChartSkeleton />;
   }
 
   const chartData = [...(queryClients.data?.rows || [])];

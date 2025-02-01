@@ -22,6 +22,7 @@ import YearSelector from '@/modules/core/components/shared/YearSelector';
 import { FormatNumber } from '@/modules/core/helpers';
 import { useGetTopCropsInHarvests } from '../../hooks/queries/useGetTopCropsInHarvests';
 import { Label, Switch } from '@/components';
+import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 
 const chartConfig: ChartConfig = {
   name: {
@@ -43,7 +44,7 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
   const [showQuantityHarvests, setshowQuantityHarvests] = useState(true);
 
   if (queryCrops.isLoading) {
-    return <Loading />;
+    return <ChartSkeleton />;
   }
 
   const chartData = [...(queryCrops.data?.rows || [])];

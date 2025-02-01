@@ -30,6 +30,7 @@ import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 import { Label, Switch } from '@/components';
 import CropSelector from '@/modules/core/components/shared/CropSelector';
 import EmployeeSelector from '@/modules/core/components/shared/EmployeeSelector';
+import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 
 export function ChartTotalHarvestsInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
@@ -45,7 +46,7 @@ export function ChartTotalHarvestsInYear() {
   });
 
   if (queryHarvests.isLoading) {
-    return <Loading />;
+    return <ChartSkeleton />;
   }
 
   const chartConfig = {

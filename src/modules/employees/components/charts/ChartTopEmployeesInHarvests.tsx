@@ -21,6 +21,7 @@ import { useState } from 'react';
 import { useGetTopEmployeesInHarvests } from '../../hooks/queries/useGetTopEmployeesInHarvests';
 import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { Label, Switch } from '@/components';
+import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 
 const chartConfig: ChartConfig = {
   first_name: {
@@ -45,7 +46,7 @@ export function ChartTopEmployeesInHarvests() {
   });
 
   if (queryEmployees.isLoading) {
-    return <Loading />;
+    return <ChartSkeleton />;
   }
 
   const chartData = [...(queryEmployees.data?.rows || [])];

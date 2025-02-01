@@ -29,6 +29,7 @@ import CropSelector from '@/modules/core/components/shared/CropSelector';
 import { FormatMoneyValue } from '@/modules/core/helpers';
 import { organizeSaleData } from '../../helpers/organizeSaleData';
 import { useGetTotalSalesInYear } from '../../hooks/queries/useGetTotalSalesInYear';
+import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 
 export function ChartTotalSalesInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
@@ -44,7 +45,7 @@ export function ChartTotalSalesInYear() {
   });
 
   if (querySales.isLoading) {
-    return <Loading />;
+    return <ChartSkeleton />;
   }
 
   const chartConfig = {

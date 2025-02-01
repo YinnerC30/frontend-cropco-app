@@ -18,6 +18,7 @@ import { ChartTopEmployeesInWorks } from '../employees/components/charts/ChartTo
 import { ChartTotalHarvestsInYear } from '../harvests/components/charts/ChartTotalHarvestsInYear';
 import { ChartTotalSalesInYear } from '../sales/components/charts/ChartTotalSalesInYear';
 import { ChartTotalWorksInYear } from '../work/components/charts/ChartTotalWorksInYear';
+import { ChartSkeleton } from '../core/components/charts/ChartSkeleton';
 
 export function Charts() {
   const { isMobile, open } = useSidebar();
@@ -44,6 +45,7 @@ export function Charts() {
               <Separator className="my-2 " />
 
               <div className="flex flex-wrap gap-10 justify-evenly">
+                {/* <ChartSkeleton /> */}
                 <ChartTopEmployeesInHarvests />
                 <ChartTopEmployeesInWorks />
               </div>

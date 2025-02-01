@@ -27,6 +27,7 @@ import EmployeeSelector from '@/modules/core/components/shared/EmployeeSelector'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 import { organizeWorkData } from '../../helpers/organizeWorkData';
 import { useGetTotalWorksInYear } from '../../hooks/queries/useGetTotalWorksInYear';
+import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 
 export function ChartTotalWorksInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
@@ -41,7 +42,7 @@ export function ChartTotalWorksInYear() {
   });
 
   if (queryWorks.isLoading) {
-    return <Loading />;
+    return <ChartSkeleton />;
   }
 
   const chartConfig = {
