@@ -16,4 +16,5 @@ export interface AuthContextProps {
   globalActionsUser?: Record<string, Record<string, boolean>>;
   getActionsModule: (moduleName: ModulesCropco) => Record<string, boolean>;
   isLoading: boolean;
+  isError: boolean;
 }
