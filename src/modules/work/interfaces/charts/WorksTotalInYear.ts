@@ -1,5 +1,4 @@
-export interface HarvestTotalInYearData {
-  growth: Growth;
+export interface WorkTotalInYearData {
   years: Year[];
 }
 
