@@ -27,10 +27,9 @@ import { FormatNumber } from '@/modules/core/helpers';
 import { Equal, TrendingDown, TrendingUp } from 'lucide-react';
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 
+import { Label, Switch } from '@/components';
 import CropSelector from '@/modules/core/components/shared/CropSelector';
 import EmployeeSelector from '@/modules/core/components/shared/EmployeeSelector';
-import { HiddenPreviousYearSelector } from '@/modules/core/components/shared/HiddenPreviousYearSelector';
-import { Label, Switch } from '@/components';
 
 export function ChartTotalHarvestsInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);

@@ -23,13 +23,12 @@ import YearSelector from '@/modules/core/components/shared/YearSelector';
 
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 
+import { Label, Switch } from '@/components';
 import ClientSelector from '@/modules/core/components/shared/ClientSelector';
 import CropSelector from '@/modules/core/components/shared/CropSelector';
-import { HiddenPreviousYearSelector } from '@/modules/core/components/shared/HiddenPreviousYearSelector';
+import { FormatMoneyValue } from '@/modules/core/helpers';
 import { organizeSaleData } from '../../helpers/organizeSaleData';
 import { useGetTotalSalesInYear } from '../../hooks/queries/useGetTotalSalesInYear';
-import { Label, Switch } from '@/components';
-import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 
 export function ChartTotalSalesInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);

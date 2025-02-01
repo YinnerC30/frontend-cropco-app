@@ -21,13 +21,12 @@ import { useState } from 'react';
 
 import YearSelector from '@/modules/core/components/shared/YearSelector';
 
+import { Label, Switch } from '@/components';
+import CropSelector from '@/modules/core/components/shared/CropSelector';
+import EmployeeSelector from '@/modules/core/components/shared/EmployeeSelector';
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 import { organizeWorkData } from '../../helpers/organizeWorkData';
 import { useGetTotalWorksInYear } from '../../hooks/queries/useGetTotalWorksInYear';
-import CropSelector from '@/modules/core/components/shared/CropSelector';
-import { HiddenPreviousYearSelector } from '@/modules/core/components/shared/HiddenPreviousYearSelector';
-import EmployeeSelector from '@/modules/core/components/shared/EmployeeSelector';
-import { Label, Switch } from '@/components';
 
 export function ChartTotalWorksInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
