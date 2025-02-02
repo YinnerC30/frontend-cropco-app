@@ -12,8 +12,7 @@ import {
 import { ButtonRefetchData } from '@/modules/core/components';
 
 import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
-import { useGetAllHarvestsStockGraphic } from '@/modules/harvests/hooks/queries/useGetAllHarvestsStockGraphic';
-// import YearSelector from './YearSelector';
+import { useGetAllCropsWithStockDashboard } from '../../hooks/queries/useGetAllCropsWithStockDashboard';
 
 const chartConfig: ChartConfig = {
   name: {
@@ -25,7 +24,7 @@ const chartConfig: ChartConfig = {
 } satisfies ChartConfig;
 
 export function ChartTopCropsWithStock() {
-  const queryCrops = useGetAllHarvestsStockGraphic();
+  const queryCrops = useGetAllCropsWithStockDashboard();
 
   if (queryCrops.isLoading) {
     return <ChartSkeleton />;

@@ -8,19 +8,19 @@ import { ResponseApiGetAllRecords } from '@/modules/core/interfaces';
 import { useAuthContext } from '@/auth';
 import { useEffect } from 'react';
 
-export const getHarvestStock =
+export const getCropsWithStock =
   async (): TypeGetAllRecordsReturn<HarvestStock> => {
-    return await cropcoAPI.get(`${pathsCropco.dashboard}/stock/all?`);
+    return await cropcoAPI.get(`${pathsCropco.crops}/stock/all?`);
   };
 
-export const useGetAllHarvestsStockGraphic = (): UseGetOneRecordReturn<
+export const useGetAllCropsWithStock = (): UseGetOneRecordReturn<
   ResponseApiGetAllRecords<HarvestStock>
 > => {
   const { handleError } = useAuthContext();
   const query: UseGetOneRecordReturn<ResponseApiGetAllRecords<HarvestStock>> =
     useQuery({
-      queryKey: ['harvests-stock-graphic'],
-      queryFn: () => getHarvestStock(),
+      queryKey: ['crops-stock'],
+      queryFn: () => getCropsWithStock(),
       select: ({ data }) => data,
     });
 

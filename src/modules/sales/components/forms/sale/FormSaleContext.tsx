@@ -21,7 +21,7 @@ import { toast } from 'sonner';
 import { CheckboxTableCustomClient } from '@/modules/core/components/table/CheckboxTableCustomClient';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { FormProps } from '@/modules/core/interfaces';
-import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
+
 import { Sale, SaleDetail } from '@/modules/sales/interfaces';
 import { formSchemaSale } from '@/modules/sales/utils';
 import { formSchemaSaleDetails } from '@/modules/sales/utils/formSchemaSaleDetail';
@@ -29,6 +29,8 @@ import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { ActionsTableSaleDetail } from './details/ActionsTableSaleDetail';
 import { columnsSaleDetail } from './details/ColumnsTableSaleDetail';
+import { useGetAllCropsWithStock } from '@/modules/crops/hooks/queries/useGetAllCropsWithStock';
+
 
 const defaultValuesSale = {
   date: undefined,
@@ -84,7 +86,7 @@ export interface FormSaleContextValues {
   handleDeleteBulkSaleDetails: () => void;
   removeSaleDetail: (saleDetail: SaleDetail) => void;
   actionsSalesModule: Record<string, boolean>;
-  queryCropsWithHarvest: ReturnType<typeof useGetAllHarvestsStock>;
+  queryCropsWithStock: ReturnType<typeof useGetAllCropsWithStock>;
   cropStock: CropStock[];
   addCropStock: (cropStock: CropStock) => void;
   removeCropStock: (cropStock: CropStock) => void;
@@ -230,7 +232,7 @@ export const FormSaleProvider: React.FC<
     }
   }, [detailsDefaultValues]);
 
-  const queryCropsWithStock = useGetAllHarvestsStock();
+  const queryCropsWithStock = useGetAllCropsWithStock();
 
   const [cropStock, dispatchCropStock] = useReducer(cropStockReducer, []);
 
@@ -403,7 +405,7 @@ export const FormSaleProvider: React.FC<
         resetSaleDetails,
         quantity,
         actionsSalesModule,
-        queryCropsWithHarvest: queryCropsWithStock,
+        queryCropsWithStock,
         cropStock,
         addCropStock,
         removeCropStock,
