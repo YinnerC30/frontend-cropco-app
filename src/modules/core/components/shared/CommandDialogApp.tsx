@@ -56,10 +56,7 @@ export const CommandDialogApp = () => {
         <CommandEmpty>No se encontraron resultados</CommandEmpty>
         <CommandGroup heading="Módulos">
           {routes.map((route: Route) => {
-            if (
-              nameModulesUser.includes(route.name_module) ||
-              route.name_module === 'N/A'
-            ) {
+            if (nameModulesUser.includes(route.name_module)) {
               return (
                 <CommandItem
                   key={route.path}

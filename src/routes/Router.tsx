@@ -43,7 +43,6 @@ export const Router = createBrowserRouter([
         path: 'home',
         element: <HomeLayout />,
         children: [
-          // { index: true, element: <Navigate to={'dashboard'} /> },
           dashboardRoutes,
           userRoutes,
           employeeRoutes,

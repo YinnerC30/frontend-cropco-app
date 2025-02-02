@@ -12,7 +12,6 @@ import {
 import { ButtonRefetchData } from '@/modules/core/components';
 
 import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
-import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 import { useGetAllHarvestsStockGraphic } from '@/modules/harvests/hooks/queries/useGetAllHarvestsStockGraphic';
 // import YearSelector from './YearSelector';
 
