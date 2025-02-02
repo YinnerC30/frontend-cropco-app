@@ -25,7 +25,7 @@ export const getTopEmployeesInWorks = async ({
     year: year.toString(),
   });
   return await cropcoAPI.get(
-    `${pathsCropco.employees}/find/top-employees-in-works?${params}`
+    `${pathsCropco.dashboard}/find/top-employees-in-works?${params}`
   );
 };
 
@@ -37,7 +37,7 @@ export const useGetTopEmployeesInWorks = ({
   const { hasPermission, handleError } = useAuthContext();
 
   const isAuthorized = hasPermission(
-    'employees',
+    'dashboard',
     'find_top_employees_in_works'
   );
 

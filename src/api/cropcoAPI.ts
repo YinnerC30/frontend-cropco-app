@@ -24,6 +24,7 @@ interface PathsCropco {
   authentication: string;
   shopping: string;
   consumption: string;
+  dashboard: string;
 }
 
 // Crear una instancia de Axios con la URL base y encabezados configurados
@@ -65,4 +66,5 @@ export const pathsCropco: PathsCropco = {
   authentication: '/auth',
   shopping: 'shopping',
   consumption: 'consumptions',
+  dashboard: 'dashboard',
 };

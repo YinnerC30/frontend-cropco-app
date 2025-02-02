@@ -33,7 +33,7 @@ export const getTotalWorksInYear = async ({
   }
 
   return await cropcoAPI.get(
-    `${pathsCropco.works}/find/total-work-in-year?${params}`
+    `${pathsCropco.dashboard}/find/total-work-in-year?${params}`
   );
 };
 
@@ -44,7 +44,7 @@ export const useGetTotalWorksInYear = ({
 }: QueryParams): UseGetOneRecordReturn<WorkTotalInYearData> => {
   const { hasPermission, handleError } = useAuthContext();
 
-  const isAuthorized = hasPermission('works', 'find_total_work_in_year');
+  const isAuthorized = hasPermission('dashboard', 'find_total_work_in_year');
 
   const query: UseGetOneRecordReturn<WorkTotalInYearData> = useQuery({
     queryKey: ['works-total-year', year, crop, employee],

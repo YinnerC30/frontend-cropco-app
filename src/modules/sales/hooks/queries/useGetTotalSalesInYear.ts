@@ -34,7 +34,7 @@ export const getTotalSalesInYear = async ({
   }
 
   return await cropcoAPI.get(
-    `${pathsCropco.sales}/find/total-sales-in-year?${params}`
+    `${pathsCropco.dashboard}/find/total-sales-in-year?${params}`
   );
 };
 
@@ -45,7 +45,7 @@ export const useGetTotalSalesInYear = ({
 }: QueryParams): UseGetOneRecordReturn<SaleTotalInYearData> => {
   const { hasPermission, handleError } = useAuthContext();
 
-  const isAuthorized = hasPermission('sales', 'find_total_sales_in_year');
+  const isAuthorized = hasPermission('dashboard', 'find_total_sales_in_year');
 
   const query: UseGetOneRecordReturn<SaleTotalInYearData> = useQuery({
     queryKey: ['sales-total-year', year, crop, client],

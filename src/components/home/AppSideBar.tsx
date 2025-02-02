@@ -74,10 +74,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {routes.map((route: Route) => {
-                if (
-                  nameModulesUser.includes(route.name_module) ||
-                  route.name_module === 'dashboard'
-                ) {
+                if (nameModulesUser.includes(route.name_module)) {
                   return (
                     <SidebarMenuItem key={route.path}>
                       <SidebarMenuButton

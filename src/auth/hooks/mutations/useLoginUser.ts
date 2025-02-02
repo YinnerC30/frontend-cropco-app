@@ -41,6 +41,11 @@ export const useLoginUser = (): UseMutationReturn<User, LoginUserData> => {
         case 401:
           toast.error('Usuario o contraseña incorrectos, intentelo nuevamente');
           return;
+        case 403:
+          toast.error(
+            'El usuario no cuenta con suficientes permisos para acceder al sistema'
+          );
+          return;
         case 400:
           toast.error(
             'Las credenciales enviadas son invalidas, revise nuevamente los campos del formulario'

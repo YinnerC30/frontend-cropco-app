@@ -29,12 +29,9 @@ export const getTotalConsumptionsInYear = async ({
   if (supply.length > 0) {
     params.append('supply', supply);
   }
-  console.log(
-    `${pathsCropco.consumption}/find/total-consumptions-in-year?${params}`
-  );
 
   return await cropcoAPI.get(
-    `${pathsCropco.consumption}/find/total-consumptions-in-year?${params}`
+    `${pathsCropco.dashboard}/find/total-consumptions-in-year?${params}`
   );
 };
 
@@ -46,7 +43,7 @@ export const useGetTotalConsumptionsInYear = ({
   const { hasPermission, handleError } = useAuthContext();
 
   const isAuthorized = hasPermission(
-    'consumptions',
+    'dashboard',
     'find_total_consumptions_in_year'
   );
 

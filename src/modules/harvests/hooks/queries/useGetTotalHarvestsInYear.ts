@@ -32,7 +32,7 @@ export const getTotalHarvestsInYear = async ({
   }
 
   return await cropcoAPI.get(
-    `${pathsCropco.harvests}/find/total-harvest-in-year?${params}`
+    `${pathsCropco.dashboard}/find/total-harvest-in-year?${params}`
   );
 };
 
@@ -43,7 +43,7 @@ export const useGetTotalHarvestsInYear = ({
 }: QueryParams): UseGetOneRecordReturn<HarvestTotalInYearData> => {
   const { hasPermission, handleError } = useAuthContext();
 
-  const isAuthorized = hasPermission('harvests', 'find_total_harvest_in_year');
+  const isAuthorized = hasPermission('dashboard', 'find_total_harvest_in_year');
 
   const query: UseGetOneRecordReturn<HarvestTotalInYearData> = useQuery({
     queryKey: ['harvests-total-year', year, crop, employee],

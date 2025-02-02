@@ -24,7 +24,7 @@ export const getTopCropsInHarvests = async ({
     year: year.toString(),
   });
   return await cropcoAPI.get(
-    `${pathsCropco.crops}/find/count-harvest-and-total-stock?${params}`
+    `${pathsCropco.dashboard}/find/count-harvest-and-total-stock?${params}`
   );
 };
 
@@ -36,7 +36,7 @@ export const useGetTopCropsInHarvests = ({
   const { hasPermission, handleError } = useAuthContext();
 
   const isAuthorized = hasPermission(
-    'crops',
+    'dashboard',
     'find_count_harvests_and_total_stock'
   );
 
