@@ -1,5 +1,6 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
+import { Label, Switch } from '@/components';
 import {
   Card,
   CardContent,
@@ -15,13 +16,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { ButtonRefetchData, Loading } from '@/modules/core/components';
+import { ButtonRefetchData } from '@/modules/core/components';
+import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 import YearSelector from '@/modules/core/components/shared/YearSelector';
+import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { useState } from 'react';
 import { useGetTopEmployeesInWorks } from '../../hooks/queries/useGetTopEmployeesInWorks';
-import { Label, Switch } from '@/components';
-import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
-import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 
 const chartConfig: ChartConfig = {
   first_name: {
@@ -48,7 +48,9 @@ export function ChartTopEmployeesInWorks() {
     return <ChartSkeleton />;
   }
 
-  const chartData = [...(queryEmployees.data?.rows || [])];
+  const chartData = queryEmployees.isSuccess
+    ? [...(queryEmployees.data?.rows || [])]
+    : [];
 
   return (
     <Card className="w-auto lg:w-[450px] ">

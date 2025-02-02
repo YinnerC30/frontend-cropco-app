@@ -9,10 +9,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { ButtonRefetchData, Loading } from '@/modules/core/components';
+import { ButtonRefetchData } from '@/modules/core/components';
 
-import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
+import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
 // import YearSelector from './YearSelector';
 
 const chartConfig: ChartConfig = {
@@ -31,9 +31,9 @@ export function ChartTopCropsWithStock() {
     return <ChartSkeleton />;
   }
 
-  const chartData = [
-    ...(queryCrops.data?.rows.filter((row) => row.stock > 0) || []),
-  ];
+  const chartData = queryCrops.isSuccess
+    ? [...(queryCrops.data?.rows.filter((row) => row.stock > 0) || [])]
+    : [];
 
   return (
     <Card className="w-auto lg:w-[450px] ">
@@ -41,7 +41,7 @@ export function ChartTopCropsWithStock() {
         <CardTitle>Top 5 cultivos con stock disponible</CardTitle>
       </CardHeader>
       <CardContent className="">
-        <div className='flex justify-end'>
+        <div className="flex justify-end">
           <ButtonRefetchData
             onClick={async () => {
               await queryCrops.refetch();

@@ -1,5 +1,6 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
+import { Label, Switch } from '@/components';
 import {
   Card,
   CardContent,
@@ -15,13 +16,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { ButtonRefetchData, Loading } from '@/modules/core/components';
+import { ButtonRefetchData } from '@/modules/core/components';
+import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 import YearSelector from '@/modules/core/components/shared/YearSelector';
+import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { useState } from 'react';
 import { useGetTopClientsInSales } from '../../hooks/queries/useGetTopClientsInSales';
-import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
-import { Label, Switch } from '@/components';
-import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 
 const chartConfig: ChartConfig = {
   first_name: {
@@ -48,7 +48,9 @@ export function ChartTopClientsInSales() {
     return <ChartSkeleton />;
   }
 
-  const chartData = [...(queryClients.data?.rows || [])];
+  const chartData = queryClients.isSuccess
+    ? [...(queryClients.data?.rows || [])]
+    : [];
 
   return (
     <Card className="w-auto lg:w-[450px] ">

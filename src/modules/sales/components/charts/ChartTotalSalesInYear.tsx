@@ -15,7 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { ButtonRefetchData, Loading } from '@/modules/core/components';
+import { ButtonRefetchData } from '@/modules/core/components';
 
 import { useState } from 'react';
 
@@ -24,12 +24,13 @@ import YearSelector from '@/modules/core/components/shared/YearSelector';
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 
 import { Label, Switch } from '@/components';
+import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 import ClientSelector from '@/modules/core/components/shared/ClientSelector';
 import CropSelector from '@/modules/core/components/shared/CropSelector';
 import { FormatMoneyValue } from '@/modules/core/helpers';
+import { useGetAllCropsWithSales } from '@/modules/crops/hooks/queries/useGetAllCropsWithSales';
 import { organizeSaleData } from '../../helpers/organizeSaleData';
 import { useGetTotalSalesInYear } from '../../hooks/queries/useGetTotalSalesInYear';
-import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 
 export function ChartTotalSalesInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
@@ -43,6 +44,8 @@ export function ChartTotalSalesInYear() {
     crop: selectedCrop,
     client: selectedClient,
   });
+
+  const queryCrops = useGetAllCropsWithSales()
 
   if (querySales.isLoading) {
     return <ChartSkeleton />;
@@ -93,6 +96,7 @@ export function ChartTotalSalesInYear() {
             <CropSelector
               selectedCrop={selectedCrop}
               setSelectedCrop={setSelectedCrop}
+              query={queryCrops}
             />
             <YearSelector
               selectedYear={selectedYear}

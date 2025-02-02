@@ -1,4 +1,4 @@
-'use client';
+'use supply';
 
 import {
   Card,
@@ -21,52 +21,58 @@ import { useState } from 'react';
 
 import YearSelector from '@/modules/core/components/shared/YearSelector';
 
+import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
+
 import { Label, Switch } from '@/components';
 import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 import CropSelector from '@/modules/core/components/shared/CropSelector';
-import EmployeeSelector from '@/modules/core/components/shared/EmployeeSelector';
-import { useGetAllCropsWithWork } from '@/modules/crops/hooks';
-import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
-import { organizeWorkData } from '../../helpers/organizeWorkData';
-import { useGetTotalWorksInYear } from '../../hooks/queries/useGetTotalWorksInYear';
+import SupplySelector from '@/modules/core/components/shared/SupplySelector';
+import { FormatNumber } from '@/modules/core/helpers';
+import { useGetAllCropsWithConsumptions } from '@/modules/crops/hooks/queries/useGetAllCropsWithConsumptions';
+import { useGetAllSuppliesWithConsumptions } from '@/modules/supplies/hooks/queries/useGetAllSuppliesWithConsumptions';
+import { organizeConsumptionData } from '../../helpers/organizeConsumptionData';
+import { useGetTotalConsumptionsInYear } from '../../hooks/queries/useGetTotalConsumptionsInYear';
 
-export function ChartTotalWorksInYear() {
+export const ChartTotalConsumptionsInYear = () => {
   const [selectedYear, setSelectedYear] = useState(2025);
   const [selectedCrop, setSelectedCrop] = useState('');
-  const [selectedEmployee, setSelectedEmployee] = useState('');
+  const [selectedSupply, setSelectedSupply] = useState('');
+
   const [showPreviousYear, setShowPreviousYear] = useState(true);
 
-  const queryWorks = useGetTotalWorksInYear({
+  const queryConsumptions = useGetTotalConsumptionsInYear({
     year: selectedYear,
     crop: selectedCrop,
-    employee: selectedEmployee,
+    supply: selectedSupply,
   });
 
-  const queryCrops = useGetAllCropsWithWork();
+  const querySupplies = useGetAllSuppliesWithConsumptions();
 
-  if (queryWorks.isLoading) {
+  const queryCrops = useGetAllCropsWithConsumptions();
+
+  if (queryConsumptions.isLoading) {
     return <ChartSkeleton />;
   }
 
   const chartConfig = {
     current_total: {
-      label: queryWorks.data?.years[0].year,
+      label: queryConsumptions.data?.years[0].year,
       color: 'hsl(var(--chart-1))',
     },
     previous_total: {
-      label: queryWorks.data?.years[1].year,
+      label: queryConsumptions.data?.years[1].year,
       color: 'hsl(var(--chart-2))',
     },
   } satisfies ChartConfig;
 
-  const chartData = organizeWorkData(queryWorks.data as any);
+  const chartData = organizeConsumptionData(queryConsumptions.data as any);
 
-  return queryWorks.isSuccess ? (
+  return queryConsumptions.isSuccess ? (
     <Card className="w-auto lg:w-[650px] ">
       <CardHeader>
-        <CardTitle>Total de los trabajos por año</CardTitle>
+        <CardTitle>Total de los consumos por año</CardTitle>
         <CardDescription>
-          Se muestra la cantidad de trabajos en cada mes del año comparado con
+          Se muestra la cantidad de consumos en cada mes del año comparado con
           el año anterior
         </CardDescription>
       </CardHeader>
@@ -84,16 +90,17 @@ export function ChartTotalWorksInYear() {
               Mostrar información del año anterior
             </Label>
           </div>
+
           <div className="flex flex-wrap justify-between gap-4 mb-5">
+            <SupplySelector
+              selectedsupply={selectedSupply}
+              setSelectedsupply={setSelectedSupply}
+              query={querySupplies}
+            />
             <CropSelector
               selectedCrop={selectedCrop}
               setSelectedCrop={setSelectedCrop}
               query={queryCrops}
-            />
-            <EmployeeSelector
-              employeesIn="works"
-              selectedEmployee={selectedEmployee}
-              setSelectedEmployee={setSelectedEmployee}
             />
             <YearSelector
               selectedYear={selectedYear}
@@ -102,9 +109,9 @@ export function ChartTotalWorksInYear() {
             />
             <ButtonRefetchData
               onClick={async () => {
-                await queryWorks.refetch();
+                await queryConsumptions.refetch();
               }}
-              disabled={queryWorks.isLoading}
+              disabled={queryConsumptions.isLoading}
             />
           </div>
           <ChartContainer config={chartConfig}>
@@ -125,7 +132,32 @@ export function ChartTotalWorksInYear() {
                 tickMargin={8}
                 tickFormatter={(value) => value.slice(0, 3)}
               />
-              <ChartTooltip cursor={true} content={<ChartTooltipContent />} />
+              <ChartTooltip
+                cursor={true}
+                content={
+                  <ChartTooltipContent
+                    formatter={(value, name, item, index) => {
+                      return (
+                        <>
+                          <div
+                            className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--color-bg]"
+                            style={
+                              {
+                                '--color-bg': `var(--color-${name})`,
+                              } as React.CSSProperties
+                            }
+                          />
+                          {chartConfig[name as keyof typeof chartConfig]
+                            ?.label || name}
+                          <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
+                            {FormatNumber(Number(value))}
+                          </div>
+                        </>
+                      );
+                    }}
+                  />
+                }
+              />
               <defs>
                 <linearGradient
                   id="fillCurrentTotal"
@@ -195,4 +227,4 @@ export function ChartTotalWorksInYear() {
   ) : (
     <div className="h-[200px]">Error al generar el grafico</div>
   );
-}
+};

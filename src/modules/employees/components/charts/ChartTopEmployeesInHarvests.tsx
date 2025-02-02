@@ -1,5 +1,6 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
+import { Label, Switch } from '@/components';
 import {
   Card,
   CardContent,
@@ -15,13 +16,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { ButtonRefetchData, Loading } from '@/modules/core/components';
+import { ButtonRefetchData } from '@/modules/core/components';
+import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 import YearSelector from '@/modules/core/components/shared/YearSelector';
+import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { useState } from 'react';
 import { useGetTopEmployeesInHarvests } from '../../hooks/queries/useGetTopEmployeesInHarvests';
-import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
-import { Label, Switch } from '@/components';
-import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 
 const chartConfig: ChartConfig = {
   first_name: {
@@ -41,6 +41,7 @@ const chartConfig: ChartConfig = {
 export function ChartTopEmployeesInHarvests() {
   const [selectedYear, setSelectedYear] = useState(2025);
   const [showValuePayBar, setshowValuePayBar] = useState(true);
+
   const queryEmployees = useGetTopEmployeesInHarvests({
     year: Number(selectedYear),
   });
@@ -49,7 +50,9 @@ export function ChartTopEmployeesInHarvests() {
     return <ChartSkeleton />;
   }
 
-  const chartData = [...(queryEmployees.data?.rows || [])];
+  const chartData = queryEmployees.isSuccess
+    ? [...(queryEmployees.data?.rows || [])]
+    : [];
 
   return (
     <Card className="w-auto lg:w-[450px] ">

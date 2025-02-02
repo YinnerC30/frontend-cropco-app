@@ -16,7 +16,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { ButtonRefetchData, Loading } from '@/modules/core/components';
+import { ButtonRefetchData } from '@/modules/core/components';
 
 import { useState } from 'react';
 import { organizeHarvestData } from '../../helpers/organizeHarvestData';
@@ -28,9 +28,10 @@ import { Equal, TrendingDown, TrendingUp } from 'lucide-react';
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 
 import { Label, Switch } from '@/components';
+import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 import CropSelector from '@/modules/core/components/shared/CropSelector';
 import EmployeeSelector from '@/modules/core/components/shared/EmployeeSelector';
-import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
+import { useGetAllCropsWithHarvest } from '@/modules/crops/hooks';
 
 export function ChartTotalHarvestsInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
@@ -45,8 +46,30 @@ export function ChartTotalHarvestsInYear() {
     employee: selectedEmployee,
   });
 
+  const { query: queryCrops } = useGetAllCropsWithHarvest({
+    queryValue: '',
+    allRecords: true,
+  });
+
   if (queryHarvests.isLoading) {
     return <ChartSkeleton />;
+  }
+
+  if (queryHarvests.isError) {
+    return (
+      <Card className="w-auto lg:w-[650px] ">
+        <CardHeader>
+          <CardTitle>Total de las cosechas por año</CardTitle>
+          <CardDescription>
+            Se muestra la cantidad cosechada en cada mes del año comparado con
+            el año anterior
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div>Error</div>
+        </CardContent>
+      </Card>
+    );
   }
 
   const chartConfig = {
@@ -93,6 +116,7 @@ export function ChartTotalHarvestsInYear() {
             <CropSelector
               selectedCrop={selectedCrop}
               setSelectedCrop={setSelectedCrop}
+              query={queryCrops}
             />
             <EmployeeSelector
               employeesIn="harvests"

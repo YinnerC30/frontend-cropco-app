@@ -15,14 +15,14 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { ButtonRefetchData, Loading } from '@/modules/core/components';
+import { ButtonRefetchData } from '@/modules/core/components';
 import { useState } from 'react';
 
+import { Label, Switch } from '@/components';
+import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 import YearSelector from '@/modules/core/components/shared/YearSelector';
 import { FormatNumber } from '@/modules/core/helpers';
 import { useGetTopCropsInHarvests } from '../../hooks/queries/useGetTopCropsInHarvests';
-import { Label, Switch } from '@/components';
-import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 
 const chartConfig: ChartConfig = {
   name: {
@@ -47,7 +47,9 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
     return <ChartSkeleton />;
   }
 
-  const chartData = [...(queryCrops.data?.rows || [])];
+  const chartData = queryCrops.isSuccess
+    ? [...(queryCrops.data?.rows || [])]
+    : [];
 
   return (
     <Card className="w-auto lg:w-[450px] ">

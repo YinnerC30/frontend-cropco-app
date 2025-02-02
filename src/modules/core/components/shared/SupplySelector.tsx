@@ -19,30 +19,31 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { Crop } from '@/modules/crops/interfaces/Crop';
+
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { ResponseApiGetAllRecords } from '../../interfaces';
+import { Supply } from '@/modules/supplies/interfaces/Supply';
 
 interface Props {
-  selectedCrop: string;
-  setSelectedCrop: React.Dispatch<React.SetStateAction<string>>;
+  selectedsupply: string;
+  setSelectedsupply: React.Dispatch<React.SetStateAction<string>>;
   query: UseQueryResult<
-    ResponseApiGetAllRecords<Crop>,
+    ResponseApiGetAllRecords<Supply>,
     AxiosError<TypedAxiosError, unknown>
   >;
 }
 
-export default function CropSelector({
-  selectedCrop,
-  setSelectedCrop,
+export default function supplySelector({
+  selectedsupply,
+  setSelectedsupply,
   query,
 }: Props) {
   const [open, setOpen] = React.useState(false);
 
   const data = query.data?.rows ?? [];
 
-  const crops = [{ name: 'Todos', id: '' }, ...data];
+  const supplies = [{ name: 'Todos', id: '' }, ...data];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -53,25 +54,27 @@ export default function CropSelector({
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {!!selectedCrop
-            ? `Cultivo: ${crops.find((item) => item.id === selectedCrop)?.name}`
-            : 'Selecciona un cultivo...'}
+          {!!selectedsupply
+            ? `Insumo: ${
+                supplies.find((item) => item.id === selectedsupply)?.name
+              }`
+            : 'Selecciona un insumo...'}
           <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Buscar cultivo..." />
+          <CommandInput placeholder="Buscar insumo..." />
           <CommandList>
-            <CommandEmpty>No se encontró el cultivo</CommandEmpty>
+            <CommandEmpty>No se encontró el insumo</CommandEmpty>
             <CommandGroup>
-              {crops.map((crop) => (
+              {supplies.map((supply) => (
                 <CommandItem
-                  key={crop.name}
-                  value={crop.id}
+                  key={supply.name}
+                  value={supply.id}
                   onSelect={(currentValue) => {
-                    setSelectedCrop(
-                      currentValue === selectedCrop ? '' : currentValue
+                    setSelectedsupply(
+                      currentValue === selectedsupply ? '' : currentValue
                     );
                     setOpen(false);
                   }}
@@ -79,10 +82,10 @@ export default function CropSelector({
                   <Check
                     className={cn(
                       'mr-2 h-4 w-4',
-                      selectedCrop === crop.id ? 'opacity-100' : 'opacity-0'
+                      selectedsupply === supply.id ? 'opacity-100' : 'opacity-0'
                     )}
                   />
-                  {crop.name}
+                  {supply.name}
                 </CommandItem>
               ))}
             </CommandGroup>
