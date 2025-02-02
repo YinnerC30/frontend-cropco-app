@@ -25,7 +25,7 @@ interface Props {
 }
 
 export const BreadCrumb: React.FC<Props> = memo(
-  ({ items = [], finalItem, hiddenSeparator = false }: Props) => {
+  ({ items = [], finalItem = '', hiddenSeparator = false }: Props) => {
     const { hasUnsavedChanges } = useFormChange();
     const navigate = useNavigate();
     const { showToast } = useToastDiscardChanges();
@@ -75,7 +75,9 @@ export const BreadCrumb: React.FC<Props> = memo(
                 </div>
               );
             })}
-            <BreadcrumbSeparator />
+            {
+              finalItem.length > 0 && (<BreadcrumbSeparator />)
+            }
             <BreadcrumbItem>
               <BreadcrumbPage>{finalItem}</BreadcrumbPage>
             </BreadcrumbItem>

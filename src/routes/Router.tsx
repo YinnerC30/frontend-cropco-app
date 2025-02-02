@@ -18,6 +18,7 @@ import ErrorPage from '@/routes/components/ErrorPage';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { HomeLayout } from '../components/home/HomeLayout';
 import { RoutesController } from './components';
+import { HomePage } from './HomePage';
 
 export const Router = createBrowserRouter([
   {
@@ -43,6 +44,11 @@ export const Router = createBrowserRouter([
         path: 'home',
         element: <HomeLayout />,
         children: [
+          { index: true, element: <Navigate to={'page'} /> },
+          {
+            path: 'page',
+            element: <HomePage />,
+          },
           dashboardRoutes,
           userRoutes,
           employeeRoutes,
