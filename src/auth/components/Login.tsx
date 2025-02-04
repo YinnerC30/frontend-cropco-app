@@ -12,10 +12,8 @@ import { EyeClosedIcon, EyeOpenIcon, ReloadIcon } from '@radix-ui/react-icons';
 import { z } from 'zod';
 import { formFieldsLogin, formSchemaLogin } from '../utils';
 
-import { PATH_HOME_APP } from '@/config';
 import { useCreateForm } from '@/modules/core/hooks';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useLoginUser } from '../hooks/mutations/useLoginUser';
 
 export const Login: React.FC = () => {
