@@ -99,8 +99,6 @@ export const Login: React.FC = () => {
             {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
             Ingresar
           </Button>
-          <Link to={PATH_HOME_APP}>Ir a Home</Link>
-          <Link to={'/'}>Ir a Root</Link>
         </CardFooter>
       </Card>
     </div>
