@@ -30,7 +30,7 @@ const chartConfig: ChartConfig = {
   },
   total_stock: {
     label: 'N° Stock',
-    color: 'hsl(var(--chart-6))',
+    color: 'hsl(var(--chart-3))',
   },
   total_harvests: {
     label: 'N° Cosechas',

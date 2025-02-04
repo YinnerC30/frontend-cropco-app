@@ -29,11 +29,11 @@ const chartConfig: ChartConfig = {
   },
   total_quantity: {
     label: 'N° Stock',
-    color: 'hsl(var(--chart-7))',
+    color: 'hsl(var(--chart-4))',
   },
   total_sale: {
     label: 'Pago',
-    color: 'hsl(var(--chart-8))',
+    color: 'hsl(var(--chart-3))',
   },
 } satisfies ChartConfig;
 
