@@ -66,7 +66,7 @@ const HarvestProcessedDataTable: React.FC = memo(() => {
         </div>
 
         <ScrollArea
-          className="h-max-[460px] w-[95%] sm:w-full p-1 border rounded-sm self-start"
+          className="h-max-[460px] w-[85%] sm:w-full p-1 border rounded-sm self-start"
           type="auto"
         >
           <FormDataTable onCellDoubleClick={handleDoubleClick} />

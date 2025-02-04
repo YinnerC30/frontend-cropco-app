@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -11,9 +11,12 @@ export default function Hero() {
           La solución integral para gestionar la información de tus cultivos
           agrícolas de manera eficiente y efectiva.
         </p>
-        <Button className="px-8 py-3 text-lg text-white bg-green-600 rounded-lg hover:bg-green-700">
+        <Link
+          to={'/app/authentication/login'}
+          className="px-8 py-3 text-lg text-white bg-green-600 rounded-lg hover:bg-green-700"
+        >
           Comienza ahora
-        </Button>
+        </Link>
       </div>
     </section>
   );

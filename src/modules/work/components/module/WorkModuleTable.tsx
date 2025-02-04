@@ -7,6 +7,7 @@ export const WorkModuleTable = () => {
     queryWorks,
     actionsWorksModule,
     mutationDeleteWorks,
+    mutationDeleteWork,
   } = useWorkModuleContext();
 
   return (
@@ -23,7 +24,8 @@ export const WorkModuleTable = () => {
       isLoading={
         queryWorks.isLoading ||
         queryWorks.isRefetching ||
-        mutationDeleteWorks.isPending
+        mutationDeleteWorks.isPending ||
+        mutationDeleteWork.isPending
       }
     />
   );

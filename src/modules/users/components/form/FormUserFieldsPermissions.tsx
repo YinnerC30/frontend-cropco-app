@@ -11,7 +11,7 @@ import { useFormUserContext } from '../../hooks';
 import {
   Module,
   Action,
-} from '@/modules/core/interfaces/responsess/ResponseGetAllModules';
+} from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 import { FormUserPermissionAction } from './FormUserPermissionAction';
 import { memo } from 'react';
 

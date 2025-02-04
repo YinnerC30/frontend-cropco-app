@@ -7,6 +7,7 @@ import {
   FormDataTableButtonsPagination,
   FormDataTableFilter,
   FormDataTableProvider,
+  ValidationCellReturn,
 } from '@/modules/core/components/form/data-table';
 import { FormDataTablePageCount } from '@/modules/core/components/form/data-table/FormDataTablePageCount';
 import { FormDataTableRowCount } from '@/modules/core/components/form/data-table/FormDataTableRowCount';
@@ -18,6 +19,7 @@ import { FormSaleDetail } from './details/FormSaleDetail';
 import { ScrollArea, ScrollBar } from '@/components';
 import { useFormSaleContext } from '@/modules/sales/hooks';
 import { SaleDetail } from '@/modules/sales/interfaces';
+import { Row } from '@tanstack/react-table';
 import React from 'react';
 
 export const FormSaleDataTable: React.FC = () => {
@@ -39,6 +41,16 @@ export const FormSaleDataTable: React.FC = () => {
     handleOpenDialog();
   };
 
+  const validateIsDisabled = (row: Row<any>): ValidationCellReturn => {
+    const { deletedDate } = row.original;
+    const isDisabled = deletedDate !== null;
+    return {
+      status: isDisabled,
+      cellColorError: 'restriction',
+      message: 'No se puede modificar o eliminar este registro',
+    };
+  };
+
   return (
     <FormDataTableProvider
       table={table}
@@ -55,7 +67,7 @@ export const FormSaleDataTable: React.FC = () => {
         />
 
         {/* Botones */}
-        <div className="flex justify-end w-4/5 gap-2">
+        <div className="flex justify-end w-4/5 gap-2 mr-6 sm:mr-0">
           <ButtonClearSelection
             onClick={resetSelectionRows}
             visible={hasSelectedRecords}
@@ -77,12 +89,13 @@ export const FormSaleDataTable: React.FC = () => {
 
         {/* Tabla */}
         <ScrollArea
-          className="h-max-[460px] p-1 border rounded-sm self-start"
+          className="h-max-[460px] w-[85%] sm:w-full p-1 border rounded-sm self-start"
           type="auto"
         >
           <FormDataTable
             onCellDoubleClick={handleSetSaleDetail}
             disabledDoubleClick={readOnly}
+            validationDisabledCell={validateIsDisabled}
           />
 
           <ScrollBar className="mt-2" orientation="horizontal" forceMount />

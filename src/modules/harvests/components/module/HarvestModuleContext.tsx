@@ -4,40 +4,105 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData';
+import {
+  ItemQueryAdvanced,
+  useAdvancedQueryDataPlus,
+} from '@/modules/core/hooks/useAdvancedQueryDataPlus';
 import { BulkRecords } from '@/modules/core/interfaces';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
-import React, { createContext, useMemo } from 'react';
-import { useGetAllHarvests } from '../../hooks';
+import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import React, { createContext, useMemo, useState } from 'react';
+import { useDeleteHarvest, useGetAllHarvests } from '../../hooks';
 import { useDeleteBulkHarvests } from '../../hooks/mutations/useDeleteBulkHarvests';
-import { Harvest, TableHarvest } from '../../interfaces';
+import { Harvest } from '../../interfaces';
 import { ActionsTableHarvest } from './ActionsTableHarvest';
 import columnsHarvest from './ColumnsTableHarvest';
+import { useGetHarvestPDF } from '../../hooks/queries/useGetHarvestPDF';
+import { UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 export interface paramQueryHarvest {
-  crop: { id: string | null | undefined };
+  crop: { id: string };
+  employees: { id: string }[];
   filter_by_date: {
-    type_filter_date: string | null | undefined;
-    date: string | null | undefined | Date | unknown;
+    type_filter_date: string | undefined;
+    date: string | undefined | Date;
   };
   filter_by_total: {
-    type_filter_total: string | null | undefined;
-    total: string | null | undefined | unknown;
+    type_filter_total: string | undefined;
+    total: number;
   };
   filter_by_value_pay: {
-    type_filter_value_pay: string | null | undefined;
-    value_pay: string | null | undefined | unknown;
+    type_filter_value_pay: string | undefined;
+    value_pay: number;
   };
 }
 
 export interface HarvestsModuleContextProps {
   paramsQuery: paramQueryHarvest;
   queryHarvests: UseQueryGetAllRecordsReturn<Harvest>;
-  dataTable: DataTableManualReturn<TableHarvest>;
+  dataTable: DataTableManualReturn<Harvest>;
   mutationDeleteHarvests: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteHarvest: UseMutationReturn<void, string>;
   actionsHarvestsModule: Record<string, boolean>;
+  appliedFilters: FilterSearchBar[];
+  setAppliedFilters: React.Dispatch<React.SetStateAction<FilterSearchBar[]>>;
+  hasParamsQuery: boolean;
+
+  queryGetDocument: UseQueryResult<Blob, AxiosError>;
+  harvestIdDocument: string;
+  setHarvestIdDocument: React.Dispatch<React.SetStateAction<string>>;
+  setExecuteQuery: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+const paramsHarvest: ItemQueryAdvanced[] = [
+  {
+    propertyName: 'crop',
+    defaultValue: '',
+  },
+  {
+    propertyName: 'filter_by_date',
+    defaultValue: false,
+  },
+  {
+    propertyName: 'type_filter_date',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'date',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'filter_by_total',
+    defaultValue: false,
+  },
+  {
+    propertyName: 'type_filter_total',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'total',
+    defaultValue: 0,
+  },
+  {
+    propertyName: 'filter_by_value_pay',
+    defaultValue: false,
+  },
+  {
+    propertyName: 'type_filter_value_pay',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'value_pay',
+    defaultValue: 0,
+  },
+  {
+    propertyName: 'employees',
+    defaultValue: [],
+    isArray: true,
+  },
+];
 
 export const HarvestsModuleContext = createContext<
   HarvestsModuleContextProps | undefined
@@ -46,23 +111,8 @@ export const HarvestsModuleContext = createContext<
 export const HarvestsModuleProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const { paramsValues } = useAdvancedQueryData({
-    params: [
-      'crop',
+  const { paramsValues, hasValues } = useAdvancedQueryDataPlus(paramsHarvest);
 
-      'filter_by_date',
-      'type_filter_date',
-      'date',
-
-      'filter_by_total',
-      'type_filter_total',
-      'total',
-
-      'filter_by_value_pay',
-      'type_filter_value_pay',
-      'value_pay',
-    ],
-  });
   const {
     query: queryHarvests,
     pagination,
@@ -73,14 +123,16 @@ export const HarvestsModuleProvider: React.FC<{
 
   const { getActionsModule } = useAuthContext();
 
+  const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
+
   const actionsHarvestsModule = useMemo(() => getActionsModule('harvests'), []);
 
-  const columnsTable = useCreateColumnsTable<TableHarvest>({
+  const columnsTable = useCreateColumnsTable<Harvest>({
     columns: columnsHarvest,
     actions: ActionsTableHarvest,
   });
 
-  const dataTable = useDataTableManual<TableHarvest>({
+  const dataTable = useDataTableManual<Harvest>({
     columns: columnsTable,
     infoPagination: queryHarvests.isSuccess
       ? {
@@ -93,13 +145,31 @@ export const HarvestsModuleProvider: React.FC<{
     setPagination,
   });
 
+  const [harvestIdDocument, setHarvestIdDocument] = useState('');
+  const [executeQuery, setExecuteQuery] = useState(false);
+
+  const queryGetDocument = useGetHarvestPDF({
+    harvestId: harvestIdDocument,
+    stateQuery: executeQuery,
+    actionPDF: 'ViewPDF',
+    actionOnSuccess: () => {
+      setExecuteQuery(false);
+      setHarvestIdDocument('');
+    },
+  });
+
   const mutationDeleteHarvests = useDeleteBulkHarvests();
+
+  const mutationDeleteHarvest = useDeleteHarvest();
 
   const contextValue: HarvestsModuleContextProps = {
     mutationDeleteHarvests,
+    mutationDeleteHarvest,
     actionsHarvestsModule,
     queryHarvests,
     dataTable,
+    appliedFilters,
+    setAppliedFilters,
     paramsQuery: {
       ...paramsValues,
       crop: { id: paramsValues.crop },
@@ -109,13 +179,19 @@ export const HarvestsModuleProvider: React.FC<{
       },
       filter_by_total: {
         type_filter_total: paramsValues.type_filter_total,
-        total: !paramsValues.total ? 0 : paramsValues.total,
+        total: paramsValues.total,
       },
       filter_by_value_pay: {
         type_filter_value_pay: paramsValues.type_filter_value_pay,
-        value_pay: !paramsValues.value_pay ? 0 : paramsValues.value_pay,
+        value_pay: paramsValues.value_pay,
       },
+      employees: paramsValues.employees.map((em: string) => ({ id: em })),
     },
+    hasParamsQuery: hasValues,
+    queryGetDocument,
+    harvestIdDocument,
+    setHarvestIdDocument,
+    setExecuteQuery,
   };
 
   return (

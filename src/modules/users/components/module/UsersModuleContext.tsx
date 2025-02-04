@@ -3,7 +3,7 @@ import { useDataTableManual } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import React, { createContext, useMemo } from 'react';
-import { useDeleteBulkUsers, useGetAllUsers } from '../../hooks';
+import { useDeleteBulkUsers, useDeleteUser, useGetAllUsers } from '../../hooks';
 import { User, UsersModuleContextProps } from '../../interfaces/';
 import { columnsTableUsers } from './columnsTableUsers';
 import { UsersModuleActionsTable } from './UsersModuleActionsTable';
@@ -48,12 +48,14 @@ export const UsersModuleProvider: React.FC<{
   });
 
   const mutationDeleteUsers = useDeleteBulkUsers();
+  const mutationDeleteUser = useDeleteUser();
 
   const contextValue = {
     value,
     queryUsers,
     dataTable,
     mutationDeleteUsers,
+    mutationDeleteUser,
     actionsUsersModule,
     paramQuery: value,
   };

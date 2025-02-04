@@ -1,4 +1,4 @@
-import { CustomFormField } from '@/modules/core/interfaces/formm/CustomFormField';
+import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
 type FormFieldsSaleDetail =
   | 'client'
@@ -31,9 +31,9 @@ export const formFieldsSaleDetail: Record<
   },
   quantity: {
     name: 'quantity',
-    label: 'Cantidad:',
+    label: 'Cantidad (Kg):',
     placeholder: '0',
-    description: 'Introduce la cantidad a vender',
+    description: 'Introduce la cantidad de Kg a vender',
   },
   is_receivable: {
     name: 'is_receivable',

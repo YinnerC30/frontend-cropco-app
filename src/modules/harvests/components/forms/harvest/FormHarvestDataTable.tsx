@@ -3,6 +3,7 @@ import {
   ButtonDeleteBulk,
 } from '@/modules/core/components';
 import {
+  ErrorCell,
   FormDataTable,
   FormDataTableButtonsPagination,
   FormDataTableFilter,
@@ -17,6 +18,7 @@ import { FormHarvestDetail } from './details/FormHarvestDetail';
 
 import { ScrollArea, ScrollBar } from '@/components';
 import { HarvestDetail } from '@/modules/harvests/interfaces';
+import { Row } from '@tanstack/react-table';
 
 export const FormHarvestDataTable: React.FC = () => {
   const {
@@ -30,6 +32,21 @@ export const FormHarvestDataTable: React.FC = () => {
   const handleSetHarvestDetail = (data: HarvestDetail) => {
     setHarvestDetail(data);
     handleOpenDialog();
+  };
+
+  const validateIsDisabled = (
+    row: Row<any>
+  ): { status: boolean; cellColorError: ErrorCell; message: string } => {
+    const { deletedDate, payment_is_pending } = row.original;
+    const isDisabled = deletedDate !== null || payment_is_pending === false;
+    return {
+      status: isDisabled,
+      cellColorError: payment_is_pending === false ? 'restriction' : 'caution',
+      message:
+        payment_is_pending === false
+          ? 'No se puede eliminar o modificar este registro porque ya ha sido pagado'
+          : 'No se puede modificar este registro porque el empleado ya ha sido eliminado',
+    };
   };
 
   return (
@@ -48,7 +65,7 @@ export const FormHarvestDataTable: React.FC = () => {
         />
 
         {/* Botones */}
-        <div className="flex justify-end w-4/5 gap-2">
+        <div className="flex justify-end w-4/5 gap-2 mr-6 sm:mr-0">
           <ButtonClearSelection
             onClick={dataTableHarvestDetail.resetSelectionRows}
             visible={dataTableHarvestDetail.hasSelectedRecords}
@@ -70,12 +87,13 @@ export const FormHarvestDataTable: React.FC = () => {
 
         {/* Tabla */}
         <ScrollArea
-          className="h-max-[460px] w-[95%] sm:w-full p-1 border rounded-sm self-start"
+          className="h-max-[460px] w-[85%] sm:w-full p-1 border rounded-sm self-start"
           type="auto"
         >
           <FormDataTable
             onCellDoubleClick={handleSetHarvestDetail}
             disabledDoubleClick={readOnly}
+            validationDisabledCell={validateIsDisabled}
           />
 
           <ScrollBar className="mt-2" orientation="horizontal" forceMount />

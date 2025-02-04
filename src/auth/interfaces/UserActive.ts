@@ -5,6 +5,7 @@ export interface UserActive {
   token: string;
   email: string;
   first_name: string;
+  last_name: string;
   modules: Module[];
   isLogin: boolean;
 }

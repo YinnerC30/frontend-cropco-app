@@ -4,7 +4,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { ConvertStringToDate } from '@/modules/core/helpers';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responsess/UseGetOneRecordReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Work } from '../../interfaces/Work';
@@ -18,15 +18,15 @@ export function useGetWork(id: string): UseGetOneRecordReturn<Work> {
   const isAuthorized = hasPermission('works', 'find_one_work');
 
   const query: UseGetOneRecordReturn<Work> = useQuery({
-    queryKey: ['works', id],
+    queryKey: ['work', id],
     queryFn: () => getWorkById(id),
     select: ({ data }) => {
-      console.log(data);
       return {
         ...data,
         date: ConvertStringToDate(data?.date!),
       } as unknown as Work;
     },
+    
   });
 
   useEffect(() => {

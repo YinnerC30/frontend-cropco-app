@@ -49,7 +49,7 @@ export const ClientsActions: React.FC = () => {
         <ButtonDeleteBulk
           disabled={
             mutationDeleteClients.isPending ||
-            !actionsClientsModule['delete_bulk_clients']
+            !actionsClientsModule['remove_bulk_clients']
           }
           onClick={handleDeleteBulkClients}
           visible={dataTable.hasSelectedRecords}

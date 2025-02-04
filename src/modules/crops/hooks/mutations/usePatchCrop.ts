@@ -6,7 +6,7 @@ import { useAuthContext } from '@/auth/hooks';
 import { Crop } from '@/modules/crops/interfaces/Crop';
 
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_CROPS_PATHS } from '../../routes/pathRoutes';
 
@@ -23,6 +23,7 @@ export const usePatchCrop = (): UseMutationReturn<void, Crop> => {
     mutationFn: updateCrop,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['crops'] });
+      await queryClient.invalidateQueries({ queryKey: ['crop'] });
       navigate(MODULE_CROPS_PATHS.ViewAll);
       toast.success(`Cultivo actualizado`);
     },

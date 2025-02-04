@@ -1,6 +1,6 @@
 export * from './CreateUser';
 export * from './DialogChangePassword';
-export * from './FormChangePassword';
+
 export * from './form/FormUser';
 export * from './form/FormUserButtons';
 export * from './form/FormUserContext';

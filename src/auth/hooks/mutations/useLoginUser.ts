@@ -7,7 +7,7 @@ import { LoginUserData } from '@/auth/interfaces';
 
 import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { User } from '@/modules/users/interfaces';
 import { useAuthContext } from '..';
 
@@ -32,10 +32,19 @@ export const useLoginUser = (): UseMutationReturn<User, LoginUserData> => {
       toast.success(`Bienvenido, ${CapitalizeFirstWord(data.first_name)}`);
     },
     onError: (error) => {
+      if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
+        toast.error('El servicio actualmente no se encuentra disponible');
+        return;
+      }
       const { status } = error.response as unknown as TypedAxiosError;
       switch (status) {
         case 401:
           toast.error('Usuario o contraseña incorrectos, intentelo nuevamente');
+          return;
+        case 403:
+          toast.error(
+            'El usuario no cuenta con suficientes permisos para acceder al sistema'
+          );
           return;
         case 400:
           toast.error(

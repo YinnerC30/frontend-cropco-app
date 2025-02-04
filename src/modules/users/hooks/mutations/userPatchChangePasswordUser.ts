@@ -1,10 +1,8 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { PATH_HOME_APP } from '@/config';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 export interface DataChangePassword {
@@ -28,12 +26,10 @@ export function userPatchChangePasswordUser(): UseMutationReturn<
   DataChangePassword
 > {
   const { handleError } = useAuthContext();
-  const navigate = useNavigate();
 
   const mutation: UseMutationReturn<void, DataChangePassword> = useMutation({
     mutationFn: changePasswordUser,
     onSuccess: () => {
-      navigate(PATH_HOME_APP);
       toast.success(`Contraseña cambiada`);
     },
     onError: (error) => {

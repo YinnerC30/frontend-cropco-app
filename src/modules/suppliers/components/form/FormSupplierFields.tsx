@@ -20,7 +20,7 @@ export const FormSupplierFields: React.FC = () => {
           label={formFieldsSupplier.first_name.label}
           name={'first_name'}
           placeholder={formFieldsSupplier.first_name.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <FormFieldInput
           control={form.control}
@@ -28,7 +28,7 @@ export const FormSupplierFields: React.FC = () => {
           label={formFieldsSupplier.last_name.label}
           name={'last_name'}
           placeholder={formFieldsSupplier.last_name.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <FormFieldInput
           control={form.control}
@@ -36,7 +36,7 @@ export const FormSupplierFields: React.FC = () => {
           label={formFieldsSupplier.email.label}
           name={'email'}
           placeholder={formFieldsSupplier.email.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <FormFieldInput
           control={form.control}
@@ -44,7 +44,7 @@ export const FormSupplierFields: React.FC = () => {
           label={formFieldsSupplier.cell_phone_number.label}
           name={'cell_phone_number'}
           placeholder={formFieldsSupplier.cell_phone_number.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
 
         <FormFieldTextArea
@@ -53,7 +53,7 @@ export const FormSupplierFields: React.FC = () => {
           label={formFieldsSupplier.address.label}
           name={'address'}
           placeholder={formFieldsSupplier.address.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
           className='sm:w-2/4'
         />
         <FormFieldInput
@@ -62,7 +62,7 @@ export const FormSupplierFields: React.FC = () => {
           label={formFieldsSupplier.company_name.label}
           name={'company_name'}
           placeholder={formFieldsSupplier.company_name.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
       </form>
     </Form>

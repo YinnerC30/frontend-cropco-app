@@ -1,7 +1,7 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responsess/UseGetOneRecordReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
@@ -26,12 +26,17 @@ export const useGetEmployeePendingPayments = (
   );
 
   const query: UseGetOneRecordReturn<Employee> = useQuery({
-    queryKey: ['employee', 'pending-payments', id],
+    queryKey: ['employee-with-pending-payments', id],
     queryFn: () => getEmployeeWithPaymentsPending(id),
-    select: ({data}) => data,
+    select: ({ data }) => data,
     enabled: id.length > 0 && canExecuteQuery,
-    staleTime: 60_000 * 3,
   });
+
+  useEffect(() => {
+    if (query.isSuccess) {
+      toast.success('Información del empleado obtenida con éxito');
+    }
+  }, [query.isSuccess]);
 
   useEffect(() => {
     if (!isAuthorized) {

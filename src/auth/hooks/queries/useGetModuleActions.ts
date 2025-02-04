@@ -17,7 +17,7 @@ export function useGetModuleActions(
   const query = useQuery({
     queryKey: ['module', name],
     queryFn: () => getModuleActions(name),
-    staleTime: 60 * 1000 * 60 * 5,
+    
   });
   return query;
 }

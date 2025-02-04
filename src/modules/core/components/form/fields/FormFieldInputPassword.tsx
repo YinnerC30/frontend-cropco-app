@@ -10,7 +10,7 @@ import {
 } from '@/components';
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import React, { memo, useState } from 'react';
-import { FormFieldProps } from '../../../interfaces/formm/FormFieldProps';
+import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 
 interface FormFieldInputProps extends FormFieldProps {
   step?: number;

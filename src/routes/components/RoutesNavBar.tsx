@@ -26,7 +26,7 @@ export const routes: Route[] = [
     label: 'Panel de control',
     path: 'dashboard',
     Icon: <Monitor />,
-    name_module: 'N/A',
+    name_module: 'dashboard',
   },
   {
     label: 'Usuarios',
@@ -86,13 +86,13 @@ export const routes: Route[] = [
     label: 'Compras',
     path: 'shopping/view/all',
     Icon: <ShoppingBagIcon />,
-    name_module: 'sales',
+    name_module: 'shopping',
   },
   {
     label: 'Consumos',
     path: 'consumptions/view/all',
     Icon: <Cable />,
-    name_module: 'supplies',
+    name_module: 'consumptions',
   },
   {
     label: 'Pagos',

@@ -6,9 +6,9 @@ import { usePaginationDataTable } from '@/modules/core/hooks';
 import { QueryDateProps } from '@/modules/core/interfaces/queries/QueryDateProps';
 import { QueryPaginationProps } from '@/modules/core/interfaces/queries/QueryPaginationProps';
 import { QueryTotalProps } from '@/modules/core/interfaces/queries/QueryTotalProps';
-import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/TypeGetAllRecordsReturn';
-import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseGetAllRecordsReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Sale } from '../../interfaces';
@@ -23,6 +23,8 @@ export interface GetSalesProps
 
   filter_by_is_receivable?: boolean;
   is_receivable?: boolean;
+  clients: string[]
+  crops: string[]
 }
 
 export const getSales = async (
@@ -31,6 +33,8 @@ export const getSales = async (
   const params = new URLSearchParams({
     limit: props.limit?.toString() || '10',
     offset: props.offset?.toString() || '0',
+    clients: props.clients?.join(',') || '',
+    crops: props.crops?.join(',') || '',
   });
 
   if (props.filter_by_date) {

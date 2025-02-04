@@ -1,4 +1,4 @@
-import { CustomFormField } from '@/modules/core/interfaces/formm/CustomFormField';
+import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
 type FormFieldsSearchBarSale =
   | 'filter_by_date'
@@ -11,12 +11,26 @@ type FormFieldsSearchBarSale =
   | 'type_filter_quantity'
   | 'quantity'
   | 'filter_by_is_receivable'
-  | 'is_receivable';
+  | 'is_receivable'
+  | 'clients'
+  | 'crops';
 
 export const formFieldsSearchBarSale: Record<
   FormFieldsSearchBarSale,
   CustomFormField
 > = {
+  clients: {
+    name: 'clients',
+    label: 'Filtrar por clientes:',
+    placeholder: '',
+    description: 'Activa la opción para filtrar por este modo',
+  },
+  crops: {
+    name: 'crops',
+    label: 'Filtrar por cultivos:',
+    placeholder: '',
+    description: 'Activa la opción para filtrar por este modo',
+  },
   filter_by_date: {
     name: 'filter_by_date',
     label: 'Filtrar por fecha:',

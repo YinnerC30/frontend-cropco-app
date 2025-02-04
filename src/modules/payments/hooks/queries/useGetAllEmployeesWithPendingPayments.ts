@@ -1,7 +1,7 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
-import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/TypeGetAllRecordsReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
@@ -22,9 +22,9 @@ export const useGetAllEmployeesWithPendingPayments =
     );
 
     const query: UseQueryGetAllRecordsReturn<Employee> = useQuery({
-      queryKey: ['employees', 'pending-payments'],
+      queryKey: ['employees-with-pending-payments'],
       queryFn: () => getEmployeesWithPaymentsPending(),
-      staleTime: 60_000 * 60,
+      
       select: ({ data }) => data,
       enabled: isAuthorized,
     });

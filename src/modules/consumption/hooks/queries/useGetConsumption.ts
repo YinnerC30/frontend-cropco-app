@@ -1,6 +1,6 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responsess/UseGetOneRecordReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { useQuery } from '@tanstack/react-query';
 import { ConsumptionSupplies } from '../../interfaces';
 import { useEffect } from 'react';
@@ -19,12 +19,12 @@ export const useGetConsumption = (
 ): UseGetOneRecordReturn<ConsumptionSupplies> => {
   const { handleError, hasPermission } = useAuthContext();
   const isAuthorized = hasPermission(
-    'supplies',
+    'consumptions',
     'find_one_supplies_consumption'
   );
 
   const query: UseGetOneRecordReturn<ConsumptionSupplies> = useQuery({
-    queryKey: ['consumptions', id],
+    queryKey: ['consumption', id],
     queryFn: () => getConsumptionById(id),
     select: ({ data }) =>
       ({

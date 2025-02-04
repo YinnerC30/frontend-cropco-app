@@ -4,7 +4,7 @@ import {
   FormFieldDataTable,
   FormFieldInput,
 } from '@/modules/core/components';
-import { FormatNumber } from '@/modules/core/helpers';
+import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 
 import { useFormSaleContext } from '@/modules/sales/hooks/context/useFormSaleContext';
 import { formFieldsSale } from '@/modules/sales/utils';
@@ -24,7 +24,7 @@ export const FormSaleFields: React.FC = () => {
           label={formFieldsSale.date.label}
           name={'date'}
           placeholder={formFieldsSale.date.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <div className="sm:w-[600px] mt-4">
           <FormFieldDataTable
@@ -33,7 +33,7 @@ export const FormSaleFields: React.FC = () => {
             label={formFieldsSale.details.label}
             name={'details'}
             placeholder={''}
-            readOnly={readOnly}
+            disabled={readOnly}
           >
             <FormSaleDataTable />
           </FormFieldDataTable>
@@ -45,7 +45,7 @@ export const FormSaleFields: React.FC = () => {
           label={formFieldsSale.total.label}
           name={'total'}
           placeholder={formFieldsSale.total.placeholder}
-          readOnly={true}
+          disabled={true}
           type="number"
           hiddenInput
         >
@@ -53,7 +53,7 @@ export const FormSaleFields: React.FC = () => {
             className="block h-8 text-base text-center w-28"
             variant={'cyan'}
           >
-            {FormatNumber(total)}
+            {FormatMoneyValue(total)}
           </Badge>
         </FormFieldInput>
         <FormFieldInput
@@ -62,7 +62,7 @@ export const FormSaleFields: React.FC = () => {
           label={formFieldsSale.quantity.label}
           name={'quantity'}
           placeholder={formFieldsSale.quantity.placeholder}
-          readOnly={true}
+          disabled={true}
           type="number"
           hiddenInput
         >
@@ -70,7 +70,7 @@ export const FormSaleFields: React.FC = () => {
             className="block h-8 text-base text-center w-28"
             variant={'cyan'}
           >
-            {FormatNumber(quantity)}
+            {FormatNumber(quantity) + ' Kg'}
           </Badge>
         </FormFieldInput>
       </form>

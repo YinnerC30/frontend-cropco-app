@@ -28,6 +28,9 @@ export const ActionsTableWorkDetail = ({ row }: { row: Row<WorkDetail> }) => {
     handleOpenDialog();
   };
 
+  const { deletedDate, payment_is_pending } = row.original;
+  const isDisabled = deletedDate !== null || payment_is_pending === false;
+
   return (
     <DropDownMenuActions>
       <ActionCopyIdRecord id={workDetail?.id!} />
@@ -35,9 +38,12 @@ export const ActionsTableWorkDetail = ({ row }: { row: Row<WorkDetail> }) => {
         action={() => {
           handleDelete();
         }}
-        disabled={false}
+        disabled={isDisabled}
       />
-      <ActionModifyRecordFormDataTable action={handleModify} />
+      <ActionModifyRecordFormDataTable
+        disabled={isDisabled}
+        action={handleModify}
+      />
     </DropDownMenuActions>
   );
 };

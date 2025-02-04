@@ -8,12 +8,14 @@ interface CreateColumnsProps<T> {
   columns: ColumnDef<T>[];
   actions: React.FC<{ row: Row<T> }>;
   readOnly?: boolean;
+  customCheckbox?: ColumnDef<any>;
 }
 
 export const useCreateColumnsTable = <T>({
   columns: columnsTable,
   actions: actionsTable,
   hiddenActions = false,
+  customCheckbox,
 }: CreateColumnsProps<T>): ColumnDef<T>[] => {
   const { isSmallScreen } = useResponsiveWindow();
   const columns = [...columnsTable];
@@ -27,7 +29,11 @@ export const useCreateColumnsTable = <T>({
     return columns;
   }
 
-  columns.unshift(CheckboxTable);
+  if (!customCheckbox) {
+    columns.unshift(CheckboxTable as ColumnDef<T>);
+  } else {
+    columns.unshift(customCheckbox as ColumnDef<T>);
+  }
 
   isSmallScreen ? columns.unshift(actions) : columns.push(actions);
   return columns;

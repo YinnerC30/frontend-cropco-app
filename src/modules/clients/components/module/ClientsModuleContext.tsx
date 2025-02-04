@@ -12,14 +12,16 @@ import { columnsTableClients } from './columnsTableClients';
 
 import { DataTableManualReturn } from '@/modules/core/hooks';
 import { BulkRecords } from '@/modules/core/interfaces';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { useDeleteClient } from '../../hooks';
 
 export interface ClientsModuleContextProps {
   paramQuery: string;
   queryClients: UseQueryGetAllRecordsReturn<Client>;
   dataTable: DataTableManualReturn<Client>;
   mutationDeleteClients: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteClient: UseMutationReturn<void, string>;
   actionsClientsModule: Record<string, boolean>;
 }
 
@@ -63,12 +65,14 @@ export const ClientsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
   });
 
   const mutationDeleteClients = useDeleteBulkClients();
+  const mutationDeleteClient = useDeleteClient();
 
   const contextValue: ClientsModuleContextProps = {
     paramQuery: value,
     queryClients,
     dataTable,
     mutationDeleteClients,
+    mutationDeleteClient,
     actionsClientsModule,
   };
 

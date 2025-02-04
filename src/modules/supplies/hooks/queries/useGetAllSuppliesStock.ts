@@ -7,14 +7,15 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import {
   BasicQueryData,
   ResponseApiGetAllRecords,
-  UseGetAllRecordsProps,
+  
 } from '@/modules/core/interfaces';
 
 import { useAuthContext } from '@/auth/hooks';
-import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/TypeGetAllRecordsReturn';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responsess/UseGetOneRecordReturn';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { toast } from 'sonner';
 import { SupplyStock } from '../../interfaces/SupplyStock';
+import { UseGetAllRecordsProps } from '@/modules/core/interfaces/props/PropsUseGetAllRecords';
 
 // FIX: Eliminar propiedades no utilizadas
 
@@ -46,7 +47,7 @@ export const useGetAllSuppliesStock = ({
 
   const query: UseGetOneRecordReturn<ResponseApiGetAllRecords<SupplyStock>> =
     useQuery({
-      queryKey: ['supplies-stock', { queryValue }],
+      queryKey: ['supplies-with-stock', { queryValue }],
       queryFn: () =>
         getAllSuppliesStock({
           query: queryValue,

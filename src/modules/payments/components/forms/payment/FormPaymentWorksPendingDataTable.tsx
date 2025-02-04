@@ -28,6 +28,8 @@ import { RecordToPay } from '@/modules/payments/interfaces/RecordToPay';
 export const FormPaymentWorksPendingDataTable: React.FC = () => {
   const { paymentsState, readOnly, addRecordToPay } = useFormPaymentContext();
 
+  if (paymentsState.current_data.works_detail.length === 0) return;
+
   const columnsTable = useCreateColumnsTable({
     columns: columnsPaymentsPendingWork,
     actions: ActionsTablePaymentsPendingWork,
@@ -68,7 +70,7 @@ export const FormPaymentWorksPendingDataTable: React.FC = () => {
       >
         <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-full">
           {/* Botones */}
-          <div className="flex justify-end w-4/5 gap-2">
+          <div className="flex justify-end w-4/5 gap-2 mr-6 sm:mr-0">
             <ButtonClearSelection
               onClick={resetSelectionRows}
               visible={hasSelectedRecords}
@@ -98,7 +100,7 @@ export const FormPaymentWorksPendingDataTable: React.FC = () => {
 
           {/* Tabla */}
           <ScrollArea
-            className="h-max-[460px] w-screen sm:w-full p-1 border rounded-sm self-start"
+            className="h-max-[460px] w-[85%] sm:w-full p-1 border rounded-sm self-start"
             type="auto"
           >
             <FormDataTable

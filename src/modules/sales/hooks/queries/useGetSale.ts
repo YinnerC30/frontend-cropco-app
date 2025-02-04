@@ -4,7 +4,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { ConvertStringToDate } from '@/modules/core/helpers';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responsess/UseGetOneRecordReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Sale } from '../../interfaces';
@@ -19,7 +19,7 @@ export const useGetSale = (id: string): UseGetOneRecordReturn<Sale> => {
   const isAuthorized = hasPermission('sales', 'find_one_sale');
 
   const query: UseGetOneRecordReturn<Sale> = useQuery({
-    queryKey: ['sales', id],
+    queryKey: ['sale', id],
     queryFn: () => getSaleById(id),
     select: ({ data }) => ({...data, date: ConvertStringToDate(data?.date),} as unknown as Sale),
     enabled: isAuthorized,

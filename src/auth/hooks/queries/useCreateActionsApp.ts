@@ -16,7 +16,7 @@ export function useCreationsApp({ stateQuery }: Props) {
   const query = useQuery({
     queryKey: ['creation-actions-app'],
     queryFn: () => createActionsApp(),
-    staleTime: 60 * 1000 * 60 * 5,
+    
     enabled: stateQuery,
   });
 

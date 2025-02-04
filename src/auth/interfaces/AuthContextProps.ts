@@ -1,12 +1,10 @@
-import { UserActive } from './UserActive';
 import { HandleErrorProps, ModulesCropco } from '../components';
-import { Module } from '@/modules/core/interfaces';
+import { UserActive } from './UserActive';
 
 export interface AuthContextProps {
   saveUser: (user: UserActive) => void;
   isLogin: boolean;
   removeUser: () => void;
-  updateUserActions: (modules: Module[]) => void;
   updateTokenInClient: (token: string) => void;
   tokenSession: string | undefined;
   user: UserActive | null;
@@ -17,4 +15,6 @@ export interface AuthContextProps {
   validatePermissionsInModule: (moduleName: string) => Record<string, boolean>;
   globalActionsUser?: Record<string, Record<string, boolean>>;
   getActionsModule: (moduleName: ModulesCropco) => Record<string, boolean>;
+  isLoading: boolean;
+  isError: boolean;
 }

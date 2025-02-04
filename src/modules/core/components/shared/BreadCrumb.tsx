@@ -25,19 +25,19 @@ interface Props {
 }
 
 export const BreadCrumb: React.FC<Props> = memo(
-  ({ items = [], finalItem, hiddenSeparator = false }: Props) => {
+  ({ items = [], finalItem = '', hiddenSeparator = false }: Props) => {
     const { hasUnsavedChanges } = useFormChange();
     const navigate = useNavigate();
     const { showToast } = useToastDiscardChanges();
 
     return (
-      <div className="">
+      <div className="sticky top-0 z-50 pb-4 bg-background">
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem className='pr-2 border-r'>
+            <BreadcrumbItem className="pr-2 border-r">
               <SidebarTrigger />
             </BreadcrumbItem>
-            
+
             <BreadcrumbItem>
               <BreadcrumbLink
                 className="hover:cursor-pointer"
@@ -75,7 +75,9 @@ export const BreadCrumb: React.FC<Props> = memo(
                 </div>
               );
             })}
-            <BreadcrumbSeparator />
+            {
+              finalItem.length > 0 && (<BreadcrumbSeparator />)
+            }
             <BreadcrumbItem>
               <BreadcrumbPage>{finalItem}</BreadcrumbPage>
             </BreadcrumbItem>

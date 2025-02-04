@@ -2,7 +2,7 @@ import { DataTableTemplate } from '@/modules/core/components';
 import { useCropsModuleContext } from '../../hooks';
 
 export const CropsTable: React.FC = () => {
-  const { dataTable, queryCrops, mutationDeleteCrops, actionsCropsModule } =
+  const { dataTable, queryCrops, mutationDeleteCrops, actionsCropsModule, mutationDeleteCrop } =
     useCropsModuleContext();
 
   return (
@@ -19,7 +19,8 @@ export const CropsTable: React.FC = () => {
       isLoading={
         queryCrops.isLoading ||
         queryCrops.isRefetching ||
-        mutationDeleteCrops.isPending
+        mutationDeleteCrops.isPending ||
+        mutationDeleteCrop.isPending
       }
     />
   );

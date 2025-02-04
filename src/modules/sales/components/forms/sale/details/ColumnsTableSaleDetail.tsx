@@ -10,7 +10,7 @@ export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
   {
     accessorKey: 'client.first_name',
     header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
-      return <ButtonHeaderTable column={column} label={'Empleado:'} />;
+      return <ButtonHeaderTable column={column} label={'Cliente:'} />;
     },
   },
   {
@@ -22,7 +22,7 @@ export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
   {
     accessorKey: 'quantity',
     cell: ({ row }) => {
-      return FormatNumber(row.getValue('quantity'));
+      return FormatNumber(row.getValue('quantity')) + ' Kg';
     },
     header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Cantidad:'} />;

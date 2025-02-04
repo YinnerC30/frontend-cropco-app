@@ -45,7 +45,7 @@ export const SuppliesActions: React.FC = () => {
         <ButtonDeleteBulk
           disabled={
             mutationDeleteSupplies.isPending ||
-            !actionsSuppliesModule['delete_bulk_supplies']
+            !actionsSuppliesModule['remove_bulk_supplies']
           }
           onClick={handleDeleteBulkSupplies}
           visible={dataTable.hasSelectedRecords}

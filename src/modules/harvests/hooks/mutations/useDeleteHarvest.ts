@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 
 export const deleteHarvest = async (id: string):PromiseReturnRecord<void> =>
 {
@@ -26,6 +26,9 @@ export const useDeleteHarvest = (): UseMutationReturn<void, string> => {
       });
       await queryClient.invalidateQueries({
         queryKey: ['crops-with-harvest'],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['harvests-total-year'],
       });
       toast.success(`Cosecha eliminada`);
     },

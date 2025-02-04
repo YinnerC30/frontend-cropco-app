@@ -1,5 +1,5 @@
-import { TypeFilterDate } from '../generall/TypeFilterDate';
-import { TypeFilterNumber } from '../generall/TypeFilterNumber';
+import { TypeFilterDate } from '../general/TypeFilterDate';
+import { TypeFilterNumber } from '../general/TypeFilterNumber';
 
 export const numberFilterOptions = [
   {
@@ -20,6 +20,11 @@ export const numberFilterOptions = [
 ];
 
 export const dateFilterOptions = [
+  {
+    key: TypeFilterDate.equal,
+    value: TypeFilterDate.equal,
+    label: 'El día',
+  },
   {
     key: TypeFilterDate.after,
     value: TypeFilterDate.after,

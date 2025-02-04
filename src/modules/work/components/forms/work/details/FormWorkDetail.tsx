@@ -43,12 +43,18 @@ export const FormWorkDetail: React.FC = () => {
     if (!values.id) {
       const record = {
         ...values,
+        payment_is_pending: true,
+        deletedDate: null,
         id: generateUUID(),
       };
       addWorkDetail(record);
       toast.success('Registro añadido');
     } else {
-      modifyWorkDetail(values);
+      modifyWorkDetail({
+        ...values,
+        payment_is_pending: true,
+        deletedDate: null,
+      });
       toast.success('Registro actualizado');
     }
     setOpenDialog(false);

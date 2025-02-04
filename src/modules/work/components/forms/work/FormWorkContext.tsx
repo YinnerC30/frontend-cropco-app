@@ -21,6 +21,7 @@ import {
 import { toast } from 'sonner';
 
 import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
+import { CheckboxTableCustom } from '@/modules/core/components/table/CheckboxTableCustom';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { FormProps, ResponseApiGetAllRecords } from '@/modules/core/interfaces';
 import { Work } from '@/modules/work/interfaces/Work';
@@ -81,15 +82,21 @@ export interface FormWorkContextValues {
   actionsWorksModule: Record<string, boolean>;
 }
 
-interface WorkAction {
-  type: 'REMOVE' | 'MODIFY' | 'RESET' | 'ADD';
-  payload?: WorkDetail;
-}
+type WorkAction =
+  | {
+      type: 'REMOVE' | 'MODIFY' | 'ADD';
+      payload?: WorkDetail;
+    }
+  | { type: 'RESET'; payload: WorkDetail[] };
 
 const workDetailsReducer = (
   state: WorkDetail[],
   action: WorkAction
 ): WorkDetail[] => {
+  if (action === undefined || action === null) {
+    throw new Error('Action is undefined or null');
+  }
+
   switch (action.type) {
     case 'ADD':
       return [...state, action.payload as WorkDetail];
@@ -100,9 +107,7 @@ const workDetailsReducer = (
         item.id !== action.payload?.id ? item : (action.payload as WorkDetail)
       );
     case 'RESET':
-      return [];
-    default:
-      throw new Error(`Unhandled action type: ${action.type}`);
+      return [...action?.payload];
   }
 };
 
@@ -143,8 +148,14 @@ export const FormWorkProvider: React.FC<
   };
 
   const resetWorkDetails = (): void => {
-    dispatch({ type: 'RESET' });
+    dispatch({ type: 'RESET', payload: detailsDefaultValues });
   };
+
+  useEffect(() => {
+    if (detailsDefaultValues.length > 0) {
+      resetWorkDetails();
+    }
+  }, [detailsDefaultValues]);
 
   const total = useMemo<number>(
     () =>
@@ -166,6 +177,7 @@ export const FormWorkProvider: React.FC<
     columns: columnsWorkDetail,
     actions: ActionsTableWorkDetail,
     hiddenActions: readOnly,
+    customCheckbox: CheckboxTableCustom,
   });
 
   const dataTableWorkDetail = useDataTableGeneric<WorkDetail>({
@@ -175,7 +187,7 @@ export const FormWorkProvider: React.FC<
 
   const { getIdsToRowsSelected, resetSelectionRows } = dataTableWorkDetail;
 
-  const { hasUnsavedChanges, showToast } = useFormChange();
+  const { showToast, markChanges } = useFormChange();
 
   const [workDetail, setWorkDetail] = useState(defaultValuesWorkDetail);
 
@@ -201,14 +213,15 @@ export const FormWorkProvider: React.FC<
   };
 
   const ClearFormWorkDetail = () => {
-    formWorkDetail.reset(defaultValuesWorkDetail);
-
+    if (formWork.formState.isDirty) {
+      markChanges(true);
+    }
     setOpenDialog(false);
   };
 
   const handleCloseDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    if (hasUnsavedChanges) {
+    if (formWorkDetail.formState.isDirty) {
       showToast({
         skiptRedirection: true,
         action: ClearFormWorkDetail,

@@ -7,11 +7,11 @@ import {
 } from '@/modules/core/components';
 
 import { Row } from '@tanstack/react-table';
+import React from 'react';
 import { useShoppingModuleContext } from '../../hooks/context/useShoppingModuleContext';
-import { useDeleteShopping } from '../../hooks/mutations/useDeleteShopping';
 import { ShoppingSupplies } from '../../interfaces';
 import { MODULE_SHOPPING_PATHS } from '../../routes/pathRoutes';
-import React from 'react';
+import { ActionGetDocument } from './ActionGetDocument';
 
 export const ActionsTableShopping: React.FC<{
   row: Row<ShoppingSupplies>;
@@ -19,9 +19,10 @@ export const ActionsTableShopping: React.FC<{
   const {
     dataTable: { resetSelectionRows },
     actionsShoppingModule,
+    mutationDeleteOneShopping,
   } = useShoppingModuleContext();
   const id = row.original.id ?? '';
-  const { mutate } = useDeleteShopping();
+  const { mutate } = mutationDeleteOneShopping;
 
   const handleDelete = () => {
     mutate(id, {
@@ -46,6 +47,10 @@ export const ActionsTableShopping: React.FC<{
         id={id}
         path={MODULE_SHOPPING_PATHS.ViewOne + id}
         disabled={!actionsShoppingModule['find_one_supplies_shopping']}
+      />
+      <ActionGetDocument
+        id={id}
+        disabled={!actionsShoppingModule['export_shopping_to_pdf']}
       />
     </DropDownMenuActions>
   );

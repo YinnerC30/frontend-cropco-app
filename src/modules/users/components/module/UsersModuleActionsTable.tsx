@@ -6,19 +6,21 @@ import {
 } from '@/modules/core/components/data-table/menu/actions';
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
-import { useDeleteUser, useUsersModuleContext } from '../../hooks';
+import { useUsersModuleContext } from '../../hooks';
 import { usePatchResetPasswordUser } from '../../hooks/mutations';
-import { ActionResetPassword } from './ActionResetPassword';
 import { User } from '../../interfaces';
+import { ActionResetPassword } from './ActionResetPassword';
+import { ActionToogleStatusUser } from './ActionToogleStatusUser';
 
 interface Props {
   row: Row<User>;
 }
 
 export const UsersModuleActionsTable: React.FC<Props> = ({ row }) => {
-  const { dataTable, actionsUsersModule } = useUsersModuleContext();
-  const { id, email } = row.original;
-  const mutationDeleteUser = useDeleteUser();
+  const { dataTable, actionsUsersModule, mutationDeleteUser } =
+    useUsersModuleContext();
+  const { id, email, is_active } = row.original;
+
   const mutationPatchPassword = usePatchResetPasswordUser();
 
   const handleDelete = () => {
@@ -54,6 +56,8 @@ export const UsersModuleActionsTable: React.FC<Props> = ({ row }) => {
         id={id}
         disabled={!actionsUsersModule['find_one_user']}
       />
+
+      <ActionToogleStatusUser id={id} status={is_active} />
     </DropDownMenuActions>
   );
 };

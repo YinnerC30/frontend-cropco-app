@@ -43,11 +43,18 @@ export const FormHarvestDetail: React.FC = () => {
       const record = {
         ...values,
         id: generateUUID(),
+        payment_is_pending: true,
+        deletedDate: null,
       };
       addHarvestDetail(record);
       toast.success('Registro añadido');
     } else {
-      modifyHarvestDetail({ ...values, id: values.id });
+      modifyHarvestDetail({
+        ...values,
+        id: values.id,
+        payment_is_pending: true,
+        deletedDate: null,
+      });
       toast.success('Registro actualizado');
     }
     setOpenDialog(false);

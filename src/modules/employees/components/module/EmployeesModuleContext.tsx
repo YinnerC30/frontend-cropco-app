@@ -1,14 +1,18 @@
+import { useAuthContext } from '@/auth';
 import { useDataTableManual } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { createContext, useMemo, useState } from 'react';
-import { useDeleteBulkEmployees, useGetAllEmployees } from '../../hooks';
+import {
+  useDeleteBulkEmployees,
+  useDeleteEmployee,
+  useGetAllEmployees,
+} from '../../hooks';
 import { useGetCertificationEmployee } from '../../hooks/queries/useGetCertificationEmployee';
 import { Employee } from '../../interfaces/Employee';
+import { EmployeesModuleContextProps } from '../../interfaces/EmployeesModuleContextProps';
 import { EmployeesModuleActionsTable } from './EmployeesModuleActionsTable';
 import { columnsTableEmployees } from './columnsTableEmployees';
-import { EmployeesModuleContextProps } from '../../interfaces/EmployeesModuleContextProps';
-import { useAuthContext } from '@/auth';
 
 export const EmployeesModuleContext = createContext<
   EmployeesModuleContextProps | undefined
@@ -69,12 +73,14 @@ export const EmployeesModuleProvider = ({
   });
 
   const mutationDeleteEmployees = useDeleteBulkEmployees();
+  const mutationDeleteEmployee = useDeleteEmployee();
 
   const contextValue: EmployeesModuleContextProps = {
     paramQuery: value,
     queryEmployees,
     dataTable,
     mutationDeleteEmployees,
+    mutationDeleteEmployee,
     queryGetCertification,
     userIdCertification,
     setUserIdCertification,

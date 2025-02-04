@@ -74,7 +74,7 @@ export const HarvestProcessedFields: React.FC = () => {
           label={formFieldsHarvestProcessed.date.label}
           name={'date'}
           placeholder={formFieldsHarvestProcessed.date.placeholder}
-          readOnly={true}
+          disabled={true}
         />
 
         <FormFieldInput
@@ -83,7 +83,7 @@ export const HarvestProcessedFields: React.FC = () => {
           label={formFieldsHarvestProcessed.crop.label}
           name={'crop.name'}
           placeholder={formFieldsHarvestProcessed.crop.placeholder}
-          readOnly={true}
+          disabled={true}
         />
 
         <FormFieldTextArea
@@ -92,7 +92,7 @@ export const HarvestProcessedFields: React.FC = () => {
           label={formFieldsHarvestProcessed.observation.label}
           name={'observation'}
           placeholder={formFieldsHarvestProcessed.observation.placeholder}
-          readOnly={true}
+          disabled={true}
           className="w-[300px]"
         />
 
@@ -102,7 +102,7 @@ export const HarvestProcessedFields: React.FC = () => {
           label={formFieldsHarvestProcessed.total.label}
           name={'total'}
           placeholder={formFieldsHarvestProcessed.total.placeholder}
-          readOnly={true}
+          disabled={true}
           type="number"
           hiddenInput
         >
@@ -121,7 +121,7 @@ export const HarvestProcessedFields: React.FC = () => {
           label={formFieldsHarvestProcessed.value_pay.label}
           name={'value_pay'}
           placeholder={formFieldsHarvestProcessed.value_pay.placeholder}
-          readOnly={true}
+          disabled={true}
           type="number"
           hiddenInput
         >

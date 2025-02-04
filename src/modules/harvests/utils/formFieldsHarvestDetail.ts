@@ -1,4 +1,4 @@
-import { CustomFormField } from '@/modules/core/interfaces/formm/CustomFormField';
+import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
 type HarvestDetailFormFields = 'employee' | 'total' | 'value_pay';
 
@@ -14,9 +14,9 @@ export const formFieldsHarvestDetail: Record<
   },
   total: {
     name: 'total',
-    label: 'Total:',
+    label: 'Total (Kg):',
     placeholder: '0',
-    description: 'Introduce la cantidad que ha cosechado',
+    description: 'Introduce la cantidad de Kg que ha cosechado',
   },
   value_pay: {
     name: 'value_pay',

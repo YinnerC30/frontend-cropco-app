@@ -2,7 +2,7 @@ import {
   schemaForDate,
   schemaForTotal,
 } from '@/modules/core/helpers/schemas-validation/SchemasSearchBar';
-import { TypeFilterNumber } from '@/modules/core/interfaces/generall/TypeFilterNumber';
+import { TypeFilterNumber } from '@/modules/core/interfaces/general/TypeFilterNumber';
 import { z } from 'zod';
 
 export const formSchemaSearchBarSale = z.object({
@@ -27,6 +27,23 @@ export const formSchemaSearchBarSale = z.object({
       })
       .optional(),
   }),
+
+  clients: z
+    .array(
+      z.object({
+        id: z.string().optional(),
+        first_name: z.string().optional(),
+      })
+    )
+    .optional(),
+  crops: z
+    .array(
+      z.object({
+        id: z.string().optional(),
+        name: z.string().optional(),
+      })
+    )
+    .optional(),
 
   // filter_by_is_receivable: z.object({
   //   is_receivable: z

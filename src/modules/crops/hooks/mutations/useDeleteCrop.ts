@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 
 export const deleteCrop = async (id: string): PromiseReturnRecord<void> => {
   return await cropcoAPI.delete(`${pathsCropco.crops}/remove/one/${id}`);
@@ -17,12 +17,18 @@ export const useDeleteCrop = (): UseMutationReturn<void, string> => {
     mutationFn: deleteCrop,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['crops'] });
+      await queryClient.invalidateQueries({ queryKey: ['harvest'] });
+      await queryClient.invalidateQueries({ queryKey: ['work'] });
+      await queryClient.invalidateQueries({ queryKey: ['sale'] });
+      await queryClient.invalidateQueries({ queryKey: ['consumption'] });
       toast.success(`Cultivo eliminado`);
     },
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        messagesStatusError: {
+          conflict: 'El cultivo aun tiene stock disponible',
+        },
       });
     },
     retry: 1,

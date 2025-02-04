@@ -1,8 +1,8 @@
-import { Chart } from "../Chart";
+import { Charts } from "../Charts";
 
 export const dashboardRoutes = {
   path: "dashboard",
-  element: <Chart/>,
+  element: <Charts/>,
 };
 
 export default { dashboardRoutes };

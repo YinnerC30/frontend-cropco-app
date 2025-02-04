@@ -7,6 +7,7 @@ export const ClientsTable: React.FC = () => {
     queryClients,
     mutationDeleteClients,
     actionsClientsModule,
+    mutationDeleteClient,
   } = useClientsModuleContext();
 
   return (
@@ -23,7 +24,8 @@ export const ClientsTable: React.FC = () => {
       isLoading={
         queryClients.isLoading ||
         queryClients.isRefetching ||
-        mutationDeleteClients.isPending
+        mutationDeleteClients.isPending ||
+        mutationDeleteClient.isPending
       }
     />
   );

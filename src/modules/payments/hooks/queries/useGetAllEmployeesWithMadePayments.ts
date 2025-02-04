@@ -1,7 +1,7 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
-import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/TypeGetAllRecordsReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
@@ -21,9 +21,9 @@ export const useGetAllEmployeesWithMadePayments =
       'find_all_employees_with_made_payments'
     );
     const query: UseQueryGetAllRecordsReturn<Employee> = useQuery({
-      queryKey: ['employees', 'made-payments'],
+      queryKey: ['employees-with-made-payments'],
       queryFn: () => getEmployeesWithPaymentsMade(),
-      staleTime: 60_000 * 60,
+      
       select: ({ data }) => data,
       enabled: isAuthorized,
     });

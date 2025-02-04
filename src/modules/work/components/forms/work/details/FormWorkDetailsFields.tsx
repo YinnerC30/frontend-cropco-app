@@ -41,7 +41,7 @@ export const FormWorkDetailsFields: React.FC = () => {
           label={formFieldsWorkDetail.employee.label}
           name={'employee'}
           placeholder={formFieldsWorkDetail.employee.placeholder}
-          readOnly={false}
+          disabled={false}
           nameEntity="empleado"
           isLoading={queryEmployees.isLoading}
           className="w-52"
@@ -53,7 +53,7 @@ export const FormWorkDetailsFields: React.FC = () => {
           label={formFieldsWorkDetail.value_pay.label}
           name={'value_pay'}
           placeholder={formFieldsWorkDetail.value_pay.placeholder}
-          readOnly={false}
+          disabled={false}
           type="number"
           step={50}
         />

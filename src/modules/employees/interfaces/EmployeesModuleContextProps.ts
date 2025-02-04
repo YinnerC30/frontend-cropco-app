@@ -1,7 +1,7 @@
 import { DataTableManualReturn } from '@/modules/core/hooks';
 import { BulkRecords } from '@/modules/core/interfaces';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Employee } from './Employee';
@@ -11,6 +11,7 @@ export interface EmployeesModuleContextProps {
   queryEmployees: UseQueryGetAllRecordsReturn<Employee>;
   dataTable: DataTableManualReturn<Employee>;
   mutationDeleteEmployees: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteEmployee: UseMutationReturn<void, string>;
   actionsEmployeesModule: Record<string, boolean>;
   queryGetCertification: UseQueryResult<Blob, AxiosError>;
   userIdCertification: string;

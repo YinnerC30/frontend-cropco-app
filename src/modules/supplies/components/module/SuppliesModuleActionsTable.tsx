@@ -6,7 +6,7 @@ import {
 } from '@/modules/core/components';
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
-import { useDeleteSupply, useSuppliesModuleContext } from '../../hooks';
+import { useSuppliesModuleContext } from '../../hooks';
 import { Supply } from '../../interfaces/Supply';
 
 interface Props {
@@ -17,10 +17,11 @@ export const SuppliesModuleActionsTable: React.FC<Props> = ({ row }) => {
   const {
     dataTable: { resetSelectionRows },
     actionsSuppliesModule,
+    mutationDeleteSupply
   } = useSuppliesModuleContext();
 
   const id = row.original.id ?? '';
-  const mutationDeleteSupply = useDeleteSupply();
+  
 
   const handleDelete = () => {
     mutationDeleteSupply.mutate(id, {

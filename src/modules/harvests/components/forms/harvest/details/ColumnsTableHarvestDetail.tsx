@@ -15,7 +15,7 @@ export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
   {
     accessorKey: 'total',
     cell: ({ row }) => {
-      return FormatNumber(row.getValue('total'));
+      return FormatNumber(row.getValue('total')) + ' Kg';
     },
     header: ({ column }: HeaderContext<HarvestDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Total cosechado:'} />;

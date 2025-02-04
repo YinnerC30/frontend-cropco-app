@@ -8,7 +8,7 @@ import {
   Input,
 } from '@/components';
 import { memo } from 'react';
-import { FormFieldProps } from '../../../interfaces/formm/FormFieldProps';
+import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 
 interface FormFieldInputProps extends FormFieldProps {
   step?: number;
@@ -24,7 +24,7 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
     label,
     name,
     placeholder,
-    readOnly = false,
+    disabled: readOnly = false,
     type: typeInput = 'text',
     className = '',
     children,

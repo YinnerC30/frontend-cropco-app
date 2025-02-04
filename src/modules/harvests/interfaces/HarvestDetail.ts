@@ -1,7 +1,8 @@
-import { ObjectWithId } from '@/modules/core/interfaces/generall/ObjectWithId';
+import { LogicDeleteRecordProps } from '@/modules/core/interfaces/general/LogicDeleteRecordProps';
+import { ObjectWithId } from '@/modules/core/interfaces/general/ObjectWithId';
 import { Harvest } from './Harvest';
 
-export interface HarvestDetail {
+export interface HarvestDetail extends LogicDeleteRecordProps {
   id?: string;
   employee: ObjectWithId;
   payments_harvest?: any[];

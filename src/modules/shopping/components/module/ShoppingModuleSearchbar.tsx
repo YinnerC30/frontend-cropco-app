@@ -11,6 +11,7 @@ import {
   FormFieldCalendar,
   FormFieldInput,
   FormFieldSelect,
+  Loading,
   ToolTipTemplate,
 } from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
@@ -24,7 +25,7 @@ import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Calendar, Filter, X } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
 import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
@@ -40,11 +41,41 @@ import { useShoppingModuleContext } from '../../hooks/context/useShoppingModuleC
 import { MODULE_SHOPPING_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarShopping } from '../../utils/formFieldsSearchBarShopping';
 import { formSchemaSearchBarShopping } from '../../utils/formSchemaSearchBarShopping';
+import { useGetAllSuppliesWithShopping } from '@/modules/supplies/hooks/queries/useGetAllSuppliesWithShopping';
+import { useGetAllSuppliersWithShopping } from '@/modules/suppliers/hooks/queries/useGetAllSuppliersWithShopping';
+
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
+
+import { ScrollArea } from '@/components/ui/scroll-area';
+
+import { CapitalizeFirstWord } from '@/auth';
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { cn } from '@/lib/utils';
+import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
+import { ControllerRenderProps } from 'react-hook-form';
 
 export const ShoppingModuleSearchbar: React.FC = () => {
-  const { paramsQuery, actionsShoppingModule } = useShoppingModuleContext();
+  const { paramsQuery, actionsShoppingModule, hasParamsQuery } =
+    useShoppingModuleContext();
   const readOnly = !actionsShoppingModule['find_all_supplies_shopping'];
   const navigate = useNavigate();
+
+  const querySupplies = useGetAllSuppliesWithShopping();
+  const querySuppliers = useGetAllSuppliersWithShopping();
 
   const form: UseFormReturn<
     z.infer<typeof formSchemaSearchBarShopping>,
@@ -58,7 +89,10 @@ export const ShoppingModuleSearchbar: React.FC = () => {
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
-  const [openPopover, setOpenPopover] = useState(false);
+
+  const [openPopoverDate, setOpenPopoverDate] = useState(false);
+  const [openPopoverSupply, setOpenPopoverSupply] = useState(false);
+  const [openPopoverSupplier, setOpenPopoverSupplier] = useState(false);
 
   const handleAddFilter = async (
     name: keyof z.infer<typeof formSchemaSearchBarShopping>
@@ -66,9 +100,40 @@ export const ShoppingModuleSearchbar: React.FC = () => {
     const isValid = await form.trigger(name);
     if (!isValid) return false;
 
-    const { filter_by_total } = form.watch();
+    const { filter_by_total, suppliers = [], supplies = [] } = form.watch();
 
     const filters: FilterSearchBar[] = [];
+
+    if (suppliers?.length > 0) {
+      filters.push({
+        key: 'suppliers',
+        label: `Proveedores: ${
+          suppliers.some((e) => !e.first_name === true)
+            ? suppliers
+                .map((e) => {
+                  return querySuppliers.data?.rows.find((cl) => cl.id === e.id)
+                    ?.first_name;
+                })
+                .join(', ')
+            : suppliers.map((e) => e.first_name).join(', ')
+        }`,
+      });
+    }
+    if (supplies?.length > 0) {
+      filters.push({
+        key: 'supplies',
+        label: `Insumos: ${
+          supplies.some((e) => !e.name === true)
+            ? supplies
+                .map((e) => {
+                  return querySupplies.data?.rows.find((cr) => cr.id === e.id)
+                    ?.name;
+                })
+                .join(', ')
+            : supplies.map((e) => e.name).join(', ')
+        }`,
+      });
+    }
 
     const { type_filter_total, total } = filter_by_total;
     if (type_filter_total && total) {
@@ -87,16 +152,15 @@ export const ShoppingModuleSearchbar: React.FC = () => {
     return true;
   };
 
-  const handleClearErrorsForm = (
-    name: keyof z.infer<typeof formSchemaSearchBarShopping>
-  ) => {
-    form.clearErrors(name);
-    form.resetField(name);
-  };
-
   const handleRemoveFilter = async (filter: FilterSearchBar) => {
     setAppliedFilters((prev) => prev.filter((f) => f.key !== filter.key));
     switch (filter.key) {
+      case 'suppliers':
+        form.setValue('suppliers', [], { shouldDirty: false });
+        break;
+      case 'supplies':
+        form.setValue('supplies', [], { shouldDirty: false });
+        break;
       case 'date':
         form.setValue('filter_by_date.type_filter_date', undefined, {
           shouldDirty: false,
@@ -117,6 +181,13 @@ export const ShoppingModuleSearchbar: React.FC = () => {
     values: z.infer<typeof formSchemaSearchBarShopping>
   ) => {
     const params = new URLSearchParams();
+
+    if (values.suppliers!.length > 0) {
+      params.append('suppliers', values.suppliers!.map((e) => e.id).join(','));
+    }
+    if (values.supplies!.length > 0) {
+      params.append('supplies', values.supplies!.map((e) => e.id).join(','));
+    }
 
     if (values.filter_by_date.type_filter_date && values.filter_by_date.date) {
       params.append('filter_by_date', 'true');
@@ -154,6 +225,8 @@ export const ShoppingModuleSearchbar: React.FC = () => {
           type_filter_total: TypeFilterNumber.MIN,
           total: 0,
         },
+        suppliers: [],
+        supplies: [],
       },
       {
         keepErrors: false,
@@ -164,8 +237,29 @@ export const ShoppingModuleSearchbar: React.FC = () => {
     toast.success('Se han limpiado los filtros');
   };
 
+  const handleClearErrorsForm = (
+    name: keyof z.infer<typeof formSchemaSearchBarShopping>
+  ) => {
+    form.clearErrors(name);
+    form.resetField(name);
+  };
+
+  useEffect(() => {
+    const addFilters = async () => {
+      for (const key of Object.keys(paramsQuery)) {
+        await handleAddFilter(
+          key as keyof z.infer<typeof formSchemaSearchBarShopping>
+        );
+      }
+    };
+
+    if (querySuppliers.isSuccess && querySupplies.isSuccess && hasParamsQuery) {
+      addFilters();
+    }
+  }, [querySuppliers.isSuccess, querySupplies.isSuccess, hasParamsQuery]);
+
   return (
-    <div className="flex flex-col items-start justify-start w-[1000px]">
+    <div className="flex flex-col items-start justify-start my-4 sm:w-full">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSearch)}
@@ -173,14 +267,17 @@ export const ShoppingModuleSearchbar: React.FC = () => {
           className="flex flex-col w-full"
         >
           <DropdownMenu open={openDropDownMenu} modal={false}>
-            <div className="flex flex-col items-center justify-center w-screen md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
+            <div className="flex flex-col items-center justify-center  md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
-                <Popover open={openPopover} onOpenChange={setOpenPopover}>
+                <Popover
+                  open={openPopoverDate}
+                  onOpenChange={setOpenPopoverDate}
+                >
                   <PopoverTrigger asChild>
                     <Button
                       className="w-auto lg:w-[300px]"
                       variant={'outline'}
-                      onClick={() => setOpenPopover(true)}
+                      onClick={() => setOpenPopoverDate(true)}
                     >
                       {!form.getValues('filter_by_date.date') ||
                       !paramsQuery.filter_by_date?.date
@@ -203,13 +300,13 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                   <PopoverContent>
                     <FormFieldSelect
                       items={dateFilterOptions}
-                      readOnly={false}
+                      disabled={false}
                       {...formFieldsSearchBarShopping.type_filter_date}
                       name="filter_by_date.type_filter_date"
                       control={form.control}
                     />
                     <FormFieldCalendar
-                      readOnly={false}
+                      disabled={false}
                       {...formFieldsSearchBarShopping.date}
                       control={form.control}
                       name="filter_by_date.date"
@@ -223,7 +320,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                           const result = await handleAddFilter(
                             'filter_by_date'
                           );
-                          setOpenPopover(!result);
+                          setOpenPopoverDate(!result);
                         }}
                       >
                         Aplicar
@@ -232,7 +329,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                         variant={'destructive'}
                         className="self-end w-24 mt-4"
                         onClick={() => {
-                          setOpenPopover(false);
+                          setOpenPopoverDate(false);
                           handleClearErrorsForm('filter_by_date');
                         }}
                       >
@@ -281,20 +378,330 @@ export const ShoppingModuleSearchbar: React.FC = () => {
               onCloseAutoFocus={(e) => e.preventDefault()}
             >
               <FilterDropdownItem
+                label={'Proveedores'}
+                className=" lg:w-[280px]"
+                content={
+                  <>
+                    <FormField
+                      control={form.control}
+                      name={`suppliers`}
+                      render={({
+                        field,
+                      }: {
+                        field: ControllerRenderProps<any, any>;
+                      }) => {
+                        const currentEmployees = form.watch('suppliers');
+
+                        return (
+                          <FormItem className="">
+                            <FormLabel className="block my-2">
+                              {'Proveedores involucrados:'}
+                            </FormLabel>
+                            <Popover
+                              open={openPopoverSupplier}
+                              onOpenChange={setOpenPopoverSupplier}
+                              modal={true}
+                            >
+                              <PopoverTrigger asChild>
+                                <FormControl>
+                                  {querySuppliers.isLoading ? (
+                                    <div className="w-[200px]">
+                                      <Loading className="" />
+                                    </div>
+                                  ) : (
+                                    <Button
+                                      variant="outline"
+                                      role="combobox"
+                                      aria-expanded={openPopoverSupplier}
+                                      className={` ${cn(
+                                        'justify-between',
+                                        !field.value && 'text-muted-foreground'
+                                      )}`}
+                                      ref={field.ref}
+                                      onBlur={field.onBlur}
+                                      disabled={readOnly}
+                                    >
+                                      {field.value.length > 0 &&
+                                      !!querySuppliers.data
+                                        ? `${
+                                            currentEmployees!.length
+                                          } seleccionado(s)`
+                                        : 'Selecciona proveedors'}
+
+                                      <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                                    </Button>
+                                  )}
+                                </FormControl>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-[200px] p-0">
+                                <Command>
+                                  <CommandInput
+                                    placeholder={`Buscar proveedor...`}
+                                    className="h-9"
+                                  />
+                                  <CommandList>
+                                    <ScrollArea className="w-auto h-56 p-1 pr-2">
+                                      <CommandEmpty>{`${CapitalizeFirstWord(
+                                        'proveedor'
+                                      )} no encontrado`}</CommandEmpty>
+                                      <CommandGroup>
+                                        {querySuppliers?.data?.rows.map(
+                                          (item) => {
+                                            return (
+                                              <CommandItem
+                                                value={item?.['first_name']}
+                                                key={item.id!}
+                                                onSelect={() => {
+                                                  if (
+                                                    field?.value?.some(
+                                                      (i: any) =>
+                                                        i.id === item?.id
+                                                    )
+                                                  ) {
+                                                    form.setValue(
+                                                      'suppliers',
+                                                      [
+                                                        ...field?.value?.filter(
+                                                          (i: any) =>
+                                                            i.id !== item?.id
+                                                        ),
+                                                      ],
+                                                      {
+                                                        shouldValidate: true,
+                                                        shouldDirty: true,
+                                                      }
+                                                    );
+                                                  } else {
+                                                    form.setValue(
+                                                      'suppliers',
+                                                      [
+                                                        ...(currentEmployees ||
+                                                          []),
+                                                        {
+                                                          id: item.id,
+                                                          first_name:
+                                                            item['first_name'],
+                                                        },
+                                                      ],
+                                                      {
+                                                        shouldValidate: true,
+                                                        shouldDirty: true,
+                                                      }
+                                                    );
+                                                  }
+                                                  setOpenPopoverSupplier(false);
+                                                }}
+                                              >
+                                                <div className="">
+                                                  {item?.['first_name']}
+                                                </div>
+                                                <CheckIcon
+                                                  className={cn(
+                                                    'ml-auto h-4 w-4',
+                                                    field?.value.some(
+                                                      (i: any) => {
+                                                        return (
+                                                          i.id === item?.id
+                                                        );
+                                                      }
+                                                    )
+                                                      ? 'opacity-100'
+                                                      : 'opacity-0'
+                                                  )}
+                                                />
+                                              </CommandItem>
+                                            );
+                                          }
+                                        )}
+                                      </CommandGroup>
+                                    </ScrollArea>
+                                  </CommandList>
+                                </Command>
+                              </PopoverContent>
+                            </Popover>
+                            <FormDescription>
+                              {'Cliente(s) que han participado en trabajos'}
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  </>
+                }
+                actionOnSave={() => handleAddFilter('suppliers')}
+                actionOnClose={() => handleClearErrorsForm('suppliers')}
+              />
+
+              <FilterDropdownItem
+                label={'Insumos'}
+                className=" lg:w-[280px]"
+                content={
+                  <>
+                    <FormField
+                      control={form.control}
+                      name={`supplies`}
+                      render={({
+                        field,
+                      }: {
+                        field: ControllerRenderProps<any, any>;
+                      }) => {
+                        const currentCrops = form.watch('supplies');
+
+                        return (
+                          <FormItem className="">
+                            <FormLabel className="block my-2">
+                              {'Insumos involucrados:'}
+                            </FormLabel>
+                            <Popover
+                              open={openPopoverSupply}
+                              onOpenChange={setOpenPopoverSupply}
+                              modal={true}
+                            >
+                              <PopoverTrigger asChild>
+                                <FormControl>
+                                  {querySupplies.isLoading ? (
+                                    <div className="w-[200px]">
+                                      <Loading className="" />
+                                    </div>
+                                  ) : (
+                                    <Button
+                                      variant="outline"
+                                      role="combobox"
+                                      aria-expanded={openPopoverSupply}
+                                      className={` ${cn(
+                                        'justify-between',
+                                        !field.value && 'text-muted-foreground'
+                                      )}`}
+                                      ref={field.ref}
+                                      onBlur={field.onBlur}
+                                      disabled={readOnly}
+                                    >
+                                      {field.value.length > 0 &&
+                                      !!querySupplies.data
+                                        ? `${
+                                            currentCrops!.length
+                                          } seleccionado(s)`
+                                        : 'Selecciona insumos'}
+
+                                      <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                                    </Button>
+                                  )}
+                                </FormControl>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-[200px] p-0">
+                                <Command>
+                                  <CommandInput
+                                    placeholder={`Buscar cliente...`}
+                                    className="h-9"
+                                  />
+                                  <CommandList>
+                                    <ScrollArea className="w-auto h-56 p-1 pr-2">
+                                      <CommandEmpty>{`${CapitalizeFirstWord(
+                                        'cultivo'
+                                      )} no encontrado`}</CommandEmpty>
+                                      <CommandGroup>
+                                        {querySupplies?.data?.rows.map(
+                                          (item) => {
+                                            return (
+                                              <CommandItem
+                                                value={item?.['name']}
+                                                key={item.id!}
+                                                onSelect={() => {
+                                                  if (
+                                                    field?.value?.some(
+                                                      (i: any) =>
+                                                        i.id === item?.id
+                                                    )
+                                                  ) {
+                                                    form.setValue(
+                                                      'supplies',
+                                                      [
+                                                        ...field?.value?.filter(
+                                                          (i: any) =>
+                                                            i.id !== item?.id
+                                                        ),
+                                                      ],
+                                                      {
+                                                        shouldValidate: true,
+                                                        shouldDirty: true,
+                                                      }
+                                                    );
+                                                  } else {
+                                                    form.setValue(
+                                                      'supplies',
+                                                      [
+                                                        ...(currentCrops || []),
+                                                        {
+                                                          id: item.id,
+                                                          name: item['name'],
+                                                        },
+                                                      ],
+                                                      {
+                                                        shouldValidate: true,
+                                                        shouldDirty: true,
+                                                      }
+                                                    );
+                                                  }
+                                                  setOpenPopoverSupply(false);
+                                                }}
+                                              >
+                                                <div className="">
+                                                  {item?.['name']}
+                                                </div>
+                                                <CheckIcon
+                                                  className={cn(
+                                                    'ml-auto h-4 w-4',
+                                                    field?.value.some(
+                                                      (i: any) => {
+                                                        return (
+                                                          i.id === item?.id
+                                                        );
+                                                      }
+                                                    )
+                                                      ? 'opacity-100'
+                                                      : 'opacity-0'
+                                                  )}
+                                                />
+                                              </CommandItem>
+                                            );
+                                          }
+                                        )}
+                                      </CommandGroup>
+                                    </ScrollArea>
+                                  </CommandList>
+                                </Command>
+                              </PopoverContent>
+                            </Popover>
+                            <FormDescription>
+                              {'Cultivo(s) que han participado en la compra'}
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  </>
+                }
+                actionOnSave={() => handleAddFilter('supplies')}
+                actionOnClose={() => handleClearErrorsForm('supplies')}
+              />
+
+              <FilterDropdownItem
                 label={'Total'}
                 actionOnSave={() => handleAddFilter('filter_by_total')}
                 actionOnClose={() => handleClearErrorsForm('filter_by_total')}
                 content={
                   <>
                     <FormFieldSelect
-                      readOnly={false}
+                      disabled={false}
                       items={numberFilterOptions}
                       {...formFieldsSearchBarShopping.type_filter_total}
                       control={form.control}
                       name="filter_by_total.type_filter_total"
                     />
                     <FormFieldInput
-                      readOnly={false}
+                      disabled={false}
                       {...formFieldsSearchBarShopping.total}
                       control={form.control}
                       type="number"

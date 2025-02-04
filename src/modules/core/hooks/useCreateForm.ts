@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { useFormChange } from '../components/form/FormChangeContext';
+import { toast } from 'sonner';
 
 interface Props {
   schema: z.ZodObject<any> | any;
@@ -25,17 +26,19 @@ export const useCreateForm = ({
     mode: validationMode,
   });
 
-  const { isDirty, isSubmitSuccessful } = form.formState;
+  const { isDirty, errors } = form.formState;
 
   useEffect(() => {
-    if (!skiptDirty) {
-      isDirty ? markChanges(true) : markChanges(false);
+    if (Object.keys(errors).length > 0 && skiptDirty === false) {
+      toast.error('Faltan campos por rellenar en el formulario');
+    }
+  }, [errors]);
+
+  useEffect(() => {
+    if (skiptDirty === false) {
+      isDirty ? markChanges(true) : null;
     }
   }, [isDirty]);
-
-  useEffect(() => {
-    isSubmitSuccessful && markChanges(false);
-  }, [isSubmitSuccessful]);
 
   return form;
 };

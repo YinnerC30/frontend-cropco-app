@@ -6,7 +6,7 @@ import {
   FormFieldInput,
   FormFieldTextArea,
 } from '@/modules/core/components';
-import { FormatNumber } from '@/modules/core/helpers';
+import { FormatMoneyValue } from '@/modules/core/helpers';
 
 import { useGetAllCrops } from '@/modules/crops/hooks';
 import { useFormWorkContext } from '@/modules/work/hooks/context/useFormWorkContext';
@@ -15,6 +15,8 @@ import { FormWorkDataTable } from './FormWorkDataTable';
 
 export const FormWorkFields: React.FC = () => {
   const { formWork, onSubmit, readOnly, total } = useFormWorkContext();
+
+  const disabledCropField = formWork.formState.defaultValues?.crop?.id !== '';
 
   const { query: queryCrops } = useGetAllCrops({
     queryValue: '',
@@ -35,10 +37,17 @@ export const FormWorkFields: React.FC = () => {
             label={formFieldsWork.date.label}
             name={'date'}
             placeholder={formFieldsWork.date.placeholder}
-            readOnly={readOnly}
+            disabled={readOnly}
           />
           <FormFieldCommand
-            data={queryCrops?.data?.rows || []}
+            data={
+              queryCrops.isSuccess
+                ? [
+                    ...queryCrops.data?.rows,
+                    formWork.formState.defaultValues?.crop,
+                  ]
+                : []
+            }
             form={formWork}
             nameToShow={'name'}
             control={formWork.control}
@@ -46,7 +55,7 @@ export const FormWorkFields: React.FC = () => {
             label={formFieldsWork.crop.label}
             name={'crop'}
             placeholder={formFieldsWork.crop.placeholder}
-            readOnly={readOnly}
+            disabled={readOnly || disabledCropField}
             isLoading={queryCrops.isLoading}
             nameEntity="cultivo"
             className="w-52"
@@ -58,7 +67,7 @@ export const FormWorkFields: React.FC = () => {
             label={formFieldsWork.description.label}
             name={'description'}
             placeholder={formFieldsWork.description.placeholder}
-            readOnly={readOnly}
+            disabled={readOnly}
           />
         </div>
 
@@ -69,7 +78,7 @@ export const FormWorkFields: React.FC = () => {
             label={formFieldsWork.details.label}
             name={'details'}
             placeholder={''}
-            readOnly={readOnly}
+            disabled={readOnly}
           >
             <FormWorkDataTable />
           </FormFieldDataTable>
@@ -80,7 +89,7 @@ export const FormWorkFields: React.FC = () => {
             label={formFieldsWork.total.label}
             name={'total'}
             placeholder={formFieldsWork.total.placeholder}
-            readOnly={true}
+            disabled={true}
             type="number"
             hiddenInput
           >
@@ -88,7 +97,7 @@ export const FormWorkFields: React.FC = () => {
               className="block h-8 text-base text-center w-28"
               variant={'cyan'}
             >
-              {FormatNumber(total)}
+              {FormatMoneyValue(total)}
             </Badge>
           </FormFieldInput>
         </div>

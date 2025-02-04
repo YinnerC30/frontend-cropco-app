@@ -7,17 +7,17 @@ import {
 } from '@/modules/core/components';
 import { Row } from '@tanstack/react-table';
 import { useWorkModuleContext } from '../../hooks/context/useWorkModuleContext';
-import { useDeleteWork } from '../../hooks/mutations/useDeleteWork';
 import { Work } from '../../interfaces/Work';
 import { MODULE_WORKS_PATHS } from '../../routes/pathRoutes';
+import { ActionGetDocument } from './ActionGetDocument';
 
 export const ActionsTableWork = ({ row }: { row: Row<Work> }) => {
   const {
     dataTable: { resetSelectionRows },
     actionsWorksModule,
+    mutationDeleteWork: { mutate },
   } = useWorkModuleContext();
   const id = row.original.id ?? '';
-  const { mutate } = useDeleteWork();
 
   const handleDelete = () => {
     mutate(id, {
@@ -42,6 +42,10 @@ export const ActionsTableWork = ({ row }: { row: Row<Work> }) => {
         id={id}
         path={MODULE_WORKS_PATHS.ViewOne + id}
         disabled={!actionsWorksModule['find_one_work']}
+      />
+      <ActionGetDocument
+        id={id!}
+        disabled={!actionsWorksModule['export_work_to_pdf']}
       />
     </DropDownMenuActions>
   );

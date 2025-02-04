@@ -4,15 +4,14 @@ import { useEffect } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
-import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import {
   BasicQueryData,
   UseGetAllRecordsProps
 } from '@/modules/core/interfaces';
-import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/TypeGetAllRecordsReturn';
-import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseGetAllRecordsReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
 import { Crop } from '../../interfaces/Crop';
 
@@ -42,7 +41,7 @@ export const useGetAllCropsWithHarvest = ({
     hasPermission('harvests', 'find_all_harvests');
 
   const query: UseQueryGetAllRecordsReturn<Crop> = useQuery({
-    queryKey: ['crops-with-harvest', { queryValue, ...pagination }],
+    queryKey: ['crops-with-harvests', { queryValue, ...pagination }],
     queryFn: () =>
       getCropsWithHarvest({
         query: queryValue,
@@ -52,7 +51,7 @@ export const useGetAllCropsWithHarvest = ({
       }),
     select: ({ data }) => data,
     enabled: isAuthorized,
-    staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    
   });
 
   useEffect(() => {

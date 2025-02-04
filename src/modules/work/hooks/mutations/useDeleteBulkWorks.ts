@@ -2,7 +2,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -28,7 +28,9 @@ export const useDeleteBulkWorks = (): UseMutationReturn<void, BulkRecords> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        messagesStatusError: {
+          conflict: 'El registro tiene pagos realizados',
+        },
       });
     },
 

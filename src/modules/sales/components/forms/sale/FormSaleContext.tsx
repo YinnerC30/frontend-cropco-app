@@ -18,9 +18,10 @@ import {
 
 import { toast } from 'sonner';
 
+import { CheckboxTableCustomClient } from '@/modules/core/components/table/CheckboxTableCustomClient';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { FormProps } from '@/modules/core/interfaces';
-import { useGetAllHarvestsStock } from '@/modules/harvests/hooks';
+
 import { Sale, SaleDetail } from '@/modules/sales/interfaces';
 import { formSchemaSale } from '@/modules/sales/utils';
 import { formSchemaSaleDetails } from '@/modules/sales/utils/formSchemaSaleDetail';
@@ -28,6 +29,8 @@ import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { ActionsTableSaleDetail } from './details/ActionsTableSaleDetail';
 import { columnsSaleDetail } from './details/ColumnsTableSaleDetail';
+import { useGetAllCropsWithStock } from '@/modules/crops/hooks/queries/useGetAllCropsWithStock';
+
 
 const defaultValuesSale = {
   date: undefined,
@@ -77,22 +80,32 @@ export interface FormSaleContextValues {
   modifySaleDetail: (saleDetail: SaleDetail) => void;
   resetSaleDetails: () => void;
   handleOpenDialog: () => void;
+  toggleStatusPayment: (id: string) => void;
   handleCloseDialog: (event: React.MouseEvent<HTMLButtonElement>) => void;
   resetSaleDetail: () => void;
   handleDeleteBulkSaleDetails: () => void;
   removeSaleDetail: (saleDetail: SaleDetail) => void;
   actionsSalesModule: Record<string, boolean>;
-  queryCropsWithHarvest: ReturnType<typeof useGetAllHarvestsStock>;
+  queryCropsWithStock: ReturnType<typeof useGetAllCropsWithStock>;
   cropStock: CropStock[];
   addCropStock: (cropStock: CropStock) => void;
   removeCropStock: (cropStock: CropStock) => void;
   validateAvailableStock: (record: CropStock) => boolean;
 }
 
-interface SaleAction {
-  type: 'REMOVE' | 'MODIFY' | 'RESET' | 'ADD';
-  payload?: SaleDetail;
-}
+type SaleAction =
+  | {
+      type: 'REMOVE' | 'MODIFY' | 'ADD';
+      payload?: SaleDetail;
+    }
+  | {
+      type: 'RESET';
+      payload: SaleDetail[];
+    }
+  | {
+      type: 'TOGGLE_STATUS_PAYMENT';
+      payload: string;
+    };
 
 const saleDetailsReducer = (
   state: SaleDetail[],
@@ -108,9 +121,17 @@ const saleDetailsReducer = (
         item.id !== action.payload?.id ? item : (action.payload as SaleDetail)
       );
     case 'RESET':
-      return [];
-    default:
-      throw new Error(`Unhandled action type: ${action.type}`);
+      return [...action.payload];
+    case 'TOGGLE_STATUS_PAYMENT':
+      return state.map((item) => {
+        if (item.id === action.payload) {
+          return {
+            ...item,
+            is_receivable: !item.is_receivable,
+          };
+        }
+        return item;
+      });
   }
 };
 
@@ -198,10 +219,20 @@ export const FormSaleProvider: React.FC<
   };
 
   const resetSaleDetails = (): void => {
-    dispatchSaleDetails({ type: 'RESET' });
+    dispatchSaleDetails({ type: 'RESET', payload: detailsDefaultValues });
   };
 
-  const queryCropsWithStock = useGetAllHarvestsStock();
+  const toggleStatusPayment = (id: string): void => {
+    dispatchSaleDetails({ type: 'TOGGLE_STATUS_PAYMENT', payload: id });
+  };
+
+  useEffect(() => {
+    if (detailsDefaultValues.length > 0) {
+      resetSaleDetails();
+    }
+  }, [detailsDefaultValues]);
+
+  const queryCropsWithStock = useGetAllCropsWithStock();
 
   const [cropStock, dispatchCropStock] = useReducer(cropStockReducer, []);
 
@@ -253,6 +284,7 @@ export const FormSaleProvider: React.FC<
     columns: columnsSaleDetail,
     actions: ActionsTableSaleDetail,
     hiddenActions: readOnly,
+    customCheckbox: CheckboxTableCustomClient,
   });
 
   const dataTableSaleDetail = useDataTableGeneric<SaleDetail>({
@@ -262,8 +294,7 @@ export const FormSaleProvider: React.FC<
 
   const { getIdsToRowsSelected, resetSelectionRows } = dataTableSaleDetail;
 
-  
-  const { hasUnsavedChanges, showToast } = useFormChange();
+  const {  showToast, markChanges } = useFormChange();
 
   const [saleDetail, setSaleDetail] = useState(defaultValuesSaleDetail);
 
@@ -292,13 +323,16 @@ export const FormSaleProvider: React.FC<
       name: saleDetail.crop?.name!,
       stock: saleDetail.quantity,
     });
-    formSaleDetail.reset(defaultValuesSaleDetail);
+    // formSaleDetail.reset(defaultValuesSaleDetail);
+    if (formSale.formState.isDirty) {
+      markChanges(true);
+    }
     setOpenDialog(false);
   };
 
   const handleCloseDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    if (hasUnsavedChanges) {
+    if (formSaleDetail.formState.isDirty) {
       showToast({
         skiptRedirection: true,
         action: ClearFormSaleDetail,
@@ -371,11 +405,12 @@ export const FormSaleProvider: React.FC<
         resetSaleDetails,
         quantity,
         actionsSalesModule,
-        queryCropsWithHarvest: queryCropsWithStock,
+        queryCropsWithStock,
         cropStock,
         addCropStock,
         removeCropStock,
         validateAvailableStock,
+        toggleStatusPayment,
       }}
     >
       {children}

@@ -25,6 +25,7 @@ import {
 import { toast } from 'sonner';
 
 import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
+import { CheckboxTableCustom } from '@/modules/core/components/table/CheckboxTableCustom';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { FormProps, ResponseApiGetAllRecords } from '@/modules/core/interfaces';
 import { UseQueryResult } from '@tanstack/react-query';
@@ -86,10 +87,15 @@ export interface FormHarvestContextProps {
   actionsHarvestsModule: Record<string, boolean>;
 }
 
-interface HarvestAction {
-  type: 'REMOVE' | 'MODIFY' | 'RESET' | 'ADD';
-  payload?: HarvestDetail;
-}
+type HarvestAction =
+  | {
+      type: 'REMOVE' | 'MODIFY' | 'ADD';
+      payload?: HarvestDetail;
+    }
+  | {
+      type: 'RESET';
+      payload: HarvestDetail[];
+    };
 
 const harvestDetailsReducer = (
   state: HarvestDetail[],
@@ -107,9 +113,7 @@ const harvestDetailsReducer = (
           : (action.payload as HarvestDetail)
       );
     case 'RESET':
-      return [];
-    default:
-      throw new Error(`Unhandled action type: ${action.type}`);
+      return [...action.payload];
   }
 };
 
@@ -151,8 +155,14 @@ export const FormHarvestProvider: React.FC<
   };
 
   const resetHarvestDetails = (): void => {
-    dispatch({ type: 'RESET' });
+    dispatch({ type: 'RESET', payload: detailsDefaultValues });
   };
+
+  useEffect(() => {
+    if (detailsDefaultValues.length > 0) {
+      resetHarvestDetails();
+    }
+  }, [detailsDefaultValues]);
 
   const total = useMemo<number>(
     () =>
@@ -177,13 +187,14 @@ export const FormHarvestProvider: React.FC<
     columns: columnsHarvestDetail,
     actions: ActionsTableHarvestDetail,
     hiddenActions: readOnly,
+    customCheckbox: CheckboxTableCustom,
   });
 
   const dataTableHarvestDetail = useDataTableGeneric<HarvestDetail>({
     columns: columnsTable,
     rows: detailsHarvest,
   });
-  const { hasUnsavedChanges, showToast } = useFormChange();
+  const { showToast, markChanges } = useFormChange();
 
   const [harvestDetail, setHarvestDetail] = useState<HarvestDetail>(
     defaultValuesHarvestDetail
@@ -214,17 +225,19 @@ export const FormHarvestProvider: React.FC<
     event: React.MouseEvent<HTMLButtonElement>
   ): void => {
     event.preventDefault();
-    if (hasUnsavedChanges) {
+    if (formHarvestDetail.formState.isDirty) {
       showToast({
         skiptRedirection: true,
         action: (): void => {
-          formHarvestDetail.reset(defaultValuesHarvestDetail);
+          if (formHarvest.formState.isDirty) {
+            markChanges(true);
+          }
           setOpenDialog(false);
         },
       });
       return;
     }
-    formHarvestDetail.reset(defaultValuesHarvestDetail);
+
     setOpenDialog(false);
   };
 
@@ -245,7 +258,6 @@ export const FormHarvestProvider: React.FC<
   const isFirstRender = useRef(true);
 
   useEffect(() => {
-    console.log('Render')
     formHarvest.setValue('details', detailsHarvest, {
       shouldValidate: !isFirstRender.current,
       shouldDirty: true,

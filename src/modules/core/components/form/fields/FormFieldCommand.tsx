@@ -27,7 +27,7 @@ import { cn } from '@/lib/utils';
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
-import { FormFieldProps } from '../../../interfaces/formm/FormFieldProps';
+import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 import { Loading } from '../../shared/Loading';
 
 interface FormFieldCommandProps extends FormFieldProps {
@@ -49,7 +49,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
   form,
   description,
   nameToShow,
-  readOnly,
+  disabled: readOnly,
   isLoading = false,
   nameEntity = 'registro',
   className,
@@ -115,6 +115,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                         {data.map((item) => {
                           return (
                             <CommandItem
+                              disabled={item.disabled}
                               value={item?.[nameToShow]}
                               key={item.id!}
                               onSelect={() => {

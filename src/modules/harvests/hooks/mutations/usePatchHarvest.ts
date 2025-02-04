@@ -5,11 +5,12 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
 import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { Harvest } from '@/modules/harvests/interfaces/Harvest';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
+import { useFormChange } from '@/modules/core/components';
 
 export const updateHarvest = async (
   harvest: Harvest
@@ -25,10 +26,15 @@ export const usePatchHarvest = (): UseMutationReturn<void, Harvest> => {
   const { handleError } = useAuthContext();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { markChanges } = useFormChange();
   const mutation = useMutation({
     mutationFn: updateHarvest,
     onSuccess: async (_, variables) => {
+      markChanges(false);
       await queryClient.invalidateQueries({ queryKey: ['harvests'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['harvests-total-year'],
+      });
       await queryClient.invalidateQueries({
         queryKey: ['harvest', variables.id],
       });

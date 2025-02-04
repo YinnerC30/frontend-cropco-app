@@ -5,7 +5,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useNavigate } from 'react-router-dom';
 import { Employee } from '../../interfaces/Employee';
 import { MODULE_EMPLOYEE_PATHS } from '../../routes/pathRoutes';
@@ -24,6 +24,12 @@ export const usePostEmployee = (): UseMutationReturn<Employee, Employee> => {
     mutationFn: createEmployee,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['employees'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['employees-top-harvests'],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['employees-top-works'],
+      });
       navigate(MODULE_EMPLOYEE_PATHS.ViewAll);
       toast.success(`Empleado creado`);
     },

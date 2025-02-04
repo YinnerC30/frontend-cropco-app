@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 
 export const deleteWork = async (id: string): PromiseReturnRecord<void> => {
   return await cropcoAPI.delete(`${pathsCropco.works}/remove/one/${id}`);
@@ -22,7 +22,9 @@ export const useDeleteWork = (): UseMutationReturn<void, string> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        messagesStatusError: {
+          conflict: 'El registro tiene pagos realizados',
+        },
       });
     },
     retry: 1,

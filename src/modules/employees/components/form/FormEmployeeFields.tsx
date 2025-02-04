@@ -20,7 +20,7 @@ export const FormEmployeeFields: React.FC = () => {
           label={formFieldsEmployee.first_name.label}
           name={'first_name'}
           placeholder={formFieldsEmployee.first_name.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <FormFieldInput
           control={form.control}
@@ -28,7 +28,7 @@ export const FormEmployeeFields: React.FC = () => {
           label={formFieldsEmployee.last_name.label}
           name={'last_name'}
           placeholder={formFieldsEmployee.last_name.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <FormFieldInput
           control={form.control}
@@ -36,7 +36,7 @@ export const FormEmployeeFields: React.FC = () => {
           label={formFieldsEmployee.email.label}
           name={'email'}
           placeholder={formFieldsEmployee.email.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <FormFieldInput
           control={form.control}
@@ -44,7 +44,7 @@ export const FormEmployeeFields: React.FC = () => {
           label={formFieldsEmployee.cell_phone_number.label}
           name={'cell_phone_number'}
           placeholder={formFieldsEmployee.cell_phone_number.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
 
         <FormFieldTextArea
@@ -53,7 +53,7 @@ export const FormEmployeeFields: React.FC = () => {
           label={formFieldsEmployee.address.label}
           name={'address'}
           placeholder={formFieldsEmployee.address.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
           className="sm:w-2/4"
         />
       </form>

@@ -9,9 +9,9 @@ import {
 
 import { useAuthContext } from '@/auth/hooks';
 import { usePaginationDataTable } from '@/modules/core/hooks';
-import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/TypeGetAllRecordsReturn';
-import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseGetAllRecordsReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
 import { Supply } from '../../interfaces/Supply';
 
@@ -31,8 +31,6 @@ export const getSupplies = async ({
   return await cropcoAPI.get(`${pathsCropco.supplies}/all?${params}`);
 };
 
-// TODO: Cambiar stale time
-const STALE_TIME_DATA = 60_000 * 60;
 export const useGetAllSupplies = ({
   queryValue,
   allRecords,
@@ -51,9 +49,8 @@ export const useGetAllSupplies = ({
         offset: pagination.pageIndex,
         allRecords,
       }),
-      select: ({ data }) => data,
+    select: ({ data }) => data,
     enabled: isAuthorized,
-    staleTime: STALE_TIME_DATA,
   });
 
   useEffect(() => {

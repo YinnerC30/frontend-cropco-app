@@ -54,6 +54,7 @@ export const FormSaleDetail: React.FC = () => {
     if (!values.id) {
       const record = {
         ...values,
+        deletedDate: null,
         id: generateUUID(),
       };
 
@@ -72,7 +73,10 @@ export const FormSaleDetail: React.FC = () => {
         stock: values.quantity,
       });
 
-      modifySaleDetail(values);
+      modifySaleDetail({
+        ...values,
+        deletedDate: null,
+      });
       toast.success('Registro actualizado');
     }
 

@@ -43,7 +43,7 @@ export const FormSaleDetailsFields: React.FC = () => {
     readOnly,
     saleDetail,
     formSaleDetail,
-    queryCropsWithHarvest,
+    queryCropsWithStock,
     cropStock,
     addCropStock,
   } = useFormSaleContext();
@@ -76,33 +76,16 @@ export const FormSaleDetailsFields: React.FC = () => {
           label={formFieldsSaleDetail.client.label}
           name={'client'}
           placeholder={formFieldsSaleDetail.client.placeholder}
-          readOnly={false}
+          disabled={false}
           nameEntity="cliente"
           isLoading={queryClients.isLoading}
           className="w-52"
         />
-        {/* <FormFieldCommand
-          data={cropStock}
-          form={formSaleDetail}
-          nameToShow={'name'}
-          control={formSaleDetail.control}
-          description={formFieldsSaleDetail.crop.description}
-          label={formFieldsSaleDetail.crop.label}
-          name={'crop'}
-          placeholder={formFieldsSaleDetail.crop.placeholder}
-          readOnly={readOnly}
-          isLoading={queryCropsWithHarvest.isLoading}
-          nameEntity="cultivo"
-          className="w-52"
-        /> */}
+
         <FormField
           control={formSaleDetail.control}
           name={`crop.id`}
-          render={({
-            field,
-          }: {
-            field: ControllerRenderProps<any, any>;
-          }) => {
+          render={({ field }: { field: ControllerRenderProps<any, any> }) => {
             return (
               <FormItem className="my-4">
                 <FormLabel className="block">
@@ -116,7 +99,7 @@ export const FormSaleDetailsFields: React.FC = () => {
                 >
                   <PopoverTrigger asChild>
                     <FormControl>
-                      {queryCropsWithHarvest.isLoading ? (
+                      {queryCropsWithStock.isLoading ? (
                         <div className="w-[200px]">
                           <Loading className="" />
                         </div>
@@ -143,9 +126,11 @@ export const FormSaleDetailsFields: React.FC = () => {
                             className={`${!field.value ? 'hidden' : 'ml-14'}`}
                             variant={'cyan'}
                           >
-                            { 'Disponibles: ' + cropStock.find((item: CropStock) => {
+                            {'Disponibles: ' +
+                              cropStock.find((item: CropStock) => {
                                 return item.id === field.value;
-                              })?.['stock'] + ' Kg'}
+                              })?.['stock'] +
+                              ' Kg'}
                           </Badge>
 
                           <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
@@ -231,7 +216,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           label={formFieldsSaleDetail.is_receivable.label}
           name={'is_receivable'}
           placeholder={formFieldsSaleDetail.is_receivable.placeholder}
-          readOnly={false}
+          disabled={false}
         />
         <FormFieldInput
           control={formSaleDetail.control}
@@ -239,7 +224,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           label={formFieldsSaleDetail.quantity.label}
           name={'quantity'}
           placeholder={formFieldsSaleDetail.quantity.placeholder}
-          readOnly={false}
+          disabled={false}
           type="number"
           step={50}
         />
@@ -249,7 +234,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           label={formFieldsSaleDetail.total.label}
           name={'total'}
           placeholder={formFieldsSaleDetail.total.placeholder}
-          readOnly={false}
+          disabled={false}
           type="number"
           step={50}
         />

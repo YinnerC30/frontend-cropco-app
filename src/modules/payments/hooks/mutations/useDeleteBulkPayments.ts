@@ -2,7 +2,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -31,6 +31,18 @@ export const useDeleteBulkPayments = (): UseMutationReturn<
       });
       await queryClient.invalidateQueries({
         queryKey: ['employees', 'pending-payments'],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['harvest'],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['harvests'],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['works'],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ['work'],
       });
       toast.success(`Pagos eliminados`);
     },

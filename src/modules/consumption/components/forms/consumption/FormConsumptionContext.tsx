@@ -31,10 +31,11 @@ import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import { z } from 'zod';
 import { ActionsTableConsumptionDetail } from '../consumption/details/ActionsTableConsumptionDetail';
 import { columnsConsumptionDetail } from '../consumption/details/ColumnsTableConsumptionDetail';
+import { CheckboxTableCustomClient } from '@/modules/core/components/table/CheckboxTableCustomClient';
 
 export const defaultValuesConsumptionDetail: ConsumptionDetails = {
   id: undefined,
-  supply: { id: '', name: '' },
+  supply: { id: '', name: '', unit_of_measure: '' },
   crop: { id: '', name: '' },
   amount: 0,
 };
@@ -219,7 +220,7 @@ export const FormConsumptionProvider: React.FC<
     const result = supply?.amount >= record.amount && record.amount >= 0;
     if (!result) {
       toast.error(
-        `No hay suficiente inventario para el insumo ${record.name}.\nInventario disponible: ${supply.amount} Kg`
+        `No hay suficiente inventario para el insumo ${record.name}.\nInventario disponible: ${supply.amount} ${supply.unit_of_measure}`
       );
     }
     return result;
@@ -249,6 +250,7 @@ export const FormConsumptionProvider: React.FC<
     columns: columnsConsumptionDetail,
     actions: ActionsTableConsumptionDetail,
     hiddenActions: readOnly,
+    customCheckbox: CheckboxTableCustomClient,
   });
 
   const dataTableConsumptionDetail = useDataTableGeneric<ConsumptionDetails>({
@@ -259,7 +261,7 @@ export const FormConsumptionProvider: React.FC<
   const { getIdsToRowsSelected, resetSelectionRows } =
     dataTableConsumptionDetail;
 
-  const { hasUnsavedChanges, showToast } = useFormChange();
+  const {  showToast, markChanges } = useFormChange();
 
   const [consumptionDetail, setConsumptionDetail] = useState(
     defaultValuesConsumptionDetail
@@ -287,13 +289,17 @@ export const FormConsumptionProvider: React.FC<
       name: consumptionDetail.supply?.name!,
       amount: consumptionDetail.amount,
     } as any);
-    formConsumptionDetail.reset(defaultValuesConsumptionDetail);
+    // formConsumptionDetail.reset(defaultValuesConsumptionDetail);
+    if (formConsumption.formState.isDirty) {
+      markChanges(true);
+    }
+
     setOpenDialog(false);
   };
 
   const handleCloseDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    if (hasUnsavedChanges) {
+    if (formConsumptionDetail.formState.isDirty) {
       showToast({
         skiptRedirection: true,
         action: ClearFormConsumptionDetail,

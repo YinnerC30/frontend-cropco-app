@@ -4,7 +4,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { ConvertStringToDate } from '@/modules/core/helpers';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responsess/UseGetOneRecordReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Harvest } from '../../interfaces';
@@ -21,7 +21,7 @@ export const useGetHarvest = (id: string): UseGetOneRecordReturn<Harvest> => {
   const query: UseGetOneRecordReturn<Harvest> = useQuery({
     queryKey: ['harvest', id],
     queryFn: () => getHarvestById(id),
-    staleTime: 60_000 * 60,
+    
     select: ({ data }) => {
       return {
         ...data,

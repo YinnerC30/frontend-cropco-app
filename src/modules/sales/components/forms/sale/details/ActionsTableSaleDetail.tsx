@@ -10,14 +10,20 @@ import { Row } from '@tanstack/react-table';
 import React from 'react';
 
 import { toast } from 'sonner';
+import { ActionToggleStatusSaleDetail } from './ActionToggleStatusSaleDetail';
 
 export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
   row,
 }) => {
   const saleDetail = row.original;
 
-  const { setSaleDetail, handleOpenDialog, removeSaleDetail, addCropStock } =
-    useFormSaleContext();
+  const {
+    setSaleDetail,
+    handleOpenDialog,
+    removeSaleDetail,
+    addCropStock,
+    toggleStatusPayment,
+  } = useFormSaleContext();
 
   const handleDelete = () => {
     addCropStock({
@@ -35,6 +41,12 @@ export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
     setSaleDetail(saleDetail);
     handleOpenDialog();
   };
+  const handleToggle = () => {
+    toggleStatusPayment(saleDetail.id!);
+  };
+
+  const { deletedDate } = row.original;
+  const isDisabled = deletedDate !== null;
 
   return (
     <DropDownMenuActions>
@@ -43,10 +55,18 @@ export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
         action={() => {
           handleDelete();
         }}
-        disabled={false}
+        disabled={isDisabled}
       />
-      {/* TODO: Activar disabled */}
-      <ActionModifyRecordFormDataTable action={handleModify} />
+
+      <ActionModifyRecordFormDataTable
+        disabled={isDisabled}
+        action={handleModify}
+      />
+
+      <ActionToggleStatusSaleDetail
+        disabled={isDisabled}
+        action={handleToggle}
+      />
     </DropDownMenuActions>
   );
 };

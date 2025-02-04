@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_SUPPLIES_PATHS } from '../../routes/pathRoutes';
@@ -21,7 +21,7 @@ export const usePostSupply = (): UseMutationReturn<Supply, Supply> => {
   const mutation: UseMutationReturn<Supply, Supply> = useMutation({
     mutationFn: createSupply,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['suppliers'] });
+      await queryClient.invalidateQueries({ queryKey: ['supplies'] });
       navigate(MODULE_SUPPLIES_PATHS.ViewAll);
       toast.success(`Insumo creado`);
     },

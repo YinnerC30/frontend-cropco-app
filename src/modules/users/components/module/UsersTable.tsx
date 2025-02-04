@@ -2,8 +2,13 @@ import { DataTableTemplate } from '@/modules/core/components';
 import { useUsersModuleContext } from '../../hooks';
 
 export const UsersTable: React.FC = () => {
-  const { dataTable, queryUsers, actionsUsersModule, mutationDeleteUsers } =
-    useUsersModuleContext();
+  const {
+    dataTable,
+    queryUsers,
+    actionsUsersModule,
+    mutationDeleteUsers,
+    mutationDeleteUser,
+  } = useUsersModuleContext();
 
   const { table, lengthColumns } = dataTable;
 
@@ -21,7 +26,8 @@ export const UsersTable: React.FC = () => {
       isLoading={
         queryUsers.isLoading ||
         queryUsers.isRefetching ||
-        mutationDeleteUsers.isPending
+        mutationDeleteUsers.isPending ||
+        mutationDeleteUser.isPending
       }
     />
   );

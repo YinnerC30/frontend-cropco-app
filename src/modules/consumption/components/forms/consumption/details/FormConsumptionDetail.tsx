@@ -54,6 +54,7 @@ export const FormConsumptionDetail: React.FC = () => {
     if (!consumptionDetail.id) {
       const record = {
         ...values,
+        deletedDate: null,
         id: generateUUID(),
       };
       removeSupplyStock({
@@ -64,7 +65,7 @@ export const FormConsumptionDetail: React.FC = () => {
       addConsumptionDetail(record);
       toast.success('Registro añadido');
     } else {
-      const record = { ...values, id: consumptionDetail.id };
+      const record = { ...values, id: consumptionDetail.id, deletedDate: null };
       removeSupplyStock({
         id: values.supply.id,
         name: values.supply?.name!,
@@ -115,9 +116,10 @@ export const FormConsumptionDetail: React.FC = () => {
             <span className="sr-only">Close</span>
           </DialogClose>
           <DialogHeader>
-            <DialogTitle>Compra a proveedores</DialogTitle>
+            <DialogTitle>Consumo de sumistro</DialogTitle>
             <DialogDescription className="">
-              Información detallada de la compra realizada al proveedor
+              Información detallada del consumo realizado al suminstro por
+              cultivo
             </DialogDescription>
           </DialogHeader>
 

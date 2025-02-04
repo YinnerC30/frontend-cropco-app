@@ -32,6 +32,9 @@ export const ActionsTableShoppingDetail = ({
     handleOpenDialog();
   };
 
+  const { deletedDate } = row.original;
+  const isDisabled = deletedDate !== null;
+
   return (
     <DropDownMenuActions>
       <ActionCopyIdRecord id={shoppingDetail?.id!} />
@@ -39,9 +42,12 @@ export const ActionsTableShoppingDetail = ({
         action={() => {
           handleDelete();
         }}
-        disabled={false}
+        disabled={isDisabled}
       />
-      <ActionModifyRecordFormDataTable action={handleModify} />
+      <ActionModifyRecordFormDataTable
+        action={handleModify}
+        disabled={isDisabled}
+      />
     </DropDownMenuActions>
   );
 };

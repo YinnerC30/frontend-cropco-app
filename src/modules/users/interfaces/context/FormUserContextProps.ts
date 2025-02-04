@@ -1,5 +1,5 @@
 import { Module } from '@/modules/core/interfaces';
-import { FormContextProps } from '@/modules/core/interfaces/formm/FormContextProps';
+import { FormContextProps } from '@/modules/core/interfaces/form/FormContextProps';
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { z } from 'zod';

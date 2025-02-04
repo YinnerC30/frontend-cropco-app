@@ -1,6 +1,7 @@
-import { ObjectWithId } from "@/modules/core/interfaces/generall/ObjectWithId";
+import { LogicDeleteRecordProps } from "@/modules/core/interfaces/general/LogicDeleteRecordProps";
+import { ObjectWithId } from "@/modules/core/interfaces/general/ObjectWithId";
 
-export interface SaleDetail {
+export interface SaleDetail extends LogicDeleteRecordProps {
   id?: string;
   quantity: number;
   total: number;

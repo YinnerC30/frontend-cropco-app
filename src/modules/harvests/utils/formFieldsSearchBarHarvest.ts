@@ -1,7 +1,8 @@
-import { CustomFormField } from '@/modules/core/interfaces/formm/CustomFormField';
+import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
 type SearchBarHarvestFormFields =
   | 'crop'
+  | 'employees'
   | 'filter_by_date'
   | 'type_filter_date'
   | 'date'
@@ -21,6 +22,12 @@ export const formFieldsSearchBarHarvest: Record<
     label: 'Filtrar por cultivo:',
     placeholder: 'Selecciona un cultivo',
     description: 'Nombre del cultivo al cual se le realizo la cosecha',
+  },
+  employees: {
+    name: 'employees',
+    label: 'Filtrar por empleados:',
+    placeholder: 'Selecciona empleado(s)',
+    description: 'Nombre de empleado(s) que participo en la cosecha',
   },
   filter_by_date: {
     name: 'filter_by_date',

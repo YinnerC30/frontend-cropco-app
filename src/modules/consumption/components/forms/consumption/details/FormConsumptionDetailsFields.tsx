@@ -80,7 +80,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
           label={formFieldsConsumptionDetail.crop.label}
           name={'crop'}
           placeholder={formFieldsConsumptionDetail.crop.placeholder}
-          readOnly={false}
+          disabled={false}
           nameEntity="cultivo"
           isLoading={queryCrops.isLoading}
           className="w-52"
@@ -136,8 +136,13 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                                   suppliesStock.find((item: SupplyStock) => {
                                     return item.id === field.value;
                                   })?.['amount'] || 0
-                                ) +
-                                ' Kg'}
+                                )}
+
+                              {suppliesStock.find((item: SupplyStock) => {
+                                return item.id === field.value;
+                              })?.['unit_of_measure'] === 'GRAMOS'
+                                ? ' g'
+                                : ' ml'}
                             </Badge>
                           )}
 
@@ -176,6 +181,8 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                                         {
                                           id: item?.id,
                                           ['name']: item['name'],
+                                          ['unit_of_measure']:
+                                            item?.['unit_of_measure'],
                                         },
                                         {
                                           shouldValidate: true,
@@ -189,7 +196,13 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                                   <div className="flex justify-between w-full ">
                                     <span>{item?.['name']}</span>
                                     <span className="font-bold">
-                                      {FormatNumber(item?.['amount']) + ' Kg'}
+                                      {FormatNumber(item?.['amount']) +
+                                        ' ' +
+                                        CapitalizeFirstWord(
+                                          item?.[
+                                            'unit_of_measure'
+                                          ]?.toLowerCase() || ''
+                                        )}
                                     </span>
                                   </div>
                                   <CheckIcon
@@ -224,7 +237,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
           label={formFieldsConsumptionDetail.amount.label}
           name={'amount'}
           placeholder={formFieldsConsumptionDetail.amount.placeholder}
-          readOnly={false}
+          disabled={false}
           type="number"
           step={50}
         />

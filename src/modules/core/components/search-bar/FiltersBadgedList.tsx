@@ -17,9 +17,9 @@ const FiltersBadgedListComponent: React.FC<Props> = ({
     return null;
   }
   return (
-    <div className="mt-2 ">
+    <div className="w-2/4 mt-2">
       <Label className="block">Filtros aplicados:</Label>
-      <div className="flex flex-wrap gap-2 my-4 ">
+      <div className="flex flex-wrap gap-2 my-4">
         {filters.map((filter, index) => (
           <Badge key={index} variant="secondary">
             {filter.label}

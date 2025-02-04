@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_SUPPLIES_PATHS } from '../../routes/pathRoutes';
@@ -27,6 +27,7 @@ export const usePatchSupply = (): UseMutationReturn<void, Supply> => {
     mutationFn: updateSupply,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['supplies'] });
+      await queryClient.invalidateQueries({ queryKey: ['supply'] });
       navigate(MODULE_SUPPLIES_PATHS.ViewAll);
       toast.success(`Insumo actualizado`);
     },

@@ -33,7 +33,9 @@ export const FormHarvestDetailsFields: React.FC = () => {
     <Form {...formHarvestDetail}>
       <form className="z-50 mx-5" id="formHarvestDetail">
         <FormFieldCommand
-          data={filterEmployeesToShow() || []}
+          data={
+            filterEmployeesToShow() || []
+          }
           form={formHarvestDetail}
           nameToShow={'first_name'}
           control={formHarvestDetail.control}
@@ -41,7 +43,7 @@ export const FormHarvestDetailsFields: React.FC = () => {
           label={formFieldsHarvestDetail.employee.label}
           name={'employee'}
           placeholder={formFieldsHarvestDetail.employee.placeholder}
-          readOnly={false}
+          disabled={false}
           nameEntity="empleado"
           isLoading={queryEmployees.isLoading}
           className="w-52"
@@ -53,7 +55,7 @@ export const FormHarvestDetailsFields: React.FC = () => {
           label={formFieldsHarvestDetail.total.label}
           name={'total'}
           placeholder={formFieldsHarvestDetail.total.placeholder}
-          readOnly={false}
+          disabled={false}
           type="number"
         />
         <FormFieldInput
@@ -62,7 +64,7 @@ export const FormHarvestDetailsFields: React.FC = () => {
           label={formFieldsHarvestDetail.value_pay.label}
           name={'value_pay'}
           placeholder={formFieldsHarvestDetail.value_pay.placeholder}
-          readOnly={false}
+          disabled={false}
           type="number"
           step={50}
         />

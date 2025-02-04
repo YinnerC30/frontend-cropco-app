@@ -38,7 +38,7 @@ const shoppingRoutes = {
   path: 'shopping',
   children: [
     { index: true, element: <Navigate to="view/all" /> },
-    ...generateRoutes('supplies', routeConfig),
+    ...generateRoutes('shopping', routeConfig),
   ],
 };
 

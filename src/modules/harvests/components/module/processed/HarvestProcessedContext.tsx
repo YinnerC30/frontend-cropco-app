@@ -1,5 +1,5 @@
 import { useAuthContext } from '@/auth';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responsess/UseGetOneRecordReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { useGetHarvest } from '@/modules/harvests/hooks';
 import { Harvest, HarvestProcessed } from '@/modules/harvests/interfaces';
 import React, { createContext, useContext, useMemo, useState } from 'react';

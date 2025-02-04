@@ -20,7 +20,7 @@ import { CalendarIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 
 import React, { memo, useState } from 'react';
-import { FormFieldProps } from '../../../interfaces/formm/FormFieldProps';
+import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 import { Matcher } from 'react-day-picker';
 
 interface FieldCalendarProps extends FormFieldProps {
@@ -34,7 +34,7 @@ export const FormFieldCalendar: React.FC<FieldCalendarProps> = memo(
     label,
     name,
     placeholder,
-    readOnly = false,
+    disabled: readOnly = false,
     className = '',
     conditionCalendar = {
       before: new Date('1900-01-01'),

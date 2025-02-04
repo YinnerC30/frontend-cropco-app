@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useManageErrorApp } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { Supplier } from '@/modules/suppliers/interfaces/Supplier';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_SUPPLIER_PATHS } from '../../routes/pathRoutes';
@@ -27,6 +27,7 @@ export const usePatchSupplier = (): UseMutationReturn<void, Supplier> => {
     mutationFn: updateSupplier,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['suppliers'] });
+      await queryClient.invalidateQueries({ queryKey: ['supplier'] });
       navigate(MODULE_SUPPLIER_PATHS.ViewAll);
       toast.success(`Proveedor actualizado`);
     },

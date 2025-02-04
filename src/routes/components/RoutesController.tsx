@@ -6,9 +6,7 @@ export const RoutesController = () => {
   return (
     <AuthProvider>
       <FormChangeProvider>
-        <main className="w-full h-full">
-          <Outlet />
-        </main>
+        <Outlet />
       </FormChangeProvider>
     </AuthProvider>
   );

@@ -2,20 +2,22 @@ import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
-import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import { QueryDateProps } from '@/modules/core/interfaces/queries/QueryDateProps';
 import { QueryPaginationProps } from '@/modules/core/interfaces/queries/QueryPaginationProps';
-import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/TypeGetAllRecordsReturn';
-import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseGetAllRecordsReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { ConsumptionSupplies } from '../../interfaces';
 
 export interface GetConsumptionsProps
   extends QueryPaginationProps,
-    QueryDateProps {}
+    QueryDateProps {
+      crops: [],
+      supplies: [],
+    }
 
 export async function getAllConsumptions(
   props: GetConsumptionsProps
@@ -23,6 +25,8 @@ export async function getAllConsumptions(
   const params = new URLSearchParams({
     limit: props.limit?.toString() || '10',
     offset: props.offset?.toString() || '0',
+    supplies: props.supplies?.join(',') || '',
+    crops: props.crops?.join(',') || '',
   });
 
   if (props.filter_by_date) {
@@ -41,7 +45,7 @@ export function useGetAllConsumptions(
   const { hasPermission, handleError } = useAuthContext();
 
   const isAuthorized = hasPermission(
-    'supplies',
+    'consumptions',
     'find_all_supplies_consumption'
   );
 
@@ -54,7 +58,7 @@ export function useGetAllConsumptions(
         offset: pagination.pageIndex,
       }),
     select: ({ data }) => data,
-    staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    
     enabled: isAuthorized,
   });
 

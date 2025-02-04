@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { ShoppingSupplies } from '../../interfaces';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responsess/UseGetOneRecordReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { useEffect } from 'react';
 import { useAuthContext } from '@/auth';
 import { toast } from 'sonner';
@@ -18,7 +18,7 @@ export const useGetShopping = (
   id: string
 ): UseGetOneRecordReturn<ShoppingSupplies> => {
   const { handleError, hasPermission } = useAuthContext();
-  const isAuthorized = hasPermission('supplies', 'find_one_supplies_shopping');
+  const isAuthorized = hasPermission('shopping', 'find_one_supplies_shopping');
   const query: UseGetOneRecordReturn<ShoppingSupplies> = useQuery({
     queryKey: ['shopping', id],
     queryFn: () => getShoppingById(id),

@@ -191,7 +191,7 @@ export const PaymentModuleSearchbar: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-start justify-start w-[1000px]">
+    <div className="flex flex-col items-start justify-start my-4 sm:w-full">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSearch)}
@@ -199,7 +199,7 @@ export const PaymentModuleSearchbar: React.FC = () => {
           className="flex flex-col w-full"
         >
           <DropdownMenu open={openDropDownMenu} modal={false}>
-            <div className="flex flex-col items-center justify-center w-screen md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
+            <div className="flex flex-col items-center justify-center  md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
                 <FormFieldCommand
                   data={queryEmployees?.data?.rows || []}
@@ -211,7 +211,7 @@ export const PaymentModuleSearchbar: React.FC = () => {
                   className="w-auto lg:w-[300px]"
                   description={''}
                   label={''}
-                  readOnly={readOnly}
+                  disabled={readOnly}
                   actionFinal={() => handleAddFilter('employee.id')}
                 />
 
@@ -259,13 +259,13 @@ export const PaymentModuleSearchbar: React.FC = () => {
                   <>
                     <FormFieldSelect
                       items={dateFilterOptions}
-                      readOnly={false}
+                      disabled={false}
                       {...formFieldsSearchBarPayment.type_filter_date}
                       name="filter_by_date.type_filter_date"
                       control={form.control}
                     />
                     <FormFieldCalendar
-                      readOnly={false}
+                      disabled={false}
                       {...formFieldsSearchBarPayment.date}
                       control={form.control}
                       name="filter_by_date.date"
@@ -283,14 +283,14 @@ export const PaymentModuleSearchbar: React.FC = () => {
                 content={
                   <>
                     <FormFieldSelect
-                      readOnly={false}
+                      disabled={false}
                       items={numberFilterOptions}
                       {...formFieldsSearchBarPayment.type_filter_total}
                       control={form.control}
                       name="filter_by_total.type_filter_total"
                     />
                     <FormFieldInput
-                      readOnly={false}
+                      disabled={false}
                       {...formFieldsSearchBarPayment.total}
                       control={form.control}
                       type="number"

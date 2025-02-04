@@ -25,7 +25,7 @@ export const FormConsumptionFields: React.FC = () => {
           label={formFieldsConsumption.date.label}
           name={'date'}
           placeholder={formFieldsConsumption.date.placeholder}
-          readOnly={readOnly}
+          disabled={readOnly}
         />
         <div className="sm:w-[600px] mt-4">
           <FormFieldDataTable
@@ -34,7 +34,7 @@ export const FormConsumptionFields: React.FC = () => {
             label={formFieldsConsumption.details.label}
             name={'details'}
             placeholder={''}
-            readOnly={readOnly}
+            disabled={readOnly}
           >
             <FormConsumptionDataTable />
           </FormFieldDataTable>

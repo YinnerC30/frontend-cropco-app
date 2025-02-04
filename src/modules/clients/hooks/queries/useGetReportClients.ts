@@ -4,7 +4,7 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responsess/UseGetOneRecordReturn';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
@@ -29,7 +29,7 @@ export const useGetReportClients = ({
   const { handleError } = useManageErrorApp();
   const { hasPermission } = useAuthContext();
   const query: UseGetOneRecordReturn<Blob> = useQuery({
-    queryKey: ['report-clients'],
+    queryKey: ['clients-report'],
     queryFn: () => {
       const fetchReportClients = getReportClients();
 
@@ -44,7 +44,6 @@ export const useGetReportClients = ({
     },
     select: ({ data }) => data,
     enabled: executeQuery && hasPermission('clients', 'export_clients_pdf'),
-    staleTime: 60_000 * 60 * 24,
     retry: 1,
   });
 

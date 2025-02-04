@@ -1,6 +1,7 @@
-import { ObjectWithId } from "@/modules/core/interfaces/generall/ObjectWithId";
+import { LogicDeleteRecordProps } from "@/modules/core/interfaces/general/LogicDeleteRecordProps";
+import { ObjectWithId } from "@/modules/core/interfaces/general/ObjectWithId";
 
-export interface ConsumptionDetails {
+export interface ConsumptionDetails extends LogicDeleteRecordProps {
   id?: string;
   supply: ObjectWithId;
   crop: ObjectWithId;

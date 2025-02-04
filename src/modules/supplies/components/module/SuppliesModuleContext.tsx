@@ -8,8 +8,9 @@ import { createContext, useMemo } from 'react';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { BulkRecords } from '@/modules/core/interfaces';
-import { UseMutationReturn } from '@/modules/core/interfaces/responsess/UseMutationReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responsess/UseQueryGetAllRecordsReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { useDeleteSupply } from '../../hooks';
 import { useDeleteBulkSupplies } from '../../hooks/mutations/useDeleteBulkSupplies';
 import { useGetAllSupplies } from '../../hooks/queries/useGetAllSupplies';
 import { Supply } from '../../interfaces/Supply';
@@ -21,6 +22,7 @@ export interface SuppliesModuleContextProps {
   querySupplies: UseQueryGetAllRecordsReturn<Supply>;
   dataTable: DataTableManualReturn<Supply>;
   mutationDeleteSupplies: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteSupply: UseMutationReturn<void, string>;
   actionsSuppliesModule: Record<string, boolean>;
 }
 
@@ -63,11 +65,13 @@ export const SuppliesModuleProvider = ({ children }: any) => {
   });
 
   const mutationDeleteSupplies = useDeleteBulkSupplies();
+  const mutationDeleteSupply = useDeleteSupply();
 
   const contextValue: SuppliesModuleContextProps = {
     paramQuery: value,
     querySupplies,
     mutationDeleteSupplies,
+    mutationDeleteSupply,
     actionsSuppliesModule,
     dataTable,
   };

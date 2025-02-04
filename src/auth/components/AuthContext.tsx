@@ -3,7 +3,7 @@ import { useGetAllModules } from '@/modules/core/hooks';
 import {
   Action,
   Module,
-} from '@/modules/core/interfaces/responsess/ResponseGetAllModules';
+} from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 import { RootState, useAppSelector } from '@/redux/store';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -36,7 +36,8 @@ export type ModulesCropco =
   | 'sales'
   | 'payments'
   | 'shopping'
-  | 'consumption';
+  | 'consumptions'
+  | 'dashboard'
 type GlobalActionsUser = Record<ModulesCropco, Record<string, boolean>>;
 
 export interface HandleErrorProps {
@@ -45,6 +46,7 @@ export interface HandleErrorProps {
     notFound?: string;
     badRequest?: string;
     unauthorized?: string;
+    conflict?: string;
     other?: string;
   };
 }
@@ -88,13 +90,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     queryClient.clear();
   };
 
-  const updateUserActions = (modules: Module[]) => {
-    if (user) {
-      saveUserInLocalStorage({ ...user, modules });
-      saveUserInState({ ...user, modules });
-    }
-  };
-
   const renewTokenInState = (token: string) => {
     dispatch(setToken(token));
   };
@@ -113,11 +108,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       unauthorized = 'No tienes permiso para realizar esta acción',
       other = 'Ocurrió un error inesperado',
       notFound = 'No se encontró la información solicitada',
+      conflict = 'Existe un conflicto al realizar la solicitud',
     } = messagesStatusError;
 
     const handleNetworkError = () => {
       if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
-        toast.error('No tienes conexión a internet');
+        toast.error('El servicio actualmente no se encuentra disponible');
         return true;
       }
       return false;
@@ -138,6 +134,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         break;
       case 404:
         toast.error(notFound);
+        break;
+      case 409:
+        toast.error(conflict);
         break;
       default:
         toast.error(other);
@@ -227,7 +226,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         saveUser,
         isLogin: user?.isLogin ?? false,
         removeUser,
-        updateUserActions,
+
         updateTokenInClient,
         tokenSession,
         user,
@@ -238,6 +237,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         validatePermissionsInModule,
         globalActionsUser,
         getActionsModule,
+        isLoading: queryGetAllModules.isLoading,
+        isError: queryGetAllModules.isError,
       }}
     >
       {children}
