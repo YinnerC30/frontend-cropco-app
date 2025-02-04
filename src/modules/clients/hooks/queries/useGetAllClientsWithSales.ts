@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
-import { CACHE_CONFIG_TIME } from '@/config';
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
@@ -26,7 +25,7 @@ export const useGetAllClientsWithSales =
       queryKey: ['clients-with-sales'],
       queryFn: () => getClientsWithSales(),
       select: ({ data }) => data,
-      staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+      
       enabled: isAuthorized,
     });
 

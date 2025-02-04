@@ -49,7 +49,7 @@ export const useGetShoppingPDF = ({
 
       return fetchCertification;
     },
-    // staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    // 
     select: ({ data }) => data,
     enabled: stateQuery && hasPermission('shopping', 'export_shopping_to_pdf'),
     retry: 1,

@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
-import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import { BasicQueryData } from '@/modules/core/interfaces';
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
@@ -49,7 +48,7 @@ export const useGetAllEmployees = ({
         allRecords,
       }),
     select: ({ data }) => data,
-    staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    
     enabled: isAuthorized,
   });
 

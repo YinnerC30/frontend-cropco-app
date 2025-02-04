@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
-import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import { QueryDateProps } from '@/modules/core/interfaces/queries/QueryDateProps';
 import { QueryPaginationProps } from '@/modules/core/interfaces/queries/QueryPaginationProps';
@@ -59,7 +58,7 @@ export function useGetAllConsumptions(
         offset: pagination.pageIndex,
       }),
     select: ({ data }) => data,
-    staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    
     enabled: isAuthorized,
   });
 

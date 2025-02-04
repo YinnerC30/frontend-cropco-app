@@ -24,7 +24,7 @@ export const useGetAllEmployeesWithPendingPayments =
     const query: UseQueryGetAllRecordsReturn<Employee> = useQuery({
       queryKey: ['employees-with-pending-payments'],
       queryFn: () => getEmployeesWithPaymentsPending(),
-      staleTime: 60_000 * 60,
+      
       select: ({ data }) => data,
       enabled: isAuthorized,
     });

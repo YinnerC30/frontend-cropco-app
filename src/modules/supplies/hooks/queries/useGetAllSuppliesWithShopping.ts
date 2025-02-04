@@ -14,7 +14,7 @@ export const getSuppliesWithShopping =
     return await cropcoAPI.get(`${pathsCropco.supplies}/shopping/all`);
   };
 
-const STALE_TIME_DATA = 60_000 * 60;
+
 export const useGetAllSuppliesWithShopping =
   (): UseQueryGetAllRecordsReturn<Supply> => {
     const { hasPermission, handleError } = useAuthContext();
@@ -29,7 +29,7 @@ export const useGetAllSuppliesWithShopping =
       queryFn: () => getSuppliesWithShopping(),
       select: ({ data }) => data,
       enabled: isAuthorized,
-      staleTime: STALE_TIME_DATA,
+      
     });
 
     useEffect(() => {

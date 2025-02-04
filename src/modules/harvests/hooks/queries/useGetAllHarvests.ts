@@ -13,7 +13,6 @@ import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Harvest } from '../../interfaces';
-import { CACHE_CONFIG_TIME } from '@/config';
 
 export interface GetHarvestsProps
   extends QueryPaginationProps,
@@ -79,7 +78,7 @@ export const useGetAllHarvests = (
         offset: pagination.pageIndex,
       }),
     select: ({ data }) => data,
-    staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    
     enabled: isAuthorized,
   });
 

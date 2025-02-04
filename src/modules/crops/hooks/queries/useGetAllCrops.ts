@@ -1,6 +1,5 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
-import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import {
   BasicQueryData,
@@ -47,7 +46,7 @@ export const useGetAllCrops = ({
       }),
     select: ({ data }) => data,
     enabled: isAuthorized && canExecuteQuery,
-    staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    
   });
 
   useEffect(() => {

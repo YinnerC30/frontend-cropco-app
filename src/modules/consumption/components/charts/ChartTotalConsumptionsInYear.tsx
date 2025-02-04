@@ -1,5 +1,3 @@
-'use supply';
-
 import {
   Card,
   CardContent,

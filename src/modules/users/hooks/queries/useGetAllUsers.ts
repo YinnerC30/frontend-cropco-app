@@ -1,15 +1,14 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
-import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import { BasicQueryData } from '@/modules/core/interfaces';
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
 import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { User } from '../../interfaces';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 
 async function getUsers(values: BasicQueryData): TypeGetAllRecordsReturn<User> {
   const { query = '', limit = 10, offset = 0 } = values;
@@ -43,7 +42,7 @@ export function useGetAllUsers({
         offset: pagination.pageIndex,
       }),
     select: ({ data }) => data,
-    staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    
     enabled: isAuthorized,
   });
 

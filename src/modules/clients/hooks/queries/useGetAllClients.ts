@@ -3,18 +3,16 @@ import { useEffect } from 'react';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
-import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import {
   BasicQueryData,
-  
 } from '@/modules/core/interfaces';
+import { UseGetAllRecordsProps } from '@/modules/core/interfaces/props/PropsUseGetAllRecords';
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
 import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
 import { Client } from '../../interfaces/Client';
-import { UseGetAllRecordsProps } from '@/modules/core/interfaces/props/PropsUseGetAllRecords';
 
 export const getClients = async (
   values: BasicQueryData
@@ -48,7 +46,7 @@ export const useGetAllClients = ({
         allRecords,
       }),
     select: ({ data }) => data,
-    staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    
     enabled: isAuthorized,
   });
 

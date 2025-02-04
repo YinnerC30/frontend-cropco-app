@@ -49,7 +49,7 @@ export const useGetHarvestPDF = ({
 
       return fetchCertification;
     },
-    // staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    // 
     select: ({ data }) => data,
     enabled: stateQuery && hasPermission('harvests', 'export_harvest_to_pdf'),
     retry: 0,

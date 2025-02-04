@@ -1,4 +1,4 @@
-'use client';
+
 
 import { useAuthContext } from '@/auth';
 import { ScrollArea, Separator, useSidebar } from '@/components';

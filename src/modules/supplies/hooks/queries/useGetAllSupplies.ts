@@ -31,8 +31,6 @@ export const getSupplies = async ({
   return await cropcoAPI.get(`${pathsCropco.supplies}/all?${params}`);
 };
 
-// TODO: Cambiar stale time
-const STALE_TIME_DATA = 60_000 * 60;
 export const useGetAllSupplies = ({
   queryValue,
   allRecords,
@@ -51,9 +49,8 @@ export const useGetAllSupplies = ({
         offset: pagination.pageIndex,
         allRecords,
       }),
-      select: ({ data }) => data,
+    select: ({ data }) => data,
     enabled: isAuthorized,
-    staleTime: STALE_TIME_DATA,
   });
 
   useEffect(() => {

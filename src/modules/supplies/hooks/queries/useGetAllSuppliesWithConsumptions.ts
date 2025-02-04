@@ -14,7 +14,7 @@ export const getSuppliesWithConsumptions =
     return await cropcoAPI.get(`${pathsCropco.supplies}/consumptions/all`);
   };
 
-const STALE_TIME_DATA = 60_000 * 60;
+
 export const useGetAllSuppliesWithConsumptions =
   (): UseQueryGetAllRecordsReturn<Supply> => {
     const { hasPermission, handleError } = useAuthContext();
@@ -29,7 +29,7 @@ export const useGetAllSuppliesWithConsumptions =
       queryFn: () => getSuppliesWithConsumptions(),
       select: ({ data }) => data,
       enabled: isAuthorized,
-      staleTime: STALE_TIME_DATA,
+      
     });
 
     useEffect(() => {

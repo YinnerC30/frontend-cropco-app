@@ -44,7 +44,6 @@ export const useGetReportClients = ({
     },
     select: ({ data }) => data,
     enabled: executeQuery && hasPermission('clients', 'export_clients_pdf'),
-    staleTime: 60_000 * 60 * 24,
     retry: 1,
   });
 

@@ -23,7 +23,7 @@ export const useGetAllEmployeesWithHarvests =
     const query: UseQueryGetAllRecordsReturn<Employee> = useQuery({
       queryKey: ['employees-with-harvests'],
       queryFn: () => getEmployeesWithHarvests(),
-      staleTime: 60_000 * 60,
+      
       select: ({ data }) => data,
       enabled: isAuthorized,
     });

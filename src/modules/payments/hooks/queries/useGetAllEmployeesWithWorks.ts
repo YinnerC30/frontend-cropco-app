@@ -23,7 +23,7 @@ export const useGetAllEmployeesWithWorks =
     const query: UseQueryGetAllRecordsReturn<Employee> = useQuery({
       queryKey: ['employees-with-works'],
       queryFn: () => getEmployeesWithWorks(),
-      staleTime: 60_000 * 60,
+      
       select: ({ data }) => data,
       enabled: isAuthorized,
     });

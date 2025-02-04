@@ -30,7 +30,6 @@ export const useGetEmployeePendingPayments = (
     queryFn: () => getEmployeeWithPaymentsPending(id),
     select: ({ data }) => data,
     enabled: id.length > 0 && canExecuteQuery,
-    staleTime: 60_000 * 3,
   });
 
   useEffect(() => {

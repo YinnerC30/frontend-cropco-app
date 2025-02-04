@@ -49,7 +49,7 @@ export const useGetWorkPDF = ({
 
       return fetchCertification;
     },
-    // staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,
+    // 
     select: ({ data }) => data,
     enabled: stateQuery && hasPermission('works', 'export_work_to_pdf'),
     retry: 1,

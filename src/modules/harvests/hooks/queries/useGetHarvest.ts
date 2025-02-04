@@ -21,7 +21,7 @@ export const useGetHarvest = (id: string): UseGetOneRecordReturn<Harvest> => {
   const query: UseGetOneRecordReturn<Harvest> = useQuery({
     queryKey: ['harvest', id],
     queryFn: () => getHarvestById(id),
-    staleTime: 60_000 * 60,
+    
     select: ({ data }) => {
       return {
         ...data,
