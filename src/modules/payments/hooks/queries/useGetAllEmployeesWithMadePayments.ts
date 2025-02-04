@@ -21,7 +21,7 @@ export const useGetAllEmployeesWithMadePayments =
       'find_all_employees_with_made_payments'
     );
     const query: UseQueryGetAllRecordsReturn<Employee> = useQuery({
-      queryKey: ['employees', 'made-payments'],
+      queryKey: ['employees-with-made-payments'],
       queryFn: () => getEmployeesWithPaymentsMade(),
       staleTime: 60_000 * 60,
       select: ({ data }) => data,

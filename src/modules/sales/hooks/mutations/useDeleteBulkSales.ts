@@ -23,7 +23,6 @@ export const useDeleteBulkSales = (): UseMutationReturn<void, BulkRecords> => {
     mutationFn: deleteBulkSales,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['sales'] });
-      await queryClient.invalidateQueries({ queryKey: ['sale'] });
       await queryClient.invalidateQueries({ queryKey: ['crops'] });
 
       await queryClient.invalidateQueries({

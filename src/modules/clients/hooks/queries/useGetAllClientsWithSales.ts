@@ -23,7 +23,7 @@ export const useGetAllClientsWithSales =
       'find_all_clients_with_sales'
     );
     const query: UseQueryGetAllRecordsReturn<Client> = useQuery({
-      queryKey: ['clients-sales'],
+      queryKey: ['clients-with-sales'],
       queryFn: () => getClientsWithSales(),
       select: ({ data }) => data,
       staleTime: CACHE_CONFIG_TIME.mediumTerm.staleTime,

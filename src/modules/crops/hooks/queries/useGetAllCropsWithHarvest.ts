@@ -42,7 +42,7 @@ export const useGetAllCropsWithHarvest = ({
     hasPermission('harvests', 'find_all_harvests');
 
   const query: UseQueryGetAllRecordsReturn<Crop> = useQuery({
-    queryKey: ['crops-with-harvest', { queryValue, ...pagination }],
+    queryKey: ['crops-with-harvests', { queryValue, ...pagination }],
     queryFn: () =>
       getCropsWithHarvest({
         query: queryValue,

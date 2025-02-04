@@ -26,7 +26,7 @@ export const useGetEmployeePendingPayments = (
   );
 
   const query: UseGetOneRecordReturn<Employee> = useQuery({
-    queryKey: ['employee', 'pending-payments', id],
+    queryKey: ['employee-with-pending-payments', id],
     queryFn: () => getEmployeeWithPaymentsPending(id),
     select: ({ data }) => data,
     enabled: id.length > 0 && canExecuteQuery,

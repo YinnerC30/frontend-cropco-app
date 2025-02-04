@@ -47,7 +47,7 @@ export const useGetAllSuppliesStock = ({
 
   const query: UseGetOneRecordReturn<ResponseApiGetAllRecords<SupplyStock>> =
     useQuery({
-      queryKey: ['supplies-stock', { queryValue }],
+      queryKey: ['supplies-with-stock', { queryValue }],
       queryFn: () =>
         getAllSuppliesStock({
           query: queryValue,

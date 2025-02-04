@@ -17,7 +17,7 @@ export const useGetAllCropsWithWork = (): UseQueryGetAllRecordsReturn<Crop> => {
   const { hasPermission, handleError } = useAuthContext();
   const isAuthorized = hasPermission('crops', 'find_all_crops_with_work');
   const query: UseQueryGetAllRecordsReturn<Crop> = useQuery({
-    queryKey: ['crops-with-work'],
+    queryKey: ['crops-with-works'],
     queryFn: () => getCropsWithWork(),
     select: ({ data }) => data,
     enabled: isAuthorized,

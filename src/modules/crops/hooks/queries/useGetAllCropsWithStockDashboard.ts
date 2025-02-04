@@ -19,7 +19,7 @@ export const useGetAllCropsWithStockDashboard = (): UseGetOneRecordReturn<
   const { handleError } = useAuthContext();
   const query: UseGetOneRecordReturn<ResponseApiGetAllRecords<HarvestStock>> =
     useQuery({
-      queryKey: ['crops-stock'],
+      queryKey: ['crops-with-stock-dashboard'],
       queryFn: () => getCropsWithStockDashboard(),
       select: ({ data }) => data,
     });

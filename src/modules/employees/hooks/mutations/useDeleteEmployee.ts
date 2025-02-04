@@ -17,9 +17,7 @@ export const useDeleteEmployee = (): UseMutationReturn<void, string> => {
     mutationFn: deleteEmployee,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['employees'] });
-      await queryClient.invalidateQueries({ queryKey: ['harvests'] });
       await queryClient.invalidateQueries({ queryKey: ['harvest'] });
-      await queryClient.invalidateQueries({ queryKey: ['works'] });
       await queryClient.invalidateQueries({ queryKey: ['work'] });
       await queryClient.invalidateQueries({
         queryKey: ['employees-top-harvests'],
