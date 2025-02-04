@@ -8,7 +8,6 @@ export * from './home/NavElement';
 export * from './home/SheetNavBar';
 export * from './hooks/useHome';
 export * from './landing/Features';
-export * from './landing/Footer';
 export * from './landing/Header';
 export * from './landing/Hero';
 export * from './landing/LandingPage';
