@@ -23,13 +23,13 @@ export const getAllSuppliesStock = async ({
   query = '',
   limit = 10,
   offset = 0,
-  allRecords = false,
+  all_records = false,
 }: BasicQueryData): TypeGetAllRecordsReturn<SupplyStock> => {
   const params = new URLSearchParams({
     query,
     limit: limit.toString(),
     offset: offset.toString(),
-    allRecords: allRecords.toString(),
+    all_records: all_records.toString(),
   });
 
   return await cropcoAPI.get(`${pathsCropco.supplies}/stock/all?${params}`);
@@ -37,7 +37,7 @@ export const getAllSuppliesStock = async ({
 
 export const useGetAllSuppliesStock = ({
   queryValue,
-  allRecords,
+  all_records,
 }: UseGetAllRecordsProps): UseGetOneRecordReturn<
   ResponseApiGetAllRecords<SupplyStock>
 > => {
@@ -53,7 +53,7 @@ export const useGetAllSuppliesStock = ({
           query: queryValue,
           limit: 10,
           offset: 0,
-          allRecords,
+          all_records,
         }),
       select: ({ data }) => data,
       enabled: isAuthorized,

@@ -92,7 +92,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
 
   const { query: queryCrops } = useGetAllCropsWithHarvest({
     queryValue: '',
-    allRecords: true,
+    all_records: true,
   });
 
   const queryEmployees = useGetAllEmployeesWithHarvests();

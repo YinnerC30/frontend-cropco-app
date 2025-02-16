@@ -205,7 +205,7 @@ export const FormWorkProvider: React.FC<
 
   const { query: queryEmployees } = useGetAllEmployees({
     queryValue: '',
-    allRecords: true,
+    all_records: true,
   });
 
   const handleOpenDialog = () => {

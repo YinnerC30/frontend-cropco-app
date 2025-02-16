@@ -3,11 +3,11 @@ import {
   ButtonCreateRecord,
   ButtonDeleteBulk,
   ButtonRefetchData,
-} from '@/modules/core/components';
+} from "@/modules/core/components";
 
-import { useClientsModuleContext } from '../../hooks';
-import { MODULE_CLIENTS_PATHS } from '../../routes/pathRoutes';
-import { ButtonExportClients } from './ButtonExportClients';
+import { useClientsModuleContext } from "../../hooks";
+import { MODULE_CLIENTS_PATHS } from "../../routes/pathRoutes";
+import { ButtonExportClients } from "./ButtonExportClients";
 
 export const ClientsActions: React.FC = () => {
   const {
@@ -21,8 +21,10 @@ export const ClientsActions: React.FC = () => {
     mutationDeleteClients.mutate(
       { clientsIds: dataTable.getIdsToRowsSelected() },
       {
-        onSuccess: () => {
-          dataTable.resetSelectionRows();
+        onSuccess: (response) => {
+          // dataTable.resetSelectionRows();
+          const clientIds = response.data?.failed.map((item) => item.id) as any;
+          dataTable.onlySelectTheseRecords(clientIds);
         },
       }
     );
@@ -32,13 +34,13 @@ export const ClientsActions: React.FC = () => {
     <div className="flex justify-between">
       <ButtonRefetchData
         onClick={queryClients.refetch}
-        disabled={!actionsClientsModule['find_all_clients']}
+        disabled={!actionsClientsModule["find_all_clients"]}
         className=""
       />
 
       <div className="flex items-center gap-1">
         <ButtonExportClients
-          disabled={!actionsClientsModule['export_clients_pdf']}
+          disabled={!actionsClientsModule["export_clients_pdf"]}
         />
 
         <ButtonClearSelection
@@ -49,7 +51,7 @@ export const ClientsActions: React.FC = () => {
         <ButtonDeleteBulk
           disabled={
             mutationDeleteClients.isPending ||
-            !actionsClientsModule['remove_bulk_clients']
+            !actionsClientsModule["remove_bulk_clients"]
           }
           onClick={handleDeleteBulkClients}
           visible={dataTable.hasSelectedRecords}
@@ -57,7 +59,7 @@ export const ClientsActions: React.FC = () => {
 
         <ButtonCreateRecord
           route={MODULE_CLIENTS_PATHS.Create}
-          disabled={!actionsClientsModule['create_client']}
+          disabled={!actionsClientsModule["create_client"]}
           className=""
         />
       </div>

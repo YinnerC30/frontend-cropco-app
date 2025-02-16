@@ -41,7 +41,7 @@ export const CropsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
     setPagination,
   } = useGetAllCrops({
     queryValue: value,
-    allRecords: false,
+    all_records: false,
   });
 
   const { getActionsModule } = useAuthContext();

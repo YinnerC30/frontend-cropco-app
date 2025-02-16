@@ -22,7 +22,7 @@ export const FormHarvestFields: React.FC = () => {
 
   const { query: queryCrops } = useGetAllCrops({
     queryValue: '',
-    allRecords: true,
+    all_records: true,
   });
 
   return (

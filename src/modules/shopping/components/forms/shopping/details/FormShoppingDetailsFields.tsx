@@ -45,7 +45,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
 
   const { query: querySupplies } = useGetAllSupplies({
     queryValue: '',
-    allRecords: true,
+    all_records: true,
   });
 
   const [openPopover, setOpenPopover] = useState(false);

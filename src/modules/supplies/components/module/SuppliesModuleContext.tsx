@@ -39,7 +39,7 @@ export const SuppliesModuleProvider = ({ children }: any) => {
     setPagination,
   } = useGetAllSupplies({
     queryValue: value,
-    allRecords: false,
+    all_records: false,
   });
 
   const { getActionsModule } = useAuthContext();

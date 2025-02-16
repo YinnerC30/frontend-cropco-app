@@ -20,7 +20,7 @@ export const FormWorkFields: React.FC = () => {
 
   const { query: queryCrops } = useGetAllCrops({
     queryValue: '',
-    allRecords: true,
+    all_records: true,
   });
 
   return (

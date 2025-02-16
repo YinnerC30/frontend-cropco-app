@@ -18,19 +18,19 @@ import { Crop } from '../../interfaces/Crop';
 export const getCropsWithHarvest = async (
   values: BasicQueryData
 ): TypeGetAllRecordsReturn<Crop> => {
-  const { query = '', limit, offset, allRecords = false } = values;
+  const { query = '', limit, offset, all_records = false } = values;
   const params = new URLSearchParams({
     query,
     limit: limit.toString(),
     offset: offset.toString(),
-    allRecords: allRecords.toString(),
+    all_records: all_records.toString(),
   });
   return await cropcoAPI.get(`${pathsCropco.crops}/with-harvest/all?${params}`);
 };
 
 export const useGetAllCropsWithHarvest = ({
   queryValue,
-  allRecords,
+  all_records,
 }: UseGetAllRecordsProps): UseGetAllRecordsReturn<Crop> => {
   const { pagination, setPagination } = usePaginationDataTable();
 
@@ -47,7 +47,7 @@ export const useGetAllCropsWithHarvest = ({
         query: queryValue,
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
-        allRecords,
+        all_records,
       }),
     select: ({ data }) => data,
     enabled: isAuthorized,

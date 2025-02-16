@@ -31,7 +31,7 @@ export const EmployeesModuleProvider = ({
     setPagination,
   } = useGetAllEmployees({
     queryValue: value,
-    allRecords: false,
+    all_records: false,
   });
 
   const { getActionsModule } = useAuthContext();

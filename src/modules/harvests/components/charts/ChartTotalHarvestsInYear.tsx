@@ -48,7 +48,7 @@ export function ChartTotalHarvestsInYear() {
 
   const { query: queryCrops } = useGetAllCropsWithHarvest({
     queryValue: '',
-    allRecords: true,
+    all_records: true,
   });
 
   if (queryHarvests.isLoading) {

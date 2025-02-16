@@ -208,7 +208,7 @@ export const FormHarvestProvider: React.FC<
 
   const { query: queryEmployees } = useGetAllEmployees({
     queryValue: '',
-    allRecords: true,
+    all_records: true,
   });
 
   const formHarvestDetail = useCreateForm({

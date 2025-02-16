@@ -8,9 +8,9 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState } from "react";
 
 export interface RowData {
   id: string;
@@ -33,6 +33,7 @@ export interface DataTableManualReturn<T> {
   getIdsToRowsSelected: () => RowData[];
   resetSelectionRows: () => void;
   hasSelectedRecords: boolean;
+  onlySelectTheseRecords: (recordIds: string[]) => void;
 }
 
 export const useDataTableManual = <T>({
@@ -83,6 +84,16 @@ export const useDataTableManual = <T>({
     setRowSelection({});
   };
 
+  const onlySelectTheseRecords = (recordIds: string[]) => {
+    table.getSelectedRowModel().rows.forEach((row) => {
+      if (recordIds.includes((row.original as RowData).id)) {
+        row.toggleSelected(true);
+      } else {
+        row.toggleSelected(false);
+      }
+    });
+  };
+
   const hasSelectedRecords = table.getSelectedRowModel().rows.length > 0;
 
   return {
@@ -92,5 +103,6 @@ export const useDataTableManual = <T>({
     getIdsToRowsSelected,
     resetSelectionRows,
     hasSelectedRecords,
+    onlySelectTheseRecords,
   };
 };

@@ -49,7 +49,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
   } = useFormConsumptionContext();
 
   const { query: queryCrops } = useGetAllCrops({
-    allRecords: true,
+    all_records: true,
     queryValue: '',
   });
 

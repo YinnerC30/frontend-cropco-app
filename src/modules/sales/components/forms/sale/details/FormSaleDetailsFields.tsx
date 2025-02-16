@@ -12,22 +12,22 @@ import {
   PopoverContent,
   PopoverTrigger,
   ScrollArea,
-} from '@/components';
-import { cn } from '@/lib/utils';
-import { useGetAllClients } from '@/modules/clients/hooks';
+} from "@/components";
+import { cn } from "@/lib/utils";
+import { useGetAllClients } from "@/modules/clients/hooks";
 import {
   FormFieldCheckBox,
   FormFieldCommand,
   FormFieldInput,
   Loading,
-} from '@/modules/core/components';
-import { useFormSaleContext } from '@/modules/sales/hooks';
-import { formFieldsSaleDetail } from '@/modules/sales/utils';
-import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
+} from "@/modules/core/components";
+import { useFormSaleContext } from "@/modules/sales/hooks";
+import { formFieldsSaleDetail } from "@/modules/sales/utils";
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 
-import { useEffect, useState } from 'react';
-import { ControllerRenderProps } from 'react-hook-form';
-import { CropStock } from '../FormSaleContext';
+import { useEffect, useState } from "react";
+import { ControllerRenderProps } from "react-hook-form";
+import { CropStock } from "../FormSaleContext";
 import {
   Command,
   CommandEmpty,
@@ -35,8 +35,8 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
-import { CapitalizeFirstWord } from '@/auth/helpers';
+} from "@/components/ui/command";
+import { CapitalizeFirstWord } from "@/auth/helpers";
 
 export const FormSaleDetailsFields: React.FC = () => {
   const {
@@ -49,8 +49,8 @@ export const FormSaleDetailsFields: React.FC = () => {
   } = useFormSaleContext();
 
   const { query: queryClients } = useGetAllClients({
-    queryValue: '',
-    allRecords: true,
+    queryValue: "",
+    all_records: true,
   });
 
   const [openPopover, setOpenPopover] = useState(false);
@@ -68,13 +68,13 @@ export const FormSaleDetailsFields: React.FC = () => {
     <Form {...formSaleDetail}>
       <form className="z-50 mx-5" id="formSaleDetail">
         <FormFieldCommand
-          data={queryClients?.data?.rows || []}
+          data={queryClients?.data?.records || []}
           form={formSaleDetail}
-          nameToShow={'first_name'}
+          nameToShow={"first_name"}
           control={formSaleDetail.control}
           description={formFieldsSaleDetail.client.description}
           label={formFieldsSaleDetail.client.label}
-          name={'client'}
+          name={"client"}
           placeholder={formFieldsSaleDetail.client.placeholder}
           disabled={false}
           nameEntity="cliente"
@@ -109,8 +109,8 @@ export const FormSaleDetailsFields: React.FC = () => {
                           role="combobox"
                           aria-expanded={openPopover}
                           className={`w-72 ${cn(
-                            'justify-between',
-                            !field.value && 'text-muted-foreground'
+                            "justify-between",
+                            !field.value && "text-muted-foreground"
                           )}`}
                           ref={field.ref}
                           onBlur={field.onBlur}
@@ -119,18 +119,18 @@ export const FormSaleDetailsFields: React.FC = () => {
                           {!!field.value
                             ? cropStock.find((item: CropStock) => {
                                 return item.id === field.value;
-                              })?.['name']
+                              })?.["name"]
                             : formFieldsSaleDetail.crop.placeholder}
 
                           <Badge
-                            className={`${!field.value ? 'hidden' : 'ml-14'}`}
-                            variant={'cyan'}
+                            className={`${!field.value ? "hidden" : "ml-14"}`}
+                            variant={"cyan"}
                           >
-                            {'Disponibles: ' +
+                            {"Disponibles: " +
                               cropStock.find((item: CropStock) => {
                                 return item.id === field.value;
-                              })?.['stock'] +
-                              ' Kg'}
+                              })?.["stock"] +
+                              " Kg"}
                           </Badge>
 
                           <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
@@ -141,33 +141,33 @@ export const FormSaleDetailsFields: React.FC = () => {
                   <PopoverContent className="w-[200px] p-0">
                     <Command>
                       <CommandInput
-                        placeholder={`Buscar ${'cultivo'}...`}
+                        placeholder={`Buscar ${"cultivo"}...`}
                         className="h-9"
                       />
                       <CommandList>
                         <ScrollArea className="w-auto h-56 p-1 pr-2">
                           <CommandEmpty>{`${CapitalizeFirstWord(
-                            'cultivo'
+                            "cultivo"
                           )} no encontrado`}</CommandEmpty>
                           <CommandGroup>
                             {cropStock.map((item) => {
                               return (
                                 <CommandItem
-                                  disabled={item?.['stock'] === 0}
-                                  value={item?.['name']}
+                                  disabled={item?.["stock"] === 0}
+                                  value={item?.["name"]}
                                   key={item.id!}
                                   onSelect={() => {
                                     if (field?.value === item?.id) {
-                                      formSaleDetail.setValue('crop', {
-                                        id: '',
-                                        ['name']: '',
+                                      formSaleDetail.setValue("crop", {
+                                        id: "",
+                                        ["name"]: "",
                                       });
                                     } else {
                                       formSaleDetail.setValue(
-                                        'crop',
+                                        "crop",
                                         {
                                           id: item?.id,
-                                          ['name']: item['name'],
+                                          ["name"]: item["name"],
                                         },
                                         {
                                           shouldValidate: true,
@@ -179,17 +179,17 @@ export const FormSaleDetailsFields: React.FC = () => {
                                   }}
                                 >
                                   <div className="flex justify-between w-full ">
-                                    <span>{item?.['name']}</span>
+                                    <span>{item?.["name"]}</span>
                                     <span className="font-bold">
-                                      {item?.['stock'] + ' Kg'}
+                                      {item?.["stock"] + " Kg"}
                                     </span>
                                   </div>
                                   <CheckIcon
                                     className={cn(
-                                      'ml-auto h-4 w-4',
+                                      "ml-auto h-4 w-4",
                                       item.id! === field?.value
-                                        ? 'opacity-100'
-                                        : 'opacity-0'
+                                        ? "opacity-100"
+                                        : "opacity-0"
                                     )}
                                   />
                                 </CommandItem>
@@ -214,7 +214,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           control={formSaleDetail.control}
           description={formFieldsSaleDetail.is_receivable.description}
           label={formFieldsSaleDetail.is_receivable.label}
-          name={'is_receivable'}
+          name={"is_receivable"}
           placeholder={formFieldsSaleDetail.is_receivable.placeholder}
           disabled={false}
         />
@@ -222,7 +222,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           control={formSaleDetail.control}
           description={formFieldsSaleDetail.quantity.description}
           label={formFieldsSaleDetail.quantity.label}
-          name={'quantity'}
+          name={"quantity"}
           placeholder={formFieldsSaleDetail.quantity.placeholder}
           disabled={false}
           type="number"
@@ -232,7 +232,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           control={formSaleDetail.control}
           description={formFieldsSaleDetail.total.description}
           label={formFieldsSaleDetail.total.label}
-          name={'total'}
+          name={"total"}
           placeholder={formFieldsSaleDetail.total.placeholder}
           disabled={false}
           type="number"

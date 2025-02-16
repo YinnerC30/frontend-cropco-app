@@ -17,12 +17,12 @@ import { Employee } from '../../interfaces/Employee';
 export const getEmployees = async (
   values: BasicQueryData
 ): TypeGetAllRecordsReturn<Employee> => {
-  const { query = '', limit = 10, offset = 0, allRecords = false } = values;
+  const { query = '', limit = 10, offset = 0, all_records = false } = values;
   const params = new URLSearchParams({
     query,
     limit: limit.toString(),
     offset: offset.toString(),
-    allRecords: allRecords.toString(),
+    all_records: all_records.toString(),
   });
 
   return await cropcoAPI.get(`${pathsCropco.employees}/all?${params}`);
@@ -30,7 +30,7 @@ export const getEmployees = async (
 
 export const useGetAllEmployees = ({
   queryValue,
-  allRecords = false,
+  all_records = false,
 }: UseGetAllRecordsProps): UseGetAllRecordsReturn<Employee> => {
   const { pagination, setPagination } = usePaginationDataTable();
 
@@ -45,7 +45,7 @@ export const useGetAllEmployees = ({
         query: queryValue,
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
-        allRecords,
+        all_records,
       }),
     select: ({ data }) => data,
     

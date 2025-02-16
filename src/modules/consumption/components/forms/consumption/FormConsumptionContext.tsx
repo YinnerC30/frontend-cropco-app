@@ -204,7 +204,7 @@ export const FormConsumptionProvider: React.FC<
 
   const querySuppliesStock = useGetAllSuppliesStock({
     queryValue: '',
-    allRecords: true,
+    all_records: true,
   });
 
   const [suppliesStock, dispatchSupplyStock] = useReducer(

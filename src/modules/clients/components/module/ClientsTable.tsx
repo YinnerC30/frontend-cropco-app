@@ -1,5 +1,5 @@
-import { DataTableTemplate } from '@/modules/core/components';
-import { useClientsModuleContext } from '../../hooks';
+import { DataTableTemplate } from "@/modules/core/components";
+import { useClientsModuleContext } from "../../hooks";
 
 export const ClientsTable: React.FC = () => {
   const {
@@ -13,14 +13,14 @@ export const ClientsTable: React.FC = () => {
   return (
     <DataTableTemplate
       errorMessage={
-        !actionsClientsModule['find_all_clients']
-          ? 'No tienes permiso para ver el listado de empleados 😢'
-          : 'No hay registros.'
+        !actionsClientsModule["find_all_clients"]
+          ? "No tienes permiso para ver el listado de empleados 😢"
+          : "No hay registros."
       }
-      disabledDoubleClick={!actionsClientsModule['find_one_client']}
+      disabledDoubleClick={!actionsClientsModule["find_one_client"]}
       table={dataTable.table}
       lengthColumns={dataTable.lengthColumns}
-      rowCount={queryClients.data?.rowCount ?? 0}
+      rowCount={queryClients.data?.total_row_count ?? 0}
       isLoading={
         queryClients.isLoading ||
         queryClients.isRefetching ||
