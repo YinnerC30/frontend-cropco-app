@@ -14,7 +14,7 @@ async function updateUser({
   id,
   ...rest
 }: Partial<User>): PromiseReturnRecord<User> {
-  return await cropcoAPI.patch(`${pathsCropco.users}/update/one/${id}`, rest);
+  return await cropcoAPI.put(`${pathsCropco.users}/update/one/${id}`, rest);
 }
 export function usePatchUser(): UseMutationReturn<User, Partial<User>> {
   const navigate = useNavigate();

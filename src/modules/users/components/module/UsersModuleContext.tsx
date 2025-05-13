@@ -1,12 +1,12 @@
-import { useAuthContext } from '@/auth/hooks';
-import { useDataTableManual } from '@/modules/core/hooks';
-import { useBasicQueryData } from '@/modules/core/hooks/';
-import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import React, { createContext, useMemo } from 'react';
-import { useDeleteBulkUsers, useDeleteUser, useGetAllUsers } from '../../hooks';
-import { User, UsersModuleContextProps } from '../../interfaces/';
-import { columnsTableUsers } from './columnsTableUsers';
-import { UsersModuleActionsTable } from './UsersModuleActionsTable';
+import { useAuthContext } from "@/auth/hooks";
+import { useDataTableManual } from "@/modules/core/hooks";
+import { useBasicQueryData } from "@/modules/core/hooks/";
+import { useCreateColumnsTable } from "@/modules/core/hooks/data-table/useCreateColumnsTable";
+import React, { createContext, useMemo } from "react";
+import { useDeleteBulkUsers, useDeleteUser, useGetAllUsers } from "../../hooks";
+import { User, UsersModuleContextProps } from "../../interfaces/";
+import { columnsTableUsers } from "./columnsTableUsers";
+import { UsersModuleActionsTable } from "./UsersModuleActionsTable";
 
 export const UsersModuleContext = createContext<
   UsersModuleContextProps | undefined
@@ -27,7 +27,7 @@ export const UsersModuleProvider: React.FC<{
 
   const { getActionsModule } = useAuthContext();
 
-  const actionsUsersModule = useMemo(() => getActionsModule('users'), []);
+  const actionsUsersModule = useMemo(() => getActionsModule("users"), []);
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsTableUsers,
@@ -38,11 +38,11 @@ export const UsersModuleProvider: React.FC<{
     columns: columnsTable,
     infoPagination: queryUsers.isSuccess
       ? {
-          pageCount: queryUsers.data?.pageCount ?? 0,
-          rowCount: queryUsers.data?.rowCount ?? 0,
+          pageCount: queryUsers.data?.total_page_count ?? 0,
+          rowCount: queryUsers.data?.current_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
-    rows: queryUsers.data?.rows ?? [],
+    rows: queryUsers.data?.records ?? [],
     pagination,
     setPagination,
   });
