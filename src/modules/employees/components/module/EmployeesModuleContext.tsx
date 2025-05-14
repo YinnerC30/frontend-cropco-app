@@ -50,11 +50,11 @@ export const EmployeesModuleProvider = ({
     columns: columnsTable,
     infoPagination: queryEmployees.isSuccess
       ? {
-          pageCount: queryEmployees.data?.pageCount ?? 0,
-          rowCount: queryEmployees.data?.rowCount ?? 0,
+          pageCount: queryEmployees.data?.total_page_count ?? 0,
+          rowCount: queryEmployees.data?.current_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
-    rows: queryEmployees.data?.rows ?? [],
+    rows: queryEmployees.data?.records ?? [],
     pagination,
     setPagination,
   });

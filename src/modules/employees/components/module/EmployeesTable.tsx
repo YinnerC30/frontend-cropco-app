@@ -20,7 +20,7 @@ export const EmployeesTable: React.FC = () => {
       disabledDoubleClick={!actionsEmployeesModule['find_one_employee']}
       table={dataTable.table}
       lengthColumns={dataTable.lengthColumns}
-      rowCount={queryEmployees.data?.rowCount ?? 0}
+      rowCount={queryEmployees.data?.total_row_count ?? 0}
       isLoading={
         queryEmployees.isLoading ||
         queryEmployees.isRefetching ||
