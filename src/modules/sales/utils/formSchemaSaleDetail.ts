@@ -27,13 +27,13 @@ export const formSchemaSaleDetails = z.object({
       }),
     first_name: z.string().optional(),
   }),
-  quantity: z.coerce
+  amount: z.coerce
     .number({
       required_error: `El valor a vender es requerido`,
       invalid_type_error: `Debe introducir un valor numérico`,
     })
     .positive({ message: 'El valor a vender debe ser un número positivo.' }),
-  total: z.coerce
+  value_pay: z.coerce
     .number({
       required_error: `El valor a pagar es requerido`,
       invalid_type_error: `Debe introducir un valor numérico`,

@@ -18,6 +18,6 @@ export interface Year {
 export interface DataMonth {
   month: string;
   monthNumber: number;
-  total: number;
-  quantity: number;
+  value_pay: number;
+  amount: number;
 }

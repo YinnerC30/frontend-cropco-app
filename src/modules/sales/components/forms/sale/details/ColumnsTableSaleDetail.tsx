@@ -20,18 +20,18 @@ export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
     },
   },
   {
-    accessorKey: 'quantity',
+    accessorKey: 'amount',
     cell: ({ row }) => {
-      return FormatNumber(row.getValue('quantity')) + ' Kg';
+      return FormatNumber(row.getValue('amount')) + ' Kg';
     },
     header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Cantidad:'} />;
     },
   },
   {
-    accessorKey: 'total',
+    accessorKey: 'value_pay',
     cell: ({ row }) => {
-      return FormatMoneyValue(row.getValue('total'));
+      return FormatMoneyValue(row.getValue('value_pay'));
     },
     header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Total:'} />;

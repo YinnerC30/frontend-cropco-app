@@ -1,9 +1,7 @@
-'use employee';
+import { Check, ChevronsUpDown } from "lucide-react";
+import * as React from "react";
 
-import { Check, ChevronsUpDown } from 'lucide-react';
-import * as React from 'react';
-
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -11,21 +9,21 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
-import { useGetAllEmployeesWithHarvests } from '@/modules/payments/hooks/queries/useGetAllEmployeesWithHarvests';
-import { useGetAllEmployeesWithWorks } from '@/modules/payments/hooks/queries/useGetAllEmployeesWithWorks';
+import { useGetAllEmployeesWithHarvests } from "@/modules/payments/hooks/queries/useGetAllEmployeesWithHarvests";
+import { useGetAllEmployeesWithWorks } from "@/modules/payments/hooks/queries/useGetAllEmployeesWithWorks";
 
 interface Props {
   selectedEmployee: string;
   setSelectedEmployee: React.Dispatch<React.SetStateAction<string>>;
-  employeesIn: 'harvests' | 'works';
+  employeesIn: "harvests" | "works";
 }
 
 export default function EmployeeSelector({
@@ -36,13 +34,13 @@ export default function EmployeeSelector({
   const [open, setOpen] = React.useState(false);
 
   const queryEmployees =
-    employeesIn === 'harvests'
+    employeesIn === "harvests"
       ? useGetAllEmployeesWithHarvests()
       : useGetAllEmployeesWithWorks();
 
   const data = queryEmployees.data?.records ?? [];
 
-  const employees = [{ first_name: 'Todos', id: '' }, ...data];
+  const employees = [{ first_name: "Todos", id: "" }, ...data];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -58,7 +56,7 @@ export default function EmployeeSelector({
                 employees.find((item) => item.id === selectedEmployee)
                   ?.first_name
               }`
-            : 'Selecciona un empleado...'}
+            : "Selecciona un empleado..."}
           <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
         </Button>
       </PopoverTrigger>
@@ -74,17 +72,17 @@ export default function EmployeeSelector({
                   value={employee.id}
                   onSelect={(currentValue) => {
                     setSelectedEmployee(
-                      currentValue === selectedEmployee ? '' : currentValue
+                      currentValue === selectedEmployee ? "" : currentValue
                     );
                     setOpen(false);
                   }}
                 >
                   <Check
                     className={cn(
-                      'mr-2 h-4 w-4',
+                      "mr-2 h-4 w-4",
                       selectedEmployee === employee.id
-                        ? 'opacity-100'
-                        : 'opacity-0'
+                        ? "opacity-100"
+                        : "opacity-0"
                     )}
                   />
                   {employee.first_name}

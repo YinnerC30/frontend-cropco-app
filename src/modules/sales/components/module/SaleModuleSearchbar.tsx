@@ -72,13 +72,13 @@ const valuesResetForm = {
     date: undefined,
     type_filter_date: TypeFilterDate.after,
   },
-  filter_by_total: {
-    type_filter_total: TypeFilterNumber.MIN,
-    total: 0,
+  filter_by_value_pay: {
+    type_filter_value_pay: TypeFilterNumber.MIN,
+    value_pay: 0,
   },
-  filter_by_quantity: {
-    type_filter_quantity: TypeFilterNumber.MIN,
-    quantity: 0,
+  filter_by_amount: {
+    type_filter_amount: TypeFilterNumber.MIN,
+    amount: 0,
   },
   clients: [],
   crops: [],
@@ -116,8 +116,8 @@ export const SaleModuleSearchbar: React.FC = () => {
     if (!isValid) return false;
 
     const {
-      filter_by_total,
-      filter_by_quantity,
+      filter_by_value_pay,
+      filter_by_amount,
       clients = [],
       crops = [],
     } = form.watch();
@@ -155,25 +155,25 @@ export const SaleModuleSearchbar: React.FC = () => {
       });
     }
 
-    const { type_filter_total, total } = filter_by_total;
-    if (type_filter_total && total) {
+    const { type_filter_value_pay, value_pay } = filter_by_value_pay;
+    if (type_filter_value_pay && value_pay) {
       const typeFilter = formatTypeFilterNumber(
-        type_filter_total as TypeFilterNumber
+        type_filter_value_pay as TypeFilterNumber
       );
       filters.push({
-        key: 'total',
-        label: `Total: ${typeFilter} ${filter_by_total.total}`,
+        key: 'value_pay',
+        label: `Valor a pagar: ${typeFilter} ${filter_by_value_pay.value_pay}`,
       });
     }
 
-    const { type_filter_quantity, quantity } = filter_by_quantity;
-    if (type_filter_quantity && quantity) {
+    const { type_filter_amount, amount } = filter_by_amount;
+    if (type_filter_amount && amount) {
       const typeFilter = formatTypeFilterNumber(
-        type_filter_quantity as TypeFilterNumber
+        type_filter_amount as TypeFilterNumber
       );
       filters.push({
-        key: 'quantity',
-        label: `Cantidad: ${typeFilter} ${filter_by_quantity.quantity}`,
+        key: 'amount',
+        label: `Cantidad: ${typeFilter} ${filter_by_amount.amount}`,
       });
     }
 
@@ -205,17 +205,17 @@ export const SaleModuleSearchbar: React.FC = () => {
         });
         form.setValue('filter_by_date.date', undefined, { shouldDirty: false });
         break;
-      case 'total':
-        form.setValue('filter_by_total.type_filter_total', undefined, {
+      case 'value_pay':
+        form.setValue('filter_by_value_pay.type_filter_value_pay', undefined, {
           shouldDirty: false,
         });
-        form.setValue('filter_by_total.total', 0, { shouldDirty: false });
+        form.setValue('filter_by_value_pay.value_pay', 0, { shouldDirty: false });
         break;
-      case 'quantity':
-        form.setValue('filter_by_quantity.type_filter_quantity', undefined, {
+      case 'amount':
+        form.setValue('filter_by_amount.type_filter_amount', undefined, {
           shouldDirty: false,
         });
-        form.setValue('filter_by_quantity.quantity', 0, { shouldDirty: false });
+        form.setValue('filter_by_amount.amount', 0, { shouldDirty: false });
         break;
     }
     handleSearch(form.watch());
@@ -243,26 +243,26 @@ export const SaleModuleSearchbar: React.FC = () => {
     }
 
     if (
-      values.filter_by_total.type_filter_total &&
-      values.filter_by_total.total
+      values.filter_by_value_pay.type_filter_value_pay &&
+      values.filter_by_value_pay.value_pay
     ) {
-      params.append('filter_by_total', 'true');
+      params.append('filter_by_value_pay', 'true');
       params.append(
-        'type_filter_total',
-        `${values.filter_by_total.type_filter_total}`
+        'type_filter_value_pay',
+        `${values.filter_by_value_pay.type_filter_value_pay}`
       );
-      params.append('total', `${values.filter_by_total.total}`);
+      params.append('value_pay', `${values.filter_by_value_pay.value_pay}`);
     }
     if (
-      values.filter_by_quantity.type_filter_quantity &&
-      values.filter_by_quantity.quantity
+      values.filter_by_amount.type_filter_amount &&
+      values.filter_by_amount.amount
     ) {
-      params.append('filter_by_quantity', 'true');
+      params.append('filter_by_amount', 'true');
       params.append(
-        'type_filter_quantity',
-        `${values.filter_by_quantity.type_filter_quantity}`
+        'type_filter_amount',
+        `${values.filter_by_amount.type_filter_amount}`
       );
-      params.append('quantity', `${values.filter_by_quantity.quantity}`);
+      params.append('amount', `${values.filter_by_amount.amount}`);
     }
 
     navigate(`?${params.toString()}`);
@@ -716,24 +716,24 @@ export const SaleModuleSearchbar: React.FC = () => {
                 actionOnClose={() => handleClearErrorsForm('crops')}
               />
               <FilterDropdownItem
-                label={'Total'}
-                actionOnSave={() => handleAddFilter('filter_by_total')}
-                actionOnClose={() => handleClearErrorsForm('filter_by_total')}
+                label={'Valor a pagar'}
+                actionOnSave={() => handleAddFilter('filter_by_value_pay')}
+                actionOnClose={() => handleClearErrorsForm('filter_by_value_pay')}
                 content={
                   <>
                     <FormFieldSelect
                       disabled={false}
                       items={numberFilterOptions}
-                      {...formFieldsSearchBarSale.type_filter_total}
+                      {...formFieldsSearchBarSale.type_filter_value_pay}
                       control={form.control}
-                      name="filter_by_total.type_filter_total"
+                      name="filter_by_value_pay.type_filter_value_pay"
                     />
                     <FormFieldInput
                       disabled={false}
-                      {...formFieldsSearchBarSale.total}
+                      {...formFieldsSearchBarSale.value_pay}
                       control={form.control}
                       type="number"
-                      name="filter_by_total.total"
+                      name="filter_by_value_pay.value_pay"
                     />
                   </>
                 }
@@ -741,25 +741,25 @@ export const SaleModuleSearchbar: React.FC = () => {
 
               <FilterDropdownItem
                 label={'Cantidad'}
-                actionOnSave={() => handleAddFilter('filter_by_quantity')}
+                actionOnSave={() => handleAddFilter('filter_by_amount')}
                 actionOnClose={() =>
-                  handleClearErrorsForm('filter_by_quantity')
+                  handleClearErrorsForm('filter_by_amount')
                 }
                 content={
                   <>
                     <FormFieldSelect
                       disabled={false}
                       items={numberFilterOptions}
-                      {...formFieldsSearchBarSale.type_filter_quantity}
+                      {...formFieldsSearchBarSale.type_filter_amount}
                       control={form.control}
-                      name="filter_by_quantity.type_filter_quantity"
+                      name="filter_by_amount.type_filter_amount"
                     />
                     <FormFieldInput
                       disabled={false}
-                      {...formFieldsSearchBarSale.quantity}
+                      {...formFieldsSearchBarSale.amount}
                       control={form.control}
                       type="number"
-                      name="filter_by_quantity.quantity"
+                      name="filter_by_amount.amount"
                     />
                   </>
                 }

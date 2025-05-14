@@ -12,7 +12,7 @@ import { useFormChange } from '@/modules/core/components';
 
 export const updateSale = async (sale: Sale): PromiseReturnRecord<void> => {
   const { id, ...rest } = sale;
-  return await cropcoAPI.patch(`${pathsCropco.sales}/update/one/${id}`, rest);
+  return await cropcoAPI.put(`${pathsCropco.sales}/update/one/${id}`, rest);
 };
 
 export const usePatchSale = (id: string): UseMutationReturn<void, Sale> => {

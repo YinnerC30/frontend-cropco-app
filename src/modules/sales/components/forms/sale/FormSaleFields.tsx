@@ -12,7 +12,7 @@ import { FormSaleDataTable } from './FormSaleDataTable';
 import React from 'react';
 
 export const FormSaleFields: React.FC = () => {
-  const { formSale, onSubmit, readOnly, total, quantity } =
+  const { formSale, onSubmit, readOnly, value_pay, amount } =
     useFormSaleContext();
 
   return (
@@ -41,10 +41,10 @@ export const FormSaleFields: React.FC = () => {
 
         <FormFieldInput
           control={formSale.control}
-          description={formFieldsSale.total.description}
-          label={formFieldsSale.total.label}
-          name={'total'}
-          placeholder={formFieldsSale.total.placeholder}
+          description={formFieldsSale.value_pay.description}
+          label={formFieldsSale.value_pay.label}
+          name={'value_pay'}
+          placeholder={formFieldsSale.value_pay.placeholder}
           disabled={true}
           type="number"
           hiddenInput
@@ -53,15 +53,15 @@ export const FormSaleFields: React.FC = () => {
             className="block h-8 text-base text-center w-28"
             variant={'cyan'}
           >
-            {FormatMoneyValue(total)}
+            {FormatMoneyValue(value_pay)}
           </Badge>
         </FormFieldInput>
         <FormFieldInput
           control={formSale.control}
-          description={formFieldsSale.quantity.description}
-          label={formFieldsSale.quantity.label}
-          name={'quantity'}
-          placeholder={formFieldsSale.quantity.placeholder}
+          description={formFieldsSale.amount.description}
+          label={formFieldsSale.amount.label}
+          name={'amount'}
+          placeholder={formFieldsSale.amount.placeholder}
           disabled={true}
           type="number"
           hiddenInput
@@ -70,7 +70,7 @@ export const FormSaleFields: React.FC = () => {
             className="block h-8 text-base text-center w-28"
             variant={'cyan'}
           >
-            {FormatNumber(quantity) + ' Kg'}
+            {FormatNumber(amount) + ' Kg'}
           </Badge>
         </FormFieldInput>
       </form>

@@ -1,6 +1,6 @@
 import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-type FormFieldsSale = 'date' | 'quantity' | 'total' | 'details';
+type FormFieldsSale = 'date' | 'amount' | 'value_pay' | 'details';
 
 export const formFieldsSale: Record<FormFieldsSale, CustomFormField> = {
   date: {
@@ -9,17 +9,17 @@ export const formFieldsSale: Record<FormFieldsSale, CustomFormField> = {
     placeholder: 'Selecciona una fecha',
     description: 'Fecha en la que se realizo la venta',
   },
-  quantity: {
-    name: 'quantity',
+  amount: {
+    name: 'amount',
     label: 'Cantidad:',
     placeholder: '',
     description: 'Número de Kilogramos vendidos',
   },
-  total: {
-    name: 'total',
-    label: 'Total:',
+  value_pay: {
+    name: 'value_pay',
+    label: 'Valor a pagar:',
     placeholder: '',
-    description: 'Dinero total obtenido por la cosecha',
+    description: 'Dinero obtenido por la venta',
   },
   details: {
     name: 'details',

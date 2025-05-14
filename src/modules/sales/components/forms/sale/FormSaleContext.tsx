@@ -35,8 +35,8 @@ import { useGetAllCropsWithStock } from '@/modules/crops/hooks/queries/useGetAll
 const defaultValuesSale = {
   date: undefined,
   details: [],
-  total: 0,
-  quantity: 0,
+  value_pay: 0,
+  amount: 0,
 };
 
 const defaultValuesSaleDetail: SaleDetail = {
@@ -49,8 +49,8 @@ const defaultValuesSaleDetail: SaleDetail = {
     id: '',
     name: '',
   },
-  total: 0,
-  quantity: 0,
+  value_pay: 0,
+  amount: 0,
   is_receivable: false,
 };
 
@@ -68,8 +68,8 @@ export interface FormSaleContextValues {
   readOnly: boolean;
   isSubmitting: boolean;
   onSubmit: (values: z.infer<typeof formSchemaSale>) => void;
-  total: number;
-  quantity: number;
+  value_pay: number;
+  amount: number;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
   openDialog: boolean;
   saleDetail: SaleDetail;
@@ -270,13 +270,13 @@ export const FormSaleProvider: React.FC<
     defaultValues,
   });
 
-  const total = detailsSale.reduce(
-    (total: number, detail: SaleDetail) => Number(total) + Number(detail.total),
+  const value_pay = detailsSale.reduce(
+    (value_pay: number, detail: SaleDetail) => Number(value_pay) + Number(detail.value_pay),
     0
   );
-  const quantity = detailsSale.reduce(
-    (quantity: number, detail: SaleDetail) =>
-      Number(quantity) + Number(detail.quantity),
+  const amount = detailsSale.reduce(
+    (amount: number, detail: SaleDetail) =>
+      Number(amount) + Number(detail.amount),
     0
   );
 
@@ -321,7 +321,7 @@ export const FormSaleProvider: React.FC<
     removeCropStock({
       id: saleDetail.crop.id,
       name: saleDetail.crop?.name!,
-      stock: saleDetail.quantity,
+      stock: saleDetail.amount,
     });
     // formSaleDetail.reset(defaultValuesSaleDetail);
     if (formSale.formState.isDirty) {
@@ -348,7 +348,7 @@ export const FormSaleProvider: React.FC<
       addCropStock({
         id: data?.crop.id!,
         name: data?.crop.name,
-        stock: data?.quantity!,
+        stock: data?.amount!,
       });
       removeSaleDetail(record as SaleDetail);
     }
@@ -370,9 +370,9 @@ export const FormSaleProvider: React.FC<
   }, [detailsSale, isFirstRender]);
 
   useEffect(() => {
-    formSale.setValue('total', total, { shouldValidate: true });
-    formSale.setValue('quantity', quantity, { shouldValidate: true });
-  }, [total, quantity]);
+    formSale.setValue('value_pay', value_pay, { shouldValidate: true });
+    formSale.setValue('amount', amount, { shouldValidate: true });
+  }, [value_pay, amount]);
 
   useEffect(() => {
     if (queryCropsWithStock.isSuccess) {
@@ -387,7 +387,7 @@ export const FormSaleProvider: React.FC<
         isSubmitting,
         onSubmit,
         readOnly,
-        total,
+        value_pay,
         saleDetail,
         setSaleDetail,
         formSaleDetail,
@@ -403,7 +403,7 @@ export const FormSaleProvider: React.FC<
         removeSaleDetail,
         modifySaleDetail,
         resetSaleDetails,
-        quantity,
+        amount,
         actionsSalesModule,
         queryCropsWithStock,
         cropStock,

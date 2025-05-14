@@ -52,11 +52,11 @@ export function ChartTotalSalesInYear() {
   }
 
   const chartConfig = {
-    current_total: {
+    current_value_pay: {
       label: querySales.data?.years[0].year,
       color: 'hsl(var(--chart-1))',
     },
-    previous_total: {
+    previous_value_pay: {
       label: querySales.data?.years[1].year,
       color: 'hsl(var(--chart-2))',
     },
@@ -164,12 +164,12 @@ export function ChartTotalSalesInYear() {
                 >
                   <stop
                     offset="5%"
-                    stopColor="var(--color-current_total)"
+                    stopColor="var(--color-current_value_pay)"
                     stopOpacity={0.8}
                   />
                   <stop
                     offset="95%"
-                    stopColor="var(--color-current_total)"
+                    stopColor="var(--color-current_value_pay)"
                     stopOpacity={0.1}
                   />
                 </linearGradient>
@@ -184,12 +184,12 @@ export function ChartTotalSalesInYear() {
                   >
                     <stop
                       offset="5%"
-                      stopColor="var(--color-previous_total)"
+                      stopColor="var(--color-previous_value_pay)"
                       stopOpacity={0.8}
                     />
                     <stop
                       offset="95%"
-                      stopColor="var(--color-previous_total)"
+                      stopColor="var(--color-previous_value_pay)"
                       stopOpacity={0.1}
                     />
                   </linearGradient>
@@ -197,20 +197,20 @@ export function ChartTotalSalesInYear() {
               </defs>
 
               <Area
-                dataKey="current_total"
+                dataKey="current_value_pay"
                 type="linear"
                 fill="url(#fillCurrentTotal)"
                 fillOpacity={0.4}
-                stroke="var(--color-current_total)"
+                stroke="var(--color-current_value_pay)"
                 stackId="a"
               />
               {showPreviousYear && (
                 <Area
-                  dataKey="previous_total"
+                  dataKey="previous_value_pay"
                   type="linear"
                   fill="url(#fillPreviousTotal"
                   fillOpacity={0.4}
-                  stroke="var(--color-previous_total)"
+                  stroke="var(--color-previous_value_pay)"
                   stackId="a"
                 />
               )}

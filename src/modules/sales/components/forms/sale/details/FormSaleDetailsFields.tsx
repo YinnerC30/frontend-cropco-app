@@ -59,7 +59,7 @@ export const FormSaleDetailsFields: React.FC = () => {
     addCropStock({
       id: saleDetail.crop.id,
       name: saleDetail.crop?.name!,
-      stock: saleDetail.quantity,
+      stock: saleDetail.amount,
     });
     formSaleDetail.reset(saleDetail);
   }, [saleDetail]);
@@ -220,20 +220,20 @@ export const FormSaleDetailsFields: React.FC = () => {
         />
         <FormFieldInput
           control={formSaleDetail.control}
-          description={formFieldsSaleDetail.quantity.description}
-          label={formFieldsSaleDetail.quantity.label}
-          name={"quantity"}
-          placeholder={formFieldsSaleDetail.quantity.placeholder}
+          description={formFieldsSaleDetail.amount.description}
+          label={formFieldsSaleDetail.amount.label}
+          name={"amount"}
+          placeholder={formFieldsSaleDetail.amount.placeholder}
           disabled={false}
           type="number"
           step={50}
         />
         <FormFieldInput
           control={formSaleDetail.control}
-          description={formFieldsSaleDetail.total.description}
-          label={formFieldsSaleDetail.total.label}
-          name={"total"}
-          placeholder={formFieldsSaleDetail.total.placeholder}
+          description={formFieldsSaleDetail.value_pay.description}
+          label={formFieldsSaleDetail.value_pay.label}
+          name={"value_pay"}
+          placeholder={formFieldsSaleDetail.value_pay.placeholder}
           disabled={false}
           type="number"
           step={50}
