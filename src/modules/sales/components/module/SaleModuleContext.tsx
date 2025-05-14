@@ -130,11 +130,11 @@ export const SalesModuleProvider: React.FC<{
     columns: columnsTable,
     infoPagination: querySales.isSuccess
       ? {
-          pageCount: querySales.data?.pageCount ?? 0,
-          rowCount: querySales.data?.rowCount ?? 0,
+          pageCount: querySales.data?.total_page_count ?? 0,
+          rowCount: querySales.data?.total_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
-    rows: querySales.data?.rows ?? [],
+    rows: querySales.data?.records ?? [],
     pagination,
     setPagination,
   });

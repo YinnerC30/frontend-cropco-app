@@ -57,12 +57,12 @@ export const CropsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
     columns: columnsTable,
     infoPagination: queryCrops.isSuccess
       ? {
-          pageCount: queryCrops.data?.pageCount ?? 0,
-          rowCount: queryCrops.data?.rowCount ?? 0,
+          pageCount: queryCrops.data?.total_page_count ?? 0,
+          rowCount: queryCrops.data?.total_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
 
-    rows: queryCrops.data?.rows ?? [],
+    rows: queryCrops.data?.records ?? [],
     pagination,
     setPagination,
   });

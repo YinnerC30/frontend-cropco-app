@@ -13,7 +13,7 @@ export const FormHarvestDetailsFields: React.FC = () => {
 
   const filterEmployeesToShow = useCallback((): Employee[] => {
     return (
-      queryEmployees?.data?.rows.filter((record: Employee) => {
+      queryEmployees?.data?.records.filter((record: Employee) => {
         const state = detailsHarvest.some(
           (item: HarvestDetail) => item.employee.id === record.id
         );

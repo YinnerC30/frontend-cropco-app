@@ -91,11 +91,11 @@ export const PaymentsModuleProvider = ({
     columns: columnsTable,
     infoPagination: queryPayments.isSuccess
       ? {
-          pageCount: queryPayments.data?.pageCount ?? 0,
-          rowCount: queryPayments.data?.rowCount ?? 0,
+          pageCount: queryPayments.data?.total_page_count ?? 0,
+          rowCount: queryPayments.data?.total_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
-    rows: queryPayments.data?.rows ?? [],
+    rows: queryPayments.data?.records ?? [],
     pagination,
     setPagination,
   });

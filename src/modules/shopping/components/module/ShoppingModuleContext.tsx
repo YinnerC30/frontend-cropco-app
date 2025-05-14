@@ -119,11 +119,11 @@ export const ShoppingModuleProvider: React.FC<{
     columns: columnsTable,
     infoPagination: queryShopping.isSuccess
       ? {
-          pageCount: queryShopping.data?.pageCount ?? 0,
-          rowCount: queryShopping.data?.rowCount ?? 0,
+          pageCount: queryShopping.data?.total_page_count ?? 0,
+          rowCount: queryShopping.data?.total_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
-    rows: queryShopping.data?.rows ?? [],
+    rows: queryShopping.data?.records ?? [],
     pagination,
     setPagination,
   });

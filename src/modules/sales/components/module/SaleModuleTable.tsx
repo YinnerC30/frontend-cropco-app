@@ -20,7 +20,7 @@ export const SaleModuleTable = () => {
       disabledDoubleClick={!actionsSalesModule['find_one_sale']}
       table={table}
       lengthColumns={lengthColumns}
-      rowCount={querySales?.data?.rowCount ?? 0}
+      rowCount={querySales?.data?.total_row_count ?? 0}
       isLoading={
         querySales.isLoading ||
         querySales.isRefetching ||

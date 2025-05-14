@@ -28,7 +28,7 @@ export const FormPaymentFields: React.FC = () => {
   } = useFormPaymentContext();
 
   const queryEmployees = useGetAllEmployeesWithPendingPayments();
-  const employees = queryEmployees?.data?.rows ?? [];
+  const employees = queryEmployees?.data?.records ?? [];
 
   return (
     <>

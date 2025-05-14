@@ -40,7 +40,7 @@ export default function CropSelector({
 }: Props) {
   const [open, setOpen] = React.useState(false);
 
-  const data = query.data?.rows ?? [];
+  const data = query.data?.records ?? [];
 
   const crops = [{ name: 'Todos', id: '' }, ...data];
 

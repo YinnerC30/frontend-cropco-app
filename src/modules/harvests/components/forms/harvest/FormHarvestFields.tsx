@@ -45,7 +45,7 @@ export const FormHarvestFields: React.FC = () => {
             data={
               queryCrops.isSuccess
                 ? [
-                    ...queryCrops.data?.rows,
+                    ...queryCrops.data?.records,
                     formHarvest.formState.defaultValues?.crop,
                   ]
                 : []

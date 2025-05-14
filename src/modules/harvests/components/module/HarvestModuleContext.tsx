@@ -136,11 +136,11 @@ export const HarvestsModuleProvider: React.FC<{
     columns: columnsTable,
     infoPagination: queryHarvests.isSuccess
       ? {
-          pageCount: queryHarvests.data?.pageCount ?? 0,
-          rowCount: queryHarvests.data?.rowCount ?? 0,
+          pageCount: queryHarvests.data?.total_page_count ?? 0,
+          rowCount: queryHarvests.data?.total_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
-    rows: queryHarvests.data?.rows ?? [],
+    rows: queryHarvests.data?.records ?? [],
     pagination,
     setPagination,
   });

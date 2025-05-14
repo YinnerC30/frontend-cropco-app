@@ -202,7 +202,7 @@ export const PaymentModuleSearchbar: React.FC = () => {
             <div className="flex flex-col items-center justify-center  md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
                 <FormFieldCommand
-                  data={queryEmployees?.data?.rows || []}
+                  data={queryEmployees?.data?.records || []}
                   form={form}
                   nameToShow="first_name"
                   control={form.control}

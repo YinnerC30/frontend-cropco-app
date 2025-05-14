@@ -131,7 +131,7 @@ export const SaleModuleSearchbar: React.FC = () => {
           clients.some((e) => !e.first_name === true)
             ? clients
                 .map((e) => {
-                  return queryClients.data?.rows.find((cl) => cl.id === e.id)
+                  return queryClients.data?.records.find((cl) => cl.id === e.id)
                     ?.first_name;
                 })
                 .join(', ')
@@ -146,7 +146,7 @@ export const SaleModuleSearchbar: React.FC = () => {
           crops.some((e) => !e.name === true)
             ? crops
                 .map((e) => {
-                  return queryCrops.data?.rows.find((cr) => cr.id === e.id)
+                  return queryCrops.data?.records.find((cr) => cr.id === e.id)
                     ?.name;
                 })
                 .join(', ')
@@ -479,7 +479,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                                         'cliente'
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
-                                        {queryClients?.data?.rows.map(
+                                        {queryClients?.data?.records.map(
                                           (item) => {
                                             return (
                                               <CommandItem
@@ -634,7 +634,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                                         'cultivo'
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
-                                        {queryCrops?.data?.rows.map((item) => {
+                                        {queryCrops?.data?.records.map((item) => {
                                           return (
                                             <CommandItem
                                               value={item?.['name']}

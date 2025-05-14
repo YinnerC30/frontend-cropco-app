@@ -128,7 +128,7 @@ export const WorkModuleSearchbar = () => {
         key: 'crop',
         label: `Cultivo: ${
           !crop.name
-            ? queryCrops.data?.rows.find((c) => c.id === crop.id)?.name
+            ? queryCrops.data?.records.find((c) => c.id === crop.id)?.name
             : crop?.name
         }`,
       });
@@ -141,7 +141,7 @@ export const WorkModuleSearchbar = () => {
           employees.some((e) => !e.first_name === true)
             ? employees
                 .map((e) => {
-                  return queryEmployees.data?.rows.find((em) => em.id === e.id)
+                  return queryEmployees.data?.records.find((em) => em.id === e.id)
                     ?.first_name;
                 })
                 .join(', ')
@@ -285,7 +285,7 @@ export const WorkModuleSearchbar = () => {
             <div className="flex flex-col items-center justify-center  md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
                 <FormFieldCommand
-                  data={queryCrops?.data?.rows || []}
+                  data={queryCrops?.data?.records || []}
                   form={form}
                   nameToShow="name"
                   control={form.control}
@@ -405,7 +405,7 @@ export const WorkModuleSearchbar = () => {
                                         'empleado'
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
-                                        {queryEmployees?.data?.rows.map(
+                                        {queryEmployees?.data?.records.map(
                                           (item) => {
                                             return (
                                               <CommandItem

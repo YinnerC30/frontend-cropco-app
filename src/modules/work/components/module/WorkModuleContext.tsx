@@ -118,11 +118,11 @@ export const WorksModuleProvider: React.FC<{
     columns: columnsTable,
     infoPagination: queryWorks.isSuccess
       ? {
-          pageCount: queryWorks.data?.pageCount ?? 0,
-          rowCount: queryWorks.data?.rowCount ?? 0,
+          pageCount: queryWorks.data?.total_page_count ?? 0,
+          rowCount: queryWorks.data?.total_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
-    rows: queryWorks.data?.rows ?? [],
+    rows: queryWorks.data?.records ?? [],
     pagination,
     setPagination,
   });

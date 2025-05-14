@@ -15,7 +15,7 @@ export const CropsTable: React.FC = () => {
       disabledDoubleClick={!actionsCropsModule['find_one_crop']}
       table={dataTable.table}
       lengthColumns={dataTable.lengthColumns}
-      rowCount={queryCrops.data?.rowCount ?? 0}
+      rowCount={queryCrops.data?.total_row_count ?? 0}
       isLoading={
         queryCrops.isLoading ||
         queryCrops.isRefetching ||

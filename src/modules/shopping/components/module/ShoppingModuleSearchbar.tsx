@@ -111,7 +111,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
           suppliers.some((e) => !e.first_name === true)
             ? suppliers
                 .map((e) => {
-                  return querySuppliers.data?.rows.find((cl) => cl.id === e.id)
+                  return querySuppliers.data?.records.find((cl) => cl.id === e.id)
                     ?.first_name;
                 })
                 .join(', ')
@@ -126,7 +126,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
           supplies.some((e) => !e.name === true)
             ? supplies
                 .map((e) => {
-                  return querySupplies.data?.rows.find((cr) => cr.id === e.id)
+                  return querySupplies.data?.records.find((cr) => cr.id === e.id)
                     ?.name;
                 })
                 .join(', ')
@@ -445,7 +445,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                                         'proveedor'
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
-                                        {querySuppliers?.data?.rows.map(
+                                        {querySuppliers?.data?.records.map(
                                           (item) => {
                                             return (
                                               <CommandItem
@@ -601,7 +601,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                                         'cultivo'
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
-                                        {querySupplies?.data?.rows.map(
+                                        {querySupplies?.data?.records.map(
                                           (item) => {
                                             return (
                                               <CommandItem

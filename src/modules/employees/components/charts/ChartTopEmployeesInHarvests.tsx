@@ -51,7 +51,7 @@ export function ChartTopEmployeesInHarvests() {
   }
 
   const chartData = queryEmployees.isSuccess
-    ? [...(queryEmployees.data?.rows || [])]
+    ? [...(queryEmployees.data?.records || [])]
     : [];
 
   return (

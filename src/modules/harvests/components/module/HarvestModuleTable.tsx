@@ -20,7 +20,7 @@ export const HarvestModuleTable: React.FC = () => {
       disabledDoubleClick={!actionsHarvestsModule['find_one_harvest']}
       table={dataTable.table}
       lengthColumns={dataTable.lengthColumns}
-      rowCount={queryHarvests?.data?.rowCount ?? 0}
+      rowCount={queryHarvests?.data?.total_row_count ?? 0}
       isLoading={
         queryHarvests.isLoading ||
         queryHarvests.isRefetching ||

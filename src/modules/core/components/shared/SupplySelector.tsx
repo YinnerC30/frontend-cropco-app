@@ -41,7 +41,7 @@ export default function supplySelector({
 }: Props) {
   const [open, setOpen] = React.useState(false);
 
-  const data = query.data?.rows ?? [];
+  const data = query.data?.records ?? [];
 
   const supplies = [{ name: 'Todos', id: '' }, ...data];
 

@@ -376,7 +376,7 @@ export const FormSaleProvider: React.FC<
 
   useEffect(() => {
     if (queryCropsWithStock.isSuccess) {
-      resetCropStock(queryCropsWithStock.data?.rows as CropStock[]);
+      resetCropStock(queryCropsWithStock.data?.records as CropStock[]);
     }
   }, [queryCropsWithStock.data]);
 

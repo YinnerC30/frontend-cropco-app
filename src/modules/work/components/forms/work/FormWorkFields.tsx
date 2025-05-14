@@ -43,7 +43,7 @@ export const FormWorkFields: React.FC = () => {
             data={
               queryCrops.isSuccess
                 ? [
-                    ...queryCrops.data?.rows,
+                    ...queryCrops.data?.records,
                     formWork.formState.defaultValues?.crop,
                   ]
                 : []

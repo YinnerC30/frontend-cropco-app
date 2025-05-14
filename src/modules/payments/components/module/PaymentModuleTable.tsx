@@ -20,7 +20,7 @@ export const PaymentModuleTable: React.FC = () => {
       disabledDoubleClick={!actionsPaymentsModule['find_one_payment']}
       table={table}
       lengthColumns={lengthColumns}
-      rowCount={queryPayments?.data?.rowCount ?? 0}
+      rowCount={queryPayments?.data?.total_row_count ?? 0}
       isLoading={
         queryPayments.isLoading ||
         queryPayments.isRefetching ||

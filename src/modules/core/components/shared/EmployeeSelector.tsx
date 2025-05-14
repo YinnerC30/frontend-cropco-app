@@ -40,7 +40,7 @@ export default function EmployeeSelector({
       ? useGetAllEmployeesWithHarvests()
       : useGetAllEmployeesWithWorks();
 
-  const data = queryEmployees.data?.rows ?? [];
+  const data = queryEmployees.data?.records ?? [];
 
   const employees = [{ first_name: 'Todos', id: '' }, ...data];
 

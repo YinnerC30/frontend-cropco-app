@@ -48,7 +48,7 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
   }
 
   const chartData = queryCrops.isSuccess
-    ? [...(queryCrops.data?.rows || [])]
+    ? [...(queryCrops.data?.records || [])]
     : [];
 
   return (

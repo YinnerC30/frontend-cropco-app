@@ -5,12 +5,13 @@ import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Employee } from './Employee';
+import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
 
 export interface EmployeesModuleContextProps {
   paramQuery: string;
   queryEmployees: UseQueryGetAllRecordsReturn<Employee>;
   dataTable: DataTableManualReturn<Employee>;
-  mutationDeleteEmployees: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteEmployees: UseMutationReturn<UseDeleteBulkResponse, BulkRecords>;
   mutationDeleteEmployee: UseMutationReturn<void, string>;
   actionsEmployeesModule: Record<string, boolean>;
   queryGetCertification: UseQueryResult<Blob, AxiosError>;

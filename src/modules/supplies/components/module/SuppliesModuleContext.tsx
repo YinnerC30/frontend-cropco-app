@@ -55,11 +55,11 @@ export const SuppliesModuleProvider = ({ children }: any) => {
     columns: columnsTable,
     infoPagination: querySupplies.isSuccess
       ? {
-          pageCount: querySupplies.data?.pageCount ?? 0,
-          rowCount: querySupplies.data?.rowCount ?? 0,
+          pageCount: querySupplies.data?.total_page_count ?? 0,
+          rowCount: querySupplies.data?.total_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
-    rows: querySupplies.data?.rows ?? [],
+    rows: querySupplies.data?.records ?? [],
     pagination,
     setPagination,
   });

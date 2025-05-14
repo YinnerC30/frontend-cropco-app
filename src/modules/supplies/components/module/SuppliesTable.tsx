@@ -21,7 +21,7 @@ export const SuppliesTable: React.FC = () => {
       disabledDoubleClick={!actionsSuppliesModule['find_one_supply']}
       table={table}
       lengthColumns={lengthColumns}
-      rowCount={querySupplies.data?.rowCount ?? 0}
+      rowCount={querySupplies.data?.total_row_count ?? 0}
       isLoading={
         querySupplies.isLoading ||
         querySupplies.isRefetching ||

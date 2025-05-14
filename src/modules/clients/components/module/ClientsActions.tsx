@@ -20,13 +20,13 @@ export const ClientsActions: React.FC = () => {
   const handleDeleteBulkClients = () => {
     mutationDeleteClients.mutate(
       { clientsIds: dataTable.getIdsToRowsSelected() },
-      {
-        onSuccess: (response) => {
-          // dataTable.resetSelectionRows();
-          const clientIds = response.data?.failed.map((item) => item.id) as any;
-          dataTable.onlySelectTheseRecords(clientIds);
-        },
-      }
+      // {
+      //   onSuccess: (response) => {
+      //     // dataTable.resetSelectionRows();
+      //     const clientIds = response.data?.failed.map((item) => item.id) as any;
+      //     dataTable.onlySelectTheseRecords(clientIds);
+      //   },
+      // }
     );
   };
 

@@ -339,7 +339,7 @@ export const FormConsumptionProvider: React.FC<
   useEffect(() => {
     if (querySuppliesStock.isSuccess) {
       resetSupplyStock(
-        querySuppliesStock.data?.rows as unknown as SupplyStock[]
+        querySuppliesStock.data?.records as unknown as SupplyStock[]
       );
     }
   }, [querySuppliesStock.data]);

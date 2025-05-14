@@ -20,7 +20,7 @@ export const SuppliersTable: React.FC = () => {
       disabledDoubleClick={!actionsSuppliersModule['find_one_supplier']}
       table={dataTable.table}
       lengthColumns={dataTable.lengthColumns}
-      rowCount={querySuppliers.data?.rowCount ?? 0}
+      rowCount={querySuppliers.data?.total_row_count ?? 0}
       isLoading={
         querySuppliers.isLoading ||
         querySuppliers.isRefetching ||

@@ -49,7 +49,7 @@ export function ChartTopClientsInSales() {
   }
 
   const chartData = queryClients.isSuccess
-    ? [...(queryClients.data?.rows || [])]
+    ? [...(queryClients.data?.records || [])]
     : [];
 
   return (

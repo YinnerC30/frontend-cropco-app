@@ -57,11 +57,11 @@ export const SuppliersModuleProvider: React.FC<{
     columns: columnsTable,
     infoPagination: querySuppliers.isSuccess
       ? {
-          pageCount: querySuppliers.data?.pageCount ?? 0,
-          rowCount: querySuppliers.data?.rowCount ?? 0,
+          pageCount: querySuppliers.data?.total_page_count ?? 0,
+          rowCount: querySuppliers.data?.total_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
-    rows: querySuppliers.data?.rows ?? [],
+    rows: querySuppliers.data?.records ?? [],
     pagination,
     setPagination,
   });
