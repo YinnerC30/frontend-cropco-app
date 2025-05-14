@@ -37,7 +37,7 @@ export const useGetTopCropsInHarvests = ({
 
   const isAuthorized = hasPermission(
     'dashboard',
-    'find_count_harvests_and_total_stock'
+    'find_count_harvests_and_total_stock_chart'
   );
 
   const query: UseQueryGetAllRecordsReturn<CropTopHarvest> = useQuery({

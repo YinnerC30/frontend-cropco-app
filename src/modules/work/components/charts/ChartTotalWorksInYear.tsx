@@ -1,12 +1,10 @@
-
-
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -14,26 +12,26 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from '@/components/ui/chart';
-import { ButtonRefetchData } from '@/modules/core/components';
+} from "@/components/ui/chart";
+import { ButtonRefetchData } from "@/modules/core/components";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import YearSelector from '@/modules/core/components/shared/YearSelector';
+import YearSelector from "@/modules/core/components/shared/YearSelector";
 
-import { Label, Switch } from '@/components';
-import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
-import CropSelector from '@/modules/core/components/shared/CropSelector';
-import EmployeeSelector from '@/modules/core/components/shared/EmployeeSelector';
-import { useGetAllCropsWithWork } from '@/modules/crops/hooks';
-import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
-import { organizeWorkData } from '../../helpers/organizeWorkData';
-import { useGetTotalWorksInYear } from '../../hooks/queries/useGetTotalWorksInYear';
+import { Label, Switch } from "@/components";
+import { ChartSkeleton } from "@/modules/core/components/charts/ChartSkeleton";
+import CropSelector from "@/modules/core/components/shared/CropSelector";
+import EmployeeSelector from "@/modules/core/components/shared/EmployeeSelector";
+import { useGetAllCropsWithWork } from "@/modules/crops/hooks";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import { organizeWorkData } from "../../helpers/organizeWorkData";
+import { useGetTotalWorksInYear } from "../../hooks/queries/useGetTotalWorksInYear";
 
 export function ChartTotalWorksInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
-  const [selectedCrop, setSelectedCrop] = useState('');
-  const [selectedEmployee, setSelectedEmployee] = useState('');
+  const [selectedCrop, setSelectedCrop] = useState("");
+  const [selectedEmployee, setSelectedEmployee] = useState("");
   const [showPreviousYear, setShowPreviousYear] = useState(true);
 
   const queryWorks = useGetTotalWorksInYear({
@@ -51,11 +49,11 @@ export function ChartTotalWorksInYear() {
   const chartConfig = {
     current_value_pay: {
       label: queryWorks.data?.years[0].year,
-      color: 'hsl(var(--chart-1))',
+      color: "hsl(var(--chart-1))",
     },
     previous_value_pay: {
       label: queryWorks.data?.years[1].year,
-      color: 'hsl(var(--chart-2))',
+      color: "hsl(var(--chart-2))",
     },
   } satisfies ChartConfig;
 
@@ -193,6 +191,6 @@ export function ChartTotalWorksInYear() {
       </CardContent>
     </Card>
   ) : (
-    <div className="h-[200px]">Error al generar el grafico</div>
+    <div className="h-[200px]">Error al generar el gráfico</div>
   );
 }

@@ -1,4 +1,4 @@
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 import {
   Card,
@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -14,34 +14,34 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from '@/components/ui/chart';
-import { ButtonRefetchData } from '@/modules/core/components';
-import { useState } from 'react';
+} from "@/components/ui/chart";
+import { ButtonRefetchData } from "@/modules/core/components";
+import { useState } from "react";
 
-import { Label, Switch } from '@/components';
-import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
-import YearSelector from '@/modules/core/components/shared/YearSelector';
-import { FormatNumber } from '@/modules/core/helpers';
-import { useGetTopCropsInHarvests } from '../../hooks/queries/useGetTopCropsInHarvests';
+import { Label, Switch } from "@/components";
+import { ChartSkeleton } from "@/modules/core/components/charts/ChartSkeleton";
+import YearSelector from "@/modules/core/components/shared/YearSelector";
+import { FormatNumber } from "@/modules/core/helpers";
+import { useGetTopCropsInHarvests } from "../../hooks/queries/useGetTopCropsInHarvests";
 
 const chartConfig: ChartConfig = {
   name: {
-    label: 'Nombre',
+    label: "Nombre",
   },
-  total_stock: {
-    label: 'N° Stock',
-    color: 'hsl(var(--chart-3))',
+  total_amount: {
+    label: "N° Stock",
+    color: "hsl(var(--chart-3))",
   },
   total_harvests: {
-    label: 'N° Cosechas',
-    color: 'hsl(var(--chart-5))',
+    label: "N° Cosechas",
+    color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
 
 export function ChartTopCropsWithHarvestsAndTotalStock() {
   const [selectedYear, setSelectedYear] = useState(2025);
   const queryCrops = useGetTopCropsInHarvests({ year: selectedYear });
-  const [showQuantityHarvests, setshowQuantityHarvests] = useState(true);
+  const [showQuantityHarvests, setShowQuantityHarvests] = useState(true);
 
   if (queryCrops.isLoading) {
     return <ChartSkeleton />;
@@ -51,6 +51,10 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
     ? [...(queryCrops.data?.records || [])]
     : [];
 
+  console.log(
+    "🚀 ~ ChartTopCropsWithHarvestsAndTotalStock ~ chartData:",
+    chartData
+  );
   return (
     <Card className="w-auto lg:w-[450px] ">
       <CardHeader>
@@ -65,7 +69,7 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
             <Switch
               defaultChecked={showQuantityHarvests}
               onCheckedChange={(value) => {
-                setshowQuantityHarvests(value);
+                setShowQuantityHarvests(value);
               }}
               id="show-value-pay"
             />
@@ -94,15 +98,15 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
               }}
             >
               <YAxis
-                dataKey={'total_stock'}
+                dataKey={"total_amount"}
                 yAxisId="left"
                 orientation="left"
-                stroke="var(--color-total_stock)"
+                stroke="var(--color-total_amount)"
               />
 
               {showQuantityHarvests && (
                 <YAxis
-                  dataKey={'total_harvests'}
+                  dataKey={"total_harvests"}
                   yAxisId="right"
                   orientation="right"
                   stroke="var(--color-total_harvests)"
@@ -129,7 +133,7 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
                             className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--color-bg]"
                             style={
                               {
-                                '--color-bg': `var(--color-${name})`,
+                                "--color-bg": `var(--color-${name})`,
                               } as React.CSSProperties
                             }
                           />
@@ -138,7 +142,7 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
                           <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
                             {FormatNumber(Number(value))}
                           </div>
-                          {name === 'total_stock' && (
+                          {name === "total_amount" && (
                             <span className="font-normal text-muted-foreground">
                               kg
                             </span>
@@ -160,8 +164,8 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
               )}
 
               <Bar
-                dataKey="total_stock"
-                fill="var(--color-total_stock)" // Asignando un color distinto para la nueva barra
+                dataKey="total_amount"
+                fill="var(--color-total_amount)" // Asignando un color distinto para la nueva barra
                 radius={4}
                 yAxisId="left"
               ></Bar>

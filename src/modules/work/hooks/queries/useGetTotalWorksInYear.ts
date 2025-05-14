@@ -1,13 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
-import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useAuthContext } from '@/auth/hooks';
-import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
-import { toast } from 'sonner';
-import { WorkTotalInYearData } from '../../interfaces/charts/WorksTotalInYear';
+import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
+import { useAuthContext } from "@/auth/hooks";
+import { PromiseReturnRecord } from "@/auth/interfaces/PromiseReturnRecord";
+import { UseGetOneRecordReturn } from "@/modules/core/interfaces/responses/UseGetOneRecordReturn";
+import { toast } from "sonner";
+import { WorkTotalInYearData } from "../../interfaces/charts/WorksTotalInYear";
 // import { HarvestTotalInYearData } from '../../interfaces/charts/WorksTotalInYear';
 
 interface QueryParams {
@@ -26,28 +26,31 @@ export const getTotalWorksInYear = async ({
   });
 
   if (crop.length > 0) {
-    params.append('crop', crop);
+    params.append("cropId", crop);
   }
   if (employee.length > 0) {
-    params.append('employee', employee);
+    params.append("employeeId", employee);
   }
 
   return await cropcoAPI.get(
-    `${pathsCropco.dashboard}/find/value_pay-work-in-year?${params}`
+    `${pathsCropco.dashboard}/find/total-work-in-year?${params}`
   );
 };
 
 export const useGetTotalWorksInYear = ({
   year = new Date().getFullYear(),
-  crop = '',
-  employee = '',
+  crop = "",
+  employee = "",
 }: QueryParams): UseGetOneRecordReturn<WorkTotalInYearData> => {
   const { hasPermission, handleError } = useAuthContext();
 
-  const isAuthorized = hasPermission('dashboard', 'find_value_pay_work_in_year');
+  const isAuthorized = hasPermission(
+    "dashboard",
+    "find_total_work_in_year_chart"
+  );
 
   const query: UseGetOneRecordReturn<WorkTotalInYearData> = useQuery({
-    queryKey: ['works-value_pay-year', year, crop, employee],
+    queryKey: ["works-value_pay-year", year, crop, employee],
     queryFn: () => getTotalWorksInYear({ year, crop, employee }),
     select: ({ data }) => data,
     enabled: isAuthorized,
@@ -56,7 +59,7 @@ export const useGetTotalWorksInYear = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado del value_pay de trabajos en el año 😑'
+        "No tienes permiso para ver el listado del value_pay de trabajos en el año 😑"
       );
     }
   }, [isAuthorized]);
@@ -67,7 +70,7 @@ export const useGetTotalWorksInYear = ({
         error: query.error,
         messagesStatusError: {
           unauthorized:
-            'No tienes permiso para ver el listado del value_pay de trabajos en el año 😑',
+            "No tienes permiso para ver el listado del value_pay de trabajos en el año 😑",
         },
       });
     }

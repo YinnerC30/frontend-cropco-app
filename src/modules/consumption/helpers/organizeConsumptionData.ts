@@ -23,7 +23,6 @@ interface OrganizedData {
 export function organizeConsumptionData(
   consumptionData: SaleData
 ): OrganizedData[] {
-  console.log(consumptionData);
   const { years } = consumptionData;
 
   // Verificamos que hay datos para al menos dos años

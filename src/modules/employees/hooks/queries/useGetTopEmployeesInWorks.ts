@@ -38,7 +38,7 @@ export const useGetTopEmployeesInWorks = ({
 
   const isAuthorized = hasPermission(
     'dashboard',
-    'find_top_employees_in_works'
+    'find_top_employees_in_works_chart'
   );
 
   const query: UseQueryGetAllRecordsReturn<EmployeeTopWork> = useQuery({

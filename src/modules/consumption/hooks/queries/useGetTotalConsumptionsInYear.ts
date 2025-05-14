@@ -18,16 +18,15 @@ export const getTotalConsumptionsInYear = async ({
   crop,
   supply,
 }: QueryParams): PromiseReturnRecord<ConsumptionTotalInYearData> => {
-  console.log(year, crop, supply);
   const params = new URLSearchParams({
     year: year.toString(),
   });
 
   if (crop.length > 0) {
-    params.append('crop', crop);
+    params.append('cropId', crop);
   }
   if (supply.length > 0) {
-    params.append('supply', supply);
+    params.append('supplyId', supply);
   }
 
   return await cropcoAPI.get(
@@ -44,7 +43,7 @@ export const useGetTotalConsumptionsInYear = ({
 
   const isAuthorized = hasPermission(
     'dashboard',
-    'find_total_consumptions_in_year'
+    'find_total_consumptions_in_year_chart'
   );
 
   const query: UseGetOneRecordReturn<ConsumptionTotalInYearData> = useQuery({

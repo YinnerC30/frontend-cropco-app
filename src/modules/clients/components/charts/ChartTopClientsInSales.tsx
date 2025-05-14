@@ -1,13 +1,13 @@
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
-import { Label, Switch } from '@/components';
+import { Label, Switch } from "@/components";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -15,31 +15,31 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from '@/components/ui/chart';
-import { ButtonRefetchData } from '@/modules/core/components';
-import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
-import YearSelector from '@/modules/core/components/shared/YearSelector';
-import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
-import { useState } from 'react';
-import { useGetTopClientsInSales } from '../../hooks/queries/useGetTopClientsInSales';
+} from "@/components/ui/chart";
+import { ButtonRefetchData } from "@/modules/core/components";
+import { ChartSkeleton } from "@/modules/core/components/charts/ChartSkeleton";
+import YearSelector from "@/modules/core/components/shared/YearSelector";
+import { FormatMoneyValue, FormatNumber } from "@/modules/core/helpers";
+import { useState } from "react";
+import { useGetTopClientsInSales } from "../../hooks/queries/useGetTopClientsInSales";
 
 const chartConfig: ChartConfig = {
   first_name: {
-    label: 'Nombre',
+    label: "Nombre",
   },
-  total_quantity: {
-    label: 'N° Stock',
-    color: 'hsl(var(--chart-4))',
+  total_amount: {
+    label: "N° Stock",
+    color: "hsl(var(--chart-4))",
   },
-  total_sale: {
-    label: 'Pago',
-    color: 'hsl(var(--chart-3))',
+  total_value_pay: {
+    label: "Pago",
+    color: "hsl(var(--chart-3))",
   },
 } satisfies ChartConfig;
 
 export function ChartTopClientsInSales() {
   const [selectedYear, setSelectedYear] = useState(2025);
-  const [showTotalSaleBar, setshowTotalSaleBar] = useState(true);
+  const [showTotalSaleBar, setShowTotalSaleBar] = useState(true);
   const queryClients = useGetTopClientsInSales({
     year: Number(selectedYear),
   });
@@ -51,6 +51,7 @@ export function ChartTopClientsInSales() {
   const chartData = queryClients.isSuccess
     ? [...(queryClients.data?.records || [])]
     : [];
+
 
   return (
     <Card className="w-auto lg:w-[450px] ">
@@ -64,7 +65,7 @@ export function ChartTopClientsInSales() {
             <Switch
               defaultChecked={showTotalSaleBar}
               onCheckedChange={(value) => {
-                setshowTotalSaleBar(value);
+                setShowTotalSaleBar(value);
               }}
               id="show-value-pay"
             />
@@ -93,17 +94,17 @@ export function ChartTopClientsInSales() {
               }}
             >
               <YAxis
-                dataKey={'total_quantity'}
+                dataKey={"total_amount"}
                 yAxisId="left"
                 orientation="left"
-                stroke="var(--color-total_quantity)"
+                stroke="var(--color-total_amount)"
               />
               {showTotalSaleBar && (
                 <YAxis
-                  dataKey={'total_sale'}
+                  dataKey={"total_value_pay"}
                   yAxisId="right"
                   orientation="right"
-                  stroke="var(--color-total_sale)"
+                  stroke="var(--color-total_value_pay)"
                 />
               )}
               <CartesianGrid vertical={false} />
@@ -126,17 +127,17 @@ export function ChartTopClientsInSales() {
                             className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--color-bg]"
                             style={
                               {
-                                '--color-bg': `var(--color-${name})`,
+                                "--color-bg": `var(--color-${name})`,
                               } as React.CSSProperties
                             }
                           />
                           {chartConfig[name as keyof typeof chartConfig]
                             ?.label || name}
                           <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
-                            {name === 'total_quantity'
+                            {name === "total_amount"
                               ? FormatNumber(Number(value))
                               : FormatMoneyValue(Number(value))}
-                            {name === 'total_quantity' && (
+                            {name === "total_amount" && (
                               <span className="font-normal text-muted-foreground">
                                 kg
                               </span>
@@ -151,8 +152,8 @@ export function ChartTopClientsInSales() {
 
               {/* Barra de total_quantity */}
               <Bar
-                dataKey="total_quantity"
-                fill="var(--color-total_quantity)"
+                dataKey="total_amount"
+                fill="var(--color-total_amount)"
                 radius={4}
                 yAxisId="left"
               ></Bar>
@@ -161,8 +162,8 @@ export function ChartTopClientsInSales() {
 
               {showTotalSaleBar && (
                 <Bar
-                  dataKey="total_sale"
-                  fill="var(--color-total_sale)" // Asignando un color distinto para la nueva barra
+                  dataKey="total_value_pay"
+                  fill="var(--color-total_value_pay)" // Asignando un color distinto para la nueva barra
                   radius={4}
                   yAxisId="right"
                 />
