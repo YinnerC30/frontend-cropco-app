@@ -212,7 +212,7 @@ export const FormShoppingProvider: React.FC<
     event.preventDefault();
     if (formShoppingDetail.formState.isDirty) {
       showToast({
-        skiptRedirection: true,
+        skipRedirection: true,
         action: ClearFormShoppingDetail,
       });
       return;

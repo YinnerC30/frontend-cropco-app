@@ -301,7 +301,7 @@ export const FormConsumptionProvider: React.FC<
     event.preventDefault();
     if (formConsumptionDetail.formState.isDirty) {
       showToast({
-        skiptRedirection: true,
+        skipRedirection: true,
         action: ClearFormConsumptionDetail,
       });
       return;

@@ -9,11 +9,11 @@ interface FormChangeContextType {
   markChanges: (hasChanges: boolean) => void;
   showToast: ({
     route,
-    skiptRedirection,
+    skipRedirection,
     action,
   }: {
     route?: string;
-    skiptRedirection?: boolean;
+    skipRedirection?: boolean;
     action?: () => void;
   }) => void;
 }
@@ -41,21 +41,21 @@ export const FormChangeProvider: React.FC<FormChangeProviderProps> = ({
 
   
 
-  const handleToastAction = (route: string, skiptRedirection: boolean) => {
+  const handleToastAction = (route: string, skipRedirection: boolean) => {
     
     markChanges(false);
-    if (!skiptRedirection) {
+    if (!skipRedirection) {
       navigate(route);
     }
   };
 
   const showToast = ({
     route = '/',
-    skiptRedirection = false,
+    skipRedirection = false,
     action,
   }: {
     route?: string;
-    skiptRedirection?: boolean;
+    skipRedirection?: boolean;
     action?: () => void;
   }) => {
     return toast({
@@ -66,7 +66,7 @@ export const FormChangeProvider: React.FC<FormChangeProviderProps> = ({
         <ToastAction
           altText="Descartar cambios y continuar"
           onClick={() => {
-            handleToastAction(route, skiptRedirection);
+            handleToastAction(route, skipRedirection);
             action && action();
           }}
         >

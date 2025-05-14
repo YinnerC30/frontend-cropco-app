@@ -334,7 +334,7 @@ export const FormSaleProvider: React.FC<
     event.preventDefault();
     if (formSaleDetail.formState.isDirty) {
       showToast({
-        skiptRedirection: true,
+        skipRedirection: true,
         action: ClearFormSaleDetail,
       });
       return;

@@ -223,7 +223,7 @@ export const FormWorkProvider: React.FC<
     event.preventDefault();
     if (formWorkDetail.formState.isDirty) {
       showToast({
-        skiptRedirection: true,
+        skipRedirection: true,
         action: ClearFormWorkDetail,
       });
       return;

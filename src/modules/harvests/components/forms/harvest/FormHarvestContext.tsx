@@ -227,7 +227,7 @@ export const FormHarvestProvider: React.FC<
     event.preventDefault();
     if (formHarvestDetail.formState.isDirty) {
       showToast({
-        skiptRedirection: true,
+        skipRedirection: true,
         action: (): void => {
           if (formHarvest.formState.isDirty) {
             markChanges(true);

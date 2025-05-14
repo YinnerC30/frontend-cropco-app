@@ -36,7 +36,7 @@ export const MyAccount = () => {
   const handleCloseDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (hasUnsavedChanges) {
-      showToast({ skiptRedirection: true, action: () => setOpenDialog(false) });
+      showToast({ skipRedirection: true, action: () => setOpenDialog(false) });
       return;
     }
     setOpenDialog(false);
