@@ -10,7 +10,7 @@ export const formFieldsConsumptionDetail: Record<
     name: 'supply',
     label: 'Insumo:',
     placeholder: 'Selecciona un insumo',
-    description: 'Insumo a comprar',
+    description: 'Insumo a consumir',
   },
   crop: {
     name: 'crop',

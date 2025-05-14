@@ -43,7 +43,7 @@ export const useGetAllSuppliesStock = ({
 > => {
   const { handleError, hasPermission } = useAuthContext();
 
-  const isAuthorized = hasPermission('supplies', 'find_all_supplies_stock');
+  const isAuthorized = hasPermission('supplies', 'find_all_supplies_with_stock');
 
   const query: UseGetOneRecordReturn<ResponseApiGetAllRecords<SupplyStock>> =
     useQuery({
