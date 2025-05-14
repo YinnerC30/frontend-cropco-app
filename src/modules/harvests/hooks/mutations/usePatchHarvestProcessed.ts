@@ -11,7 +11,7 @@ export const updateHarvestProcessed = async (
   harvestProcessed: HarvestProcessed
 ): PromiseReturnRecord<void> => {
   const { id, ...rest } = harvestProcessed;
-  return await cropcoAPI.patch(
+  return await cropcoAPI.put(
     `${pathsCropco.harvestsProcessed}/update/one/${id}`,
     rest
   );

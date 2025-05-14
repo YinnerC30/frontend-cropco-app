@@ -73,11 +73,11 @@ export function ChartTotalHarvestsInYear() {
   }
 
   const chartConfig = {
-    current_total: {
+    current_amount: {
       label: queryHarvests.data?.years[0].year,
       color: 'hsl(var(--chart-1))',
     },
-    previous_total: {
+    previous_amount: {
       label: queryHarvests.data?.years[1].year,
       color: 'hsl(var(--chart-2))',
     },
@@ -194,12 +194,12 @@ export function ChartTotalHarvestsInYear() {
                 >
                   <stop
                     offset="5%"
-                    stopColor="var(--color-current_total)"
+                    stopColor="var(--color-current_amount)"
                     stopOpacity={0.8}
                   />
                   <stop
                     offset="95%"
-                    stopColor="var(--color-current_total)"
+                    stopColor="var(--color-current_amount)"
                     stopOpacity={0.1}
                   />
                 </linearGradient>
@@ -214,12 +214,12 @@ export function ChartTotalHarvestsInYear() {
                   >
                     <stop
                       offset="5%"
-                      stopColor="var(--color-previous_total)"
+                      stopColor="var(--color-previous_amount)"
                       stopOpacity={0.8}
                     />
                     <stop
                       offset="95%"
-                      stopColor="var(--color-previous_total)"
+                      stopColor="var(--color-previous_amount)"
                       stopOpacity={0.1}
                     />
                   </linearGradient>
@@ -227,21 +227,21 @@ export function ChartTotalHarvestsInYear() {
               </defs>
 
               <Area
-                dataKey="current_total"
+                dataKey="current_amount"
                 type="linear"
                 fill="url(#fillCurrentTotal)"
                 fillOpacity={0.4}
-                stroke="var(--color-current_total)"
+                stroke="var(--color-current_amount)"
                 stackId="a"
               />
 
               {showPreviousYear && (
                 <Area
-                  dataKey="previous_total"
+                  dataKey="previous_amount"
                   type="linear"
                   fill="url(#fillPreviousTotal"
                   fillOpacity={0.4}
-                  stroke="var(--color-previous_total)"
+                  stroke="var(--color-previous_amount)"
                   stackId="a"
                 />
               )}
@@ -293,7 +293,7 @@ export function ChartTotalHarvestsInYear() {
                   Total del año {queryHarvests.data?.years[0].year} :
                   {' ' +
                     FormatNumber(
-                      queryHarvests.data?.growth.total_current ?? 0
+                      queryHarvests.data?.growth.amount_current ?? 0
                     ) +
                     ' kg'}
                 </span>
@@ -301,7 +301,7 @@ export function ChartTotalHarvestsInYear() {
                   Total del año {queryHarvests.data?.years[1].year} :{' '}
                 </span>
                 {' ' +
-                  FormatNumber(queryHarvests.data?.growth.total_previous ?? 0) +
+                  FormatNumber(queryHarvests.data?.growth.amount_previous ?? 0) +
                   ' kg'}
               </div>
             </div>

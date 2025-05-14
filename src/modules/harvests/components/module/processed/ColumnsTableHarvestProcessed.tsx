@@ -26,16 +26,16 @@ export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
     },
   },
   {
-    accessorKey: formFieldsHarvestProcessed.total.name,
+    accessorKey: formFieldsHarvestProcessed.amount.name,
     cell: ({ row }) => {
-      const total: number = row.getValue('total');
-      return FormatNumber(total);
+      const amount: number = row.getValue('amount');
+      return FormatNumber(amount);
     },
     header: ({ column }: HeaderContext<HarvestProcessed, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
-          label={formFieldsHarvestProcessed.total.label}
+          label={formFieldsHarvestProcessed.amount.label}
         />
       );
     },

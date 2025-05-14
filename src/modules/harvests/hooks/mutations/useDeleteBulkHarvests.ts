@@ -32,7 +32,7 @@ export const useDeleteBulkHarvests = (): UseMutationReturn<
           queryKey: ["crops"],
         });
         await queryClient.invalidateQueries({
-          queryKey: ["harvests-total-year"],
+          queryKey: ["harvests-amount-year"],
         });
 
         if (success.length > 0 && failed.length === 0) {

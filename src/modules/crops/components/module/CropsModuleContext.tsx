@@ -16,12 +16,12 @@ import { useDeleteBulkCrops } from '../../hooks/mutations/useDeleteBulkCrops';
 import { Crop } from '../../interfaces/Crop';
 import { columnsTableCrops } from './columnsTableCrops';
 import { CropsModuleActionsTable } from './CropsModuleActionsTable';
-
+import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
 export interface CropsModuleContextProps {
   paramQuery: string;
   queryCrops: UseQueryGetAllRecordsReturn<Crop>;
   dataTable: DataTableManualReturn<Crop>;
-  mutationDeleteCrops: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteCrops: UseMutationReturn<UseDeleteBulkResponse, BulkRecords>;
   mutationDeleteCrop: UseMutationReturn<void, string>;
   actionsCropsModule: Record<string, boolean>;
 }

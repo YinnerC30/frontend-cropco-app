@@ -6,7 +6,7 @@ export interface HarvestDetail extends LogicDeleteRecordProps {
   id?: string;
   employee: ObjectWithId;
   payments_harvest?: any[];
-  total: number;
+  amount: number;
   value_pay: number;
   harvest?: Harvest;
   payment_is_pending?: boolean;

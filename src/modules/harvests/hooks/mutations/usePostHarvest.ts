@@ -32,7 +32,7 @@ export const usePostHarvest = (): UseMutationReturn<void, Harvest> => {
         queryKey: ['crops-with-harvest'],
       });
       await queryClient.invalidateQueries({
-        queryKey: ['harvests-total-year'],
+        queryKey: ['harvests-amount-year'],
       });
       navigate(MODULE_HARVESTS_PATHS.ViewAll);
       toast.success(`Cosecha creada`);

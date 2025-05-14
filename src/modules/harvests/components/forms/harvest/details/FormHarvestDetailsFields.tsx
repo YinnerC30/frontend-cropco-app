@@ -51,10 +51,10 @@ export const FormHarvestDetailsFields: React.FC = () => {
 
         <FormFieldInput
           control={formHarvestDetail.control}
-          description={formFieldsHarvestDetail.total.description}
-          label={formFieldsHarvestDetail.total.label}
-          name={'total'}
-          placeholder={formFieldsHarvestDetail.total.placeholder}
+          description={formFieldsHarvestDetail.amount.description}
+          label={formFieldsHarvestDetail.amount.label}
+          name={'amount'}
+          placeholder={formFieldsHarvestDetail.amount.placeholder}
           disabled={false}
           type="number"
         />

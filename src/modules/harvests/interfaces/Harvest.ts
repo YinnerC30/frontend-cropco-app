@@ -8,8 +8,8 @@ export interface Harvest {
   details: HarvestDetail[];
   id?: string;
   observation?: string | undefined;
-  total: number;
+  amount: number;
   value_pay: number;
   processed?: HarvestProcessed[];
-  total_processed?: number;
+  total_amount_processed?: number;
 }

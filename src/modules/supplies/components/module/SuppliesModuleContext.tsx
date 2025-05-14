@@ -16,12 +16,13 @@ import { useGetAllSupplies } from '../../hooks/queries/useGetAllSupplies';
 import { Supply } from '../../interfaces/Supply';
 import { columnsTableSupplies } from './columnsTableSupplies';
 import { SuppliesModuleActionsTable } from './SuppliesModuleActionsTable';
+import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
 
 export interface SuppliesModuleContextProps {
   paramQuery: string;
   querySupplies: UseQueryGetAllRecordsReturn<Supply>;
   dataTable: DataTableManualReturn<Supply>;
-  mutationDeleteSupplies: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteSupplies: UseMutationReturn<UseDeleteBulkResponse, BulkRecords>;
   mutationDeleteSupply: UseMutationReturn<void, string>;
   actionsSuppliesModule: Record<string, boolean>;
 }

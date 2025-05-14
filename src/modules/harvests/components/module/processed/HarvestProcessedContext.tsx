@@ -27,7 +27,7 @@ export const HarvestProcessedProvider: React.FC<{
   const [harvestProcessed, setHarvestProcessed] = useState<HarvestProcessed>({
     id: undefined,
     date: undefined,
-    total: 0,
+    amount: 0,
   });
 
   const { getActionsModule } = useAuthContext();

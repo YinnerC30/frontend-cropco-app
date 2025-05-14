@@ -32,7 +32,7 @@ export const getTotalHarvestsInYear = async ({
   }
 
   return await cropcoAPI.get(
-    `${pathsCropco.dashboard}/find/total-harvest-in-year?${params}`
+    `${pathsCropco.dashboard}/find/amount-harvest-in-year?${params}`
   );
 };
 
@@ -43,10 +43,10 @@ export const useGetTotalHarvestsInYear = ({
 }: QueryParams): UseGetOneRecordReturn<HarvestTotalInYearData> => {
   const { hasPermission, handleError } = useAuthContext();
 
-  const isAuthorized = hasPermission('dashboard', 'find_total_harvest_in_year');
+  const isAuthorized = hasPermission('dashboard', 'find_amount_harvest_in_year');
 
   const query: UseGetOneRecordReturn<HarvestTotalInYearData> = useQuery({
-    queryKey: ['harvests-total-year', year, crop, employee],
+    queryKey: ['harvests-amount-year', year, crop, employee],
     queryFn: () => getTotalHarvestsInYear({ year, crop, employee }),
     select: ({ data }) => data,
     enabled: isAuthorized,
@@ -55,7 +55,7 @@ export const useGetTotalHarvestsInYear = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado del total de cosechas en el año 😑'
+        'No tienes permiso para ver el listado del amount de cosechas en el año 😑'
       );
     }
   }, [isAuthorized]);
@@ -66,7 +66,7 @@ export const useGetTotalHarvestsInYear = ({
         error: query.error,
         messagesStatusError: {
           unauthorized:
-            'No tienes permiso para ver el listado del total de cosechas en el año 😑',
+            'No tienes permiso para ver el listado del amount de cosechas en el año 😑',
         },
       });
     }

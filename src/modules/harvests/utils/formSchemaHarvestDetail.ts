@@ -15,7 +15,7 @@ export const formSchemaHarvestDetail = z.object({
       }),
     first_name: z.string().optional(),
   }),
-  total: z.coerce
+  amount: z.coerce
     .number({
       required_error: `El valor cosechado es requerido`,
       invalid_type_error: `Debe introducir un valor numérico`,

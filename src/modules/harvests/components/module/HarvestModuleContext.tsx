@@ -21,6 +21,7 @@ import columnsHarvest from './ColumnsTableHarvest';
 import { useGetHarvestPDF } from '../../hooks/queries/useGetHarvestPDF';
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
 
 export interface paramQueryHarvest {
   crop: { id: string };
@@ -29,9 +30,9 @@ export interface paramQueryHarvest {
     type_filter_date: string | undefined;
     date: string | undefined | Date;
   };
-  filter_by_total: {
-    type_filter_total: string | undefined;
-    total: number;
+  filter_by_amount: {
+    type_filter_amount: string | undefined;
+    amount: number;
   };
   filter_by_value_pay: {
     type_filter_value_pay: string | undefined;
@@ -43,7 +44,7 @@ export interface HarvestsModuleContextProps {
   paramsQuery: paramQueryHarvest;
   queryHarvests: UseQueryGetAllRecordsReturn<Harvest>;
   dataTable: DataTableManualReturn<Harvest>;
-  mutationDeleteHarvests: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteHarvests: UseMutationReturn<UseDeleteBulkResponse, BulkRecords>;
   mutationDeleteHarvest: UseMutationReturn<void, string>;
   actionsHarvestsModule: Record<string, boolean>;
   appliedFilters: FilterSearchBar[];
@@ -74,15 +75,15 @@ const paramsHarvest: ItemQueryAdvanced[] = [
     defaultValue: undefined,
   },
   {
-    propertyName: 'filter_by_total',
+    propertyName: 'filter_by_amount',
     defaultValue: false,
   },
   {
-    propertyName: 'type_filter_total',
+    propertyName: 'type_filter_amount',
     defaultValue: undefined,
   },
   {
-    propertyName: 'total',
+    propertyName: 'amount',
     defaultValue: 0,
   },
   {
@@ -177,9 +178,9 @@ export const HarvestsModuleProvider: React.FC<{
         type_filter_date: paramsValues.type_filter_date,
         date: !paramsValues.date ? undefined : new Date(paramsValues.date),
       },
-      filter_by_total: {
-        type_filter_total: paramsValues.type_filter_total,
-        total: paramsValues.total,
+      filter_by_amount: {
+        type_filter_amount: paramsValues.type_filter_amount,
+        amount: paramsValues.amount,
       },
       filter_by_value_pay: {
         type_filter_value_pay: paramsValues.type_filter_value_pay,

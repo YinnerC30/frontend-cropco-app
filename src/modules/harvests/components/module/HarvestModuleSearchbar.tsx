@@ -20,7 +20,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   ScrollArea,
-} from '@/components';
+} from "@/components";
 import {
   FormFieldCalendar,
   FormFieldCommand,
@@ -28,49 +28,49 @@ import {
   FormFieldSelect,
   Loading,
   ToolTipTemplate,
-} from '@/modules/core/components';
-import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
-import { useGetAllCropsWithHarvest } from '@/modules/crops/hooks/queries/useGetAllCropsWithHarvest';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
+} from "@/modules/core/components";
+import { useCreateForm } from "@/modules/core/hooks/useCreateForm";
+import { useGetAllCropsWithHarvest } from "@/modules/crops/hooks/queries/useGetAllCropsWithHarvest";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
-import { CapitalizeFirstWord } from '@/auth/helpers';
-import { cn } from '@/lib/utils';
-import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
-import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
-import { formatTypeFilterDate } from '@/modules/core/helpers/formatting/formatTypeFilterDate';
-import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/formatTypeFilterNumber';
-import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
+import { CapitalizeFirstWord } from "@/auth/helpers";
+import { cn } from "@/lib/utils";
+import { FilterDropdownItem } from "@/modules/core/components/search-bar/FilterDropdownItem";
+import { FiltersBadgedList } from "@/modules/core/components/search-bar/FiltersBadgedList";
+import { formatTypeFilterDate } from "@/modules/core/helpers/formatting/formatTypeFilterDate";
+import { formatTypeFilterNumber } from "@/modules/core/helpers/formatting/formatTypeFilterNumber";
+import { TypeFilterDate, TypeFilterNumber } from "@/modules/core/interfaces";
 import {
   dateFilterOptions,
   numberFilterOptions,
-} from '@/modules/core/interfaces/queries/FilterOptions';
-import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
-import { useGetAllEmployeesWithHarvests } from '@/modules/payments/hooks/queries/useGetAllEmployeesWithHarvests';
-import { CaretSortIcon } from '@radix-ui/react-icons';
-import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
-import { CheckIcon, Filter, X } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
-import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
-import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
-import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
-import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarvest';
-import { formSchemaSearchBarHarvest } from '../../utils/formSchemaSearchBarHarvest';
+} from "@/modules/core/interfaces/queries/FilterOptions";
+import { FilterSearchBar } from "@/modules/core/interfaces/queries/FilterSearchBar";
+import { useGetAllEmployeesWithHarvests } from "@/modules/payments/hooks/queries/useGetAllEmployeesWithHarvests";
+import { CaretSortIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+import { CheckIcon, Filter, X } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
+import { z } from "zod";
+import { useHarvestModuleContext } from "../../hooks/context/useHarvestModuleContext";
+import { MODULE_HARVESTS_PATHS } from "../../routes/pathRoutes";
+import { formFieldsSearchBarHarvest } from "../../utils/formFieldsSearchBarHarvest";
+import { formSchemaSearchBarHarvest } from "../../utils/formSchemaSearchBarHarvest";
 
 const valuesResetForm = {
   crop: {
-    id: '',
-    name: '',
+    id: "",
+    name: "",
   },
   filter_by_date: {
     date: undefined,
     type_filter_date: TypeFilterDate.after,
   },
-  filter_by_total: {
-    type_filter_total: TypeFilterNumber.MIN,
-    total: 0,
+  filter_by_amount: {
+    type_filter_amount: TypeFilterNumber.MIN,
+    amount: 0,
   },
   filter_by_value_pay: {
     type_filter_value_pay: TypeFilterNumber.MIN,
@@ -87,11 +87,11 @@ export const HarvestModuleSearchbar: React.FC = () => {
     appliedFilters,
     setAppliedFilters,
   } = useHarvestModuleContext();
-  const readOnly = !actionsHarvestsModule['find_all_harvests'];
+  const readOnly = !actionsHarvestsModule["find_all_harvests"];
   const navigate = useNavigate();
 
   const { query: queryCrops } = useGetAllCropsWithHarvest({
-    queryValue: '',
+    queryValue: "",
     all_records: true,
   });
 
@@ -104,7 +104,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
     schema: formSchemaSearchBarHarvest,
     defaultValues: paramsQuery,
     skiptDirty: true,
-    validationMode: 'onSubmit',
+    validationMode: "onSubmit",
   });
 
   const handleAddFilter = async (name: string): Promise<boolean> => {
@@ -116,7 +116,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
     const {
       crop,
       filter_by_date,
-      filter_by_total,
+      filter_by_amount,
       filter_by_value_pay,
       employees = [],
     } = form.watch();
@@ -125,7 +125,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
 
     if (crop?.id) {
       filters.push({
-        key: 'crop',
+        key: "crop",
         label: `Cultivo: ${
           !crop.name
             ? queryCrops.data?.records.find((c) => c.id === crop.id)?.name
@@ -135,16 +135,17 @@ export const HarvestModuleSearchbar: React.FC = () => {
     }
     if (employees?.length > 0) {
       filters.push({
-        key: 'employees',
+        key: "employees",
         label: `Empleados: ${
           employees.some((e) => !e.first_name === true)
             ? employees
                 .map((e) => {
-                  return queryEmployees.data?.records.find((em) => em.id === e.id)
-                    ?.first_name;
+                  return queryEmployees.data?.records.find(
+                    (em) => em.id === e.id
+                  )?.first_name;
                 })
-                .join(', ')
-            : employees.map((e) => e.first_name).join(', ')
+                .join(", ")
+            : employees.map((e) => e.first_name).join(", ")
         }`,
       });
     }
@@ -156,25 +157,25 @@ export const HarvestModuleSearchbar: React.FC = () => {
         type_filter_date as TypeFilterDate
       );
 
-      const formatDate = format(date, 'PPP', {
+      const formatDate = format(date, "PPP", {
         locale: es,
       });
 
       filters.push({
-        key: 'date',
+        key: "date",
         label: `Fecha: ${typeFilter} ${formatDate}`,
       });
     }
 
-    const { type_filter_total, total } = filter_by_total;
+    const { type_filter_amount, amount } = filter_by_amount;
 
-    if (type_filter_total && total) {
+    if (type_filter_amount && amount) {
       const typeFilter = formatTypeFilterNumber(
-        type_filter_total as TypeFilterNumber
+        type_filter_amount as TypeFilterNumber
       );
       filters.push({
-        key: 'total',
-        label: `Total: ${typeFilter} ${filter_by_total.total}`,
+        key: "amount",
+        label: `Cantidad: ${typeFilter} ${filter_by_amount.amount}`,
       });
     }
 
@@ -185,7 +186,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
         type_filter_value_pay as TypeFilterNumber
       );
       filters.push({
-        key: 'value_pay',
+        key: "value_pay",
         label: `Valor a pagar: ${typeFilter} ${filter_by_value_pay.value_pay}`,
       });
     }
@@ -206,29 +207,29 @@ export const HarvestModuleSearchbar: React.FC = () => {
   const handleRemoveFilter = (filter: FilterSearchBar) => {
     setAppliedFilters((prev) => prev.filter((f) => f.key !== filter.key));
     switch (filter.key) {
-      case 'crop':
-        form.setValue('crop', { id: '', name: '' }, { shouldDirty: false });
+      case "crop":
+        form.setValue("crop", { id: "", name: "" }, { shouldDirty: false });
         break;
-      case 'employees':
-        form.setValue('employees', [], { shouldDirty: false });
+      case "employees":
+        form.setValue("employees", [], { shouldDirty: false });
         break;
-      case 'date':
-        form.setValue('filter_by_date.type_filter_date', undefined, {
+      case "date":
+        form.setValue("filter_by_date.type_filter_date", undefined, {
           shouldDirty: false,
         });
-        form.setValue('filter_by_date.date', undefined, { shouldDirty: false });
+        form.setValue("filter_by_date.date", undefined, { shouldDirty: false });
         break;
-      case 'total':
-        form.setValue('filter_by_total.type_filter_total', undefined, {
+      case "amount":
+        form.setValue("filter_by_amount.type_filter_amount", undefined, {
           shouldDirty: false,
         });
-        form.setValue('filter_by_total.total', 0, { shouldDirty: false });
+        form.setValue("filter_by_amount.amount", 0, { shouldDirty: false });
         break;
-      case 'value_pay':
-        form.setValue('filter_by_value_pay.type_filter_value_pay', undefined, {
+      case "value_pay":
+        form.setValue("filter_by_value_pay.type_filter_value_pay", undefined, {
           shouldDirty: false,
         });
-        form.setValue('filter_by_value_pay.value_pay', 0, {
+        form.setValue("filter_by_value_pay.value_pay", 0, {
           shouldDirty: false,
         });
         break;
@@ -240,43 +241,43 @@ export const HarvestModuleSearchbar: React.FC = () => {
     const params = new URLSearchParams();
 
     if (values.crop?.id) {
-      params.append('crop', values.crop.id);
+      params.append("crop", values.crop.id);
     }
     if (values.employees!.length > 0) {
-      params.append('employees', values.employees!.map((e) => e.id).join(','));
+      params.append("employees", values.employees!.map((e) => e.id).join(","));
     }
 
     if (values.filter_by_date.type_filter_date && values.filter_by_date.date) {
-      params.append('filter_by_date', 'true');
+      params.append("filter_by_date", "true");
       params.append(
-        'type_filter_date',
+        "type_filter_date",
         `${values.filter_by_date.type_filter_date}`
       );
-      params.append('date', values.filter_by_date.date.toISOString());
+      params.append("date", values.filter_by_date.date.toISOString());
     }
 
     if (
-      values.filter_by_total.type_filter_total &&
-      values.filter_by_total.total
+      values.filter_by_amount.type_filter_amount &&
+      values.filter_by_amount.amount
     ) {
-      params.append('filter_by_total', 'true');
+      params.append("filter_by_amount", "true");
       params.append(
-        'type_filter_total',
-        `${values.filter_by_total.type_filter_total}`
+        "type_filter_amount",
+        `${values.filter_by_amount.type_filter_amount}`
       );
-      params.append('total', `${values.filter_by_total.total}`);
+      params.append("amount", `${values.filter_by_amount.amount}`);
     }
 
     if (
       values.filter_by_value_pay.type_filter_value_pay &&
       values.filter_by_value_pay.value_pay
     ) {
-      params.append('filter_by_value_pay', 'true');
+      params.append("filter_by_value_pay", "true");
       params.append(
-        'type_filter_value_pay',
+        "type_filter_value_pay",
         `${values.filter_by_value_pay.type_filter_value_pay}`
       );
-      params.append('value_pay', `${values.filter_by_value_pay.value_pay}`);
+      params.append("value_pay", `${values.filter_by_value_pay.value_pay}`);
     }
     navigate(`?${params.toString()}`);
   };
@@ -288,7 +289,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
       keepDirty: false,
     });
     navigate(MODULE_HARVESTS_PATHS.ViewAll);
-    toast.success('Se han limpiado los filtros');
+    toast.success("Se han limpiado los filtros");
   };
 
   const [openPopover, setOpenPopover] = useState(false);
@@ -318,15 +319,15 @@ export const HarvestModuleSearchbar: React.FC = () => {
                 <FormFieldCommand
                   data={queryCrops?.data?.records || []}
                   form={form}
-                  nameToShow={'name'}
+                  nameToShow={"name"}
                   control={form.control}
-                  name={'crop'}
+                  name={"crop"}
                   placeholder={formFieldsSearchBarHarvest.crop.placeholder}
                   className="lg:w-[300px]"
-                  description={''}
-                  label={''}
+                  description={""}
+                  label={""}
                   disabled={readOnly}
-                  actionFinal={() => handleAddFilter('crop.id')}
+                  actionFinal={() => handleAddFilter("crop.id")}
                   isLoading={queryCrops.isLoading}
                 />
 
@@ -335,7 +336,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                     <Button
                       variant="outline"
                       onClick={handleResetForm}
-                      size={'icon'}
+                      size={"icon"}
                       disabled={readOnly}
                     >
                       <X className="w-4 h-4" />
@@ -352,7 +353,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                       onClick={() =>
                         setOpenDropDownMenu((prev: boolean) => !prev)
                       }
-                      size={'icon'}
+                      size={"icon"}
                       disabled={readOnly}
                     >
                       <Filter className="w-4 h-4" />
@@ -371,7 +372,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
               onCloseAutoFocus={(e) => e.preventDefault()}
             >
               <FilterDropdownItem
-                label={'Empleados'}
+                label={"Empleados"}
                 className=" lg:w-[280px]"
                 content={
                   <>
@@ -383,12 +384,12 @@ export const HarvestModuleSearchbar: React.FC = () => {
                       }: {
                         field: ControllerRenderProps<any, any>;
                       }) => {
-                        const currentEmployees = form.watch('employees');
+                        const currentEmployees = form.watch("employees");
 
                         return (
                           <FormItem className="">
                             <FormLabel className="block my-2">
-                              {'Empleados involucrados:'}
+                              {"Empleados involucrados:"}
                             </FormLabel>
                             <Popover
                               open={openPopover}
@@ -407,8 +408,8 @@ export const HarvestModuleSearchbar: React.FC = () => {
                                       role="combobox"
                                       aria-expanded={openPopover}
                                       className={` ${cn(
-                                        'justify-between',
-                                        !field.value && 'text-muted-foreground'
+                                        "justify-between",
+                                        !field.value && "text-muted-foreground"
                                       )}`}
                                       ref={field.ref}
                                       onBlur={field.onBlur}
@@ -419,7 +420,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                                         ? `${
                                             currentEmployees!.length
                                           } seleccionado(s)`
-                                        : 'Selecciona empleados'}
+                                        : "Selecciona empleados"}
 
                                       <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                                     </Button>
@@ -435,14 +436,14 @@ export const HarvestModuleSearchbar: React.FC = () => {
                                   <CommandList>
                                     <ScrollArea className="w-auto h-56 p-1 pr-2">
                                       <CommandEmpty>{`${CapitalizeFirstWord(
-                                        'empleado'
+                                        "empleado"
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
                                         {queryEmployees?.data?.records.map(
                                           (item) => {
                                             return (
                                               <CommandItem
-                                                value={item?.['first_name']}
+                                                value={item?.["first_name"]}
                                                 key={item.id!}
                                                 onSelect={() => {
                                                   if (
@@ -452,7 +453,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                                                     )
                                                   ) {
                                                     form.setValue(
-                                                      'employees',
+                                                      "employees",
                                                       [
                                                         ...field?.value?.filter(
                                                           (i: any) =>
@@ -466,14 +467,14 @@ export const HarvestModuleSearchbar: React.FC = () => {
                                                     );
                                                   } else {
                                                     form.setValue(
-                                                      'employees',
+                                                      "employees",
                                                       [
                                                         ...(currentEmployees ||
                                                           []),
                                                         {
                                                           id: item.id,
                                                           first_name:
-                                                            item['first_name'],
+                                                            item["first_name"],
                                                         },
                                                       ],
                                                       {
@@ -486,11 +487,11 @@ export const HarvestModuleSearchbar: React.FC = () => {
                                                 }}
                                               >
                                                 <div className="">
-                                                  {item?.['first_name']}
+                                                  {item?.["first_name"]}
                                                 </div>
                                                 <CheckIcon
                                                   className={cn(
-                                                    'ml-auto h-4 w-4',
+                                                    "ml-auto h-4 w-4",
                                                     field?.value.some(
                                                       (i: any) => {
                                                         return (
@@ -498,8 +499,8 @@ export const HarvestModuleSearchbar: React.FC = () => {
                                                         );
                                                       }
                                                     )
-                                                      ? 'opacity-100'
-                                                      : 'opacity-0'
+                                                      ? "opacity-100"
+                                                      : "opacity-0"
                                                   )}
                                                 />
                                               </CommandItem>
@@ -514,7 +515,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                             </Popover>
                             <FormDescription>
                               {
-                                'Empleado(s) que han participado en el trabajo de cosecha en el cultivo'
+                                "Empleado(s) que han participado en el trabajo de cosecha en el cultivo"
                               }
                             </FormDescription>
                             <FormMessage />
@@ -524,11 +525,11 @@ export const HarvestModuleSearchbar: React.FC = () => {
                     />
                   </>
                 }
-                actionOnSave={() => handleAddFilter('employees')}
-                actionOnClose={() => handleClearErrorsForm('employees')}
+                actionOnSave={() => handleAddFilter("employees")}
+                actionOnClose={() => handleClearErrorsForm("employees")}
               />
               <FilterDropdownItem
-                label={'Fecha'}
+                label={"Fecha"}
                 content={
                   <>
                     <FormFieldSelect
@@ -547,37 +548,37 @@ export const HarvestModuleSearchbar: React.FC = () => {
                     />
                   </>
                 }
-                actionOnSave={() => handleAddFilter('filter_by_date')}
-                actionOnClose={() => handleClearErrorsForm('filter_by_date')}
+                actionOnSave={() => handleAddFilter("filter_by_date")}
+                actionOnClose={() => handleClearErrorsForm("filter_by_date")}
               />
               <FilterDropdownItem
-                label={'Total'}
-                actionOnSave={() => handleAddFilter('filter_by_total')}
-                actionOnClose={() => handleClearErrorsForm('filter_by_total')}
+                label={"Cantidad"}
+                actionOnSave={() => handleAddFilter("filter_by_amount")}
+                actionOnClose={() => handleClearErrorsForm("filter_by_amount")}
                 content={
                   <>
                     <FormFieldSelect
                       disabled={false}
                       items={numberFilterOptions}
-                      {...formFieldsSearchBarHarvest.type_filter_total}
+                      {...formFieldsSearchBarHarvest.type_filter_amount}
                       control={form.control}
-                      name="filter_by_total.type_filter_total"
+                      name="filter_by_amount.type_filter_amount"
                     />
                     <FormFieldInput
                       disabled={false}
-                      {...formFieldsSearchBarHarvest.total}
+                      {...formFieldsSearchBarHarvest.amount}
                       control={form.control}
                       type="number"
-                      name="filter_by_total.total"
+                      name="filter_by_amount.amount"
                     />
                   </>
                 }
               />
               <FilterDropdownItem
-                label={'Valor a pagar'}
-                actionOnSave={() => handleAddFilter('filter_by_value_pay')}
+                label={"Valor a pagar"}
+                actionOnSave={() => handleAddFilter("filter_by_value_pay")}
                 actionOnClose={() =>
-                  handleClearErrorsForm('filter_by_value_pay')
+                  handleClearErrorsForm("filter_by_value_pay")
                 }
                 content={
                   <>

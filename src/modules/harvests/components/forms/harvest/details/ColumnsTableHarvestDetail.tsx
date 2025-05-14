@@ -13,12 +13,12 @@ export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
     },
   },
   {
-    accessorKey: 'total',
+    accessorKey: 'amount',
     cell: ({ row }) => {
-      return FormatNumber(row.getValue('total')) + ' Kg';
+      return FormatNumber(row.getValue('amount')) + ' Kg';
     },
     header: ({ column }: HeaderContext<HarvestDetail, unknown>) => {
-      return <ButtonHeaderTable column={column} label={'Total cosechado:'} />;
+      return <ButtonHeaderTable column={column} label={'Cantidad cosechada:'} />;
     },
   },
   {

@@ -40,7 +40,7 @@ export const defaultValuesHarvestDetail: HarvestDetail = {
     id: '',
     first_name: '',
   },
-  total: 10,
+  amount: 10,
   value_pay: 1000,
 };
 
@@ -49,7 +49,7 @@ const defaultValuesHarvest = {
   crop: { id: '', name: '' },
   observation: '',
   details: [],
-  total: 0,
+  amount: 0,
   value_pay: 0,
 };
 
@@ -64,7 +64,7 @@ export interface FormHarvestContextProps {
   readOnly: boolean;
   isSubmitting: boolean;
   onSubmit: (values: z.infer<typeof formSchemaHarvest>) => void;
-  total: number;
+  amount: number;
   value_pay: number;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
   openDialog: boolean;
@@ -164,11 +164,11 @@ export const FormHarvestProvider: React.FC<
     }
   }, [detailsDefaultValues]);
 
-  const total = useMemo<number>(
+  const amount = useMemo<number>(
     () =>
       detailsHarvest.reduce(
-        (total: number, detail: HarvestDetail) =>
-          Number(total) + Number(detail.total),
+        (amount: number, detail: HarvestDetail) =>
+          Number(amount) + Number(detail.amount),
         0
       ),
     [detailsHarvest]
@@ -176,8 +176,8 @@ export const FormHarvestProvider: React.FC<
   const value_pay = useMemo<number>(
     () =>
       detailsHarvest.reduce(
-        (total: number, detail: HarvestDetail) =>
-          Number(total) + Number(detail.value_pay),
+        (amount: number, detail: HarvestDetail) =>
+          Number(amount) + Number(detail.value_pay),
         0
       ),
     [detailsHarvest]
@@ -269,9 +269,9 @@ export const FormHarvestProvider: React.FC<
   }, [detailsHarvest, isFirstRender]);
 
   useEffect(() => {
-    formHarvest.setValue('total', total, { shouldValidate: true });
+    formHarvest.setValue('amount', amount, { shouldValidate: true });
     formHarvest.setValue('value_pay', value_pay, { shouldValidate: true });
-  }, [total, value_pay]);
+  }, [amount, value_pay]);
 
   return (
     <FormHarvestContext.Provider
@@ -282,7 +282,7 @@ export const FormHarvestProvider: React.FC<
         // primitives values
         readOnly,
         isSubmitting,
-        total,
+        amount,
         value_pay,
         // methods
         onSubmit,
