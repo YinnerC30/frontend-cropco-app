@@ -26,7 +26,7 @@ export interface FormPaymentContextValues {
   readOnly: boolean;
   isSubmitting: boolean;
   onSubmit: (values: z.infer<typeof formSchemaPayments>) => void;
-  total: number;
+  value_pay: number;
   paymentsState: PaymentsState;
   getHarvestsToPay: () => string[];
   getWorksToPay: () => string[];
@@ -173,7 +173,7 @@ const defaultValuesPayment: PaymentRecord = {
   id: '',
   date: '',
   method_of_payment: '',
-  total: 0,
+  value_pay: 0,
   employee: {
     id: '',
     first_name: '',
@@ -258,7 +258,7 @@ export const FormPaymentProvider: React.FC<
       .map((value) => value.id);
   };
 
-  const total = useMemo(
+  const value_pay = useMemo(
     () =>
       paymentsState.records_to_pay.reduce(
         (pValue, cValue) => pValue + cValue.value_pay,
@@ -328,8 +328,8 @@ export const FormPaymentProvider: React.FC<
   }, [queryEmployeePayments.data, queryEmployeePayments.isSuccess]);
 
   useEffect(() => {
-    formPayment.setValue('total', total, { shouldValidate: true });
-  }, [total]);
+    formPayment.setValue('value_pay', value_pay, { shouldValidate: true });
+  }, [value_pay]);
 
   return (
     <FormPaymentContext.Provider
@@ -338,7 +338,7 @@ export const FormPaymentProvider: React.FC<
         readOnly,
         isSubmitting,
         onSubmit,
-        total,
+        value_pay,
         paymentsState,
         getHarvestsToPay,
         getWorksToPay,

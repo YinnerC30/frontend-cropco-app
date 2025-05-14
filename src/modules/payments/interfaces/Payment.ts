@@ -8,7 +8,7 @@ export interface Payment {
   date: string | any;
   employee: ObjectWithId;
   method_of_payment: MethodOfPayment;
-  total: number;
+  value_pay: number;
   categories: {
     harvests: PaymentHarvest[];
     works: PaymentWork[];

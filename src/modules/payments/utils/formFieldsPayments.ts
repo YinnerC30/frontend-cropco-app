@@ -1,6 +1,6 @@
 import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-type FormFieldsPayments = 'date' | 'employee' | 'method_of_payment' | 'total';
+type FormFieldsPayments = 'date' | 'employee' | 'method_of_payment' | 'value_pay';
 
 export const formFieldsPayments: Record<FormFieldsPayments, CustomFormField> = {
   date: {
@@ -21,9 +21,9 @@ export const formFieldsPayments: Record<FormFieldsPayments, CustomFormField> = {
     placeholder: 'Selecciona',
     description: 'Medio por el cual se pagara al empleado',
   },
-  total: {
-    name: 'total',
-    label: 'Total:',
+  value_pay: {
+    name: 'value_pay',
+    label: 'Valor a pagar:',
     placeholder: '',
     description: '',
   },

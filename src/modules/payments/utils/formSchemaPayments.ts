@@ -29,7 +29,7 @@ export const formSchemaPayments = z.object({
       }
     },
   }),
-  total: z.number({
+  value_pay: z.number({
     invalid_type_error: 'Debes introducir un valor numérico',
   }),
   records_to_pay: z

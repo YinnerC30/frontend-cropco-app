@@ -1,6 +1,6 @@
 import {
   schemaForDate,
-  schemaForTotal,
+  schemaForValuePay
 } from '@/modules/core/helpers/schemas-validation/SchemasSearchBar';
 import { z } from 'zod';
 import { MethodOfPayment } from '../interfaces/MethodOfPayment';
@@ -13,7 +13,7 @@ export const formSchemaSearchBarPayment = z.object({
     .optional(),
   filter_by_date: schemaForDate,
 
-  filter_by_total: schemaForTotal,
+  filter_by_value_pay: schemaForValuePay,
 
   filter_by_method_of_payment: z.boolean().default(false).optional(),
   method_of_payment: z
