@@ -23,8 +23,8 @@ interface WorkData {
 interface OrganizedData {
   month_name: string;
   month_number: number;
-  current_total: number;
-  previous_total: number;
+  current_value_pay: number;
+  previous_value_pay: number;
 }
 
 export function organizeWorkData(harvestData: WorkData): OrganizedData[] {
@@ -57,8 +57,8 @@ export function organizeWorkData(harvestData: WorkData): OrganizedData[] {
       return {
         month_name: currentMonthData.month_name,
         month_number: currentMonthData.month_number,
-        current_total: currentMonthData.quantity_works,
-        previous_total: previousMonthData.quantity_works,
+        current_value_pay: currentMonthData.quantity_works,
+        previous_value_pay: previousMonthData.quantity_works,
       };
     }
   );

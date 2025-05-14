@@ -80,13 +80,13 @@ export const columnsWork: ColumnDef<Work>[] = [
     },
   },
   {
-    accessorKey: formFieldsWork.total.name,
+    accessorKey: formFieldsWork.value_pay.name,
     cell: ({ row }) => {
-      return FormatMoneyValue(row.getValue('total'));
+      return FormatMoneyValue(row.getValue('value_pay'));
     },
     header: ({ column }: HeaderContext<Work, unknown>) => {
       return (
-        <ButtonHeaderTable column={column} label={formFieldsWork.total.label} />
+        <ButtonHeaderTable column={column} label={formFieldsWork.value_pay.label} />
       );
     },
   },

@@ -6,6 +6,6 @@ export interface Work {
   crop: ObjectWithId;
   date: string;
   description: string | undefined;
-  total: number;
+  value_pay: number;
   details: WorkDetail[];
 }

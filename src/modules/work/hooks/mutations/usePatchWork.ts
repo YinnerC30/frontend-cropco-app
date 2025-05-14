@@ -16,7 +16,7 @@ export async function updateWork({
   ...rest
 }: Work): PromiseReturnRecord<void> {
   {
-    return await cropcoAPI.patch(`${pathsCropco.works}/update/one/${id}`, rest);
+    return await cropcoAPI.put(`${pathsCropco.works}/update/one/${id}`, rest);
   }
 }
 

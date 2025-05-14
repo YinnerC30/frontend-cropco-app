@@ -4,7 +4,7 @@ export interface WorkTotalInYearData {
 
 export interface Growth {
   growth_value: number;
-  diference: number;
+  difference: number;
   is_increment: boolean;
   total_previous: number;
   total_current: number;
@@ -18,6 +18,5 @@ export interface Year {
 export interface DataMonth {
   month: string;
   monthNumber: number;
-  total: number;
   value_pay: number;
 }

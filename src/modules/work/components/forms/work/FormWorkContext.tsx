@@ -49,7 +49,7 @@ const defaultValuesWork = {
   crop: { id: '', name: '' },
   description: '',
   details: [],
-  total: 0,
+  value_pay: 0,
 };
 
 export type FormWorkProps = FormProps<z.infer<typeof formSchemaWork>, Work>;
@@ -60,7 +60,7 @@ export interface FormWorkContextValues {
   readOnly: boolean;
   isSubmitting: boolean;
   onSubmit: (values: z.infer<typeof formSchemaWork>) => void;
-  total: number;
+  value_pay: number;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
   openDialog: boolean;
   workDetail: WorkDetail;
@@ -157,11 +157,11 @@ export const FormWorkProvider: React.FC<
     }
   }, [detailsDefaultValues]);
 
-  const total = useMemo<number>(
+  const value_pay = useMemo<number>(
     () =>
       detailsWork.reduce(
-        (total: number, detail: WorkDetail) =>
-          Number(total) + Number(detail.value_pay),
+        (value_pay: number, detail: WorkDetail) =>
+          Number(value_pay) + Number(detail.value_pay),
         0
       ),
     [detailsWork]
@@ -253,8 +253,8 @@ export const FormWorkProvider: React.FC<
   }, [detailsWork, isFirstRender]);
 
   useEffect(() => {
-    formWork.setValue('total', total, { shouldValidate: true });
-  }, [total]);
+    formWork.setValue('value_pay', value_pay, { shouldValidate: true });
+  }, [value_pay]);
 
   return (
     <FormWorkContext.Provider
@@ -263,7 +263,7 @@ export const FormWorkProvider: React.FC<
         isSubmitting,
         onSubmit,
         readOnly,
-        total,
+        value_pay,
         workDetail,
         setWorkDetail,
         formWorkDetail,

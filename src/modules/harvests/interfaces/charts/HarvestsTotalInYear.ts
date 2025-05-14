@@ -5,7 +5,7 @@ export interface HarvestTotalInYearData {
 
 export interface Growth {
   growth_value: number;
-  diference: number;
+  difference: number;
   status: 'increment' | 'decrement' | 'stable' | 'no-valid';
   amount_previous: number;
   amount_current: number;

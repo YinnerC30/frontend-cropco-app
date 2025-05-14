@@ -26,7 +26,7 @@ export const ActionsTablePaymentsPendingWork: React.FC<{
     addRecordToPay({
       id,
       value_pay,
-      payment_is_pending,
+      payment_is_pending: payment_is_pending || false,
       date: work?.date!,
       type: 'work',
     });

@@ -30,9 +30,9 @@ export interface paramQueryWork {
     type_filter_date: string | undefined;
     date: string | undefined | Date;
   };
-  filter_by_total: {
-    type_filter_total: string | undefined;
-    total: number;
+  filter_by_value_pay: {
+    type_filter_value_pay: string | undefined;
+    value_pay: number;
   };
 }
 
@@ -69,15 +69,15 @@ const paramsWorks: ItemQueryAdvanced[] = [
     defaultValue: undefined,
   },
   {
-    propertyName: 'filter_by_total',
+    propertyName: 'filter_by_value_pay',
     defaultValue: false,
   },
   {
-    propertyName: 'type_filter_total',
+    propertyName: 'type_filter_value_pay',
     defaultValue: undefined,
   },
   {
-    propertyName: 'total',
+    propertyName: 'value_pay',
     defaultValue: 0,
   },
 
@@ -156,9 +156,9 @@ export const WorksModuleProvider: React.FC<{
         type_filter_date: paramsValues.type_filter_date,
         date: !paramsValues.date ? undefined : new Date(paramsValues.date),
       },
-      filter_by_total: {
-        type_filter_total: paramsValues.type_filter_total,
-        total: paramsValues.total,
+      filter_by_value_pay: {
+        type_filter_value_pay: paramsValues.type_filter_value_pay,
+        value_pay: paramsValues.value_pay,
       },
       employees: paramsValues.employees.map((em: string) => ({ id: em })),
     },

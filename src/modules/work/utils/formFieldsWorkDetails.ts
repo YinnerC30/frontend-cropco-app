@@ -9,7 +9,7 @@ export const formFieldsWorkDetail: Record<
     name: 'value_pay',
     label: 'Valor a pagar:',
     placeholder: '0',
-    description: 'Dinero a pagar por el trabajo',
+    description: 'Valor a pagar por el trabajo',
   },
   payment_is_pending: {
     name: 'payment_is_pending',

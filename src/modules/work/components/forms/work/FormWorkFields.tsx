@@ -14,7 +14,7 @@ import { formFieldsWork } from '@/modules/work/utils/formFieldsWork';
 import { FormWorkDataTable } from './FormWorkDataTable';
 
 export const FormWorkFields: React.FC = () => {
-  const { formWork, onSubmit, readOnly, total } = useFormWorkContext();
+  const { formWork, onSubmit, readOnly, value_pay } = useFormWorkContext();
 
   const disabledCropField = formWork.formState.defaultValues?.crop?.id !== '';
 
@@ -85,10 +85,10 @@ export const FormWorkFields: React.FC = () => {
 
           <FormFieldInput
             control={formWork.control}
-            description={formFieldsWork.total.description}
-            label={formFieldsWork.total.label}
-            name={'total'}
-            placeholder={formFieldsWork.total.placeholder}
+            description={formFieldsWork.value_pay.description}
+            label={formFieldsWork.value_pay.label}
+            name={'value_pay'}
+            placeholder={formFieldsWork.value_pay.placeholder}
             disabled={true}
             type="number"
             hiddenInput
@@ -97,7 +97,7 @@ export const FormWorkFields: React.FC = () => {
               className="block h-8 text-base text-center w-28"
               variant={'cyan'}
             >
-              {FormatMoneyValue(total)}
+              {FormatMoneyValue(value_pay)}
             </Badge>
           </FormFieldInput>
         </div>

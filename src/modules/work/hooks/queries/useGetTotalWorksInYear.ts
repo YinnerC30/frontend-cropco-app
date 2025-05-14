@@ -33,7 +33,7 @@ export const getTotalWorksInYear = async ({
   }
 
   return await cropcoAPI.get(
-    `${pathsCropco.dashboard}/find/total-work-in-year?${params}`
+    `${pathsCropco.dashboard}/find/value_pay-work-in-year?${params}`
   );
 };
 
@@ -44,10 +44,10 @@ export const useGetTotalWorksInYear = ({
 }: QueryParams): UseGetOneRecordReturn<WorkTotalInYearData> => {
   const { hasPermission, handleError } = useAuthContext();
 
-  const isAuthorized = hasPermission('dashboard', 'find_total_work_in_year');
+  const isAuthorized = hasPermission('dashboard', 'find_value_pay_work_in_year');
 
   const query: UseGetOneRecordReturn<WorkTotalInYearData> = useQuery({
-    queryKey: ['works-total-year', year, crop, employee],
+    queryKey: ['works-value_pay-year', year, crop, employee],
     queryFn: () => getTotalWorksInYear({ year, crop, employee }),
     select: ({ data }) => data,
     enabled: isAuthorized,
@@ -56,7 +56,7 @@ export const useGetTotalWorksInYear = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado del total de trabajos en el año 😑'
+        'No tienes permiso para ver el listado del value_pay de trabajos en el año 😑'
       );
     }
   }, [isAuthorized]);
@@ -67,7 +67,7 @@ export const useGetTotalWorksInYear = ({
         error: query.error,
         messagesStatusError: {
           unauthorized:
-            'No tienes permiso para ver el listado del total de trabajos en el año 😑',
+            'No tienes permiso para ver el listado del value_pay de trabajos en el año 😑',
         },
       });
     }
