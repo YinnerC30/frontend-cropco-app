@@ -5,7 +5,7 @@ import { useAuthContext } from '@/auth';
 import { usePaginationDataTable } from '@/modules/core/hooks';
 import { QueryDateProps } from '@/modules/core/interfaces/queries/QueryDateProps';
 import { QueryPaginationProps } from '@/modules/core/interfaces/queries/QueryPaginationProps';
-import { QueryTotalProps } from '@/modules/core/interfaces/queries/QueryTotalProps';
+import { QueryValuePayProps } from '@/modules/core/interfaces/queries/QueryValuePayProps';
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
 import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
@@ -16,7 +16,7 @@ import { ShoppingSupplies } from '../../interfaces';
 export interface GetShoppingProps
   extends QueryPaginationProps,
     QueryDateProps,
-    QueryTotalProps {
+    QueryValuePayProps {
   suppliers: [];
   supplies: [];
 }
@@ -37,10 +37,10 @@ export async function getAllShopping(
     params.append('date', new Date(props.date || '').toISOString());
   }
 
-  if (props.filter_by_total) {
-    params.append('filter_by_total', 'true');
-    params.append('type_filter_total', props.type_filter_total || '');
-    params.append('total', props.total?.toString() || '0');
+  if (props.filter_by_value_pay) {
+    params.append('filter_by_value_pay', 'true');
+    params.append('type_filter_value_pay', props.type_filter_value_pay || '');
+    params.append('value_pay', props.value_pay?.toString() || '0');
   }
 
   return await cropcoAPI.get(`${pathsCropco.shopping}/all?${params}`);

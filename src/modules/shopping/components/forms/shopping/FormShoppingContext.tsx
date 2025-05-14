@@ -35,7 +35,7 @@ const defaultValuesShopping: ShoppingSupplies = {
   id: undefined,
   date: undefined,
   details: [],
-  total: 0,
+  value_pay: 0,
 };
 
 const defaultValuesShoppingDetail: ShoppingDetail = {
@@ -49,7 +49,7 @@ const defaultValuesShoppingDetail: ShoppingDetail = {
     name: '',
     unit_of_measure: '',
   },
-  total: 0,
+  value_pay: 0,
   amount: 0,
 };
 
@@ -64,7 +64,7 @@ export interface FormShoppingContextValues {
   readOnly: boolean;
   isSubmitting: boolean;
   onSubmit: (values: z.infer<typeof formSchemaShopping>) => void;
-  total: number;
+  value_pay: number;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
   openDialog: boolean;
   shoppingDetail: ShoppingDetail;
@@ -155,11 +155,11 @@ export const FormShoppingProvider: React.FC<
     defaultValues,
   });
 
-  const total = useMemo<number>(
+  const value_pay = useMemo<number>(
     () =>
       detailsShopping.reduce(
-        (total: number, detail: ShoppingDetail) =>
-          Number(total) + Number(detail.total),
+        (value_pay: number, detail: ShoppingDetail) =>
+          Number(value_pay) + Number(detail.value_pay),
         0
       ),
     [detailsShopping]
@@ -241,8 +241,8 @@ export const FormShoppingProvider: React.FC<
   }, [detailsShopping, isFirstRender]);
 
   useEffect(() => {
-    formShopping.setValue('total', total, { shouldValidate: true });
-  }, [total]);
+    formShopping.setValue('value_pay', value_pay, { shouldValidate: true });
+  }, [value_pay]);
 
   return (
     <FormShoppingContext.Provider
@@ -253,7 +253,7 @@ export const FormShoppingProvider: React.FC<
         // primitives values
         readOnly,
         isSubmitting,
-        total,
+        value_pay,
         // methods
         onSubmit,
         modifyShoppingDetail,

@@ -6,5 +6,5 @@ export interface ShoppingDetail extends LogicDeleteRecordProps {
   supply: ObjectWithId;
   supplier: ObjectWithId;
   amount: number;
-  total: number;
+  value_pay: number;
 }

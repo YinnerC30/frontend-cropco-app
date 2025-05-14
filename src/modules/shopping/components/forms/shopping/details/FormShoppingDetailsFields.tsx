@@ -228,10 +228,10 @@ export const FormShoppingDetailsFields: React.FC = () => {
         />
         <FormFieldInput
           control={formShoppingDetail.control}
-          description={formFieldsShoppingDetail.total.description}
-          label={formFieldsShoppingDetail.total.label}
-          name={'total'}
-          placeholder={formFieldsShoppingDetail.total.placeholder}
+          description={formFieldsShoppingDetail.value_pay.description}
+          label={formFieldsShoppingDetail.value_pay.label}
+          name={'value_pay'}
+          placeholder={formFieldsShoppingDetail.value_pay.placeholder}
           disabled={false}
           type="number"
           step={50}

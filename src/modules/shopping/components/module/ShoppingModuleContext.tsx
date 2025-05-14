@@ -1,39 +1,39 @@
-import { useAuthContext } from '@/auth';
+import { useAuthContext } from "@/auth";
 import {
   DataTableManualReturn,
   useDataTableManual,
-} from '@/modules/core/hooks';
-import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { createContext, useMemo, useState } from 'react';
+} from "@/modules/core/hooks";
+import { useCreateColumnsTable } from "@/modules/core/hooks/data-table/useCreateColumnsTable";
+import { createContext, useMemo, useState } from "react";
 
 import {
   ItemQueryAdvanced,
   useAdvancedQueryDataPlus,
-} from '@/modules/core/hooks/useAdvancedQueryDataPlus';
-import { BulkRecords } from '@/modules/core/interfaces';
-import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
-import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
-import { useDeleteBulkShopping } from '../../hooks/mutations/useDeleteBulkShopping';
-import { useDeleteShopping } from '../../hooks/mutations/useDeleteShopping';
+} from "@/modules/core/hooks/useAdvancedQueryDataPlus";
+import { BulkRecords } from "@/modules/core/interfaces";
+import { UseMutationReturn } from "@/modules/core/interfaces/responses/UseMutationReturn";
+import { UseQueryGetAllRecordsReturn } from "@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn";
+import { useDeleteBulkShopping } from "../../hooks/mutations/useDeleteBulkShopping";
+import { useDeleteShopping } from "../../hooks/mutations/useDeleteShopping";
 import {
   GetShoppingProps,
   useGetAllShopping,
-} from '../../hooks/queries/useGetAllShopping';
-import { ShoppingSupplies } from '../../interfaces';
-import { ActionsTableShopping } from './ActionsTableShopping';
-import columnsShopping from './ColumnsTableShopping';
-import { UseQueryResult } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { useGetShoppingPDF } from '../../hooks/queries/useGetShoppingPDF';
+} from "../../hooks/queries/useGetAllShopping";
+import { ShoppingSupplies } from "../../interfaces";
+import { ActionsTableShopping } from "./ActionsTableShopping";
+import columnsShopping from "./ColumnsTableShopping";
+import { UseQueryResult } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { useGetShoppingPDF } from "../../hooks/queries/useGetShoppingPDF";
 
 export interface paramQueryShopping {
   filter_by_date: {
     type_filter_date: string | undefined;
     date: undefined | Date;
   };
-  filter_by_total: {
-    type_filter_total: string | undefined;
-    total: number;
+  filter_by_value_pay: {
+    type_filter_value_pay: string | undefined;
+    value_pay: number;
   };
   suppliers: { id: string }[];
   supplies: { id: string }[];
@@ -55,37 +55,37 @@ export interface ShoppingModuleContextValues {
 
 const paramsShopping: ItemQueryAdvanced[] = [
   {
-    propertyName: 'filter_by_date',
+    propertyName: "filter_by_date",
     defaultValue: false,
   },
   {
-    propertyName: 'type_filter_date',
+    propertyName: "type_filter_date",
     defaultValue: undefined,
   },
   {
-    propertyName: 'date',
+    propertyName: "date",
     defaultValue: undefined,
   },
   {
-    propertyName: 'filter_by_total',
+    propertyName: "filter_by_value_pay",
     defaultValue: false,
   },
   {
-    propertyName: 'type_filter_total',
+    propertyName: "type_filter_value_pay",
     defaultValue: undefined,
   },
   {
-    propertyName: 'filter_by_total',
+    propertyName: "filter_by_value_pay",
     defaultValue: false,
   },
 
   {
-    propertyName: 'supplies',
+    propertyName: "supplies",
     defaultValue: [],
     isArray: true,
   },
   {
-    propertyName: 'suppliers',
+    propertyName: "suppliers",
     defaultValue: [],
     isArray: true,
   },
@@ -108,7 +108,7 @@ export const ShoppingModuleProvider: React.FC<{
 
   const { getActionsModule } = useAuthContext();
 
-  const actionsShoppingModule = useMemo(() => getActionsModule('shopping'), []);
+  const actionsShoppingModule = useMemo(() => getActionsModule("shopping"), []);
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsShopping,
@@ -131,16 +131,16 @@ export const ShoppingModuleProvider: React.FC<{
   const mutationDeleteShopping = useDeleteBulkShopping();
   const mutationDeleteOneShopping = useDeleteShopping();
 
-  const [shoppingIdDocument, setShoppingIdDocument] = useState('');
+  const [shoppingIdDocument, setShoppingIdDocument] = useState("");
   const [executeQuery, setExecuteQuery] = useState(false);
 
   const queryGetDocument = useGetShoppingPDF({
     shoppingId: shoppingIdDocument,
     stateQuery: executeQuery,
-    actionPDF: 'ViewPDF',
+    actionPDF: "ViewPDF",
     actionOnSuccess: () => {
       setExecuteQuery(false);
-      setShoppingIdDocument('');
+      setShoppingIdDocument("");
     },
   });
 
@@ -153,9 +153,9 @@ export const ShoppingModuleProvider: React.FC<{
         type_filter_date: paramsValues.type_filter_date,
         date: !paramsValues.date ? undefined : new Date(paramsValues.date),
       },
-      filter_by_total: {
-        type_filter_total: paramsValues.type_filter_total,
-        total: !paramsValues.total ? 0 : paramsValues.total,
+      filter_by_value_pay: {
+        type_filter_value_pay: paramsValues.type_filter_value_pay,
+        value_pay: !paramsValues.value_pay ? 0 : paramsValues.value_pay,
       },
       suppliers: paramsValues.suppliers.map((spr: string) => ({ id: spr })),
       supplies: paramsValues.supplies.map((sup: string) => ({ id: sup })),
