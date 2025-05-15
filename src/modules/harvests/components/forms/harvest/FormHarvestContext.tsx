@@ -5,40 +5,40 @@ import React, {
   useReducer,
   useRef,
   useState,
-} from 'react';
+} from "react";
 
-import { useAuthContext } from '@/auth/hooks';
-import { useCreateForm } from '@/modules/core/hooks';
-import { useGetAllEmployees } from '@/modules/employees/hooks';
-import { Employee } from '@/modules/employees/interfaces/Employee';
+import { useAuthContext } from "@/auth/hooks";
+import { useCreateForm } from "@/modules/core/hooks";
+import { useGetAllEmployees } from "@/modules/employees/hooks";
+import { Employee } from "@/modules/employees/interfaces/Employee";
 
-import { useFormChange } from '@/modules/core/components';
+import { useFormChange } from "@/modules/core/components";
 import {
   DataTableGenericReturn,
   useDataTableGeneric,
-} from '@/modules/core/hooks/data-table/useDataTableGeneric';
-import { Harvest, HarvestDetail } from '@/modules/harvests/interfaces';
+} from "@/modules/core/hooks/data-table/useDataTableGeneric";
+import { Harvest, HarvestDetail } from "@/modules/harvests/interfaces";
 import {
   formSchemaHarvest,
   formSchemaHarvestDetail,
-} from '@/modules/harvests/utils';
-import { toast } from 'sonner';
+} from "@/modules/harvests/utils";
+import { toast } from "sonner";
 
-import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
-import { CheckboxTableCustom } from '@/modules/core/components/table/CheckboxTableCustom';
-import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { FormProps, ResponseApiGetAllRecords } from '@/modules/core/interfaces';
-import { UseQueryResult } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { z } from 'zod';
-import { ActionsTableHarvestDetail } from './details/ActionsTableHarvestDetail';
-import { columnsHarvestDetail } from './details/ColumnsTableHarvestDetail';
+import { TypedAxiosError } from "@/auth/interfaces/AxiosErrorResponse";
+import { CheckboxTableCustom } from "@/modules/core/components/table/CheckboxTableCustom";
+import { useCreateColumnsTable } from "@/modules/core/hooks/data-table/useCreateColumnsTable";
+import { FormProps, ResponseApiGetAllRecords } from "@/modules/core/interfaces";
+import { UseQueryResult } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { z } from "zod";
+import { ActionsTableHarvestDetail } from "./details/ActionsTableHarvestDetail";
+import { columnsHarvestDetail } from "./details/ColumnsTableHarvestDetail";
 
 export const defaultValuesHarvestDetail: HarvestDetail = {
   id: undefined,
   employee: {
-    id: '',
-    first_name: '',
+    id: "",
+    first_name: "",
   },
   amount: 10,
   value_pay: 1000,
@@ -46,8 +46,8 @@ export const defaultValuesHarvestDetail: HarvestDetail = {
 
 const defaultValuesHarvest = {
   date: undefined,
-  crop: { id: '', name: '' },
-  observation: '',
+  crop: { id: "", name: "" },
+  observation: "",
   details: [],
   amount: 0,
   value_pay: 0,
@@ -89,11 +89,11 @@ export interface FormHarvestContextProps {
 
 type HarvestAction =
   | {
-      type: 'REMOVE' | 'MODIFY' | 'ADD';
+      type: "REMOVE" | "MODIFY" | "ADD";
       payload?: HarvestDetail;
     }
   | {
-      type: 'RESET';
+      type: "RESET";
       payload: HarvestDetail[];
     };
 
@@ -102,17 +102,17 @@ const harvestDetailsReducer = (
   action: HarvestAction
 ): HarvestDetail[] => {
   switch (action.type) {
-    case 'ADD':
+    case "ADD":
       return [...state, action.payload as HarvestDetail];
-    case 'REMOVE':
+    case "REMOVE":
       return state.filter((detail) => detail.id !== action.payload?.id);
-    case 'MODIFY':
+    case "MODIFY":
       return state.map((item) =>
         item.id !== action.payload?.id
           ? item
           : (action.payload as HarvestDetail)
       );
-    case 'RESET':
+    case "RESET":
       return [...action.payload];
   }
 };
@@ -133,36 +133,50 @@ export const FormHarvestProvider: React.FC<
   readOnly = false,
 }) => {
   const { getActionsModule } = useAuthContext();
-  const actionsHarvestsModule = useMemo(() => getActionsModule('harvests'), []);
+  const actionsHarvestsModule = useMemo(() => getActionsModule("harvests"), []);
 
   const detailsDefaultValues = defaultValues?.details ?? [];
+  const [isMounted, setIsMounted] = useState(false);
 
   const [detailsHarvest, dispatch] = useReducer(
     harvestDetailsReducer,
     detailsDefaultValues
   );
 
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
   const addHarvestDetail = (harvestDetail: HarvestDetail): void => {
-    dispatch({ type: 'ADD', payload: harvestDetail });
+    if (isMounted) {
+      dispatch({ type: "ADD", payload: harvestDetail });
+    }
   };
 
   const removeHarvestDetail = (harvestDetail: HarvestDetail): void => {
-    dispatch({ type: 'REMOVE', payload: harvestDetail });
+    if (isMounted) {
+      dispatch({ type: "REMOVE", payload: harvestDetail });
+    }
   };
 
   const modifyHarvestDetail = (harvestDetail: HarvestDetail): void => {
-    dispatch({ type: 'MODIFY', payload: harvestDetail });
+    if (isMounted) {
+      dispatch({ type: "MODIFY", payload: harvestDetail });
+    }
   };
 
   const resetHarvestDetails = (): void => {
-    dispatch({ type: 'RESET', payload: detailsDefaultValues });
+    if (isMounted) {
+      dispatch({ type: "RESET", payload: detailsDefaultValues });
+    }
   };
 
   useEffect(() => {
-    if (detailsDefaultValues.length > 0) {
+    if (isMounted && detailsDefaultValues.length > 0) {
       resetHarvestDetails();
     }
-  }, [detailsDefaultValues]);
+  }, [detailsDefaultValues, isMounted]);
 
   const amount = useMemo<number>(
     () =>
@@ -207,14 +221,14 @@ export const FormHarvestProvider: React.FC<
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   const { query: queryEmployees } = useGetAllEmployees({
-    queryValue: '',
+    queryValue: "",
     all_records: true,
   });
 
   const formHarvestDetail = useCreateForm({
     schema: formSchemaHarvestDetail,
     defaultValues: harvestDetail,
-    validationMode: 'onChange',
+    validationMode: "onChange",
   });
 
   const handleOpenDialog = (): void => {
@@ -252,14 +266,14 @@ export const FormHarvestProvider: React.FC<
   const formHarvest = useCreateForm({
     schema: formSchemaHarvest,
     defaultValues,
-    validationMode: 'onSubmit',
+    validationMode: "onSubmit",
   });
 
   const isFirstRender = useRef(true);
 
   useEffect(() => {
-    formHarvest.setValue('details', detailsHarvest, {
-      shouldValidate: !isFirstRender.current,
+    formHarvest.setValue("details", detailsHarvest, {
+      shouldValidate: !isFirstRender.current && isMounted,
       shouldDirty: true,
     });
 
@@ -269,8 +283,8 @@ export const FormHarvestProvider: React.FC<
   }, [detailsHarvest, isFirstRender]);
 
   useEffect(() => {
-    formHarvest.setValue('amount', amount, { shouldValidate: true });
-    formHarvest.setValue('value_pay', value_pay, { shouldValidate: true });
+    formHarvest.setValue("amount", amount, { shouldValidate: true });
+    formHarvest.setValue("value_pay", value_pay, { shouldValidate: true });
   }, [amount, value_pay]);
 
   return (
