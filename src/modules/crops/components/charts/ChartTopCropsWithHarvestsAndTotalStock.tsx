@@ -51,10 +51,6 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
     ? [...(queryCrops.data?.records || [])]
     : [];
 
-  console.log(
-    "🚀 ~ ChartTopCropsWithHarvestsAndTotalStock ~ chartData:",
-    chartData
-  );
   return (
     <Card className="w-auto lg:w-[450px] ">
       <CardHeader>
