@@ -98,6 +98,7 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
     },
   },
   {
+    id: "payment_pending_status",
     accessorKey: "details",
     cell: ({ row }) => {
       const array: HarvestDetail[] = row.getValue("details") ?? [];
