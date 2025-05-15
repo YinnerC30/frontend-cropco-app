@@ -3,7 +3,6 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
-  useRef,
   useState,
 } from 'react';
 
@@ -158,12 +157,6 @@ export const FormHarvestProvider: React.FC<
     dispatch({ type: 'RESET', payload: detailsDefaultValues });
   };
 
-  useEffect(() => {
-    if (detailsDefaultValues.length > 0) {
-      resetHarvestDetails();
-    }
-  }, [detailsDefaultValues]);
-
   const amount = useMemo<number>(
     () =>
       detailsHarvest.reduce(
@@ -255,23 +248,14 @@ export const FormHarvestProvider: React.FC<
     validationMode: 'onSubmit',
   });
 
-  const isFirstRender = useRef(true);
-
   useEffect(() => {
     formHarvest.setValue('details', detailsHarvest, {
-      shouldValidate: !isFirstRender.current,
+      shouldValidate: detailsHarvest.length > 0,
       shouldDirty: true,
     });
-
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-    }
-  }, [detailsHarvest, isFirstRender]);
-
-  useEffect(() => {
     formHarvest.setValue('amount', amount, { shouldValidate: true });
     formHarvest.setValue('value_pay', value_pay, { shouldValidate: true });
-  }, [amount, value_pay]);
+  }, [detailsHarvest]);
 
   return (
     <FormHarvestContext.Provider
