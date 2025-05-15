@@ -37,7 +37,10 @@ export const usePatchHarvestProcessed = (): UseMutationReturn<
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        messagesStatusError: {
+          conflict:
+            "El monto ingresado excede la cantidad disponible de la cosecha",
+        },
       });
     },
     retry: 1,
