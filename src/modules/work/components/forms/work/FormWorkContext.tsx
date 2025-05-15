@@ -151,12 +151,6 @@ export const FormWorkProvider: React.FC<
     dispatch({ type: 'RESET', payload: detailsDefaultValues });
   };
 
-  useEffect(() => {
-    if (detailsDefaultValues.length > 0) {
-      resetWorkDetails();
-    }
-  }, [detailsDefaultValues]);
-
   const value_pay = useMemo<number>(
     () =>
       detailsWork.reduce(
@@ -200,7 +194,7 @@ export const FormWorkProvider: React.FC<
   const formWorkDetail = useCreateForm({
     schema: formSchemaWorkDetails,
     defaultValues: workDetail,
-    validationMode: 'onChange',
+    validationMode: 'onSubmit',
   });
 
   const { query: queryEmployees } = useGetAllEmployees({
@@ -239,22 +233,14 @@ export const FormWorkProvider: React.FC<
     toast.success(`Se han eliminado las cosechas!`);
   };
 
-  const isFirstRender = useRef(true);
-
   useEffect(() => {
     formWork.setValue('details', detailsWork, {
-      shouldValidate: !isFirstRender.current,
+      shouldValidate: detailsWork.length > 0,
       shouldDirty: true,
     });
 
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-    }
-  }, [detailsWork, isFirstRender]);
-
-  useEffect(() => {
     formWork.setValue('value_pay', value_pay, { shouldValidate: true });
-  }, [value_pay]);
+  }, [detailsWork]);
 
   return (
     <FormWorkContext.Provider
