@@ -103,7 +103,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
   > = useCreateForm({
     schema: formSchemaSearchBarHarvest,
     defaultValues: paramsQuery,
-    skiptDirty: true,
+    skipDirty: true,
     validationMode: "onSubmit",
   });
 

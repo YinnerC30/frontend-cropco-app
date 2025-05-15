@@ -31,7 +31,6 @@ import { ActionsTableSaleDetail } from './details/ActionsTableSaleDetail';
 import { columnsSaleDetail } from './details/ColumnsTableSaleDetail';
 import { useGetAllCropsWithStock } from '@/modules/crops/hooks/queries/useGetAllCropsWithStock';
 
-
 const defaultValuesSale = {
   date: undefined,
   details: [],
@@ -247,6 +246,12 @@ export const FormSaleProvider: React.FC<
         `No hay suficiente inventario para el cultivo ${record.name}.\nInventario disponible: ${crop.stock} Kg`
       );
     }
+    formSaleDetail.setError(
+      'amount',
+      { message: 'El monto ingresado supera al que hay disponible', type: 'custom' },
+      { shouldFocus: true }
+    );
+    // formSaleDetail.setFocus('amount')
     return result;
   };
 
@@ -271,7 +276,8 @@ export const FormSaleProvider: React.FC<
   });
 
   const value_pay = detailsSale.reduce(
-    (value_pay: number, detail: SaleDetail) => Number(value_pay) + Number(detail.value_pay),
+    (value_pay: number, detail: SaleDetail) =>
+      Number(value_pay) + Number(detail.value_pay),
     0
   );
   const amount = detailsSale.reduce(
@@ -294,7 +300,7 @@ export const FormSaleProvider: React.FC<
 
   const { getIdsToRowsSelected, resetSelectionRows } = dataTableSaleDetail;
 
-  const {  showToast, markChanges } = useFormChange();
+  const { showToast, markChanges } = useFormChange();
 
   const [saleDetail, setSaleDetail] = useState(defaultValuesSaleDetail);
 
@@ -356,23 +362,14 @@ export const FormSaleProvider: React.FC<
     toast.success(`Se han eliminado las cosechas!`);
   };
 
-  const isFirstRender = useRef(true);
-
   useEffect(() => {
     formSale.setValue('details', detailsSale, {
-      shouldValidate: !isFirstRender.current,
+      shouldValidate: detailsSale.length > 0,
       shouldDirty: true,
     });
-
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-    }
-  }, [detailsSale, isFirstRender]);
-
-  useEffect(() => {
     formSale.setValue('value_pay', value_pay, { shouldValidate: true });
     formSale.setValue('amount', amount, { shouldValidate: true });
-  }, [value_pay, amount]);
+  }, [detailsSale]);
 
   useEffect(() => {
     if (queryCropsWithStock.isSuccess) {

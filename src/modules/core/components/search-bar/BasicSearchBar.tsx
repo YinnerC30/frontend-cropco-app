@@ -36,7 +36,7 @@ export const BasicSearchBar = ({
     defaultValues: {
       query,
     },
-    skiptDirty: true,
+    skipDirty: true,
   });
 
   const onReset = () => {

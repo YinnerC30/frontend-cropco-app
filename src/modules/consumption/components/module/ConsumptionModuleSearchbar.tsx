@@ -67,7 +67,7 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
   > = useCreateForm({
     schema: formSchemaSearchBarConsumption,
     defaultValues: paramsQuery,
-    skiptDirty: true,
+    skipDirty: true,
     validationMode: 'onSubmit',
   });
 

@@ -46,7 +46,7 @@ export const PaymentModuleSearchbar: React.FC = () => {
   const form = useCreateForm({
     schema: formSchemaSearchBarPayment,
     defaultValues: paramsQuery,
-    skiptDirty: true,
+    skipDirty: true,
     validationMode: 'onSubmit',
   });
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);

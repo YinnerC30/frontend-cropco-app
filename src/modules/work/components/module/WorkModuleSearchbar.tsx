@@ -101,7 +101,7 @@ export const WorkModuleSearchbar = () => {
   > = useCreateForm({
     schema: formSchemaSearchBarWork,
     defaultValues: paramsQuery,
-    skiptDirty: true,
+    skipDirty: true,
     validationMode: 'onSubmit',
   });
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);

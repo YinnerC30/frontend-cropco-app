@@ -99,7 +99,7 @@ export const SaleModuleSearchbar: React.FC = () => {
   > = useCreateForm({
     schema: formSchemaSearchBarSale,
     defaultValues: paramsQuery,
-    skiptDirty: true,
+    skipDirty: true,
     validationMode: 'onChange',
   });
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
