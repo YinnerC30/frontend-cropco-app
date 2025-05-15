@@ -1,10 +1,22 @@
-import React, { createContext } from 'react';
+import React, { createContext, useMemo } from 'react';
 
 import { useCreateForm } from '@/modules/core/hooks';
 import { FormContextProps, FormProps } from '@/modules/core/interfaces';
 import { z } from 'zod';
 import { Supply } from '../../interfaces/Supply';
+import { UnitOfMeasure } from '../../interfaces/UnitOfMeasure';
 import { formSchemaSupply } from '../../utils';
+
+// Definición de los valores por defecto a nivel de módulo
+// El usuario deberá ajustar estos campos según la estructura de Supply/formSchemaSupply
+export const moduleDefaultValues: Partial<z.infer<typeof formSchemaSupply>> = {
+  name: '',
+  brand: '',
+  unit_of_measure: UnitOfMeasure.GRAMOS,
+  observation: '',
+  // Asegúrate de que todos los campos de formSchemaSupply estén aquí
+  // con un valor inicial definido (ej. '', 0, false, [], etc.)
+};
 
 export type FormSupplyProps = FormProps<
   z.infer<typeof formSchemaSupply>,
@@ -25,14 +37,19 @@ export const FormSupplyProvider: React.FC<
   }
 > = ({
   children,
-  defaultValues,
+  defaultValues: propsDefaultValues, // Renombrado para claridad
   isSubmitting = false,
   onSubmit = (values) => console.log(values),
   readOnly = false,
 }) => {
+  const combinedDefaultValues = useMemo(() => ({
+    ...moduleDefaultValues, // Usar los defaultValues del módulo como base
+    ...(propsDefaultValues || {}), // Sobrescribir con los de las props si existen
+  }), [propsDefaultValues]);
+
   const form = useCreateForm({
     schema: formSchemaSupply,
-    defaultValues,
+    defaultValues: combinedDefaultValues, // Usar los valores combinados
   });
 
   return (
