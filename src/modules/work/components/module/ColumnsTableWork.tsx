@@ -91,6 +91,7 @@ export const columnsWork: ColumnDef<Work>[] = [
     },
   },
   {
+    id: 'work_payment_pending_status',
     accessorKey: 'details',
     cell: ({ row }) => {
       const array: WorkDetail[] = row.getValue('details') ?? [];
