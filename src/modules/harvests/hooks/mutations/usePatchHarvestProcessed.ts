@@ -1,11 +1,11 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
-import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useAuthContext } from '@/auth';
-import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
-import { HarvestProcessed } from '../../interfaces/HarvestProcessed';
+import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
+import { useAuthContext } from "@/auth";
+import { PromiseReturnRecord } from "@/auth/interfaces/PromiseReturnRecord";
+import { UseMutationReturn } from "@/modules/core/interfaces/responses/UseMutationReturn";
+import { HarvestProcessed } from "../../interfaces/HarvestProcessed";
 
 export const updateHarvestProcessed = async (
   harvestProcessed: HarvestProcessed
@@ -27,11 +27,11 @@ export const usePatchHarvestProcessed = (): UseMutationReturn<
     mutationFn: updateHarvestProcessed,
     onSuccess: async (_, variables) => {
       const id = variables.harvest?.id!;
-      await queryClient.invalidateQueries({ queryKey: ['harvests_processed'] });
+      await queryClient.invalidateQueries({ queryKey: ["harvests_processed"] });
       await queryClient.invalidateQueries({
-        queryKey: ['crops'],
+        queryKey: ["crops"],
       });
-      await queryClient.invalidateQueries({ queryKey: ['harvest', id] });
+      await queryClient.invalidateQueries({ queryKey: ["harvest", id] });
       toast.success(`Cosecha procesada actualizada`);
     },
     onError: (error) => {

@@ -48,7 +48,7 @@ const HarvestProcessedDataTable: React.FC = memo(() => {
     <FormDataTableProvider
       table={table}
       disabledDoubleClick={false}
-      errorMessage={"Esta vaina tiene errores!!"}
+      errorMessage={"Ha ocurrido un error en la tabla"}
       lengthColumns={lengthColumns}
     >
       <div className="flex flex-col items-center justify-center gap-2 ">
@@ -79,9 +79,9 @@ const HarvestProcessedDataTable: React.FC = memo(() => {
             className="block h-8 my-2 text-base text-center w-28"
             variant={"cyan"}
           >
-            {FormatNumber(isSuccess ? data?.total_amount_processed ?? 0 : 0)}
+            {FormatNumber(isSuccess ? data?.total_amount_processed ?? 0 : 0) + ' Kg'}
           </Badge>
-          <p className="text-[0.8rem] text-muted-foreground">{""}</p>
+          <p className="text-[0.8rem] text-muted-foreground">{"Número de kilogramos listos para la venta"}</p>
         </div>
         <FormDataTableButtonsPagination />
         <FormDataTablePageCount />

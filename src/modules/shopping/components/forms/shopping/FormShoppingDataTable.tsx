@@ -56,7 +56,7 @@ export const FormShoppingDataTable: React.FC = () => {
     <FormDataTableProvider
       table={table}
       disabledDoubleClick={readOnly}
-      errorMessage={'Esta vaina tiene errores!!'}
+      errorMessage={'Ha ocurrido un error en la tabla'}
       lengthColumns={lengthColumns}
     >
       <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-full">

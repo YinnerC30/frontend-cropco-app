@@ -27,7 +27,7 @@ export const formFieldsHarvestProcessed: Record<
     name: 'amount',
     label: 'Cantidad:',
     placeholder: '',
-    description: 'Número de kilogramos listos para la venta',
+    description: 'Número de kilogramos cosechados',
   },
   value_pay: {
     name: 'value_pay',
