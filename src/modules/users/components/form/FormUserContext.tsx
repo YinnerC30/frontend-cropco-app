@@ -11,13 +11,13 @@ import { formSchemaUser, formSchemaUserWithPassword } from '../../utils';
 import { UserAction } from './FormUserPermissionAction';
 
 export const defaultValues: UserForm = {
-  first_name: 'demo',
-  last_name: 'demo',
-  email: 'demo@gmail.com',
-  cell_phone_number: '3145674356',
+  first_name: '',
+  last_name: '',
+  email: '',
+  cell_phone_number: '',
   passwords: {
-    password1: '123456',
-    password2: '123456',
+    password1: '',
+    password2: '',
   },
   modules: [],
   actions: [],
@@ -43,7 +43,7 @@ export const FormUserProvider: React.FC<
   FormUserProps & { children: ReactNode }
 > = ({
   children,
-  defaultValues,
+  defaultValues: propsDefaultValues,
   hiddenPassword = false,
   isSubmitting = false,
   onSubmit = (values) => console.log(values),
@@ -53,9 +53,20 @@ export const FormUserProvider: React.FC<
 
   const { data = [] } = queryModules;
 
+  const combinedDefaultValues = useMemo(() => ({
+    ...defaultValues,
+    ...(propsDefaultValues || {}),
+    passwords: {
+      ...(defaultValues.passwords || {}),
+      ...(propsDefaultValues?.passwords || {}),
+    },
+    modules: propsDefaultValues?.modules ?? defaultValues.modules,
+    actions: propsDefaultValues?.actions ?? defaultValues.actions,
+  }), [propsDefaultValues]);
+
   const form = useCreateForm({
     schema: hiddenPassword ? formSchemaUser : formSchemaUserWithPassword,
-    defaultValues,
+    defaultValues: combinedDefaultValues,
   });
 
   const defaultActionsUser = useMemo(

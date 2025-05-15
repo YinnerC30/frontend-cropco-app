@@ -9,4 +9,6 @@ export interface User {
   is_active: boolean;
   modules: Module[];
   token: string;
+  actions?: any[];
+  passwords?: any;
 }
