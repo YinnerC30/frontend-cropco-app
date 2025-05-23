@@ -3,8 +3,7 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
-  useRef,
-  useState,
+  useState
 } from 'react';
 
 import { useAuthContext } from '@/auth/hooks';

@@ -3,8 +3,7 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
-  useRef,
-  useState,
+  useState
 } from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
@@ -22,6 +21,7 @@ import { CheckboxTableCustomClient } from '@/modules/core/components/table/Check
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { FormProps } from '@/modules/core/interfaces';
 
+import { useGetAllCropsWithStock } from '@/modules/crops/hooks/queries/useGetAllCropsWithStock';
 import { Sale, SaleDetail } from '@/modules/sales/interfaces';
 import { formSchemaSale } from '@/modules/sales/utils';
 import { formSchemaSaleDetails } from '@/modules/sales/utils/formSchemaSaleDetail';
@@ -29,7 +29,6 @@ import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { ActionsTableSaleDetail } from './details/ActionsTableSaleDetail';
 import { columnsSaleDetail } from './details/ColumnsTableSaleDetail';
-import { useGetAllCropsWithStock } from '@/modules/crops/hooks/queries/useGetAllCropsWithStock';
 
 const defaultValuesSale = {
   date: undefined,
@@ -248,7 +247,10 @@ export const FormSaleProvider: React.FC<
     }
     formSaleDetail.setError(
       'amount',
-      { message: 'El monto ingresado supera al que hay disponible', type: 'custom' },
+      {
+        message: 'El monto ingresado supera al que hay disponible',
+        type: 'custom',
+      },
       { shouldFocus: true }
     );
     // formSaleDetail.setFocus('amount')
