@@ -5,25 +5,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { useImplantSeed } from '@/auth/hooks/queries/useImplantSeed';
 import { useAuthContext } from '@/auth/hooks/useAuthContext';
-import { useGetConvertToAdmin } from '@/modules/users/hooks';
 
-import { useCreationsApp } from '@/auth/hooks/queries/useCreateActionsApp';
-import { MODULE_USER_PATHS } from '@/modules/users/routes/pathsRoutes';
 import { ChevronDown } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useFormChange } from '@/modules/core/components';
 import { DialogChangePassword } from '@/modules/users/components/DialogChangePassword';
-import { Link } from 'react-router-dom';
-import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Dialog } from '../ui/dialog';
 import { useSidebar } from '../ui/sidebar';
 
 export const MyAccount = () => {
-  const { user, saveUser } = useAuthContext();
+  const { user } = useAuthContext();
 
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -42,19 +36,19 @@ export const MyAccount = () => {
     setOpenDialog(false);
   };
 
-  const { isMobile, setOpenMobile } = useSidebar();
+  const { isMobile } = useSidebar();
 
   const [openDropDown, setOpenDropDown] = useState(false);
 
-  const [isRunningSeed, setIsRunningSeed] = useState(false);
-  const [isConvertToAdmin, setIsConvertToAdmin] = useState(false);
+  // const [isRunningSeed, setIsRunningSeed] = useState(false);
+  // const [isConvertToAdmin, setIsConvertToAdmin] = useState(false);
 
-  const queryImplantedSeed = useImplantSeed(isRunningSeed);
-  const queryConvertToAdmin = useGetConvertToAdmin(user?.id!, isConvertToAdmin);
-  const [runQuery, setRunQuery] = useState(false);
-  const queryCreateActions = useCreationsApp({ stateQuery: runQuery });
+  // const queryImplantedSeed = useImplantSeed(isRunningSeed);
+  // const queryConvertToAdmin = useGetConvertToAdmin(user?.id!, isConvertToAdmin);
+  // const [runQuery, setRunQuery] = useState(false);
+  // const queryCreateActions = useCreationsApp({ stateQuery: runQuery });
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (queryCreateActions.isSuccess) {
       setRunQuery(false);
     }
@@ -76,7 +70,7 @@ export const MyAccount = () => {
       });
       setIsConvertToAdmin(false);
     }
-  }, [queryConvertToAdmin.isSuccess]);
+  }, [queryConvertToAdmin.isSuccess]); */
 
   return (
     <Dialog onOpenChange={setOpenDialog} modal={false} open={openDialog}>
@@ -100,7 +94,7 @@ export const MyAccount = () => {
           {/* Info User Login */}
 
           {/* Copy Id */}
-          <DropdownMenuItem
+          {/* <DropdownMenuItem
             onClick={() => {
               navigator.clipboard.writeText(user?.id!);
 
@@ -108,54 +102,54 @@ export const MyAccount = () => {
             }}
           >
             Copiar mi Id
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
 
           {/* Copy token */}
-          <DropdownMenuItem
+          {/* <DropdownMenuItem
             onClick={() => {
               navigator.clipboard.writeText(user?.token!);
               toast.success(`Id copiado al portapapeles ${user?.token}`);
             }}
           >
             Copiar mi Token
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
 
           {/* Modificar permisos */}
-          <DropdownMenuItem asChild>
+          {/* <DropdownMenuItem asChild>
             <Link
               onClick={() => setOpenMobile(false)}
               to={`${MODULE_USER_PATHS.Update}${user?.id!}`}
             >
               Modificar mis permisos
             </Link>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
 
           {/* Run Seed */}
-          <DropdownMenuItem
+          {/* <DropdownMenuItem
             onClick={() => {
               setIsRunningSeed(true);
             }}
           >
             Implantar semilla 🌱
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
 
           {/* Turn on Admin */}
-          <DropdownMenuItem
+          {/* <DropdownMenuItem
             onClick={() => {
               setIsConvertToAdmin(true);
             }}
           >
             Volverte Admin 🤖
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
 
           {/* Create Actions */}
-          <DropdownMenuItem
+          {/* <DropdownMenuItem
             onClick={() => {
               setRunQuery(true);
             }}
           >
             Crear Acciones 🎭
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
 
           {/* Change Password Dialog */}
           <DropdownMenuItem onClick={handleTrigger}>
