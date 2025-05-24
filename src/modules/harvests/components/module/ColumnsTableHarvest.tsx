@@ -1,19 +1,19 @@
-import { ColumnDef, HeaderContext } from '@tanstack/react-table';
+import { ColumnDef, HeaderContext } from "@tanstack/react-table";
 
-import { ButtonHeaderTable, ToolTipTemplate } from '@/modules/core/components';
-import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
-import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
-import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
+import { ButtonHeaderTable, ToolTipTemplate } from "@/modules/core/components";
+import { FormatDate } from "@/modules/core/helpers/formatting/FormatDate";
+import { FormatMoneyValue } from "@/modules/core/helpers/formatting/FormatMoneyValue";
+import { FormatNumber } from "@/modules/core/helpers/formatting/FormatNumber";
 
-import { formFieldsHarvest } from '../../utils';
-import { Badge, Button } from '@/components';
-import { Harvest, HarvestDetail } from '../../interfaces';
+import { formFieldsHarvest } from "../../utils";
+import { Badge, Button } from "@/components";
+import { Harvest, HarvestDetail } from "../../interfaces";
 
 export const columnsHarvest: ColumnDef<Harvest>[] = [
   {
     accessorKey: formFieldsHarvest.date.name,
     cell: ({ row }) => {
-      return FormatDate({ date: row.getValue('date') });
+      return FormatDate({ date: row.getValue("date") });
     },
     header: ({ column }: HeaderContext<Harvest, unknown>) => {
       return (
@@ -25,7 +25,7 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
     },
   },
   {
-    accessorKey: 'crop.name',
+    accessorKey: "crop.name",
     header: ({ column }: HeaderContext<Harvest, unknown>) => {
       return (
         <ButtonHeaderTable
@@ -36,7 +36,7 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
     },
   },
   {
-    accessorKey: 'details',
+    accessorKey: "details",
     header: ({ column }) => (
       <ButtonHeaderTable column={column} label="Empleados:" />
     ),
@@ -58,7 +58,7 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
               content={employees
                 .slice(maxVisible)
                 .map((item) => item.first_name)
-                .join(',\n')}
+                .join(",\n")}
             >
               <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
             </ToolTipTemplate>
@@ -69,15 +69,15 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
   },
 
   {
-    accessorKey: formFieldsHarvest.total.name,
+    accessorKey: formFieldsHarvest.amount.name,
     cell: ({ row }) => {
-      return FormatNumber(row.getValue('total'));
+      return FormatNumber(row.getValue("amount")) + " kg";
     },
     header: ({ column }: HeaderContext<Harvest, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
-          label={formFieldsHarvest.total.label}
+          label={formFieldsHarvest.amount.label}
         />
       );
     },
@@ -86,7 +86,7 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
   {
     accessorKey: formFieldsHarvest.value_pay.name,
     cell: ({ row }) => {
-      return FormatMoneyValue(row.getValue('value_pay'));
+      return FormatMoneyValue(row.getValue("value_pay"));
     },
     header: ({ column }: HeaderContext<Harvest, unknown>) => {
       return (
@@ -98,19 +98,20 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
     },
   },
   {
-    accessorKey: 'details',
+    id: "payment_pending_status",
+    accessorKey: "details",
     cell: ({ row }) => {
-      const array: HarvestDetail[] = row.getValue('details') ?? [];
+      const array: HarvestDetail[] = row.getValue("details") ?? [];
       const result = array.some((item) => item.payment_is_pending);
       return result ? (
-        <Badge variant={'red'}>SI</Badge>
+        <Badge variant={"red"}>SI</Badge>
       ) : (
-        <Badge variant={'indigo'}>NO</Badge>
+        <Badge variant={"indigo"}>NO</Badge>
       );
     },
     header: ({ column }: HeaderContext<Harvest, unknown>) => {
       return (
-        <ButtonHeaderTable column={column} label={'¿Hay pagos pendientes?'} />
+        <ButtonHeaderTable column={column} label={"¿Hay pagos pendientes?"} />
       );
     },
   },

@@ -20,7 +20,7 @@ export const WorkModuleTable = () => {
       disabledDoubleClick={!actionsWorksModule['find_one_work']}
       table={table}
       lengthColumns={lengthColumns}
-      rowCount={queryWorks?.data?.rowCount ?? 0}
+      rowCount={queryWorks?.data?.total_row_count ?? 0}
       isLoading={
         queryWorks.isLoading ||
         queryWorks.isRefetching ||

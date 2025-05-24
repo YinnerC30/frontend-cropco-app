@@ -3,6 +3,6 @@ import { ShoppingDetail } from './ShoppingDetails';
 export interface ShoppingSupplies {
   id?: string;
   date: string | Date | undefined;
-  total: number;
+  value_pay: number;
   details: ShoppingDetail[];
 }

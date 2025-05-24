@@ -78,9 +78,9 @@ const valuesResetForm = {
     date: undefined,
     type_filter_date: TypeFilterDate.after,
   },
-  filter_by_total: {
-    type_filter_total: TypeFilterNumber.MIN,
-    total: 0,
+  filter_by_value_pay: {
+    type_filter_value_pay: TypeFilterNumber.MIN,
+    value_pay: 0,
   },
   employees: [],
 };
@@ -101,7 +101,7 @@ export const WorkModuleSearchbar = () => {
   > = useCreateForm({
     schema: formSchemaSearchBarWork,
     defaultValues: paramsQuery,
-    skiptDirty: true,
+    skipDirty: true,
     validationMode: 'onSubmit',
   });
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
@@ -117,7 +117,7 @@ export const WorkModuleSearchbar = () => {
     const {
       crop,
       filter_by_date,
-      filter_by_total,
+      filter_by_value_pay,
       employees = [],
     } = form.watch();
 
@@ -128,7 +128,7 @@ export const WorkModuleSearchbar = () => {
         key: 'crop',
         label: `Cultivo: ${
           !crop.name
-            ? queryCrops.data?.rows.find((c) => c.id === crop.id)?.name
+            ? queryCrops.data?.records.find((c) => c.id === crop.id)?.name
             : crop?.name
         }`,
       });
@@ -141,7 +141,7 @@ export const WorkModuleSearchbar = () => {
           employees.some((e) => !e.first_name === true)
             ? employees
                 .map((e) => {
-                  return queryEmployees.data?.rows.find((em) => em.id === e.id)
+                  return queryEmployees.data?.records.find((em) => em.id === e.id)
                     ?.first_name;
                 })
                 .join(', ')
@@ -167,14 +167,14 @@ export const WorkModuleSearchbar = () => {
       });
     }
 
-    const { type_filter_total, total } = filter_by_total;
-    if (type_filter_total && total) {
+    const { type_filter_value_pay, value_pay } = filter_by_value_pay;
+    if (type_filter_value_pay && value_pay) {
       const typeFilter = formatTypeFilterNumber(
-        type_filter_total as TypeFilterNumber
+        type_filter_value_pay as TypeFilterNumber
       );
       filters.push({
-        key: 'total',
-        label: `Total: ${typeFilter} ${filter_by_total.total}`,
+        key: 'value_pay',
+        label: `Valor a pagar: ${typeFilter} ${filter_by_value_pay.value_pay}`,
       });
     }
 
@@ -205,11 +205,11 @@ export const WorkModuleSearchbar = () => {
         });
         form.setValue('filter_by_date.date', undefined, { shouldDirty: false });
         break;
-      case 'total':
-        form.setValue('filter_by_total.type_filter_total', undefined, {
+      case 'value_pay':
+        form.setValue('filter_by_value_pay.type_filter_value_pay', undefined, {
           shouldDirty: false,
         });
-        form.setValue('filter_by_total.total', 0, { shouldDirty: false });
+        form.setValue('filter_by_value_pay.value_pay', 0, { shouldDirty: false });
         break;
     }
     handleSearch(form.watch());
@@ -238,15 +238,15 @@ export const WorkModuleSearchbar = () => {
     }
 
     if (
-      values.filter_by_total.type_filter_total &&
-      values.filter_by_total.total
+      values.filter_by_value_pay.type_filter_value_pay &&
+      values.filter_by_value_pay.value_pay
     ) {
-      params.append('filter_by_total', 'true');
+      params.append('filter_by_value_pay', 'true');
       params.append(
-        'type_filter_total',
-        `${values.filter_by_total.type_filter_total}`
+        'type_filter_value_pay',
+        `${values.filter_by_value_pay.type_filter_value_pay}`
       );
-      params.append('total', `${values.filter_by_total.total}`);
+      params.append('value_pay', `${values.filter_by_value_pay.value_pay}`);
     }
 
     navigate(`?${params.toString()}`);
@@ -285,7 +285,7 @@ export const WorkModuleSearchbar = () => {
             <div className="flex flex-col items-center justify-center  md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
                 <FormFieldCommand
-                  data={queryCrops?.data?.rows || []}
+                  data={queryCrops?.data?.records || []}
                   form={form}
                   nameToShow="name"
                   control={form.control}
@@ -405,7 +405,7 @@ export const WorkModuleSearchbar = () => {
                                         'empleado'
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
-                                        {queryEmployees?.data?.rows.map(
+                                        {queryEmployees?.data?.records.map(
                                           (item) => {
                                             return (
                                               <CommandItem
@@ -516,24 +516,24 @@ export const WorkModuleSearchbar = () => {
                 actionOnClose={() => handleClearErrorsForm('filter_by_date')}
               />
               <FilterDropdownItem
-                label={'Total'}
-                actionOnSave={() => handleAddFilter('filter_by_total')}
-                actionOnClose={() => handleClearErrorsForm('filter_by_total')}
+                label={'Valor a pagar'}
+                actionOnSave={() => handleAddFilter('filter_by_value_pay')}
+                actionOnClose={() => handleClearErrorsForm('filter_by_value_pay')}
                 content={
                   <>
                     <FormFieldSelect
                       disabled={false}
                       items={numberFilterOptions}
-                      {...formFieldsSearchBarWork.type_filter_total}
+                      {...formFieldsSearchBarWork.type_filter_value_pay}
                       control={form.control}
-                      name="filter_by_total.type_filter_total"
+                      name="filter_by_value_pay.type_filter_value_pay"
                     />
                     <FormFieldInput
                       disabled={false}
-                      {...formFieldsSearchBarWork.total}
+                      {...formFieldsSearchBarWork.value_pay}
                       control={form.control}
                       type="number"
-                      name="filter_by_total.total"
+                      name="filter_by_value_pay.value_pay"
                     />
                   </>
                 }

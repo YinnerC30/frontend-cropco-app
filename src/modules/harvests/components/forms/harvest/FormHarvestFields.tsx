@@ -14,7 +14,7 @@ import { useGetAllCrops } from '@/modules/crops/hooks';
 import { FormHarvestDataTable } from './FormHarvestDataTable';
 
 export const FormHarvestFields: React.FC = () => {
-  const { formHarvest, onSubmit, readOnly, total, value_pay } =
+  const { formHarvest, onSubmit, readOnly, amount, value_pay } =
     useFormHarvestContext();
 
   const disabledCropField =
@@ -22,7 +22,7 @@ export const FormHarvestFields: React.FC = () => {
 
   const { query: queryCrops } = useGetAllCrops({
     queryValue: '',
-    allRecords: true,
+    all_records: true,
   });
 
   return (
@@ -45,7 +45,7 @@ export const FormHarvestFields: React.FC = () => {
             data={
               queryCrops.isSuccess
                 ? [
-                    ...queryCrops.data?.rows,
+                    ...queryCrops.data?.records,
                     formHarvest.formState.defaultValues?.crop,
                   ]
                 : []
@@ -87,10 +87,10 @@ export const FormHarvestFields: React.FC = () => {
 
           <FormFieldInput
             control={formHarvest.control}
-            description={formFieldsHarvest.total.description}
-            label={formFieldsHarvest.total.label}
-            name={'total'}
-            placeholder={formFieldsHarvest.total.placeholder}
+            description={formFieldsHarvest.amount.description}
+            label={formFieldsHarvest.amount.label}
+            name={'amount'}
+            placeholder={formFieldsHarvest.amount.placeholder}
             disabled={true}
             type="number"
             hiddenInput
@@ -99,7 +99,7 @@ export const FormHarvestFields: React.FC = () => {
               className="block h-8 text-base text-center w-28"
               variant={'cyan'}
             >
-              {FormatNumber(total) + ' Kg'}
+              {FormatNumber(amount) + ' Kg'}
             </Badge>
           </FormFieldInput>
 

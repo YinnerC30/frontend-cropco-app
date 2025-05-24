@@ -44,9 +44,9 @@ export const columnsShoppingDetail: ColumnDef<ShoppingDetail>[] = [
     },
   },
   {
-    accessorKey: 'total',
+    accessorKey: 'value_pay',
     cell: ({ row }) => {
-      return FormatMoneyValue(row.getValue('total'));
+      return FormatMoneyValue(row.getValue('value_pay'));
     },
     header: ({ column }: HeaderContext<ShoppingDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Valor a pagar:'} />;

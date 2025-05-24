@@ -1,6 +1,6 @@
 import {
   schemaForDate,
-  schemaForTotal,
+  schemaForValuePay
 } from '@/modules/core/helpers/schemas-validation/SchemasSearchBar';
 import { TypeFilterNumber } from '@/modules/core/interfaces/general/TypeFilterNumber';
 import { z } from 'zod';
@@ -8,11 +8,11 @@ import { z } from 'zod';
 export const formSchemaSearchBarSale = z.object({
   filter_by_date: schemaForDate,
 
-  filter_by_total: schemaForTotal,
+  filter_by_value_pay: schemaForValuePay,
 
-  filter_by_quantity: z.object({
-    quantity: z.coerce.number().optional(),
-    type_filter_quantity: z
+  filter_by_amount: z.object({
+    amount: z.coerce.number().optional(),
+    type_filter_amount: z
       .nativeEnum(TypeFilterNumber, {
         errorMap: (issue, _ctx) => {
           switch (issue.code) {

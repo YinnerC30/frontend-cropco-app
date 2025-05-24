@@ -3,5 +3,5 @@ export interface RecordToPay {
   value_pay: number;
   date: string;
   type: 'harvest' | 'work';
-  payment_is_pending: boolean;
+  payment_is_pending?: boolean;
 }

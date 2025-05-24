@@ -5,5 +5,5 @@ export interface HarvestProcessed {
   date: Date | undefined;
   harvest?: ObjectWithId;
   id?: string;
-  total: number;
+  amount: number;
 }

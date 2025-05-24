@@ -27,10 +27,10 @@ export const getTotalSalesInYear = async ({
   });
 
   if (crop.length > 0) {
-    params.append('crop', crop);
+    params.append('cropId', crop);
   }
   if (client.length > 0) {
-    params.append('client', client);
+    params.append('clientId', client);
   }
 
   return await cropcoAPI.get(
@@ -45,10 +45,10 @@ export const useGetTotalSalesInYear = ({
 }: QueryParams): UseGetOneRecordReturn<SaleTotalInYearData> => {
   const { hasPermission, handleError } = useAuthContext();
 
-  const isAuthorized = hasPermission('dashboard', 'find_total_sales_in_year');
+  const isAuthorized = hasPermission('dashboard', 'find_total_sales_in_year_chart');
 
   const query: UseGetOneRecordReturn<SaleTotalInYearData> = useQuery({
-    queryKey: ['sales-total-year', year, crop, client],
+    queryKey: ['sales-value_pay-year', year, crop, client],
     queryFn: () => getTotalSalesInYear({ year, crop, client }),
     select: ({ data }) => data,
     enabled: isAuthorized,
@@ -57,7 +57,7 @@ export const useGetTotalSalesInYear = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado del total de ventas en el año 😑'
+        'No tienes permiso para ver el listado del value_pay de ventas en el año 😑'
       );
     }
   }, [isAuthorized]);
@@ -68,7 +68,7 @@ export const useGetTotalSalesInYear = ({
         error: query.error,
         messagesStatusError: {
           unauthorized:
-            'No tienes permiso para ver el listado del total de ventas en el año 😑',
+            'No tienes permiso para ver el listado del value_pay de ventas en el año 😑',
         },
       });
     }

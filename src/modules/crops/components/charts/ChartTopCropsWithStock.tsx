@@ -31,7 +31,7 @@ export function ChartTopCropsWithStock() {
   }
 
   const chartData = queryCrops.isSuccess
-    ? [...(queryCrops.data?.rows.filter((row) => row.stock > 0) || [])]
+    ? [...(queryCrops.data?.records.filter((row) => row.stock > 0) || [])]
     : [];
 
   return (

@@ -4,7 +4,7 @@ import { formSchemaShoppingDetail } from './formSchemaShoppingDetail';
 export const formSchemaShopping = z.object({
   date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
 
-  total: z
+  value_pay: z
     .number({
       invalid_type_error: 'Debes introducir un valor numérico',
     })

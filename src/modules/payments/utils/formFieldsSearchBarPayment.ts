@@ -5,9 +5,9 @@ type FormFieldsSearchBarPayment =
   | 'filter_by_date'
   | 'type_filter_date'
   | 'date'
-  | 'type_filter_total'
-  | 'filter_by_total'
-  | 'total'
+  | 'type_filter_value_pay'
+  | 'filter_by_value_pay'
+  | 'value_pay'
   | 'filter_by_method_of_payment'
   | 'method_of_payment';
 
@@ -40,28 +40,28 @@ export const formFieldsSearchBarPayment: Record<
     placeholder: 'Selecciona una fecha',
     description: 'Fecha de referencia para realizar la búsqueda',
   },
-  filter_by_total: {
-    name: 'filter_by_total',
-    label: 'Filtrar por total cosechado:',
+  filter_by_value_pay: {
+    name: 'filter_by_value_pay',
+    label: 'Filtrar por value_pay cosechado:',
     placeholder: '',
     description: 'Activa la opción para filtrar por este modo',
   },
-  type_filter_total: {
-    name: 'type_filter_total',
+  type_filter_value_pay: {
+    name: 'type_filter_value_pay',
     label: 'Valor menor o mayor a:',
     placeholder: 'Selecciona una opción',
     description: 'Filtrar registros por menor o mayor del valor',
   },
-  total: {
-    name: 'total',
-    label: 'Total:',
+  value_pay: {
+    name: 'value_pay',
+    label: 'Valor a pagar:',
     placeholder: '100',
     description: 'Valor de referencia para realizar la búsqueda',
   },
 
   filter_by_method_of_payment: {
     name: 'filter_by_method_of_payment',
-    label: 'Filtrar por total pagos pendiente:',
+    label: 'Filtrar por value_pay pagos pendiente:',
     placeholder: '',
     description: 'Activa la opción para filtrar por este modo',
   },

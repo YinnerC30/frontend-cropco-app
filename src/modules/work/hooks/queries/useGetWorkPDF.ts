@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { dowloadPDF } from '@/modules/core/helpers';
+import { downloadPDF } from '@/modules/core/helpers';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 
@@ -62,7 +62,7 @@ export const useGetWorkPDF = ({
           viewPDF(query.data, `work-report-${workId}`);
           break;
         case 'DownloadPDf':
-          dowloadPDF(query.data, `work-document-${workId}`);
+          downloadPDF(query.data, `work-document-${workId}`);
           break;
         default:
           break;

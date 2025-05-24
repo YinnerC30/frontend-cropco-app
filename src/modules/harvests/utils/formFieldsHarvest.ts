@@ -2,11 +2,11 @@ import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField'
 type HarvestFormFields =
   | 'date'
   | 'crop'
-  | 'total'
+  | 'amount'
   | 'value_pay'
   | 'details'
   | 'observation'
-  | 'total_processed';
+  | 'amount_processed';
 export const formFieldsHarvest: Record<HarvestFormFields, CustomFormField> = {
   date: {
     name: 'date',
@@ -20,9 +20,9 @@ export const formFieldsHarvest: Record<HarvestFormFields, CustomFormField> = {
     placeholder: 'Selecciona un cultivo',
     description: 'Nombre del cultivo al cual se le realizo la cosecha',
   },
-  total: {
-    name: 'total',
-    label: 'Total:',
+  amount: {
+    name: 'amount',
+    label: 'Cantidad:',
     placeholder: '',
     description: 'Número de kilogramos cosechados',
   },
@@ -30,7 +30,7 @@ export const formFieldsHarvest: Record<HarvestFormFields, CustomFormField> = {
     name: 'value_pay',
     label: 'Valor a pagar:',
     placeholder: '',
-    description: 'Cantidad total a pagar por la cosecha',
+    description: 'Valor a pagar por la cosecha',
   },
   observation: {
     name: 'observation',
@@ -44,9 +44,9 @@ export const formFieldsHarvest: Record<HarvestFormFields, CustomFormField> = {
     placeholder: '',
     description: '',
   },
-  total_processed: {
-    name: 'total_processed',
-    label: 'Total de cosecha procesada:',
+  amount_processed: {
+    name: 'amount_processed',
+    label: 'Cantidad de cosecha procesada:',
     placeholder: '',
     description: 'Número de kilogramos disponibles para la venta',
   },

@@ -32,13 +32,13 @@ export interface paramQuerySale {
     type_filter_date: string | undefined;
     date: string | undefined | Date;
   };
-  filter_by_total: {
-    type_filter_total: string | undefined;
-    total: number;
+  filter_by_value_pay: {
+    type_filter_value_pay: string | undefined;
+    value_pay: number;
   };
-  filter_by_quantity: {
-    type_filter_quantity: string | undefined;
-    quantity: number;
+  filter_by_amount: {
+    type_filter_amount: string | undefined;
+    amount: number;
   };
 }
 
@@ -70,23 +70,23 @@ const paramsSale: ItemQueryAdvanced[] = [
     defaultValue: undefined,
   },
   {
-    propertyName: 'filter_by_total',
+    propertyName: 'filter_by_value_pay',
     defaultValue: false,
   },
   {
-    propertyName: 'type_filter_total',
+    propertyName: 'type_filter_value_pay',
     defaultValue: undefined,
   },
   {
-    propertyName: 'filter_by_total',
+    propertyName: 'filter_by_value_pay',
     defaultValue: false,
   },
   {
-    propertyName: 'type_filter_quantity',
+    propertyName: 'type_filter_amount',
     defaultValue: undefined,
   },
   {
-    propertyName: 'quantity',
+    propertyName: 'amount',
     defaultValue: 0,
   },
 
@@ -130,11 +130,11 @@ export const SalesModuleProvider: React.FC<{
     columns: columnsTable,
     infoPagination: querySales.isSuccess
       ? {
-          pageCount: querySales.data?.pageCount ?? 0,
-          rowCount: querySales.data?.rowCount ?? 0,
+          pageCount: querySales.data?.total_page_count ?? 0,
+          rowCount: querySales.data?.total_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
-    rows: querySales.data?.rows ?? [],
+    rows: querySales.data?.records ?? [],
     pagination,
     setPagination,
   });
@@ -165,13 +165,13 @@ export const SalesModuleProvider: React.FC<{
         type_filter_date: paramsValues.type_filter_date,
         date: !paramsValues.date ? undefined : new Date(paramsValues.date),
       },
-      filter_by_total: {
-        type_filter_total: paramsValues.type_filter_total,
-        total: paramsValues.total,
+      filter_by_value_pay: {
+        type_filter_value_pay: paramsValues.type_filter_value_pay,
+        value_pay: paramsValues.value_pay,
       },
-      filter_by_quantity: {
-        type_filter_quantity: paramsValues.type_filter_quantity,
-        quantity: paramsValues.quantity,
+      filter_by_amount: {
+        type_filter_amount: paramsValues.type_filter_amount,
+        amount: paramsValues.amount,
       },
       clients: paramsValues.clients.map((cl: string) => ({ id: cl })),
       crops: paramsValues.crops.map((cr: string) => ({ id: cr })),

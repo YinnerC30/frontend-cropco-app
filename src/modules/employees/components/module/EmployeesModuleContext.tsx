@@ -1,18 +1,18 @@
-import { useAuthContext } from '@/auth';
-import { useDataTableManual } from '@/modules/core/hooks';
-import { useBasicQueryData } from '@/modules/core/hooks/';
-import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { createContext, useMemo, useState } from 'react';
+import { useAuthContext } from "@/auth";
+import { useDataTableManual } from "@/modules/core/hooks";
+import { useBasicQueryData } from "@/modules/core/hooks/";
+import { useCreateColumnsTable } from "@/modules/core/hooks/data-table/useCreateColumnsTable";
+import { createContext, useMemo, useState } from "react";
 import {
   useDeleteBulkEmployees,
   useDeleteEmployee,
   useGetAllEmployees,
-} from '../../hooks';
-import { useGetCertificationEmployee } from '../../hooks/queries/useGetCertificationEmployee';
-import { Employee } from '../../interfaces/Employee';
-import { EmployeesModuleContextProps } from '../../interfaces/EmployeesModuleContextProps';
-import { EmployeesModuleActionsTable } from './EmployeesModuleActionsTable';
-import { columnsTableEmployees } from './columnsTableEmployees';
+} from "../../hooks";
+import { useGetCertificationEmployee } from "../../hooks/queries/useGetCertificationEmployee";
+import { Employee } from "../../interfaces/Employee";
+import { EmployeesModuleContextProps } from "../../interfaces/EmployeesModuleContextProps";
+import { EmployeesModuleActionsTable } from "./EmployeesModuleActionsTable";
+import { columnsTableEmployees } from "./columnsTableEmployees";
 
 export const EmployeesModuleContext = createContext<
   EmployeesModuleContextProps | undefined
@@ -31,13 +31,13 @@ export const EmployeesModuleProvider = ({
     setPagination,
   } = useGetAllEmployees({
     queryValue: value,
-    allRecords: false,
+    all_records: false,
   });
 
   const { getActionsModule } = useAuthContext();
 
   const actionsEmployeesModule = useMemo(
-    () => getActionsModule('employees'),
+    () => getActionsModule("employees"),
     []
   );
 
@@ -50,25 +50,25 @@ export const EmployeesModuleProvider = ({
     columns: columnsTable,
     infoPagination: queryEmployees.isSuccess
       ? {
-          pageCount: queryEmployees.data?.pageCount ?? 0,
-          rowCount: queryEmployees.data?.rowCount ?? 0,
+          pageCount: queryEmployees.data?.total_page_count ?? 0,
+          rowCount: queryEmployees.data?.current_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
-    rows: queryEmployees.data?.rows ?? [],
+    rows: queryEmployees.data?.records ?? [],
     pagination,
     setPagination,
   });
 
-  const [userIdCertification, setUserIdCertification] = useState('');
+  const [userIdCertification, setUserIdCertification] = useState("");
   const [executeQuery, setExecuteQuery] = useState(false);
 
   const queryGetCertification = useGetCertificationEmployee({
     userId: userIdCertification,
     stateQuery: executeQuery,
-    actionPDF: 'ViewPDF',
+    actionPDF: "ViewPDF",
     actionOnSuccess: () => {
       setExecuteQuery(false);
-      setUserIdCertification('');
+      setUserIdCertification("");
     },
   });
 

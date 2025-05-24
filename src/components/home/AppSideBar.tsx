@@ -50,7 +50,7 @@ export function AppSidebar() {
     if (hasUnsavedChanges) {
       showToast({
         route: path,
-        skiptRedirection: false,
+        skipRedirection: false,
         action: () => {
           isMobile && setOpenMobile(false);
         },

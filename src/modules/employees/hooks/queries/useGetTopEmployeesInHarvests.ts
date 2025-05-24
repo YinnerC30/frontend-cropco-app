@@ -38,7 +38,7 @@ export const useGetTopEmployeesInHarvests = ({
 
   const isAuthorized = hasPermission(
     'dashboard',
-    'find_top_employees_in_harvests'
+    'find_top_employees_in_harvests_chart'
   );
 
   const query: UseQueryGetAllRecordsReturn<EmployeeTopHarvest> = useQuery({

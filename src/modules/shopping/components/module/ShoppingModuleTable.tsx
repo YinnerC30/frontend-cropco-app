@@ -20,7 +20,7 @@ export const ShoppingModuleTable: React.FC = () => {
       disabledDoubleClick={!actionsShoppingModule['find_one_supplies_shopping']}
       table={table}
       lengthColumns={lengthColumns}
-      rowCount={queryShopping?.data?.rowCount ?? 0}
+      rowCount={queryShopping?.data?.total_row_count ?? 0}
       isLoading={
         queryShopping.isLoading ||
         queryShopping.isRefetching ||

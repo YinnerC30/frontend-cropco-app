@@ -46,7 +46,7 @@ export const PaymentModuleSearchbar: React.FC = () => {
   const form = useCreateForm({
     schema: formSchemaSearchBarPayment,
     defaultValues: paramsQuery,
-    skiptDirty: true,
+    skipDirty: true,
     validationMode: 'onSubmit',
   });
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
@@ -61,7 +61,7 @@ export const PaymentModuleSearchbar: React.FC = () => {
     const isValid = await form.trigger(name);
     if (!isValid) return false;
 
-    const { filter_by_total, employee, filter_by_date } = form.watch();
+    const { filter_by_value_pay, employee, filter_by_date } = form.watch();
 
     const filters: FilterSearchBar[] = [];
 
@@ -89,14 +89,14 @@ export const PaymentModuleSearchbar: React.FC = () => {
       });
     }
 
-    const { type_filter_total, total } = filter_by_total;
-    if (type_filter_total && total) {
+    const { type_filter_value_pay, value_pay } = filter_by_value_pay;
+    if (type_filter_value_pay && value_pay) {
       const typeFilter = formatTypeFilterNumber(
-        type_filter_total as TypeFilterNumber
+        type_filter_value_pay as TypeFilterNumber
       );
       filters.push({
-        key: 'total',
-        label: `Total: ${typeFilter} ${filter_by_total.total}`,
+        key: 'value_pay',
+        label: `Valor a pagar: ${typeFilter} ${filter_by_value_pay.value_pay}`,
       });
     }
 
@@ -123,11 +123,11 @@ export const PaymentModuleSearchbar: React.FC = () => {
         });
         form.setValue('filter_by_date.date', undefined, { shouldDirty: false });
         break;
-      case 'total':
-        form.setValue('filter_by_total.type_filter_total', undefined, {
+      case 'value_pay':
+        form.setValue('filter_by_value_pay.type_filter_value_pay', undefined, {
           shouldDirty: false,
         });
-        form.setValue('filter_by_total.total', 0, { shouldDirty: false });
+        form.setValue('filter_by_value_pay.value_pay', 0, { shouldDirty: false });
         break;
     }
     handleSearch(form.watch());
@@ -150,15 +150,15 @@ export const PaymentModuleSearchbar: React.FC = () => {
     }
 
     if (
-      values.filter_by_total.type_filter_total &&
-      values.filter_by_total.total
+      values.filter_by_value_pay.type_filter_value_pay &&
+      values.filter_by_value_pay.value_pay
     ) {
-      params.append('filter_by_total', 'true');
+      params.append('filter_by_value_pay', 'true');
       params.append(
-        'type_filter_total',
-        `${values.filter_by_total.type_filter_total}`
+        'type_filter_value_pay',
+        `${values.filter_by_value_pay.type_filter_value_pay}`
       );
-      params.append('total', `${values.filter_by_total.total}`);
+      params.append('value_pay', `${values.filter_by_value_pay.value_pay}`);
     }
 
     navigate(`?${params.toString()}`);
@@ -176,9 +176,9 @@ export const PaymentModuleSearchbar: React.FC = () => {
           date: undefined,
           type_filter_date: TypeFilterDate.after,
         },
-        filter_by_total: {
-          type_filter_total: TypeFilterNumber.MIN,
-          total: 0,
+        filter_by_value_pay: {
+          type_filter_value_pay: TypeFilterNumber.MIN,
+          value_pay: 0,
         },
       },
       {
@@ -202,7 +202,7 @@ export const PaymentModuleSearchbar: React.FC = () => {
             <div className="flex flex-col items-center justify-center  md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
                 <FormFieldCommand
-                  data={queryEmployees?.data?.rows || []}
+                  data={queryEmployees?.data?.records || []}
                   form={form}
                   nameToShow="first_name"
                   control={form.control}
@@ -277,24 +277,24 @@ export const PaymentModuleSearchbar: React.FC = () => {
                 actionOnClose={() => handleClearErrorsForm('filter_by_date')}
               />
               <FilterDropdownItem
-                label={'Total'}
-                actionOnSave={() => handleAddFilter('filter_by_total')}
-                actionOnClose={() => handleClearErrorsForm('filter_by_total')}
+                label={'Valor a pagar'}
+                actionOnSave={() => handleAddFilter('filter_by_value_pay')}
+                actionOnClose={() => handleClearErrorsForm('filter_by_value_pay')}
                 content={
                   <>
                     <FormFieldSelect
                       disabled={false}
                       items={numberFilterOptions}
-                      {...formFieldsSearchBarPayment.type_filter_total}
+                      {...formFieldsSearchBarPayment.type_filter_value_pay}
                       control={form.control}
-                      name="filter_by_total.type_filter_total"
+                      name="filter_by_value_pay.type_filter_value_pay"
                     />
                     <FormFieldInput
                       disabled={false}
-                      {...formFieldsSearchBarPayment.total}
+                      {...formFieldsSearchBarPayment.value_pay}
                       control={form.control}
                       type="number"
-                      name="filter_by_total.total"
+                      name="filter_by_value_pay.value_pay"
                     />
                   </>
                 }

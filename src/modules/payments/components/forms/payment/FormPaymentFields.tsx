@@ -20,7 +20,7 @@ export const FormPaymentFields: React.FC = () => {
   const {
     formPayment,
     onSubmit,
-    total,
+    value_pay,
     getHarvestsToPay,
     getWorksToPay,
     readOnly,
@@ -28,7 +28,7 @@ export const FormPaymentFields: React.FC = () => {
   } = useFormPaymentContext();
 
   const queryEmployees = useGetAllEmployeesWithPendingPayments();
-  const employees = queryEmployees?.data?.rows ?? [];
+  const employees = queryEmployees?.data?.records ?? [];
 
   return (
     <>
@@ -42,7 +42,7 @@ export const FormPaymentFields: React.FC = () => {
             delete data.records_to_pay;
             onSubmit({
               ...data,
-              total,
+              value_pay,
               categories: {
                 harvests: getHarvestsToPay(),
                 works: getWorksToPay(),
@@ -124,10 +124,10 @@ export const FormPaymentFields: React.FC = () => {
 
           <FormFieldInput
             control={formPayment.control}
-            description={formFieldsPayments.total.description}
-            label={formFieldsPayments.total.label}
-            name={'total'}
-            placeholder={formFieldsPayments.total.placeholder}
+            description={formFieldsPayments.value_pay.description}
+            label={formFieldsPayments.value_pay.label}
+            name={'value_pay'}
+            placeholder={formFieldsPayments.value_pay.placeholder}
             disabled={readOnly}
             type="number"
             hiddenInput
@@ -136,7 +136,7 @@ export const FormPaymentFields: React.FC = () => {
               className="block h-8 text-base text-center w-28"
               variant={'cyan'}
             >
-              {FormatMoneyValue(total)}
+              {FormatMoneyValue(value_pay)}
             </Badge>
           </FormFieldInput>
         </form>

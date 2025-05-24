@@ -45,7 +45,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
 
   const { query: querySupplies } = useGetAllSupplies({
     queryValue: '',
-    allRecords: true,
+    all_records: true,
   });
 
   const [openPopover, setOpenPopover] = useState(false);
@@ -58,7 +58,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
     <Form {...formShoppingDetail}>
       <form className="z-50 mx-5" id="formShoppingDetail">
         <FormFieldCommand
-          data={querySuppliers?.data?.rows || []}
+          data={querySuppliers?.data?.records || []}
           form={formShoppingDetail}
           nameToShow={'first_name'}
           control={formShoppingDetail.control}
@@ -108,7 +108,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                         >
                           <span>
                             {!!field.value
-                              ? querySupplies.data?.rows.find(
+                              ? querySupplies.data?.records.find(
                                   (item: Supply) => {
                                     return item.id === field.value;
                                   }
@@ -121,7 +121,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                                 }`}
                                 variant={'cyan'}
                               >
-                                {querySupplies.data?.rows.find(
+                                {querySupplies.data?.records.find(
                                   (item: Supply) => {
                                     return item.id === field.value;
                                   }
@@ -150,7 +150,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                             'cultivo'
                           )} no encontrado`}</CommandEmpty>
                           <CommandGroup>
-                            {querySupplies.data?.rows.map((item) => {
+                            {querySupplies.data?.records.map((item) => {
                               return (
                                 <CommandItem
                                   value={item?.['name']}
@@ -228,10 +228,10 @@ export const FormShoppingDetailsFields: React.FC = () => {
         />
         <FormFieldInput
           control={formShoppingDetail.control}
-          description={formFieldsShoppingDetail.total.description}
-          label={formFieldsShoppingDetail.total.label}
-          name={'total'}
-          placeholder={formFieldsShoppingDetail.total.placeholder}
+          description={formFieldsShoppingDetail.value_pay.description}
+          label={formFieldsShoppingDetail.value_pay.label}
+          name={'value_pay'}
+          placeholder={formFieldsShoppingDetail.value_pay.placeholder}
           disabled={false}
           type="number"
           step={50}

@@ -13,7 +13,7 @@ export const FormHarvestDetailsFields: React.FC = () => {
 
   const filterEmployeesToShow = useCallback((): Employee[] => {
     return (
-      queryEmployees?.data?.rows.filter((record: Employee) => {
+      queryEmployees?.data?.records.filter((record: Employee) => {
         const state = detailsHarvest.some(
           (item: HarvestDetail) => item.employee.id === record.id
         );
@@ -51,10 +51,10 @@ export const FormHarvestDetailsFields: React.FC = () => {
 
         <FormFieldInput
           control={formHarvestDetail.control}
-          description={formFieldsHarvestDetail.total.description}
-          label={formFieldsHarvestDetail.total.label}
-          name={'total'}
-          placeholder={formFieldsHarvestDetail.total.placeholder}
+          description={formFieldsHarvestDetail.amount.description}
+          label={formFieldsHarvestDetail.amount.label}
+          name={'amount'}
+          placeholder={formFieldsHarvestDetail.amount.placeholder}
           disabled={false}
           type="number"
         />

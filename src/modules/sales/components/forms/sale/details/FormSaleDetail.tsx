@@ -46,7 +46,7 @@ export const FormSaleDetail: React.FC = () => {
     const result = validateAvailableStock({
       id: values.crop.id,
       name: values.crop?.name!,
-      stock: values.quantity,
+      stock: values.amount,
     });
 
     if (!result) return;
@@ -61,7 +61,7 @@ export const FormSaleDetail: React.FC = () => {
       removeCropStock({
         id: values.crop.id,
         name: values.crop?.name!,
-        stock: values.quantity,
+        stock: values.amount,
       });
 
       addSaleDetail(record);
@@ -70,7 +70,7 @@ export const FormSaleDetail: React.FC = () => {
       removeCropStock({
         id: values.crop.id,
         name: values.crop?.name!,
-        stock: values.quantity,
+        stock: values.amount,
       });
 
       modifySaleDetail({

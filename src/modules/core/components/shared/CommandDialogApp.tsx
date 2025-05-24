@@ -29,7 +29,7 @@ export const CommandDialogApp = () => {
 
         if (hasUnsavedChanges) {
           showToast({
-            skiptRedirection: true,
+            skipRedirection: true,
             action: () => {
               setOpen((open) => !open);
             },

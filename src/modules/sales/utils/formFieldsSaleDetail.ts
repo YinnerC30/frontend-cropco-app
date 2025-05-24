@@ -3,8 +3,8 @@ import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField'
 type FormFieldsSaleDetail =
   | 'client'
   | 'crop'
-  | 'total'
-  | 'quantity'
+  | 'value_pay'
+  | 'amount'
   | 'is_receivable';
 
 export const formFieldsSaleDetail: Record<
@@ -23,14 +23,14 @@ export const formFieldsSaleDetail: Record<
     placeholder: 'Selecciona un cultivo',
     description: 'Selecciona el nombre del cultivo',
   },
-  total: {
-    name: 'total',
-    label: 'Total:',
+  value_pay: {
+    name: 'value_pay',
+    label: 'Valor a pagar:',
     placeholder: '0',
     description: 'Introduce la cantidad de dinero a recibir',
   },
-  quantity: {
-    name: 'quantity',
+  amount: {
+    name: 'amount',
     label: 'Cantidad (Kg):',
     placeholder: '0',
     description: 'Introduce la cantidad de Kg a vender',

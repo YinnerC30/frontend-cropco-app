@@ -35,7 +35,7 @@ const routeConfig: RouteConfig[] = [
   },
   {
     path: 'processed/view/:id',
-    action: 'find_one_harvest_processed',
+    action: 'find_one_harvest_processed_all',
     element: <HarvestProcessed />,
   },
 ];

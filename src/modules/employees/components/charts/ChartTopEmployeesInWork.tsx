@@ -49,7 +49,7 @@ export function ChartTopEmployeesInWorks() {
   }
 
   const chartData = queryEmployees.isSuccess
-    ? [...(queryEmployees.data?.rows || [])]
+    ? [...(queryEmployees.data?.records || [])]
     : [];
 
   return (

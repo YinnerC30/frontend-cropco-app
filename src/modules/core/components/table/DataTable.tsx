@@ -52,8 +52,8 @@ export function DataTable<TData, TValue>({
   const table = useReactTable({
     data: rows ?? defaultData,
     columns,
-    pageCount: data?.pageCount ?? -1,
-    rowCount: data?.rowCount,
+    pageCount: data?.total_page_count ?? -1,
+    rowCount: data?.total_row_count,
     getCoreRowModel: getCoreRowModel(),
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
@@ -205,7 +205,7 @@ export function DataTable<TData, TValue>({
         </div>
         {/* Total registros */}
         <div>
-          <p className="text-sm font-medium">Total: {data?.rowCount ?? 0}</p>
+          <p className="text-sm font-medium">Total: {data?.total_row_count ?? 0}</p>
         </div>
       </div>
     </div>

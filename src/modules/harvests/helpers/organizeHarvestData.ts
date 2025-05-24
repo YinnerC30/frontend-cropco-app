@@ -1,7 +1,7 @@
 interface MonthData {
   month_name: string;
   month_number: number;
-  total: number;
+  amount: number;
   value_pay: number;
 }
 
@@ -24,8 +24,8 @@ interface HarvestData {
 interface OrganizedData {
   month_name: string;
   month_number: number;
-  current_total: number;
-  previous_total: number;
+  current_amount: number;
+  previous_amount: number;
 }
 
 export function organizeHarvestData(harvestData: HarvestData): OrganizedData[] {
@@ -52,15 +52,15 @@ export function organizeHarvestData(harvestData: HarvestData): OrganizedData[] {
       const previousMonthData = previousYearMap.get(
         currentMonthData.month_number
       ) || {
-        total: 0,
+        amount: 0,
         value_pay: 0,
       };
 
       return {
         month_name: currentMonthData.month_name,
         month_number: currentMonthData.month_number,
-        current_total: currentMonthData.total,
-        previous_total: previousMonthData.total,
+        current_amount: currentMonthData.amount,
+        previous_amount: previousMonthData.amount,
       };
     }
   );

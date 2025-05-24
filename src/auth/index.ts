@@ -8,7 +8,6 @@ export * from './hooks/queries/useCreateActionsApp';
 export * from './hooks/queries/useGetModuleActions';
 export * from './hooks/queries/useImplantSeed';
 
-export * from './hooks/useManageErrorApp';
 export * from './hooks/mutations/useRenewToken';
 export * from './interfaces/LoginUserData';
 export * from './interfaces/UserActive';

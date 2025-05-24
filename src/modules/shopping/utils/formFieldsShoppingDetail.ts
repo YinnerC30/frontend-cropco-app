@@ -1,6 +1,6 @@
 import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-type FormFieldsShoppingDetail = 'supply' | 'supplier' | 'amount' | 'total';
+type FormFieldsShoppingDetail = 'supply' | 'supplier' | 'amount' | 'value_pay';
 
 export const formFieldsShoppingDetail: Record<
   FormFieldsShoppingDetail,
@@ -24,8 +24,8 @@ export const formFieldsShoppingDetail: Record<
     placeholder: '0',
     description: 'Monto a comprar (mililitros o gramos)',
   },
-  total: {
-    name: 'total',
+  value_pay: {
+    name: 'value_pay',
     label: 'Total a pagar:',
     placeholder: '0',
     description: 'Cantidad a pagar',

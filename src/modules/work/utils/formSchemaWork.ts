@@ -21,7 +21,7 @@ export const formSchemaWork = z.object({
         message: "La opción seleccionada no es valida.",
       }),
   }),
-  total: z
+  value_pay: z
     .number({
       invalid_type_error: "Debes introducir un valor numérico",
     })

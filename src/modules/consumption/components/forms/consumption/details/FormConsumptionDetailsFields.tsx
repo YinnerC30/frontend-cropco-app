@@ -49,7 +49,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
   } = useFormConsumptionContext();
 
   const { query: queryCrops } = useGetAllCrops({
-    allRecords: true,
+    all_records: true,
     queryValue: '',
   });
 
@@ -72,7 +72,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
     <Form {...formConsumptionDetail}>
       <form className="z-50 mx-5" id="formConsumptionDetail">
         <FormFieldCommand
-          data={queryCrops?.data?.rows || []}
+          data={queryCrops?.data?.records || []}
           form={formConsumptionDetail}
           nameToShow={'name'}
           control={formConsumptionDetail.control}

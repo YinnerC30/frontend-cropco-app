@@ -7,7 +7,7 @@ import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutati
 import { toast } from 'sonner';
 
 async function updateUserStatus(id: string): PromiseReturnRecord<void> {
-  return await cropcoAPI.patch(`${pathsCropco.users}/toggle-status/one/${id}`);
+  return await cropcoAPI.put(`${pathsCropco.users}/toggle-status/one/${id}`);
 }
 export function usePatchUserStatus(): UseMutationReturn<void, string> {
   const { handleError } = useAuthContext();

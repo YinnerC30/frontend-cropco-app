@@ -16,7 +16,7 @@ export const ButtonCancelRegister: React.FC<Props> = ({ action }) => {
       variant={'destructive'}
       onClick={() => {
         if (hasUnsavedChanges) {
-          showToast({ route: '../', skiptRedirection: false });
+          showToast({ route: '../', skipRedirection: false });
         } else {
           action();
         }

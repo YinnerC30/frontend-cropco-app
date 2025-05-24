@@ -100,11 +100,11 @@ export const ConsumptionModuleProvider: React.FC<{
     columns: columnsTable,
     infoPagination: queryConsumptions.isSuccess
       ? {
-          pageCount: queryConsumptions.data?.pageCount ?? 0,
-          rowCount: queryConsumptions.data?.rowCount ?? 0,
+          pageCount: queryConsumptions.data?.total_page_count ?? 0,
+          rowCount: queryConsumptions.data?.total_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
-    rows: queryConsumptions.data?.rows ?? [],
+    rows: queryConsumptions.data?.records ?? [],
     pagination,
     setPagination,
   });

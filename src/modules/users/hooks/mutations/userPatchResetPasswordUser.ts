@@ -1,9 +1,9 @@
-import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useAuthContext } from '@/auth/hooks';
-import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
-import { useMutation } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
+import { useAuthContext } from "@/auth/hooks";
+import { PromiseReturnRecord } from "@/auth/interfaces/PromiseReturnRecord";
+import { UseMutationReturn } from "@/modules/core/interfaces/responses/UseMutationReturn";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export interface DataResetPassword {
   password: string;
@@ -12,7 +12,7 @@ export interface DataResetPassword {
 async function resetPasswordUser(
   id: string
 ): PromiseReturnRecord<DataResetPassword> {
-  return await cropcoAPI.patch(`${pathsCropco.users}/reset-password/one/${id}`);
+  return await cropcoAPI.put(`${pathsCropco.users}/reset-password/one/${id}`);
 }
 
 export function usePatchResetPasswordUser(): UseMutationReturn<
@@ -30,8 +30,8 @@ export function usePatchResetPasswordUser(): UseMutationReturn<
       handleError({
         error,
         messagesStatusError: {
-          notFound: 'No se encontro el usuario para restablecer su contraseña',
-          unauthorized: 'No tienes permiso para restablecer la contraseña',
+          notFound: "No se encontro el usuario para restablecer su contraseña",
+          unauthorized: "No tienes permiso para restablecer la contraseña",
         },
       });
     },

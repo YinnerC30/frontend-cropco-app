@@ -33,7 +33,7 @@ export default function ClientSelector({
 
   const queryClients = useGetAllClientsWithSales();
 
-  const data = queryClients.data?.rows ?? [];
+  const data = queryClients.data?.records ?? [];
 
   const clients = [{ first_name: 'Todos', id: '' }, ...data];
 

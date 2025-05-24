@@ -22,12 +22,12 @@ export const columnsPaymentsPendingHarvest: ColumnDef<HarvestDetail>[] = [
     },
   },
   {
-    accessorKey: 'total',
+    accessorKey: 'value_pay',
     cell: ({ row }) => {
-      return FormatNumber(row.getValue('total'));
+      return FormatNumber(row.getValue('value_pay'));
     },
     header: ({ column }: any) => {
-      return <ButtonHeaderTable column={column} label={'Total'} />;
+      return <ButtonHeaderTable column={column} label={'Valor a pagar'} />;
     },
   },
   {

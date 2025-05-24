@@ -1,13 +1,13 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-import { formSchemaWork } from '../utils/formSchemaWork';
+import { formSchemaWork } from "../utils/formSchemaWork";
 
-import { BreadCrumb } from '@/modules/core/components/';
+import { BreadCrumb } from "@/modules/core/components/";
 
-import { usePostWork } from '../hooks/mutations/usePostWork';
-import { MODULE_WORKS_PATHS } from '../routes/pathRoutes';
-import FormWork from './forms/work/FormWork';
-import { WorkDetail } from '../interfaces/WorkDetail';
+import { usePostWork } from "../hooks/mutations/usePostWork";
+import { MODULE_WORKS_PATHS } from "../routes/pathRoutes";
+import FormWork from "./forms/work/FormWork";
+import { WorkDetail } from "../interfaces/WorkDetail";
 
 export const CreateWork: React.FC = () => {
   const { mutate, isPending } = usePostWork();
@@ -16,17 +16,19 @@ export const CreateWork: React.FC = () => {
     mutate({
       ...values,
       date: values.date.toISOString(),
-      details: values.details.map(({ id, ...rest }: WorkDetail) => ({
-        ...rest,
-        employee: { id: rest.employee.id },
-      })),
+      details: values.details.map(
+        ({ id, payment_is_pending, ...rest }: WorkDetail) => ({
+          ...rest,
+          employee: { id: rest.employee.id },
+        })
+      ),
     });
   };
 
   return (
     <>
       <BreadCrumb
-        items={[{ link: MODULE_WORKS_PATHS.ViewAll, name: 'Trabajos' }]}
+        items={[{ link: MODULE_WORKS_PATHS.ViewAll, name: "Trabajos" }]}
         finalItem={`Registro`}
       />
 

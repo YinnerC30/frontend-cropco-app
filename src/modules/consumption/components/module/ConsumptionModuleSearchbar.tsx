@@ -67,7 +67,7 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
   > = useCreateForm({
     schema: formSchemaSearchBarConsumption,
     defaultValues: paramsQuery,
-    skiptDirty: true,
+    skipDirty: true,
     validationMode: 'onSubmit',
   });
 
@@ -99,7 +99,7 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
           supplies.some((e) => !e.name === true)
             ? supplies
                 .map((e) => {
-                  return querySupplies.data?.rows.find((cr) => cr.id === e.id)
+                  return querySupplies.data?.records.find((cr) => cr.id === e.id)
                     ?.name;
                 })
                 .join(', ')
@@ -114,7 +114,7 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
           crops.some((e) => !e.name === true)
             ? crops
                 .map((e) => {
-                  return queryCrops.data?.rows.find((cr) => cr.id === e.id)
+                  return queryCrops.data?.records.find((cr) => cr.id === e.id)
                     ?.name;
                 })
                 .join(', ')
@@ -401,7 +401,7 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
                                         'cultivo'
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
-                                        {queryCrops?.data?.rows.map((item) => {
+                                        {queryCrops?.data?.records.map((item) => {
                                           return (
                                             <CommandItem
                                               value={item?.['name']}
@@ -552,7 +552,7 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
                                         'cultivo'
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
-                                        {querySupplies?.data?.rows.map(
+                                        {querySupplies?.data?.records.map(
                                           (item) => {
                                             return (
                                               <CommandItem

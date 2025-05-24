@@ -2,7 +2,7 @@ export interface PaymentRecord {
   id: string;
   date: string;
   method_of_payment: string;
-  total: number;
+  value_pay: number;
   employee: Employee;
   payments_harvest: PaymentsHarvest[];
   payments_work: PaymentsWork[];
@@ -24,7 +24,7 @@ export interface PaymentsHarvest {
 
 export interface HarvestsDetail {
   id: string;
-  total: number;
+  amount: number;
   value_pay: number;
   payment_is_pending: boolean;
   harvest: Harvest;
@@ -33,7 +33,7 @@ export interface HarvestsDetail {
 export interface Harvest {
   id: string;
   date: Date;
-  total: number;
+  amount: number;
   value_pay: number;
   observation: string;
 }
@@ -54,5 +54,5 @@ export interface Work {
   id: string;
   date: Date;
   description: string;
-  total: number;
+  value_pay: number;
 }

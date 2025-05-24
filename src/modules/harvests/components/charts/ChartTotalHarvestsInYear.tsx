@@ -1,5 +1,3 @@
-
-
 import {
   Card,
   CardContent,
@@ -7,7 +5,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -15,28 +13,28 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from '@/components/ui/chart';
-import { ButtonRefetchData } from '@/modules/core/components';
+} from "@/components/ui/chart";
+import { ButtonRefetchData } from "@/modules/core/components";
 
-import { useState } from 'react';
-import { organizeHarvestData } from '../../helpers/organizeHarvestData';
-import { useGetTotalHarvestsInYear } from '../../hooks/queries/useGetTotalHarvestsInYear';
+import { useState } from "react";
+import { organizeHarvestData } from "../../helpers/organizeHarvestData";
+import { useGetTotalHarvestsInYear } from "../../hooks/queries/useGetTotalHarvestsInYear";
 
-import YearSelector from '@/modules/core/components/shared/YearSelector';
-import { FormatNumber } from '@/modules/core/helpers';
-import { Equal, TrendingDown, TrendingUp } from 'lucide-react';
-import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
+import YearSelector from "@/modules/core/components/shared/YearSelector";
+import { FormatNumber } from "@/modules/core/helpers";
+import { Equal, TrendingDown, TrendingUp } from "lucide-react";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
-import { Label, Switch } from '@/components';
-import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
-import CropSelector from '@/modules/core/components/shared/CropSelector';
-import EmployeeSelector from '@/modules/core/components/shared/EmployeeSelector';
-import { useGetAllCropsWithHarvest } from '@/modules/crops/hooks';
+import { Label, Switch } from "@/components";
+import { ChartSkeleton } from "@/modules/core/components/charts/ChartSkeleton";
+import CropSelector from "@/modules/core/components/shared/CropSelector";
+import EmployeeSelector from "@/modules/core/components/shared/EmployeeSelector";
+import { useGetAllCropsWithHarvest } from "@/modules/crops/hooks";
 
 export function ChartTotalHarvestsInYear() {
   const [selectedYear, setSelectedYear] = useState(2025);
-  const [selectedCrop, setSelectedCrop] = useState('');
-  const [selectedEmployee, setSelectedEmployee] = useState('');
+  const [selectedCrop, setSelectedCrop] = useState("");
+  const [selectedEmployee, setSelectedEmployee] = useState("");
 
   const [showPreviousYear, setShowPreviousYear] = useState(true);
 
@@ -47,8 +45,8 @@ export function ChartTotalHarvestsInYear() {
   });
 
   const { query: queryCrops } = useGetAllCropsWithHarvest({
-    queryValue: '',
-    allRecords: true,
+    queryValue: "",
+    all_records: true,
   });
 
   if (queryHarvests.isLoading) {
@@ -73,13 +71,13 @@ export function ChartTotalHarvestsInYear() {
   }
 
   const chartConfig = {
-    current_total: {
+    current_amount: {
       label: queryHarvests.data?.years[0].year,
-      color: 'hsl(var(--chart-1))',
+      color: "hsl(var(--chart-1))",
     },
-    previous_total: {
+    previous_amount: {
       label: queryHarvests.data?.years[1].year,
-      color: 'hsl(var(--chart-2))',
+      color: "hsl(var(--chart-2))",
     },
   } satisfies ChartConfig;
 
@@ -164,7 +162,7 @@ export function ChartTotalHarvestsInYear() {
                             className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--color-bg]"
                             style={
                               {
-                                '--color-bg': `var(--color-${name})`,
+                                "--color-bg": `var(--color-${name})`,
                               } as React.CSSProperties
                             }
                           />
@@ -194,12 +192,12 @@ export function ChartTotalHarvestsInYear() {
                 >
                   <stop
                     offset="5%"
-                    stopColor="var(--color-current_total)"
+                    stopColor="var(--color-current_amount)"
                     stopOpacity={0.8}
                   />
                   <stop
                     offset="95%"
-                    stopColor="var(--color-current_total)"
+                    stopColor="var(--color-current_amount)"
                     stopOpacity={0.1}
                   />
                 </linearGradient>
@@ -214,12 +212,12 @@ export function ChartTotalHarvestsInYear() {
                   >
                     <stop
                       offset="5%"
-                      stopColor="var(--color-previous_total)"
+                      stopColor="var(--color-previous_amount)"
                       stopOpacity={0.8}
                     />
                     <stop
                       offset="95%"
-                      stopColor="var(--color-previous_total)"
+                      stopColor="var(--color-previous_amount)"
                       stopOpacity={0.1}
                     />
                   </linearGradient>
@@ -227,21 +225,21 @@ export function ChartTotalHarvestsInYear() {
               </defs>
 
               <Area
-                dataKey="current_total"
+                dataKey="current_amount"
                 type="linear"
                 fill="url(#fillCurrentTotal)"
                 fillOpacity={0.4}
-                stroke="var(--color-current_total)"
+                stroke="var(--color-current_amount)"
                 stackId="a"
               />
 
               {showPreviousYear && (
                 <Area
-                  dataKey="previous_total"
+                  dataKey="previous_amount"
                   type="linear"
                   fill="url(#fillPreviousTotal"
                   fillOpacity={0.4}
-                  stroke="var(--color-previous_total)"
+                  stroke="var(--color-previous_amount)"
                   stackId="a"
                 />
               )}
@@ -255,35 +253,35 @@ export function ChartTotalHarvestsInYear() {
           <div className="flex items-start w-full gap-2 text-sm">
             <div className="grid gap-2">
               <div className="flex items-center gap-2 font-medium leading-none">
-                {queryHarvests.data?.growth.status === 'increment' && (
+                {queryHarvests.data?.growth.status === "increment" && (
                   <span>
                     Hubo un incremento del {Math.abs(Number(percentage))} % en
                     el año {selectedYear}
                   </span>
                 )}
-                {queryHarvests.data?.growth.status === 'decrement' && (
+                {queryHarvests.data?.growth.status === "decrement" && (
                   <span>
                     Hubo un decremento del {Math.abs(Number(percentage))} % en
                     el año {selectedYear}
                   </span>
                 )}
 
-                {queryHarvests.data?.growth.status === 'stable' && (
+                {queryHarvests.data?.growth.status === "stable" && (
                   <span>No hubieron cambios en el año {selectedYear}</span>
                 )}
-                {queryHarvests.data?.growth.status === 'no-valid' && (
+                {queryHarvests.data?.growth.status === "no-valid" && (
                   <span>
                     No hay datos suficientes para realizar la comparación
                   </span>
                 )}
 
-                {queryHarvests.data?.growth.status === 'increment' && (
+                {queryHarvests.data?.growth.status === "increment" && (
                   <TrendingUp className="w-4 h-4" />
                 )}
-                {queryHarvests.data?.growth.status === 'decrement' && (
+                {queryHarvests.data?.growth.status === "decrement" && (
                   <TrendingDown className="w-4 h-4" />
                 )}
-                {queryHarvests.data?.growth.status === 'stable' && (
+                {queryHarvests.data?.growth.status === "stable" && (
                   <Equal className="w-4 h-4" />
                 )}
               </div>
@@ -291,18 +289,20 @@ export function ChartTotalHarvestsInYear() {
               <div className="flex flex-wrap items-center gap-2 leading-none text-muted-foreground">
                 <span>
                   Total del año {queryHarvests.data?.years[0].year} :
-                  {' ' +
+                  {" " +
                     FormatNumber(
-                      queryHarvests.data?.growth.total_current ?? 0
+                      queryHarvests.data?.growth.amount_current ?? 0
                     ) +
-                    ' kg'}
+                    " kg"}
                 </span>
                 <span>
-                  Total del año {queryHarvests.data?.years[1].year} :{' '}
+                  Total del año {queryHarvests.data?.years[1].year} :{" "}
                 </span>
-                {' ' +
-                  FormatNumber(queryHarvests.data?.growth.total_previous ?? 0) +
-                  ' kg'}
+                {" " +
+                  FormatNumber(
+                    queryHarvests.data?.growth.amount_previous ?? 0
+                  ) +
+                  " kg"}
               </div>
             </div>
           </div>
@@ -310,6 +310,7 @@ export function ChartTotalHarvestsInYear() {
       )}
     </Card>
   ) : (
-    <div className="h-[200px]">Error al generar el grafico</div>
+    <div className="h-[200px]">Error al generar el gráfico</div>
   );
 }
+//

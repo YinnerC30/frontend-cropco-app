@@ -1,5 +1,5 @@
 export interface UseGetAllRecordsProps {
   queryValue: string;
-  allRecords?: boolean;
+  all_records?: boolean;
   canExecuteQuery?: boolean;
 }

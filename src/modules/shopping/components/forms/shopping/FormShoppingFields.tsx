@@ -11,7 +11,7 @@ import { FormShoppingDataTable } from './FormShoppingDataTable';
 import { FormatMoneyValue } from '@/modules/core/helpers';
 
 export const FormShoppingFields: React.FC = () => {
-  const { formShopping, onSubmit, readOnly, total } = useFormShoppingContext();
+  const { formShopping, onSubmit, readOnly, value_pay } = useFormShoppingContext();
 
   return (
     <Form {...formShopping}>
@@ -42,10 +42,10 @@ export const FormShoppingFields: React.FC = () => {
         </div>
         <FormFieldInput
           control={formShopping.control}
-          description={formFieldsShopping.total.description}
-          label={formFieldsShopping.total.label}
-          name={'total'}
-          placeholder={formFieldsShopping.total.placeholder}
+          description={formFieldsShopping.value_pay.description}
+          label={formFieldsShopping.value_pay.label}
+          name={'value_pay'}
+          placeholder={formFieldsShopping.value_pay.placeholder}
           disabled={true}
           type="number"
           hiddenInput
@@ -54,7 +54,7 @@ export const FormShoppingFields: React.FC = () => {
             className="block h-8 text-base text-center w-28"
             variant={'cyan'}
           >
-            {FormatMoneyValue(total)}
+            {FormatMoneyValue(value_pay)}
           </Badge>
         </FormFieldInput>
       </form>

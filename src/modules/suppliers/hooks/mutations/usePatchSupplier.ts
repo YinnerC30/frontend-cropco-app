@@ -1,13 +1,13 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
-import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useManageErrorApp } from '@/auth/hooks';
-import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
-import { Supplier } from '@/modules/suppliers/interfaces/Supplier';
-import { useNavigate } from 'react-router-dom';
-import { MODULE_SUPPLIER_PATHS } from '../../routes/pathRoutes';
+import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
+import { useAuthContext } from "@/auth/hooks";
+import { PromiseReturnRecord } from "@/auth/interfaces/PromiseReturnRecord";
+import { UseMutationReturn } from "@/modules/core/interfaces/responses/UseMutationReturn";
+import { Supplier } from "@/modules/suppliers/interfaces/Supplier";
+import { useNavigate } from "react-router-dom";
+import { MODULE_SUPPLIER_PATHS } from "../../routes/pathRoutes";
 
 export const updateSupplier = async (
   supplier: Supplier
@@ -21,21 +21,22 @@ export const updateSupplier = async (
 
 export const usePatchSupplier = (): UseMutationReturn<void, Supplier> => {
   const queryClient = useQueryClient();
-  const { handleError } = useManageErrorApp();
+
+  const { handleError } = useAuthContext();
+
   const navigate = useNavigate();
   const mutation: UseMutationReturn<void, Supplier> = useMutation({
     mutationFn: updateSupplier,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['suppliers'] });
-      await queryClient.invalidateQueries({ queryKey: ['supplier'] });
+      await queryClient.invalidateQueries({ queryKey: ["suppliers"] });
+      await queryClient.invalidateQueries({ queryKey: ["supplier"] });
       navigate(MODULE_SUPPLIER_PATHS.ViewAll);
       toast.success(`Proveedor actualizado`);
     },
     onError: (error) => {
       handleError({
         error,
-        messageUnauthoraizedError:
-          'No tienes permiso para eliminar varios empleados',
+        messagesStatusError: {},
       });
     },
     retry: 1,

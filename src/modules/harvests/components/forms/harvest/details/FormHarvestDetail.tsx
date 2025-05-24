@@ -39,8 +39,9 @@ export const FormHarvestDetail: React.FC = () => {
   const onSubmitHarvestDetail = (
     values: z.infer<typeof formSchemaHarvestDetail>
   ) => {
+    let record;
     if (!values.id) {
-      const record = {
+      record = {
         ...values,
         id: generateUUID(),
         payment_is_pending: true,
@@ -49,12 +50,13 @@ export const FormHarvestDetail: React.FC = () => {
       addHarvestDetail(record);
       toast.success('Registro añadido');
     } else {
-      modifyHarvestDetail({
+      record = {
         ...values,
         id: values.id,
         payment_is_pending: true,
         deletedDate: null,
-      });
+      };
+      modifyHarvestDetail(record);
       toast.success('Registro actualizado');
     }
     setOpenDialog(false);

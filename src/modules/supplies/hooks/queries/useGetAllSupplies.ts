@@ -19,13 +19,13 @@ export const getSupplies = async ({
   query = '',
   limit = 10,
   offset = 0,
-  allRecords = false,
+  all_records = false,
 }: BasicQueryData): TypeGetAllRecordsReturn<Supply> => {
   const params = new URLSearchParams({
     query,
     limit: limit.toString(),
     offset: offset.toString(),
-    allRecords: allRecords.toString(),
+    all_records: all_records.toString(),
   });
 
   return await cropcoAPI.get(`${pathsCropco.supplies}/all?${params}`);
@@ -33,7 +33,7 @@ export const getSupplies = async ({
 
 export const useGetAllSupplies = ({
   queryValue,
-  allRecords,
+  all_records,
 }: UseGetAllRecordsProps): UseGetAllRecordsReturn<Supply> => {
   const { pagination, setPagination } = usePaginationDataTable();
   const { hasPermission, handleError } = useAuthContext();
@@ -47,7 +47,7 @@ export const useGetAllSupplies = ({
         query: queryValue,
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
-        allRecords,
+        all_records,
       }),
     select: ({ data }) => data,
     enabled: isAuthorized,

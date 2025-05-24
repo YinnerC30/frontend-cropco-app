@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 interface Props {
   schema: z.ZodObject<any> | any;
   defaultValues: any;
-  skiptDirty?: boolean;
+  skipDirty?: boolean;
   validationMode?: 'onChange' | 'onSubmit' | 'onBlur' | 'all' | 'onTouched';
 }
 
@@ -16,7 +16,7 @@ interface Props {
 export const useCreateForm = ({
   schema,
   defaultValues,
-  skiptDirty = false,
+  skipDirty = false,
   validationMode = 'onChange',
 }: Props): UseFormReturn<any, any, undefined> => {
   const { markChanges } = useFormChange();
@@ -29,13 +29,21 @@ export const useCreateForm = ({
   const { isDirty, errors } = form.formState;
 
   useEffect(() => {
-    if (Object.keys(errors).length > 0 && skiptDirty === false) {
+    const hasCustomErrors = Object.values(errors).some(
+      (propiedad) => propiedad && propiedad.type === 'custom'
+    );
+
+    if (
+      Object.keys(errors).length > 0 &&
+      skipDirty === false &&
+      !hasCustomErrors
+    ) {
       toast.error('Faltan campos por rellenar en el formulario');
     }
   }, [errors]);
 
   useEffect(() => {
-    if (skiptDirty === false) {
+    if (skipDirty === false) {
       isDirty ? markChanges(true) : null;
     }
   }, [isDirty]);

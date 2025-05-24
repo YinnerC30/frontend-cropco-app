@@ -1,7 +1,5 @@
-
-
-import { useAuthContext } from '@/auth';
-import { ScrollArea, Separator, useSidebar } from '@/components';
+import { useAuthContext } from "@/auth";
+import { ScrollArea, Separator, useSidebar } from "@/components";
 import {
   BookUser,
   Cable,
@@ -11,18 +9,18 @@ import {
   LucideIcon,
   Pickaxe,
   Tractor,
-} from 'lucide-react';
-import React from 'react';
-import { ChartTopClientsInSales } from '../clients/components/charts/ChartTopClientsInSales';
-import { ChartTotalConsumptionsInYear } from '../consumption/components/charts/ChartTotalConsumptionsInYear';
-import { BreadCrumb } from '../core/components';
-import { ChartTopCropsWithHarvestsAndTotalStock } from '../crops/components/charts/ChartTopCropsWithHarvestsAndTotalStock';
-import { ChartTopCropsWithStock } from '../crops/components/charts/ChartTopCropsWithStock';
-import { ChartTopEmployeesInHarvests } from '../employees/components/charts/ChartTopEmployeesInHarvests';
-import { ChartTopEmployeesInWorks } from '../employees/components/charts/ChartTopEmployeesInWork';
-import { ChartTotalHarvestsInYear } from '../harvests/components/charts/ChartTotalHarvestsInYear';
-import { ChartTotalSalesInYear } from '../sales/components/charts/ChartTotalSalesInYear';
-import { ChartTotalWorksInYear } from '../work/components/charts/ChartTotalWorksInYear';
+} from "lucide-react";
+import React from "react";
+import { ChartTopClientsInSales } from "../clients/components/charts/ChartTopClientsInSales";
+import { ChartTotalConsumptionsInYear } from "../consumption/components/charts/ChartTotalConsumptionsInYear";
+import { BreadCrumb } from "../core/components";
+import { ChartTopCropsWithHarvestsAndTotalStock } from "../crops/components/charts/ChartTopCropsWithHarvestsAndTotalStock";
+import { ChartTopCropsWithStock } from "../crops/components/charts/ChartTopCropsWithStock";
+import { ChartTopEmployeesInHarvests } from "../employees/components/charts/ChartTopEmployeesInHarvests";
+import { ChartTopEmployeesInWorks } from "../employees/components/charts/ChartTopEmployeesInWork";
+import { ChartTotalHarvestsInYear } from "../harvests/components/charts/ChartTotalHarvestsInYear";
+import { ChartTotalSalesInYear } from "../sales/components/charts/ChartTotalSalesInYear";
+import { ChartTotalWorksInYear } from "../work/components/charts/ChartTotalWorksInYear";
 
 interface TitleModuleProps {
   label: string;
@@ -48,13 +46,13 @@ const EmployeeCharts: React.FC = () => {
   const { hasPermission } = useAuthContext();
   return (
     <div>
-      <TitleModule label={'Empleados'} IconTitle={Contact} />
+      <TitleModule label={"Empleados"} IconTitle={Contact} />
       <Separator className="my-2 " />
       <ContainerCharts>
-        {hasPermission('dashboard', 'find_top_employees_in_harvests') && (
+        {hasPermission("dashboard", "find_top_employees_in_harvests_chart") && (
           <ChartTopEmployeesInHarvests />
         )}
-        {hasPermission('dashboard', 'find_top_employees_in_works') && (
+        {hasPermission("dashboard", "find_top_employees_in_works_chart") && (
           <ChartTopEmployeesInWorks />
         )}
       </ContainerCharts>
@@ -66,10 +64,10 @@ const ClientCharts: React.FC = () => {
   const { hasPermission } = useAuthContext();
   return (
     <div>
-      <TitleModule label={'Clientes'} IconTitle={BookUser} />
+      <TitleModule label={"Clientes"} IconTitle={BookUser} />
       <Separator className="my-2 " />
       <ContainerCharts>
-        {hasPermission('dashboard', 'find_top_clients_in_sales') && (
+        {hasPermission("dashboard", "find_top_clients_in_sales_chart") && (
           <ChartTopClientsInSales />
         )}
       </ContainerCharts>
@@ -81,15 +79,16 @@ const CropCharts: React.FC = () => {
   const { hasPermission } = useAuthContext();
   return (
     <div>
-      <TitleModule label={'Cultivos'} IconTitle={Leaf} />
+      <TitleModule label={"Cultivos"} IconTitle={Leaf} />
       <Separator className="my-2 " />
       <ContainerCharts>
-        {hasPermission('dashboard', 'find_all_crops_stock') && (
+        {hasPermission("dashboard", "find_all_crops_stock_chart") && (
           <ChartTopCropsWithStock />
         )}
-        {hasPermission('dashboard', 'find_count_harvests_and_total_stock') && (
-          <ChartTopCropsWithHarvestsAndTotalStock />
-        )}
+        {hasPermission(
+          "dashboard",
+          "find_count_harvests_and_total_stock_chart"
+        ) && <ChartTopCropsWithHarvestsAndTotalStock />}
       </ContainerCharts>
     </div>
   );
@@ -99,10 +98,10 @@ const HarvestCharts: React.FC = () => {
   const { hasPermission } = useAuthContext();
   return (
     <div>
-      <TitleModule label={'Cosechas'} IconTitle={Tractor} />
+      <TitleModule label={"Cosechas"} IconTitle={Tractor} />
       <Separator className="my-2 " />
       <ContainerCharts>
-        {hasPermission('dashboard', 'find_total_harvest_in_year') && (
+        {hasPermission("dashboard", "find_total_harvest_in_year_chart") && (
           <ChartTotalHarvestsInYear />
         )}
       </ContainerCharts>
@@ -113,10 +112,10 @@ const WorkCharts: React.FC = () => {
   const { hasPermission } = useAuthContext();
   return (
     <div>
-      <TitleModule label={'Trabajos'} IconTitle={Pickaxe} />
+      <TitleModule label={"Trabajos"} IconTitle={Pickaxe} />
       <Separator className="my-2 " />
       <ContainerCharts>
-        {hasPermission('dashboard', 'find_total_work_in_year') && (
+        {hasPermission("dashboard", "find_total_work_in_year_chart") && (
           <ChartTotalWorksInYear />
         )}
       </ContainerCharts>
@@ -127,10 +126,10 @@ const SalesCharts: React.FC = () => {
   const { hasPermission } = useAuthContext();
   return (
     <div>
-      <TitleModule label={'Ventas'} IconTitle={CircleDollarSign} />
+      <TitleModule label={"Ventas"} IconTitle={CircleDollarSign} />
       <Separator className="my-2 " />
       <ContainerCharts>
-        {hasPermission('dashboard', 'find_total_sales_in_year') && (
+        {hasPermission("dashboard", "find_total_sales_in_year_chart") && (
           <ChartTotalSalesInYear />
         )}
       </ContainerCharts>
@@ -141,12 +140,13 @@ const ConsumptionCharts: React.FC = () => {
   const { hasPermission } = useAuthContext();
   return (
     <div>
-      <TitleModule label={'Consumos'} IconTitle={Cable} />
+      <TitleModule label={"Consumos"} IconTitle={Cable} />
       <Separator className="my-2 " />
       <ContainerCharts>
-        {hasPermission('dashboard', 'find_total_consumptions_in_year') && (
-          <ChartTotalConsumptionsInYear />
-        )}
+        {hasPermission(
+          "dashboard",
+          "find_total_consumptions_in_year_chart"
+        ) && <ChartTotalConsumptionsInYear />}
       </ContainerCharts>
     </div>
   );
@@ -155,37 +155,43 @@ const ConsumptionCharts: React.FC = () => {
 export function Charts() {
   const { isMobile, open } = useSidebar();
   const { getActionsModule } = useAuthContext();
-  const actionsDashboard = getActionsModule('dashboard');
-  
+  const actionsDashboard = getActionsModule("dashboard");
+
   return (
     <div>
-      <BreadCrumb finalItem={'Graficas'} />
+      <BreadCrumb finalItem={"Gráficas"} />
       <div className="flex justify-center">
         <ScrollArea
           className={`h-[85vh] px-2 pt-5  ${
             isMobile
-              ? 'w-screen'
+              ? "w-screen"
               : open
-              ? 'w-[calc(100vw-var(--sidebar-width))]'
-              : 'w-screen'
+              ? "w-[calc(100vw-var(--sidebar-width))]"
+              : "w-screen"
           }`}
         >
           <div className="flex flex-col gap-10">
-            {(actionsDashboard['find_top_employees_in_harvests'] ||
-              actionsDashboard['find_top_employees_in_works']) && (
+            {(actionsDashboard["find_top_employees_in_harvests_chart"] ||
+              actionsDashboard["find_top_employees_in_works_chart"]) && (
               <EmployeeCharts />
             )}
-            {actionsDashboard['find_top_clients_in_sales'] && <ClientCharts />}
+            {actionsDashboard["find_top_clients_in_sales_chart"] && (
+              <ClientCharts />
+            )}
 
-            {(actionsDashboard['find_count_harvests_and_total_stock'] ||
-              actionsDashboard['find_all_crops_stock']) && <CropCharts />}
+            {(actionsDashboard["find_count_harvests_and_total_stock_chart"] ||
+              actionsDashboard["find_all_crops_stock_chart"]) && <CropCharts />}
 
-            {actionsDashboard['find_total_harvest_in_year'] && (
+            {actionsDashboard["find_total_harvest_in_year_chart"] && (
               <HarvestCharts />
             )}
-            {actionsDashboard['find_total_work_in_year'] && <WorkCharts />}
-            {actionsDashboard['find_total_sales_in_year'] && <SalesCharts />}
-            {actionsDashboard['find_total_consumptions_in_year'] && (
+            {actionsDashboard["find_total_work_in_year_chart"] && (
+              <WorkCharts />
+            )}
+            {actionsDashboard["find_total_sales_in_year_chart"] && (
+              <SalesCharts />
+            )}
+            {actionsDashboard["find_total_consumptions_in_year_chart"] && (
               <ConsumptionCharts />
             )}
           </div>

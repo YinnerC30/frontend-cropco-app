@@ -36,7 +36,7 @@ export const useGetTopClientsInSales = ({
 }): UseQueryGetAllRecordsReturn<ClientTopSale> => {
   const { hasPermission, handleError } = useAuthContext();
 
-  const isAuthorized = hasPermission('dashboard', 'find_top_clients_in_sales');
+  const isAuthorized = hasPermission('dashboard', 'find_top_clients_in_sales_chart');
 
   const query: UseQueryGetAllRecordsReturn<ClientTopSale> = useQuery({
     queryKey: ['clients-top-sales', year],

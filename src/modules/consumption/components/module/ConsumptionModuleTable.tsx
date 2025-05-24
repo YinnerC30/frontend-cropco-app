@@ -22,7 +22,7 @@ export const ConsumptionModuleTable: React.FC = () => {
       }
       table={table}
       lengthColumns={lengthColumns}
-      rowCount={queryConsumptions?.data?.rowCount ?? 0}
+      rowCount={queryConsumptions?.data?.total_row_count ?? 0}
       isLoading={
         queryConsumptions.isLoading ||
         queryConsumptions.isRefetching ||

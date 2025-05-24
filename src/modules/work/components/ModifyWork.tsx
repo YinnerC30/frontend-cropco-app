@@ -1,17 +1,17 @@
-import { useParams } from 'react-router-dom';
-import { z } from 'zod';
+import { useParams } from "react-router-dom";
+import { z } from "zod";
 
-import { formSchemaWork } from '../utils/formSchemaWork';
+import { formSchemaWork } from "../utils/formSchemaWork";
 
-import { Loading } from '@/modules/core/components';
+import { Loading } from "@/modules/core/components";
 
-import { BreadCrumb } from '@/modules/core/components/';
+import { BreadCrumb } from "@/modules/core/components/";
 
-import { usePatchWork } from '../hooks/mutations/usePatchWork';
-import { useGetWork } from '../hooks/queries/useGetWork';
-import { WorkDetail } from '../interfaces/WorkDetail';
-import { MODULE_WORKS_PATHS } from '../routes/pathRoutes';
-import FormWork from './forms/work/FormWork';
+import { usePatchWork } from "../hooks/mutations/usePatchWork";
+import { useGetWork } from "../hooks/queries/useGetWork";
+import { WorkDetail } from "../interfaces/WorkDetail";
+import { MODULE_WORKS_PATHS } from "../routes/pathRoutes";
+import FormWork from "./forms/work/FormWork";
 
 export const ModifyWork: React.FC = () => {
   const { id } = useParams();
@@ -23,10 +23,12 @@ export const ModifyWork: React.FC = () => {
       ...values,
       date: values.date.toISOString(),
       id,
-      details: values.details.map((detail: WorkDetail) => ({
-        ...detail,
-        employee: { id: detail.employee.id },
-      })),
+      details: values.details.map(
+        ({ payment_is_pending, ...rest }: WorkDetail) => ({
+          ...rest,
+          employee: { id: rest.employee.id },
+        })
+      ),
     });
   };
 
@@ -35,7 +37,7 @@ export const ModifyWork: React.FC = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: MODULE_WORKS_PATHS.ViewAll, name: 'Trabajos' }]}
+        items={[{ link: MODULE_WORKS_PATHS.ViewAll, name: "Trabajos" }]}
         finalItem={`Modificar`}
       />
 

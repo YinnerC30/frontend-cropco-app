@@ -1,6 +1,6 @@
 import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-type FormFieldsShopping = 'date' | 'total' | 'details';
+type FormFieldsShopping = 'date' | 'value_pay' | 'details';
 
 export const formFieldsShopping: Record<FormFieldsShopping, CustomFormField> = {
   date: {
@@ -9,8 +9,8 @@ export const formFieldsShopping: Record<FormFieldsShopping, CustomFormField> = {
     placeholder: 'Selecciona una fecha',
     description: 'Fecha en la que se realizo la compra',
   },
-  total: {
-    name: 'total',
+  value_pay: {
+    name: 'value_pay',
     label: 'Total:',
     placeholder: '0',
     description: 'Total a pagar por la compra',

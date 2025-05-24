@@ -1,12 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 
-import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useAuthContext, useManageErrorApp } from '@/auth/hooks';
-import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
-import { useEffect } from 'react';
-import { toast } from 'sonner';
-import { Supplier } from '../../interfaces/Supplier';
+import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
+import { useAuthContext } from "@/auth/hooks";
+import { PromiseReturnRecord } from "@/auth/interfaces/PromiseReturnRecord";
+import { UseGetOneRecordReturn } from "@/modules/core/interfaces/responses/UseGetOneRecordReturn";
+import { useEffect } from "react";
+import { toast } from "sonner";
+import { Supplier } from "../../interfaces/Supplier";
 
 export const getSupplierById = async (
   id: string
@@ -15,13 +15,12 @@ export const getSupplierById = async (
 };
 
 export const useGetSupplier = (id: string): UseGetOneRecordReturn<Supplier> => {
-  const { handleError } = useManageErrorApp();
-  const { hasPermission } = useAuthContext();
+  const { hasPermission, handleError } = useAuthContext();
 
-  const isAuthorized = hasPermission('suppliers', 'find_one_supplier');
+  const isAuthorized = hasPermission("suppliers", "find_one_supplier");
 
   const query: UseGetOneRecordReturn<Supplier> = useQuery({
-    queryKey: ['supplier', id],
+    queryKey: ["supplier", id],
     queryFn: () => getSupplierById(id),
     select: ({ data }) => ({ ...data, company_name: undefined }),
     enabled: isAuthorized,
@@ -30,7 +29,7 @@ export const useGetSupplier = (id: string): UseGetOneRecordReturn<Supplier> => {
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'Requieres del permiso de lectura para obtener la información del usuario solicitado'
+        "Requieres del permiso de lectura para obtener la información del usuario solicitado"
       );
     }
   }, [isAuthorized]);
@@ -39,8 +38,7 @@ export const useGetSupplier = (id: string): UseGetOneRecordReturn<Supplier> => {
     if (query.isError) {
       handleError({
         error: query.error,
-        messageUnauthoraizedError:
-          'No tienes permiso para ver la información del proveedor 😑',
+        messagesStatusError: {},
       });
     }
   }, [query.isError, query.error]);

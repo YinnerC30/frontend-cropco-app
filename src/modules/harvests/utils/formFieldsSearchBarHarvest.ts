@@ -6,9 +6,9 @@ type SearchBarHarvestFormFields =
   | 'filter_by_date'
   | 'type_filter_date'
   | 'date'
-  | 'filter_by_total'
-  | 'type_filter_total'
-  | 'total'
+  | 'filter_by_amount'
+  | 'type_filter_amount'
+  | 'amount'
   | 'filter_by_value_pay'
   | 'type_filter_value_pay'
   | 'value_pay';
@@ -47,21 +47,21 @@ export const formFieldsSearchBarHarvest: Record<
     placeholder: 'Selecciona una fecha',
     description: 'Fecha de referencia para realizar la búsqueda',
   },
-  filter_by_total: {
-    name: 'filter_by_total',
-    label: 'Filtrar por total cosechado:',
+  filter_by_amount: {
+    name: 'filter_by_amount',
+    label: 'Filtrar por amount cosechado:',
     placeholder: '',
     description: 'Activa la opción para filtrar por este modo',
   },
-  type_filter_total: {
-    name: 'type_filter_total',
+  type_filter_amount: {
+    name: 'type_filter_amount',
     label: 'Valor menor o mayor a:',
     placeholder: 'Selecciona una opción',
     description: 'Filtrar registros por menor o mayor del valor',
   },
-  total: {
-    name: 'total',
-    label: 'Total:',
+  amount: {
+    name: 'amount',
+    label: 'Cantidad:',
     placeholder: '100',
     description: 'Valor de referencia para realizar la búsqueda',
   },
@@ -79,7 +79,7 @@ export const formFieldsSearchBarHarvest: Record<
   },
   value_pay: {
     name: 'value_pay',
-    label: 'Total:',
+    label: 'Valor a pagar:',
     placeholder: '100',
     description: 'Valor de referencia para realizar la búsqueda',
   },

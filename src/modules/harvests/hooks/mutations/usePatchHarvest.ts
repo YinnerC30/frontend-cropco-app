@@ -16,7 +16,7 @@ export const updateHarvest = async (
   harvest: Harvest
 ): PromiseReturnRecord<void> => {
   const { id, ...rest } = harvest;
-  return await cropcoAPI.patch(
+  return await cropcoAPI.put(
     `${pathsCropco.harvests}/update/one/${id}`,
     rest
   );
@@ -33,7 +33,7 @@ export const usePatchHarvest = (): UseMutationReturn<void, Harvest> => {
       markChanges(false);
       await queryClient.invalidateQueries({ queryKey: ['harvests'] });
       await queryClient.invalidateQueries({
-        queryKey: ['harvests-total-year'],
+        queryKey: ['harvests-amount-year'],
       });
       await queryClient.invalidateQueries({
         queryKey: ['harvest', variables.id],

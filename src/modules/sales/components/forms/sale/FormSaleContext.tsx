@@ -3,8 +3,7 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
-  useRef,
-  useState,
+  useState
 } from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
@@ -22,6 +21,7 @@ import { CheckboxTableCustomClient } from '@/modules/core/components/table/Check
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { FormProps } from '@/modules/core/interfaces';
 
+import { useGetAllCropsWithStock } from '@/modules/crops/hooks/queries/useGetAllCropsWithStock';
 import { Sale, SaleDetail } from '@/modules/sales/interfaces';
 import { formSchemaSale } from '@/modules/sales/utils';
 import { formSchemaSaleDetails } from '@/modules/sales/utils/formSchemaSaleDetail';
@@ -29,14 +29,12 @@ import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { ActionsTableSaleDetail } from './details/ActionsTableSaleDetail';
 import { columnsSaleDetail } from './details/ColumnsTableSaleDetail';
-import { useGetAllCropsWithStock } from '@/modules/crops/hooks/queries/useGetAllCropsWithStock';
-
 
 const defaultValuesSale = {
   date: undefined,
   details: [],
-  total: 0,
-  quantity: 0,
+  value_pay: 0,
+  amount: 0,
 };
 
 const defaultValuesSaleDetail: SaleDetail = {
@@ -49,8 +47,8 @@ const defaultValuesSaleDetail: SaleDetail = {
     id: '',
     name: '',
   },
-  total: 0,
-  quantity: 0,
+  value_pay: 0,
+  amount: 0,
   is_receivable: false,
 };
 
@@ -68,8 +66,8 @@ export interface FormSaleContextValues {
   readOnly: boolean;
   isSubmitting: boolean;
   onSubmit: (values: z.infer<typeof formSchemaSale>) => void;
-  total: number;
-  quantity: number;
+  value_pay: number;
+  amount: number;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
   openDialog: boolean;
   saleDetail: SaleDetail;
@@ -247,6 +245,15 @@ export const FormSaleProvider: React.FC<
         `No hay suficiente inventario para el cultivo ${record.name}.\nInventario disponible: ${crop.stock} Kg`
       );
     }
+    formSaleDetail.setError(
+      'amount',
+      {
+        message: 'El monto ingresado supera al que hay disponible',
+        type: 'custom',
+      },
+      { shouldFocus: true }
+    );
+    // formSaleDetail.setFocus('amount')
     return result;
   };
 
@@ -270,13 +277,14 @@ export const FormSaleProvider: React.FC<
     defaultValues,
   });
 
-  const total = detailsSale.reduce(
-    (total: number, detail: SaleDetail) => Number(total) + Number(detail.total),
+  const value_pay = detailsSale.reduce(
+    (value_pay: number, detail: SaleDetail) =>
+      Number(value_pay) + Number(detail.value_pay),
     0
   );
-  const quantity = detailsSale.reduce(
-    (quantity: number, detail: SaleDetail) =>
-      Number(quantity) + Number(detail.quantity),
+  const amount = detailsSale.reduce(
+    (amount: number, detail: SaleDetail) =>
+      Number(amount) + Number(detail.amount),
     0
   );
 
@@ -294,7 +302,7 @@ export const FormSaleProvider: React.FC<
 
   const { getIdsToRowsSelected, resetSelectionRows } = dataTableSaleDetail;
 
-  const {  showToast, markChanges } = useFormChange();
+  const { showToast, markChanges } = useFormChange();
 
   const [saleDetail, setSaleDetail] = useState(defaultValuesSaleDetail);
 
@@ -321,7 +329,7 @@ export const FormSaleProvider: React.FC<
     removeCropStock({
       id: saleDetail.crop.id,
       name: saleDetail.crop?.name!,
-      stock: saleDetail.quantity,
+      stock: saleDetail.amount,
     });
     // formSaleDetail.reset(defaultValuesSaleDetail);
     if (formSale.formState.isDirty) {
@@ -334,7 +342,7 @@ export const FormSaleProvider: React.FC<
     event.preventDefault();
     if (formSaleDetail.formState.isDirty) {
       showToast({
-        skiptRedirection: true,
+        skipRedirection: true,
         action: ClearFormSaleDetail,
       });
       return;
@@ -348,7 +356,7 @@ export const FormSaleProvider: React.FC<
       addCropStock({
         id: data?.crop.id!,
         name: data?.crop.name,
-        stock: data?.quantity!,
+        stock: data?.amount!,
       });
       removeSaleDetail(record as SaleDetail);
     }
@@ -356,27 +364,18 @@ export const FormSaleProvider: React.FC<
     toast.success(`Se han eliminado las cosechas!`);
   };
 
-  const isFirstRender = useRef(true);
-
   useEffect(() => {
     formSale.setValue('details', detailsSale, {
-      shouldValidate: !isFirstRender.current,
+      shouldValidate: detailsSale.length > 0,
       shouldDirty: true,
     });
-
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-    }
-  }, [detailsSale, isFirstRender]);
-
-  useEffect(() => {
-    formSale.setValue('total', total, { shouldValidate: true });
-    formSale.setValue('quantity', quantity, { shouldValidate: true });
-  }, [total, quantity]);
+    formSale.setValue('value_pay', value_pay, { shouldValidate: true });
+    formSale.setValue('amount', amount, { shouldValidate: true });
+  }, [detailsSale]);
 
   useEffect(() => {
     if (queryCropsWithStock.isSuccess) {
-      resetCropStock(queryCropsWithStock.data?.rows as CropStock[]);
+      resetCropStock(queryCropsWithStock.data?.records as CropStock[]);
     }
   }, [queryCropsWithStock.data]);
 
@@ -387,7 +386,7 @@ export const FormSaleProvider: React.FC<
         isSubmitting,
         onSubmit,
         readOnly,
-        total,
+        value_pay,
         saleDetail,
         setSaleDetail,
         formSaleDetail,
@@ -403,7 +402,7 @@ export const FormSaleProvider: React.FC<
         removeSaleDetail,
         modifySaleDetail,
         resetSaleDetails,
-        quantity,
+        amount,
         actionsSalesModule,
         queryCropsWithStock,
         cropStock,

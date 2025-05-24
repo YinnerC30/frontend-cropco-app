@@ -23,7 +23,7 @@ const formSchema = z.object({
         message: 'La opción seleccionada no es valida.',
       }),
   }),
-  total: z.coerce.number({
+  amount: z.coerce.number({
     invalid_type_error: 'Debes introducir un valor numérico',
   }),
   value_pay: z.coerce
@@ -59,7 +59,7 @@ export const HarvestProcessedFields: React.FC = () => {
           crop: {
             id: '',
           },
-          total: 0,
+          amount: 0,
           value_pay: 0,
           observation: '',
         },
@@ -98,10 +98,10 @@ export const HarvestProcessedFields: React.FC = () => {
 
         <FormFieldInput
           control={form.control}
-          description={formFieldsHarvestProcessed.total.description}
-          label={formFieldsHarvestProcessed.total.label}
-          name={'total'}
-          placeholder={formFieldsHarvestProcessed.total.placeholder}
+          description={formFieldsHarvestProcessed.amount.description}
+          label={formFieldsHarvestProcessed.amount.label}
+          name={'amount'}
+          placeholder={formFieldsHarvestProcessed.amount.placeholder}
           disabled={true}
           type="number"
           hiddenInput
@@ -110,7 +110,7 @@ export const HarvestProcessedFields: React.FC = () => {
             className="block h-8 text-base text-center w-28"
             variant={'cyan'}
           >
-            {FormatNumber(data?.total! ?? 0)}
+            {FormatNumber(data?.amount! ?? 0)}
           </Badge>
         </FormFieldInput>
 

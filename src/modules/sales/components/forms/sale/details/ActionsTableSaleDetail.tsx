@@ -29,7 +29,7 @@ export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
     addCropStock({
       id: saleDetail.crop.id,
       name: saleDetail.crop.name,
-      stock: saleDetail.quantity,
+      stock: saleDetail.amount,
     });
     removeSaleDetail(saleDetail);
     toast.success(

@@ -6,9 +6,9 @@ type FormFieldsSearchBarWork =
   | 'filter_by_date'
   | 'type_filter_date'
   | 'date'
-  | 'filter_by_total'
-  | 'type_filter_total'
-  | 'total';
+  | 'filter_by_value_pay'
+  | 'type_filter_value_pay'
+  | 'value_pay';
 
 export const formFieldsSearchBarWork: Record<
   FormFieldsSearchBarWork,
@@ -44,21 +44,21 @@ export const formFieldsSearchBarWork: Record<
     placeholder: 'Selecciona una fecha',
     description: 'Fecha de referencia para realizar la búsqueda',
   },
-  filter_by_total: {
-    name: 'filter_by_total',
-    label: 'Filtrar por total a pagar:',
+  filter_by_value_pay: {
+    name: 'filter_by_value_pay',
+    label: 'Filtrar por value_pay a pagar:',
     placeholder: '',
     description: 'Activa la opción para filtrar por este modo',
   },
-  type_filter_total: {
-    name: 'type_filter_total',
+  type_filter_value_pay: {
+    name: 'type_filter_value_pay',
     label: 'Valor menor o mayor a:',
     placeholder: 'Selecciona una opción',
     description: 'Filtrar registros por menor o mayor del valor',
   },
-  total: {
-    name: 'total',
-    label: 'Total:',
+  value_pay: {
+    name: 'value_pay',
+    label: 'Valor a pagar:',
     placeholder: '100',
     description: 'Valor de referencia para realizar la búsqueda',
   },

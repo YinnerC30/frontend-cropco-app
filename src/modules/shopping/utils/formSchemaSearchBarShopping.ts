@@ -1,12 +1,12 @@
 import {
   schemaForDate,
-  schemaForTotal,
+  schemaForValuePay
 } from '@/modules/core/helpers/schemas-validation/SchemasSearchBar';
 import { z } from 'zod';
 
 export const formSchemaSearchBarShopping = z.object({
   filter_by_date: schemaForDate,
-  filter_by_total: schemaForTotal,
+  filter_by_value_pay: schemaForValuePay,
   supplies: z
     .array(
       z.object({

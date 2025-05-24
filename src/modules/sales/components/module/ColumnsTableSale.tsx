@@ -85,27 +85,27 @@ export const columnsSale: ColumnDef<Sale>[] = [
     },
   },
   {
-    accessorKey: formFieldsSale.quantity.name,
+    accessorKey: formFieldsSale.amount.name,
     cell: ({ row }) => {
-      return FormatNumber(row.getValue('quantity')) + ' Kg';
+      return FormatNumber(row.getValue('amount')) + ' Kg';
     },
     header: ({ column }: HeaderContext<Sale, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
-          label={formFieldsSale.quantity.label}
+          label={formFieldsSale.amount.label}
         />
       );
     },
   },
   {
-    accessorKey: formFieldsSale.total.name,
+    accessorKey: formFieldsSale.value_pay.name,
     cell: ({ row }) => {
-      return FormatMoneyValue(row.getValue('total'));
+      return FormatMoneyValue(row.getValue('value_pay'));
     },
     header: ({ column }: HeaderContext<Sale, unknown>) => {
       return (
-        <ButtonHeaderTable column={column} label={formFieldsSale.total.label} />
+        <ButtonHeaderTable column={column} label={formFieldsSale.value_pay.label} />
       );
     },
   },

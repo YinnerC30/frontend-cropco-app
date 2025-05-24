@@ -3,8 +3,8 @@ import { ObjectWithId } from "@/modules/core/interfaces/general/ObjectWithId";
 
 export interface SaleDetail extends LogicDeleteRecordProps {
   id?: string;
-  quantity: number;
-  total: number;
+  amount: number;
+  value_pay: number;
   sale?: ObjectWithId;
   crop: ObjectWithId;
   client: ObjectWithId;

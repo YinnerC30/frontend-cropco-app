@@ -89,15 +89,15 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
   },
 
   {
-    accessorKey: formFieldsShopping.total.name,
+    accessorKey: formFieldsShopping.value_pay.name,
     cell: ({ row }) => {
-      return FormatMoneyValue(row.getValue('total'));
+      return FormatMoneyValue(row.getValue('value_pay'));
     },
     header: ({ column }: HeaderContext<ShoppingSupplies, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
-          label={formFieldsShopping.total.label}
+          label={formFieldsShopping.value_pay.label}
         />
       );
     },

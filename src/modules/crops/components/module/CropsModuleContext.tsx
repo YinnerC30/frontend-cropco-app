@@ -16,12 +16,12 @@ import { useDeleteBulkCrops } from '../../hooks/mutations/useDeleteBulkCrops';
 import { Crop } from '../../interfaces/Crop';
 import { columnsTableCrops } from './columnsTableCrops';
 import { CropsModuleActionsTable } from './CropsModuleActionsTable';
-
+import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
 export interface CropsModuleContextProps {
   paramQuery: string;
   queryCrops: UseQueryGetAllRecordsReturn<Crop>;
   dataTable: DataTableManualReturn<Crop>;
-  mutationDeleteCrops: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteCrops: UseMutationReturn<UseDeleteBulkResponse, BulkRecords>;
   mutationDeleteCrop: UseMutationReturn<void, string>;
   actionsCropsModule: Record<string, boolean>;
 }
@@ -41,7 +41,7 @@ export const CropsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
     setPagination,
   } = useGetAllCrops({
     queryValue: value,
-    allRecords: false,
+    all_records: false,
   });
 
   const { getActionsModule } = useAuthContext();
@@ -57,12 +57,12 @@ export const CropsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
     columns: columnsTable,
     infoPagination: queryCrops.isSuccess
       ? {
-          pageCount: queryCrops.data?.pageCount ?? 0,
-          rowCount: queryCrops.data?.rowCount ?? 0,
+          pageCount: queryCrops.data?.total_page_count ?? 0,
+          rowCount: queryCrops.data?.total_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
 
-    rows: queryCrops.data?.rows ?? [],
+    rows: queryCrops.data?.records ?? [],
     pagination,
     setPagination,
   });

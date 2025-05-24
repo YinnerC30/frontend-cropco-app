@@ -1,9 +1,9 @@
-import { type SaleDetail } from './SaleDetail';
+import { type SaleDetail } from "./SaleDetail";
 
 export interface Sale {
   id?: string;
   date: Date;
-  quantity: number;
-  total: number;
+  amount: number;
+  value_pay: number;
   details: SaleDetail[];
 }

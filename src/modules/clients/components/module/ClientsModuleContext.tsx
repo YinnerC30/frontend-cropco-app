@@ -55,11 +55,11 @@ export const ClientsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
     columns: columnsTable,
     infoPagination: queryClients.isSuccess
       ? {
-          pageCount: queryClients.data?.pageCount ?? 0,
-          rowCount: queryClients.data?.rowCount ?? 0,
+          pageCount: queryClients.data?.total_page_count ?? 0,
+          rowCount: queryClients.data?.total_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
-    rows: queryClients.data?.rows ?? [],
+    rows: queryClients.data?.records ?? [],
     pagination,
     setPagination,
   });

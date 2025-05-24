@@ -26,9 +26,9 @@ export interface paramQueryPayment {
     type_filter_date: string | null | undefined;
     date: string | null | undefined | Date | unknown;
   };
-  filter_by_total: {
-    type_filter_total: string | null | undefined;
-    total: string | null | undefined | unknown;
+  filter_by_value_pay: {
+    type_filter_value_pay: string | null | undefined;
+    value_pay: string | null | undefined | unknown;
   };
   // TODO: Pendiente Method of Payment
   //
@@ -64,9 +64,9 @@ export const PaymentsModuleProvider = ({
       'type_filter_date',
       'date',
 
-      'filter_by_total',
-      'type_filter_total',
-      'total',
+      'filter_by_value_pay',
+      'type_filter_value_pay',
+      'value_pay',
     ],
   });
 
@@ -91,11 +91,11 @@ export const PaymentsModuleProvider = ({
     columns: columnsTable,
     infoPagination: queryPayments.isSuccess
       ? {
-          pageCount: queryPayments.data?.pageCount ?? 0,
-          rowCount: queryPayments.data?.rowCount ?? 0,
+          pageCount: queryPayments.data?.total_page_count ?? 0,
+          rowCount: queryPayments.data?.total_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
-    rows: queryPayments.data?.rows ?? [],
+    rows: queryPayments.data?.records ?? [],
     pagination,
     setPagination,
   });
@@ -128,9 +128,9 @@ export const PaymentsModuleProvider = ({
         type_filter_date: paramsValues.type_filter_date,
         date: !paramsValues.date ? undefined : new Date(paramsValues.date),
       },
-      filter_by_total: {
-        type_filter_total: paramsValues.type_filter_total,
-        total: !paramsValues.total ? 0 : paramsValues.total,
+      filter_by_value_pay: {
+        type_filter_value_pay: paramsValues.type_filter_value_pay,
+        value_pay: !paramsValues.value_pay ? 0 : paramsValues.value_pay,
       },
     },
     paymentIdDocument,

@@ -223,6 +223,6 @@ export const ChartTotalConsumptionsInYear = () => {
       </CardContent>
     </Card>
   ) : (
-    <div className="h-[200px]">Error al generar el grafico</div>
+    <div className="h-[200px]">Error al generar el gráfico</div>
   );
 };

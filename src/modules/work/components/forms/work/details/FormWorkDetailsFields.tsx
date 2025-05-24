@@ -13,7 +13,7 @@ export const FormWorkDetailsFields: React.FC = () => {
 
   const filterEmployeesToShow = useCallback((): Employee[] => {
     return (
-      queryEmployees?.data?.rows.filter((record: Employee) => {
+      queryEmployees?.data?.records.filter((record: Employee) => {
         const state = detailsWork.some(
           (item: WorkDetail) => item.employee.id === record.id
         );

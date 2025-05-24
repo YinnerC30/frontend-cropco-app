@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { TypeFilterDate, TypeFilterNumber } from '../../interfaces';
+import { z } from "zod";
+import { TypeFilterDate, TypeFilterNumber } from "../../interfaces";
 
 export const schemaForDate = z
   .object({
@@ -8,12 +8,12 @@ export const schemaForDate = z
       .nativeEnum(TypeFilterDate, {
         errorMap: (issue, _ctx) => {
           switch (issue.code) {
-            case 'invalid_type':
-              return { message: 'Debe seleccionar una opción.' };
-            case 'invalid_enum_value':
-              return { message: 'Debe seleccionar AFTER o BEFORE.' };
+            case "invalid_type":
+              return { message: "Debe seleccionar una opción." };
+            case "invalid_enum_value":
+              return { message: "Debe seleccionar AFTER o BEFORE." };
             default:
-              return { message: 'Error en la selección de tiempo.' };
+              return { message: "Error en la selección de tiempo." };
           }
         },
       })
@@ -27,8 +27,8 @@ export const schemaForDate = z
       return true;
     },
     {
-      message: 'Debes ingresar una fecha',
-      path: ['date'],
+      message: "Debes ingresar una fecha",
+      path: ["date"],
     }
   )
   .refine(
@@ -39,8 +39,51 @@ export const schemaForDate = z
       return true;
     },
     {
-      message: 'Debes seleccionar una opción',
-      path: ['type_filter_date'],
+      message: "Debes seleccionar una opción",
+      path: ["type_filter_date"],
+    }
+  );
+
+export const schemaForAmount = z
+  .object({
+    amount: z.coerce.number().optional(),
+    type_filter_amount: z
+      .nativeEnum(TypeFilterNumber, {
+        errorMap: (issue, _ctx) => {
+          switch (issue.code) {
+            case "invalid_type":
+              return { message: "Debe seleccionar una opción." };
+            case "invalid_enum_value":
+              return { message: "Debe seleccionar MENOR o MAYOR." };
+            default:
+              return { message: "Error en la selección de tipo." };
+          }
+        },
+      })
+      .optional(),
+  })
+  .refine(
+    ({ amount }) => {
+      if (amount === undefined) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Debes ingresar un valor",
+      path: ["amount"],
+    }
+  )
+  .refine(
+    ({ type_filter_amount }) => {
+      if (!type_filter_amount) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Debes seleccionar una opción",
+      path: ["type_filter_amount"],
     }
   );
 
@@ -51,12 +94,12 @@ export const schemaForTotal = z
       .nativeEnum(TypeFilterNumber, {
         errorMap: (issue, _ctx) => {
           switch (issue.code) {
-            case 'invalid_type':
-              return { message: 'Debe seleccionar una opción.' };
-            case 'invalid_enum_value':
-              return { message: 'Debe seleccionar MENOR o MAYOR.' };
+            case "invalid_type":
+              return { message: "Debe seleccionar una opción." };
+            case "invalid_enum_value":
+              return { message: "Debe seleccionar MENOR o MAYOR." };
             default:
-              return { message: 'Error en la selección de tipo.' };
+              return { message: "Error en la selección de tipo." };
           }
         },
       })
@@ -70,8 +113,8 @@ export const schemaForTotal = z
       return true;
     },
     {
-      message: 'Debes ingresar un valor',
-      path: ['total'],
+      message: "Debes ingresar un valor",
+      path: ["total"],
     }
   )
   .refine(
@@ -82,8 +125,8 @@ export const schemaForTotal = z
       return true;
     },
     {
-      message: 'Debes seleccionar una opción',
-      path: ['type_filter_total'],
+      message: "Debes seleccionar una opción",
+      path: ["type_filter_total"],
     }
   );
 
@@ -94,12 +137,12 @@ export const schemaForValuePay = z
       .nativeEnum(TypeFilterNumber, {
         errorMap: (issue, _ctx) => {
           switch (issue.code) {
-            case 'invalid_type':
-              return { message: 'Debe seleccionar una opción.' };
-            case 'invalid_enum_value':
-              return { message: 'Debe seleccionar MENOR o MAYOR.' };
+            case "invalid_type":
+              return { message: "Debe seleccionar una opción." };
+            case "invalid_enum_value":
+              return { message: "Debe seleccionar MENOR o MAYOR." };
             default:
-              return { message: 'Error en la selección de tipo.' };
+              return { message: "Error en la selección de tipo." };
           }
         },
       })
@@ -113,8 +156,8 @@ export const schemaForValuePay = z
       return true;
     },
     {
-      message: 'Debes ingresar un valor',
-      path: ['value_pay'],
+      message: "Debes ingresar un valor",
+      path: ["value_pay"],
     }
   )
   .refine(
@@ -125,7 +168,7 @@ export const schemaForValuePay = z
       return true;
     },
     {
-      message: 'Debes seleccionar una opción',
-      path: ['type_filter_value_pay'],
+      message: "Debes seleccionar una opción",
+      path: ["type_filter_value_pay"],
     }
   );

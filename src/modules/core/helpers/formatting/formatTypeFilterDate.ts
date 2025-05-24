@@ -1,16 +1,16 @@
-import { TypeFilterDate } from '../../interfaces/general/TypeFilterDate';
+import { TypeFilterDate } from "../../interfaces/general/TypeFilterDate";
 
 export const formatTypeFilterDate = (
   value: TypeFilterDate
-): 'Despues del ' | 'Antes del ' | 'El dia ' => {
+): "Después del " | "Antes del " | "El dia " => {
   if (!value) {
-    throw new Error('El valor de conversión es undefined');
+    throw new Error("El valor de conversión es undefined");
   }
   const formatTypeFilterDate =
     value === TypeFilterDate.after
-      ? 'Despues del '
+      ? "Después del "
       : value === TypeFilterDate.equal
-      ? 'El dia '
-      : 'Antes del ';
+      ? "El dia "
+      : "Antes del ";
   return formatTypeFilterDate;
 };

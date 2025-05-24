@@ -16,12 +16,13 @@ import { useGetAllSupplies } from '../../hooks/queries/useGetAllSupplies';
 import { Supply } from '../../interfaces/Supply';
 import { columnsTableSupplies } from './columnsTableSupplies';
 import { SuppliesModuleActionsTable } from './SuppliesModuleActionsTable';
+import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
 
 export interface SuppliesModuleContextProps {
   paramQuery: string;
   querySupplies: UseQueryGetAllRecordsReturn<Supply>;
   dataTable: DataTableManualReturn<Supply>;
-  mutationDeleteSupplies: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteSupplies: UseMutationReturn<UseDeleteBulkResponse, BulkRecords>;
   mutationDeleteSupply: UseMutationReturn<void, string>;
   actionsSuppliesModule: Record<string, boolean>;
 }
@@ -39,7 +40,7 @@ export const SuppliesModuleProvider = ({ children }: any) => {
     setPagination,
   } = useGetAllSupplies({
     queryValue: value,
-    allRecords: false,
+    all_records: false,
   });
 
   const { getActionsModule } = useAuthContext();
@@ -55,11 +56,11 @@ export const SuppliesModuleProvider = ({ children }: any) => {
     columns: columnsTable,
     infoPagination: querySupplies.isSuccess
       ? {
-          pageCount: querySupplies.data?.pageCount ?? 0,
-          rowCount: querySupplies.data?.rowCount ?? 0,
+          pageCount: querySupplies.data?.total_page_count ?? 0,
+          rowCount: querySupplies.data?.total_row_count ?? 0,
         }
       : { pageCount: 0, rowCount: 0 },
-    rows: querySupplies.data?.rows ?? [],
+    rows: querySupplies.data?.records ?? [],
     pagination,
     setPagination,
   });

@@ -72,15 +72,15 @@ export const columnsPayment: ColumnDef<Payment>[] = [
     },
   },
   {
-    accessorKey: formFieldsPayments.total.name,
+    accessorKey: formFieldsPayments.value_pay.name,
     cell: ({ row }) => {
-      return FormatMoneyValue(row.getValue('total'));
+      return FormatMoneyValue(row.getValue('value_pay'));
     },
     header: ({ column }: HeaderContext<Payment, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
-          label={formFieldsPayments.total.label}
+          label={formFieldsPayments.value_pay.label}
         />
       );
     },

@@ -22,7 +22,7 @@ export const UsersTable: React.FC = () => {
       disabledDoubleClick={!actionsUsersModule['find_one_user']}
       table={table}
       lengthColumns={lengthColumns}
-      rowCount={queryUsers.data?.rowCount ?? 0}
+      rowCount={queryUsers.data?.total_row_count ?? 0}
       isLoading={
         queryUsers.isLoading ||
         queryUsers.isRefetching ||
