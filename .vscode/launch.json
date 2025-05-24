@@ -8,7 +8,7 @@
       "type": "msedge",
       "request": "launch",
       "name": "Iniciar Microsoft Edge para localhost",
-      "url": "http://localhost:5173",
+      "url": "http://localhost:4173",
       "webRoot": "${workspaceFolder}"
     }
   ]
