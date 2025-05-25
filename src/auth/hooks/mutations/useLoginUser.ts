@@ -10,6 +10,7 @@ import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { User } from '@/modules/users/interfaces';
 import { useAuthContext } from '..';
+import { useFormChange } from '@/modules/core/components';
 
 export const loginUser = async (
   loginUserData: LoginUserData
@@ -24,9 +25,11 @@ export const useLoginUser = (): UseMutationReturn<User, LoginUserData> => {
   const { saveUser } = useAuthContext();
 
   const queryClient = useQueryClient();
+  const { markChanges } = useFormChange();
   const mutation: UseMutationReturn<User, LoginUserData> = useMutation({
     mutationFn: loginUser,
     onSuccess: async ({ data }) => {
+      markChanges(false);
       await queryClient.invalidateQueries({ queryKey: ['user-active'] });
       saveUser({ ...data, isLogin: true });
       toast.success(`Bienvenido, ${CapitalizeFirstWord(data.first_name)}`, {});
