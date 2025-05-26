@@ -87,7 +87,9 @@ export function ChartTopCropsWithStock() {
             </BarChart>
           </ChartContainer>
         ) : (
-          <div className="w-full text-center h-[200px] flex items-center justify-center"></div>
+          <div className="w-full text-center h-[200px] flex items-center justify-center">
+            <span>No hay información disponible</span>
+          </div>
         )}
       </CardContent>
     </Card>
