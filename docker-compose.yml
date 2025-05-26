@@ -1,9 +1,9 @@
 services:
   frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: cropco-frontend:latest
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    image: stivenc30/cropco-frontend:latest
     container_name: cropco-frontend
     ports:
       - '${PORT:-80}:80'
