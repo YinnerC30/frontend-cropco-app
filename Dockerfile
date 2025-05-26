@@ -1,26 +1,26 @@
-# Usa una imagen base de Node.js
-FROM node:20
-
-# Establece el directorio de trabajo dentro del contenedor
+# Etapa de construcción
+FROM node:20-alpine AS builder
+# Establece el directorio de trabajo
 WORKDIR /app
-
-# Copia los archivos package.json y package-lock.json (si existe)
+# Copia los archivos de dependencias
 COPY package*.json ./
-
 # Instala las dependencias
-RUN npm install
-
-# Copia el resto del código de la aplicación
+RUN npm ci
+# Copia el resto del código fuente
 COPY . .
-
-# Aumentar el límite de memoria antes de la compilación
+# Aumentar el límite de memoria para la compilación
 ENV NODE_OPTIONS="--max-old-space-size=4096"
-
-# Construye la aplicación para producción
+# Construye la aplicación
 RUN npm run build
 
-# Expone el puerto en el que se servirá la aplicación
-EXPOSE 4173
 
-# Comando para iniciar la aplicación
-CMD ["npm", "run", "preview"]
+# Etapa de producción
+FROM nginx:alpine
+# Copia la configuración personalizada de nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copia los archivos de construcción desde la etapa anterior
+COPY --from=builder /app/dist /usr/share/nginx/html
+# Expone el puerto 80
+EXPOSE 80
+# Inicia nginx
+CMD ["nginx", "-g", "daemon off;"]

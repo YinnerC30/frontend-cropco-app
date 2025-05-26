@@ -1,0 +1,18 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cropco-frontend:latest
+    container_name: cropco-frontend
+    ports:
+      - '${PORT:-80}:80'
+    environment:
+      - VITE_HOST_API_CROPCO=${VITE_HOST_API_CROPCO}
+    restart: unless-stopped
+    networks:
+      - cropco-network
+
+networks:
+  cropco-network:
+    name: cropco-network
