@@ -28,6 +28,21 @@ CropCo es una aplicación web moderna diseñada para la gestión integral de ope
 - Node.js (versión 20 o superior)
 - npm o yarn
 - Git
+- Backend de CropCo ejecutándose localmente
+
+## 🔄 Dependencia del Backend
+
+Este proyecto frontend requiere que el backend de CropCo esté en ejecución. Por favor, asegúrate de:
+
+1. Clonar y configurar el backend:
+   ```bash
+   git clone https://github.com/YinnerC30/backend-cropco-app.git
+   cd backend-cropco-app
+   ```
+
+2. Seguir las instrucciones de instalación y configuración del backend en su [README](https://github.com/YinnerC30/backend-cropco-app/blob/ec2a30e8a93b996d97a148a8b77948b1e2e6c80d/README.md)
+
+3. Asegurarte de que el backend esté ejecutándose antes de iniciar el frontend
 
 ## 🔧 Instalación
 
@@ -78,8 +93,6 @@ docker run -p 4173:4173 cropco
 - `npm run dev`: Inicia el servidor de desarrollo
 - `npm run build`: Construye la aplicación para producción
 - `npm run preview`: Previsualiza la versión de producción
-
-
 
 ## 📝 Licencia
 
