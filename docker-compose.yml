@@ -3,7 +3,8 @@ services:
     # build:
     #   context: .
     #   dockerfile: Dockerfile
-    image: stivenc30/cropco-frontend:latest
+    # image: stivenc30/cropco-frontend:latest
+    image: cropco-frontend:latest
     container_name: cropco-frontend
     ports:
       - '${PORT:-80}:80'
