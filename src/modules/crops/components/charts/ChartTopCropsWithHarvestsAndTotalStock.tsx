@@ -52,7 +52,7 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
     : [];
 
   return (
-    <Card className="w-auto lg:w-[450px] ">
+    <Card className="w-auto lg:w-[650px] ">
       <CardHeader>
         <CardTitle>
           Top 5 cultivos con más cosechas y total recolectado
@@ -115,7 +115,7 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
-                tickFormatter={(value) => value}
+                tickFormatter={(value) => value.slice(0, 10)}
               />
 
               <ChartTooltip

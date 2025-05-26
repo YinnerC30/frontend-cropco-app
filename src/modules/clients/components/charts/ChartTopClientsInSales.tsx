@@ -54,7 +54,7 @@ export function ChartTopClientsInSales() {
 
 
   return (
-    <Card className="w-auto lg:w-[450px] ">
+    <Card className="w-auto lg:w-[650px] ">
       <CardHeader>
         <CardTitle>Top 5 clientes de las ventas</CardTitle>
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>
@@ -113,7 +113,7 @@ export function ChartTopClientsInSales() {
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
-                tickFormatter={(value) => value}
+                tickFormatter={(value) => value.slice(0, 10)}
               />
 
               <ChartTooltip

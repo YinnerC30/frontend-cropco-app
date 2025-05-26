@@ -35,7 +35,7 @@ export function ChartTopCropsWithStock() {
     : [];
 
   return (
-    <Card className="w-auto lg:w-[450px] ">
+    <Card className="w-auto lg:w-[650px] ">
       <CardHeader>
         <CardTitle>Top 5 cultivos con stock disponible</CardTitle>
       </CardHeader>
@@ -71,7 +71,7 @@ export function ChartTopCropsWithStock() {
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
-                tickFormatter={(value) => value}
+                tickFormatter={(value) => value.slice(0, 10)}
               />
 
               <ChartTooltip cursor={true} content={<ChartTooltipContent />} />

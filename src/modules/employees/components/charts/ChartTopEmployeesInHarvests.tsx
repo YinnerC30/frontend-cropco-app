@@ -55,7 +55,7 @@ export function ChartTopEmployeesInHarvests() {
     : [];
 
   return (
-    <Card className="w-auto lg:w-[450px] ">
+    <Card className="w-auto lg:w-[650px] ">
       <CardHeader>
         <CardTitle>Top 5 empleados de las cosechas</CardTitle>
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>
@@ -115,7 +115,7 @@ export function ChartTopEmployeesInHarvests() {
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
-                tickFormatter={(value) => value}
+                tickFormatter={(value) => value.slice(0, 10)}
               />
 
               <ChartTooltip
