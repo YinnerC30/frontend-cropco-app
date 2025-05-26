@@ -82,10 +82,14 @@ Este proyecto frontend requiere que el backend de CropCo esté en ejecución. Po
 
 ```bash
 # Construir la imagen
-docker build -t cropco .
+docker build -t cropco-frontend .
 
 # Ejecutar el contenedor
-docker run -p 4173:4173 cropco
+docker run -p 80:80 -e VITE_HOST_API_CROPCO=http://localhost:3000/ cropco-frontend:latest
+
+# O usar la imagen pública
+docker pull stivenc30/cropco-frontend
+docker run -p 80:80 -e VITE_HOST_API_CROPCO=http://localhost:3000/ stivenc30/cropco-frontend
 ```
 
 ## 📦 Scripts Disponibles
