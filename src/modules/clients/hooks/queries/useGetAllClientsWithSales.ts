@@ -25,7 +25,6 @@ export const useGetAllClientsWithSales =
       queryKey: ['clients-with-sales'],
       queryFn: () => getClientsWithSales(),
       select: ({ data }) => data,
-      
       enabled: isAuthorized,
     });
 

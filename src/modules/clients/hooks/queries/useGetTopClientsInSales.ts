@@ -7,6 +7,7 @@ import { useAuthContext } from '@/auth/hooks';
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 interface ClientTopSale {
   id: string;
@@ -36,13 +37,18 @@ export const useGetTopClientsInSales = ({
 }): UseQueryGetAllRecordsReturn<ClientTopSale> => {
   const { hasPermission, handleError } = useAuthContext();
 
-  const isAuthorized = hasPermission('dashboard', 'find_top_clients_in_sales_chart');
+  const isAuthorized = hasPermission(
+    'dashboard',
+    'find_top_clients_in_sales_chart'
+  );
 
   const query: UseQueryGetAllRecordsReturn<ClientTopSale> = useQuery({
     queryKey: ['clients-top-sales', year],
     queryFn: () => getTopClientsInSales({ year }),
     select: ({ data }) => data,
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.longTerm,
   });
 
   useEffect(() => {
