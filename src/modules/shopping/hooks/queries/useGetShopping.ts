@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { useAuthContext } from '@/auth';
 import { toast } from 'sonner';
 import { ConvertStringToDate } from '@/modules/core/helpers';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getShoppingById = async (
   id: string
@@ -27,6 +28,9 @@ export const useGetShopping = (
         ...data,
         date: ConvertStringToDate(data?.date!),
       } as unknown as ShoppingSupplies),
+    enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.shortTerm,
   });
 
   useEffect(() => {
