@@ -1,5 +1,6 @@
-export const BASE_PATH_API_CROPCO = import.meta.env
-  .VITE_HOST_API_CROPCO as string;
+export const BASE_PATH_API_CROPCO =
+  import.meta.env.VITE_HOST_API_CROPCO || ('http://localhost:3000/' as string);
+console.log('🚀 ~ BASE_PATH_API_CROPCO:', BASE_PATH_API_CROPCO);
 
 export const PATH_HOME_APP = '/app/home';
 export const PATH_LOGIN = '/app/authentication/login';
