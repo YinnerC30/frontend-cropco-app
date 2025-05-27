@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { useAuthContext } from '@/auth';
 import { ConvertStringToDate } from '@/modules/core/helpers';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getConsumptionById = async (
   id: string
@@ -31,6 +32,9 @@ export const useGetConsumption = (
         ...data,
         date: ConvertStringToDate(data?.date!),
       } as unknown as ConsumptionSupplies),
+    enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.shortTerm,
   });
 
   useEffect(() => {

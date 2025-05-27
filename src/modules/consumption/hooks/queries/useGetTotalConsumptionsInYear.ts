@@ -6,6 +6,7 @@ import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { toast } from 'sonner';
 import { ConsumptionTotalInYearData } from '../../interfaces/charts/ConsumptionsTotalInYear';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 interface QueryParams {
   year: number;
@@ -51,6 +52,8 @@ export const useGetTotalConsumptionsInYear = ({
     queryFn: () => getTotalConsumptionsInYear({ year, crop, supply }),
     select: ({ data }) => data,
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.longTerm,
   });
 
   useEffect(() => {
