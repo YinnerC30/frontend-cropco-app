@@ -8,6 +8,7 @@ import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGe
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Work } from '../../interfaces/Work';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export async function getWorkById(id: string): PromiseReturnRecord<Work> {
   return await cropcoAPI.get(`${pathsCropco.works}/one/${id}`);
@@ -26,7 +27,10 @@ export function useGetWork(id: string): UseGetOneRecordReturn<Work> {
         date: ConvertStringToDate(data?.date!),
       } as unknown as Work;
     },
-    
+    enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.shortTerm,
+
   });
 
   useEffect(() => {

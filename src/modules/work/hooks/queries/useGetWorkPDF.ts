@@ -8,6 +8,7 @@ import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { downloadPDF } from '@/modules/core/helpers';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getWorkPDF = async (id: string): PromiseReturnRecord<Blob> => {
   return await cropcoAPI.get<Blob>(
@@ -34,6 +35,7 @@ export const useGetWorkPDF = ({
   actionOnSuccess,
 }: Props): UseGetOneRecordReturn<Blob> => {
   const { hasPermission, handleError } = useAuthContext();
+  const isAuthorized = hasPermission('works', 'export_work_to_pdf');
 
   const query: UseGetOneRecordReturn<Blob> = useQuery({
     queryKey: ['work-pdf', workId],
@@ -49,10 +51,12 @@ export const useGetWorkPDF = ({
 
       return fetchCertification;
     },
-    // 
+    //
     select: ({ data }) => data,
-    enabled: stateQuery && hasPermission('works', 'export_work_to_pdf'),
-    retry: 1,
+    enabled: stateQuery && isAuthorized,
+    retry: false,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.shortTerm,
   });
 
   useEffect(() => {

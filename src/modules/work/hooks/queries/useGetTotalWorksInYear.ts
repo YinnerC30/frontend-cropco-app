@@ -8,6 +8,7 @@ import { PromiseReturnRecord } from "@/auth/interfaces/PromiseReturnRecord";
 import { UseGetOneRecordReturn } from "@/modules/core/interfaces/responses/UseGetOneRecordReturn";
 import { toast } from "sonner";
 import { WorkTotalInYearData } from "../../interfaces/charts/WorksTotalInYear";
+import { CACHE_CONFIG_TIME } from "@/config";
 // import { HarvestTotalInYearData } from '../../interfaces/charts/WorksTotalInYear';
 
 interface QueryParams {
@@ -54,6 +55,8 @@ export const useGetTotalWorksInYear = ({
     queryFn: () => getTotalWorksInYear({ year, crop, employee }),
     select: ({ data }) => data,
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.longTerm,
   });
 
   useEffect(() => {
