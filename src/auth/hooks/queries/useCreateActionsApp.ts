@@ -1,4 +1,5 @@
 import { cropcoAPI } from '@/api/cropcoAPI';
+import { getEnvironmentVariables } from '@/modules/core/helpers/getEnvironmentVariables';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
@@ -16,8 +17,9 @@ export function useCreationsApp({ stateQuery }: Props) {
   const query = useQuery({
     queryKey: ['creation-actions-app'],
     queryFn: () => createActionsApp(),
-    
-    enabled: stateQuery,
+
+    enabled:
+      stateQuery && getEnvironmentVariables().STATUS_PROJECT === 'development',
   });
 
   useEffect(() => {

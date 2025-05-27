@@ -5,7 +5,6 @@ export * from './helpers/CapitalizeFirstWord';
 export * from './hooks/useAuthContext';
 export * from './hooks/queries/useCheckAuthStatus';
 export * from './hooks/queries/useCreateActionsApp';
-export * from './hooks/queries/useGetModuleActions';
 export * from './hooks/queries/useImplantSeed';
 
 export * from './hooks/mutations/useRenewToken';
@@ -18,4 +17,3 @@ export * from './utils/authenticationSlice';
 export * from './utils/formFieldsLogin';
 export * from './utils/formSchemaLogin';
 export * from './utils/manageUserInLocalStorage';
-

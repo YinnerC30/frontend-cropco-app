@@ -6,6 +6,7 @@ import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGe
 import { useEffect } from 'react';
 import { useAuthContext } from '..';
 import { toast } from 'sonner';
+import { getEnvironmentVariables } from '@/modules/core/helpers/getEnvironmentVariables';
 
 export const implantSeed = async (): PromiseReturnRecord<void> => {
   return await cropcoAPI.get(`/seed`);
@@ -17,11 +18,9 @@ export function useImplantSeed(
   const { handleError } = useAuthContext();
   const query: UseGetOneRecordReturn<void> = useQuery({
     queryKey: ['seed'],
-    // queryFn: () => implantSeed(),
     queryFn: () => {
       const fetchSeed = implantSeed();
 
-      // Integrando `toast.promise` directamente en la función.
       toast.promise(fetchSeed, {
         loading: 'Implantando semilla de datos...',
         success: 'La semilla fue plantada con exito 🌱',
@@ -30,7 +29,10 @@ export function useImplantSeed(
 
       return fetchSeed;
     },
-    enabled: isRunningSeed,
+    enabled:
+      isRunningSeed &&
+      getEnvironmentVariables().STATUS_PROJECT === 'development',
+    retry: false,
   });
 
   useEffect(() => {
