@@ -14,6 +14,7 @@ import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseG
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
 import { Supply } from '../../interfaces/Supply';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getSupplies = async ({
   query = '',
@@ -51,6 +52,8 @@ export const useGetAllSupplies = ({
       }),
     select: ({ data }) => data,
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.mediumTerm,
   });
 
   useEffect(() => {

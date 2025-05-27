@@ -13,6 +13,7 @@ import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseG
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
 import { Employee } from '../../interfaces/Employee';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getEmployees = async (
   values: BasicQueryData
@@ -48,8 +49,9 @@ export const useGetAllEmployees = ({
         all_records,
       }),
     select: ({ data }) => data,
-    
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.mediumTerm,
   });
 
   useEffect(() => {

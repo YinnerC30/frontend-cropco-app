@@ -1,22 +1,23 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
-import { useAuthContext } from "@/auth/hooks";
-import { usePaginationDataTable } from "@/modules/core/hooks";
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth/hooks';
+import { usePaginationDataTable } from '@/modules/core/hooks';
 import {
   BasicQueryData,
   UseGetAllRecordsProps,
-} from "@/modules/core/interfaces";
-import { TypeGetAllRecordsReturn } from "@/modules/core/interfaces/responses/TypeGetAllRecordsReturn";
-import { UseGetAllRecordsReturn } from "@/modules/core/interfaces/responses/UseGetAllRecordsReturn";
-import { UseQueryGetAllRecordsReturn } from "@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn";
-import { toast } from "sonner";
-import { Supplier } from "../../interfaces/Supplier";
+} from '@/modules/core/interfaces';
+import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
+import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseGetAllRecordsReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { toast } from 'sonner';
+import { Supplier } from '../../interfaces/Supplier';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getSuppliers = async ({
-  query = "",
+  query = '',
   limit = 10,
   offset = 0,
 }: BasicQueryData): TypeGetAllRecordsReturn<Supplier> => {
@@ -35,10 +36,10 @@ export const useGetAllSuppliers = ({
   const { pagination, setPagination } = usePaginationDataTable();
   const { hasPermission, handleError } = useAuthContext();
 
-  const isAuthorized = hasPermission("suppliers", "find_all_suppliers");
+  const isAuthorized = hasPermission('suppliers', 'find_all_suppliers');
 
   const query: UseQueryGetAllRecordsReturn<Supplier> = useQuery({
-    queryKey: ["suppliers", { queryValue, ...pagination }],
+    queryKey: ['suppliers', { queryValue, ...pagination }],
     queryFn: () =>
       getSuppliers({
         query: queryValue,
@@ -47,11 +48,13 @@ export const useGetAllSuppliers = ({
       }),
     select: ({ data }) => data,
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.mediumTerm,
   });
 
   useEffect(() => {
     if (!isAuthorized) {
-      toast.error("No tienes permiso para ver el listado de proveedores 😑");
+      toast.error('No tienes permiso para ver el listado de proveedores 😑');
     }
   }, [isAuthorized]);
 

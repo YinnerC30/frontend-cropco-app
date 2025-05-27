@@ -11,13 +11,14 @@ import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { ConsumptionSupplies } from '../../interfaces';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export interface GetConsumptionsProps
   extends QueryPaginationProps,
     QueryDateProps {
-      crops: [],
-      supplies: [],
-    }
+  crops: [];
+  supplies: [];
+}
 
 export async function getAllConsumptions(
   props: GetConsumptionsProps
@@ -58,8 +59,9 @@ export function useGetAllConsumptions(
         offset: pagination.pageIndex,
       }),
     select: ({ data }) => data,
-    
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.mediumTerm,
   });
 
   useEffect(() => {

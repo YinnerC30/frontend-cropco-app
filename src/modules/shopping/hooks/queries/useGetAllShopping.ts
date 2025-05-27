@@ -12,6 +12,7 @@ import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { ShoppingSupplies } from '../../interfaces';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export interface GetShoppingProps
   extends QueryPaginationProps,
@@ -70,8 +71,10 @@ export function useGetAllShopping(
         offset: pagination.pageIndex,
       }),
     select: ({ data }) => data,
-    
+
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.mediumTerm,
   });
 
   useEffect(() => {

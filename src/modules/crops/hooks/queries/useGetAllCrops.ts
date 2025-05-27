@@ -12,6 +12,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Crop } from '../../interfaces/Crop';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getCrops = async (
   values: BasicQueryData
@@ -46,6 +47,8 @@ export const useGetAllCrops = ({
       }),
     select: ({ data }) => data,
     enabled: isAuthorized && canExecuteQuery,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.mediumTerm,
     
   });
 

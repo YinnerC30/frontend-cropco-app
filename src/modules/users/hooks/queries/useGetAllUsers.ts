@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { User } from '../../interfaces';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 async function getUsers(values: BasicQueryData): TypeGetAllRecordsReturn<User> {
   const { query = '', limit = 10, offset = 0 } = values;
@@ -42,8 +43,9 @@ export function useGetAllUsers({
         offset: pagination.pageIndex,
       }),
     select: ({ data }) => data,
-    
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.longTerm,
   });
 
   useEffect(() => {

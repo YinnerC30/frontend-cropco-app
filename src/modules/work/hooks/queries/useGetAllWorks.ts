@@ -12,6 +12,7 @@ import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Work } from '../../interfaces/Work';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export interface GetWorksProps
   extends QueryPaginationProps,
@@ -69,8 +70,9 @@ export const useGetAllWorks = (
         offset: pagination.pageIndex,
       }),
     select: ({ data }) => data,
-    
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.mediumTerm,
   });
 
   useEffect(() => {

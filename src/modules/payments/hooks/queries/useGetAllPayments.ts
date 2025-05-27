@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { MethodOfPayment } from '../../interfaces/MethodOfPayment';
 import { Payment } from '../../interfaces/Payment';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export interface GetPaymentsProps
   extends QueryPaginationProps,
@@ -77,6 +78,8 @@ export const useGetAllPayments = (
       }),
     select: ({ data }) => data,
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.mediumTerm,
   });
 
   useEffect(() => {

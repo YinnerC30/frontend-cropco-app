@@ -12,6 +12,7 @@ import { UseQueryGetAllRecordsReturn } from "@/modules/core/interfaces/responses
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { Sale } from "../../interfaces";
+import { CACHE_CONFIG_TIME } from "@/config";
 
 export interface GetSalesProps
   extends QueryPaginationProps,
@@ -88,6 +89,8 @@ export const useGetAllSales = (
       }),
     select: ({ data }) => data,
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.mediumTerm,
   });
 
   useEffect(() => {
