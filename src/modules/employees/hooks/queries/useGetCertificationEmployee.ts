@@ -8,6 +8,7 @@ import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { downloadPDF } from '@/modules/core/helpers';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getCertificationEmployee = async (
   id: string
@@ -36,6 +37,10 @@ export const useGetCertificationEmployee = ({
   actionOnSuccess,
 }: Props): UseGetOneRecordReturn<Blob> => {
   const { hasPermission, handleError } = useAuthContext();
+  const isAuthorized = hasPermission(
+    'employees',
+    'find_certification_employee'
+  );
 
   const query: UseGetOneRecordReturn<Blob> = useQuery({
     queryKey: ['employee-certification', userId],
@@ -51,11 +56,12 @@ export const useGetCertificationEmployee = ({
 
       return fetchCertification;
     },
-    
+
     select: ({ data }) => data,
-    enabled:
-      stateQuery && hasPermission('employees', 'find_certification_employee'),
-    retry: 1,
+    enabled: stateQuery && isAuthorized,
+    retry: false,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.shortTerm,
   });
 
   useEffect(() => {
