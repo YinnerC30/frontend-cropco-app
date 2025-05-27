@@ -194,7 +194,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     return finalActions;
   };
 
-  const globalActionsUser = (): GlobalActionsUser => {
+  const getGlobalActionsUser = (): GlobalActionsUser => {
     if (!!queryGetAllModules && queryGetAllModules.isSuccess) {
       return queryGetAllModules.data?.reduce((acc, module) => {
         acc[module.name] = validatePermissionsInModule(module.name);
@@ -208,7 +208,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const getActionsModule = (
     moduleName: ModulesCropco
   ): Record<string, boolean> => {
-    return { ...globalActionsUser()[moduleName] };
+    return { ...getGlobalActionsUser()[moduleName] };
   };
 
   const hasMoreThanOnePermission = (moduleName: string) => {
@@ -236,7 +236,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         hasMoreThanOnePermission,
         hasPermission,
         validatePermissionsInModule,
-        globalActionsUser,
+        getGlobalActionsUser,
         getActionsModule,
         isLoading: queryGetAllModules.isLoading,
         isError: queryGetAllModules.isError,
