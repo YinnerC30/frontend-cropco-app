@@ -8,6 +8,7 @@ import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/Typ
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
 import { Crop } from '../../interfaces/Crop';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getCropsWithWork = async (): TypeGetAllRecordsReturn<Crop> => {
   return await cropcoAPI.get(`${pathsCropco.crops}/with-work/all`);
@@ -21,6 +22,8 @@ export const useGetAllCropsWithWork = (): UseQueryGetAllRecordsReturn<Crop> => {
     queryFn: () => getCropsWithWork(),
     select: ({ data }) => data,
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.longTerm,
   });
 
   useEffect(() => {

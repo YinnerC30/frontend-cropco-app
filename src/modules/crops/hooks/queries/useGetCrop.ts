@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Crop } from '../../interfaces/Crop';
 import { ConvertStringToDate } from '@/modules/core/helpers';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getCropById = async (id: string): PromiseReturnRecord<Crop> => {
   return await cropcoAPI.get(`${pathsCropco.crops}/one/${id}`);
@@ -30,6 +31,8 @@ export const useGetCrop = (id: string): UseGetOneRecordReturn<Crop> => {
       },
     }),
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.shortTerm,
   });
 
   useEffect(() => {

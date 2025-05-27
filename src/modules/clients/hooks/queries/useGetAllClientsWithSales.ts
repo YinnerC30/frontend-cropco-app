@@ -7,6 +7,7 @@ import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/Typ
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
 import { Client } from '../../interfaces/Client';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getClientsWithSales =
   async (): TypeGetAllRecordsReturn<Client> => {
@@ -26,6 +27,8 @@ export const useGetAllClientsWithSales =
       queryFn: () => getClientsWithSales(),
       select: ({ data }) => data,
       enabled: isAuthorized,
+      refetchOnWindowFocus: false,
+      ...CACHE_CONFIG_TIME.longTerm,
     });
 
     useEffect(() => {

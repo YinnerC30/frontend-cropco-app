@@ -7,6 +7,7 @@ import { useAuthContext } from '@/auth/hooks';
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 interface CropTopHarvest {
   id: string;
@@ -45,6 +46,8 @@ export const useGetTopCropsInHarvests = ({
     queryFn: () => getTopCropsInHarvests({ year }),
     select: ({ data }) => data,
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.longTerm,
   });
 
   useEffect(() => {

@@ -14,6 +14,7 @@ import { UseGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseG
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
 import { Crop } from '../../interfaces/Crop';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getCropsWithHarvest = async (
   values: BasicQueryData
@@ -51,7 +52,9 @@ export const useGetAllCropsWithHarvest = ({
       }),
     select: ({ data }) => data,
     enabled: isAuthorized,
-    
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.mediumTerm,
+
   });
 
   useEffect(() => {

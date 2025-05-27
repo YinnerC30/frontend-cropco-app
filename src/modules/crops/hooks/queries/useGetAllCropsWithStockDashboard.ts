@@ -7,6 +7,7 @@ import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGe
 import { ResponseApiGetAllRecords } from '@/modules/core/interfaces';
 import { useAuthContext } from '@/auth';
 import { useEffect } from 'react';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getCropsWithStockDashboard =
   async (): TypeGetAllRecordsReturn<HarvestStock> => {
@@ -22,6 +23,8 @@ export const useGetAllCropsWithStockDashboard = (): UseGetOneRecordReturn<
       queryKey: ['crops-with-stock-dashboard'],
       queryFn: () => getCropsWithStockDashboard(),
       select: ({ data }) => data,
+      refetchOnWindowFocus: false,
+      ...CACHE_CONFIG_TIME.longTerm,
     });
 
   useEffect(() => {
