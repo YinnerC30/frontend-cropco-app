@@ -8,6 +8,7 @@ import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { downloadPDF } from '@/modules/core/helpers';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getSalePDF = async (id: string): PromiseReturnRecord<Blob> => {
   return await cropcoAPI.get<Blob>(
@@ -34,7 +35,7 @@ export const useGetSalePDF = ({
   actionOnSuccess,
 }: Props): UseGetOneRecordReturn<Blob> => {
   const { hasPermission, handleError } = useAuthContext();
-
+  const isAuthorized = hasPermission('sales', 'export_sale_to_pdf');
   const query: UseGetOneRecordReturn<Blob> = useQuery({
     queryKey: ['sale-pdf', saleId],
     queryFn: () => {
@@ -51,8 +52,10 @@ export const useGetSalePDF = ({
     },
     
     select: ({ data }) => data,
-    enabled: stateQuery && hasPermission('sales', 'export_sale_to_pdf'),
-    retry: 1,
+    enabled: stateQuery && isAuthorized,
+    retry: false,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.shortTerm,
   });
 
   useEffect(() => {

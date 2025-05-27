@@ -8,6 +8,7 @@ import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { toast } from 'sonner';
 import { SaleTotalInYearData } from '../../interfaces/charts/SalesTotalInYear';
+import { CACHE_CONFIG_TIME } from '@/config';
 // import { SaleTotalInYearData } from '../../interfaces/charts/SalesTotalInYear';
 // import { HarvestTotalInYearData } from '../../interfaces/charts/SalesTotalInYear';
 
@@ -45,13 +46,18 @@ export const useGetTotalSalesInYear = ({
 }: QueryParams): UseGetOneRecordReturn<SaleTotalInYearData> => {
   const { hasPermission, handleError } = useAuthContext();
 
-  const isAuthorized = hasPermission('dashboard', 'find_total_sales_in_year_chart');
+  const isAuthorized = hasPermission(
+    'dashboard',
+    'find_total_sales_in_year_chart'
+  );
 
   const query: UseGetOneRecordReturn<SaleTotalInYearData> = useQuery({
     queryKey: ['sales-value_pay-year', year, crop, client],
     queryFn: () => getTotalSalesInYear({ year, crop, client }),
     select: ({ data }) => data,
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.longTerm,
   });
 
   useEffect(() => {

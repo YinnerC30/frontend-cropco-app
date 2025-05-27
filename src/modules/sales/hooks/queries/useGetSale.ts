@@ -8,6 +8,7 @@ import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGe
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Sale } from '../../interfaces';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getSaleById = async (id: string): PromiseReturnRecord<Sale> => {
   return await cropcoAPI.get(`${pathsCropco.sales}/one/${id}`);
@@ -23,6 +24,8 @@ export const useGetSale = (id: string): UseGetOneRecordReturn<Sale> => {
     queryFn: () => getSaleById(id),
     select: ({ data }) => ({...data, date: ConvertStringToDate(data?.date),} as unknown as Sale),
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.shortTerm,
   });
 
   useEffect(() => {
