@@ -21,6 +21,7 @@ import {
 } from '../utils/manageUserInLocalStorage';
 import { AuthContextProps } from '../interfaces/AuthContextProps';
 import { TypedAxiosError } from '../interfaces/AxiosErrorResponse';
+import { defaultGlobalActionsUserAdmin } from '../helpers/defaultGlobalActionsUserAdmin';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
@@ -37,7 +38,7 @@ export type ModulesCropco =
   | 'payments'
   | 'shopping'
   | 'consumptions'
-  | 'dashboard'
+  | 'dashboard';
 type GlobalActionsUser = Record<ModulesCropco, Record<string, boolean>>;
 
 export interface HandleErrorProps {
@@ -194,15 +195,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const globalActionsUser: GlobalActionsUser = useMemo(
-    () =>
-      queryGetAllModules.isSuccess
-        ? queryGetAllModules.data?.reduce((acc, module) => {
-            acc[module.name] = validatePermissionsInModule(module.name);
-            return acc;
-          }, {} as any)
-        : {},
-    [userAuthData, queryGetAllModules.data]
+    () => ({ ...defaultGlobalActionsUserAdmin }),
+    []
   );
+  console.log('🚀 ~ globalActionsUser:', globalActionsUser);
 
   const getActionsModule = (
     moduleName: ModulesCropco
