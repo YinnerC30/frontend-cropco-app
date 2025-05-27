@@ -8,6 +8,7 @@ import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGe
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Harvest } from '../../interfaces';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getHarvestById = async (
   id: string
@@ -29,6 +30,8 @@ export const useGetHarvest = (id: string): UseGetOneRecordReturn<Harvest> => {
       } as unknown as Harvest;
     },
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.shortTerm,
   });
 
   useEffect(() => {

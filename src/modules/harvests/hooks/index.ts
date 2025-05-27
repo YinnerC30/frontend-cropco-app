@@ -7,7 +7,6 @@ export * from './mutations/usePatchHarvestProcessed';
 export * from './mutations/usePostHarvest';
 export * from './mutations/usePostHarvestProcessed';
 export * from './queries/useGetAllHarvests';
-export * from './queries/useGetAllHarvestsProcessed';
 export * from '../../crops/hooks/queries/useGetAllCropsWithStock';
 export * from './queries/useGetHarvest';
 

@@ -8,6 +8,7 @@ import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { toast } from 'sonner';
 import { HarvestTotalInYearData } from '../../interfaces/charts/HarvestsTotalInYear';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 interface QueryParams {
   year: number;
@@ -50,6 +51,8 @@ export const useGetTotalHarvestsInYear = ({
     queryFn: () => getTotalHarvestsInYear({ year, crop, employee }),
     select: ({ data }) => data,
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.longTerm,
   });
 
   useEffect(() => {

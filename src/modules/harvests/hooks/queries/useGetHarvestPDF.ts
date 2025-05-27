@@ -8,6 +8,7 @@ import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { downloadPDF } from '@/modules/core/helpers';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getHarvestPDF = async (id: string): PromiseReturnRecord<Blob> => {
   return await cropcoAPI.get<Blob>(
@@ -35,6 +36,8 @@ export const useGetHarvestPDF = ({
 }: Props): UseGetOneRecordReturn<Blob> => {
   const { hasPermission, handleError } = useAuthContext();
 
+  const isAuthorized = hasPermission('harvests', 'export_harvest_to_pdf');
+
   const query: UseGetOneRecordReturn<Blob> = useQuery({
     queryKey: ['harvest-pdf', harvestId],
     queryFn: () => {
@@ -49,10 +52,12 @@ export const useGetHarvestPDF = ({
 
       return fetchCertification;
     },
-    // 
+    //
     select: ({ data }) => data,
-    enabled: stateQuery && hasPermission('harvests', 'export_harvest_to_pdf'),
+    enabled: stateQuery && isAuthorized,
     retry: 0,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.shortTerm,
   });
 
   useEffect(() => {
