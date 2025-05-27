@@ -16,6 +16,7 @@ import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGe
 import { toast } from 'sonner';
 import { SupplyStock } from '../../interfaces/SupplyStock';
 import { UseGetAllRecordsProps } from '@/modules/core/interfaces/props/PropsUseGetAllRecords';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 // FIX: Eliminar propiedades no utilizadas
 
@@ -57,6 +58,8 @@ export const useGetAllSuppliesStock = ({
         }),
       select: ({ data }) => data,
       enabled: isAuthorized,
+      refetchOnWindowFocus: false,
+      ...CACHE_CONFIG_TIME.longTerm,
     });
 
   useEffect(() => {

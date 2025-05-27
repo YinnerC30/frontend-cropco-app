@@ -8,6 +8,7 @@ import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/Typ
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { toast } from 'sonner';
 import { Supply } from '../../interfaces/Supply';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getSuppliesWithShopping =
   async (): TypeGetAllRecordsReturn<Supply> => {
@@ -29,7 +30,8 @@ export const useGetAllSuppliesWithShopping =
       queryFn: () => getSuppliesWithShopping(),
       select: ({ data }) => data,
       enabled: isAuthorized,
-      
+      refetchOnWindowFocus: false,
+      ...CACHE_CONFIG_TIME.longTerm,
     });
 
     useEffect(() => {

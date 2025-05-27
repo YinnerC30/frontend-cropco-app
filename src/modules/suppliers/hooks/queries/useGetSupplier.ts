@@ -7,6 +7,7 @@ import { UseGetOneRecordReturn } from "@/modules/core/interfaces/responses/UseGe
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { Supplier } from "../../interfaces/Supplier";
+import { CACHE_CONFIG_TIME } from "@/config";
 
 export const getSupplierById = async (
   id: string
@@ -24,6 +25,8 @@ export const useGetSupplier = (id: string): UseGetOneRecordReturn<Supplier> => {
     queryFn: () => getSupplierById(id),
     select: ({ data }) => ({ ...data, company_name: undefined }),
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.shortTerm,
   });
 
   useEffect(() => {
