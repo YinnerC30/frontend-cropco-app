@@ -8,6 +8,7 @@ import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGe
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { User } from '../../interfaces';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 async function getUserById(id: string): PromiseReturnRecord<User> {
   return await cropcoAPI.get(`${pathsCropco.users}/one/${id}`);
@@ -28,6 +29,8 @@ export function useGetUser(id: string): UseGetOneRecordReturn<User> {
         module.actions.map((action: Action) => ({ id: action.id }))
       ),
     }),
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.shortTerm,
   });
 
   useEffect(() => {
