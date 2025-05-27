@@ -1,5 +1,6 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
+import { CACHE_CONFIG_TIME } from '@/config';
 import { TypeGetAllRecordsReturn } from '@/modules/core/interfaces/responses/TypeGetAllRecordsReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { Employee } from '@/modules/employees/interfaces/Employee';
@@ -23,9 +24,10 @@ export const useGetAllEmployeesWithWorks =
     const query: UseQueryGetAllRecordsReturn<Employee> = useQuery({
       queryKey: ['employees-with-works'],
       queryFn: () => getEmployeesWithWorks(),
-      
       select: ({ data }) => data,
       enabled: isAuthorized,
+      refetchOnWindowFocus: false,
+      ...CACHE_CONFIG_TIME.longTerm,
     });
 
     useEffect(() => {

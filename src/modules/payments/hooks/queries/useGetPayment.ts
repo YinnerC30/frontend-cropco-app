@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { PaymentRecord } from '../../interfaces/ResponseGetOnePayment';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getPaymentById = async (
   id: string
@@ -29,6 +30,8 @@ export const useGetPayment = (
         date: ConvertStringToDate(data.date!),
       } as unknown as PaymentRecord),
     enabled: isAuthorized,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.shortTerm,
   });
 
   useEffect(() => {

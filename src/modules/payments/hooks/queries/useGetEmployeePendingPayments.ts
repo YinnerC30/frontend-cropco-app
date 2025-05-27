@@ -1,6 +1,7 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { CACHE_CONFIG_TIME } from '@/config';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 import { useQuery } from '@tanstack/react-query';
@@ -30,6 +31,8 @@ export const useGetEmployeePendingPayments = (
     queryFn: () => getEmployeeWithPaymentsPending(id),
     select: ({ data }) => data,
     enabled: id.length > 0 && canExecuteQuery,
+    refetchOnWindowFocus: false,
+    ...CACHE_CONFIG_TIME.shortTerm,
   });
 
   useEffect(() => {
