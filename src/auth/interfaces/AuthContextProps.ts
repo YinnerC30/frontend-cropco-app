@@ -13,7 +13,7 @@ export interface AuthContextProps {
   hasMoreThanOnePermission: (moduleName: string) => number;
   hasPermission: (moduleName: string, actionName: string) => boolean;
   validatePermissionsInModule: (moduleName: string) => Record<string, boolean>;
-  globalActionsUser?: Record<string, Record<string, boolean>>;
+  globalActionsUser?: () => Record<string, Record<string, boolean>>;
   getActionsModule: (moduleName: ModulesCropco) => Record<string, boolean>;
   isLoading: boolean;
   isError: boolean;

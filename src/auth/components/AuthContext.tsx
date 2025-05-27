@@ -194,16 +194,21 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     return finalActions;
   };
 
-  const globalActionsUser: GlobalActionsUser = useMemo(
-    () => ({ ...defaultGlobalActionsUserAdmin }),
-    []
-  );
-  console.log('🚀 ~ globalActionsUser:', globalActionsUser);
+  const globalActionsUser = (): GlobalActionsUser => {
+    if (!!queryGetAllModules && queryGetAllModules.isSuccess) {
+      return queryGetAllModules.data?.reduce((acc, module) => {
+        acc[module.name] = validatePermissionsInModule(module.name);
+        return acc;
+      }, {} as any);
+    }
+
+    return { ...defaultGlobalActionsUserAdmin };
+  };
 
   const getActionsModule = (
     moduleName: ModulesCropco
   ): Record<string, boolean> => {
-    return { ...globalActionsUser[moduleName] };
+    return { ...globalActionsUser()[moduleName] };
   };
 
   const hasMoreThanOnePermission = (moduleName: string) => {
