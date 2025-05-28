@@ -111,8 +111,9 @@ export const ShoppingModuleSearchbar: React.FC = () => {
           suppliers.some((e) => !e.first_name === true)
             ? suppliers
                 .map((e) => {
-                  return querySuppliers.data?.records.find((cl) => cl.id === e.id)
-                    ?.first_name;
+                  return querySuppliers.data?.records.find(
+                    (cl) => cl.id === e.id
+                  )?.first_name;
                 })
                 .join(', ')
             : suppliers.map((e) => e.first_name).join(', ')
@@ -126,8 +127,9 @@ export const ShoppingModuleSearchbar: React.FC = () => {
           supplies.some((e) => !e.name === true)
             ? supplies
                 .map((e) => {
-                  return querySupplies.data?.records.find((cr) => cr.id === e.id)
-                    ?.name;
+                  return querySupplies.data?.records.find(
+                    (cr) => cr.id === e.id
+                  )?.name;
                 })
                 .join(', ')
             : supplies.map((e) => e.name).join(', ')
@@ -171,7 +173,9 @@ export const ShoppingModuleSearchbar: React.FC = () => {
         form.setValue('filter_by_value_pay.type_filter_value_pay', undefined, {
           shouldDirty: false,
         });
-        form.setValue('filter_by_value_pay.value_pay', 0, { shouldDirty: false });
+        form.setValue('filter_by_value_pay.value_pay', 0, {
+          shouldDirty: false,
+        });
         break;
     }
     await handleSearch(form.watch());
@@ -592,13 +596,13 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                               <PopoverContent className="w-[200px] p-0">
                                 <Command>
                                   <CommandInput
-                                    placeholder={`Buscar cliente...`}
+                                    placeholder={`Buscar suministro...`}
                                     className="h-9"
                                   />
                                   <CommandList>
                                     <ScrollArea className="w-auto h-56 p-1 pr-2">
                                       <CommandEmpty>{`${CapitalizeFirstWord(
-                                        'cultivo'
+                                        'suministro'
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
                                         {querySupplies?.data?.records.map(
@@ -690,7 +694,9 @@ export const ShoppingModuleSearchbar: React.FC = () => {
               <FilterDropdownItem
                 label={'Total'}
                 actionOnSave={() => handleAddFilter('filter_by_value_pay')}
-                actionOnClose={() => handleClearErrorsForm('filter_by_value_pay')}
+                actionOnClose={() =>
+                  handleClearErrorsForm('filter_by_value_pay')
+                }
                 content={
                   <>
                     <FormFieldSelect

@@ -554,7 +554,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                               </PopoverContent>
                             </Popover>
                             <FormDescription>
-                              {'Cliente(s) que han participado en trabajos'}
+                              {'Cliente(s) que han participado en las ventas'}
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
@@ -625,7 +625,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                               <PopoverContent className="w-[200px] p-0">
                                 <Command>
                                   <CommandInput
-                                    placeholder={`Buscar cliente...`}
+                                    placeholder={`Buscar cultivo...`}
                                     className="h-9"
                                   />
                                   <CommandList>
