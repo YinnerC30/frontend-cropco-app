@@ -4,7 +4,7 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { createContext, useMemo, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 
 import {
   ItemQueryAdvanced,
@@ -154,6 +154,12 @@ export const SalesModuleProvider: React.FC<{
       setSaleIdDocument('');
     },
   });
+
+  useEffect(() => {
+    if (hasValues) {
+      setPagination({ pageIndex: 0, pageSize: 10 });
+    }
+  }, [hasValues]);
 
   const contextValue: SalesModuleContextValues = {
     actionsSalesModule,

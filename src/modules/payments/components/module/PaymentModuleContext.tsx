@@ -4,21 +4,24 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { useAdvancedQueryData } from '@/modules/core/hooks/useAdvancedQueryData';
-import { createContext, useMemo, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 
+import {
+  ItemQueryAdvanced,
+  useAdvancedQueryDataPlus,
+} from '@/modules/core/hooks/useAdvancedQueryDataPlus';
 import { BulkRecords } from '@/modules/core/interfaces';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { useDeleteBulkPayments } from '../../hooks/mutations/useDeleteBulkPayments';
 import { useDeletePayment } from '../../hooks/mutations/useDeletePayment';
 import { useGetAllPayments } from '../../hooks/queries/useGetAllPayments';
+import { useGetPaymentPDF } from '../../hooks/queries/useGetPaymentPDF';
 import { Payment } from '../../interfaces/Payment';
 import { ActionsTablePayment } from './ActionsTablePayment';
 import columnsPayment from './ColumnsTablePayment';
-import { useGetPaymentPDF } from '../../hooks/queries/useGetPaymentPDF';
-import { UseQueryResult } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 
 export interface paramQueryPayment {
   employee: { id: string | null | undefined };
@@ -52,23 +55,43 @@ export const PaymentsModuleContext = createContext<
   PaymentsModuleContextValues | undefined
 >(undefined);
 
+const paramsPayments: ItemQueryAdvanced[] = [
+  {
+    propertyName: 'employee',
+    defaultValue: '',
+  },
+  {
+    propertyName: 'filter_by_date',
+    defaultValue: false,
+  },
+  {
+    propertyName: 'type_filter_date',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'date',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'filter_by_value_pay',
+    defaultValue: false,
+  },
+  {
+    propertyName: 'type_filter_value_pay',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'value_pay',
+    defaultValue: undefined,
+  },
+];
+
 export const PaymentsModuleProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const { paramsValues } = useAdvancedQueryData({
-    params: [
-      'employee',
-      'filter_by_date',
-      'type_filter_date',
-      'date',
-
-      'filter_by_value_pay',
-      'type_filter_value_pay',
-      'value_pay',
-    ],
-  });
+  const { paramsValues, hasValues } = useAdvancedQueryDataPlus(paramsPayments);
 
   const {
     query: queryPayments,
@@ -115,6 +138,12 @@ export const PaymentsModuleProvider = ({
       setPaymentIdDocument('');
     },
   });
+
+  useEffect(() => {
+    if (hasValues) {
+      setPagination({ pageIndex: 0, pageSize: 10 });
+    }
+  }, [hasValues]);
 
   const contextValue: PaymentsModuleContextValues = {
     actionsPaymentsModule,

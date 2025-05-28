@@ -4,7 +4,7 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { createContext, useMemo } from 'react';
+import { createContext, useEffect, useMemo } from 'react';
 
 import {
   ItemQueryAdvanced,
@@ -111,6 +111,12 @@ export const ConsumptionModuleProvider: React.FC<{
 
   const mutationDeleteConsumptions = useDeleteBulkConsumption();
   const mutationDeleteConsumption = useDeleteConsumption();
+
+  useEffect(() => {
+    if (hasValues) {
+      setPagination({ pageIndex: 0, pageSize: 10 });
+    }
+  }, [hasValues]);
 
   const contextValue: ConsumptionsModuleContextValues = {
     actionsConsumptionsModule,

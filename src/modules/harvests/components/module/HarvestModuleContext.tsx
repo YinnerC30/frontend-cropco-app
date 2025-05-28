@@ -12,7 +12,7 @@ import { BulkRecords } from '@/modules/core/interfaces';
 import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
-import React, { createContext, useMemo, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 import { useDeleteHarvest, useGetAllHarvests } from '../../hooks';
 import { useDeleteBulkHarvests } from '../../hooks/mutations/useDeleteBulkHarvests';
 import { Harvest } from '../../interfaces';
@@ -162,6 +162,12 @@ export const HarvestsModuleProvider: React.FC<{
   const mutationDeleteHarvests = useDeleteBulkHarvests();
 
   const mutationDeleteHarvest = useDeleteHarvest();
+
+  useEffect(() => {
+    if (hasValues) {
+      setPagination({ pageIndex: 0, pageSize: 10 });
+    }
+  }, [hasValues]);
 
   const contextValue: HarvestsModuleContextProps = {
     mutationDeleteHarvests,
