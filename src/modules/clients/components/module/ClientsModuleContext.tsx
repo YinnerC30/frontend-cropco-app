@@ -1,7 +1,7 @@
 import { useAuthContext } from '@/auth/hooks';
 import { useDataTableManual } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import React, { createContext, useMemo } from 'react';
+import React, { createContext, useEffect, useMemo } from 'react';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useDeleteBulkClients } from '../../hooks/mutations/useDeleteBulkClients';
@@ -66,6 +66,12 @@ export const ClientsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const mutationDeleteClients = useDeleteBulkClients();
   const mutationDeleteClient = useDeleteClient();
+
+  useEffect(() => {
+    if (value.length > 0) {
+      setPagination({ pageIndex: 0, pageSize: 10 });
+    }
+  }, [value]);
 
   const contextValue: ClientsModuleContextProps = {
     paramQuery: value,
