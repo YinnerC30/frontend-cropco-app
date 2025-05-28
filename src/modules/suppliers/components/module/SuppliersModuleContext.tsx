@@ -4,7 +4,7 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import { createContext, useMemo } from 'react';
+import { createContext, useEffect, useMemo } from 'react';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable.ts';
 import { BulkRecords } from '@/modules/core/interfaces/index.ts';
@@ -68,6 +68,12 @@ export const SuppliersModuleProvider: React.FC<{
 
   const mutationDeleteSuppliers = useDeleteBulkSuppliers();
   const mutationDeleteSupplier = useDeleteSupplier();
+
+  useEffect(() => {
+    if (value.length > 0) {
+      setPagination({ pageIndex: 0, pageSize: 10 });
+    }
+  }, [value]);
 
   const contextValue: SuppliersModuleContextProps = {
     paramQuery: value,

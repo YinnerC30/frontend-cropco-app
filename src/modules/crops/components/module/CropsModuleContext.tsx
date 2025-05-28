@@ -4,7 +4,7 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import { createContext, useMemo } from 'react';
+import { createContext, useEffect, useMemo } from 'react';
 import { useGetAllCrops } from '../../hooks/queries/useGetAllCrops';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
@@ -69,6 +69,12 @@ export const CropsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const mutationDeleteCrops = useDeleteBulkCrops();
   const mutationDeleteCrop = useDeleteCrop();
+
+  useEffect(() => {
+    if (value.length > 0) {
+      setPagination({ pageIndex: 0, pageSize: 10 });
+    }
+  }, [value]);
 
   const contextValue: CropsModuleContextProps = {
     paramQuery: value,

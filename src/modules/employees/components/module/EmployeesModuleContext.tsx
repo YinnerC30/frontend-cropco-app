@@ -2,7 +2,7 @@ import { useAuthContext } from "@/auth";
 import { useDataTableManual } from "@/modules/core/hooks";
 import { useBasicQueryData } from "@/modules/core/hooks/";
 import { useCreateColumnsTable } from "@/modules/core/hooks/data-table/useCreateColumnsTable";
-import { createContext, useMemo, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import {
   useDeleteBulkEmployees,
   useDeleteEmployee,
@@ -74,6 +74,12 @@ export const EmployeesModuleProvider = ({
 
   const mutationDeleteEmployees = useDeleteBulkEmployees();
   const mutationDeleteEmployee = useDeleteEmployee();
+
+  useEffect(() => {
+    if (value.length > 0) {
+      setPagination({ pageIndex: 0, pageSize: 10 });
+    }
+  }, [value]);
 
   const contextValue: EmployeesModuleContextProps = {
     paramQuery: value,
