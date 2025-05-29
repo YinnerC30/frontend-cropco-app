@@ -15,6 +15,8 @@ export const SaleModuleActions: React.FC = () => {
     querySales,
     dataTable: { hasSelectedRecords, resetSelectionRows, getIdsToRowsSelected },
     actionsSalesModule,
+    queryClients,
+    queryCrops,
   } = useSaleModuleContext();
 
   const { mutate, isPending } = useDeleteBulkSales();
@@ -30,10 +32,18 @@ export const SaleModuleActions: React.FC = () => {
     );
   };
 
+  const handleRefetchData = async () => {
+    await Promise.all([
+      querySales.refetch(),
+      queryCrops.refetch(),
+      queryClients.refetch(),
+    ]);
+  };
+
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={querySales.refetch}
+        onClick={handleRefetchData}
         disabled={!actionsSalesModule['find_all_sales']}
         className=""
       />

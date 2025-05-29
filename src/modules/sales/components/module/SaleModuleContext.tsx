@@ -24,6 +24,10 @@ import columnsSale from './ColumnsTableSale';
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useGetSalePDF } from '../../hooks/queries/useGetSalePDF';
+import { useGetAllClientsWithSales } from '@/modules/clients/hooks/queries/useGetAllClientsWithSales';
+import { useGetAllCropsWithSales } from '@/modules/crops/hooks/queries/useGetAllCropsWithSales';
+import { Client } from '@/modules/clients/interfaces/Client';
+import { Crop } from '@/modules/crops/interfaces/Crop';
 
 export interface paramQuerySale {
   clients: { id: string }[];
@@ -54,6 +58,8 @@ export interface SalesModuleContextValues {
   saleIdDocument: string;
   setSaleIdDocument: React.Dispatch<React.SetStateAction<string>>;
   setExecuteQuery: React.Dispatch<React.SetStateAction<boolean>>;
+  queryClients: UseQueryGetAllRecordsReturn<Client>;
+  queryCrops: UseQueryGetAllRecordsReturn<Crop>;
 }
 
 const paramsSale: ItemQueryAdvanced[] = [
@@ -116,6 +122,9 @@ export const SalesModuleProvider: React.FC<{
     pagination,
     setPagination,
   } = useGetAllSales(paramsValues as GetSalesProps);
+
+  const queryClients = useGetAllClientsWithSales();
+  const queryCrops = useGetAllCropsWithSales();
 
   const { getActionsModule } = useAuthContext();
 
@@ -192,6 +201,8 @@ export const SalesModuleProvider: React.FC<{
     setSaleIdDocument,
     setExecuteQuery,
     queryGetDocument,
+    queryClients,
+    queryCrops,
   };
 
   return (

@@ -27,7 +27,6 @@ import { es } from 'date-fns/locale';
 import { Calendar, CheckIcon, Filter, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
-import { useGetAllClientsWithSales } from '@/modules/clients/hooks/queries/useGetAllClientsWithSales';
 import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
 import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
 import {
@@ -35,7 +34,6 @@ import {
   numberFilterOptions,
 } from '@/modules/core/interfaces/queries/FilterOptions';
 import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
-import { useGetAllCropsWithSales } from '@/modules/crops/hooks/queries/useGetAllCropsWithSales';
 import { Popover } from '@radix-ui/react-popover';
 import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
@@ -85,13 +83,10 @@ const valuesResetForm = {
 };
 
 export const SaleModuleSearchbar: React.FC = () => {
-  const { paramsQuery, actionsSalesModule, hasParamsQuery } =
+  const { paramsQuery, actionsSalesModule, hasParamsQuery, queryClients, queryCrops } =
     useSaleModuleContext();
   const readOnly = !actionsSalesModule['find_all_sales'];
   const navigate = useNavigate();
-
-  const queryClients = useGetAllClientsWithSales();
-  const queryCrops = useGetAllCropsWithSales();
 
   const form: UseFormReturn<
     z.infer<typeof formSchemaSearchBarSale>,
@@ -209,7 +204,9 @@ export const SaleModuleSearchbar: React.FC = () => {
         form.setValue('filter_by_value_pay.type_filter_value_pay', undefined, {
           shouldDirty: false,
         });
-        form.setValue('filter_by_value_pay.value_pay', 0, { shouldDirty: false });
+        form.setValue('filter_by_value_pay.value_pay', 0, {
+          shouldDirty: false,
+        });
         break;
       case 'amount':
         form.setValue('filter_by_amount.type_filter_amount', undefined, {
@@ -379,7 +376,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                     onClick={handleResetForm}
                     size={'icon'}
                     disabled={readOnly}
-                    className='bg-destructive hover:bg-destructive/80'
+                    className="bg-destructive hover:bg-destructive/80"
                   >
                     <X className="w-4 h-4" />
                   </Button>
@@ -635,68 +632,72 @@ export const SaleModuleSearchbar: React.FC = () => {
                                         'cultivo'
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
-                                        {queryCrops?.data?.records.map((item) => {
-                                          return (
-                                            <CommandItem
-                                              value={item?.['name']}
-                                              key={item.id!}
-                                              onSelect={() => {
-                                                if (
-                                                  field?.value?.some(
-                                                    (i: any) =>
-                                                      i.id === item?.id
-                                                  )
-                                                ) {
-                                                  form.setValue(
-                                                    'crops',
-                                                    [
-                                                      ...field?.value?.filter(
-                                                        (i: any) =>
-                                                          i.id !== item?.id
-                                                      ),
-                                                    ],
-                                                    {
-                                                      shouldValidate: true,
-                                                      shouldDirty: true,
-                                                    }
-                                                  );
-                                                } else {
-                                                  form.setValue(
-                                                    'crops',
-                                                    [
-                                                      ...(currentCrops || []),
+                                        {queryCrops?.data?.records.map(
+                                          (item) => {
+                                            return (
+                                              <CommandItem
+                                                value={item?.['name']}
+                                                key={item.id!}
+                                                onSelect={() => {
+                                                  if (
+                                                    field?.value?.some(
+                                                      (i: any) =>
+                                                        i.id === item?.id
+                                                    )
+                                                  ) {
+                                                    form.setValue(
+                                                      'crops',
+                                                      [
+                                                        ...field?.value?.filter(
+                                                          (i: any) =>
+                                                            i.id !== item?.id
+                                                        ),
+                                                      ],
                                                       {
-                                                        id: item.id,
-                                                        name: item['name'],
-                                                      },
-                                                    ],
-                                                    {
-                                                      shouldValidate: true,
-                                                      shouldDirty: true,
-                                                    }
-                                                  );
-                                                }
-                                                setOpenPopoverCrop(false);
-                                              }}
-                                            >
-                                              <div className="">
-                                                {item?.['name']}
-                                              </div>
-                                              <CheckIcon
-                                                className={cn(
-                                                  'ml-auto h-4 w-4',
-                                                  field?.value.some(
-                                                    (i: any) => {
-                                                      return i.id === item?.id;
-                                                    }
-                                                  )
-                                                    ? 'opacity-100'
-                                                    : 'opacity-0'
-                                                )}
-                                              />
-                                            </CommandItem>
-                                          );
-                                        })}
+                                                        shouldValidate: true,
+                                                        shouldDirty: true,
+                                                      }
+                                                    );
+                                                  } else {
+                                                    form.setValue(
+                                                      'crops',
+                                                      [
+                                                        ...(currentCrops || []),
+                                                        {
+                                                          id: item.id,
+                                                          name: item['name'],
+                                                        },
+                                                      ],
+                                                      {
+                                                        shouldValidate: true,
+                                                        shouldDirty: true,
+                                                      }
+                                                    );
+                                                  }
+                                                  setOpenPopoverCrop(false);
+                                                }}
+                                              >
+                                                <div className="">
+                                                  {item?.['name']}
+                                                </div>
+                                                <CheckIcon
+                                                  className={cn(
+                                                    'ml-auto h-4 w-4',
+                                                    field?.value.some(
+                                                      (i: any) => {
+                                                        return (
+                                                          i.id === item?.id
+                                                        );
+                                                      }
+                                                    )
+                                                      ? 'opacity-100'
+                                                      : 'opacity-0'
+                                                  )}
+                                                />
+                                              </CommandItem>
+                                            );
+                                          }
+                                        )}
                                       </CommandGroup>
                                     </ScrollArea>
                                   </CommandList>
@@ -719,7 +720,9 @@ export const SaleModuleSearchbar: React.FC = () => {
               <FilterDropdownItem
                 label={'Valor a pagar'}
                 actionOnSave={() => handleAddFilter('filter_by_value_pay')}
-                actionOnClose={() => handleClearErrorsForm('filter_by_value_pay')}
+                actionOnClose={() =>
+                  handleClearErrorsForm('filter_by_value_pay')
+                }
                 content={
                   <>
                     <FormFieldSelect
@@ -743,9 +746,7 @@ export const SaleModuleSearchbar: React.FC = () => {
               <FilterDropdownItem
                 label={'Cantidad'}
                 actionOnSave={() => handleAddFilter('filter_by_amount')}
-                actionOnClose={() =>
-                  handleClearErrorsForm('filter_by_amount')
-                }
+                actionOnClose={() => handleClearErrorsForm('filter_by_amount')}
                 content={
                   <>
                     <FormFieldSelect
