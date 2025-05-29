@@ -31,9 +31,11 @@ export const HarvestModuleActions: React.FC = () => {
   };
 
   const handleRefetchData = async () => {
-    await queryHarvests.refetch();
-    await queryCrops.refetch();
-    await queryEmployees.refetch();
+    await Promise.all([
+      queryHarvests.refetch(),
+      queryCrops.refetch(),
+      queryEmployees.refetch(),
+    ]);
   };
 
   return (
