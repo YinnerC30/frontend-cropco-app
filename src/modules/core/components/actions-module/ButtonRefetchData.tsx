@@ -20,6 +20,7 @@ export const ButtonRefetchData = memo(
           disabled={disabled}
           variant="outline"
           size="icon"
+          type='button'
         >
           <RefreshCw className="w-4 h-4" />
           <span className="sr-only">Recargar datos</span>

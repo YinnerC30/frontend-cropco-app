@@ -30,7 +30,6 @@ import {
   ToolTipTemplate,
 } from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
-import { useGetAllCropsWithHarvest } from '@/modules/crops/hooks/queries/useGetAllCropsWithHarvest';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -46,7 +45,6 @@ import {
   numberFilterOptions,
 } from '@/modules/core/interfaces/queries/FilterOptions';
 import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
-import { useGetAllEmployeesWithHarvests } from '@/modules/payments/hooks/queries/useGetAllEmployeesWithHarvests';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -86,16 +84,18 @@ export const HarvestModuleSearchbar: React.FC = () => {
     actionsHarvestsModule,
     appliedFilters,
     setAppliedFilters,
+    queryCrops,
+    queryEmployees,
   } = useHarvestModuleContext();
   const readOnly = !actionsHarvestsModule['find_all_harvests'];
   const navigate = useNavigate();
 
-  const { query: queryCrops } = useGetAllCropsWithHarvest({
-    queryValue: '',
-    all_records: true,
-  });
+  // const { query: queryCrops } = useGetAllCropsWithHarvest({
+  //   queryValue: '',
+  //   all_records: true,
+  // });
 
-  const queryEmployees = useGetAllEmployeesWithHarvests();
+  // const queryEmployees = useGetAllEmployeesWithHarvests();
 
   const form: UseFormReturn<
     z.infer<typeof formSchemaSearchBarHarvest>,

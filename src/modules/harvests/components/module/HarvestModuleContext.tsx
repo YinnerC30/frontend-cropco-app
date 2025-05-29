@@ -8,7 +8,7 @@ import {
   ItemQueryAdvanced,
   useAdvancedQueryDataPlus,
 } from '@/modules/core/hooks/useAdvancedQueryDataPlus';
-import { BulkRecords } from '@/modules/core/interfaces';
+import { BulkRecords, ResponseApiGetAllRecords } from '@/modules/core/interfaces';
 import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
@@ -22,6 +22,11 @@ import { useGetHarvestPDF } from '../../hooks/queries/useGetHarvestPDF';
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
+import { useGetAllCropsWithHarvest } from '@/modules/crops/hooks';
+import { useGetAllEmployeesWithHarvests } from '@/modules/payments/hooks/queries/useGetAllEmployeesWithHarvests';
+import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
+import { Crop } from '@/modules/crops/interfaces/Crop';
+import { Employee } from '@/modules/employees/interfaces/Employee';
 
 export interface paramQueryHarvest {
   crop: { id: string };
@@ -55,6 +60,9 @@ export interface HarvestsModuleContextProps {
   harvestIdDocument: string;
   setHarvestIdDocument: React.Dispatch<React.SetStateAction<string>>;
   setExecuteQuery: React.Dispatch<React.SetStateAction<boolean>>;
+
+  queryCrops: UseQueryResult<ResponseApiGetAllRecords<Crop>, AxiosError<TypedAxiosError, unknown>>;
+  queryEmployees: UseQueryGetAllRecordsReturn<Employee>;
 }
 
 const paramsHarvest: ItemQueryAdvanced[] = [
@@ -121,6 +129,13 @@ export const HarvestsModuleProvider: React.FC<{
   } = useGetAllHarvests({
     ...paramsValues,
   });
+
+  const { query: queryCrops } = useGetAllCropsWithHarvest({
+    queryValue: '',
+    all_records: true,
+  });
+
+  const queryEmployees = useGetAllEmployeesWithHarvests();
 
   const { getActionsModule } = useAuthContext();
 
@@ -199,6 +214,8 @@ export const HarvestsModuleProvider: React.FC<{
     harvestIdDocument,
     setHarvestIdDocument,
     setExecuteQuery,
+    queryCrops,
+    queryEmployees,
   };
 
   return (

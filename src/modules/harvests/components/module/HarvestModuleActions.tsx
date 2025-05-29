@@ -15,6 +15,8 @@ export const HarvestModuleActions: React.FC = () => {
     dataTable,
     actionsHarvestsModule,
     mutationDeleteHarvests,
+    queryCrops,
+    queryEmployees,
   } = useHarvestModuleContext();
 
   const handleDeleteBulkHarvests = () => {
@@ -28,10 +30,16 @@ export const HarvestModuleActions: React.FC = () => {
     );
   };
 
+  const handleRefetchData = async () => {
+    await queryHarvests.refetch();
+    await queryCrops.refetch();
+    await queryEmployees.refetch();
+  };
+
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={queryHarvests.refetch}
+        onClick={handleRefetchData}
         disabled={!actionsHarvestsModule['find_all_harvests']}
         className=""
       />
