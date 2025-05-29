@@ -22,6 +22,10 @@ import {
 import { ConsumptionSupplies } from '../../interfaces';
 import { ActionsTableConsumption } from './ActionsTableConsumption';
 import columnsConsumption from './ColumnsTableConsumption';
+import { useGetAllSuppliesWithConsumptions } from '@/modules/supplies/hooks/queries/useGetAllSuppliesWithConsumptions';
+import { useGetAllCropsWithConsumptions } from '@/modules/crops/hooks/queries/useGetAllCropsWithConsumptions';
+import { Supply } from '@/modules/supplies/interfaces/Supply';
+import { Crop } from '@/modules/crops/interfaces/Crop';
 
 export interface paramQueryConsumption {
   filter_by_date: {
@@ -40,6 +44,8 @@ export interface ConsumptionsModuleContextValues {
   mutationDeleteConsumption: UseMutationReturn<void, string>;
   actionsConsumptionsModule: Record<string, boolean>;
   hasParamsQuery: boolean;
+  querySupplies: UseQueryGetAllRecordsReturn<Supply>;
+  queryCrops: UseQueryGetAllRecordsReturn<Crop>;
 }
 
 const paramsConsumption: ItemQueryAdvanced[] = [
@@ -83,6 +89,9 @@ export const ConsumptionModuleProvider: React.FC<{
     pagination,
     setPagination,
   } = useGetAllConsumptions(paramsValues as GetConsumptionsProps);
+
+  const querySupplies = useGetAllSuppliesWithConsumptions();
+  const queryCrops = useGetAllCropsWithConsumptions();
 
   const { getActionsModule } = useAuthContext();
 
@@ -133,6 +142,8 @@ export const ConsumptionModuleProvider: React.FC<{
     mutationDeleteConsumptions,
     mutationDeleteConsumption,
     hasParamsQuery: hasValues,
+    querySupplies,
+    queryCrops,
   };
 
   return (

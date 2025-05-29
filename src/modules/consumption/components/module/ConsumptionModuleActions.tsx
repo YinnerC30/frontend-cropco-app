@@ -15,6 +15,8 @@ export const ConsumptionModuleActions: React.FC = () => {
     dataTable: { hasSelectedRecords, resetSelectionRows, getIdsToRowsSelected },
 
     actionsConsumptionsModule,
+    queryCrops,
+    querySupplies,
   } = useConsumptionModuleContext();
 
   const { mutate, isPending } = useDeleteBulkConsumption();
@@ -30,10 +32,18 @@ export const ConsumptionModuleActions: React.FC = () => {
     );
   };
 
+  const handleRefetchData = async () => {
+    await Promise.all([
+      queryConsumptions.refetch(),
+      queryCrops.refetch(),
+      querySupplies.refetch(),
+    ]);
+  };
+
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={queryConsumptions.refetch}
+        onClick={handleRefetchData}
         disabled={!actionsConsumptionsModule['find_all_supplies_consumption']}
         className=""
       />

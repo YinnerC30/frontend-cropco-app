@@ -38,7 +38,13 @@ import { es } from 'date-fns/locale';
 import { Calendar, CheckIcon, Filter, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
+import { CapitalizeFirstWord } from '@/auth';
+import { cn } from '@/lib/utils';
+import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
+import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
 import { dateFilterOptions } from '@/modules/core/interfaces/queries/FilterOptions';
+import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
+import { CaretSortIcon } from '@radix-ui/react-icons';
 import { Popover } from '@radix-ui/react-popover';
 import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
@@ -46,18 +52,15 @@ import { useConsumptionModuleContext } from '../../hooks/context/useConsumptionM
 import { MODULE_CONSUMPTION_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarConsumption } from '../../utils/formFieldsSearchBarConsumption';
 import { formSchemaSearchBarConsumption } from '../../utils/formSchemaSearchBarConsumption';
-import { useGetAllSuppliesWithConsumptions } from '@/modules/supplies/hooks/queries/useGetAllSuppliesWithConsumptions';
-import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
-import { useGetAllCropsWithConsumptions } from '@/modules/crops/hooks/queries/useGetAllCropsWithConsumptions';
-import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
-import { CaretSortIcon } from '@radix-ui/react-icons';
-import { CapitalizeFirstWord } from '@/auth';
-import { cn } from '@/lib/utils';
-import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
 
 export const ConsumptionModuleSearchbar: React.FC = () => {
-  const { paramsQuery, actionsConsumptionsModule, hasParamsQuery } =
-    useConsumptionModuleContext();
+  const {
+    paramsQuery,
+    actionsConsumptionsModule,
+    hasParamsQuery,
+    querySupplies,
+    queryCrops,
+  } = useConsumptionModuleContext();
   const readOnly = !actionsConsumptionsModule['find_all_supplies_consumption'];
   const navigate = useNavigate();
 
@@ -70,9 +73,6 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
     skipDirty: true,
     validationMode: 'onSubmit',
   });
-
-  const querySupplies = useGetAllSuppliesWithConsumptions();
-  const queryCrops = useGetAllCropsWithConsumptions();
 
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
@@ -99,8 +99,9 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
           supplies.some((e) => !e.name === true)
             ? supplies
                 .map((e) => {
-                  return querySupplies.data?.records.find((cr) => cr.id === e.id)
-                    ?.name;
+                  return querySupplies.data?.records.find(
+                    (cr) => cr.id === e.id
+                  )?.name;
                 })
                 .join(', ')
             : supplies.map((e) => e.name).join(', ')
@@ -301,7 +302,7 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
                     onClick={handleResetForm}
                     size={'icon'}
                     disabled={readOnly}
-                    className='bg-destructive hover:bg-destructive/80'
+                    className="bg-destructive hover:bg-destructive/80"
                   >
                     <X className="w-4 h-4" />
                   </Button>
@@ -402,69 +403,73 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
                                         'cultivo'
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
-                                        {queryCrops?.data?.records.map((item) => {
-                                          return (
-                                            <CommandItem
-                                              value={item?.['name']}
-                                              key={item.id!}
-                                              onSelect={() => {
-                                                if (
-                                                  field?.value?.some(
-                                                    (i: any) =>
-                                                      i.id === item?.id
-                                                  )
-                                                ) {
-                                                  form.setValue(
-                                                    'crops',
-                                                    [
-                                                      ...field?.value?.filter(
-                                                        (i: any) =>
-                                                          i.id !== item?.id
-                                                      ),
-                                                    ],
-                                                    {
-                                                      shouldValidate: true,
-                                                      shouldDirty: true,
-                                                    }
-                                                  );
-                                                } else {
-                                                  form.setValue(
-                                                    'crops',
-                                                    [
-                                                      ...(currentEmployees ||
-                                                        []),
+                                        {queryCrops?.data?.records.map(
+                                          (item) => {
+                                            return (
+                                              <CommandItem
+                                                value={item?.['name']}
+                                                key={item.id!}
+                                                onSelect={() => {
+                                                  if (
+                                                    field?.value?.some(
+                                                      (i: any) =>
+                                                        i.id === item?.id
+                                                    )
+                                                  ) {
+                                                    form.setValue(
+                                                      'crops',
+                                                      [
+                                                        ...field?.value?.filter(
+                                                          (i: any) =>
+                                                            i.id !== item?.id
+                                                        ),
+                                                      ],
                                                       {
-                                                        id: item.id,
-                                                        name: item['name'],
-                                                      },
-                                                    ],
-                                                    {
-                                                      shouldValidate: true,
-                                                      shouldDirty: true,
-                                                    }
-                                                  );
-                                                }
-                                                setOpenPopoverSupplier(false);
-                                              }}
-                                            >
-                                              <div className="">
-                                                {item?.['name']}
-                                              </div>
-                                              <CheckIcon
-                                                className={cn(
-                                                  'ml-auto h-4 w-4',
-                                                  field?.value.some(
-                                                    (i: any) => {
-                                                      return i.id === item?.id;
-                                                    }
-                                                  )
-                                                    ? 'opacity-100'
-                                                    : 'opacity-0'
-                                                )}
-                                              />
-                                            </CommandItem>
-                                          );
-                                        })}
+                                                        shouldValidate: true,
+                                                        shouldDirty: true,
+                                                      }
+                                                    );
+                                                  } else {
+                                                    form.setValue(
+                                                      'crops',
+                                                      [
+                                                        ...(currentEmployees ||
+                                                          []),
+                                                        {
+                                                          id: item.id,
+                                                          name: item['name'],
+                                                        },
+                                                      ],
+                                                      {
+                                                        shouldValidate: true,
+                                                        shouldDirty: true,
+                                                      }
+                                                    );
+                                                  }
+                                                  setOpenPopoverSupplier(false);
+                                                }}
+                                              >
+                                                <div className="">
+                                                  {item?.['name']}
+                                                </div>
+                                                <CheckIcon
+                                                  className={cn(
+                                                    'ml-auto h-4 w-4',
+                                                    field?.value.some(
+                                                      (i: any) => {
+                                                        return (
+                                                          i.id === item?.id
+                                                        );
+                                                      }
+                                                    )
+                                                      ? 'opacity-100'
+                                                      : 'opacity-0'
+                                                  )}
+                                                />
+                                              </CommandItem>
+                                            );
+                                          }
+                                        )}
                                       </CommandGroup>
                                     </ScrollArea>
                                   </CommandList>
