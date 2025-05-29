@@ -3,8 +3,7 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
-  useRef,
-  useState,
+  useState
 } from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
@@ -24,6 +23,7 @@ import {
 } from '@/modules/consumption/interfaces';
 import { formSchemaConsumption } from '@/modules/consumption/utils';
 import { formSchemaConsumptionDetail } from '@/modules/consumption/utils/formSchemaConsumptionDetail';
+import { CheckboxTableCustomClient } from '@/modules/core/components/table/CheckboxTableCustomClient';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { FormProps } from '@/modules/core/interfaces';
 import { useGetAllSuppliesStock } from '@/modules/supplies/hooks';
@@ -31,7 +31,6 @@ import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import { z } from 'zod';
 import { ActionsTableConsumptionDetail } from '../consumption/details/ActionsTableConsumptionDetail';
 import { columnsConsumptionDetail } from '../consumption/details/ColumnsTableConsumptionDetail';
-import { CheckboxTableCustomClient } from '@/modules/core/components/table/CheckboxTableCustomClient';
 
 export const defaultValuesConsumptionDetail: ConsumptionDetails = {
   id: undefined,

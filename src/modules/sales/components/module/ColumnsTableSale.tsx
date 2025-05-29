@@ -1,12 +1,12 @@
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
-import { ButtonHeaderTable, ToolTipTemplate } from '@/modules/core/components';
+import { Badge, Button } from '@/components';
+import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatNumber } from '@/modules/core/helpers';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { Sale, SaleDetail } from '../../interfaces';
 import { formFieldsSale } from '../../utils/formFieldsSale';
-import { Badge, Button } from '@/components';
 
 export const columnsSale: ColumnDef<Sale>[] = [
   {

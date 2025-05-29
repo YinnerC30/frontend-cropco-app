@@ -3,8 +3,7 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
-  useRef,
-  useState,
+  useState
 } from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
@@ -18,6 +17,7 @@ import {
 
 import { toast } from 'sonner';
 
+import { CheckboxTableCustomClient } from '@/modules/core/components/table/CheckboxTableCustomClient';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { FormProps } from '@/modules/core/interfaces';
 import {
@@ -29,7 +29,6 @@ import { formSchemaShoppingDetail } from '@/modules/shopping/utils/formSchemaSho
 import { z } from 'zod';
 import { ActionsTableShoppingDetail } from './details/ActionsTableShoppingDetail';
 import { columnsShoppingDetail } from './details/ColumnsTableShoppingDetail';
-import { CheckboxTableCustomClient } from '@/modules/core/components/table/CheckboxTableCustomClient';
 
 const defaultValuesShopping: ShoppingSupplies = {
   id: undefined,

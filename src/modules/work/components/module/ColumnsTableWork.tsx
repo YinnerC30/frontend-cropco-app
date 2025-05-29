@@ -1,13 +1,13 @@
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
 import { Badge, Button } from '@/components';
-import { ButtonHeaderTable, ToolTipTemplate } from '@/modules/core/components';
+import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { Crop } from '@/modules/crops/interfaces/Crop';
 import { Work } from '../../interfaces/Work';
-import { formFieldsWork } from '../../utils/formFieldsWork';
 import { WorkDetail } from '../../interfaces/WorkDetail';
+import { formFieldsWork } from '../../utils/formFieldsWork';
 
 export const columnsWork: ColumnDef<Work>[] = [
   {
