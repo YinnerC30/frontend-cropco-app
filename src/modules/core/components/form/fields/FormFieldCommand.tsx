@@ -56,6 +56,14 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
   actionFinal,
 }) => {
   const [openPopover, setOpenPopover] = useState(false);
+
+  const getFieldNameFromData = (fielValue: string) => {
+    const item = data.find((item) => {
+      return item.id === fielValue;
+    })?.[nameToShow];
+    return item;
+  };
+
   return (
     <FormField
       control={control}
@@ -83,17 +91,23 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                       aria-expanded={openPopover}
                       className={`${className} ${cn(
                         'justify-between',
-                        !field.value && 'text-muted-foreground'
+                        !field.value && '',
+                        'overflow-hidden text-ellipsis truncate'
                       )}`}
                       ref={field.ref}
                       onBlur={field.onBlur}
                       disabled={readOnly}
                     >
-                      {!!field.value
-                        ? data.find((item) => {
-                            return item.id === field.value;
-                          })?.[nameToShow]
-                        : placeholder}
+                      <span
+                        className={cn(
+                          'text-muted-foreground',
+                          'overflow-hidden text-ellipsis truncate'
+                        )}
+                      >
+                        {!!field.value
+                          ? getFieldNameFromData(field.value)
+                          : placeholder}
+                      </span>
 
                       <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                     </Button>
