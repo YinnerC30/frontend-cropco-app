@@ -128,14 +128,14 @@ export const SaleModuleSearchbar: React.FC = () => {
       filters.push({
         key: 'clients',
         label: `Clientes: ${
-          clients.some((e) => !e.first_name === true)
+          clients.some((e) => !e.full_name === true)
             ? clients
                 .map((e) => {
                   return queryClients.data?.records.find((cl) => cl.id === e.id)
-                    ?.first_name;
+                    ?.full_name;
                 })
                 .join(', ')
-            : clients.map((e) => e.first_name).join(', ')
+            : clients.map((e) => e.full_name).join(', ')
         }`,
       });
     }
@@ -484,7 +484,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                                           (item) => {
                                             return (
                                               <CommandItem
-                                                value={item?.['first_name']}
+                                                value={item?.['full_name']}
                                                 key={item.id!}
                                                 onSelect={() => {
                                                   if (
@@ -514,8 +514,8 @@ export const SaleModuleSearchbar: React.FC = () => {
                                                           []),
                                                         {
                                                           id: item.id,
-                                                          first_name:
-                                                            item['first_name'],
+                                                          full_name:
+                                                            item['full_name'],
                                                         },
                                                       ],
                                                       {
@@ -528,7 +528,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                                                 }}
                                               >
                                                 <div className="">
-                                                  {item?.['first_name']}
+                                                  {item?.['full_name']}
                                                 </div>
                                                 <CheckIcon
                                                   className={cn(

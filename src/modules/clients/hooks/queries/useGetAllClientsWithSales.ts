@@ -25,7 +25,17 @@ export const useGetAllClientsWithSales =
     const query: UseQueryGetAllRecordsReturn<Client> = useQuery({
       queryKey: ['clients-with-sales'],
       queryFn: () => getClientsWithSales(),
-      select: ({ data }) => data,
+      select: ({ data }) => {
+        return {
+          ...data,
+          records: data.records.map((cl) => {
+            return {
+              ...cl,
+              full_name: cl.first_name + ' ' + cl.last_name,
+            };
+          }),
+        };
+      },
       enabled: isAuthorized,
       refetchOnWindowFocus: false,
       ...CACHE_CONFIG_TIME.longTerm,
