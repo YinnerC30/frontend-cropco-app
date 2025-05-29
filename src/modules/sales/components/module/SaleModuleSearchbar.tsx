@@ -676,7 +676,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                                                     }
                                                   );
                                                 }
-                                                setOpenPopoverClient(false);
+                                                setOpenPopoverCrop(false);
                                               }}
                                             >
                                               <div className="">
