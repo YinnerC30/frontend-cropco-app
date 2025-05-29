@@ -15,6 +15,8 @@ export const ShoppingModuleActions: React.FC = () => {
 
     actionsShoppingModule,
     mutationDeleteShopping: { mutate, isPending },
+    querySuppliers,
+    querySupplies,
   } = useShoppingModuleContext();
 
   const handleDeleteBulkShopping = () => {
@@ -28,10 +30,18 @@ export const ShoppingModuleActions: React.FC = () => {
     );
   };
 
+  const handleRefetchData = async () => {
+    await Promise.all([
+      queryShopping.refetch(),
+      querySuppliers.refetch(),
+      querySupplies.refetch(),
+    ]);
+  };
+
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={queryShopping.refetch}
+        onClick={handleRefetchData}
         disabled={!actionsShoppingModule['find_all_supplies_shopping']}
         className=""
       />

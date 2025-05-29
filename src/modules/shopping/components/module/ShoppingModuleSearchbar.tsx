@@ -69,13 +69,15 @@ import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import { ControllerRenderProps } from 'react-hook-form';
 
 export const ShoppingModuleSearchbar: React.FC = () => {
-  const { paramsQuery, actionsShoppingModule, hasParamsQuery } =
-    useShoppingModuleContext();
+  const {
+    paramsQuery,
+    actionsShoppingModule,
+    hasParamsQuery,
+    querySupplies,
+    querySuppliers,
+  } = useShoppingModuleContext();
   const readOnly = !actionsShoppingModule['find_all_supplies_shopping'];
   const navigate = useNavigate();
-
-  const querySupplies = useGetAllSuppliesWithShopping();
-  const querySuppliers = useGetAllSuppliersWithShopping();
 
   const form: UseFormReturn<
     z.infer<typeof formSchemaSearchBarShopping>,
@@ -349,7 +351,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                     onClick={handleResetForm}
                     size={'icon'}
                     disabled={readOnly}
-                    className='bg-destructive hover:bg-destructive/80'
+                    className="bg-destructive hover:bg-destructive/80"
                   >
                     <X className="w-4 h-4" />
                   </Button>

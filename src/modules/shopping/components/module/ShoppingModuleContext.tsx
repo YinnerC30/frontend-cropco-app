@@ -25,6 +25,10 @@ import columnsShopping from "./ColumnsTableShopping";
 import { UseQueryResult } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useGetShoppingPDF } from "../../hooks/queries/useGetShoppingPDF";
+import { useGetAllSuppliersWithShopping } from "@/modules/suppliers/hooks/queries/useGetAllSuppliersWithShopping";
+import { useGetAllSuppliesWithShopping } from "@/modules/supplies/hooks/queries/useGetAllSuppliesWithShopping";
+import { Supply } from "@/modules/supplies/interfaces/Supply";
+import { Supplier } from "@/modules/suppliers/interfaces/Supplier";
 
 export interface paramQueryShopping {
   filter_by_date: {
@@ -51,6 +55,8 @@ export interface ShoppingModuleContextValues {
   shoppingIdDocument: string;
   setShoppingIdDocument: React.Dispatch<React.SetStateAction<string>>;
   setExecuteQuery: React.Dispatch<React.SetStateAction<boolean>>;
+  querySupplies: UseQueryGetAllRecordsReturn<Supply>,
+  querySuppliers: UseQueryGetAllRecordsReturn<Supplier>,
 }
 
 const paramsShopping: ItemQueryAdvanced[] = [
@@ -105,6 +111,9 @@ export const ShoppingModuleProvider: React.FC<{
     pagination,
     setPagination,
   } = useGetAllShopping(paramsValues as GetShoppingProps);
+
+  const querySupplies = useGetAllSuppliesWithShopping();
+  const querySuppliers = useGetAllSuppliersWithShopping();
 
   const { getActionsModule } = useAuthContext();
 
@@ -173,6 +182,8 @@ export const ShoppingModuleProvider: React.FC<{
     setExecuteQuery,
     shoppingIdDocument,
     setShoppingIdDocument,
+    querySuppliers,
+    querySupplies
   };
 
   return (
