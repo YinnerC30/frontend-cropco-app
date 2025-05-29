@@ -19,7 +19,7 @@ export const formSchemaSearchBarShopping = z.object({
     .array(
       z.object({
         id: z.string().optional(),
-        first_name: z.string().optional(),
+        full_name: z.string().optional(),
       })
     )
     .optional(),

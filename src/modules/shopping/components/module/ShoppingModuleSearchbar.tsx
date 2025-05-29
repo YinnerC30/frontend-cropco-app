@@ -108,15 +108,15 @@ export const ShoppingModuleSearchbar: React.FC = () => {
       filters.push({
         key: 'suppliers',
         label: `Proveedores: ${
-          suppliers.some((e) => !e.first_name === true)
+          suppliers.some((e) => !e.full_name === true)
             ? suppliers
                 .map((e) => {
                   return querySuppliers.data?.records.find(
                     (cl) => cl.id === e.id
-                  )?.first_name;
+                  )?.full_name;
                 })
                 .join(', ')
-            : suppliers.map((e) => e.first_name).join(', ')
+            : suppliers.map((e) => e.full_name).join(', ')
         }`,
       });
     }
@@ -454,7 +454,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                                           (item) => {
                                             return (
                                               <CommandItem
-                                                value={item?.['first_name']}
+                                                value={item?.['full_name']}
                                                 key={item.id!}
                                                 onSelect={() => {
                                                   if (
@@ -484,8 +484,8 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                                                           []),
                                                         {
                                                           id: item.id,
-                                                          first_name:
-                                                            item['first_name'],
+                                                          full_name:
+                                                            item['full_name'],
                                                         },
                                                       ],
                                                       {
@@ -498,7 +498,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                                                 }}
                                               >
                                                 <div className="">
-                                                  {item?.['first_name']}
+                                                  {item?.['full_name']}
                                                 </div>
                                                 <CheckIcon
                                                   className={cn(
@@ -525,7 +525,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                               </PopoverContent>
                             </Popover>
                             <FormDescription>
-                              {'Cliente(s) que han participado en trabajos'}
+                              {'Proveedor(s) que han participado en trabajos'}
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
@@ -679,7 +679,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                               </PopoverContent>
                             </Popover>
                             <FormDescription>
-                              {'Cultivo(s) que han participado en la compra'}
+                              {'Suministro(s) que han participado en la compra'}
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
