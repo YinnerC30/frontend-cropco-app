@@ -33,13 +33,12 @@ import {
 } from '@/modules/core/interfaces/queries/FilterOptions';
 import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
 import { usePaymentModuleContext } from '../../hooks/context/usePaymentModuleContext';
-import { useGetAllEmployeesWithMadePayments } from '../../hooks/queries/useGetAllEmployeesWithMadePayments';
 import { MODULE_PAYMENTS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarPayment } from '../../utils/formFieldsSearchBarPayment';
 import { formSchemaSearchBarPayment } from '../../utils/formSchemaSearchBarPayment';
 
 export const PaymentModuleSearchbar: React.FC = () => {
-  const { paramsQuery, actionsPaymentsModule } = usePaymentModuleContext();
+  const { paramsQuery, actionsPaymentsModule, queryEmployees } = usePaymentModuleContext();
   const readOnly = !actionsPaymentsModule['find_all_payments'];
   const navigate = useNavigate();
 
@@ -53,7 +52,7 @@ export const PaymentModuleSearchbar: React.FC = () => {
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
-  const queryEmployees = useGetAllEmployeesWithMadePayments();
+  
 
   // TODO: Agregar filtro de metodo de pago
 

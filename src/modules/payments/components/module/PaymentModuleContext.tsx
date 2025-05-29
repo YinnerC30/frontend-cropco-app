@@ -22,6 +22,8 @@ import { useGetPaymentPDF } from '../../hooks/queries/useGetPaymentPDF';
 import { Payment } from '../../interfaces/Payment';
 import { ActionsTablePayment } from './ActionsTablePayment';
 import columnsPayment from './ColumnsTablePayment';
+import { useGetAllEmployeesWithMadePayments } from '../../hooks/queries/useGetAllEmployeesWithMadePayments';
+import { Employee } from '@/modules/employees/interfaces/Employee';
 
 export interface paramQueryPayment {
   employee: { id: string | null | undefined };
@@ -49,6 +51,7 @@ export interface PaymentsModuleContextValues {
   paymentIdDocument: string;
   setPaymentIdDocument: React.Dispatch<React.SetStateAction<string>>;
   setExecuteQuery: React.Dispatch<React.SetStateAction<boolean>>;
+  queryEmployees: UseQueryGetAllRecordsReturn<Employee>;
 }
 
 export const PaymentsModuleContext = createContext<
@@ -100,6 +103,8 @@ export const PaymentsModuleProvider = ({
   } = useGetAllPayments({
     ...paramsValues,
   });
+
+  const queryEmployees = useGetAllEmployeesWithMadePayments();
 
   const { getActionsModule } = useAuthContext();
 
@@ -166,6 +171,7 @@ export const PaymentsModuleProvider = ({
     setExecuteQuery,
     setPaymentIdDocument,
     queryGetDocument,
+    queryEmployees,
   };
 
   return (

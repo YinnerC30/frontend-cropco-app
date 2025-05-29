@@ -15,6 +15,7 @@ export const PaymentModuleActions: React.FC = () => {
     dataTable: { hasSelectedRecords, resetSelectionRows, getIdsToRowsSelected },
     actionsPaymentsModule,
     mutationDeletePayments,
+    queryEmployees,
   } = usePaymentModuleContext();
 
   const { mutate, isPending } = mutationDeletePayments;
@@ -30,10 +31,14 @@ export const PaymentModuleActions: React.FC = () => {
     );
   };
 
+  const handleRefetchData = async () => {
+    await Promise.all([queryPayments.refetch(), queryEmployees.refetch()]);
+  };
+
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={queryPayments.refetch}
+        onClick={handleRefetchData}
         disabled={!actionsPaymentsModule['find_all_payments']}
         className=""
       />
