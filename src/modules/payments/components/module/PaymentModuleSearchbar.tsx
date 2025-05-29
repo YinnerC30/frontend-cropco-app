@@ -68,7 +68,7 @@ export const PaymentModuleSearchbar: React.FC = () => {
     if (employee?.id) {
       filters.push({
         key: 'employee',
-        label: `Empleado: ${employee.first_name}`,
+        label: `Empleado: ${employee.full_name}`,
       });
     }
 
@@ -204,7 +204,7 @@ export const PaymentModuleSearchbar: React.FC = () => {
                 <FormFieldCommand
                   data={queryEmployees?.data?.records || []}
                   form={form}
-                  nameToShow="first_name"
+                  nameToShow="full_name"
                   control={form.control}
                   name="employee"
                   placeholder={formFieldsSearchBarPayment.employee.placeholder}
