@@ -81,7 +81,7 @@ export const MyAccount = () => {
       >
         {/* Trigger */}
         <DropdownMenuTrigger asChild>
-          <Button variant={'ghost'}>
+          <Button variant={'ghost'} className='hover:bg-sidebar-accent'>
             <span className="overflow-hidden capitalize">
               {user?.first_name! + ' ' + user?.last_name!}
             </span>
