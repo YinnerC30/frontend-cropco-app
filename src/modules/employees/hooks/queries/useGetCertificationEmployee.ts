@@ -70,7 +70,7 @@ export const useGetCertificationEmployee = ({
         case 'ViewPDF':
           viewPDF(query.data);
           break;
-        case 'DownloadPDf':
+        case 'DownloadPDF':
           downloadPDF(query.data, `constancia-empleado-${userId}`);
           break;
         default:

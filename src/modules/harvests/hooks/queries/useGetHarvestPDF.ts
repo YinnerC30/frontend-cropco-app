@@ -66,7 +66,7 @@ export const useGetHarvestPDF = ({
         case 'ViewPDF':
           viewPDF(query.data, `harvest-report-${harvestId}`);
           break;
-        case 'DownloadPDf':
+        case 'DownloadPDF':
           downloadPDF(query.data, `harvest-report-${harvestId}`);
           break;
         default:

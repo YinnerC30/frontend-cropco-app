@@ -157,7 +157,7 @@ export const SalesModuleProvider: React.FC<{
   const queryGetDocument = useGetSalePDF({
     saleId: saleIdDocument,
     stateQuery: executeQuery,
-    actionPDF: 'ViewPDF',
+    actionPDF: 'DownloadPDF',
     actionOnSuccess: () => {
       setExecuteQuery(false);
       setSaleIdDocument('');

@@ -167,7 +167,7 @@ export const HarvestsModuleProvider: React.FC<{
   const queryGetDocument = useGetHarvestPDF({
     harvestId: harvestIdDocument,
     stateQuery: executeQuery,
-    actionPDF: 'ViewPDF',
+    actionPDF: 'DownloadPDF',
     actionOnSuccess: () => {
       setExecuteQuery(false);
       setHarvestIdDocument('');

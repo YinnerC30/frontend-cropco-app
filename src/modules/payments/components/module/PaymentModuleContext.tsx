@@ -137,7 +137,7 @@ export const PaymentsModuleProvider = ({
   const queryGetDocument = useGetPaymentPDF({
     paymentId: paymentIdDocument,
     stateQuery: executeQuery,
-    actionPDF: 'ViewPDF',
+    actionPDF: 'DownloadPDF',
     actionOnSuccess: () => {
       setExecuteQuery(false);
       setPaymentIdDocument('');

@@ -19,7 +19,7 @@ export const getWorkPDF = async (id: string): PromiseReturnRecord<Blob> => {
   );
 };
 
-type ActionToPDF = 'ViewPDF' | 'DownloadPDf';
+type ActionToPDF = 'ViewPDF' | 'DownloadPDF';
 
 interface Props {
   workId: string;
@@ -65,7 +65,7 @@ export const useGetWorkPDF = ({
         case 'ViewPDF':
           viewPDF(query.data, `work-report-${workId}`);
           break;
-        case 'DownloadPDf':
+        case 'DownloadPDF':
           downloadPDF(query.data, `work-document-${workId}`);
           break;
         default:

@@ -146,7 +146,7 @@ export const WorksModuleProvider: React.FC<{
   const queryGetDocument = useGetWorkPDF({
     workId: workIdDocument,
     stateQuery: executeQuery,
-    actionPDF: 'ViewPDF',
+    actionPDF: 'DownloadPDF',
     actionOnSuccess: () => {
       setExecuteQuery(false);
       setWorkIdDocument('');

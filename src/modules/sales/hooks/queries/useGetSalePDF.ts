@@ -64,7 +64,7 @@ export const useGetSalePDF = ({
         case 'ViewPDF':
           viewPDF(query.data);
           break;
-        case 'DownloadPDf':
+        case 'DownloadPDF':
           downloadPDF(query.data, `sale-document-${saleId}`);
           break;
         default:
