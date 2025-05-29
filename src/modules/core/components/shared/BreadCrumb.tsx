@@ -40,7 +40,9 @@ export const BreadCrumb: React.FC<Props> = memo(
 
             <BreadcrumbItem>
               <BreadcrumbLink
-                className="hover:cursor-pointer"
+                className={`hover:cursor-pointer ${
+                  finalItem.length > 0 ? 'text-foreground/55' : 'text-foreground'
+                }`}
                 onClick={() => {
                   if (hasUnsavedChanges) {
                     showToast({ route: PATH_HOME_APP });
@@ -59,7 +61,7 @@ export const BreadCrumb: React.FC<Props> = memo(
                   <BreadcrumbSeparator className="mx-2" />
                   <BreadcrumbItem>
                     <BreadcrumbLink
-                      className="w-auto font-normal hover:cursor-pointer"
+                      className="w-auto font-normal hover:cursor-pointer text-foreground/55"
                       onClick={() => {
                         const LINK = element.link;
                         if (hasUnsavedChanges) {
@@ -75,9 +77,7 @@ export const BreadCrumb: React.FC<Props> = memo(
                 </div>
               );
             })}
-            {
-              finalItem.length > 0 && (<BreadcrumbSeparator />)
-            }
+            {finalItem.length > 0 && <BreadcrumbSeparator />}
             <BreadcrumbItem>
               <BreadcrumbPage>{finalItem}</BreadcrumbPage>
             </BreadcrumbItem>
