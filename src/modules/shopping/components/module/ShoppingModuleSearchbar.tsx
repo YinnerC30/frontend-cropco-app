@@ -41,8 +41,6 @@ import { useShoppingModuleContext } from '../../hooks/context/useShoppingModuleC
 import { MODULE_SHOPPING_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarShopping } from '../../utils/formFieldsSearchBarShopping';
 import { formSchemaSearchBarShopping } from '../../utils/formSchemaSearchBarShopping';
-import { useGetAllSuppliesWithShopping } from '@/modules/supplies/hooks/queries/useGetAllSuppliesWithShopping';
-import { useGetAllSuppliersWithShopping } from '@/modules/suppliers/hooks/queries/useGetAllSuppliersWithShopping';
 
 import {
   Command,
