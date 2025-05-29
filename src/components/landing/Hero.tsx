@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
-    <section className="py-20 bg-gray-50 dark:bg-black-200">
+    <section className="py-20 bg-primary/60 dark:bg-black-200">
       <div className="container px-4 mx-auto text-center">
         <h1 className="mb-6 text-4xl font-bold md:text-5xl text-slate-900">
           Administra tus cultivos con CropCo
