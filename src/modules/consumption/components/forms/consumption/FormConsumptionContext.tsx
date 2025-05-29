@@ -5,38 +5,38 @@ import React, {
   useReducer,
   useRef,
   useState,
-} from "react";
+} from 'react';
 
-import { useAuthContext } from "@/auth/hooks";
-import { useCreateForm } from "@/modules/core/hooks";
+import { useAuthContext } from '@/auth/hooks';
+import { useCreateForm } from '@/modules/core/hooks';
 
-import { useFormChange } from "@/modules/core/components";
+import { useFormChange } from '@/modules/core/components';
 import {
   DataTableGenericReturn,
   useDataTableGeneric,
-} from "@/modules/core/hooks/data-table/useDataTableGeneric";
+} from '@/modules/core/hooks/data-table/useDataTableGeneric';
 
-import { toast } from "sonner";
+import { toast } from 'sonner';
 
 import {
   ConsumptionDetails,
   ConsumptionSupplies,
-} from "@/modules/consumption/interfaces";
-import { formSchemaConsumption } from "@/modules/consumption/utils";
-import { formSchemaConsumptionDetail } from "@/modules/consumption/utils/formSchemaConsumptionDetail";
-import { useCreateColumnsTable } from "@/modules/core/hooks/data-table/useCreateColumnsTable";
-import { FormProps } from "@/modules/core/interfaces";
-import { useGetAllSuppliesStock } from "@/modules/supplies/hooks";
-import { SupplyStock } from "@/modules/supplies/interfaces/SupplyStock";
-import { z } from "zod";
-import { ActionsTableConsumptionDetail } from "../consumption/details/ActionsTableConsumptionDetail";
-import { columnsConsumptionDetail } from "../consumption/details/ColumnsTableConsumptionDetail";
-import { CheckboxTableCustomClient } from "@/modules/core/components/table/CheckboxTableCustomClient";
+} from '@/modules/consumption/interfaces';
+import { formSchemaConsumption } from '@/modules/consumption/utils';
+import { formSchemaConsumptionDetail } from '@/modules/consumption/utils/formSchemaConsumptionDetail';
+import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
+import { FormProps } from '@/modules/core/interfaces';
+import { useGetAllSuppliesStock } from '@/modules/supplies/hooks';
+import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
+import { z } from 'zod';
+import { ActionsTableConsumptionDetail } from '../consumption/details/ActionsTableConsumptionDetail';
+import { columnsConsumptionDetail } from '../consumption/details/ColumnsTableConsumptionDetail';
+import { CheckboxTableCustomClient } from '@/modules/core/components/table/CheckboxTableCustomClient';
 
 export const defaultValuesConsumptionDetail: ConsumptionDetails = {
   id: undefined,
-  supply: { id: "", name: "", unit_of_measure: "" },
-  crop: { id: "", name: "" },
+  supply: { id: '', name: '', unit_of_measure: '' },
+  crop: { id: '', name: '' },
   amount: 0,
 };
 
@@ -82,7 +82,7 @@ export interface FormConsumptionContextValues {
 }
 
 interface ConsumptionAction {
-  type: "REMOVE" | "MODIFY" | "RESET" | "ADD";
+  type: 'REMOVE' | 'MODIFY' | 'RESET' | 'ADD';
   payload?: ConsumptionDetails;
 }
 
@@ -91,17 +91,17 @@ const consumptionDetailsReducer = (
   action: ConsumptionAction
 ): ConsumptionDetails[] => {
   switch (action.type) {
-    case "ADD":
+    case 'ADD':
       return [...state, action.payload as ConsumptionDetails];
-    case "REMOVE":
+    case 'REMOVE':
       return state.filter((detail) => detail.id !== action.payload?.id);
-    case "MODIFY":
+    case 'MODIFY':
       return state.map((item) =>
         item.id !== action.payload?.id
           ? item
           : (action.payload as ConsumptionDetails)
       );
-    case "RESET":
+    case 'RESET':
       return [];
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
@@ -110,15 +110,15 @@ const consumptionDetailsReducer = (
 
 type SupplyStockAction =
   | {
-      type: "ADD";
+      type: 'ADD';
       payload: SupplyStock;
     }
   | {
-      type: "REMOVE";
+      type: 'REMOVE';
       payload: SupplyStock;
     }
   | {
-      type: "RESET";
+      type: 'RESET';
       payload: SupplyStock[];
     };
 
@@ -127,10 +127,10 @@ const supplyStockReducer = (
   action: SupplyStockAction
 ): SupplyStock[] => {
   if (!action) {
-    throw new Error("Action is undefined");
+    throw new Error('Action is undefined');
   }
   switch (action.type) {
-    case "ADD":
+    case 'ADD':
       return state.map((item) => {
         if (item.id === action.payload.id) {
           return {
@@ -140,7 +140,7 @@ const supplyStockReducer = (
         }
         return item;
       });
-    case "REMOVE":
+    case 'REMOVE':
       return state.map((item) => {
         if (item.id === action.payload.id) {
           return {
@@ -150,7 +150,7 @@ const supplyStockReducer = (
         }
         return item;
       });
-    case "RESET":
+    case 'RESET':
       return [...action.payload];
   }
 };
@@ -170,7 +170,7 @@ export const FormConsumptionProvider: React.FC<
 }) => {
   const { getActionsModule } = useAuthContext();
   const actionsConsumptionsModule = useMemo(
-    () => getActionsModule("supplies"),
+    () => getActionsModule('supplies'),
     []
   );
 
@@ -183,27 +183,27 @@ export const FormConsumptionProvider: React.FC<
   const addConsumptionDetail = (
     consumptionDetail: ConsumptionDetails
   ): void => {
-    dispatch({ type: "ADD", payload: consumptionDetail });
+    dispatch({ type: 'ADD', payload: consumptionDetail });
   };
 
   const removeConsumptionDetail = (
     consumptionDetail: ConsumptionDetails
   ): void => {
-    dispatch({ type: "REMOVE", payload: consumptionDetail });
+    dispatch({ type: 'REMOVE', payload: consumptionDetail });
   };
 
   const modifyConsumptionDetail = (
     consumptionDetail: ConsumptionDetails
   ): void => {
-    dispatch({ type: "MODIFY", payload: consumptionDetail });
+    dispatch({ type: 'MODIFY', payload: consumptionDetail });
   };
 
   const resetConsumptionDetails = (): void => {
-    dispatch({ type: "RESET" });
+    dispatch({ type: 'RESET' });
   };
 
   const querySuppliesStock = useGetAllSuppliesStock({
-    queryValue: "",
+    queryValue: '',
     all_records: true,
   });
 
@@ -215,7 +215,7 @@ export const FormConsumptionProvider: React.FC<
   const validateAvailableStock = (record: SupplyStock): boolean => {
     const supply = suppliesStock.find((item) => item.id === record.id);
     if (!supply) {
-      throw new Error("Suplemento no encontrado");
+      throw new Error('Suplemento no encontrado');
     }
     const result = supply?.amount >= record.amount && record.amount >= 0;
     if (!result) {
@@ -227,16 +227,16 @@ export const FormConsumptionProvider: React.FC<
   };
 
   const addSupplyStock = (suppliesStock: SupplyStock): void => {
-    dispatchSupplyStock({ type: "ADD", payload: suppliesStock });
+    dispatchSupplyStock({ type: 'ADD', payload: suppliesStock });
   };
 
   const removeSupplyStock = (suppliesStock: SupplyStock): void => {
-    dispatchSupplyStock({ type: "REMOVE", payload: suppliesStock });
+    dispatchSupplyStock({ type: 'REMOVE', payload: suppliesStock });
   };
 
   const resetSupplyStock = (data: SupplyStock[]): void => {
     dispatchSupplyStock({
-      type: "RESET",
+      type: 'RESET',
       payload: data,
     });
   };
@@ -276,7 +276,7 @@ export const FormConsumptionProvider: React.FC<
   const formConsumptionDetail = useCreateForm({
     schema: formSchemaConsumptionDetail,
     defaultValues: consumptionDetail,
-    validationMode: "onSubmit",
+    validationMode: 'onSubmit',
   });
 
   const handleOpenDialog = () => {
@@ -323,18 +323,12 @@ export const FormConsumptionProvider: React.FC<
     toast.success(`Se han eliminado las cosechas!`);
   };
 
-  const isFirstRender = useRef(true);
-
   useEffect(() => {
-    formConsumption.setValue("details", detailsConsumption, {
-      shouldValidate: !isFirstRender.current,
+    formConsumption.setValue('details', detailsConsumption, {
+      shouldValidate: detailsConsumption.length > 0,
       shouldDirty: true,
     });
-
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-    }
-  }, [detailsConsumption, isFirstRender]);
+  }, [detailsConsumption]);
 
   useEffect(() => {
     if (querySuppliesStock.isSuccess) {

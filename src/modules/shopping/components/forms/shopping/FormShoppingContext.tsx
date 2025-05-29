@@ -227,22 +227,14 @@ export const FormShoppingProvider: React.FC<
     resetSelectionRows();
     toast.success(`Se han eliminado las compras!`);
   };
-  const isFirstRender = useRef(true);
 
   useEffect(() => {
     formShopping.setValue('details', detailsShopping, {
-      shouldValidate: !isFirstRender.current,
+      shouldValidate: detailsShopping.length > 0,
       shouldDirty: true,
     });
-
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-    }
-  }, [detailsShopping, isFirstRender]);
-
-  useEffect(() => {
     formShopping.setValue('value_pay', value_pay, { shouldValidate: true });
-  }, [value_pay]);
+  }, [detailsShopping]);
 
   return (
     <FormShoppingContext.Provider
