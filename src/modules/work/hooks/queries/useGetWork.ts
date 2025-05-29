@@ -25,6 +25,15 @@ export function useGetWork(id: string): UseGetOneRecordReturn<Work> {
       return {
         ...data,
         date: ConvertStringToDate(data?.date!),
+        details: data.details.map((de) => {
+          return {
+            ...de,
+            employee: {
+              ...de.employee,
+              full_name: de.employee.first_name + ' ' + de.employee.last_name,
+            },
+          };
+        }),
       } as unknown as Work;
     },
     enabled: isAuthorized,

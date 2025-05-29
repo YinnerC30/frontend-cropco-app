@@ -63,7 +63,8 @@ export const FormPaymentFields: React.FC = () => {
           <FormFieldCommand
             data={readOnly ? [...employees, defaultValues.employee] : employees}
             form={formPayment}
-            nameToShow={'first_name'}
+            nameToShow={'full_name'}
+            nameToValidateForm={'first_name'}
             control={formPayment.control}
             description={formFieldsPayments.employee.description}
             label={formFieldsPayments.employee.label}

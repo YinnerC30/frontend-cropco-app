@@ -76,7 +76,20 @@ export const useGetAllPayments = (
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
       }),
-    select: ({ data }) => data,
+    select: ({ data }) => {
+      return {
+        ...data,
+        records: data.records.map((re) => {
+          return {
+            ...re,
+            employee: {
+              ...re.employee,
+              full_name: re.employee.first_name + ' ' + re.employee.last_name,
+            },
+          };
+        }),
+      };
+    },
     enabled: isAuthorized,
     refetchOnWindowFocus: false,
     ...CACHE_CONFIG_TIME.mediumTerm,

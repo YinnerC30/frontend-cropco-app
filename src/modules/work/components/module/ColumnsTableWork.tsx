@@ -47,19 +47,19 @@ export const columnsWork: ColumnDef<Work>[] = [
         <div className="flex flex-wrap items-center gap-1">
           {employees.slice(0, maxVisible).map((employee, index) => (
             <Badge key={`${employee?.id}-${index}`} className="mb-1 mr-1">
-              {employee.first_name}
+              {employee.full_name}
             </Badge>
           ))}
 
           {hiddenCount > 0 && (
-            <ToolTipTemplate
-              content={employees
-                .slice(maxVisible)
-                .map((item) => item.first_name)
-                .join(',\n')}
-            >
+            // <ToolTipTemplate
+            //   content={employees
+            //     .slice(maxVisible)
+            //     .map((item) => item.first_name)
+            //     .join(',\n')}
+            // >
               <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
-            </ToolTipTemplate>
+            // </ToolTipTemplate>
           )}
         </div>
       );

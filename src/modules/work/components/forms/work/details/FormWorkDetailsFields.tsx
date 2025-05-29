@@ -35,7 +35,7 @@ export const FormWorkDetailsFields: React.FC = () => {
         <FormFieldCommand
           data={filterEmployeesToShow() || []}
           form={formWorkDetail}
-          nameToShow={'first_name'}
+          nameToShow={'full_name'}
           control={formWorkDetail.control}
           description={formFieldsWorkDetail.employee.description}
           label={formFieldsWorkDetail.employee.label}

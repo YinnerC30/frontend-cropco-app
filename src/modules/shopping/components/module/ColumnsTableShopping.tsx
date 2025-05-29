@@ -62,7 +62,7 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
     },
     cell: ({ row: { original } }) => {
       const setSuppliers = new Set(
-        original.details.map((item) => item.supplier.first_name)
+        original.details.map((item) => item.supplier.full_name)
       );
 
       const suppliers = Array.from(setSuppliers);
@@ -79,9 +79,9 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
           ))}
 
           {hiddenCount > 0 && (
-            <ToolTipTemplate content={suppliers.slice(maxVisible).join(',\n')}>
-              <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
-            </ToolTipTemplate>
+            // <ToolTipTemplate content={suppliers.slice(maxVisible).join(',\n')}>
+            <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
+            // </ToolTipTemplate>
           )}
         </div>
       );

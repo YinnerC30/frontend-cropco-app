@@ -22,7 +22,20 @@ export const useGetSale = (id: string): UseGetOneRecordReturn<Sale> => {
   const query: UseGetOneRecordReturn<Sale> = useQuery({
     queryKey: ['sale', id],
     queryFn: () => getSaleById(id),
-    select: ({ data }) => ({...data, date: ConvertStringToDate(data?.date),} as unknown as Sale),
+    select: ({ data }) =>
+      ({
+        ...data,
+        date: ConvertStringToDate(data?.date),
+        details: data.details.map((de) => {
+          return {
+            ...de,
+            client: {
+              ...de.client,
+              full_name: de.client.first_name + ' ' + de.client.last_name,
+            },
+          };
+        }),
+      } as unknown as Sale),
     enabled: isAuthorized,
     refetchOnWindowFocus: false,
     ...CACHE_CONFIG_TIME.shortTerm,

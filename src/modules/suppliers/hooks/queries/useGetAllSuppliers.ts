@@ -46,7 +46,17 @@ export const useGetAllSuppliers = ({
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
       }),
-    select: ({ data }) => data,
+    select: ({ data }) => {
+      return {
+        ...data,
+        records: data.records.map((supl) => {
+          return {
+            ...supl,
+            full_name: supl.first_name + ' ' + supl.last_name,
+          };
+        }),
+      };
+    },
     enabled: isAuthorized,
     refetchOnWindowFocus: false,
     ...CACHE_CONFIG_TIME.mediumTerm,

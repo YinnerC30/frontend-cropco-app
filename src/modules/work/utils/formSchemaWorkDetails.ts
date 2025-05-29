@@ -30,6 +30,6 @@ export const formSchemaWorkDetails = z.object({
       .uuid({
         message: 'La opción seleccionada no es valida.',
       }),
-    first_name: z.string().optional(),
+    full_name: z.string().optional(),
   }),
 });

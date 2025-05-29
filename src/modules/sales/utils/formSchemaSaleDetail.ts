@@ -25,7 +25,7 @@ export const formSchemaSaleDetails = z.object({
       .uuid({
         message: 'El identificador del cliente debe ser un UUID válido.',
       }),
-    first_name: z.string().optional(),
+    full_name: z.string().optional(),
   }),
   amount: z.coerce
     .number({

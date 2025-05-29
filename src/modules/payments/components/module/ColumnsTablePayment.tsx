@@ -26,7 +26,7 @@ export const columnsPayment: ColumnDef<Payment>[] = [
     accessorKey: formFieldsPayments.employee.name,
     cell: ({ row }) => {
       const employee: any = row.getValue('employee');
-      return employee.first_name;
+      return employee.full_name;
     },
     header: ({ column }: HeaderContext<Payment, unknown>) => {
       return (

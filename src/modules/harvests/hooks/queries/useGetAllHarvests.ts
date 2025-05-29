@@ -77,7 +77,26 @@ export const useGetAllHarvests = (
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
       }),
-    select: ({ data }) => data,
+    select: ({ data }) => {
+      return {
+        ...data,
+        records: data.records.map((re) => {
+          return {
+            ...re,
+            details: re.details.map((de) => {
+              return {
+                ...de,
+                employee: {
+                  ...de.employee,
+                  full_name:
+                    de.employee.first_name + ' ' + de.employee.last_name,
+                },
+              };
+            }),
+          };
+        }),
+      };
+    },
     enabled: isAuthorized,
     refetchOnWindowFocus: false,
     ...CACHE_CONFIG_TIME.mediumTerm,

@@ -8,7 +8,7 @@ import { ShoppingDetail } from '@/modules/shopping/interfaces';
 
 export const columnsShoppingDetail: ColumnDef<ShoppingDetail>[] = [
   {
-    accessorKey: 'supplier.first_name',
+    accessorKey: 'supplier.full_name',
     header: ({ column }: HeaderContext<ShoppingDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Proveedor:'} />;
     },

@@ -112,7 +112,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                           variant="outline"
                           role="combobox"
                           aria-expanded={openPopover}
-                          className={`w-[300px] ${cn(
+                          className={`w-80 ${cn(
                             `${!field.value && 'flex justify-between'}`,
                             !field.value && 'text-muted-foreground'
                           )}`}
@@ -120,11 +120,13 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                           onBlur={field.onBlur}
                           disabled={readOnly}
                         >
-                          {!!field.value
-                            ? suppliesStock.find((item: SupplyStock) => {
-                                return item.id === field.value;
-                              })?.['name']
-                            : formFieldsSaleDetail.crop.placeholder}
+                          <span className="overflow-auto truncate text-muted-foreground text-ellipsis">
+                            {!!field.value
+                              ? suppliesStock.find((item: SupplyStock) => {
+                                  return item.id === field.value;
+                                })?.['name']
+                              : formFieldsSaleDetail.crop.placeholder}
+                          </span>
 
                           {!!field.value && (
                             <Badge

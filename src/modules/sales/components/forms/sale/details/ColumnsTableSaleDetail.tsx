@@ -8,7 +8,7 @@ import { FormatNumber } from '@/modules/core/helpers';
 
 export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
   {
-    accessorKey: 'client.first_name',
+    accessorKey: 'client.full_name',
     header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Cliente:'} />;
     },

@@ -60,7 +60,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
         <FormFieldCommand
           data={querySuppliers?.data?.records || []}
           form={formShoppingDetail}
-          nameToShow={'first_name'}
+          nameToShow={'full_name'}
           control={formShoppingDetail.control}
           description={formFieldsShoppingDetail.supplier.description}
           label={formFieldsShoppingDetail.supplier.label}
@@ -98,7 +98,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                           variant="outline"
                           role="combobox"
                           aria-expanded={openPopover}
-                          className={`w-[250px] flex justify-between ${cn(
+                          className={`w-80 flex justify-between ${cn(
                             `${!field.value && 'flex justify-between'}`,
                             !field.value && 'text-muted-foreground'
                           )}`}
@@ -106,7 +106,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                           onBlur={field.onBlur}
                           disabled={readOnly}
                         >
-                          <span>
+                          <span className="overflow-auto truncate text-muted-foreground text-ellipsis">
                             {!!field.value
                               ? querySupplies.data?.records.find(
                                   (item: Supply) => {
@@ -114,23 +114,23 @@ export const FormShoppingDetailsFields: React.FC = () => {
                                   }
                                 )?.['name']
                               : formFieldsSaleDetail.crop.placeholder}
-                            {!!field.value && (
-                              <Badge
-                                className={`${
-                                  !field.value ? 'hidden' : 'ml-10'
-                                }`}
-                                variant={'cyan'}
-                              >
-                                {querySupplies.data?.records.find(
-                                  (item: Supply) => {
-                                    return item.id === field.value;
-                                  }
-                                )?.['unit_of_measure'] === 'GRAMOS'
-                                  ? ' Gramos'
-                                  : ' Mililitros'}
-                              </Badge>
-                            )}
                           </span>
+
+                          {!!field.value && (
+                            <Badge
+                              className={`${!field.value ? 'hidden' : 'ml-10'}`}
+                              variant={'cyan'}
+                            >
+                              {querySupplies.data?.records.find(
+                                (item: Supply) => {
+                                  return item.id === field.value;
+                                }
+                              )?.['unit_of_measure'] === 'GRAMOS'
+                                ? ' Gramos'
+                                : ' Mililitros'}
+                            </Badge>
+                          )}
+
                           <span>
                             <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
                           </span>

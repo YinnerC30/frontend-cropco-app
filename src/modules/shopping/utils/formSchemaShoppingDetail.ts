@@ -39,7 +39,7 @@ export const formSchemaShoppingDetail = z.object({
       .uuid({
         message: 'Debe selecciónar uno de los proveedores.',
       }),
-    first_name: z.string().optional(),
+    full_name: z.string().optional(),
   }),
   amount: z.coerce
     .number({

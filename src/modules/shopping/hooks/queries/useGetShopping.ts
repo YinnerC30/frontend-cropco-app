@@ -27,6 +27,15 @@ export const useGetShopping = (
       ({
         ...data,
         date: ConvertStringToDate(data?.date!),
+        details: data.details.map((de) => {
+          return {
+            ...de,
+            supplier: {
+              ...de.supplier,
+              full_name: de.supplier.first_name + ' ' + de.supplier.last_name,
+            },
+          };
+        }),
       } as unknown as ShoppingSupplies),
     enabled: isAuthorized,
     refetchOnWindowFocus: false,

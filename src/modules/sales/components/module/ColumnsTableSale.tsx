@@ -28,7 +28,7 @@ export const columnsSale: ColumnDef<Sale>[] = [
     ),
     cell: ({ row: { original } }) => {
       const setClients = new Set(
-        original.details.map((item) => item.client.first_name)
+        original.details.map((item) => item.client.full_name)
       );
       const clients = Array.from(setClients);
       const maxVisible = 2;
@@ -43,9 +43,9 @@ export const columnsSale: ColumnDef<Sale>[] = [
           ))}
 
           {hiddenCount > 0 && (
-            <ToolTipTemplate content={clients.slice(maxVisible).join(',\n')}>
+            // <ToolTipTemplate content={clients.slice(maxVisible).join(',\n')}>
               <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
-            </ToolTipTemplate>
+            // </ToolTipTemplate>
           )}
         </div>
       );
@@ -71,14 +71,14 @@ export const columnsSale: ColumnDef<Sale>[] = [
           ))}
 
           {hiddenCount > 0 && (
-            <ToolTipTemplate
-              content={crops
-                .slice(maxVisible)
-                // .map((item) => item)
-                .join(',\n')}
-            >
+            // <ToolTipTemplate
+            //   content={crops
+            //     .slice(maxVisible)
+            //     // .map((item) => item)
+            //     .join(',\n')}
+            // >
               <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
-            </ToolTipTemplate>
+            // </ToolTipTemplate>
           )}
         </div>
       );

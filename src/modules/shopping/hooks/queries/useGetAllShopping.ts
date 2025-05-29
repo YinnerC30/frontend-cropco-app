@@ -70,7 +70,26 @@ export function useGetAllShopping(
         limit: pagination.pageSize,
         offset: pagination.pageIndex,
       }),
-    select: ({ data }) => data,
+      select: ({ data }) => {
+        return {
+          ...data,
+          records: data.records.map((re) => {
+            return {
+              ...re,
+              details: re.details.map((de) => {
+                return {
+                  ...de,
+                  supplier: {
+                    ...de.supplier,
+                    full_name:
+                      de.supplier.first_name + ' ' + de.supplier.last_name,
+                  },
+                };
+              }),
+            };
+          }),
+        };
+      },
 
     enabled: isAuthorized,
     refetchOnWindowFocus: false,

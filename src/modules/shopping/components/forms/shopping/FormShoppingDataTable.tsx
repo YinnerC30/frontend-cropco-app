@@ -63,7 +63,7 @@ export const FormShoppingDataTable: React.FC = () => {
         {/* Barra */}
         <FormDataTableFilter
           placeholder={'Buscar por nombre del proveedor...'}
-          nameColumnFilter={'supplier_first_name'}
+          nameColumnFilter={'supplier_full_name'}
           className="w-[250px] ml-10 self-start sm:self-center sm:m-0"
         />
 

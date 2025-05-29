@@ -28,6 +28,10 @@ export const useGetPayment = (
       ({
         ...data,
         date: ConvertStringToDate(data.date!),
+        employee: {
+          ...data.employee,
+          full_name: data.employee.first_name + ' ' + data.employee.last_name
+        }
       } as unknown as PaymentRecord),
     enabled: isAuthorized,
     refetchOnWindowFocus: false,

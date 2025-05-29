@@ -6,7 +6,7 @@ import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
 
 export const columnsWorkDetail: ColumnDef<WorkDetail>[] = [
   {
-    accessorKey: 'employee.first_name',
+    accessorKey: 'employee.full_name',
     header: ({ column }: HeaderContext<WorkDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Empleado:'} />;
     },

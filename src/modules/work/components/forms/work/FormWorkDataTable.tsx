@@ -64,7 +64,7 @@ export const FormWorkDataTable: React.FC = () => {
         {/* Barra */}
         <FormDataTableFilter
           placeholder={'Buscar por nombre de empleado...'}
-          nameColumnFilter={'employee_first_name'}
+          nameColumnFilter={'employee_full_name'}
           className="w-[280px] ml-10 self-start sm:self-center sm:m-0"
         />
 

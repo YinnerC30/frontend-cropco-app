@@ -87,7 +87,26 @@ export const useGetAllSales = (
         offset: pagination.pageIndex,
         limit: pagination.pageSize,
       }),
-    select: ({ data }) => data,
+      select: ({ data }) => {
+        return {
+          ...data,
+          records: data.records.map((re) => {
+            return {
+              ...re,
+              details: re.details.map((de) => {
+                return {
+                  ...de,
+                  client: {
+                    ...de.client,
+                    full_name:
+                      de.client.first_name + ' ' + de.client.last_name,
+                  },
+                };
+              }),
+            };
+          }),
+        };
+      },
     enabled: isAuthorized,
     refetchOnWindowFocus: false,
     ...CACHE_CONFIG_TIME.mediumTerm,

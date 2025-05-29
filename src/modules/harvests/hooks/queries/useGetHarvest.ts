@@ -22,11 +22,20 @@ export const useGetHarvest = (id: string): UseGetOneRecordReturn<Harvest> => {
   const query: UseGetOneRecordReturn<Harvest> = useQuery({
     queryKey: ['harvest', id],
     queryFn: () => getHarvestById(id),
-    
+
     select: ({ data }) => {
       return {
         ...data,
         date: ConvertStringToDate(data.date),
+        details: data.details.map((de) => {
+          return {
+            ...de,
+            employee: {
+              ...de.employee,
+              full_name: de.employee.first_name + ' ' + de.employee.last_name,
+            },
+          };
+        }),
       } as unknown as Harvest;
     },
     enabled: isAuthorized,

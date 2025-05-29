@@ -13,7 +13,7 @@ export const formSchemaHarvestDetail = z.object({
       .uuid({
         message: 'El identificador del cultivo debe ser un UUID válido.',
       }),
-    first_name: z.string().optional(),
+    full_name: z.string().optional(),
   }),
   amount: z.coerce
     .number({

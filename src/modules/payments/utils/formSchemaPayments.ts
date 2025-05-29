@@ -14,6 +14,7 @@ export const formSchemaPayments = z.object({
       .uuid({
         message: 'La opción seleccionada no es valida.',
       }),
+    full_name: z.string().optional(),
   }),
   method_of_payment: z.nativeEnum(MethodOfPayment, {
     errorMap: (issue, _ctx) => {

@@ -7,7 +7,7 @@ import { HarvestDetail } from '@/modules/harvests/interfaces';
 
 export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
   {
-    accessorKey: 'employee.first_name',
+    accessorKey: 'employee.full_name',
     header: ({ column }: HeaderContext<HarvestDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Empleado:'} />;
     },
@@ -18,7 +18,9 @@ export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
       return FormatNumber(row.getValue('amount')) + ' Kg';
     },
     header: ({ column }: HeaderContext<HarvestDetail, unknown>) => {
-      return <ButtonHeaderTable column={column} label={'Cantidad cosechada:'} />;
+      return (
+        <ButtonHeaderTable column={column} label={'Cantidad cosechada:'} />
+      );
     },
   },
   {
