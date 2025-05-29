@@ -136,7 +136,6 @@ export const FormHarvestProcessed: React.FC = memo(() => {
       <ToolTipTemplate content={'Crear registro'}>
         <Button
           className={`bg-primary/70 hover:bg-primary/50`}
-          variant="outline"
           size="icon"
           onClick={handleOpenDialogExtended}
           disabled={

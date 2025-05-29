@@ -14,7 +14,7 @@ export const ButtonCreateRecord = memo(
   ({ route, className = '', disabled = false }: Props) => {
     return (
       <ToolTipTemplate content={'Crear registro'}>
-        <Button variant="outline" size="icon" disabled={disabled} asChild className={`bg-primary/70 hover:bg-primary/50`}>
+        <Button size="icon" disabled={disabled} asChild className={`bg-primary/70 hover:bg-primary/50`}>
           <Link
             to={!disabled ? route : ''}
             className={`${className}  ${
