@@ -24,7 +24,17 @@ export const useGetAllEmployeesWithHarvests =
     const query: UseQueryGetAllRecordsReturn<Employee> = useQuery({
       queryKey: ['employees-with-harvests'],
       queryFn: () => getEmployeesWithHarvests(),
-      select: ({ data }) => data,
+      select: ({ data }) => {
+        return {
+          ...data,
+          records: data.records.map((em) => {
+            return {
+              ...em,
+              full_name: em.first_name + ' ' + em.last_name,
+            };
+          }),
+        };
+      },
       enabled: isAuthorized,
       refetchOnWindowFocus: false,
       ...CACHE_CONFIG_TIME.longTerm,
