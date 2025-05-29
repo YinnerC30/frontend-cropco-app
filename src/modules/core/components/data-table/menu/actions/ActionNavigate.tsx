@@ -23,7 +23,7 @@ export const ActionNavigate = ({
         to={`${!disabled ? path : ''}`}
         className={`${disabled && 'opacity-50'}  ${
           disabled ? 'cursor-default' : 'cursor-pointer'
-        } text-primary font-medium`}
+        } text-foreground font-medium`}
       >
         <Icon className="w-full h-4 mr-2 " /> {name}
       </Link>
