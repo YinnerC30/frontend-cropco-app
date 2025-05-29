@@ -349,6 +349,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                     onClick={handleResetForm}
                     size={'icon'}
                     disabled={readOnly}
+                    className='bg-destructive hover:bg-destructive/80'
                   >
                     <X className="w-4 h-4" />
                   </Button>

@@ -141,8 +141,9 @@ export const WorkModuleSearchbar = () => {
           employees.some((e) => !e.first_name === true)
             ? employees
                 .map((e) => {
-                  return queryEmployees.data?.records.find((em) => em.id === e.id)
-                    ?.first_name;
+                  return queryEmployees.data?.records.find(
+                    (em) => em.id === e.id
+                  )?.first_name;
                 })
                 .join(', ')
             : employees.map((e) => e.first_name).join(', ')
@@ -209,7 +210,9 @@ export const WorkModuleSearchbar = () => {
         form.setValue('filter_by_value_pay.type_filter_value_pay', undefined, {
           shouldDirty: false,
         });
-        form.setValue('filter_by_value_pay.value_pay', 0, { shouldDirty: false });
+        form.setValue('filter_by_value_pay.value_pay', 0, {
+          shouldDirty: false,
+        });
         break;
     }
     handleSearch(form.watch());
@@ -304,6 +307,7 @@ export const WorkModuleSearchbar = () => {
                       onClick={handleResetForm}
                       size={'icon'}
                       disabled={readOnly}
+                      className="bg-destructive hover:bg-destructive/80"
                     >
                       <X className="w-4 h-4" />
                     </Button>
@@ -518,7 +522,9 @@ export const WorkModuleSearchbar = () => {
               <FilterDropdownItem
                 label={'Valor a pagar'}
                 actionOnSave={() => handleAddFilter('filter_by_value_pay')}
-                actionOnClose={() => handleClearErrorsForm('filter_by_value_pay')}
+                actionOnClose={() =>
+                  handleClearErrorsForm('filter_by_value_pay')
+                }
                 content={
                   <>
                     <FormFieldSelect

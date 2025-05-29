@@ -8,31 +8,31 @@ import {
   DialogHeader,
   DialogTitle,
   Form,
-} from "@/components";
+} from '@/components';
 import {
   FormFieldCalendar,
   FormFieldInput,
   Loading,
   ToolTipTemplate,
-} from "@/modules/core/components";
-import { useCreateForm } from "@/modules/core/hooks";
+} from '@/modules/core/components';
+import { useCreateForm } from '@/modules/core/hooks';
 import {
   usePatchHarvestProcessed,
   usePostHarvestProcessed,
-} from "@/modules/harvests/hooks";
-import { formFieldsHarvestProcessed } from "@/modules/harvests/utils/formFieldsHarvestProcessed";
+} from '@/modules/harvests/hooks';
+import { formFieldsHarvestProcessed } from '@/modules/harvests/utils/formFieldsHarvestProcessed';
 
-import { Cross2Icon, ReloadIcon } from "@radix-ui/react-icons";
+import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
 
-import { Plus } from "lucide-react";
-import { memo, useEffect } from "react";
+import { Plus } from 'lucide-react';
+import { memo, useEffect } from 'react';
 
-import { ConvertStringToDate } from "@/modules/core/helpers";
-import { z } from "zod";
-import { useHarvestProcessedContext } from "./HarvestProcessedContext";
+import { ConvertStringToDate } from '@/modules/core/helpers';
+import { z } from 'zod';
+import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
 const formSchemaHarvestProcessed = z.object({
-  date: z.date({ required_error: "La fecha es un campo obligatorio" }),
+  date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
   amount: z.coerce
     .number({
       required_error: `El total es requerido`,
@@ -124,23 +124,23 @@ export const FormHarvestProcessed: React.FC = memo(() => {
   useEffect(() => {
     formProcessed.reset({
       date:
-        typeof harvestProcessed.date === "string"
+        typeof harvestProcessed.date === 'string'
           ? ConvertStringToDate(harvestProcessed?.date)
           : harvestProcessed.date,
       amount: harvestProcessed.amount,
     });
   }, [harvestProcessed]);
 
-
   return (
     <div>
-      <ToolTipTemplate content={"Crear registro"}>
+      <ToolTipTemplate content={'Crear registro'}>
         <Button
+          className={`bg-primary/70 hover:bg-primary/50`}
           variant="outline"
           size="icon"
           onClick={handleOpenDialogExtended}
           disabled={
-            !actionsHarvestsModule["create_harvest_processed"] ||
+            !actionsHarvestsModule['create_harvest_processed'] ||
             data?.amount! <= data?.total_amount_processed!
           }
         >
@@ -181,7 +181,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
                   control={formProcessed.control}
                   description={formFieldsHarvestProcessed.date.description}
                   label={formFieldsHarvestProcessed.date.label}
-                  name={"date"}
+                  name={'date'}
                   placeholder={formFieldsHarvestProcessed.date.placeholder}
                   disabled={false}
                   conditionCalendar={{
@@ -193,7 +193,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
                   control={formProcessed.control}
                   description={formFieldsHarvestProcessed.amount.description}
                   label={formFieldsHarvestProcessed.amount.label}
-                  name={"amount"}
+                  name={'amount'}
                   placeholder={formFieldsHarvestProcessed.amount.placeholder}
                   disabled={false}
                   type="number"

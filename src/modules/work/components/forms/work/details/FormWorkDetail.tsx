@@ -73,11 +73,12 @@ export const FormWorkDetail: React.FC = () => {
       <ToolTipTemplate content={'Crear registro'}>
         <Button
           type="button"
-          className={`${readOnly && 'hidden'}`}
+          className={`${readOnly && 'hidden'} bg-primary/70 hover:bg-primary/50`}
           variant="outline"
           size="icon"
           onClick={handleOpenDialogExtended}
           disabled={readOnly}
+          
         >
           <Plus className="w-4 h-4" />
           <span className="sr-only">Crear nuevo registro</span>
