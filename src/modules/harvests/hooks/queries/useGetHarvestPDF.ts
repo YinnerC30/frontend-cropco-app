@@ -9,6 +9,7 @@ import { downloadPDF } from '@/modules/core/helpers';
 import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { CACHE_CONFIG_TIME } from '@/config';
+import { ActionToPDF } from '@/modules/core/interfaces/ActionToPDF';
 
 export const getHarvestPDF = async (id: string): PromiseReturnRecord<Blob> => {
   return await cropcoAPI.get<Blob>(
@@ -19,7 +20,7 @@ export const getHarvestPDF = async (id: string): PromiseReturnRecord<Blob> => {
   );
 };
 
-type ActionToPDF = 'ViewPDF' | 'DownloadPDf';
+
 
 interface Props {
   harvestId: string;
