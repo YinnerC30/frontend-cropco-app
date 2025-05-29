@@ -14,7 +14,6 @@ import {
   ToolTipTemplate,
 } from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
-import { useGetAllCropsWithWork } from '@/modules/crops/hooks/queries/useGetAllCropsWithWork';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -67,7 +66,6 @@ import {
 import { cn } from '@/lib/utils';
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 import { ControllerRenderProps } from 'react-hook-form';
-import { useGetAllEmployeesWithWorks } from '@/modules/payments/hooks/queries/useGetAllEmployeesWithWorks';
 
 const valuesResetForm = {
   crop: {
@@ -86,14 +84,16 @@ const valuesResetForm = {
 };
 
 export const WorkModuleSearchbar = () => {
-  const { paramsQuery, actionsWorksModule, hasParamsQuery } =
-    useWorkModuleContext();
+  const {
+    paramsQuery,
+    actionsWorksModule,
+    hasParamsQuery,
+    queryCrops,
+    queryEmployees,
+  } = useWorkModuleContext();
   const readOnly = !actionsWorksModule['find_all_works'];
   const [openPopover, setOpenPopover] = useState(false);
   const navigate = useNavigate();
-  const queryCrops = useGetAllCropsWithWork();
-
-  const queryEmployees = useGetAllEmployeesWithWorks();
 
   const form: UseFormReturn<
     z.infer<typeof formSchemaSearchBarWork>,

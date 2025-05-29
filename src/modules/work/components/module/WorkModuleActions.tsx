@@ -18,6 +18,8 @@ export const WorkModuleActions = () => {
     },
     actionsWorksModule,
     mutationDeleteWorks,
+    queryCrops,
+    queryEmployees,
   } = useWorkModuleContext();
 
   const { mutate, isPending } = mutationDeleteWorks;
@@ -33,10 +35,18 @@ export const WorkModuleActions = () => {
     );
   };
 
+  const handleRefetchData = async () => {
+    await Promise.all([
+      queryWorks.refetch(),
+      queryCrops.refetch(),
+      queryEmployees.refetch(),
+    ]);
+  };
+
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={queryWorks.refetch}
+        onClick={handleRefetchData}
         disabled={!actionsWorksModule['find_all_works']}
         className=""
       />

@@ -22,6 +22,10 @@ import columnsWork from './ColumnsTableWork';
 import { useGetWorkPDF } from '../../hooks/queries/useGetWorkPDF';
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { useGetAllCropsWithWork } from '@/modules/crops/hooks';
+import { useGetAllEmployeesWithWorks } from '@/modules/payments/hooks/queries/useGetAllEmployeesWithWorks';
+import { Crop } from '@/modules/crops/interfaces/Crop';
+import { Employee } from '@/modules/employees/interfaces/Employee';
 
 export interface paramQueryWork {
   crop: { id: string };
@@ -49,6 +53,8 @@ export interface WorksModuleContextValues {
   workIdDocument: string;
   setWorkIdDocument: React.Dispatch<React.SetStateAction<string>>;
   setExecuteQuery: React.Dispatch<React.SetStateAction<boolean>>;
+  queryCrops: UseQueryGetAllRecordsReturn<Crop>;
+  queryEmployees: UseQueryGetAllRecordsReturn<Employee>;
 }
 
 const paramsWorks: ItemQueryAdvanced[] = [
@@ -104,6 +110,10 @@ export const WorksModuleProvider: React.FC<{
   } = useGetAllWorks({
     ...paramsValues,
   });
+
+  const queryCrops = useGetAllCropsWithWork();
+
+  const queryEmployees = useGetAllEmployeesWithWorks();
 
   const { getActionsModule } = useAuthContext();
 
@@ -174,6 +184,8 @@ export const WorksModuleProvider: React.FC<{
     setWorkIdDocument,
     setExecuteQuery,
     queryGetDocument,
+    queryCrops,
+    queryEmployees,
   };
 
   return (
