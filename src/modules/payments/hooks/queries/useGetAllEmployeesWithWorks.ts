@@ -24,7 +24,17 @@ export const useGetAllEmployeesWithWorks =
     const query: UseQueryGetAllRecordsReturn<Employee> = useQuery({
       queryKey: ['employees-with-works'],
       queryFn: () => getEmployeesWithWorks(),
-      select: ({ data }) => data,
+      select: ({ data }) => {
+        return {
+          ...data,
+          records: data.records.map((em) => {
+            return {
+              ...em,
+              full_name: em.first_name + ' ' + em.last_name,
+            };
+          }),
+        };
+      },
       enabled: isAuthorized,
       refetchOnWindowFocus: false,
       ...CACHE_CONFIG_TIME.longTerm,

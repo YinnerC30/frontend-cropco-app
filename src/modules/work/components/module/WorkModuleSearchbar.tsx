@@ -138,15 +138,15 @@ export const WorkModuleSearchbar = () => {
       filters.push({
         key: 'employees',
         label: `Empleados: ${
-          employees.some((e) => !e.first_name === true)
+          employees.some((e) => !e.full_name === true)
             ? employees
                 .map((e) => {
                   return queryEmployees.data?.records.find(
                     (em) => em.id === e.id
-                  )?.first_name;
+                  )?.full_name;
                 })
                 .join(', ')
-            : employees.map((e) => e.first_name).join(', ')
+            : employees.map((e) => e.full_name).join(', ')
         }`,
       });
     }
@@ -413,7 +413,7 @@ export const WorkModuleSearchbar = () => {
                                           (item) => {
                                             return (
                                               <CommandItem
-                                                value={item?.['first_name']}
+                                                value={item?.['full_name']}
                                                 key={item.id!}
                                                 onSelect={() => {
                                                   if (
@@ -443,8 +443,8 @@ export const WorkModuleSearchbar = () => {
                                                           []),
                                                         {
                                                           id: item.id,
-                                                          first_name:
-                                                            item['first_name'],
+                                                          full_name:
+                                                            item['full_name'],
                                                         },
                                                       ],
                                                       {
@@ -457,7 +457,7 @@ export const WorkModuleSearchbar = () => {
                                                 }}
                                               >
                                                 <div className="">
-                                                  {item?.['first_name']}
+                                                  {item?.['full_name']}
                                                 </div>
                                                 <CheckIcon
                                                   className={cn(
