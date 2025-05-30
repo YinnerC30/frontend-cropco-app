@@ -76,7 +76,7 @@ export function AppSidebar() {
               {routes.map((route: Route) => {
                 if (nameModulesUser.includes(route.name_module)) {
                   return (
-                    <SidebarMenuItem key={route.path}>
+                    <SidebarMenuItem key={route.path} className='hover:cursor-pointer'>
                       <SidebarMenuButton
                         onClick={(e) => handleClick(e, route.path)}
                         isActive={url.pathname.includes(route.name_module)}
