@@ -81,8 +81,8 @@ export const MyAccount = () => {
       >
         {/* Trigger */}
         <DropdownMenuTrigger asChild>
-          <Button variant={'ghost'} className='hover:bg-sidebar-accent'>
-            <span className="overflow-hidden capitalize">
+          <Button variant={'ghost'} className="hover:bg-sidebar-accent">
+            <span className="overflow-hidden capitalize text-ellipsis">
               {user?.first_name! + ' ' + user?.last_name!}
             </span>
             <ChevronDown className="w-4 h-4 ml-2" />
