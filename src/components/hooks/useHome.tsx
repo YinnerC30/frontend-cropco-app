@@ -1,8 +1,7 @@
 import { TIME_QUESTION_RENEW_TOKEN } from '@/auth';
 import { useAuthContext, useRenewToken } from '@/auth/hooks';
-import { ToastAction } from '@radix-ui/react-toast';
 import { useEffect } from 'react';
-import { useToast } from '../ui/use-toast';
+import { toast } from 'sonner';
 
 export const useHome = () => {
   const { nameModulesUser } = useAuthContext();
@@ -13,25 +12,15 @@ export const useHome = () => {
     mutationRenewToken.mutate();
   };
 
-  const { toast } = useToast();
-
   const showToast = () => {
-    return toast({
-      title: 'Aumentar tiempo de sesión',
-
-      duration: 3000,
+    toast('Aumentar tiempo de sesión', {
       description:
         'La sesión esta por expirar, si desea continuar por favor presione Clic',
-      action: (
-        <ToastAction
-          onClick={() => {
-            handleExtendedSesion();
-          }}
-          altText="Extender sesión"
-        >
-          Aumentar
-        </ToastAction>
-      ),
+      action: {
+        label: 'Extender sesión',
+        onClick: handleExtendedSesion,
+      },
+      duration: 3000,
     });
   };
 

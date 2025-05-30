@@ -1,9 +1,10 @@
-import { Button, DropdownMenuItem, ToastAction, useToast } from '@/components';
+import { useAuthContext } from '@/auth';
+import { Button, DropdownMenuItem } from '@/components';
 import { useDataTableMenuActionsContext } from '@/modules/core/components';
 import { ToggleLeft, ToggleRight } from 'lucide-react';
 import React from 'react';
+import { toast } from 'sonner';
 import { usePatchUserStatus } from '../../hooks/mutations/usePatchStatusUser';
-import { useAuthContext } from '@/auth';
 
 interface Props {
   id: string;
@@ -15,37 +16,44 @@ export const ActionToogleStatusUser: React.FC<Props> = ({ id, status }) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
   const { mutate } = usePatchUserStatus();
 
-  const { toast } = useToast();
-
-  const executeMutation = () => {
+  const handleToggleUser = () => {
     mutate(id, { onSuccess: () => toggleOpen(false) });
   };
 
   const showToast = () => {
-    return toast({
-      title: 'Se cerrara la sesión',
-      duration: 3000,
+    toast('Se cerrara la sesión', {
       description:
         'Esta por desactivar su usuario, si desea continuar por favor presione "Desactivar"',
-
-      action: (
-        <ToastAction
-          onClick={() => {
-            executeMutation();
-          }}
-          altText="Desactivar"
-        >
-          Desactivar
-        </ToastAction>
-      ),
+      action: {
+        label: 'Desactivar',
+        onClick: handleToggleUser,
+      },
+      duration: 3000,
     });
+    // return toast({
+    //   title: 'Se cerrara la sesión',
+    //   duration: 3000,
+    //   description:
+    //     'Esta por desactivar su usuario, si desea continuar por favor presione "Desactivar"',
+
+    //   action: (
+    //     <ToastAction
+    //       onClick={() => {
+    //         executeMutation();
+    //       }}
+    //       altText="Desactivar"
+    //     >
+    //       Desactivar
+    //     </ToastAction>
+    //   ),
+    // });
   };
 
   const handleToggleStatus = () => {
     if (user?.id === id) {
       showToast();
     } else {
-      executeMutation();
+      handleToggleUser();
     }
   };
 
