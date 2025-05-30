@@ -1,7 +1,8 @@
 // FormChangeContext.tsx
-import { toast, ToastAction } from '@/components';
+// import { toast, ToastAction } from '@/components';
 import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 // Definir el tipo para el contexto con la nueva propiedad y función
 interface FormChangeContextType {
@@ -39,10 +40,7 @@ export const FormChangeProvider: React.FC<FormChangeProviderProps> = ({
 
   const navigate = useNavigate();
 
-  
-
   const handleToastAction = (route: string, skipRedirection: boolean) => {
-    
     markChanges(false);
     if (!skipRedirection) {
       navigate(route);
@@ -58,22 +56,32 @@ export const FormChangeProvider: React.FC<FormChangeProviderProps> = ({
     skipRedirection?: boolean;
     action?: () => void;
   }) => {
-    return toast({
-      title: '¡Atención! Cambios sin guardar.',
+    toast('¡Atención! Cambios sin guardar.', {
       description: 'Tienes modificaciones pendientes en el formulario.',
-      duration: 3_000,
-      action: (
-        <ToastAction
-          altText="Descartar cambios y continuar"
-          onClick={() => {
-            handleToastAction(route, skipRedirection);
-            action && action();
-          }}
-        >
-          Descartar
-        </ToastAction>
-      ),
+      action: {
+        label: 'Ignorar',
+        onClick: () => {
+          handleToastAction(route, skipRedirection);
+          action && action();
+        },
+      },
     });
+    // return toast({
+    //   title: '¡Atención! Cambios sin guardar.',
+    //   description: 'Tienes modificaciones pendientes en el formulario.',
+    //   duration: 3_000,
+    //   action: (
+    //     <ToastAction
+    //       altText="Descartar cambios y continuar"
+    //       onClick={() => {
+    //         handleToastAction(route, skipRedirection);
+    //         action && action();
+    //       }}
+    //     >
+    //       Descartar
+    //     </ToastAction>
+    //   ),
+    // });
   };
 
   return (
