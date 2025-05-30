@@ -4,7 +4,7 @@ import { ProvidersApp } from './providers/Providers';
 export const App = () => {
   return (
     <ProvidersApp>
-      <Sonner position="top-center" richColors closeButton={true} />
+      <Sonner position="bottom-right" />
     </ProvidersApp>
   );
 };
