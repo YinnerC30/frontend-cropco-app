@@ -22,7 +22,7 @@ export const ActionsTableHarvestDetail: React.FC<Props> = ({ row }) => {
   const handleDelete = () => {
     removeHarvestDetail(harvestDetail);
     toast.success(
-      `Se ha eliminado la cosecha del empleado ${harvestDetail.employee.first_name}`
+      `Se ha eliminado la cosecha del empleado: ${harvestDetail.employee.full_name}`
     );
   };
 

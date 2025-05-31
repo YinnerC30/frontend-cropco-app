@@ -19,7 +19,7 @@ export const ActionsTableWorkDetail = ({ row }: { row: Row<WorkDetail> }) => {
   const handleDelete = async () => {
     removeWorkDetail(workDetail);
     toast.success(
-      `Se ha eliminado la cosecha del empleado ${workDetail.employee.first_name}`
+      `Se ha eliminado la cosecha del empleado: ${workDetail.employee.full_name}`
     );
   };
 

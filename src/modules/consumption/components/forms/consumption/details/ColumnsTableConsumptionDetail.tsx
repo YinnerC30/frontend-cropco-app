@@ -7,18 +7,17 @@ import { Badge } from '@/components';
 
 export const columnsConsumptionDetail: ColumnDef<ConsumptionDetails>[] = [
   {
-    accessorKey: 'crop.name',
-    header: ({ column }: HeaderContext<ConsumptionDetails, unknown>) => {
-      return <ButtonHeaderTable column={column} label={'Cultivo:'} />;
-    },
-  },
-  {
     accessorKey: 'supply.name',
     header: ({ column }: HeaderContext<ConsumptionDetails, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Suministro:'} />;
     },
   },
-
+  {
+    accessorKey: 'crop.name',
+    header: ({ column }: HeaderContext<ConsumptionDetails, unknown>) => {
+      return <ButtonHeaderTable column={column} label={'Cultivo:'} />;
+    },
+  },
   {
     accessorKey: 'amount',
     cell: ({ row }) => {

@@ -23,7 +23,7 @@ export const ActionsTableShoppingDetail = ({
   const handleDelete = () => {
     removeShoppingDetail(shoppingDetail);
     toast.success(
-      `Se ha eliminado la venta del Proveedor ${shoppingDetail.supplier.first_name}`
+      `Se ha eliminado la compra del Proveedor: ${shoppingDetail.supplier.full_name}`
     );
   };
 

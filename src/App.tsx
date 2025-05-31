@@ -4,7 +4,7 @@ import { ProvidersApp } from './providers/Providers';
 export const App = () => {
   return (
     <ProvidersApp>
-      <Sonner position="bottom-right" />
+      <Sonner position="bottom-right" closeButton />
     </ProvidersApp>
   );
 };

@@ -16,7 +16,7 @@ export const formFieldsConsumptionDetail: Record<
     name: 'crop',
     label: 'Cultivo:',
     placeholder: 'Seleccione un cultivo',
-    description: 'Cultivo al cual se suministro el insumo',
+    description: 'Cultivo al cual se insumo el insumo',
   },
   amount: {
     name: 'amount',

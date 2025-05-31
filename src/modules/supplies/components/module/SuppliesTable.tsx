@@ -15,7 +15,7 @@ export const SuppliesTable: React.FC = () => {
     <DataTableTemplate
       errorMessage={
         !actionsSuppliesModule['find_all_supplies']
-          ? 'No tienes permiso para ver el listado de suministros 😢'
+          ? 'No tienes permiso para ver el listado de insumos 😢'
           : 'No hay registros.'
       }
       disabledDoubleClick={!actionsSuppliesModule['find_one_supply']}

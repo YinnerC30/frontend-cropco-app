@@ -31,7 +31,7 @@ export const useGetSupply = (id: string): UseGetOneRecordReturn<Supply> => {
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'Requieres del permiso de lectura para obtener la información del suministro solicitado'
+        'Requieres del permiso de lectura para obtener la información del insumo solicitado'
       );
     }
   }, [isAuthorized]);

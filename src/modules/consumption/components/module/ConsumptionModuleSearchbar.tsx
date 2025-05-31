@@ -549,13 +549,13 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
                               <PopoverContent className="w-[200px] p-0">
                                 <Command>
                                   <CommandInput
-                                    placeholder={`Buscar suministro...`}
+                                    placeholder={`Buscar insumo...`}
                                     className="h-9"
                                   />
                                   <CommandList>
                                     <ScrollArea className="w-auto h-56 p-1 pr-2">
                                       <CommandEmpty>{`${CapitalizeFirstWord(
-                                        'suministro'
+                                        'insumo'
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
                                         {querySupplies?.data?.records.map(

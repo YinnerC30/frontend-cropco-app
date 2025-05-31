@@ -33,7 +33,7 @@ export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
     });
     removeSaleDetail(saleDetail);
     toast.success(
-      `Se ha eliminado la venta del cliente ${saleDetail.client.first_name}`
+      `Se ha eliminado la venta del cliente: ${saleDetail.client.full_name}`
     );
   };
 

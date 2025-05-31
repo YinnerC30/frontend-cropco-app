@@ -5,7 +5,7 @@ CropCo es una aplicación web moderna diseñada para la gestión integral de ope
 ## 🚀 Características Principales
 
 - **Gestión de Cultivos**: Seguimiento y monitoreo de cultivos en tiempo real
-- **Control de Inventario**: Gestión de suministros y recursos agrícolas
+- **Control de Inventario**: Gestión de insumos y recursos agrícolas
 - **Gestión de Personal**: Control de empleados y asignación de trabajos
 - **Análisis Financiero**: Seguimiento de ventas, compras y gastos
 - **Dashboard Interactivo**: Visualización de métricas y KPIs importantes

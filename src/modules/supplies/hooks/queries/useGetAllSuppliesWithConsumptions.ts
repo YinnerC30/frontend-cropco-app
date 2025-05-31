@@ -37,7 +37,7 @@ export const useGetAllSuppliesWithConsumptions =
     useEffect(() => {
       if (!isAuthorized) {
         toast.error(
-          'No tienes permiso para ver el listado de suministros con consumos 😑'
+          'No tienes permiso para ver el listado de insumos con consumos 😑'
         );
       }
     }, [isAuthorized]);

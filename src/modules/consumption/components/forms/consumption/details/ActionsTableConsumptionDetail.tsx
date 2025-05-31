@@ -30,7 +30,7 @@ export const ActionsTableConsumptionDetail: React.FC<{
     } as any);
     removeConsumptionDetail(consumptionDetail);
     toast.success(
-      `Se ha eliminado el consumo del cultivo ${consumptionDetail.supply.name}`
+      `Se ha eliminado el consumo del insumo ${consumptionDetail.supply.name}`
     );
   };
 

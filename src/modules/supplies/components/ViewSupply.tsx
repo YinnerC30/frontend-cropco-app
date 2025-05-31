@@ -21,7 +21,7 @@ export const ViewSupply = () => {
     <>
       <BreadCrumb
         items={[{ link: MODULE_SUPPLIES_PATHS.ViewAll, name: 'Suministros' }]}
-        finalItem={`Información del suministro`}
+        finalItem={`Información del insumo`}
       />
 
       <FormSupply defaultValues={data} readOnly />
