@@ -31,7 +31,6 @@ import {
 import { FormatNumber } from '@/modules/core/helpers';
 
 import { useGetAllCrops } from '@/modules/crops/hooks';
-import { formFieldsSaleDetail } from '@/modules/sales/utils';
 import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { CheckIcon } from 'lucide-react';
@@ -125,7 +124,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                               ? suppliesStock.find((item: SupplyStock) => {
                                   return item.id === field.value;
                                 })?.['name']
-                              : formFieldsSaleDetail.crop.placeholder}
+                              : formFieldsConsumptionDetail.supply.placeholder}
                           </span>
 
                           {!!field.value && (
