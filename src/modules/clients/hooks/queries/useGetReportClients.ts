@@ -3,11 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { viewPDF } from '@/modules/core/helpers/utilities/viewPDF';
+import { CACHE_CONFIG_TIME } from '@/config';
+import { downloadPDF } from '@/modules/core/helpers';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
-import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getReportClients = async (): PromiseReturnRecord<Blob> => {
   return await cropcoAPI.get<Blob>(`${pathsCropco.clients}/export/all/pdf`, {
@@ -58,7 +58,7 @@ export const useGetReportClients = ({
 
   useEffect(() => {
     if (query.isSuccess && showReport) {
-      viewPDF(query.data);
+      downloadPDF(query.data, 'reporte-clientes');
       actionOnSuccess();
     }
   }, [query.isSuccess, actionOnSuccess, showReport]);
