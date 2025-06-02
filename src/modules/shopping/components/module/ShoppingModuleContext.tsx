@@ -146,7 +146,7 @@ export const ShoppingModuleProvider: React.FC<{
   const queryGetDocument = useGetShoppingPDF({
     shoppingId: shoppingIdDocument,
     stateQuery: executeQuery,
-    actionPDF: "ViewPDF",
+    actionPDF: "DownloadPDF",
     actionOnSuccess: () => {
       setExecuteQuery(false);
       setShoppingIdDocument("");

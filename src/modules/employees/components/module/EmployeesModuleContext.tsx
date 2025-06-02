@@ -65,7 +65,7 @@ export const EmployeesModuleProvider = ({
   const queryGetCertification = useGetCertificationEmployee({
     userId: userIdCertification,
     stateQuery: executeQuery,
-    actionPDF: "ViewPDF",
+    actionPDF: "DownloadPDF",
     actionOnSuccess: () => {
       setExecuteQuery(false);
       setUserIdCertification("");
