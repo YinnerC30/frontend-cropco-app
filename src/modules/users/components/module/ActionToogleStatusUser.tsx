@@ -9,9 +9,14 @@ import { usePatchUserStatus } from '../../hooks/mutations/usePatchStatusUser';
 interface Props {
   id: string;
   status: boolean;
+  disabled?: boolean;
 }
 
-export const ActionToogleStatusUser: React.FC<Props> = ({ id, status }) => {
+export const ActionToogleStatusUser: React.FC<Props> = ({
+  id,
+  status,
+  disabled = false,
+}) => {
   const { user } = useAuthContext();
   const { toggleOpen } = useDataTableMenuActionsContext();
   const { mutate } = usePatchUserStatus();
@@ -64,6 +69,7 @@ export const ActionToogleStatusUser: React.FC<Props> = ({ id, status }) => {
         onClick={handleToggleStatus}
         variant={'ghost'}
         className="cursor-pointer"
+        disabled={disabled}
       >
         {status ? (
           <>

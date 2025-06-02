@@ -57,7 +57,11 @@ export const UsersModuleActionsTable: React.FC<Props> = ({ row }) => {
         disabled={!actionsUsersModule['find_one_user']}
       />
 
-      <ActionToogleStatusUser id={id} status={is_active} />
+      <ActionToogleStatusUser
+        id={id}
+        status={is_active}
+        disabled={!actionsUsersModule['toggle_status_user']}
+      />
     </DropDownMenuActions>
   );
 };
