@@ -33,7 +33,7 @@ export const useDeleteBulkSupplies = (): UseMutationReturn<
         await queryClient.invalidateQueries({ queryKey: ["shopping"] });
 
         if (success.length > 0 && failed.length === 0) {
-          toast.success(`Suministros eliminados`);
+          toast.success(`Insumos eliminados`);
         } else if (failed.length > 0) {
           toast.error(
             `No se pudieron eliminar algunos insumos, es posible que alguno tenga aun stock disponible`

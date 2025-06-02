@@ -117,7 +117,7 @@ export const FormConsumptionDetail: React.FC = () => {
           <DialogHeader>
             <DialogTitle>Consumo de sumistro</DialogTitle>
             <DialogDescription className="">
-              Información detallada del consumo realizado al suminstro por
+              Información detallada del consumo realizado al insumo por
               cultivo
             </DialogDescription>
           </DialogHeader>

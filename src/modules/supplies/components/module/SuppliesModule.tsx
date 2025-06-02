@@ -8,7 +8,7 @@ export const SuppliesModule: React.FC = () => {
   return (
     <SuppliesModuleProvider>
       <div className="select-none">
-      <BreadCrumb finalItem="Suministros" hiddenSeparator />
+      <BreadCrumb finalItem="Insumos" hiddenSeparator />
         <SuppliesSearchBar />
         <SuppliesActions />
         <SuppliesTable />

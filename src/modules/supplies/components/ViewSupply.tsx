@@ -20,7 +20,7 @@ export const ViewSupply = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: MODULE_SUPPLIES_PATHS.ViewAll, name: 'Suministros' }]}
+        items={[{ link: MODULE_SUPPLIES_PATHS.ViewAll, name: 'Insumos' }]}
         finalItem={`Información del insumo`}
       />
 

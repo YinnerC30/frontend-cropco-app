@@ -9,7 +9,7 @@ export const columnsConsumptionDetail: ColumnDef<ConsumptionDetails>[] = [
   {
     accessorKey: 'supply.name',
     header: ({ column }: HeaderContext<ConsumptionDetails, unknown>) => {
-      return <ButtonHeaderTable column={column} label={'Suministro:'} />;
+      return <ButtonHeaderTable column={column} label={'Insumo:'} />;
     },
   },
   {

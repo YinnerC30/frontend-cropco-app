@@ -679,7 +679,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                               </PopoverContent>
                             </Popover>
                             <FormDescription>
-                              {'Suministro(s) que han participado en la compra'}
+                              {'Insumo(s) que han participado en la compra'}
                             </FormDescription>
                             <FormMessage />
                           </FormItem>

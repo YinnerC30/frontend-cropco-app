@@ -26,7 +26,7 @@ export const ModifySupply = () => {
   return (
     <>
       <BreadCrumb
-        items={[{ link: MODULE_SUPPLIES_PATHS.ViewAll, name: 'Suministros' }]}
+        items={[{ link: MODULE_SUPPLIES_PATHS.ViewAll, name: 'Insumos' }]}
         finalItem={`Modificar`}
       />
 

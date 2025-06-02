@@ -16,7 +16,7 @@ export const columnsShoppingDetail: ColumnDef<ShoppingDetail>[] = [
   {
     accessorKey: 'supply.name',
     header: ({ column }: HeaderContext<ShoppingDetail, unknown>) => {
-      return <ButtonHeaderTable column={column} label={'Suministro:'} />;
+      return <ButtonHeaderTable column={column} label={'Insumo:'} />;
     },
   },
 
