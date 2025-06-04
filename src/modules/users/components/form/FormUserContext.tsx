@@ -67,6 +67,7 @@ export const FormUserProvider: React.FC<
   const form = useCreateForm({
     schema: hiddenPassword ? formSchemaUser : formSchemaUserWithPassword,
     defaultValues: combinedDefaultValues,
+    validationMode: 'onSubmit'
   });
 
   const defaultActionsUser = useMemo(
