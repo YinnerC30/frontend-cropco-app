@@ -46,6 +46,9 @@ export const useCreateForm = ({
     if (skipDirty === false) {
       isDirty ? markChanges(true) : null;
     }
+    return () => {
+      markChanges(false);
+    };
   }, [isDirty]);
 
   return form;
