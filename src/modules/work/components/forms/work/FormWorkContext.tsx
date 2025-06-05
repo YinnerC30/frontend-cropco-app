@@ -122,7 +122,7 @@ export const FormWorkProvider: React.FC<
   children,
   defaultValues = defaultValuesWork,
   isSubmitting = false,
-  onSubmit = (values) => console.log(values),
+  onSubmit = (values) => {},
   readOnly = false,
 }) => {
   const { getActionsModule } = useAuthContext();

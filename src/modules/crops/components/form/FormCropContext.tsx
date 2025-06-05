@@ -33,7 +33,7 @@ export const FormCropProvider: React.FC<
   children,
   defaultValues: propsDefaultValues, // Renombrado para claridad
   isSubmitting = false,
-  onSubmit = (values) => console.log(values),
+  onSubmit = (values) => {},
   readOnly = false,
 }) => {
   const combinedDefaultValues = useMemo(() => ({

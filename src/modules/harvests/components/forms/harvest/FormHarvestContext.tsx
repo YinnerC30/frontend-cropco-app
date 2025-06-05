@@ -128,7 +128,7 @@ export const FormHarvestProvider: React.FC<
   children,
   defaultValues = defaultValuesHarvest,
   isSubmitting = false,
-  onSubmit = (values) => console.log(values),
+  onSubmit = (values) => {},
   readOnly = false,
 }) => {
   const { getActionsModule } = useAuthContext();

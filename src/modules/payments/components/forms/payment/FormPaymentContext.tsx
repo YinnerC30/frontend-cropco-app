@@ -198,7 +198,7 @@ export const FormPaymentProvider: React.FC<
   children,
   defaultValues = defaultValuesPayment,
   isSubmitting = false,
-  onSubmit = (values) => console.log(values),
+  onSubmit = (values) => {},
   readOnly = false,
 }) => {
   const formPayment = useCreateForm({

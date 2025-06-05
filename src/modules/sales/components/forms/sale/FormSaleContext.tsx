@@ -192,7 +192,7 @@ export const FormSaleProvider: React.FC<
   children,
   defaultValues = defaultValuesSale,
   isSubmitting = false,
-  onSubmit = (values) => console.log(values),
+  onSubmit = (values) => {},
   readOnly = false,
 }) => {
   const { getActionsModule } = useAuthContext();

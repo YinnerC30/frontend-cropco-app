@@ -3,7 +3,7 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
-  useState
+  useState,
 } from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
@@ -120,7 +120,7 @@ export const FormShoppingProvider: React.FC<
   children,
   defaultValues = defaultValuesShopping,
   isSubmitting = false,
-  onSubmit = (values) => console.log(values),
+  onSubmit = (values) => {},
   readOnly = false,
 }) => {
   const { getActionsModule } = useAuthContext();

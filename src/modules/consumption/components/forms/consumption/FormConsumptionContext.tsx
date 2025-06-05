@@ -164,7 +164,7 @@ export const FormConsumptionProvider: React.FC<
   children,
   defaultValues = defaultValuesConsumption,
   isSubmitting = false,
-  onSubmit = (values) => console.log(values),
+  onSubmit = (values) => {},
   readOnly = false,
 }) => {
   const { getActionsModule } = useAuthContext();
