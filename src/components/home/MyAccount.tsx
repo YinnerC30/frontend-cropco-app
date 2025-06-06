@@ -17,7 +17,9 @@ import { Dialog } from '../ui/dialog';
 import { useSidebar } from '../ui/sidebar';
 
 export const MyAccount = () => {
-  const { user } = useAuthContext();
+  const { user, hasPermission } = useAuthContext();
+
+  const userCanChangePassword = hasPermission('users', 'change_password_user');
 
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -152,12 +154,15 @@ export const MyAccount = () => {
           </DropdownMenuItem> */}
 
           {/* Change Password Dialog */}
-          <DropdownMenuItem onClick={handleTrigger}>
-            Cambiar contraseña
-          </DropdownMenuItem>
+
+          {userCanChangePassword && (
+            <DropdownMenuItem onClick={handleTrigger}>
+              Cambiar contraseña
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
-      {openDialog && (
+      {openDialog && userCanChangePassword && (
         <DialogChangePassword
           handleCloseDialog={handleCloseDialog}
           setOpenDialog={setOpenDialog}
