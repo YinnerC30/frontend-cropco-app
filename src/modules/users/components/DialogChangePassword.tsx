@@ -100,7 +100,7 @@ export const DialogChangePassword: React.FC<Props> = ({
               description={'Antigua contraseña que tenias'}
               label={'Vieja contraseña'}
               name={'old_password'}
-              placeholder={'arrozconpollo1'}
+              placeholder={'antiguacontraseña'}
               disabled={false}
               type="password"
             />
@@ -109,7 +109,7 @@ export const DialogChangePassword: React.FC<Props> = ({
               description={'Escribe una nueva contraseña'}
               label={'Nueva contraseña'}
               name={'new_password'}
-              placeholder={'arrozconcarne1'}
+              placeholder={'nuevacontraseña'}
               disabled={false}
               type="password"
             />
