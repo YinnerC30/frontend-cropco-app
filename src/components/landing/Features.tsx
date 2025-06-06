@@ -69,8 +69,8 @@ export default function Features() {
               key={index}
               className="p-6 text-center transition-shadow duration-300 bg-white rounded-lg shadow-sm hover:shadow-md"
             >
-              <feature.icon className="w-12 h-12 mx-auto mb-4 text-primary" />
-              <h3 className="mb-2 text-xl font-semibold">{feature.title}</h3>
+              <feature.icon className="w-12 h-12 mx-auto mb-4 text-primary dark:text-slate-900" />
+              <h3 className="mb-2 text-xl font-semibold dark:text-slate-900">{feature.title}</h3>
               <p className="text-gray-600">{feature.description}</p>
             </div>
           ))}
