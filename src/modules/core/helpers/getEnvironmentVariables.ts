@@ -1,8 +1,11 @@
 export const getEnvironmentVariables = () => {
+  console.log(import.meta.env);
+  console.log(import.meta.env.VITE_HOST_API_CROPCO);
+  console.log(import.meta.env.VITE_STATUS_PROJECT);
   let hostApiCropco = import.meta.env.VITE_HOST_API_CROPCO;
-  console.log("🚀 ~ getEnvironmentVariables ~ hostApiCropco:", hostApiCropco)
+  console.log('🚀 ~ getEnvironmentVariables ~ hostApiCropco:', hostApiCropco);
   let statusProject = import.meta.env.VITE_STATUS_PROJECT;
-  console.log("🚀 ~ getEnvironmentVariables ~ statusProject:", statusProject)
+  console.log('🚀 ~ getEnvironmentVariables ~ statusProject:', statusProject);
 
   if (!hostApiCropco) {
     console.log('No hay variable de entorno para hostApiCropco');
