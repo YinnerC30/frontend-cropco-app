@@ -1,10 +1,10 @@
 export const getEnvironmentVariables = () => {
-  console.log(import.meta.env);
-  console.log(import.meta.env.VITE_HOST_API_CROPCO);
-  console.log(import.meta.env.VITE_STATUS_PROJECT);
-  let hostApiCropco = import.meta.env.VITE_HOST_API_CROPCO;
+  // @ts-ignore
+  const env = window.ENV || {};
+  
+  let hostApiCropco = env.VITE_HOST_API_CROPCO;
   console.log('🚀 ~ getEnvironmentVariables ~ hostApiCropco:', hostApiCropco);
-  let statusProject = import.meta.env.VITE_STATUS_PROJECT;
+  let statusProject = env.VITE_STATUS_PROJECT;
   console.log('🚀 ~ getEnvironmentVariables ~ statusProject:', statusProject);
 
   if (!hostApiCropco) {
