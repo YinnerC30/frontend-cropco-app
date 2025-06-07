@@ -34,7 +34,7 @@ export const useDeleteBulkCrops = (): UseMutationReturn<
         await queryClient.invalidateQueries({ queryKey: ["consumption"] });
         console.log(success, failed);
         if (success.length > 0 && failed.length === 0) {
-          toast.success(`Empleados eliminados`);
+          toast.success(`Cultivos eliminados`);
         } else if (failed.length > 0) {
           toast.error(
             `No se pudieron eliminar algunos cultivos, es posible que alguno tenga aun stock disponible`
