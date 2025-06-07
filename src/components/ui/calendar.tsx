@@ -35,11 +35,7 @@ function Calendar({
   showOutsideDays = true,
   ...props
 }: CalendarProps) {
-  const defaultDate = props.selected as Date;
-
-  const [currentMonth, setCurrentMonth] = React.useState(
-    defaultDate || new Date()
-  );
+  const [currentMonth, setCurrentMonth] = React.useState(new Date());
 
   // Generamos los años una sola vez cuando se monta el componente
   const years = React.useMemo(() => {
