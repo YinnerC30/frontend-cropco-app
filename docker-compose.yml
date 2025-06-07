@@ -1,13 +1,13 @@
 services:
   frontend:
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
-    image: stivenc30/cropco-frontend:latest
-    # image: cropco-frontend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # image: stivenc30/cropco-frontend:latest
+    image: cropco-frontend:latest
     container_name: cropco-frontend
     ports:
-      - '${PORT:-80}:80'
+      - '${PORT:-8081}:80'
     environment:
       - VITE_HOST_API_CROPCO=${VITE_HOST_API_CROPCO}
       - VITE_STATUS_PROJECT=${VITE_STATUS_PROJECT}
