@@ -16,6 +16,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Create .env file
+        run: |
+          echo "VITE_HOST_API_CROPCO=${{ secrets.VITE_HOST_API_CROPCO }}" >> .env
+          echo "VITE_STATUS_PROJECT=${{ secrets.VITE_STATUS_PROJECT }}" >> .env
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 

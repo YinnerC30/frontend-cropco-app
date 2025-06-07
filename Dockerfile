@@ -1,18 +1,25 @@
 # Etapa de construcción
 FROM node:20-alpine AS builder
+
 # Establece el directorio de trabajo
 WORKDIR /app
+
 # Copia los archivos de dependencias
 COPY package*.json ./
 # Instala las dependencias
 RUN npm ci
+
+# Copia el archivo .env primero
+COPY .env ./
+
 # Copia el resto del código fuente
 COPY . .
+
 # Aumentar el límite de memoria para la compilación
 ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 # Construye la aplicación
 RUN npm run build
-
 
 # Etapa de producción
 FROM nginx:alpine
