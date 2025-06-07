@@ -27,6 +27,7 @@ export const FormShoppingFields: React.FC = () => {
           name={'date'}
           placeholder={formFieldsShopping.date.placeholder}
           disabled={readOnly}
+          className='w-[240px]'
         />
         <div className="sm:w-[600px] mt-4">
           <FormFieldDataTable

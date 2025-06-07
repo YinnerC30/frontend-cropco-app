@@ -61,7 +61,7 @@ export const FormFieldCalendar: React.FC<FieldCalendarProps> = memo(
                       variant={'outline'}
                       onClick={() => setOpenPopover(true)}
                       className={cn(
-                        'w-[240px] pl-3 text-left font-normal',
+                        'w-full pl-3 text-left font-normal',
                         !field.value && 'text-muted-foreground' && className
                       )}
                     >

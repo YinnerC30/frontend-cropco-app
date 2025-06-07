@@ -40,6 +40,7 @@ export const FormHarvestFields: React.FC = () => {
             name={'date'}
             placeholder={formFieldsHarvest.date.placeholder}
             disabled={readOnly}
+            className='w-[240px]'
           />
           <FormFieldCommand
             data={

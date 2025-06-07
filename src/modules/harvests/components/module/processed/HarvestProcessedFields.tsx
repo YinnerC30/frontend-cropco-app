@@ -75,6 +75,7 @@ export const HarvestProcessedFields: React.FC = () => {
           name={'date'}
           placeholder={formFieldsHarvestProcessed.date.placeholder}
           disabled={true}
+          className='w-[240px]'
         />
 
         <FormFieldInput

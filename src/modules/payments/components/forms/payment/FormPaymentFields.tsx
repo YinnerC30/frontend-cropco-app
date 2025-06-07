@@ -58,6 +58,7 @@ export const FormPaymentFields: React.FC = () => {
             name={'date'}
             placeholder={formFieldsPayments.date.placeholder}
             disabled={readOnly}
+            className='w-[240px]'
           />
 
           <FormFieldCommand

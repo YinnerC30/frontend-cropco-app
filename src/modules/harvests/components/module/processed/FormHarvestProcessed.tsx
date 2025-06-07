@@ -187,6 +187,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
                     before: new Date(data?.date!),
                     after: new Date(),
                   }}
+                  className='w-[240px]'
                 />
                 <FormFieldInput
                   control={formProcessed.control}

@@ -38,6 +38,7 @@ export const FormWorkFields: React.FC = () => {
             name={'date'}
             placeholder={formFieldsWork.date.placeholder}
             disabled={readOnly}
+            className='w-[240px]'
           />
           <FormFieldCommand
             data={
