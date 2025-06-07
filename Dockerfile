@@ -25,13 +25,10 @@ FROM nginx:alpine
 RUN apk add --no-cache nodejs
 
 # Crear script de inicio
-RUN echo '#!/bin/sh\n\
-echo "window.ENV = { \
-  VITE_HOST_API_CROPCO: \"$VITE_HOST_API_CROPCO\", \
-  VITE_STATUS_PROJECT: \"$VITE_STATUS_PROJECT\" \
-}" > /usr/share/nginx/html/env-config.js\n\
-nginx -g "daemon off;"' > /docker-entrypoint.sh && \
-chmod +x /docker-entrypoint.sh
+RUN echo '#!/bin/sh' > /docker-entrypoint.sh && \
+    echo 'echo "window.ENV = { VITE_HOST_API_CROPCO: \"$VITE_HOST_API_CROPCO\", VITE_STATUS_PROJECT: \"$VITE_STATUS_PROJECT\" }" > /usr/share/nginx/html/env-config.js' >> /docker-entrypoint.sh && \
+    echo 'nginx -g "daemon off;"' >> /docker-entrypoint.sh && \
+    chmod +x /docker-entrypoint.sh
 
 # Copia la configuración personalizada de nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
