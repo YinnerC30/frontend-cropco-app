@@ -38,7 +38,7 @@ export const FormFieldCalendar: React.FC<FieldCalendarProps> = memo(
     className = '',
     conditionCalendar = {
       before: new Date('1900-01-01'),
-      after: new Date(),
+      after: new Date(new Date().setFullYear(new Date().getFullYear() + 10)),
     },
   }) => {
     const [openPopover, setOpenPopover] = useState(false);
