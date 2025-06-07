@@ -512,7 +512,6 @@ export const WorkModuleSearchbar = () => {
                       {...formFieldsSearchBarWork.date}
                       control={form.control}
                       name="filter_by_date.date"
-                      className="w-[95%]"
                     />
                   </>
                 }
