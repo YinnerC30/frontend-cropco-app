@@ -9,7 +9,7 @@ import { formFieldsShoppingDetail } from '@/modules/shopping/utils';
 import { useGetAllSuppliers } from '@/modules/suppliers/hooks';
 import { useGetAllSupplies } from '@/modules/supplies/hooks';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { CapitalizeFirstWord } from '@/auth';
 import {
@@ -37,17 +37,25 @@ import { Loading } from '@/modules/core/components';
 
 import { formFieldsSaleDetail } from '@/modules/sales/utils';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
+import {
+  UnitOfMeasure,
+  UnitsType,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { CheckIcon } from 'lucide-react';
 import { ControllerRenderProps } from 'react-hook-form';
-import {
-  UnitOfMeasure,
-  unitsType,
-} from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { defaultValuesShoppingDetail } from '../FormShoppingContext';
+
+type StatusUnitSelector = 'initial' | 'changed' | 'default';
 
 export const FormShoppingDetailsFields: React.FC = () => {
   const { formShoppingDetail, shoppingDetail, readOnly } =
     useFormShoppingContext();
+
+  // const [changedSupply, setChangedSupply] = useState(false);
+
+  const [stateUnitsSelector, setStateUnitsSelector] =
+    useState<StatusUnitSelector>('initial');
 
   const { query: querySuppliers } = useGetAllSuppliers({ queryValue: '' });
 
@@ -59,10 +67,58 @@ export const FormShoppingDetailsFields: React.FC = () => {
   const [openPopover, setOpenPopover] = useState(false);
 
   const currentSupply = formShoppingDetail.watch('supply') as Partial<Supply>;
+  const currentUnitType =
+    formShoppingDetail.watch('unit_of_measure') || ('' as UnitOfMeasure);
+
+  // // console.log('🚀 ~ currentSupply:', currentSupply);
+  // // console.log('🚀 ~ currentUnitType:', currentUnitType);
+
+  const hasSupplyDefault = formShoppingDetail.formState.defaultValues?.supply;
 
   useEffect(() => {
     formShoppingDetail.reset(shoppingDetail);
   }, [shoppingDetail]);
+
+  useEffect(() => {
+    if (hasSupplyDefault.id.length > 0) {
+      setStateUnitsSelector('default');
+    }
+  }, [hasSupplyDefault]);
+
+  useEffect(() => {
+    if (currentSupply.id!.length > 0) {
+      const currentShowUnits: string[] = UnitsType[
+        currentSupply.unit_of_measure as keyof typeof UnitsType
+      ].map((unit: { key: UnitOfMeasure }) => unit.key);
+
+      if (!currentShowUnits.includes(currentUnitType)) {
+        // formShoppingDetail.setValue('unit_of_measure', null);
+        setStateUnitsSelector('changed');
+      }
+    }
+  }, [currentSupply, currentUnitType]);
+
+  useEffect(() => {
+    // console.log(stateUnitsSelector);
+
+    if (stateUnitsSelector === 'changed') {
+      formShoppingDetail.setValue(
+        'unit_of_measure',
+        UnitsType[currentSupply.unit_of_measure as keyof typeof UnitsType][0]
+          .key
+      );
+    }
+
+    console.log(formShoppingDetail.watch());
+  }, [stateUnitsSelector]);
+
+  useEffect(() => {
+    return () => {
+      formShoppingDetail.reset(defaultValuesShoppingDetail);
+    };
+  }, []);
+
+  // console.log(stateUnitsSelector);
 
   return (
     <Form {...formShoppingDetail}>
@@ -187,6 +243,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                                       );
                                     }
                                     setOpenPopover(false);
+                                    // setChangedSupply(true);
                                   }}
                                 >
                                   <div className="flex justify-between w-full ">
@@ -226,10 +283,22 @@ export const FormShoppingDetailsFields: React.FC = () => {
           }}
         />
 
+        {!currentSupply.id && (
+          <FormFieldSelect
+            items={[]}
+            control={formShoppingDetail.control}
+            description={formFieldsShoppingDetail.unit_of_measure.description}
+            label={formFieldsShoppingDetail.unit_of_measure.label}
+            name={'unit_of_measure'}
+            placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
+            disabled={true}
+          />
+        )}
+
         {!!currentSupply.id &&
           currentSupply.unit_of_measure === UnitOfMeasure.GRAMOS && (
             <FormFieldSelect
-              items={unitsType[UnitOfMeasure.GRAMOS]}
+              items={UnitsType[UnitOfMeasure.GRAMOS]}
               control={formShoppingDetail.control}
               description={formFieldsShoppingDetail.unit_of_measure.description}
               label={formFieldsShoppingDetail.unit_of_measure.label}
@@ -238,10 +307,11 @@ export const FormShoppingDetailsFields: React.FC = () => {
               disabled={readOnly}
             />
           )}
+
         {!!currentSupply.id &&
           currentSupply.unit_of_measure === UnitOfMeasure.MILILITROS && (
             <FormFieldSelect
-              items={unitsType[UnitOfMeasure.MILILITROS]}
+              items={UnitsType[UnitOfMeasure.MILILITROS]}
               control={formShoppingDetail.control}
               description={formFieldsShoppingDetail.unit_of_measure.description}
               label={formFieldsShoppingDetail.unit_of_measure.label}

@@ -9,7 +9,18 @@ export enum UnitOfMeasure {
   GALONES = 'GALONES',
 }
 
-export const unitsType = {
+export const UnitsType: {
+  GRAMOS: {
+    key: UnitOfMeasure;
+    value: UnitOfMeasure;
+    label: string;
+  }[];
+  MILILITROS: {
+    key: UnitOfMeasure;
+    value: UnitOfMeasure;
+    label: string;
+  }[];
+} = {
   GRAMOS: [
     {
       key: UnitOfMeasure.GRAMOS,

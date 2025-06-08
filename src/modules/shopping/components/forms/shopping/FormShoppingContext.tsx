@@ -37,7 +37,7 @@ const defaultValuesShopping: ShoppingSupplies = {
   value_pay: 0,
 };
 
-const defaultValuesShoppingDetail: ShoppingDetail = {
+export const defaultValuesShoppingDetail: ShoppingDetail = {
   id: undefined,
   supplier: {
     id: '',

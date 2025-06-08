@@ -51,7 +51,7 @@ export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
                   field.onChange(value);
                 }}
                 defaultValue={field.value}
-                value={!!field.value ? field.value : undefined}
+                value={!!field.value ? field.value : ''}
                 disabled={readOnly}
               >
                 <SelectTrigger ref={field.ref}>
