@@ -48,6 +48,8 @@ export const FormConsumptionDetail: React.FC = () => {
       id: values.supply.id,
       name: values.supply?.name!,
       amount: values.amount,
+      unit_of_measure: values.unit_of_measure,
+      supply: values.supply,
     } as any);
 
     if (!result) return;

@@ -221,16 +221,23 @@ export const FormConsumptionProvider: React.FC<
     []
   );
 
-  const validateAvailableStock = (record: SupplyStock): boolean => {
-    // TODO: Pendiente por realizar conversión
+  const validateAvailableStock = (record: any): boolean => {
     const supply = suppliesStock.find((item) => item.id === record.id);
     if (!supply) {
       throw new Error('Suplemento no encontrado');
     }
-    const result = supply?.amount >= record.amount && record.amount >= 0;
+
+    const convertionValue = convert(
+      supply.amount,
+      record.supply.unit_of_measure,
+      record.unit_of_measure
+    );
+
+    const result = convertionValue >= record.amount && record.amount >= 0;
+
     if (!result) {
       toast.error(
-        `No hay suficiente inventario para el insumo ${record.name}.\nInventario disponible: ${supply.amount} ${supply.unit_of_measure}`
+        `No hay suficiente inventario para el insumo ${record.name}.\nInventario disponible: ${convertionValue} ${record.unit_of_measure}`
       );
     }
     return result;

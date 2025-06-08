@@ -35,9 +35,9 @@ export const useUnitConverter = () => {
       fromUnit: UnitOfMeasure,
       toUnit: UnitOfMeasure
     ): number => {
-      console.log('🚀 ~ useUnitConverter ~ toUnit:', toUnit);
-      console.log('🚀 ~ useUnitConverter ~ fromUnit:', fromUnit);
-      console.log('🚀 ~ useUnitConverter ~ amount:', amount);
+      // console.log('🚀 ~ useUnitConverter ~ toUnit:', toUnit);
+      // console.log('🚀 ~ useUnitConverter ~ fromUnit:', fromUnit);
+      // console.log('🚀 ~ useUnitConverter ~ amount:', amount);
 
       // Si las unidades son iguales, retornar el mismo valor
       if (fromUnit === toUnit) {
