@@ -82,12 +82,12 @@ export interface FormConsumptionContextValues {
   addSupplyStock: (supplyStock: SupplyStock) => void;
   removeSupplyStock: (supplyStock: SupplyStock) => void;
   validateAvailableStock: (record: SupplyStock) => boolean;
-  currentSupply: Partial<Supply>;
-  setCurrentSupply: React.Dispatch<React.SetStateAction<Partial<Supply>>>;
-  currentUnitType: UnitOfMeasure | null;
-  setCurrentUnitType: React.Dispatch<
-    React.SetStateAction<UnitOfMeasure | null>
-  >;
+  // currentSupply: Partial<Supply>;
+  // setCurrentSupply: React.Dispatch<React.SetStateAction<Partial<Supply>>>;
+  // currentUnitType: UnitOfMeasure | null;
+  // setCurrentUnitType: React.Dispatch<
+  //   React.SetStateAction<UnitOfMeasure | null>
+  // >;
 }
 
 interface ConsumptionAction {
@@ -189,12 +189,6 @@ export const FormConsumptionProvider: React.FC<
   const [detailsConsumption, dispatch] = useReducer(
     consumptionDetailsReducer,
     detailsDefaultValues
-  );
-  console.log('🚀 ~ detailsConsumption:', detailsConsumption);
-
-  const [currentSupply, setCurrentSupply] = useState<Partial<Supply>>({});
-  const [currentUnitType, setCurrentUnitType] = useState<UnitOfMeasure | null>(
-    null
   );
 
   const addConsumptionDetail = (
@@ -320,11 +314,13 @@ export const FormConsumptionProvider: React.FC<
   };
 
   const ClearFormConsumptionDetail = () => {
-    // removeSupplyStock({
-    //   id: consumptionDetail.supply.id,
-    //   name: consumptionDetail.supply?.name!,
-    //   amount: consumptionDetail.amount,
-    // } as any);
+    removeSupplyStock({
+      id: consumptionDetail.supply.id,
+      name: consumptionDetail.supply?.name!,
+      amount: consumptionDetail.amount,
+      unit_of_measure: consumptionDetail.unit_of_measure,
+      supply: consumptionDetail.supply,
+    } as any);
     // formConsumptionDetail.reset(defaultValuesConsumptionDetail);
     if (formConsumption.formState.isDirty) {
       markChanges(true);
@@ -376,6 +372,10 @@ export const FormConsumptionProvider: React.FC<
     }
   }, [querySuppliesStock.data]);
 
+  useEffect(() => {
+    console.log(consumptionDetail);
+  }, [consumptionDetail]);
+
   return (
     <FormConsumptionContext.Provider
       value={{
@@ -404,10 +404,10 @@ export const FormConsumptionProvider: React.FC<
         validateAvailableStock,
         suppliesStock,
         querySuppliesStock,
-        currentSupply,
-        setCurrentSupply,
-        currentUnitType,
-        setCurrentUnitType,
+        // currentSupply,
+        // setCurrentSupply,
+        // currentUnitType,
+        // setCurrentUnitType,
       }}
     >
       {children}

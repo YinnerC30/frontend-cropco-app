@@ -40,7 +40,7 @@ import {
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { CheckIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 import { defaultValuesConsumptionDetail } from '../FormConsumptionContext';
 
@@ -52,10 +52,6 @@ export const FormConsumptionDetailsFields: React.FC = () => {
     querySuppliesStock,
     suppliesStock,
     addSupplyStock,
-    currentSupply,
-    currentUnitType,
-    setCurrentSupply,
-    setCurrentUnitType,
   } = useFormConsumptionContext();
 
   const { query: queryCrops } = useGetAllCrops({
@@ -65,30 +61,27 @@ export const FormConsumptionDetailsFields: React.FC = () => {
 
   const [openPopover, setOpenPopover] = useState(false);
 
-  const currentLocalSupply = formConsumptionDetail.watch(
+  const firstRender = useRef(true);
+
+  const currentSupply = formConsumptionDetail.watch(
     'supply'
   ) as Partial<Supply>;
-  const currentLocalUnitType = formConsumptionDetail.watch(
+
+  const currentUnitType = formConsumptionDetail.watch(
     'unit_of_measure'
   ) as UnitOfMeasure;
 
   useEffect(() => {
-    setCurrentSupply(currentLocalSupply);
-  }, [currentLocalSupply]);
-
-  useEffect(() => {
-    setCurrentUnitType(currentLocalUnitType);
-  }, [currentLocalUnitType]);
-
-  useEffect(() => {
-    addSupplyStock({
-      id: consumptionDetail.supply.id,
-      name: consumptionDetail.supply?.name!,
-      amount: consumptionDetail.amount,
-      unit_of_measure: consumptionDetail.unit_of_measure,
-      supply: consumptionDetail.supply,
-    } as any);
-    formConsumptionDetail.reset(consumptionDetail);
+    if (firstRender.current) {
+      addSupplyStock({
+        id: consumptionDetail.supply.id,
+        name: consumptionDetail.supply?.name!,
+        amount: consumptionDetail.amount,
+        unit_of_measure: consumptionDetail.unit_of_measure,
+        supply: consumptionDetail.supply,
+      } as any);
+      firstRender.current = false;
+    }
   }, [consumptionDetail]);
 
   useEffect(() => {

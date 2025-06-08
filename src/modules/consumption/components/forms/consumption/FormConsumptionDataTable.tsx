@@ -37,21 +37,22 @@ export const FormConsumptionDataTable: React.FC = () => {
   } = useFormConsumptionContext();
 
   const handleSetConsumptionDetail = (data: ConsumptionDetails) => {
+    console.log({ data });
     setConsumptionDetail(data);
     handleOpenDialog();
   };
 
   const validateIsDisabled = (
-      row: Row<any>
-    ): { status: boolean; cellColorError: ErrorCell; message: string } => {
-      const { deletedDate } = row.original;
-      const isDisabled = deletedDate !== null;
-      return {
-        status: isDisabled,
-        cellColorError: 'restriction',
-        message: 'No se puede eliminar o modificar este registro porque...',
-      };
+    row: Row<any>
+  ): { status: boolean; cellColorError: ErrorCell; message: string } => {
+    const { deletedDate } = row.original;
+    const isDisabled = deletedDate !== null;
+    return {
+      status: isDisabled,
+      cellColorError: 'restriction',
+      message: 'No se puede eliminar o modificar este registro porque...',
     };
+  };
 
   return (
     <FormDataTableProvider
