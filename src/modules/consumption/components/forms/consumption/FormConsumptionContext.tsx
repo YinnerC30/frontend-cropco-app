@@ -227,13 +227,22 @@ export const FormConsumptionProvider: React.FC<
       throw new Error('Suplemento no encontrado');
     }
 
-    const convertionValue = convert(
-      supply.amount,
-      record.supply.unit_of_measure,
-      record.unit_of_measure
-    );
+    let convertionValue: number = -1;
 
-    const result = convertionValue >= record.amount && record.amount >= 0;
+    try {
+      convertionValue = convert(
+        supply.amount,
+        record.supply.unit_of_measure,
+        record.unit_of_measure
+      );
+    } catch (error) {
+      console.log(error);
+    }
+
+    const result =
+      convertionValue >= record.amount &&
+      record.amount >= 0 &&
+      convertionValue > 0;
 
     if (!result) {
       toast.error(

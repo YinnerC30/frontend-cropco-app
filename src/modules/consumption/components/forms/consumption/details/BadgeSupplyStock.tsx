@@ -28,12 +28,17 @@ export const BadgeSupplyStock = ({
   if (!selectedSupply || !selectedSupply.unit_of_measure) {
     return null;
   }
+  let convertedAmount: number = -1;
 
-  const convertedAmount = convert(
-    selectedSupply.amount,
-    selectedSupply.unit_of_measure as UnitOfMeasure,
-    convertTo
-  );
+  try {
+    convertedAmount = convert(
+      selectedSupply.amount,
+      selectedSupply.unit_of_measure as UnitOfMeasure,
+      convertTo
+    );
+  } catch (error) {
+    console.error('Hubo un error al convertir', error);
+  }
 
   return (
     <Badge className={`${!field.value ? 'hidden' : 'ml-10'}`} variant={'cyan'}>

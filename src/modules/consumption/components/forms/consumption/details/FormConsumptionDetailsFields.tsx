@@ -28,7 +28,6 @@ import {
   FormFieldSelect,
   Loading,
 } from '@/modules/core/components';
-import { FormatNumber } from '@/modules/core/helpers';
 
 import { useGetAllCrops } from '@/modules/crops/hooks';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
@@ -38,7 +37,6 @@ import {
   UnitsType,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
-import { CheckIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 import { defaultValuesConsumptionDetail } from '../FormConsumptionContext';

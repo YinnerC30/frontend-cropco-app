@@ -1,6 +1,7 @@
 import { CapitalizeFirstWord } from '@/auth';
 import { cn } from '@/lib/utils';
 import { FormatNumber } from '@/modules/core/helpers';
+import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import {
   UnitOfMeasure,
@@ -16,14 +17,24 @@ interface Props {
 }
 
 export const CommandItemSupplyStock = ({ field, item, converTo }: Props) => {
-  console.log(item);
+  const coreUnit = item.unit_of_measure as UnitOfMeasure;
+
+  let result: string = '';
+
+  const { convert } = useUnitConverter();
+
+  try {
+    const convertionValue = convert(item.amount, coreUnit, converTo);
+    result = `${convertionValue} ${UnitSymbols[converTo]}`;
+  } catch (error) {
+    result = `${FormatNumber(item?.['amount'])}  ${UnitSymbols[coreUnit]}`;
+  }
+
   return (
     <>
       <div className="flex justify-between w-full ">
         <span>{item?.['name']}</span>
-        <span className="font-bold">
-          {FormatNumber(item?.['amount']) + ' ' + ` ${UnitSymbols[converTo]} `}
-        </span>
+        <span className="font-bold">{result}</span>
       </div>
       <CheckIcon
         className={cn(
