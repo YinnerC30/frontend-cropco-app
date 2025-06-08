@@ -52,6 +52,10 @@ export const FormConsumptionDetailsFields: React.FC = () => {
     querySuppliesStock,
     suppliesStock,
     addSupplyStock,
+    currentSupply,
+    currentUnitType,
+    setCurrentSupply,
+    setCurrentUnitType,
   } = useFormConsumptionContext();
 
   const { query: queryCrops } = useGetAllCrops({
@@ -61,18 +65,28 @@ export const FormConsumptionDetailsFields: React.FC = () => {
 
   const [openPopover, setOpenPopover] = useState(false);
 
-  const currentSupply = formConsumptionDetail.watch(
+  const currentLocalSupply = formConsumptionDetail.watch(
     'supply'
   ) as Partial<Supply>;
-  const currentUnitType = formConsumptionDetail.watch(
+  const currentLocalUnitType = formConsumptionDetail.watch(
     'unit_of_measure'
   ) as UnitOfMeasure;
+
+  useEffect(() => {
+    setCurrentSupply(currentLocalSupply);
+  }, [currentLocalSupply]);
+
+  useEffect(() => {
+    setCurrentUnitType(currentLocalUnitType);
+  }, [currentLocalUnitType]);
 
   useEffect(() => {
     addSupplyStock({
       id: consumptionDetail.supply.id,
       name: consumptionDetail.supply?.name!,
       amount: consumptionDetail.amount,
+      unit_of_measure: consumptionDetail.unit_of_measure,
+      supply: consumptionDetail.supply,
     } as any);
     formConsumptionDetail.reset(consumptionDetail);
   }, [consumptionDetail]);
@@ -307,7 +321,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                 formFieldsConsumptionDetail.unit_of_measure.placeholder
               }
               disabled={readOnly}
-              currentValue={currentUnitType}
+              currentValue={currentUnitType!}
               manualValidationValue
             />
           )}
@@ -326,7 +340,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                 formFieldsConsumptionDetail.unit_of_measure.placeholder
               }
               disabled={readOnly}
-              currentValue={currentUnitType}
+              currentValue={currentUnitType!}
               manualValidationValue
             />
           )}

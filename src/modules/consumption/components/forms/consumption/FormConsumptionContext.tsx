@@ -3,11 +3,12 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
-  useState
+  useState,
 } from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
 import { useCreateForm } from '@/modules/core/hooks';
+import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 
 import { useFormChange } from '@/modules/core/components';
 import {
@@ -28,6 +29,8 @@ import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreate
 import { FormProps } from '@/modules/core/interfaces';
 import { useGetAllSuppliesStock } from '@/modules/supplies/hooks';
 import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
+import { Supply } from '@/modules/supplies/interfaces/Supply';
+import { UnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { z } from 'zod';
 import { ActionsTableConsumptionDetail } from '../consumption/details/ActionsTableConsumptionDetail';
 import { columnsConsumptionDetail } from '../consumption/details/ColumnsTableConsumptionDetail';
@@ -79,6 +82,12 @@ export interface FormConsumptionContextValues {
   addSupplyStock: (supplyStock: SupplyStock) => void;
   removeSupplyStock: (supplyStock: SupplyStock) => void;
   validateAvailableStock: (record: SupplyStock) => boolean;
+  currentSupply: Partial<Supply>;
+  setCurrentSupply: React.Dispatch<React.SetStateAction<Partial<Supply>>>;
+  currentUnitType: UnitOfMeasure | null;
+  setCurrentUnitType: React.Dispatch<
+    React.SetStateAction<UnitOfMeasure | null>
+  >;
 }
 
 interface ConsumptionAction {
@@ -174,10 +183,18 @@ export const FormConsumptionProvider: React.FC<
     []
   );
 
+  const { convert } = useUnitConverter();
+
   const detailsDefaultValues = defaultValues?.details ?? [];
   const [detailsConsumption, dispatch] = useReducer(
     consumptionDetailsReducer,
     detailsDefaultValues
+  );
+  console.log('🚀 ~ detailsConsumption:', detailsConsumption);
+
+  const [currentSupply, setCurrentSupply] = useState<Partial<Supply>>({});
+  const [currentUnitType, setCurrentUnitType] = useState<UnitOfMeasure | null>(
+    null
   );
 
   const addConsumptionDetail = (
@@ -213,6 +230,7 @@ export const FormConsumptionProvider: React.FC<
   );
 
   const validateAvailableStock = (record: SupplyStock): boolean => {
+    // TODO: Pendiente por realizar conversión
     const supply = suppliesStock.find((item) => item.id === record.id);
     if (!supply) {
       throw new Error('Suplemento no encontrado');
@@ -226,12 +244,30 @@ export const FormConsumptionProvider: React.FC<
     return result;
   };
 
-  const addSupplyStock = (suppliesStock: SupplyStock): void => {
-    dispatchSupplyStock({ type: 'ADD', payload: suppliesStock });
+  const addSupplyStock = (suppliesStock: any): void => {
+    const result = convert(
+      suppliesStock.amount,
+      suppliesStock.unit_of_measure,
+      suppliesStock.supply.unit_of_measure
+    );
+
+    dispatchSupplyStock({
+      type: 'ADD',
+      payload: { ...suppliesStock, amount: result },
+    });
   };
 
-  const removeSupplyStock = (suppliesStock: SupplyStock): void => {
-    dispatchSupplyStock({ type: 'REMOVE', payload: suppliesStock });
+  const removeSupplyStock = (suppliesStock: any): void => {
+    const result = convert(
+      suppliesStock.amount,
+      suppliesStock.unit_of_measure,
+      suppliesStock.supply.unit_of_measure
+    );
+
+    dispatchSupplyStock({
+      type: 'REMOVE',
+      payload: { ...suppliesStock, amount: result },
+    });
   };
 
   const resetSupplyStock = (data: SupplyStock[]): void => {
@@ -284,11 +320,11 @@ export const FormConsumptionProvider: React.FC<
   };
 
   const ClearFormConsumptionDetail = () => {
-    removeSupplyStock({
-      id: consumptionDetail.supply.id,
-      name: consumptionDetail.supply?.name!,
-      amount: consumptionDetail.amount,
-    } as any);
+    // removeSupplyStock({
+    //   id: consumptionDetail.supply.id,
+    //   name: consumptionDetail.supply?.name!,
+    //   amount: consumptionDetail.amount,
+    // } as any);
     // formConsumptionDetail.reset(defaultValuesConsumptionDetail);
     if (formConsumption.formState.isDirty) {
       markChanges(true);
@@ -298,7 +334,7 @@ export const FormConsumptionProvider: React.FC<
   };
 
   const handleCloseDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+    // event.preventDefault();
     if (formConsumptionDetail.formState.isDirty) {
       showToast({
         skipRedirection: true,
@@ -316,6 +352,8 @@ export const FormConsumptionProvider: React.FC<
         id: data?.supply.id!,
         name: data?.supply.name,
         amount: data?.amount!,
+        unit_of_measure: data?.unit_of_measure,
+        supply: data?.supply,
       } as any);
       removeConsumptionDetail(record as ConsumptionDetails);
     }
@@ -366,6 +404,10 @@ export const FormConsumptionProvider: React.FC<
         validateAvailableStock,
         suppliesStock,
         querySuppliesStock,
+        currentSupply,
+        setCurrentSupply,
+        currentUnitType,
+        setCurrentUnitType,
       }}
     >
       {children}

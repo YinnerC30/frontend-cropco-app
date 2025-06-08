@@ -27,6 +27,8 @@ export const ActionsTableConsumptionDetail: React.FC<{
     addSupplyStock({
       ...consumptionDetail.supply,
       amount: consumptionDetail.amount,
+      unit_of_measure: consumptionDetail.unit_of_measure,
+      supply: consumptionDetail.supply,
     } as any);
     removeConsumptionDetail(consumptionDetail);
     toast.success(
