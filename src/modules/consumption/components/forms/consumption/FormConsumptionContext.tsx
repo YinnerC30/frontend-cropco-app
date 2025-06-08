@@ -29,8 +29,6 @@ import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreate
 import { FormProps } from '@/modules/core/interfaces';
 import { useGetAllSuppliesStock } from '@/modules/supplies/hooks';
 import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
-import { Supply } from '@/modules/supplies/interfaces/Supply';
-import { UnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { z } from 'zod';
 import { ActionsTableConsumptionDetail } from '../consumption/details/ActionsTableConsumptionDetail';
 import { columnsConsumptionDetail } from '../consumption/details/ColumnsTableConsumptionDetail';
