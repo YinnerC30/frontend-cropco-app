@@ -37,7 +37,6 @@ export const FormConsumptionDataTable: React.FC = () => {
   } = useFormConsumptionContext();
 
   const handleSetConsumptionDetail = (data: ConsumptionDetails) => {
-    console.log({ data });
     setConsumptionDetail(data);
     handleOpenDialog();
   };

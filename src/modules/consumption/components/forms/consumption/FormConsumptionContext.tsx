@@ -372,10 +372,6 @@ export const FormConsumptionProvider: React.FC<
     }
   }, [querySuppliesStock.data]);
 
-  useEffect(() => {
-    console.log(consumptionDetail);
-  }, [consumptionDetail]);
-
   return (
     <FormConsumptionContext.Provider
       value={{
