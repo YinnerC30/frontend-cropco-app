@@ -227,6 +227,8 @@ export const FormConsumptionProvider: React.FC<
       throw new Error('Suplemento no encontrado');
     }
 
+    let result: boolean;
+
     let convertionValue: number = -1;
 
     try {
@@ -236,13 +238,10 @@ export const FormConsumptionProvider: React.FC<
         record.unit_of_measure
       );
     } catch (error) {
-      console.log(error);
+      return false;
     }
 
-    const result =
-      convertionValue >= record.amount &&
-      record.amount >= 0 &&
-      convertionValue > 0;
+    result = convertionValue >= record.amount && record.amount >= 0;
 
     if (!result) {
       toast.error(
