@@ -38,6 +38,7 @@ export const useCreateForm = ({
       skipDirty === false &&
       !hasCustomErrors
     ) {
+      console.log(form.watch())
       toast.error('Faltan campos por rellenar en el formulario');
     }
   }, [errors]);

@@ -9,7 +9,7 @@ import { formFieldsShoppingDetail } from '@/modules/shopping/utils';
 import { useGetAllSuppliers } from '@/modules/suppliers/hooks';
 import { useGetAllSupplies } from '@/modules/supplies/hooks';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { CapitalizeFirstWord } from '@/auth';
 import {
@@ -45,16 +45,10 @@ import { CaretSortIcon } from '@radix-ui/react-icons';
 import { CheckIcon } from 'lucide-react';
 import { ControllerRenderProps } from 'react-hook-form';
 import { defaultValuesShoppingDetail } from '../FormShoppingContext';
-import { L } from 'vitest/dist/chunks/reporters.d.DG9VKi4m.js';
-
-type StatusUnitSelector = 'initial' | 'changed' | 'default';
 
 export const FormShoppingDetailsFields: React.FC = () => {
   const { formShoppingDetail, shoppingDetail, readOnly } =
     useFormShoppingContext();
-
-  const [stateUnitsSelector, setStateUnitsSelector] =
-    useState<StatusUnitSelector>('initial');
 
   const { query: querySuppliers } = useGetAllSuppliers({ queryValue: '' });
 
@@ -66,27 +60,21 @@ export const FormShoppingDetailsFields: React.FC = () => {
   const [openPopover, setOpenPopover] = useState(false);
 
   const currentSupply = formShoppingDetail.watch('supply') as Partial<Supply>;
-  const currentUnitType =
-    formShoppingDetail.watch('unit_of_measure') || ('' as UnitOfMeasure);
-
-  const hasSupplyDefault = formShoppingDetail.formState.defaultValues?.supply;
+  const currentUnitType = formShoppingDetail.watch(
+    'unit_of_measure'
+  ) as UnitOfMeasure;
 
   useEffect(() => {
     formShoppingDetail.reset(shoppingDetail);
   }, [shoppingDetail]);
 
   useEffect(() => {
-    if (hasSupplyDefault.id.length > 0) {
-      setStateUnitsSelector('default');
-    }
-  }, [hasSupplyDefault]);
-
-  useEffect(() => {
     if (!!currentSupply.id && currentSupply.id !== shoppingDetail.supply.id) {
       formShoppingDetail.setValue(
         'unit_of_measure',
         UnitsType[currentSupply.unit_of_measure as keyof typeof UnitsType][0]
-          .key
+          .key,
+        { shouldValidate: true }
       );
     } else if (
       !!currentSupply.id &&
@@ -96,22 +84,10 @@ export const FormShoppingDetailsFields: React.FC = () => {
         'unit_of_measure',
         shoppingDetail.unit_of_measure
       );
+    } else if (!currentSupply.id && !!currentUnitType) {
+      formShoppingDetail.setValue('unit_of_measure', undefined);
     }
-  }, [currentSupply]);
-
-  // useEffect(() => {
-  //   if (currentSupply.id!.length > 0 && !!currentUnitType) {
-  //     const currentShowUnits: string[] = UnitsType[
-  //       currentSupply.unit_of_measure as keyof typeof UnitsType
-  //     ].map((unit: { key: UnitOfMeasure }) => unit.key);
-
-  //     if (!currentShowUnits.includes(currentUnitType)) {
-  //       formShoppingDetail.setError('unit_of_measure', {
-  //         message: 'La unidad de medida actual no coincide con la del insumo',
-  //       });
-  //     }
-  //   }
-  // }, [currentSupply,currentUnitType]);
+  }, [currentSupply, shoppingDetail]);
 
   useEffect(() => {
     return () => {
@@ -291,6 +267,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
             name={'unit_of_measure'}
             placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
             disabled={true}
+            manualValidationValue
           />
         )}
 
@@ -304,6 +281,8 @@ export const FormShoppingDetailsFields: React.FC = () => {
               name={'unit_of_measure'}
               placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
               disabled={readOnly}
+              currentValue={currentUnitType}
+              manualValidationValue
             />
           )}
 
@@ -317,6 +296,8 @@ export const FormShoppingDetailsFields: React.FC = () => {
               name={'unit_of_measure'}
               placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
               disabled={readOnly}
+              currentValue={currentUnitType}
+              manualValidationValue
             />
           )}
 
