@@ -30,7 +30,15 @@ const unitTypeMap: Record<UnitOfMeasure, 'mass' | 'volume'> = {
 
 export const useUnitConverter = () => {
   const convert = useCallback(
-    (amount: number, fromUnit: UnitOfMeasure, toUnit: UnitOfMeasure): number => {
+    (
+      amount: number,
+      fromUnit: UnitOfMeasure,
+      toUnit: UnitOfMeasure
+    ): number => {
+      console.log('🚀 ~ useUnitConverter ~ toUnit:', toUnit);
+      console.log('🚀 ~ useUnitConverter ~ fromUnit:', fromUnit);
+      console.log('🚀 ~ useUnitConverter ~ amount:', amount);
+
       // Si las unidades son iguales, retornar el mismo valor
       if (fromUnit === toUnit) {
         return amount;
@@ -59,20 +67,26 @@ export const useUnitConverter = () => {
         finalAmount = baseAmount / conversionFactors[toUnit];
       }
 
-      return Number(finalAmount.toFixed(3));
+      // Asegurarse de que la conversión sea correcta cuando la unidad de origen es la base
+      if (
+        (fromUnit === 'GRAMOS' || fromUnit === 'MILILITROS') &&
+        toUnit !== 'GRAMOS' &&
+        toUnit !== 'MILILITROS'
+      ) {
+        finalAmount = amount / conversionFactors[toUnit];
+      }
+
+      return Number(finalAmount.toFixed(1));
     },
     []
   );
 
-  const getUnitType = useCallback(
-    (unit: UnitOfMeasure): 'mass' | 'volume' => {
-      return unitTypeMap[unit];
-    },
-    []
-  );
+  const getUnitType = useCallback((unit: UnitOfMeasure): 'mass' | 'volume' => {
+    return unitTypeMap[unit];
+  }, []);
 
   return {
     convert,
     getUnitType,
   };
-}; 
+};

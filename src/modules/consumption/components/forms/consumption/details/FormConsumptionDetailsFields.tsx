@@ -1,6 +1,5 @@
 import { CapitalizeFirstWord } from '@/auth';
 import {
-  Badge,
   Button,
   Command,
   CommandEmpty,
@@ -43,6 +42,8 @@ import { CheckIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 import { defaultValuesConsumptionDetail } from '../FormConsumptionContext';
+import { BadgeSupplyStock } from './BadgeSupplyStock';
+import { CommandItemSupplyStock } from './CommandItemSupplyStock';
 
 export const FormConsumptionDetailsFields: React.FC = () => {
   const {
@@ -178,24 +179,12 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                               : formFieldsConsumptionDetail.supply.placeholder}
                           </span>
 
-                          {!!field.value && (
-                            <Badge
-                              className={`${!field.value ? 'hidden' : 'ml-10'}`}
-                              variant={'cyan'}
-                            >
-                              {'Disponibles: ' +
-                                FormatNumber(
-                                  suppliesStock.find((item: SupplyStock) => {
-                                    return item.id === field.value;
-                                  })?.['amount'] || 0
-                                )}
-
-                              {suppliesStock.find((item: SupplyStock) => {
-                                return item.id === field.value;
-                              })?.['unit_of_measure'] === 'GRAMOS'
-                                ? ' g'
-                                : ' ml'}
-                            </Badge>
+                          {!!field.value && !!currentUnitType && (
+                            <BadgeSupplyStock
+                              field={field}
+                              suppliesStock={suppliesStock}
+                              convertTo={currentUnitType}
+                            />
                           )}
 
                           <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
@@ -245,25 +234,14 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                                     setOpenPopover(false);
                                   }}
                                 >
-                                  <div className="flex justify-between w-full ">
-                                    <span>{item?.['name']}</span>
-                                    <span className="font-bold">
-                                      {FormatNumber(item?.['amount']) +
-                                        ' ' +
-                                        CapitalizeFirstWord(
-                                          item?.[
-                                            'unit_of_measure'
-                                          ]?.toLowerCase() || ''
-                                        )}
-                                    </span>
-                                  </div>
-                                  <CheckIcon
-                                    className={cn(
-                                      'ml-auto h-4 w-4',
-                                      item.id! === field?.value
-                                        ? 'opacity-100'
-                                        : 'opacity-0'
-                                    )}
+                                  <CommandItemSupplyStock
+                                    field={field}
+                                    item={item}
+                                    converTo={
+                                      !currentUnitType
+                                        ? (item.unit_of_measure as UnitOfMeasure)
+                                        : currentUnitType
+                                    }
                                   />
                                 </CommandItem>
                               );

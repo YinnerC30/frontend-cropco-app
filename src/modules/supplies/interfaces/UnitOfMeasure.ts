@@ -66,3 +66,14 @@ export const UnitsType: {
     },
   ],
 };
+
+export const UnitSymbols: Record<UnitOfMeasure, string> = {
+  GRAMOS: 'g',
+  KILOGRAMOS: 'kg',
+  LIBRAS: 'lb',
+  ONZAS: 'oz',
+  TONELADAS: 't',
+  MILILITROS: 'ml',
+  LITROS: 'L',
+  GALONES: 'gal',
+};
