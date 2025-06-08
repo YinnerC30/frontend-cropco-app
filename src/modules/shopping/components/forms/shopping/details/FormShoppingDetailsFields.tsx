@@ -45,6 +45,7 @@ import { CaretSortIcon } from '@radix-ui/react-icons';
 import { CheckIcon } from 'lucide-react';
 import { ControllerRenderProps } from 'react-hook-form';
 import { defaultValuesShoppingDetail } from '../FormShoppingContext';
+import { L } from 'vitest/dist/chunks/reporters.d.DG9VKi4m.js';
 
 type StatusUnitSelector = 'initial' | 'changed' | 'default';
 
@@ -86,6 +87,14 @@ export const FormShoppingDetailsFields: React.FC = () => {
         'unit_of_measure',
         UnitsType[currentSupply.unit_of_measure as keyof typeof UnitsType][0]
           .key
+      );
+    } else if (
+      !!currentSupply.id &&
+      currentSupply.id === shoppingDetail.supply.id
+    ) {
+      formShoppingDetail.setValue(
+        'unit_of_measure',
+        shoppingDetail.unit_of_measure
       );
     }
   }, [currentSupply]);
