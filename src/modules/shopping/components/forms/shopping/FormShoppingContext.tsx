@@ -48,6 +48,7 @@ const defaultValuesShoppingDetail: ShoppingDetail = {
     name: '',
     unit_of_measure: '',
   },
+  unit_of_measure: undefined,
   value_pay: 0,
   amount: 0,
 };

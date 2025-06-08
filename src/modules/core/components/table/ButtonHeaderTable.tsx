@@ -24,6 +24,7 @@ export const ButtonHeaderTable = <T,>({
       className={`px-0 hover:bg-transparent ${className} -ml-2`}
       variant="ghost"
       onClick={handleClick}
+      type="button"
     >
       {label}
       <ArrowUpDown className="w-4 h-4 ml-2" />

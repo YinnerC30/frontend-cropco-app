@@ -8,6 +8,6 @@ export interface Crop {
   date_of_termination: string;
   harvests_stock?: {
     id: string;
-    total: number
+    amount: number
   }
 }

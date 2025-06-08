@@ -23,7 +23,7 @@ export const formSchemaShoppingDetail = z.object({
           case 'invalid_type':
             return { message: 'Debe seleccionar una unidad de medida.' };
           case 'invalid_enum_value':
-            return { message: 'Debe seleccionar GRAMOS o MILILITROS.' };
+            return { message: 'Debe seleccionar una unidad de medida válida.' };
           default:
             return { message: 'Error en la selección de unidad de medida.' };
         }
@@ -41,6 +41,20 @@ export const formSchemaShoppingDetail = z.object({
       }),
     full_name: z.string().optional(),
   }),
+
+  unit_of_measure: z.nativeEnum(UnitOfMeasure, {
+    errorMap: (issue, _ctx) => {
+      switch (issue.code) {
+        case 'invalid_type':
+          return { message: 'Debe seleccionar una unidad de medida.' };
+        case 'invalid_enum_value':
+          return { message: 'Debe seleccionar una unidad de medida válida.' };
+        default:
+          return { message: 'Error en la selección de unidad de medida.' };
+      }
+    },
+  }),
+
   amount: z.coerce
     .number({
       required_error: `El valor a comprar es requerido`,

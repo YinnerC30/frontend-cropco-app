@@ -1,6 +1,11 @@
 import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-type FormFieldsShoppingDetail = 'supply' | 'supplier' | 'amount' | 'value_pay';
+type FormFieldsShoppingDetail =
+  | 'supply'
+  | 'unit_of_measure'
+  | 'supplier'
+  | 'amount'
+  | 'value_pay';
 
 export const formFieldsShoppingDetail: Record<
   FormFieldsShoppingDetail,
@@ -17,6 +22,12 @@ export const formFieldsShoppingDetail: Record<
     label: 'Proveedor:',
     placeholder: 'Seleccione un proveedor',
     description: 'Proveedor del insumo',
+  },
+  unit_of_measure: {
+    name: 'unit_of_measure',
+    label: 'Unidad de medida:',
+    placeholder: 'Selecciona',
+    description: 'Unidad de medida que posee el insumo',
   },
   amount: {
     name: 'amount',

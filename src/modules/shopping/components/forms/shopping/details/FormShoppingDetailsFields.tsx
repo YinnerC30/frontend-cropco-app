@@ -1,11 +1,15 @@
 import { Form } from '@/components';
-import { FormFieldCommand, FormFieldInput } from '@/modules/core/components';
+import {
+  FormFieldCommand,
+  FormFieldInput,
+  FormFieldSelect,
+} from '@/modules/core/components';
 import { useFormShoppingContext } from '@/modules/shopping/hooks/context/useFormShoppingContext';
 import { formFieldsShoppingDetail } from '@/modules/shopping/utils';
 import { useGetAllSuppliers } from '@/modules/suppliers/hooks';
 import { useGetAllSupplies } from '@/modules/supplies/hooks';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { CapitalizeFirstWord } from '@/auth';
 import {
@@ -36,6 +40,10 @@ import { Supply } from '@/modules/supplies/interfaces/Supply';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { CheckIcon } from 'lucide-react';
 import { ControllerRenderProps } from 'react-hook-form';
+import {
+  UnitOfMeasure,
+  unitsType,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 export const FormShoppingDetailsFields: React.FC = () => {
   const { formShoppingDetail, shoppingDetail, readOnly } =
@@ -49,6 +57,8 @@ export const FormShoppingDetailsFields: React.FC = () => {
   });
 
   const [openPopover, setOpenPopover] = useState(false);
+
+  const currentSupply = formShoppingDetail.watch('supply') as Partial<Supply>;
 
   useEffect(() => {
     formShoppingDetail.reset(shoppingDetail);
@@ -215,6 +225,31 @@ export const FormShoppingDetailsFields: React.FC = () => {
             );
           }}
         />
+
+        {!!currentSupply.id &&
+          currentSupply.unit_of_measure === UnitOfMeasure.GRAMOS && (
+            <FormFieldSelect
+              items={unitsType[UnitOfMeasure.GRAMOS]}
+              control={formShoppingDetail.control}
+              description={formFieldsShoppingDetail.unit_of_measure.description}
+              label={formFieldsShoppingDetail.unit_of_measure.label}
+              name={'unit_of_measure'}
+              placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
+              disabled={readOnly}
+            />
+          )}
+        {!!currentSupply.id &&
+          currentSupply.unit_of_measure === UnitOfMeasure.MILILITROS && (
+            <FormFieldSelect
+              items={unitsType[UnitOfMeasure.MILILITROS]}
+              control={formShoppingDetail.control}
+              description={formFieldsShoppingDetail.unit_of_measure.description}
+              label={formFieldsShoppingDetail.unit_of_measure.label}
+              name={'unit_of_measure'}
+              placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
+              disabled={readOnly}
+            />
+          )}
 
         <FormFieldInput
           control={formShoppingDetail.control}
