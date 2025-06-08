@@ -52,8 +52,6 @@ export const FormShoppingDetailsFields: React.FC = () => {
   const { formShoppingDetail, shoppingDetail, readOnly } =
     useFormShoppingContext();
 
-  // const [changedSupply, setChangedSupply] = useState(false);
-
   const [stateUnitsSelector, setStateUnitsSelector] =
     useState<StatusUnitSelector>('initial');
 
@@ -69,9 +67,6 @@ export const FormShoppingDetailsFields: React.FC = () => {
   const currentSupply = formShoppingDetail.watch('supply') as Partial<Supply>;
   const currentUnitType =
     formShoppingDetail.watch('unit_of_measure') || ('' as UnitOfMeasure);
-
-  // // console.log('🚀 ~ currentSupply:', currentSupply);
-  // // console.log('🚀 ~ currentUnitType:', currentUnitType);
 
   const hasSupplyDefault = formShoppingDetail.formState.defaultValues?.supply;
 
@@ -92,15 +87,12 @@ export const FormShoppingDetailsFields: React.FC = () => {
       ].map((unit: { key: UnitOfMeasure }) => unit.key);
 
       if (!currentShowUnits.includes(currentUnitType)) {
-        // formShoppingDetail.setValue('unit_of_measure', null);
         setStateUnitsSelector('changed');
       }
     }
   }, [currentSupply, currentUnitType]);
 
   useEffect(() => {
-    // console.log(stateUnitsSelector);
-
     if (stateUnitsSelector === 'changed') {
       formShoppingDetail.setValue(
         'unit_of_measure',
