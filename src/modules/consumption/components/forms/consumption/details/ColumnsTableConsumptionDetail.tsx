@@ -28,12 +28,12 @@ export const columnsConsumptionDetail: ColumnDef<ConsumptionDetails>[] = [
     },
   },
   {
-    accessorKey: 'supply.unit_of_measure',
+    accessorKey: 'unit_of_measure',
     header: ({ column }: HeaderContext<ConsumptionDetails, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Unidad de medida:'} />;
     },
     cell: ({ row }) => {
-      const unitOfMeasure: any = row.original.supply.unit_of_measure;
+      const unitOfMeasure: any = row.original.unit_of_measure;
       return (
         <Badge variant={unitOfMeasure === 'GRAMOS' ? 'lime' : 'cyan'}>
           {unitOfMeasure}

@@ -40,6 +40,18 @@ export const formSchemaConsumptionDetail = z.object({
       }),
     name: z.string().optional(),
   }),
+  unit_of_measure: z.nativeEnum(UnitOfMeasure, {
+    errorMap: (issue, _ctx) => {
+      switch (issue.code) {
+        case 'invalid_type':
+          return { message: 'Debe seleccionar una unidad de medida.' };
+        case 'invalid_enum_value':
+          return { message: 'Debe seleccionar una unidad de medida válida.' };
+        default:
+          return { message: 'Error en la selección de unidad de medida.' };
+      }
+    },
+  }),
   amount: z.coerce
     .number({
       required_error: `El valor a consumir es requerido`,

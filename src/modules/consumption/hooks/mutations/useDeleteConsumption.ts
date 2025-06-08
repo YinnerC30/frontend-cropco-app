@@ -20,7 +20,7 @@ export const useDeleteConsumption = (): UseMutationReturn<void, string> => {
       await queryClient.invalidateQueries({ queryKey: ['consumptions'] });
       await queryClient.invalidateQueries({ queryKey: ['supplies'] });
       await queryClient.invalidateQueries({ queryKey: ['supplies-stock'] });
-      toast.success(`Registro de Consumo de insumos eliminada`);
+      toast.success(`El registro de consumo de insumos ha sido eliminado`);
     },
 
     onError: (error) => {

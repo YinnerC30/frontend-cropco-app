@@ -36,6 +36,7 @@ export const defaultValuesConsumptionDetail: ConsumptionDetails = {
   id: undefined,
   supply: { id: '', name: '', unit_of_measure: '' },
   crop: { id: '', name: '' },
+  unit_of_measure: undefined,
   amount: 0,
 };
 

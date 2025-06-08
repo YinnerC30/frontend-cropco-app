@@ -65,7 +65,7 @@ export const FormConsumptionDataTable: React.FC = () => {
         <FormDataTableFilter
           placeholder={'Buscar por nombre del cultivo...'}
           nameColumnFilter={'supply_name'}
-          className="w-[250px] ml-10 self-start sm:self-center sm:m-0"
+          className="w-[280px] ml-10 self-start sm:self-center sm:m-0"
         />
 
         {/* Botones */}

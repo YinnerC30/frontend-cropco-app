@@ -26,16 +26,23 @@ import { formFieldsConsumptionDetail } from '@/modules/consumption/utils';
 import {
   FormFieldCommand,
   FormFieldInput,
+  FormFieldSelect,
   Loading,
 } from '@/modules/core/components';
 import { FormatNumber } from '@/modules/core/helpers';
 
 import { useGetAllCrops } from '@/modules/crops/hooks';
+import { Supply } from '@/modules/supplies/interfaces/Supply';
 import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
+import {
+  UnitOfMeasure,
+  UnitsType,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { CheckIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
+import { defaultValuesConsumptionDetail } from '../FormConsumptionContext';
 
 export const FormConsumptionDetailsFields: React.FC = () => {
   const {
@@ -54,6 +61,13 @@ export const FormConsumptionDetailsFields: React.FC = () => {
 
   const [openPopover, setOpenPopover] = useState(false);
 
+  const currentSupply = formConsumptionDetail.watch(
+    'supply'
+  ) as Partial<Supply>;
+  const currentUnitType = formConsumptionDetail.watch(
+    'unit_of_measure'
+  ) as UnitOfMeasure;
+
   useEffect(() => {
     addSupplyStock({
       id: consumptionDetail.supply.id,
@@ -66,6 +80,36 @@ export const FormConsumptionDetailsFields: React.FC = () => {
   useEffect(() => {
     formConsumptionDetail.reset(consumptionDetail);
   }, [consumptionDetail]);
+
+  useEffect(() => {
+    if (
+      !!currentSupply.id &&
+      currentSupply.id !== consumptionDetail.supply.id
+    ) {
+      formConsumptionDetail.setValue(
+        'unit_of_measure',
+        UnitsType[currentSupply.unit_of_measure as keyof typeof UnitsType][0]
+          .key,
+        { shouldValidate: true }
+      );
+    } else if (
+      !!currentSupply.id &&
+      currentSupply.id === consumptionDetail.supply.id
+    ) {
+      formConsumptionDetail.setValue(
+        'unit_of_measure',
+        consumptionDetail.unit_of_measure
+      );
+    } else if (!currentSupply.id && !!currentUnitType) {
+      formConsumptionDetail.setValue('unit_of_measure', undefined);
+    }
+  }, [currentSupply, consumptionDetail]);
+
+  useEffect(() => {
+    return () => {
+      formConsumptionDetail.reset(defaultValuesConsumptionDetail);
+    };
+  }, []);
 
   return (
     <Form {...formConsumptionDetail}>
@@ -231,6 +275,61 @@ export const FormConsumptionDetailsFields: React.FC = () => {
             );
           }}
         />
+
+        {!currentSupply.id && (
+          <FormFieldSelect
+            items={[]}
+            control={formConsumptionDetail.control}
+            description={
+              formFieldsConsumptionDetail.unit_of_measure.description
+            }
+            label={formFieldsConsumptionDetail.unit_of_measure.label}
+            name={'unit_of_measure'}
+            placeholder={
+              formFieldsConsumptionDetail.unit_of_measure.placeholder
+            }
+            disabled={true}
+            manualValidationValue
+          />
+        )}
+
+        {!!currentSupply.id &&
+          currentSupply.unit_of_measure === UnitOfMeasure.GRAMOS && (
+            <FormFieldSelect
+              items={UnitsType[UnitOfMeasure.GRAMOS]}
+              control={formConsumptionDetail.control}
+              description={
+                formFieldsConsumptionDetail.unit_of_measure.description
+              }
+              label={formFieldsConsumptionDetail.unit_of_measure.label}
+              name={'unit_of_measure'}
+              placeholder={
+                formFieldsConsumptionDetail.unit_of_measure.placeholder
+              }
+              disabled={readOnly}
+              currentValue={currentUnitType}
+              manualValidationValue
+            />
+          )}
+
+        {!!currentSupply.id &&
+          currentSupply.unit_of_measure === UnitOfMeasure.MILILITROS && (
+            <FormFieldSelect
+              items={UnitsType[UnitOfMeasure.MILILITROS]}
+              control={formConsumptionDetail.control}
+              description={
+                formFieldsConsumptionDetail.unit_of_measure.description
+              }
+              label={formFieldsConsumptionDetail.unit_of_measure.label}
+              name={'unit_of_measure'}
+              placeholder={
+                formFieldsConsumptionDetail.unit_of_measure.placeholder
+              }
+              disabled={readOnly}
+              currentValue={currentUnitType}
+              manualValidationValue
+            />
+          )}
 
         <FormFieldInput
           control={formConsumptionDetail.control}
