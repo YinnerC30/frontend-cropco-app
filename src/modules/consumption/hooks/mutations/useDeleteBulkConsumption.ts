@@ -27,7 +27,7 @@ export const useDeleteBulkConsumption = (): UseMutationReturn<
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['consumptions'] });
       await queryClient.invalidateQueries({ queryKey: ['supplies'] });
-      await queryClient.invalidateQueries({ queryKey: ['supplies-stock'] });
+      await queryClient.invalidateQueries({ queryKey: ['supplies-with-stock'] });
       toast.success(`consumos eliminados`);
     },
     onError: (error) => {
