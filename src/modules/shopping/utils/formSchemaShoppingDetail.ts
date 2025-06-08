@@ -23,7 +23,9 @@ export const formSchemaShoppingDetail = z.object({
           case 'invalid_type':
             return { message: 'Debe seleccionar una unidad de medida.' };
           case 'invalid_enum_value':
-            return { message: 'Debe seleccionar una unidad de medida válida.' };
+            return {
+              message: 'Debe seleccionar una unidad de medida válida.',
+            };
           default:
             return { message: 'Error en la selección de unidad de medida.' };
         }
@@ -71,3 +73,7 @@ export const formSchemaShoppingDetail = z.object({
       message: 'El valor a pagar debe ser un número que termine en 50 o 00.',
     }),
 });
+// .refine((value) => false, {
+//   message: 'Error random',
+//   path: ['unit_of_measure'],
+// });

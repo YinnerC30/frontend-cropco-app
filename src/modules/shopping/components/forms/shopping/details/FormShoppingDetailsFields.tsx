@@ -9,7 +9,7 @@ import { formFieldsShoppingDetail } from '@/modules/shopping/utils';
 import { useGetAllSuppliers } from '@/modules/suppliers/hooks';
 import { useGetAllSupplies } from '@/modules/supplies/hooks';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { CapitalizeFirstWord } from '@/auth';
 import {
@@ -81,36 +81,34 @@ export const FormShoppingDetailsFields: React.FC = () => {
   }, [hasSupplyDefault]);
 
   useEffect(() => {
-    if (currentSupply.id!.length > 0) {
-      const currentShowUnits: string[] = UnitsType[
-        currentSupply.unit_of_measure as keyof typeof UnitsType
-      ].map((unit: { key: UnitOfMeasure }) => unit.key);
-
-      if (!currentShowUnits.includes(currentUnitType)) {
-        setStateUnitsSelector('changed');
-      }
-    }
-  }, [currentSupply, currentUnitType]);
-
-  useEffect(() => {
-    if (stateUnitsSelector === 'changed') {
+    if (!!currentSupply.id && currentSupply.id !== shoppingDetail.supply.id) {
       formShoppingDetail.setValue(
         'unit_of_measure',
         UnitsType[currentSupply.unit_of_measure as keyof typeof UnitsType][0]
           .key
       );
     }
+  }, [currentSupply]);
 
-    console.log(formShoppingDetail.watch());
-  }, [stateUnitsSelector]);
+  // useEffect(() => {
+  //   if (currentSupply.id!.length > 0 && !!currentUnitType) {
+  //     const currentShowUnits: string[] = UnitsType[
+  //       currentSupply.unit_of_measure as keyof typeof UnitsType
+  //     ].map((unit: { key: UnitOfMeasure }) => unit.key);
+
+  //     if (!currentShowUnits.includes(currentUnitType)) {
+  //       formShoppingDetail.setError('unit_of_measure', {
+  //         message: 'La unidad de medida actual no coincide con la del insumo',
+  //       });
+  //     }
+  //   }
+  // }, [currentSupply,currentUnitType]);
 
   useEffect(() => {
     return () => {
       formShoppingDetail.reset(defaultValuesShoppingDetail);
     };
   }, []);
-
-  // console.log(stateUnitsSelector);
 
   return (
     <Form {...formShoppingDetail}>

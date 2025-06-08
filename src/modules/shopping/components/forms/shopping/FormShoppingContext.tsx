@@ -194,7 +194,7 @@ export const FormShoppingProvider: React.FC<
   const formShoppingDetail = useCreateForm({
     schema: formSchemaShoppingDetail,
     defaultValues: shoppingDetail,
-    validationMode: 'onSubmit',
+    validationMode: 'onChange',
   });
 
   const handleOpenDialog = () => {
