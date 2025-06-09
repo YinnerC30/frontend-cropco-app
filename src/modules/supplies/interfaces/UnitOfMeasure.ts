@@ -1,3 +1,9 @@
+export enum VolumeUnitOfMeasure {
+  MILILITROS = 'MILILITROS',
+  LITROS = 'LITROS',
+  GALONES = 'GALONES',
+}
+
 export enum UnitOfMeasure {
   GRAMOS = 'GRAMOS',
   MILILITROS = 'MILILITROS',

@@ -1,4 +1,12 @@
-import { Badge, Form } from '@/components';
+import {
+  Badge,
+  Form,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components';
 import {
   FormFieldCalendar,
   FormFieldCommand,
@@ -12,10 +20,23 @@ import { formFieldsHarvest } from '@/modules/harvests/utils';
 
 import { useGetAllCrops } from '@/modules/crops/hooks';
 import { FormHarvestDataTable } from './FormHarvestDataTable';
+import {
+  MassUnitOfMeasure,
+  UnitsType,
+  UnitSymbols,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 export const FormHarvestFields: React.FC = () => {
-  const { formHarvest, onSubmit, readOnly, amount, value_pay } =
-    useFormHarvestContext();
+  const {
+    formHarvest,
+    onSubmit,
+    readOnly,
+    amount,
+    value_pay,
+    unitTypeToShowAmount,
+    setUnitTypeToShowAmount,
+  } = useFormHarvestContext();
+    console.log("🚀 ~ amount:", amount)
 
   const disabledCropField =
     formHarvest.formState.defaultValues?.crop?.id !== '';
@@ -24,6 +45,7 @@ export const FormHarvestFields: React.FC = () => {
     queryValue: '',
     all_records: true,
   });
+
 
   return (
     <Form {...formHarvest}>
@@ -40,7 +62,7 @@ export const FormHarvestFields: React.FC = () => {
             name={'date'}
             placeholder={formFieldsHarvest.date.placeholder}
             disabled={readOnly}
-            className='w-[240px]'
+            className="w-[240px]"
           />
           <FormFieldCommand
             data={
@@ -86,6 +108,29 @@ export const FormHarvestFields: React.FC = () => {
             <FormHarvestDataTable />
           </FormFieldDataTable>
 
+          <div className="w-48 py-4">
+            <Select
+              onValueChange={(value: any) => {
+                setUnitTypeToShowAmount(value);
+              }}
+              defaultValue={MassUnitOfMeasure.KILOGRAMOS}
+              value={unitTypeToShowAmount}
+              disabled={readOnly}
+            >
+              <SelectTrigger /* ref={field.ref} */>
+                <SelectValue placeholder={'Selecciona una medida'} />
+              </SelectTrigger>
+
+              <SelectContent>
+                {[...UnitsType['GRAMOS']].map((item: any) => (
+                  <SelectItem key={item.key} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
           <FormFieldInput
             control={formHarvest.control}
             description={formFieldsHarvest.amount.description}
@@ -95,12 +140,13 @@ export const FormHarvestFields: React.FC = () => {
             disabled={true}
             type="number"
             hiddenInput
+            allowDecimals
           >
             <Badge
               className="block h-8 text-base text-center w-28"
               variant={'cyan'}
             >
-              {FormatNumber(amount) + ' g'}
+              {amount + ' ' + UnitSymbols[unitTypeToShowAmount]}
             </Badge>
           </FormFieldInput>
 
