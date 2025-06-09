@@ -5,6 +5,7 @@ import { DataTablePageCount } from './DataTablePageCount';
 import { DataTableRowCount } from './DataTableRowCount';
 import { DataTableRowSelection } from './DataTableRowSelection';
 import { DataTableSelectPageSize } from './DataTableSelectPageSize';
+import { ReactNode } from 'react';
 
 interface Props {
   table: any;
@@ -13,6 +14,7 @@ interface Props {
   lengthColumns: number;
   rowCount: number;
   isLoading?: boolean;
+  children?: ReactNode;
 }
 
 export const DataTableTemplate = ({
@@ -22,6 +24,7 @@ export const DataTableTemplate = ({
   lengthColumns,
   rowCount,
   isLoading = false,
+  children,
 }: Props) => {
   return (
     <DataTableProvider
@@ -40,6 +43,9 @@ export const DataTableTemplate = ({
           </div>
           <DataTableSelectPageSize />
         </div>
+
+        {children}
+
         <DataTable />
         <DataTableButtonsPagination />
         <DataTablePageCount />

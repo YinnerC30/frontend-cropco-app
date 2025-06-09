@@ -1,14 +1,8 @@
 import {
-  DataTable,
-  DataTableButtonsPagination,
-  DataTablePageCount,
-  DataTableProvider,
-  DataTableRowCount,
-  DataTableRowSelection,
-  DataTableSelectPageSize,
+  DataTableTemplate
 } from '@/modules/core/components';
-import { useCropsModuleContext } from '../../hooks';
 import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
+import { useCropsModuleContext } from '../../hooks';
 
 export const CropsTable: React.FC = () => {
   const {
@@ -22,14 +16,14 @@ export const CropsTable: React.FC = () => {
   } = useCropsModuleContext();
 
   return (
-    <DataTableProvider
-      table={dataTable.table}
-      disabledDoubleClick={!actionsCropsModule['find_one_crop']}
+    <DataTableTemplate
       errorMessage={
         !actionsCropsModule['find_all_crops']
           ? 'No tienes permiso para ver el listado de cultivos 😢'
           : 'No hay registros.'
       }
+      disabledDoubleClick={!actionsCropsModule['find_one_crop']}
+      table={dataTable.table}
       lengthColumns={dataTable.lengthColumns}
       rowCount={queryCrops.data?.total_row_count ?? 0}
       isLoading={
@@ -39,31 +33,18 @@ export const CropsTable: React.FC = () => {
         mutationDeleteCrop.isPending
       }
     >
-      <div className="flex flex-col w-full my-1">
-        <div className="flex justify-between my-2">
-          <div className="flex flex-col gap-2">
-            <DataTableRowCount />
-            <DataTableRowSelection />
-          </div>
-          <DataTableSelectPageSize />
+      <div className="flex items-center justify-end gap-2 py-2">
+        <p className="text-sm font-medium text-muted-foreground">
+          Mostrar inventario como:
+        </p>
+        <div className="font-medium">
+          {' '}
+          <SelectedMassUnitOfMeasure
+            onChange={setUnitTypeToShowAmount}
+            valueSelect={unitTypeToShowAmount}
+          />
         </div>
-        {/* Convertor Units */}
-        <div className="flex items-center justify-end gap-2 py-2">
-          <p className="text-sm font-medium text-muted-foreground">
-            Mostrar inventario como:
-          </p>
-          <div className="font-medium">
-            {' '}
-            <SelectedMassUnitOfMeasure
-              onChange={setUnitTypeToShowAmount}
-              valueSelect={unitTypeToShowAmount}
-            />
-          </div>
-        </div>
-        <DataTable />
-        <DataTableButtonsPagination />
-        <DataTablePageCount />
       </div>
-    </DataTableProvider>
+    </DataTableTemplate>
   );
 };
