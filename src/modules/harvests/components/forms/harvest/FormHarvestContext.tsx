@@ -180,10 +180,9 @@ export const FormHarvestProvider: React.FC<
           detail.unit_of_measure! as UnitOfMeasure,
           unitTypeToShowAmount as any
         );
-        console.log("🚀 ~ detailsHarvest.reduce ~ convertedAmount:", convertedAmount)
         return Number(amount) + convertedAmount;
       }, 0),
-    [detailsHarvest,unitTypeToShowAmount]
+    [detailsHarvest, unitTypeToShowAmount]
   );
   const value_pay = useMemo<number>(
     () =>

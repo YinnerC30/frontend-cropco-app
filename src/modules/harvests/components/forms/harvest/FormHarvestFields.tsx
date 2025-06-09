@@ -25,6 +25,7 @@ import {
   UnitsType,
   UnitSymbols,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { intlFormat } from 'date-fns';
 
 export const FormHarvestFields: React.FC = () => {
   const {
@@ -36,7 +37,6 @@ export const FormHarvestFields: React.FC = () => {
     unitTypeToShowAmount,
     setUnitTypeToShowAmount,
   } = useFormHarvestContext();
-    console.log("🚀 ~ amount:", amount)
 
   const disabledCropField =
     formHarvest.formState.defaultValues?.crop?.id !== '';
@@ -45,7 +45,6 @@ export const FormHarvestFields: React.FC = () => {
     queryValue: '',
     all_records: true,
   });
-
 
   return (
     <Form {...formHarvest}>
@@ -108,29 +107,6 @@ export const FormHarvestFields: React.FC = () => {
             <FormHarvestDataTable />
           </FormFieldDataTable>
 
-          <div className="w-48 py-4">
-            <Select
-              onValueChange={(value: any) => {
-                setUnitTypeToShowAmount(value);
-              }}
-              defaultValue={MassUnitOfMeasure.KILOGRAMOS}
-              value={unitTypeToShowAmount}
-              disabled={readOnly}
-            >
-              <SelectTrigger /* ref={field.ref} */>
-                <SelectValue placeholder={'Selecciona una medida'} />
-              </SelectTrigger>
-
-              <SelectContent>
-                {[...UnitsType['GRAMOS']].map((item: any) => (
-                  <SelectItem key={item.key} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
           <FormFieldInput
             control={formHarvest.control}
             description={formFieldsHarvest.amount.description}
@@ -142,12 +118,35 @@ export const FormHarvestFields: React.FC = () => {
             hiddenInput
             allowDecimals
           >
-            <Badge
-              className="block h-8 text-base text-center w-28"
-              variant={'cyan'}
-            >
-              {amount + ' ' + UnitSymbols[unitTypeToShowAmount]}
-            </Badge>
+            <div className="flex items-center w-auto gap-2 py-4">
+              <Badge
+                className="block h-8 text-base text-center w-28"
+                variant={'cyan'}
+              >
+                {Number.isInteger(amount) ? amount : amount.toFixed(2)}
+              </Badge>
+
+              <Select
+                onValueChange={(value: any) => {
+                  setUnitTypeToShowAmount(value);
+                }}
+                defaultValue={MassUnitOfMeasure.KILOGRAMOS}
+                value={unitTypeToShowAmount}
+                disabled={readOnly}
+              >
+                <SelectTrigger /* ref={field.ref} */>
+                  <SelectValue placeholder={'Selecciona una medida'} />
+                </SelectTrigger>
+
+                <SelectContent>
+                  {[...UnitsType['GRAMOS']].map((item: any) => (
+                    <SelectItem key={item.key} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </FormFieldInput>
 
           {/* TODO: Refactor */}
