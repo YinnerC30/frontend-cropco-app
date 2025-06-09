@@ -59,7 +59,7 @@ export const useLoginUser = (): UseMutationReturn<User, LoginUserData> => {
           return;
       }
     },
-    retry: 1,
+    retry: false,
   });
 
   return mutation;
