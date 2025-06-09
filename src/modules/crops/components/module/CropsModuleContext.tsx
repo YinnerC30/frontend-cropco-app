@@ -4,7 +4,7 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import { createContext, useEffect, useMemo } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 import { useGetAllCrops } from '../../hooks/queries/useGetAllCrops';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
@@ -17,6 +17,8 @@ import { Crop } from '../../interfaces/Crop';
 import { columnsTableCrops } from './columnsTableCrops';
 import { CropsModuleActionsTable } from './CropsModuleActionsTable';
 import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
+import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
+
 export interface CropsModuleContextProps {
   paramQuery: string;
   queryCrops: UseQueryGetAllRecordsReturn<Crop>;
@@ -24,6 +26,10 @@ export interface CropsModuleContextProps {
   mutationDeleteCrops: UseMutationReturn<UseDeleteBulkResponse, BulkRecords>;
   mutationDeleteCrop: UseMutationReturn<void, string>;
   actionsCropsModule: Record<string, boolean>;
+  unitTypeToShowAmount: MassUnitOfMeasure;
+  setUnitTypeToShowAmount: React.Dispatch<
+    React.SetStateAction<MassUnitOfMeasure>
+  >;
 }
 
 export const CropsModuleContext = createContext<
@@ -47,6 +53,9 @@ export const CropsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
   const { getActionsModule } = useAuthContext();
 
   const actionsCropsModule = useMemo(() => getActionsModule('crops'), []);
+
+  const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
+    useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
 
   const columnsTable = useCreateColumnsTable<Crop>({
     columns: columnsTableCrops,
@@ -83,6 +92,8 @@ export const CropsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
     actionsCropsModule,
     mutationDeleteCrops,
     mutationDeleteCrop,
+    unitTypeToShowAmount,
+    setUnitTypeToShowAmount
   };
 
   return (

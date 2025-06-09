@@ -1,9 +1,10 @@
 import { ButtonHeaderTable } from '@/modules/core/components';
 
 import { FormatDate, FormatNumber } from '@/modules/core/helpers';
-import { formFieldsCrop } from '../../utils';
 import { ColumnDef, HeaderContext, Row } from '@tanstack/react-table';
 import { Crop } from '../../interfaces/Crop';
+import { formFieldsCrop } from '../../utils';
+import { CellCropAmount } from './CellCropAmount';
 
 export const columnsTableCrops: ColumnDef<Crop>[] = [
   {
@@ -85,9 +86,7 @@ export const columnsTableCrops: ColumnDef<Crop>[] = [
   },
   {
     accessorKey: formFieldsCrop.amount.name,
-    cell: ({ row }: { row: Row<Crop> }) => {
-      return FormatNumber(row.original?.harvests_stock?.amount ?? 0);
-    },
+    cell: ({ row }) => <CellCropAmount row={row} />,
     header: ({ column }: HeaderContext<Crop, unknown>) => {
       return (
         <ButtonHeaderTable

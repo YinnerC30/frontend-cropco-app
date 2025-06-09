@@ -7,10 +7,17 @@ import {
 
 import { MODULE_CROPS_PATHS } from '../../routes/pathRoutes';
 import { useCropsModuleContext } from '../../hooks';
+import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
 
 export const CropsActions: React.FC = () => {
-  const { queryCrops, dataTable, mutationDeleteCrops, actionsCropsModule } =
-    useCropsModuleContext();
+  const {
+    queryCrops,
+    dataTable,
+    mutationDeleteCrops,
+    actionsCropsModule,
+    unitTypeToShowAmount,
+    setUnitTypeToShowAmount,
+  } = useCropsModuleContext();
 
   const handleDeleteBulkCrops = () => {
     mutationDeleteCrops.mutate(
@@ -45,6 +52,8 @@ export const CropsActions: React.FC = () => {
           onClick={handleDeleteBulkCrops}
           visible={dataTable.hasSelectedRecords}
         />
+
+        <SelectedMassUnitOfMeasure onChange={setUnitTypeToShowAmount} valueSelect={unitTypeToShowAmount} />
 
         <ButtonCreateRecord
           route={MODULE_CROPS_PATHS.Create}
