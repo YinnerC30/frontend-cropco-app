@@ -31,7 +31,7 @@ export const HarvestModuleTable: React.FC = () => {
         mutationDeleteHarvest.isPending
       }
     >
-      <div className="flex items-center justify-end gap-2 py-2">
+      <div className="flex items-center justify-end gap-2 pb-2">
         <p className="text-sm font-medium text-muted-foreground">
           Mostrar cantidad cosechada como:
         </p>
