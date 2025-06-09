@@ -28,6 +28,7 @@ import { useGetAllClientsWithSales } from '@/modules/clients/hooks/queries/useGe
 import { useGetAllCropsWithSales } from '@/modules/crops/hooks/queries/useGetAllCropsWithSales';
 import { Client } from '@/modules/clients/interfaces/Client';
 import { Crop } from '@/modules/crops/interfaces/Crop';
+import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 export interface paramQuerySale {
   clients: { id: string }[];
@@ -60,6 +61,10 @@ export interface SalesModuleContextValues {
   setExecuteQuery: React.Dispatch<React.SetStateAction<boolean>>;
   queryClients: UseQueryGetAllRecordsReturn<Client>;
   queryCrops: UseQueryGetAllRecordsReturn<Crop>;
+  unitTypeToShowAmount: MassUnitOfMeasure;
+  setUnitTypeToShowAmount: React.Dispatch<
+    React.SetStateAction<MassUnitOfMeasure>
+  >;
 }
 
 const paramsSale: ItemQueryAdvanced[] = [
@@ -129,6 +134,8 @@ export const SalesModuleProvider: React.FC<{
   const { getActionsModule } = useAuthContext();
 
   const actionsSalesModule = useMemo(() => getActionsModule('sales'), []);
+  const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
+    useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsSale,
@@ -203,6 +210,8 @@ export const SalesModuleProvider: React.FC<{
     queryGetDocument,
     queryClients,
     queryCrops,
+    unitTypeToShowAmount,
+    setUnitTypeToShowAmount,
   };
 
   return (

@@ -7,6 +7,7 @@ import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { Sale, SaleDetail } from '../../interfaces';
 import { formFieldsSale } from '../../utils/formFieldsSale';
+import { CellSaleAmount } from './CellSaleAmount';
 
 export const columnsSale: ColumnDef<Sale>[] = [
   {
@@ -44,7 +45,7 @@ export const columnsSale: ColumnDef<Sale>[] = [
 
           {hiddenCount > 0 && (
             // <ToolTipTemplate content={clients.slice(maxVisible).join(',\n')}>
-              <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
+            <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
             // </ToolTipTemplate>
           )}
         </div>
@@ -77,7 +78,7 @@ export const columnsSale: ColumnDef<Sale>[] = [
             //     // .map((item) => item)
             //     .join(',\n')}
             // >
-              <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
+            <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
             // </ToolTipTemplate>
           )}
         </div>
@@ -87,7 +88,7 @@ export const columnsSale: ColumnDef<Sale>[] = [
   {
     accessorKey: formFieldsSale.amount.name,
     cell: ({ row }) => {
-      return FormatNumber(row.getValue('amount')) + ' Kg';
+      return <CellSaleAmount row={row} />;
     },
     header: ({ column }: HeaderContext<Sale, unknown>) => {
       return (
@@ -105,7 +106,10 @@ export const columnsSale: ColumnDef<Sale>[] = [
     },
     header: ({ column }: HeaderContext<Sale, unknown>) => {
       return (
-        <ButtonHeaderTable column={column} label={formFieldsSale.value_pay.label} />
+        <ButtonHeaderTable
+          column={column}
+          label={formFieldsSale.value_pay.label}
+        />
       );
     },
   },
