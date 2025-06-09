@@ -2,13 +2,12 @@
 
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
+import { Badge } from '@/components';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
-import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
 import { HarvestProcessed } from '../../../interfaces/HarvestProcessed';
 import { formFieldsHarvestProcessed } from '../../../utils/formFieldsHarvestProcessed';
 import { ActionsTableHarvestProcessed } from './ActionsTableHarvestProcessed';
-import { Badge } from '@/components';
 
 export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
   {

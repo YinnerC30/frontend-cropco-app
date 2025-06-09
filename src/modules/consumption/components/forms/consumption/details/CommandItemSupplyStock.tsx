@@ -1,4 +1,3 @@
-import { CapitalizeFirstWord } from '@/auth';
 import { cn } from '@/lib/utils';
 import { FormatNumber } from '@/modules/core/helpers';
 import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';

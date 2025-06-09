@@ -45,7 +45,7 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
             <FormControl>
               <div className="flex gap-4">
                 <Input
-                  className={`w-60 ${hiddenInput && 'hidden'}`}
+                  className={`w-60 ${hiddenInput && 'hidden'} overflow-hidden text-ellipsis`}
                   placeholder={placeholder}
                   {...field}
                   readOnly={readOnly}
