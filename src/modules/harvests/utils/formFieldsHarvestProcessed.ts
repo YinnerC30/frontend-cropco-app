@@ -3,6 +3,7 @@ import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField'
 type HarvestProcessedFormFields =
   | 'date'
   | 'crop'
+  | 'unit_of_measure'
   | 'amount'
   | 'value_pay'
   | 'observation';
@@ -23,11 +24,17 @@ export const formFieldsHarvestProcessed: Record<
     placeholder: 'Selecciona un cultivo',
     description: 'Cultivo al cual pertenece el monto',
   },
+  unit_of_measure: {
+    name: 'unit_of_measure',
+    label: 'Unidad de medida:',
+    placeholder: 'Selecciona',
+    description: 'Unidad de medida de la cosecha procesada',
+  },
   amount: {
     name: 'amount',
     label: 'Cantidad:',
     placeholder: '',
-    description: 'Número de kilogramos cosechados',
+    description: 'Cantidad procesada',
   },
   value_pay: {
     name: 'value_pay',

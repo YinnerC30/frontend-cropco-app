@@ -14,18 +14,16 @@ import {
   FormFieldInput,
   FormFieldTextArea,
 } from '@/modules/core/components';
-import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
+import { FormatMoneyValue } from '@/modules/core/helpers';
 import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { formFieldsHarvest } from '@/modules/harvests/utils';
 
 import { useGetAllCrops } from '@/modules/crops/hooks';
-import { FormHarvestDataTable } from './FormHarvestDataTable';
 import {
   MassUnitOfMeasure,
-  UnitsType,
-  UnitSymbols,
+  UnitsType
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
-import { intlFormat } from 'date-fns';
+import { FormHarvestDataTable } from './FormHarvestDataTable';
 
 export const FormHarvestFields: React.FC = () => {
   const {

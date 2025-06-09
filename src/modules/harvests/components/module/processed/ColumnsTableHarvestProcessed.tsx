@@ -8,6 +8,7 @@ import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
 import { HarvestProcessed } from '../../../interfaces/HarvestProcessed';
 import { formFieldsHarvestProcessed } from '../../../utils/formFieldsHarvestProcessed';
 import { ActionsTableHarvestProcessed } from './ActionsTableHarvestProcessed';
+import { Badge } from '@/components';
 
 export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
   {
@@ -29,7 +30,7 @@ export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
     accessorKey: formFieldsHarvestProcessed.amount.name,
     cell: ({ row }) => {
       const amount: number = row.getValue('amount');
-      return FormatNumber(amount);
+      return Number.isInteger(amount) ? amount : amount.toFixed(2);
     },
     header: ({ column }: HeaderContext<HarvestProcessed, unknown>) => {
       return (
@@ -37,6 +38,20 @@ export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
           column={column}
           label={formFieldsHarvestProcessed.amount.label}
         />
+      );
+    },
+  },
+  {
+    accessorKey: 'unit_of_measure',
+    header: ({ column }: HeaderContext<HarvestProcessed, unknown>) => {
+      return <ButtonHeaderTable column={column} label={'Unidad de medida:'} />;
+    },
+    cell: ({ row }) => {
+      const unitOfMeasure: any = row.original.unit_of_measure;
+      return (
+        <Badge variant={unitOfMeasure === 'GRAMOS' ? 'lime' : 'cyan'}>
+          {unitOfMeasure}
+        </Badge>
       );
     },
   },

@@ -1,3 +1,4 @@
+import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { z } from 'zod';
 
 export const CreateFormSchemaHarvestProcessed = (
@@ -12,6 +13,18 @@ export const CreateFormSchemaHarvestProcessed = (
         message: 'La fecha debe ser superior a la de la cosecha',
       }
     ),
+    unit_of_measure: z.nativeEnum(MassUnitOfMeasure, {
+      errorMap: (issue, _ctx) => {
+        switch (issue.code) {
+          case 'invalid_type':
+            return { message: 'Debe seleccionar una unidad de medida.' };
+          case 'invalid_enum_value':
+            return { message: 'Debe seleccionar una unidad de medida válida.' };
+          default:
+            return { message: 'Error en la selección de unidad de medida.' };
+        }
+      },
+    }),
     amount: z.coerce
       .number({
         required_error: `El amount es requerido`,
