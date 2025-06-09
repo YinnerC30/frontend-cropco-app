@@ -8,6 +8,7 @@ import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
 import { Badge, Button } from '@/components';
 import { Harvest, HarvestDetail } from '../../interfaces';
 import { formFieldsHarvest } from '../../utils';
+import { CellHarvestAmount } from './CellHarvestAmount';
 
 export const columnsHarvest: ColumnDef<Harvest>[] = [
   {
@@ -70,9 +71,7 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
 
   {
     accessorKey: formFieldsHarvest.amount.name,
-    cell: ({ row }) => {
-      return FormatNumber(row.getValue('amount'));
-    },
+    cell: ({ row }) => (<CellHarvestAmount row={row}/>),
     header: ({ column }: HeaderContext<Harvest, unknown>) => {
       return (
         <ButtonHeaderTable

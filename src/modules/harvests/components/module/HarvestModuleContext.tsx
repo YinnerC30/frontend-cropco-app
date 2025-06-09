@@ -27,6 +27,7 @@ import { useGetAllEmployeesWithHarvests } from '@/modules/payments/hooks/queries
 import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { Crop } from '@/modules/crops/interfaces/Crop';
 import { Employee } from '@/modules/employees/interfaces/Employee';
+import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 export interface paramQueryHarvest {
   crop: { id: string };
@@ -63,6 +64,10 @@ export interface HarvestsModuleContextProps {
 
   queryCrops: UseQueryResult<ResponseApiGetAllRecords<Crop>, AxiosError<TypedAxiosError, unknown>>;
   queryEmployees: UseQueryGetAllRecordsReturn<Employee>;
+  unitTypeToShowAmount: MassUnitOfMeasure;
+  setUnitTypeToShowAmount: React.Dispatch<
+    React.SetStateAction<MassUnitOfMeasure>
+  >;
 }
 
 const paramsHarvest: ItemQueryAdvanced[] = [
@@ -143,6 +148,9 @@ export const HarvestsModuleProvider: React.FC<{
 
   const actionsHarvestsModule = useMemo(() => getActionsModule('harvests'), []);
 
+  const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
+    useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
+
   const columnsTable = useCreateColumnsTable<Harvest>({
     columns: columnsHarvest,
     actions: ActionsTableHarvest,
@@ -216,6 +224,8 @@ export const HarvestsModuleProvider: React.FC<{
     setExecuteQuery,
     queryCrops,
     queryEmployees,
+    unitTypeToShowAmount,
+    setUnitTypeToShowAmount,
   };
 
   return (
