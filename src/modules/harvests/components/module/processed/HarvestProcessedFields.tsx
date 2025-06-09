@@ -1,4 +1,12 @@
-import { Badge, Form } from '@/components';
+import {
+  Badge,
+  Form,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components';
 import {
   FormFieldCalendar,
   FormFieldInput,
@@ -11,6 +19,10 @@ import { formFieldsHarvestProcessed } from '@/modules/harvests/utils/formFieldsH
 import React from 'react';
 import { z } from 'zod';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
+import {
+  MassUnitOfMeasure,
+  UnitsType,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 const formSchema = z.object({
   date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
@@ -44,6 +56,10 @@ const formSchema = z.object({
 export const HarvestProcessedFields: React.FC = () => {
   const {
     queryOneHarvest: { data, isSuccess, isLoading },
+    unitTypeToShowAmount,
+    setUnitTypeToShowAmount,
+    amountConverted,
+    amountProcessedConverted,
   } = useHarvestProcessedContext();
 
   if (isLoading) {
@@ -75,7 +91,7 @@ export const HarvestProcessedFields: React.FC = () => {
           name={'date'}
           placeholder={formFieldsHarvestProcessed.date.placeholder}
           disabled={true}
-          className='w-[240px]'
+          className="w-[240px]"
         />
 
         <FormFieldInput
@@ -111,8 +127,28 @@ export const HarvestProcessedFields: React.FC = () => {
             className="block h-8 text-base text-center w-28"
             variant={'cyan'}
           >
-            {FormatNumber(data?.amount! ?? 0)}
+            {FormatNumber(amountConverted ?? 0)}
           </Badge>
+          <Select
+            onValueChange={(value: any) => {
+              setUnitTypeToShowAmount(value);
+            }}
+            defaultValue={MassUnitOfMeasure.KILOGRAMOS}
+            value={unitTypeToShowAmount}
+            disabled={false}
+          >
+            <SelectTrigger /* ref={field.ref} */>
+              <SelectValue placeholder={'Selecciona una medida'} />
+            </SelectTrigger>
+
+            <SelectContent>
+              {[...UnitsType['GRAMOS']].map((item: any) => (
+                <SelectItem key={item.key} value={item.value}>
+                  {item.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </FormFieldInput>
 
         <FormFieldInput

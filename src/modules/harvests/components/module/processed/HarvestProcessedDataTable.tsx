@@ -1,4 +1,14 @@
-import { Badge, Label, ScrollArea, ScrollBar } from '@/components';
+import {
+  Badge,
+  Label,
+  ScrollArea,
+  ScrollBar,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components';
 import {
   FormDataTableButtonsPagination,
   FormDataTableProvider,
@@ -14,12 +24,19 @@ import { memo, useMemo } from 'react';
 import columnsHarvestProcessed from './ColumnsTableHarvestProcessed';
 import { FormHarvestProcessed } from './FormHarvestProcessed';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
+import {
+  MassUnitOfMeasure,
+  UnitsType,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 const HarvestProcessedDataTable: React.FC = memo(() => {
   const {
     queryOneHarvest: { data, isSuccess },
     setHarvestProcessed,
     setOpenDialog,
+    unitTypeToShowProcessedAmount,
+    setUnitTypeToShowProcessedAmount,
+    amountProcessedConverted,
   } = useHarvestProcessedContext();
 
   const finalData: HarvestProcessed[] = useMemo(() => {
@@ -79,9 +96,28 @@ const HarvestProcessedDataTable: React.FC = memo(() => {
             className="block h-8 my-2 text-base text-center w-28"
             variant={'cyan'}
           >
-            {FormatNumber(isSuccess ? data?.total_amount_processed ?? 0 : 0) +
-              ' Kg'}
+            {amountProcessedConverted}
           </Badge>
+          <Select
+            onValueChange={(value: any) => {
+              setUnitTypeToShowProcessedAmount(value);
+            }}
+            defaultValue={MassUnitOfMeasure.KILOGRAMOS}
+            value={unitTypeToShowProcessedAmount}
+            disabled={false}
+          >
+            <SelectTrigger /* ref={field.ref} */>
+              <SelectValue placeholder={'Selecciona una medida'} />
+            </SelectTrigger>
+
+            <SelectContent>
+              {[...UnitsType['GRAMOS']].map((item: any) => (
+                <SelectItem key={item.key} value={item.value}>
+                  {item.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <p className="text-[0.8rem] text-muted-foreground">
             {'Número de kilogramos listos para la venta'}
           </p>
