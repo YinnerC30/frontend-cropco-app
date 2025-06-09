@@ -26,7 +26,9 @@ import { toast } from 'sonner';
 import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { CheckboxTableCustom } from '@/modules/core/components/table/CheckboxTableCustom';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
+import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 import { FormProps, ResponseApiGetAllRecords } from '@/modules/core/interfaces';
+import { UnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { z } from 'zod';
@@ -39,6 +41,7 @@ export const defaultValuesHarvestDetail: HarvestDetail = {
     id: '',
     first_name: '',
   },
+  unit_of_measure: undefined,
   amount: 10,
   value_pay: 1000,
 };
@@ -157,13 +160,18 @@ export const FormHarvestProvider: React.FC<
     dispatch({ type: 'RESET', payload: detailsDefaultValues });
   };
 
+  const { convert } = useUnitConverter();
+
   const amount = useMemo<number>(
     () =>
-      detailsHarvest.reduce(
-        (amount: number, detail: HarvestDetail) =>
-          Number(amount) + Number(detail.amount),
-        0
-      ),
+      detailsHarvest.reduce((amount: number, detail: HarvestDetail) => {
+        const convertedAmount = convert(
+          Number(detail.amount),
+          detail.unit_of_measure! as UnitOfMeasure,
+          'GRAMOS' as UnitOfMeasure
+        );
+        return Number(amount) + convertedAmount;
+      }, 0),
     [detailsHarvest]
   );
   const value_pay = useMemo<number>(

@@ -100,7 +100,7 @@ export const FormHarvestFields: React.FC = () => {
               className="block h-8 text-base text-center w-28"
               variant={'cyan'}
             >
-              {FormatNumber(amount) + ' Kg'}
+              {FormatNumber(amount) + ' g'}
             </Badge>
           </FormFieldInput>
 
@@ -115,6 +115,7 @@ export const FormHarvestFields: React.FC = () => {
             disabled={true}
             type="number"
             hiddenInput
+            allowDecimals
           >
             <Badge
               className="block h-8 text-base text-center w-28"

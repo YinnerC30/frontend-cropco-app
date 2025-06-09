@@ -71,7 +71,7 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
   {
     accessorKey: formFieldsHarvest.amount.name,
     cell: ({ row }) => {
-      return FormatNumber(row.getValue('amount')) + ' kg';
+      return FormatNumber(row.getValue('amount'));
     },
     header: ({ column }: HeaderContext<Harvest, unknown>) => {
       return (

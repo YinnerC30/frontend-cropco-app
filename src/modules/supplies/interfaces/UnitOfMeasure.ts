@@ -9,6 +9,14 @@ export enum UnitOfMeasure {
   GALONES = 'GALONES',
 }
 
+export enum MassUnitOfMeasure {
+  GRAMOS = 'GRAMOS',
+  KILOGRAMOS = 'KILOGRAMOS',
+  LIBRAS = 'LIBRAS',
+  ONZAS = 'ONZAS',
+  TONELADAS = 'TONELADAS',
+}
+
 export const UnitsType: {
   GRAMOS: {
     key: UnitOfMeasure;
