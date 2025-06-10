@@ -64,6 +64,11 @@ import {
 } from '@/components/ui/form';
 import { cn } from '@/lib/utils';
 import { CaretSortIcon } from '@radix-ui/react-icons';
+import {
+  MassUnitOfMeasure,
+  UnitOfMeasure,
+  UnitsType,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 const valuesResetForm = {
   filter_by_date: {
@@ -76,6 +81,7 @@ const valuesResetForm = {
   },
   filter_by_amount: {
     type_filter_amount: TypeFilterNumber.MIN,
+    type_unit_of_measure: MassUnitOfMeasure.KILOGRAMOS,
     amount: 0,
   },
   clients: [],
@@ -83,8 +89,13 @@ const valuesResetForm = {
 };
 
 export const SaleModuleSearchbar: React.FC = () => {
-  const { paramsQuery, actionsSalesModule, hasParamsQuery, queryClients, queryCrops } =
-    useSaleModuleContext();
+  const {
+    paramsQuery,
+    actionsSalesModule,
+    hasParamsQuery,
+    queryClients,
+    queryCrops,
+  } = useSaleModuleContext();
   const readOnly = !actionsSalesModule['find_all_sales'];
   const navigate = useNavigate();
 
@@ -161,14 +172,15 @@ export const SaleModuleSearchbar: React.FC = () => {
       });
     }
 
-    const { type_filter_amount, amount } = filter_by_amount;
-    if (type_filter_amount && amount) {
+    const { type_filter_amount, amount, type_unit_of_measure } =
+      filter_by_amount;
+    if (type_filter_amount && amount && type_unit_of_measure) {
       const typeFilter = formatTypeFilterNumber(
         type_filter_amount as TypeFilterNumber
       );
       filters.push({
         key: 'amount',
-        label: `Cantidad: ${typeFilter} ${filter_by_amount.amount}`,
+        label: `Cantidad: ${typeFilter} ${filter_by_amount.amount} ${type_unit_of_measure}`,
       });
     }
 
@@ -252,12 +264,17 @@ export const SaleModuleSearchbar: React.FC = () => {
     }
     if (
       values.filter_by_amount.type_filter_amount &&
-      values.filter_by_amount.amount
+      values.filter_by_amount.amount &&
+      values.filter_by_amount.type_unit_of_measure
     ) {
       params.append('filter_by_amount', 'true');
       params.append(
         'type_filter_amount',
         `${values.filter_by_amount.type_filter_amount}`
+      );
+      params.append(
+        'type_unit_of_measure',
+        `${values.filter_by_amount.type_unit_of_measure}`
       );
       params.append('amount', `${values.filter_by_amount.amount}`);
     }
@@ -755,6 +772,13 @@ export const SaleModuleSearchbar: React.FC = () => {
                       {...formFieldsSearchBarSale.type_filter_amount}
                       control={form.control}
                       name="filter_by_amount.type_filter_amount"
+                    />
+                    <FormFieldSelect
+                      disabled={false}
+                      items={UnitsType[UnitOfMeasure.GRAMOS]}
+                      {...formFieldsSearchBarSale.type_unit_of_measure}
+                      control={form.control}
+                      name="filter_by_amount.type_unit_of_measure"
                     />
                     <FormFieldInput
                       disabled={false}

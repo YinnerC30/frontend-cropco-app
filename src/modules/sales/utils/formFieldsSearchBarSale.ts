@@ -9,6 +9,7 @@ type FormFieldsSearchBarSale =
   | 'value_pay'
   | 'filter_by_amount'
   | 'type_filter_amount'
+  | 'type_unit_of_measure'
   | 'amount'
   | 'filter_by_is_receivable'
   | 'is_receivable'
@@ -78,6 +79,12 @@ export const formFieldsSearchBarSale: Record<
     label: 'Valor menor o mayor a:',
     placeholder: 'Selecciona una opción',
     description: 'Filtrar registros por menor o mayor del valor',
+  },
+  type_unit_of_measure: {
+    name: 'type_unit_of_measure',
+    label: 'Unidad de medida:',
+    placeholder: 'Selecciona una opción',
+    description: 'Unidad de medida de la cantidad vendida',
   },
   amount: {
     name: 'amount',

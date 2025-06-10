@@ -43,6 +43,7 @@ export interface paramQuerySale {
   };
   filter_by_amount: {
     type_filter_amount: string | undefined;
+    type_unit_of_measure: MassUnitOfMeasure | undefined;
     amount: number;
   };
 }
@@ -89,12 +90,20 @@ const paramsSale: ItemQueryAdvanced[] = [
     defaultValue: undefined,
   },
   {
-    propertyName: 'filter_by_value_pay',
+    propertyName: 'value_pay',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'filter_by_amount',
     defaultValue: false,
   },
   {
     propertyName: 'type_filter_amount',
     defaultValue: undefined,
+  },
+  {
+    propertyName: 'type_unit_of_measure',
+    defaultValue: MassUnitOfMeasure.KILOGRAMOS,
   },
   {
     propertyName: 'amount',
@@ -193,6 +202,7 @@ export const SalesModuleProvider: React.FC<{
       },
       filter_by_amount: {
         type_filter_amount: paramsValues.type_filter_amount,
+        type_unit_of_measure: paramsValues.type_unit_of_measure,
         amount: paramsValues.amount,
       },
       clients: paramsValues.clients.map((cl: string) => ({ id: cl })),
