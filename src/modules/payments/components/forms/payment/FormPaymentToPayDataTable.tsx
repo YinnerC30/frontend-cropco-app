@@ -97,7 +97,7 @@ export const FormPaymentToPayDataTable: React.FC = () => {
             type="auto"
           >
             <FormDataTable
-              onCellDoubleClick={(data) => console.log(data)}
+              onCellDoubleClick={(data) => {}}
               disabledDoubleClick={true}
             />
 
