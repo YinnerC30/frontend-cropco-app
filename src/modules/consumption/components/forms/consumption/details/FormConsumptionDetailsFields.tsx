@@ -23,6 +23,7 @@ import { cn } from '@/lib/utils';
 import { useFormConsumptionContext } from '@/modules/consumption/hooks/context/useFormConsumptionContext';
 import { formFieldsConsumptionDetail } from '@/modules/consumption/utils';
 import {
+  ButtonRefetchData,
   FormFieldCommand,
   FormFieldInput,
   FormFieldSelect,
@@ -131,28 +132,32 @@ export const FormConsumptionDetailsFields: React.FC = () => {
           placeholder={formFieldsConsumptionDetail.crop.placeholder}
           disabled={false}
           nameEntity="cultivo"
-          isLoading={queryCrops.isLoading}
+          isLoading={queryCrops.isLoading || queryCrops.isFetching}
           className="w-52"
+          reloadData={async () => {
+            await queryCrops.refetch();
+          }}
         />
 
         <FormField
           control={formConsumptionDetail.control}
           name={`supply.id`}
-          render={({ field }: { field: ControllerRenderProps<any, any> }) => {
-            return (
-              <FormItem className="my-4">
-                <FormLabel className="block">
-                  {formFieldsConsumptionDetail.supply.label}
-                </FormLabel>
+          render={({ field }: { field: ControllerRenderProps<any, any> }) => (
+            <FormItem className="my-4">
+              <FormLabel className="block">
+                {formFieldsConsumptionDetail.supply.label}
+              </FormLabel>
 
-                <Popover
-                  open={openPopover}
-                  onOpenChange={setOpenPopover}
-                  modal={true}
-                >
+              <Popover
+                open={openPopover}
+                onOpenChange={setOpenPopover}
+                modal={true}
+              >
+                <div className="flex gap-2">
                   <PopoverTrigger asChild>
                     <FormControl>
-                      {querySuppliesStock.isLoading ? (
+                      {querySuppliesStock.isLoading ||
+                      querySuppliesStock.isFetching ? (
                         <div className="w-[200px]">
                           <Loading className="" />
                         </div>
@@ -190,73 +195,80 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                       )}
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[280px] p-0">
-                    <Command>
-                      <CommandInput
-                        placeholder={`Buscar ${'insumo'}...`}
-                        className="h-9"
-                      />
-                      <CommandList>
-                        <ScrollArea className="w-auto h-56 p-1 pr-2">
-                          <CommandEmpty>{`${CapitalizeFirstWord(
-                            'insumo'
-                          )} no encontrado`}</CommandEmpty>
-                          <CommandGroup>
-                            {suppliesStock.map((item) => {
-                              return (
-                                <CommandItem
-                                  disabled={item?.['amount'] === 0}
-                                  value={item?.['name']}
-                                  key={item.id!}
-                                  onSelect={() => {
-                                    if (field?.value === item?.id) {
-                                      formConsumptionDetail.setValue('supply', {
-                                        id: '',
-                                        ['name']: '',
-                                      });
-                                    } else {
-                                      formConsumptionDetail.setValue(
-                                        'supply',
-                                        {
-                                          id: item?.id,
-                                          ['name']: item['name'],
-                                          ['unit_of_measure']:
-                                            item?.['unit_of_measure'],
-                                        },
-                                        {
-                                          shouldValidate: true,
-                                          shouldDirty: true,
-                                        }
-                                      );
-                                    }
-                                    setOpenPopover(false);
-                                  }}
-                                >
-                                  <CommandItemSupplyStock
-                                    field={field}
-                                    item={item}
-                                    converTo={
-                                      !currentUnitType
-                                        ? (item.unit_of_measure as UnitOfMeasure)
-                                        : currentUnitType
-                                    }
-                                  />
-                                </CommandItem>
-                              );
-                            })}
-                          </CommandGroup>
-                        </ScrollArea>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-                <FormDescription>
-                  {formFieldsConsumptionDetail.supply.description}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
+
+                  <ButtonRefetchData
+                    onClick={async () => {
+                      await querySuppliesStock.refetch();
+                    }}
+                    disabled={false}
+                  />
+                </div>
+                <PopoverContent className="w-[280px] p-0">
+                  <Command>
+                    <CommandInput
+                      placeholder={`Buscar ${'insumo'}...`}
+                      className="h-9"
+                    />
+                    <CommandList>
+                      <ScrollArea className="w-auto h-56 p-1 pr-2">
+                        <CommandEmpty>{`${CapitalizeFirstWord(
+                          'insumo'
+                        )} no encontrado`}</CommandEmpty>
+                        <CommandGroup>
+                          {suppliesStock.map((item) => {
+                            return (
+                              <CommandItem
+                                disabled={item?.['amount'] === 0}
+                                value={item?.['name']}
+                                key={item.id!}
+                                onSelect={() => {
+                                  if (field?.value === item?.id) {
+                                    formConsumptionDetail.setValue('supply', {
+                                      id: '',
+                                      ['name']: '',
+                                    });
+                                  } else {
+                                    formConsumptionDetail.setValue(
+                                      'supply',
+                                      {
+                                        id: item?.id,
+                                        ['name']: item['name'],
+                                        ['unit_of_measure']:
+                                          item?.['unit_of_measure'],
+                                      },
+                                      {
+                                        shouldValidate: true,
+                                        shouldDirty: true,
+                                      }
+                                    );
+                                  }
+                                  setOpenPopover(false);
+                                }}
+                              >
+                                <CommandItemSupplyStock
+                                  field={field}
+                                  item={item}
+                                  converTo={
+                                    !currentUnitType
+                                      ? (item.unit_of_measure as UnitOfMeasure)
+                                      : currentUnitType
+                                  }
+                                />
+                              </CommandItem>
+                            );
+                          })}
+                        </CommandGroup>
+                      </ScrollArea>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <FormDescription>
+                {formFieldsConsumptionDetail.supply.description}
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
 
         {!currentSupply.id && (

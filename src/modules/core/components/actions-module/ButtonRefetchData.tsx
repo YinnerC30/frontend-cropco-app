@@ -4,10 +4,9 @@ import { ToolTipTemplate } from '../shared/ToolTipTemplate';
 import { memo } from 'react';
 
 interface Props {
-  onClick: () => void;
+  onClick: () => Promise<void>;
   disabled: boolean;
   className?: string;
-  
 }
 
 export const ButtonRefetchData = memo(
@@ -20,7 +19,7 @@ export const ButtonRefetchData = memo(
           disabled={disabled}
           variant="outline"
           size="icon"
-          type='button'
+          type="button"
         >
           <RefreshCw className="w-4 h-4" />
           <span className="sr-only">Recargar datos</span>

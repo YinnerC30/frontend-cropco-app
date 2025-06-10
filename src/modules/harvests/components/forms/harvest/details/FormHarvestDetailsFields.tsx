@@ -51,8 +51,11 @@ export const FormHarvestDetailsFields: React.FC = () => {
           placeholder={formFieldsHarvestDetail.employee.placeholder}
           disabled={false}
           nameEntity="empleado"
-          isLoading={queryEmployees.isLoading}
+          isLoading={queryEmployees.isLoading || queryEmployees.isRefetching}
           className="w-52"
+          reloadData={async() => {
+            await queryEmployees.refetch()
+          }}
         />
 
         <FormFieldSelect

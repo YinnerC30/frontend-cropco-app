@@ -15,6 +15,7 @@ import {
 import { cn } from '@/lib/utils';
 import { useGetAllClients } from '@/modules/clients/hooks';
 import {
+  ButtonRefetchData,
   FormFieldCheckBox,
   FormFieldCommand,
   FormFieldInput,
@@ -96,8 +97,11 @@ export const FormSaleDetailsFields: React.FC = () => {
           placeholder={formFieldsSaleDetail.client.placeholder}
           disabled={false}
           nameEntity="cliente"
-          isLoading={queryClients.isLoading}
+          isLoading={queryClients.isLoading || queryClients.isFetching}
           className="w-52"
+          reloadData={async () => {
+            await queryClients.refetch();
+          }}
         />
 
         <FormField
@@ -115,46 +119,56 @@ export const FormSaleDetailsFields: React.FC = () => {
                   onOpenChange={setOpenPopover}
                   modal={true}
                 >
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      {queryCropsWithStock.isLoading ? (
-                        <div className="w-[200px]">
-                          <Loading className="" />
-                        </div>
-                      ) : (
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          aria-expanded={openPopover}
-                          className={`w-80 ${cn(
-                            'justify-between',
-                            !field.value && 'text-muted-foreground'
-                          )}`}
-                          ref={field.ref}
-                          onBlur={field.onBlur}
-                          disabled={readOnly}
-                        >
-                          <span className="overflow-auto truncate text-muted-foreground text-ellipsis">
-                            {!!field.value
-                              ? cropStock.find((item: CropStock) => {
-                                  return item.id === field.value;
-                                })?.['name']
-                              : formFieldsSaleDetail.crop.placeholder}
-                          </span>
+                  <div className="flex gap-2">
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        {queryCropsWithStock.isLoading ||
+                        queryCropsWithStock.isFetching ? (
+                          <div className="w-[200px]">
+                            <Loading className="" />
+                          </div>
+                        ) : (
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={openPopover}
+                            className={`w-80 ${cn(
+                              'justify-between',
+                              !field.value && 'text-muted-foreground'
+                            )}`}
+                            ref={field.ref}
+                            onBlur={field.onBlur}
+                            disabled={readOnly}
+                          >
+                            <span className="overflow-auto truncate text-muted-foreground text-ellipsis">
+                              {!!field.value
+                                ? cropStock.find((item: CropStock) => {
+                                    return item.id === field.value;
+                                  })?.['name']
+                                : formFieldsSaleDetail.crop.placeholder}
+                            </span>
 
-                          {!!field.value && (
-                            <BadgeCropStock
-                              field={field}
-                              cropsStock={cropStock}
-                              convertTo={currentUnitType}
-                            />
-                          )}
+                            {!!field.value && (
+                              <BadgeCropStock
+                                field={field}
+                                cropsStock={cropStock}
+                                convertTo={currentUnitType}
+                              />
+                            )}
 
-                          <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                        </Button>
-                      )}
-                    </FormControl>
-                  </PopoverTrigger>
+                            <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                          </Button>
+                        )}
+                      </FormControl>
+                    </PopoverTrigger>
+
+                    <ButtonRefetchData
+                      onClick={async () => {
+                        await queryCropsWithStock.refetch();
+                      }}
+                      disabled={false}
+                    />
+                  </div>
                   <PopoverContent className="w-[200px] p-0">
                     <Command>
                       <CommandInput

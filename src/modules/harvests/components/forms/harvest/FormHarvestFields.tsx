@@ -21,7 +21,7 @@ import { formFieldsHarvest } from '@/modules/harvests/utils';
 import { useGetAllCrops } from '@/modules/crops/hooks';
 import {
   MassUnitOfMeasure,
-  UnitsType
+  UnitsType,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { FormHarvestDataTable } from './FormHarvestDataTable';
 
@@ -78,9 +78,12 @@ export const FormHarvestFields: React.FC = () => {
             name={'crop'}
             placeholder={formFieldsHarvest.crop.placeholder}
             disabled={readOnly || disabledCropField}
-            isLoading={queryCrops.isLoading}
+            isLoading={queryCrops.isLoading || queryCrops.isRefetching}
             nameEntity="cultivo"
             className="w-52"
+            reloadData={async () => {
+              await queryCrops.refetch();
+            }}
           />
           <FormFieldTextArea
             className="w-72"

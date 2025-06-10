@@ -1,5 +1,6 @@
 import { Form } from '@/components';
 import {
+  ButtonRefetchData,
   FormFieldCommand,
   FormFieldInput,
   FormFieldSelect,
@@ -109,7 +110,10 @@ export const FormShoppingDetailsFields: React.FC = () => {
           placeholder={formFieldsShoppingDetail.supplier.placeholder}
           disabled={false}
           nameEntity="proveedor"
-          isLoading={querySuppliers.isLoading}
+          isLoading={querySuppliers.isLoading || querySuppliers.isFetching}
+          reloadData={async () => {
+            await querySuppliers.refetch();
+          }}
           className="w-52"
         />
 
@@ -128,57 +132,67 @@ export const FormShoppingDetailsFields: React.FC = () => {
                   onOpenChange={setOpenPopover}
                   modal={true}
                 >
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      {querySupplies.isLoading ? (
-                        <div className="w-[200px]">
-                          <Loading className="" />
-                        </div>
-                      ) : (
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          aria-expanded={openPopover}
-                          className={`w-80 flex justify-between ${cn(
-                            `${!field.value && 'flex justify-between'}`,
-                            !field.value && 'text-muted-foreground'
-                          )}`}
-                          ref={field.ref}
-                          onBlur={field.onBlur}
-                          disabled={readOnly}
-                        >
-                          <span className="overflow-auto truncate text-muted-foreground text-ellipsis">
-                            {!!field.value
-                              ? querySupplies.data?.records.find(
+                  <div className="flex gap-2">
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        {querySupplies.isLoading || querySupplies.isFetching ? (
+                          <div className="w-[200px]">
+                            <Loading className="" />
+                          </div>
+                        ) : (
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={openPopover}
+                            className={`w-80 flex justify-between ${cn(
+                              `${!field.value && 'flex justify-between'}`,
+                              !field.value && 'text-muted-foreground'
+                            )}`}
+                            ref={field.ref}
+                            onBlur={field.onBlur}
+                            disabled={readOnly}
+                          >
+                            <span className="overflow-auto truncate text-muted-foreground text-ellipsis">
+                              {!!field.value
+                                ? querySupplies.data?.records.find(
+                                    (item: Supply) => {
+                                      return item.id === field.value;
+                                    }
+                                  )?.['name']
+                                : formFieldsSaleDetail.crop.placeholder}
+                            </span>
+
+                            {!!field.value && (
+                              <Badge
+                                className={`${
+                                  !field.value ? 'hidden' : 'ml-10'
+                                }`}
+                                variant={'cyan'}
+                              >
+                                {querySupplies.data?.records.find(
                                   (item: Supply) => {
                                     return item.id === field.value;
                                   }
-                                )?.['name']
-                              : formFieldsSaleDetail.crop.placeholder}
-                          </span>
+                                )?.['unit_of_measure'] === 'GRAMOS'
+                                  ? ' Gramos'
+                                  : ' Mililitros'}
+                              </Badge>
+                            )}
 
-                          {!!field.value && (
-                            <Badge
-                              className={`${!field.value ? 'hidden' : 'ml-10'}`}
-                              variant={'cyan'}
-                            >
-                              {querySupplies.data?.records.find(
-                                (item: Supply) => {
-                                  return item.id === field.value;
-                                }
-                              )?.['unit_of_measure'] === 'GRAMOS'
-                                ? ' Gramos'
-                                : ' Mililitros'}
-                            </Badge>
-                          )}
-
-                          <span>
-                            <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                          </span>
-                        </Button>
-                      )}
-                    </FormControl>
-                  </PopoverTrigger>
+                            <span>
+                              <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                            </span>
+                          </Button>
+                        )}
+                      </FormControl>
+                    </PopoverTrigger>
+                    <ButtonRefetchData
+                      onClick={async () => {
+                        await querySupplies.refetch();
+                      }}
+                      disabled={false}
+                    />
+                  </div>
                   <PopoverContent className="w-[280px] p-0">
                     <Command>
                       <CommandInput

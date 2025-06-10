@@ -29,6 +29,7 @@ import { useState } from 'react';
 import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 import { Loading } from '../../shared/Loading';
+import { ButtonRefetchData } from '../../actions-module/ButtonRefetchData';
 
 interface FormFieldCommandProps extends FormFieldProps {
   data: { id: string; [key: string]: any }[] | any[];
@@ -38,6 +39,7 @@ interface FormFieldCommandProps extends FormFieldProps {
   nameEntity?: string;
   actionFinal?: () => void;
   nameToControl?: string;
+  reloadData?: () => Promise<void>;
 }
 
 export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
@@ -54,6 +56,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
   nameEntity = 'registro',
   className,
   actionFinal,
+  reloadData = async () => {},
 }) => {
   const [openPopover, setOpenPopover] = useState(false);
 
@@ -78,42 +81,50 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
               onOpenChange={setOpenPopover}
               modal={true}
             >
-              <PopoverTrigger asChild>
-                <FormControl>
-                  {isLoading ? (
-                    <div className="w-[200px]">
-                      <Loading className="" />
-                    </div>
-                  ) : (
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={openPopover}
-                      className={`${className} ${cn(
-                        'justify-between',
-                        !field.value && '',
-                        'overflow-hidden text-ellipsis truncate'
-                      )}`}
-                      ref={field.ref}
-                      onBlur={field.onBlur}
-                      disabled={readOnly}
-                    >
-                      <span
-                        className={cn(
-                          'text-muted-foreground',
+              <div className="flex gap-2">
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    {isLoading ? (
+                      <div className="w-[200px]">
+                        <Loading className="" />
+                      </div>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={openPopover}
+                        className={`${className} ${cn(
+                          'justify-between',
+                          !field.value && '',
                           'overflow-hidden text-ellipsis truncate'
-                        )}
+                        )}`}
+                        ref={field.ref}
+                        onBlur={field.onBlur}
+                        disabled={readOnly}
                       >
-                        {!!field.value
-                          ? getFieldNameFromData(field.value)
-                          : placeholder}
-                      </span>
+                        <span
+                          className={cn(
+                            'text-muted-foreground',
+                            'overflow-hidden text-ellipsis truncate'
+                          )}
+                        >
+                          {!!field.value
+                            ? getFieldNameFromData(field.value)
+                            : placeholder}
+                        </span>
 
-                      <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                    </Button>
-                  )}
-                </FormControl>
-              </PopoverTrigger>
+                        <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                      </Button>
+                    )}
+                  </FormControl>
+                </PopoverTrigger>
+                <ButtonRefetchData
+                  onClick={async () => {
+                    await reloadData();
+                  }}
+                  disabled={false}
+                />
+              </div>
               <PopoverContent className="w-[200px] p-0">
                 <Command>
                   <CommandInput
