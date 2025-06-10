@@ -101,3 +101,8 @@ export const routes: Route[] = [
     name_module: 'payments',
   },
 ];
+
+export const getRouteIcon = (nameModule: string) => {
+  const route = routes.find((route) => route.name_module === nameModule);
+  return route?.Icon || null;
+};

@@ -14,6 +14,8 @@ import {
 } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 import { FormUserPermissionAction } from './FormUserPermissionAction';
 import { memo } from 'react';
+import { CatIcon } from 'lucide-react';
+import { getRouteIcon } from '@/routes/components';
 
 interface ModuleCardProps {
   label: string;
@@ -32,8 +34,9 @@ export const ModuleCard: React.FC<ModuleCardProps> = memo<ModuleCardProps>(
 
     return (
       <Card key={name} className="mb-2 w-72">
-        <CardHeader className="border-b">
-          <CardTitle className="capitalize">{label}</CardTitle>
+        <CardHeader className="flex flex-row items-center justify-center gap-2 border-b">
+          <CardTitle className="self-end capitalize">{label}</CardTitle>
+          {getRouteIcon(name)}
         </CardHeader>
         <CardContent className="flex flex-col flex-wrap gap-4 m-2 rounded-md">
           <Button
