@@ -11,4 +11,5 @@ export interface User {
   token: string;
   actions?: any[];
   passwords?: any;
+  roles?: string[];
 }

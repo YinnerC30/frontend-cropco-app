@@ -19,7 +19,9 @@ interface Props {
 export const UsersModuleActionsTable: React.FC<Props> = ({ row }) => {
   const { dataTable, actionsUsersModule, mutationDeleteUser } =
     useUsersModuleContext();
-  const { id, email, is_active } = row.original;
+  const { id, email, is_active, roles } = row.original;
+
+  const isAdmin = roles?.includes('admin') || false;
 
   const mutationPatchPassword = usePatchResetPasswordUser();
 
@@ -37,18 +39,18 @@ export const UsersModuleActionsTable: React.FC<Props> = ({ row }) => {
 
       <ActionDeleteRecord
         action={handleDelete}
-        disabled={!actionsUsersModule['remove_one_user']}
+        disabled={!actionsUsersModule['remove_one_user'] || isAdmin}
       />
 
       <ActionModifyRecord
         id={id}
-        disabled={!actionsUsersModule['update_one_user']}
+        disabled={!actionsUsersModule['update_one_user'] || isAdmin}
       />
 
       <ActionResetPassword
         id={id}
         mutation={mutationPatchPassword}
-        disabled={!actionsUsersModule['reset_password_user']}
+        disabled={!actionsUsersModule['reset_password_user'] || isAdmin}
         email={email}
       />
 
@@ -60,7 +62,7 @@ export const UsersModuleActionsTable: React.FC<Props> = ({ row }) => {
       <ActionToogleStatusUser
         id={id}
         status={is_active}
-        disabled={!actionsUsersModule['toggle_status_user']}
+        disabled={!actionsUsersModule['toggle_status_user'] || isAdmin}
       />
     </DropDownMenuActions>
   );
