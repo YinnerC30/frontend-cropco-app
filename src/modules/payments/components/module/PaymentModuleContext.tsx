@@ -35,8 +35,9 @@ export interface paramQueryPayment {
     type_filter_value_pay: string | null | undefined;
     value_pay: string | null | undefined | unknown;
   };
-  // TODO: Pendiente Method of Payment
-  //
+  filter_by_method_of_payment: {
+    method_of_payment: string | null | undefined;
+  };
 }
 
 export interface PaymentsModuleContextValues {
@@ -46,7 +47,7 @@ export interface PaymentsModuleContextValues {
   mutationDeletePayments: UseMutationReturn<void, BulkRecords>;
   mutationDeletePayment: UseMutationReturn<void, string>;
   actionsPaymentsModule: Record<string, boolean>;
-
+  hasParamsQuery: boolean;
   queryGetDocument: UseQueryResult<Blob, AxiosError>;
   paymentIdDocument: string;
   setPaymentIdDocument: React.Dispatch<React.SetStateAction<string>>;
@@ -87,6 +88,14 @@ const paramsPayments: ItemQueryAdvanced[] = [
     propertyName: 'value_pay',
     defaultValue: undefined,
   },
+  {
+    propertyName: 'filter_by_method_of_payment',
+    defaultValue: false,
+  },
+  {
+    propertyName: 'method_of_payment',
+    defaultValue: undefined,
+  },
 ];
 
 export const PaymentsModuleProvider = ({
@@ -94,7 +103,7 @@ export const PaymentsModuleProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { paramsValues, hasValues } = useAdvancedQueryDataPlus(paramsPayments);
+  const { paramsValues, hasValues, } = useAdvancedQueryDataPlus(paramsPayments);
 
   const {
     query: queryPayments,
@@ -166,12 +175,16 @@ export const PaymentsModuleProvider = ({
         type_filter_value_pay: paramsValues.type_filter_value_pay,
         value_pay: !paramsValues.value_pay ? 0 : paramsValues.value_pay,
       },
+      filter_by_method_of_payment: {
+        method_of_payment: paramsValues.method_of_payment,
+      },
     },
     paymentIdDocument,
     setExecuteQuery,
     setPaymentIdDocument,
     queryGetDocument,
     queryEmployees,
+    hasParamsQuery: hasValues,
   };
 
   return (
