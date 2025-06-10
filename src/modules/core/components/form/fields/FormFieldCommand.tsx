@@ -40,6 +40,7 @@ interface FormFieldCommandProps extends FormFieldProps {
   actionFinal?: () => void;
   nameToControl?: string;
   reloadData?: () => Promise<void>;
+  contentTooltip?: string;
 }
 
 export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
@@ -57,6 +58,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
   className,
   actionFinal,
   reloadData = async () => {},
+  contentTooltip = 'Actualizar datos de la consulta',
 }) => {
   const [openPopover, setOpenPopover] = useState(false);
 
@@ -123,6 +125,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                     await reloadData();
                   }}
                   disabled={false}
+                  content={contentTooltip}
                 />
               </div>
               <PopoverContent className="w-[200px] p-0">

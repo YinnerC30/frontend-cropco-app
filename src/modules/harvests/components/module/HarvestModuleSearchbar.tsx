@@ -338,6 +338,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                   reloadData={async () => {
                     await queryCrops.refetch();
                   }}
+                  contentTooltip="Actualizar datos de cultivo"
                 />
 
                 <div className="flex gap-2">
@@ -445,6 +446,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                                     await queryEmployees.refetch();
                                   }}
                                   disabled={false}
+                                  content="Actualizar datos de empleados involucrados"
                                 />
                               </div>
                               <PopoverContent className="w-[200px] p-0">
