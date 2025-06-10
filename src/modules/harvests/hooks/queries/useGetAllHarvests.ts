@@ -2,7 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth';
+import { CACHE_CONFIG_TIME } from '@/config';
 import { usePaginationDataTable } from '@/modules/core/hooks';
+import { QueryAmountWithMassUnitOfMeasureProps } from '@/modules/core/interfaces/queries/QueryAmountWithMassUnitOfMeasure';
 import { QueryDateProps } from '@/modules/core/interfaces/queries/QueryDateProps';
 import { QueryPaginationProps } from '@/modules/core/interfaces/queries/QueryPaginationProps';
 import { QueryValuePayProps } from '@/modules/core/interfaces/queries/QueryValuePayProps';
@@ -12,12 +14,10 @@ import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Harvest } from '../../interfaces';
-import { QueryAmountProps } from '@/modules/core/interfaces/queries/QueryAmountProps';
-import { CACHE_CONFIG_TIME } from '@/config';
 export interface GetHarvestsProps
   extends QueryPaginationProps,
     QueryDateProps,
-    QueryAmountProps,
+    QueryAmountWithMassUnitOfMeasureProps,
     QueryValuePayProps {
   crop?: string;
   employees?: string[];
@@ -42,6 +42,7 @@ export const getHarvests = async (
   if (props.filter_by_amount) {
     params.append('filter_by_amount', 'true');
     params.append('type_filter_amount', props.type_filter_amount || '');
+    params.append('type_unit_of_measure', props.type_unit_of_measure || '');
     params.append('amount', props.amount?.toString() || '0');
   }
 

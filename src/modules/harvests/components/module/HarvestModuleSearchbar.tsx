@@ -56,6 +56,11 @@ import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleCon
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarvest';
 import { formSchemaSearchBarHarvest } from '../../utils/formSchemaSearchBarHarvest';
+import {
+  MassUnitOfMeasure,
+  UnitsType,
+  UnitOfMeasure,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 const valuesResetForm = {
   crop: {
@@ -68,6 +73,7 @@ const valuesResetForm = {
   },
   filter_by_amount: {
     type_filter_amount: TypeFilterNumber.MIN,
+    type_unit_of_measure: MassUnitOfMeasure.KILOGRAMOS,
     amount: 0,
   },
   filter_by_value_pay: {
@@ -89,13 +95,6 @@ export const HarvestModuleSearchbar: React.FC = () => {
   } = useHarvestModuleContext();
   const readOnly = !actionsHarvestsModule['find_all_harvests'];
   const navigate = useNavigate();
-
-  // const { query: queryCrops } = useGetAllCropsWithHarvest({
-  //   queryValue: '',
-  //   all_records: true,
-  // });
-
-  // const queryEmployees = useGetAllEmployeesWithHarvests();
 
   const form: UseFormReturn<
     z.infer<typeof formSchemaSearchBarHarvest>,
@@ -167,7 +166,8 @@ export const HarvestModuleSearchbar: React.FC = () => {
       });
     }
 
-    const { type_filter_amount, amount } = filter_by_amount;
+    const { type_filter_amount, amount, type_unit_of_measure } =
+      filter_by_amount;
 
     if (type_filter_amount && amount) {
       const typeFilter = formatTypeFilterNumber(
@@ -175,7 +175,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
       );
       filters.push({
         key: 'amount',
-        label: `Cantidad: ${typeFilter} ${filter_by_amount.amount}`,
+        label: `Cantidad: ${typeFilter} ${filter_by_amount.amount} ${type_unit_of_measure}`,
       });
     }
 
@@ -258,12 +258,17 @@ export const HarvestModuleSearchbar: React.FC = () => {
 
     if (
       values.filter_by_amount.type_filter_amount &&
-      values.filter_by_amount.amount
+      values.filter_by_amount.amount &&
+      values.filter_by_amount.type_unit_of_measure
     ) {
       params.append('filter_by_amount', 'true');
       params.append(
         'type_filter_amount',
         `${values.filter_by_amount.type_filter_amount}`
+      );
+      params.append(
+        'type_unit_of_measure',
+        `${values.filter_by_amount.type_unit_of_measure}`
       );
       params.append('amount', `${values.filter_by_amount.amount}`);
     }
@@ -564,6 +569,25 @@ export const HarvestModuleSearchbar: React.FC = () => {
                       control={form.control}
                       name="filter_by_amount.type_filter_amount"
                     />
+
+                    <FormFieldSelect
+                      items={UnitsType[UnitOfMeasure.GRAMOS]}
+                      control={form.control}
+                      description={
+                        formFieldsSearchBarHarvest.type_unit_of_measure
+                          .description
+                      }
+                      label={
+                        formFieldsSearchBarHarvest.type_unit_of_measure.label
+                      }
+                      name={'filter_by_amount.type_unit_of_measure'}
+                      placeholder={
+                        formFieldsSearchBarHarvest.type_unit_of_measure
+                          .placeholder
+                      }
+                      disabled={false}
+                    />
+
                     <FormFieldInput
                       disabled={false}
                       {...formFieldsSearchBarHarvest.amount}

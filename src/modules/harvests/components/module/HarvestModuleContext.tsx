@@ -38,6 +38,7 @@ export interface paramQueryHarvest {
   };
   filter_by_amount: {
     type_filter_amount: string | undefined;
+    type_unit_of_measure: MassUnitOfMeasure | undefined;
     amount: number;
   };
   filter_by_value_pay: {
@@ -90,6 +91,10 @@ const paramsHarvest: ItemQueryAdvanced[] = [
   {
     propertyName: 'filter_by_amount',
     defaultValue: false,
+  },
+  {
+    propertyName: 'type_unit_of_measure',
+    defaultValue: MassUnitOfMeasure.KILOGRAMOS,
   },
   {
     propertyName: 'type_filter_amount',
@@ -210,6 +215,7 @@ export const HarvestsModuleProvider: React.FC<{
       filter_by_amount: {
         type_filter_amount: paramsValues.type_filter_amount,
         amount: paramsValues.amount,
+        type_unit_of_measure: paramsValues.type_unit_of_measure,
       },
       filter_by_value_pay: {
         type_filter_value_pay: paramsValues.type_filter_value_pay,
