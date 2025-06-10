@@ -1,8 +1,8 @@
 import {
+  schemaForAmountWithMassUnitOfMeasure,
   schemaForDate,
-  schemaForValuePay
+  schemaForValuePay,
 } from '@/modules/core/helpers/schemas-validation/SchemasSearchBar';
-import { TypeFilterNumber } from '@/modules/core/interfaces/general/TypeFilterNumber';
 import { z } from 'zod';
 
 export const formSchemaSearchBarSale = z.object({
@@ -10,23 +10,25 @@ export const formSchemaSearchBarSale = z.object({
 
   filter_by_value_pay: schemaForValuePay,
 
-  filter_by_amount: z.object({
-    amount: z.coerce.number().optional(),
-    type_filter_amount: z
-      .nativeEnum(TypeFilterNumber, {
-        errorMap: (issue, _ctx) => {
-          switch (issue.code) {
-            case 'invalid_type':
-              return { message: 'Debe seleccionar una opción.' };
-            case 'invalid_enum_value':
-              return { message: 'Debe seleccionar MENOR o MAYOR.' };
-            default:
-              return { message: 'Error en la selección de tipo.' };
-          }
-        },
-      })
-      .optional(),
-  }),
+  // filter_by_amount: z.object({
+  //   amount: z.coerce.number().optional(),
+  //   type_filter_amount: z
+  //     .nativeEnum(TypeFilterNumber, {
+  //       errorMap: (issue, _ctx) => {
+  //         switch (issue.code) {
+  //           case 'invalid_type':
+  //             return { message: 'Debe seleccionar una opción.' };
+  //           case 'invalid_enum_value':
+  //             return { message: 'Debe seleccionar MENOR o MAYOR.' };
+  //           default:
+  //             return { message: 'Error en la selección de tipo.' };
+  //         }
+  //       },
+  //     })
+  //     .optional(),
+  // }),
+
+  filter_by_amount: schemaForAmountWithMassUnitOfMeasure,
 
   clients: z
     .array(

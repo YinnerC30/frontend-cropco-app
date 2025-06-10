@@ -1,5 +1,6 @@
 import { DataTableTemplate } from '@/modules/core/components';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
+import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
 
 export const HarvestModuleTable: React.FC = () => {
   const {
@@ -8,6 +9,8 @@ export const HarvestModuleTable: React.FC = () => {
     dataTable,
     mutationDeleteHarvests,
     mutationDeleteHarvest,
+    unitTypeToShowAmount,
+    setUnitTypeToShowAmount,
   } = useHarvestModuleContext();
 
   return (
@@ -27,6 +30,19 @@ export const HarvestModuleTable: React.FC = () => {
         mutationDeleteHarvests.isPending ||
         mutationDeleteHarvest.isPending
       }
-    />
+    >
+      <div className="flex items-center justify-end gap-2 pb-2">
+        <p className="text-sm font-medium text-muted-foreground">
+          Mostrar cantidad cosechada como:
+        </p>
+        <div className="font-medium">
+          {' '}
+          <SelectedMassUnitOfMeasure
+            onChange={setUnitTypeToShowAmount}
+            valueSelect={unitTypeToShowAmount}
+          />
+        </div>
+      </div>
+    </DataTableTemplate>
   );
 };

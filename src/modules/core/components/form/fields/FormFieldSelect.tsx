@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 
 interface SelectItemValues {
@@ -25,6 +25,8 @@ interface SelectItemValues {
 
 interface FormFieldSelectProps extends FormFieldProps {
   items: SelectItemValues[];
+  currentValue?: string;
+  manualValidationValue?: boolean;
 }
 
 export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
@@ -37,7 +39,20 @@ export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
     items,
     disabled: readOnly = false,
     className = '',
+    currentValue = undefined,
+    manualValidationValue = false,
   }) => {
+    const [showSelectValue, setShowSelectValue] = useState(true);
+
+    useEffect(() => {
+      if (!currentValue && manualValidationValue) {
+        setShowSelectValue(false);
+      }
+      return () => {
+        setShowSelectValue(true);
+      };
+    }, [currentValue]);
+
     return (
       <FormField
         control={control}
@@ -51,11 +66,15 @@ export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
                   field.onChange(value);
                 }}
                 defaultValue={field.value}
-                value={field.value}
+                value={!!field.value ? field.value : ''}
                 disabled={readOnly}
               >
                 <SelectTrigger ref={field.ref}>
-                  <SelectValue placeholder={placeholder} />
+                  {showSelectValue ? (
+                    <SelectValue placeholder={placeholder} />
+                  ) : (
+                    <span>Selecciona</span>
+                  )}
                 </SelectTrigger>
 
                 <SelectContent>

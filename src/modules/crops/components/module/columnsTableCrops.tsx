@@ -1,9 +1,10 @@
-import { ButtonHeaderTable } from "@/modules/core/components";
+import { ButtonHeaderTable } from '@/modules/core/components';
 
-import { FormatDate, FormatNumber } from "@/modules/core/helpers";
-import { formFieldsCrop } from "../../utils";
-import { ColumnDef, HeaderContext, Row } from "@tanstack/react-table";
-import { Crop } from "../../interfaces/Crop";
+import { FormatDate, FormatNumber } from '@/modules/core/helpers';
+import { ColumnDef, HeaderContext, Row } from '@tanstack/react-table';
+import { Crop } from '../../interfaces/Crop';
+import { formFieldsCrop } from '../../utils';
+import { CellCropAmount } from './CellCropAmount';
 
 export const columnsTableCrops: ColumnDef<Crop>[] = [
   {
@@ -28,7 +29,7 @@ export const columnsTableCrops: ColumnDef<Crop>[] = [
   {
     accessorKey: formFieldsCrop.units.name,
     cell: ({ row }: { row: Row<Crop> }) => {
-      return FormatNumber(row.getValue("units"));
+      return FormatNumber(row.getValue('units'));
     },
     header: ({ column }: HeaderContext<Crop, unknown>) => {
       return (
@@ -84,12 +85,15 @@ export const columnsTableCrops: ColumnDef<Crop>[] = [
     },
   },
   {
-    accessorKey: "harvests_stock.total",
-    cell: ({ row }: { row: Row<Crop> }) => {
-      return FormatNumber(row.original?.harvests_stock?.total ?? 0) + " Kg";
-    },
+    accessorKey: formFieldsCrop.amount.name,
+    cell: ({ row }) => <CellCropAmount row={row} />,
     header: ({ column }: HeaderContext<Crop, unknown>) => {
-      return <ButtonHeaderTable column={column} label={"Inventario actual:"} />;
+      return (
+        <ButtonHeaderTable
+          column={column}
+          label={formFieldsCrop.amount.label}
+        />
+      );
     },
   },
 ];

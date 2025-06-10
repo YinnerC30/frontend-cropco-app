@@ -15,6 +15,7 @@ interface FormFieldInputProps extends FormFieldProps {
   min?: number;
   autoFocus?: boolean;
   hiddenInput?: boolean;
+  allowDecimals?: boolean;
 }
 
 export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
@@ -32,6 +33,7 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
     min = 0,
     autoFocus = false,
     hiddenInput = false,
+    allowDecimals = false,
   }) => {
     return (
       <FormField
@@ -43,18 +45,23 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
             <FormControl>
               <div className="flex gap-4">
                 <Input
-                  className={`w-60 ${hiddenInput && 'hidden'}`}
+                  className={`w-60 ${hiddenInput && 'hidden'} overflow-hidden text-ellipsis`}
                   placeholder={placeholder}
                   {...field}
                   readOnly={readOnly}
                   type={typeInput}
-                  step={step}
+                  step={allowDecimals ? 'any' : step}
                   min={min}
                   autoFocus={autoFocus}
                   onChange={(e) => {
-                    typeInput === 'number'
-                      ? field.onChange(parseInt(e.target.value, 10))
-                      : field.onChange(e.target.value);
+                    if (typeInput === 'number') {
+                      const value = allowDecimals 
+                        ? parseFloat(e.target.value)
+                        : parseInt(e.target.value, 10);
+                      field.onChange(value);
+                    } else {
+                      field.onChange(e.target.value);
+                    }
                   }}
                 />
                 {children}

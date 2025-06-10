@@ -31,7 +31,9 @@ export const SuppliesActions: React.FC = () => {
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={querySupplies.refetch}
+        onClick={async () => {
+          await querySupplies.refetch();
+        }}
         disabled={!actionsSuppliesModule['find_all_supplies']}
         className=""
       />

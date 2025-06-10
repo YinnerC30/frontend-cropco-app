@@ -1,4 +1,12 @@
-import { Badge, Form } from '@/components';
+import {
+  Badge,
+  Form,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components';
 import {
   FormFieldCalendar,
   FormFieldCommand,
@@ -6,16 +14,27 @@ import {
   FormFieldInput,
   FormFieldTextArea,
 } from '@/modules/core/components';
-import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
+import { FormatMoneyValue } from '@/modules/core/helpers';
 import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { formFieldsHarvest } from '@/modules/harvests/utils';
 
 import { useGetAllCrops } from '@/modules/crops/hooks';
+import {
+  MassUnitOfMeasure,
+  UnitsType,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { FormHarvestDataTable } from './FormHarvestDataTable';
 
 export const FormHarvestFields: React.FC = () => {
-  const { formHarvest, onSubmit, readOnly, amount, value_pay } =
-    useFormHarvestContext();
+  const {
+    formHarvest,
+    onSubmit,
+    readOnly,
+    amount,
+    value_pay,
+    unitTypeToShowAmount,
+    setUnitTypeToShowAmount,
+  } = useFormHarvestContext();
 
   const disabledCropField =
     formHarvest.formState.defaultValues?.crop?.id !== '';
@@ -40,7 +59,7 @@ export const FormHarvestFields: React.FC = () => {
             name={'date'}
             placeholder={formFieldsHarvest.date.placeholder}
             disabled={readOnly}
-            className='w-[240px]'
+            className="w-[240px]"
           />
           <FormFieldCommand
             data={
@@ -59,9 +78,12 @@ export const FormHarvestFields: React.FC = () => {
             name={'crop'}
             placeholder={formFieldsHarvest.crop.placeholder}
             disabled={readOnly || disabledCropField}
-            isLoading={queryCrops.isLoading}
+            isLoading={queryCrops.isLoading || queryCrops.isRefetching}
             nameEntity="cultivo"
             className="w-52"
+            reloadData={async () => {
+              await queryCrops.refetch();
+            }}
           />
           <FormFieldTextArea
             className="w-72"
@@ -95,13 +117,37 @@ export const FormHarvestFields: React.FC = () => {
             disabled={true}
             type="number"
             hiddenInput
+            allowDecimals
           >
-            <Badge
-              className="block h-8 text-base text-center w-28"
-              variant={'cyan'}
-            >
-              {FormatNumber(amount) + ' Kg'}
-            </Badge>
+            <div className="flex items-center w-auto gap-2 py-4">
+              <Badge
+                className="block h-8 text-base text-center w-28"
+                variant={'cyan'}
+              >
+                {Number.isInteger(amount) ? amount : amount.toFixed(2)}
+              </Badge>
+
+              <Select
+                onValueChange={(value: any) => {
+                  setUnitTypeToShowAmount(value);
+                }}
+                defaultValue={MassUnitOfMeasure.KILOGRAMOS}
+                value={unitTypeToShowAmount}
+                disabled={readOnly}
+              >
+                <SelectTrigger /* ref={field.ref} */>
+                  <SelectValue placeholder={'Selecciona una medida'} />
+                </SelectTrigger>
+
+                <SelectContent>
+                  {[...UnitsType['GRAMOS']].map((item: any) => (
+                    <SelectItem key={item.key} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </FormFieldInput>
 
           {/* TODO: Refactor */}
@@ -115,6 +161,7 @@ export const FormHarvestFields: React.FC = () => {
             disabled={true}
             type="number"
             hiddenInput
+            allowDecimals
           >
             <Badge
               className="block h-8 text-base text-center w-28"

@@ -23,7 +23,7 @@ import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Filter, X } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
 import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
@@ -35,10 +35,14 @@ import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchB
 import { usePaymentModuleContext } from '../../hooks/context/usePaymentModuleContext';
 import { MODULE_PAYMENTS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarPayment } from '../../utils/formFieldsSearchBarPayment';
-import { formSchemaSearchBarPayment } from '../../utils/formSchemaSearchBarPayment';
+import {
+  formSchemaSearchBarPayment,
+  MethodOfPaymentSearchBar,
+} from '../../utils/formSchemaSearchBarPayment';
 
 export const PaymentModuleSearchbar: React.FC = () => {
-  const { paramsQuery, actionsPaymentsModule, queryEmployees } = usePaymentModuleContext();
+  const { paramsQuery, actionsPaymentsModule, queryEmployees, hasParamsQuery } =
+    usePaymentModuleContext();
   const readOnly = !actionsPaymentsModule['find_all_payments'];
   const navigate = useNavigate();
 
@@ -52,15 +56,16 @@ export const PaymentModuleSearchbar: React.FC = () => {
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
-  
-
-  // TODO: Agregar filtro de metodo de pago
-
   const handleAddFilter = async (name = '') => {
     const isValid = await form.trigger(name);
     if (!isValid) return false;
 
-    const { filter_by_value_pay, employee, filter_by_date } = form.watch();
+    const {
+      filter_by_value_pay,
+      employee,
+      filter_by_date,
+      filter_by_method_of_payment,
+    } = form.watch();
 
     const filters: FilterSearchBar[] = [];
 
@@ -99,6 +104,17 @@ export const PaymentModuleSearchbar: React.FC = () => {
       });
     }
 
+    if (
+      filter_by_method_of_payment.method_of_payment !==
+        MethodOfPaymentSearchBar.NONE &&
+      filter_by_method_of_payment.method_of_payment !== undefined
+    ) {
+      filters.push({
+        key: 'method_of_payment',
+        label: `Metodo de pago: ${filter_by_method_of_payment.method_of_payment}`,
+      });
+    }
+
     setAppliedFilters(filters);
     setOpenDropDownMenu(false);
     await handleSearch(form.watch());
@@ -126,7 +142,18 @@ export const PaymentModuleSearchbar: React.FC = () => {
         form.setValue('filter_by_value_pay.type_filter_value_pay', undefined, {
           shouldDirty: false,
         });
-        form.setValue('filter_by_value_pay.value_pay', 0, { shouldDirty: false });
+        form.setValue('filter_by_value_pay.value_pay', 0, {
+          shouldDirty: false,
+        });
+        break;
+      case 'method_of_payment':
+        form.setValue(
+          'filter_by_method_of_payment.method_of_payment',
+          MethodOfPaymentSearchBar.NONE,
+          {
+            shouldDirty: false,
+          }
+        );
         break;
     }
     handleSearch(form.watch());
@@ -160,6 +187,18 @@ export const PaymentModuleSearchbar: React.FC = () => {
       params.append('value_pay', `${values.filter_by_value_pay.value_pay}`);
     }
 
+    if (
+      values.filter_by_method_of_payment.method_of_payment !==
+        MethodOfPaymentSearchBar.NONE &&
+      values.filter_by_method_of_payment.method_of_payment !== undefined
+    ) {
+      params.append('filter_by_method_of_payment', 'true');
+      params.append(
+        'method_of_payment',
+        `${values.filter_by_method_of_payment.method_of_payment}`
+      );
+    }
+
     navigate(`?${params.toString()}`);
   };
 
@@ -189,6 +228,17 @@ export const PaymentModuleSearchbar: React.FC = () => {
     toast.success('Se han limpiado los filtros');
   };
 
+  useEffect(() => {
+    const addFilters = async () => {
+      for (const key of Object.keys(paramsQuery)) {
+        await handleAddFilter(key);
+      }
+    };
+    if (hasParamsQuery) {
+      addFilters();
+    }
+  }, []);
+
   return (
     <div className="flex flex-col items-start justify-start my-4 sm:w-full">
       <Form {...form}>
@@ -212,6 +262,13 @@ export const PaymentModuleSearchbar: React.FC = () => {
                   label={''}
                   disabled={readOnly}
                   actionFinal={() => handleAddFilter('employee.id')}
+                  isLoading={
+                    queryEmployees.isLoading || queryEmployees.isFetching
+                  }
+                  reloadData={async () => {
+                    await queryEmployees.refetch();
+                  }}
+                  contentTooltip="Actualizar datos de empleados involucrados"
                 />
 
                 <ToolTipTemplate content="Borrar consulta">
@@ -220,7 +277,7 @@ export const PaymentModuleSearchbar: React.FC = () => {
                     onClick={handleResetForm}
                     size={'icon'}
                     disabled={readOnly}
-                    className='bg-destructive hover:bg-destructive/80'
+                    className="bg-destructive hover:bg-destructive/80"
                   >
                     <X className="w-4 h-4" />
                   </Button>
@@ -278,7 +335,9 @@ export const PaymentModuleSearchbar: React.FC = () => {
               <FilterDropdownItem
                 label={'Valor a pagar'}
                 actionOnSave={() => handleAddFilter('filter_by_value_pay')}
-                actionOnClose={() => handleClearErrorsForm('filter_by_value_pay')}
+                actionOnClose={() =>
+                  handleClearErrorsForm('filter_by_value_pay')
+                }
                 content={
                   <>
                     <FormFieldSelect
@@ -294,6 +353,47 @@ export const PaymentModuleSearchbar: React.FC = () => {
                       control={form.control}
                       type="number"
                       name="filter_by_value_pay.value_pay"
+                    />
+                  </>
+                }
+              />
+              <FilterDropdownItem
+                label={'Metodo de pago'}
+                actionOnSave={() =>
+                  handleAddFilter('filter_by_method_of_payment')
+                }
+                actionOnClose={() =>
+                  handleClearErrorsForm('filter_by_method_of_payment')
+                }
+                content={
+                  <>
+                    <FormFieldSelect
+                      disabled={false}
+                      items={[
+                        {
+                          key: MethodOfPaymentSearchBar.EFECTIVO,
+                          value: MethodOfPaymentSearchBar.EFECTIVO,
+                          label: 'Efectivo',
+                        },
+                        {
+                          key: MethodOfPaymentSearchBar.INTERCAMBIO,
+                          value: MethodOfPaymentSearchBar.INTERCAMBIO,
+                          label: 'Intercambio',
+                        },
+                        {
+                          key: MethodOfPaymentSearchBar.TRANSFERENCIA,
+                          value: MethodOfPaymentSearchBar.TRANSFERENCIA,
+                          label: 'Transferencia',
+                        },
+                        {
+                          key: MethodOfPaymentSearchBar.NONE,
+                          value: MethodOfPaymentSearchBar.NONE,
+                          label: 'Ninguno',
+                        },
+                      ]}
+                      {...formFieldsSearchBarPayment.method_of_payment}
+                      control={form.control}
+                      name="filter_by_method_of_payment.method_of_payment"
                     />
                   </>
                 }

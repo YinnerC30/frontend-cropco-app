@@ -28,6 +28,7 @@ import { useGetAllClientsWithSales } from '@/modules/clients/hooks/queries/useGe
 import { useGetAllCropsWithSales } from '@/modules/crops/hooks/queries/useGetAllCropsWithSales';
 import { Client } from '@/modules/clients/interfaces/Client';
 import { Crop } from '@/modules/crops/interfaces/Crop';
+import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 export interface paramQuerySale {
   clients: { id: string }[];
@@ -42,6 +43,7 @@ export interface paramQuerySale {
   };
   filter_by_amount: {
     type_filter_amount: string | undefined;
+    type_unit_of_measure: MassUnitOfMeasure | undefined;
     amount: number;
   };
 }
@@ -60,6 +62,10 @@ export interface SalesModuleContextValues {
   setExecuteQuery: React.Dispatch<React.SetStateAction<boolean>>;
   queryClients: UseQueryGetAllRecordsReturn<Client>;
   queryCrops: UseQueryGetAllRecordsReturn<Crop>;
+  unitTypeToShowAmount: MassUnitOfMeasure;
+  setUnitTypeToShowAmount: React.Dispatch<
+    React.SetStateAction<MassUnitOfMeasure>
+  >;
 }
 
 const paramsSale: ItemQueryAdvanced[] = [
@@ -84,12 +90,20 @@ const paramsSale: ItemQueryAdvanced[] = [
     defaultValue: undefined,
   },
   {
-    propertyName: 'filter_by_value_pay',
+    propertyName: 'value_pay',
+    defaultValue: undefined,
+  },
+  {
+    propertyName: 'filter_by_amount',
     defaultValue: false,
   },
   {
     propertyName: 'type_filter_amount',
     defaultValue: undefined,
+  },
+  {
+    propertyName: 'type_unit_of_measure',
+    defaultValue: MassUnitOfMeasure.KILOGRAMOS,
   },
   {
     propertyName: 'amount',
@@ -129,6 +143,8 @@ export const SalesModuleProvider: React.FC<{
   const { getActionsModule } = useAuthContext();
 
   const actionsSalesModule = useMemo(() => getActionsModule('sales'), []);
+  const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
+    useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsSale,
@@ -186,6 +202,7 @@ export const SalesModuleProvider: React.FC<{
       },
       filter_by_amount: {
         type_filter_amount: paramsValues.type_filter_amount,
+        type_unit_of_measure: paramsValues.type_unit_of_measure,
         amount: paramsValues.amount,
       },
       clients: paramsValues.clients.map((cl: string) => ({ id: cl })),
@@ -203,6 +220,8 @@ export const SalesModuleProvider: React.FC<{
     queryGetDocument,
     queryClients,
     queryCrops,
+    unitTypeToShowAmount,
+    setUnitTypeToShowAmount,
   };
 
   return (

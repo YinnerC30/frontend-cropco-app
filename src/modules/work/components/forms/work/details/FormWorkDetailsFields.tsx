@@ -43,8 +43,11 @@ export const FormWorkDetailsFields: React.FC = () => {
           placeholder={formFieldsWorkDetail.employee.placeholder}
           disabled={false}
           nameEntity="empleado"
-          isLoading={queryEmployees.isLoading}
+          isLoading={queryEmployees.isLoading || queryEmployees.isFetching}
           className="w-52"
+          reloadData={async () => {
+            await queryEmployees.refetch();
+          }}
         />
 
         <FormFieldInput

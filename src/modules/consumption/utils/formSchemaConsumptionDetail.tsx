@@ -14,7 +14,7 @@ export const formSchemaConsumptionDetail = z.object({
         required_error: 'El insumo es un campo obligatorio',
       })
       .uuid({
-        message: 'El identificador del insumo debe ser un UUID válido.',
+        message: 'El insumo es un campo obligatorio',
       }),
     name: z.string().optional(),
     unit_of_measure: z.nativeEnum(UnitOfMeasure, {
@@ -36,9 +36,21 @@ export const formSchemaConsumptionDetail = z.object({
         required_error: 'El cultivo es un campo obligatorio',
       })
       .uuid({
-        message: 'El identificador del cult8vo debe ser un UUID válido.',
+        message: 'El cultivo es un campo obligatorio',
       }),
     name: z.string().optional(),
+  }),
+  unit_of_measure: z.nativeEnum(UnitOfMeasure, {
+    errorMap: (issue, _ctx) => {
+      switch (issue.code) {
+        case 'invalid_type':
+          return { message: 'Debe seleccionar una unidad de medida.' };
+        case 'invalid_enum_value':
+          return { message: 'Debe seleccionar una unidad de medida válida.' };
+        default:
+          return { message: 'Error en la selección de unidad de medida.' };
+      }
+    },
   }),
   amount: z.coerce
     .number({

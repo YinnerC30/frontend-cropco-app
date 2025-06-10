@@ -1,25 +1,41 @@
-import { Badge, Label, ScrollArea, ScrollBar } from "@/components";
+import {
+  Badge,
+  Label,
+  ScrollArea,
+  ScrollBar,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components';
 import {
   FormDataTableButtonsPagination,
   FormDataTableProvider,
-} from "@/modules/core/components/form/data-table";
-import { FormDataTable } from "@/modules/core/components/form/data-table/";
-import { FormDataTablePageCount } from "@/modules/core/components/form/data-table/FormDataTablePageCount";
-import { FormDataTableRowCount } from "@/modules/core/components/form/data-table/FormDataTableRowCount";
-import { FormDataTableSelectPageSize } from "@/modules/core/components/form/data-table/FormDataTableSelectPageSize";
-import { FormatNumber } from "@/modules/core/helpers";
-import { useDataTableGeneric } from "@/modules/core/hooks/data-table/useDataTableGeneric";
-import { HarvestProcessed } from "@/modules/harvests/interfaces";
-import { memo, useMemo } from "react";
-import columnsHarvestProcessed from "./ColumnsTableHarvestProcessed";
-import { FormHarvestProcessed } from "./FormHarvestProcessed";
-import { useHarvestProcessedContext } from "./HarvestProcessedContext";
+} from '@/modules/core/components/form/data-table';
+import { FormDataTable } from '@/modules/core/components/form/data-table/';
+import { FormDataTablePageCount } from '@/modules/core/components/form/data-table/FormDataTablePageCount';
+import { FormDataTableRowCount } from '@/modules/core/components/form/data-table/FormDataTableRowCount';
+import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data-table/FormDataTableSelectPageSize';
+import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
+import { HarvestProcessed } from '@/modules/harvests/interfaces';
+import {
+  MassUnitOfMeasure,
+  UnitsType,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { memo, useMemo } from 'react';
+import columnsHarvestProcessed from './ColumnsTableHarvestProcessed';
+import { FormHarvestProcessed } from './FormHarvestProcessed';
+import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
 const HarvestProcessedDataTable: React.FC = memo(() => {
   const {
     queryOneHarvest: { data, isSuccess },
     setHarvestProcessed,
     setOpenDialog,
+    unitTypeToShowProcessedAmount,
+    setUnitTypeToShowProcessedAmount,
+    amountProcessedConverted,
   } = useHarvestProcessedContext();
 
   const finalData: HarvestProcessed[] = useMemo(() => {
@@ -48,7 +64,7 @@ const HarvestProcessedDataTable: React.FC = memo(() => {
     <FormDataTableProvider
       table={table}
       disabledDoubleClick={false}
-      errorMessage={"Ha ocurrido un error en la tabla"}
+      errorMessage={'Ha ocurrido un error en la tabla'}
       lengthColumns={lengthColumns}
     >
       <div className="flex flex-col items-center justify-center gap-2 ">
@@ -75,13 +91,39 @@ const HarvestProcessedDataTable: React.FC = memo(() => {
         </ScrollArea>
         <div className="self-start">
           <Label>Total de cosecha procesada:</Label>
-          <Badge
-            className="block h-8 my-2 text-base text-center w-28"
-            variant={"cyan"}
-          >
-            {FormatNumber(isSuccess ? data?.total_amount_processed ?? 0 : 0) + ' Kg'}
-          </Badge>
-          <p className="text-[0.8rem] text-muted-foreground">{"Número de kilogramos listos para la venta"}</p>
+          <div className="flex items-center gap-1">
+            <Badge
+              className="block w-auto h-8 my-2 text-base text-center"
+              variant={'cyan'}
+            >
+              {amountProcessedConverted}
+            </Badge>
+            <div className='w-auto'>
+              <Select
+                onValueChange={(value: any) => {
+                  setUnitTypeToShowProcessedAmount(value);
+                }}
+                defaultValue={MassUnitOfMeasure.KILOGRAMOS}
+                value={unitTypeToShowProcessedAmount}
+                disabled={false}
+              >
+                <SelectTrigger /* ref={field.ref} */>
+                  <SelectValue placeholder={'Selecciona una medida'} />
+                </SelectTrigger>
+
+                <SelectContent>
+                  {[...UnitsType['GRAMOS']].map((item: any) => (
+                    <SelectItem key={item.key} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <p className="text-[0.8rem] text-muted-foreground">
+            {'Número de kilogramos listos para la venta'}
+          </p>
         </div>
         <FormDataTableButtonsPagination />
         <FormDataTablePageCount />

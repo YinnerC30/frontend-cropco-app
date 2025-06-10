@@ -1,6 +1,10 @@
 import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-type HarvestDetailFormFields = 'employee' | 'amount' | 'value_pay';
+type HarvestDetailFormFields =
+  | 'employee'
+  | 'unit_of_measure'
+  | 'amount'
+  | 'value_pay';
 
 export const formFieldsHarvestDetail: Record<
   HarvestDetailFormFields,
@@ -12,11 +16,17 @@ export const formFieldsHarvestDetail: Record<
     placeholder: 'Selecciona un empleado',
     description: 'Selecciona el nombre del empleado',
   },
+  unit_of_measure: {
+    name: 'unit_of_measure',
+    label: 'Unidad de medida:',
+    placeholder: 'Selecciona',
+    description: 'Unidad de medida que posee el insumo',
+  },
   amount: {
     name: 'amount',
-    label: 'Cantidad (Kg):',
+    label: 'Cantidad:',
     placeholder: '0',
-    description: 'Introduce la cantidad de Kg que ha cosechado',
+    description: 'Introduce la cantidad que ha cosechado',
   },
   value_pay: {
     name: 'value_pay',

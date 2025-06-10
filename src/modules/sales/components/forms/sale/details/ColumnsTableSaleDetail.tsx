@@ -4,7 +4,6 @@ import { Badge } from '@/components';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { SaleDetail } from '@/modules/sales/interfaces';
-import { FormatNumber } from '@/modules/core/helpers';
 
 export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
   {
@@ -22,10 +21,25 @@ export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
   {
     accessorKey: 'amount',
     cell: ({ row }) => {
-      return FormatNumber(row.getValue('amount')) + ' Kg';
+      const amount: number = row.getValue('amount');
+      return Number.isInteger(amount) ? amount : amount.toFixed(2);
     },
     header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Cantidad:'} />;
+    },
+  },
+  {
+    accessorKey: 'unit_of_measure',
+    header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
+      return <ButtonHeaderTable column={column} label={'Unidad de medida:'} />;
+    },
+    cell: ({ row }) => {
+      const unitOfMeasure: any = row.original.unit_of_measure;
+      return (
+        <Badge variant={unitOfMeasure === 'GRAMOS' ? 'lime' : 'cyan'}>
+          {unitOfMeasure}
+        </Badge>
+      );
     },
   },
   {
@@ -37,7 +51,7 @@ export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
       return <ButtonHeaderTable column={column} label={'Total:'} />;
     },
   },
-  
+
   {
     accessorKey: 'is_receivable',
     cell: ({ row }) => {

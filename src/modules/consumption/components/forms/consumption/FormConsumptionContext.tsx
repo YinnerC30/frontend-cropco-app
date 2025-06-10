@@ -3,11 +3,12 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
-  useState
+  useState,
 } from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
 import { useCreateForm } from '@/modules/core/hooks';
+import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 
 import { useFormChange } from '@/modules/core/components';
 import {
@@ -36,6 +37,7 @@ export const defaultValuesConsumptionDetail: ConsumptionDetails = {
   id: undefined,
   supply: { id: '', name: '', unit_of_measure: '' },
   crop: { id: '', name: '' },
+  unit_of_measure: undefined,
   amount: 0,
 };
 
@@ -78,6 +80,7 @@ export interface FormConsumptionContextValues {
   addSupplyStock: (supplyStock: SupplyStock) => void;
   removeSupplyStock: (supplyStock: SupplyStock) => void;
   validateAvailableStock: (record: SupplyStock) => boolean;
+  
 }
 
 interface ConsumptionAction {
@@ -173,6 +176,8 @@ export const FormConsumptionProvider: React.FC<
     []
   );
 
+  const { convert } = useUnitConverter();
+
   const detailsDefaultValues = defaultValues?.details ?? [];
   const [detailsConsumption, dispatch] = useReducer(
     consumptionDetailsReducer,
@@ -211,26 +216,60 @@ export const FormConsumptionProvider: React.FC<
     []
   );
 
-  const validateAvailableStock = (record: SupplyStock): boolean => {
+  const validateAvailableStock = (record: any): boolean => {
     const supply = suppliesStock.find((item) => item.id === record.id);
     if (!supply) {
       throw new Error('Suplemento no encontrado');
     }
-    const result = supply?.amount >= record.amount && record.amount >= 0;
+
+    let result: boolean;
+
+    let convertionValue: number = -1;
+
+    try {
+      convertionValue = convert(
+        supply.amount,
+        record.supply.unit_of_measure,
+        record.unit_of_measure
+      );
+    } catch (error) {
+      return false;
+    }
+
+    result = convertionValue >= record.amount && record.amount >= 0;
+
     if (!result) {
       toast.error(
-        `No hay suficiente inventario para el insumo ${record.name}.\nInventario disponible: ${supply.amount} ${supply.unit_of_measure}`
+        `No hay suficiente inventario para el insumo ${record.name}.\nInventario disponible: ${convertionValue} ${record.unit_of_measure}`
       );
     }
     return result;
   };
 
-  const addSupplyStock = (suppliesStock: SupplyStock): void => {
-    dispatchSupplyStock({ type: 'ADD', payload: suppliesStock });
+  const addSupplyStock = (suppliesStock: any): void => {
+    const result = convert(
+      suppliesStock.amount,
+      suppliesStock.unit_of_measure,
+      suppliesStock.supply.unit_of_measure
+    );
+
+    dispatchSupplyStock({
+      type: 'ADD',
+      payload: { ...suppliesStock, amount: result },
+    });
   };
 
-  const removeSupplyStock = (suppliesStock: SupplyStock): void => {
-    dispatchSupplyStock({ type: 'REMOVE', payload: suppliesStock });
+  const removeSupplyStock = (suppliesStock: any): void => {
+    const result = convert(
+      suppliesStock.amount,
+      suppliesStock.unit_of_measure,
+      suppliesStock.supply.unit_of_measure
+    );
+
+    dispatchSupplyStock({
+      type: 'REMOVE',
+      payload: { ...suppliesStock, amount: result },
+    });
   };
 
   const resetSupplyStock = (data: SupplyStock[]): void => {
@@ -287,6 +326,8 @@ export const FormConsumptionProvider: React.FC<
       id: consumptionDetail.supply.id,
       name: consumptionDetail.supply?.name!,
       amount: consumptionDetail.amount,
+      unit_of_measure: consumptionDetail.unit_of_measure,
+      supply: consumptionDetail.supply,
     } as any);
     // formConsumptionDetail.reset(defaultValuesConsumptionDetail);
     if (formConsumption.formState.isDirty) {
@@ -297,7 +338,7 @@ export const FormConsumptionProvider: React.FC<
   };
 
   const handleCloseDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+    // event.preventDefault();
     if (formConsumptionDetail.formState.isDirty) {
       showToast({
         skipRedirection: true,
@@ -315,6 +356,8 @@ export const FormConsumptionProvider: React.FC<
         id: data?.supply.id!,
         name: data?.supply.name,
         amount: data?.amount!,
+        unit_of_measure: data?.unit_of_measure,
+        supply: data?.supply,
       } as any);
       removeConsumptionDetail(record as ConsumptionDetails);
     }
@@ -365,6 +408,10 @@ export const FormConsumptionProvider: React.FC<
         validateAvailableStock,
         suppliesStock,
         querySuppliesStock,
+        // currentSupply,
+        // setCurrentSupply,
+        // currentUnitType,
+        // setCurrentUnitType,
       }}
     >
       {children}

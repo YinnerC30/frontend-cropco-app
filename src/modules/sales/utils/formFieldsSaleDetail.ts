@@ -4,6 +4,7 @@ type FormFieldsSaleDetail =
   | 'client'
   | 'crop'
   | 'value_pay'
+  | 'unit_of_measure'
   | 'amount'
   | 'is_receivable';
 
@@ -29,11 +30,17 @@ export const formFieldsSaleDetail: Record<
     placeholder: '0',
     description: 'Introduce la cantidad de dinero a recibir',
   },
+  unit_of_measure: {
+    name: 'unit_of_measure',
+    label: 'Unidad de medida:',
+    placeholder: 'Selecciona',
+    description: 'Unidad de medida que posee el cultivo',
+  },
   amount: {
     name: 'amount',
-    label: 'Cantidad (Kg):',
+    label: 'Cantidad:',
     placeholder: '0',
-    description: 'Introduce la cantidad de Kg a vender',
+    description: 'Introduce la cantidad a vender',
   },
   is_receivable: {
     name: 'is_receivable',

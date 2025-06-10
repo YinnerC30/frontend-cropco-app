@@ -8,6 +8,7 @@ import {
   PopoverTrigger,
 } from '@/components';
 import {
+  ButtonRefetchData,
   FormFieldCalendar,
   FormFieldInput,
   FormFieldSelect,
@@ -64,6 +65,11 @@ import {
 } from '@/components/ui/form';
 import { cn } from '@/lib/utils';
 import { CaretSortIcon } from '@radix-ui/react-icons';
+import {
+  MassUnitOfMeasure,
+  UnitOfMeasure,
+  UnitsType,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 const valuesResetForm = {
   filter_by_date: {
@@ -76,6 +82,7 @@ const valuesResetForm = {
   },
   filter_by_amount: {
     type_filter_amount: TypeFilterNumber.MIN,
+    type_unit_of_measure: MassUnitOfMeasure.KILOGRAMOS,
     amount: 0,
   },
   clients: [],
@@ -83,8 +90,13 @@ const valuesResetForm = {
 };
 
 export const SaleModuleSearchbar: React.FC = () => {
-  const { paramsQuery, actionsSalesModule, hasParamsQuery, queryClients, queryCrops } =
-    useSaleModuleContext();
+  const {
+    paramsQuery,
+    actionsSalesModule,
+    hasParamsQuery,
+    queryClients,
+    queryCrops,
+  } = useSaleModuleContext();
   const readOnly = !actionsSalesModule['find_all_sales'];
   const navigate = useNavigate();
 
@@ -161,14 +173,15 @@ export const SaleModuleSearchbar: React.FC = () => {
       });
     }
 
-    const { type_filter_amount, amount } = filter_by_amount;
-    if (type_filter_amount && amount) {
+    const { type_filter_amount, amount, type_unit_of_measure } =
+      filter_by_amount;
+    if (type_filter_amount && amount && type_unit_of_measure) {
       const typeFilter = formatTypeFilterNumber(
         type_filter_amount as TypeFilterNumber
       );
       filters.push({
         key: 'amount',
-        label: `Cantidad: ${typeFilter} ${filter_by_amount.amount}`,
+        label: `Cantidad: ${typeFilter} ${filter_by_amount.amount} ${type_unit_of_measure}`,
       });
     }
 
@@ -252,12 +265,17 @@ export const SaleModuleSearchbar: React.FC = () => {
     }
     if (
       values.filter_by_amount.type_filter_amount &&
-      values.filter_by_amount.amount
+      values.filter_by_amount.amount &&
+      values.filter_by_amount.type_unit_of_measure
     ) {
       params.append('filter_by_amount', 'true');
       params.append(
         'type_filter_amount',
         `${values.filter_by_amount.type_filter_amount}`
+      );
+      params.append(
+        'type_unit_of_measure',
+        `${values.filter_by_amount.type_unit_of_measure}`
       );
       params.append('amount', `${values.filter_by_amount.amount}`);
     }
@@ -434,37 +452,48 @@ export const SaleModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverClient}
                               modal={true}
                             >
-                              <PopoverTrigger asChild>
-                                <FormControl>
-                                  {queryClients.isLoading ? (
-                                    <div className="w-[200px]">
-                                      <Loading className="" />
-                                    </div>
-                                  ) : (
-                                    <Button
-                                      variant="outline"
-                                      role="combobox"
-                                      aria-expanded={openPopoverClient}
-                                      className={` ${cn(
-                                        'justify-between',
-                                        !field.value && 'text-muted-foreground'
-                                      )}`}
-                                      ref={field.ref}
-                                      onBlur={field.onBlur}
-                                      disabled={readOnly}
-                                    >
-                                      {field.value.length > 0 &&
-                                      !!queryClients.data
-                                        ? `${
-                                            currentEmployees!.length
-                                          } seleccionado(s)`
-                                        : 'Selecciona clientes'}
+                              <div className="flex gap-2">
+                                <PopoverTrigger asChild>
+                                  <FormControl>
+                                    {queryClients.isLoading ||
+                                    queryClients.isFetching ? (
+                                      <div className="w-[200px]">
+                                        <Loading className="" />
+                                      </div>
+                                    ) : (
+                                      <Button
+                                        variant="outline"
+                                        role="combobox"
+                                        aria-expanded={openPopoverClient}
+                                        className={` ${cn(
+                                          'justify-between',
+                                          !field.value &&
+                                            'text-muted-foreground'
+                                        )}`}
+                                        ref={field.ref}
+                                        onBlur={field.onBlur}
+                                        disabled={readOnly}
+                                      >
+                                        {field.value.length > 0 &&
+                                        !!queryClients.data
+                                          ? `${
+                                              currentEmployees!.length
+                                            } seleccionado(s)`
+                                          : 'Selecciona clientes'}
 
-                                      <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                                    </Button>
-                                  )}
-                                </FormControl>
-                              </PopoverTrigger>
+                                        <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                                      </Button>
+                                    )}
+                                  </FormControl>
+                                </PopoverTrigger>
+                                <ButtonRefetchData
+                                  onClick={async () => {
+                                    await queryClients.refetch();
+                                  }}
+                                  disabled={false}
+                                  content="Actualizar datos de clientes involucrados"
+                                />
+                              </div>
                               <PopoverContent className="w-[200px] p-0">
                                 <Command>
                                   <CommandInput
@@ -589,37 +618,48 @@ export const SaleModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverCrop}
                               modal={true}
                             >
-                              <PopoverTrigger asChild>
-                                <FormControl>
-                                  {queryCrops.isLoading ? (
-                                    <div className="w-[200px]">
-                                      <Loading className="" />
-                                    </div>
-                                  ) : (
-                                    <Button
-                                      variant="outline"
-                                      role="combobox"
-                                      aria-expanded={openPopoverCrop}
-                                      className={` ${cn(
-                                        'justify-between',
-                                        !field.value && 'text-muted-foreground'
-                                      )}`}
-                                      ref={field.ref}
-                                      onBlur={field.onBlur}
-                                      disabled={readOnly}
-                                    >
-                                      {field.value.length > 0 &&
-                                      !!queryCrops.data
-                                        ? `${
-                                            currentCrops!.length
-                                          } seleccionado(s)`
-                                        : 'Selecciona cultivos'}
+                              <div className="flex gap-2">
+                                <PopoverTrigger asChild>
+                                  <FormControl>
+                                    {queryCrops.isLoading ||
+                                    queryCrops.isFetching ? (
+                                      <div className="w-[200px]">
+                                        <Loading className="" />
+                                      </div>
+                                    ) : (
+                                      <Button
+                                        variant="outline"
+                                        role="combobox"
+                                        aria-expanded={openPopoverCrop}
+                                        className={` ${cn(
+                                          'justify-between',
+                                          !field.value &&
+                                            'text-muted-foreground'
+                                        )}`}
+                                        ref={field.ref}
+                                        onBlur={field.onBlur}
+                                        disabled={readOnly}
+                                      >
+                                        {field.value.length > 0 &&
+                                        !!queryCrops.data
+                                          ? `${
+                                              currentCrops!.length
+                                            } seleccionado(s)`
+                                          : 'Selecciona cultivos'}
 
-                                      <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                                    </Button>
-                                  )}
-                                </FormControl>
-                              </PopoverTrigger>
+                                        <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                                      </Button>
+                                    )}
+                                  </FormControl>
+                                </PopoverTrigger>
+                                <ButtonRefetchData
+                                  onClick={async () => {
+                                    await queryCrops.refetch();
+                                  }}
+                                  disabled={false}
+                                  content="Actualizar datos de cultivos involucrados"
+                                />
+                              </div>
                               <PopoverContent className="w-[200px] p-0">
                                 <Command>
                                   <CommandInput
@@ -755,6 +795,13 @@ export const SaleModuleSearchbar: React.FC = () => {
                       {...formFieldsSearchBarSale.type_filter_amount}
                       control={form.control}
                       name="filter_by_amount.type_filter_amount"
+                    />
+                    <FormFieldSelect
+                      disabled={false}
+                      items={UnitsType[UnitOfMeasure.GRAMOS]}
+                      {...formFieldsSearchBarSale.type_unit_of_measure}
+                      control={form.control}
+                      name="filter_by_amount.type_unit_of_measure"
                     />
                     <FormFieldInput
                       disabled={false}

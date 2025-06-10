@@ -1,6 +1,10 @@
 import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField';
 
-type FormFieldsConsumptionDetail = 'supply' | 'crop' | 'amount';
+type FormFieldsConsumptionDetail =
+  | 'supply'
+  | 'crop'
+  | 'amount'
+  | 'unit_of_measure';
 
 export const formFieldsConsumptionDetail: Record<
   FormFieldsConsumptionDetail,
@@ -17,6 +21,12 @@ export const formFieldsConsumptionDetail: Record<
     label: 'Cultivo:',
     placeholder: 'Seleccione un cultivo',
     description: 'Cultivo al cual se insumo el insumo',
+  },
+  unit_of_measure: {
+    name: 'unit_of_measure',
+    label: 'Unidad de medida:',
+    placeholder: 'Selecciona',
+    description: 'Unidad de medida que posee el insumo',
   },
   amount: {
     name: 'amount',

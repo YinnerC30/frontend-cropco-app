@@ -3,7 +3,7 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
-  useState
+  useState,
 } from 'react';
 
 import { useAuthContext } from '@/auth/hooks';
@@ -29,6 +29,11 @@ import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { ActionsTableSaleDetail } from './details/ActionsTableSaleDetail';
 import { columnsSaleDetail } from './details/ColumnsTableSaleDetail';
+import {
+  MassUnitOfMeasure,
+  UnitSymbols,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 
 const defaultValuesSale = {
   date: undefined,
@@ -47,6 +52,7 @@ const defaultValuesSaleDetail: SaleDetail = {
     id: '',
     name: '',
   },
+  unit_of_measure: MassUnitOfMeasure.KILOGRAMOS,
   value_pay: 0,
   amount: 0,
   is_receivable: false,
@@ -56,6 +62,7 @@ export interface CropStock {
   id: string;
   name: string;
   stock: number;
+  unit_of_measure: MassUnitOfMeasure;
 }
 
 export type FormSaleProps = FormProps<z.infer<typeof formSchemaSale>, Sale>;
@@ -89,6 +96,10 @@ export interface FormSaleContextValues {
   addCropStock: (cropStock: CropStock) => void;
   removeCropStock: (cropStock: CropStock) => void;
   validateAvailableStock: (record: CropStock) => boolean;
+  unitTypeToShowAmount: MassUnitOfMeasure;
+  setUnitTypeToShowAmount: React.Dispatch<
+    React.SetStateAction<MassUnitOfMeasure>
+  >;
 }
 
 type SaleAction =
@@ -236,13 +247,40 @@ export const FormSaleProvider: React.FC<
 
   const validateAvailableStock = (record: CropStock): boolean => {
     const crop = cropStock.find((item) => item.id === record.id);
+
     if (!crop) {
       throw new Error('Cultivo no encontrado');
     }
-    const result = crop?.stock >= record.stock && record.stock >= 0;
+
+    let result: boolean;
+
+    let saleAmountInGrams: number = -1;
+
+    try {
+      saleAmountInGrams = convert(
+        record.stock,
+        record.unit_of_measure as any,
+        'GRAMOS' as any
+      );
+    } catch (error) {
+      return false;
+    }
+
+    result = crop.stock >= saleAmountInGrams && record.stock >= 0;
+
+    const cropStockConverted = convert(
+      crop.stock,
+      'GRAMOS' as any,
+      record.unit_of_measure as any
+    );
+
     if (!result) {
       toast.error(
-        `No hay suficiente inventario para el cultivo ${record.name}.\nInventario disponible: ${crop.stock} Kg`
+        `No hay suficiente inventario para el cultivo ${
+          record.name
+        }.\nInventario disponible: ${cropStockConverted} ${
+          UnitSymbols[record.unit_of_measure]
+        }`
       );
     }
     formSaleDetail.setError(
@@ -253,16 +291,33 @@ export const FormSaleProvider: React.FC<
       },
       { shouldFocus: true }
     );
-    // formSaleDetail.setFocus('amount')
     return result;
   };
 
+  const { convert } = useUnitConverter();
+
   const addCropStock = (cropStock: CropStock): void => {
-    dispatchCropStock({ type: 'ADD', payload: cropStock });
+    const result = convert(
+      cropStock.stock,
+      cropStock.unit_of_measure as any,
+      'GRAMOS' as any
+    );
+    dispatchCropStock({
+      type: 'ADD',
+      payload: { ...cropStock, stock: result },
+    });
   };
 
   const removeCropStock = (cropStock: CropStock): void => {
-    dispatchCropStock({ type: 'REMOVE', payload: cropStock });
+    const result = convert(
+      cropStock.stock,
+      cropStock.unit_of_measure as any,
+      'GRAMOS' as any
+    );
+    dispatchCropStock({
+      type: 'REMOVE',
+      payload: { ...cropStock, stock: result },
+    });
   };
 
   const resetCropStock = (data: CropStock[]): void => {
@@ -282,10 +337,26 @@ export const FormSaleProvider: React.FC<
       Number(value_pay) + Number(detail.value_pay),
     0
   );
-  const amount = detailsSale.reduce(
-    (amount: number, detail: SaleDetail) =>
-      Number(amount) + Number(detail.amount),
-    0
+  // const amount = detailsSale.reduce(
+  //   (amount: number, detail: SaleDetail) =>
+  //     Number(amount) + Number(detail.amount),
+  //   0
+  // );
+
+  const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
+    useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
+
+  const amount = useMemo<number>(
+    () =>
+      detailsSale.reduce((amount: number, detail: SaleDetail) => {
+        const convertedAmount = convert(
+          Number(detail.amount),
+          detail.unit_of_measure! as any,
+          unitTypeToShowAmount as any
+        );
+        return Number(amount) + convertedAmount;
+      }, 0),
+    [detailsSale, unitTypeToShowAmount]
   );
 
   const columnsTable = useCreateColumnsTable({
@@ -330,6 +401,7 @@ export const FormSaleProvider: React.FC<
       id: saleDetail.crop.id,
       name: saleDetail.crop?.name!,
       stock: saleDetail.amount,
+      unit_of_measure: saleDetail.unit_of_measure!,
     });
     // formSaleDetail.reset(defaultValuesSaleDetail);
     if (formSale.formState.isDirty) {
@@ -357,6 +429,7 @@ export const FormSaleProvider: React.FC<
         id: data?.crop.id!,
         name: data?.crop.name,
         stock: data?.amount!,
+        unit_of_measure: data?.unit_of_measure!,
       });
       removeSaleDetail(record as SaleDetail);
     }
@@ -410,6 +483,8 @@ export const FormSaleProvider: React.FC<
         removeCropStock,
         validateAvailableStock,
         toggleStatusPayment,
+        unitTypeToShowAmount,
+        setUnitTypeToShowAmount,
       }}
     >
       {children}

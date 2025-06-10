@@ -37,7 +37,7 @@ const defaultValuesShopping: ShoppingSupplies = {
   value_pay: 0,
 };
 
-const defaultValuesShoppingDetail: ShoppingDetail = {
+export const defaultValuesShoppingDetail: ShoppingDetail = {
   id: undefined,
   supplier: {
     id: '',
@@ -48,6 +48,7 @@ const defaultValuesShoppingDetail: ShoppingDetail = {
     name: '',
     unit_of_measure: '',
   },
+  unit_of_measure: undefined,
   value_pay: 0,
   amount: 0,
 };
@@ -193,7 +194,7 @@ export const FormShoppingProvider: React.FC<
   const formShoppingDetail = useCreateForm({
     schema: formSchemaShoppingDetail,
     defaultValues: shoppingDetail,
-    validationMode: 'onSubmit',
+    validationMode: 'onChange',
   });
 
   const handleOpenDialog = () => {

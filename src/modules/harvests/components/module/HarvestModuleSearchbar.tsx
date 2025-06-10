@@ -22,6 +22,7 @@ import {
   ScrollArea,
 } from '@/components';
 import {
+  ButtonRefetchData,
   FormFieldCalendar,
   FormFieldCommand,
   FormFieldInput,
@@ -56,6 +57,11 @@ import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleCon
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarvest';
 import { formSchemaSearchBarHarvest } from '../../utils/formSchemaSearchBarHarvest';
+import {
+  MassUnitOfMeasure,
+  UnitsType,
+  UnitOfMeasure,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 const valuesResetForm = {
   crop: {
@@ -68,6 +74,7 @@ const valuesResetForm = {
   },
   filter_by_amount: {
     type_filter_amount: TypeFilterNumber.MIN,
+    type_unit_of_measure: MassUnitOfMeasure.KILOGRAMOS,
     amount: 0,
   },
   filter_by_value_pay: {
@@ -89,13 +96,6 @@ export const HarvestModuleSearchbar: React.FC = () => {
   } = useHarvestModuleContext();
   const readOnly = !actionsHarvestsModule['find_all_harvests'];
   const navigate = useNavigate();
-
-  // const { query: queryCrops } = useGetAllCropsWithHarvest({
-  //   queryValue: '',
-  //   all_records: true,
-  // });
-
-  // const queryEmployees = useGetAllEmployeesWithHarvests();
 
   const form: UseFormReturn<
     z.infer<typeof formSchemaSearchBarHarvest>,
@@ -167,7 +167,8 @@ export const HarvestModuleSearchbar: React.FC = () => {
       });
     }
 
-    const { type_filter_amount, amount } = filter_by_amount;
+    const { type_filter_amount, amount, type_unit_of_measure } =
+      filter_by_amount;
 
     if (type_filter_amount && amount) {
       const typeFilter = formatTypeFilterNumber(
@@ -175,7 +176,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
       );
       filters.push({
         key: 'amount',
-        label: `Cantidad: ${typeFilter} ${filter_by_amount.amount}`,
+        label: `Cantidad: ${typeFilter} ${filter_by_amount.amount} ${type_unit_of_measure}`,
       });
     }
 
@@ -258,12 +259,17 @@ export const HarvestModuleSearchbar: React.FC = () => {
 
     if (
       values.filter_by_amount.type_filter_amount &&
-      values.filter_by_amount.amount
+      values.filter_by_amount.amount &&
+      values.filter_by_amount.type_unit_of_measure
     ) {
       params.append('filter_by_amount', 'true');
       params.append(
         'type_filter_amount',
         `${values.filter_by_amount.type_filter_amount}`
+      );
+      params.append(
+        'type_unit_of_measure',
+        `${values.filter_by_amount.type_unit_of_measure}`
       );
       params.append('amount', `${values.filter_by_amount.amount}`);
     }
@@ -328,10 +334,14 @@ export const HarvestModuleSearchbar: React.FC = () => {
                   label={''}
                   disabled={readOnly}
                   actionFinal={() => handleAddFilter('crop.id')}
-                  isLoading={queryCrops.isLoading}
+                  isLoading={queryCrops.isLoading || queryCrops.isFetching}
+                  reloadData={async () => {
+                    await queryCrops.refetch();
+                  }}
+                  contentTooltip="Actualizar datos de cultivo"
                 />
 
-                <div className="flex gap-2">
+                <div className="flex gap-2 ml-4">
                   <ToolTipTemplate content="Borrar consulta">
                     <Button
                       variant="outline"
@@ -397,37 +407,48 @@ export const HarvestModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopover}
                               modal={true}
                             >
-                              <PopoverTrigger asChild>
-                                <FormControl>
-                                  {queryEmployees.isLoading ? (
-                                    <div className="w-[200px]">
-                                      <Loading className="" />
-                                    </div>
-                                  ) : (
-                                    <Button
-                                      variant="outline"
-                                      role="combobox"
-                                      aria-expanded={openPopover}
-                                      className={` ${cn(
-                                        'justify-between',
-                                        !field.value && 'text-muted-foreground'
-                                      )}`}
-                                      ref={field.ref}
-                                      onBlur={field.onBlur}
-                                      disabled={readOnly}
-                                    >
-                                      {field.value.length > 0 &&
-                                      !!queryEmployees.data
-                                        ? `${
-                                            currentEmployees!.length
-                                          } seleccionado(s)`
-                                        : 'Selecciona empleados'}
+                              <div className="flex gap-2">
+                                <PopoverTrigger asChild>
+                                  <FormControl>
+                                    {queryEmployees.isLoading ||
+                                    queryEmployees.isFetching ? (
+                                      <div className="w-[200px]">
+                                        <Loading className="" />
+                                      </div>
+                                    ) : (
+                                      <Button
+                                        variant="outline"
+                                        role="combobox"
+                                        aria-expanded={openPopover}
+                                        className={` ${cn(
+                                          'justify-between',
+                                          !field.value &&
+                                            'text-muted-foreground'
+                                        )}`}
+                                        ref={field.ref}
+                                        onBlur={field.onBlur}
+                                        disabled={readOnly}
+                                      >
+                                        {field.value.length > 0 &&
+                                        !!queryEmployees.data
+                                          ? `${
+                                              currentEmployees!.length
+                                            } seleccionado(s)`
+                                          : 'Selecciona empleados'}
 
-                                      <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                                    </Button>
-                                  )}
-                                </FormControl>
-                              </PopoverTrigger>
+                                        <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                                      </Button>
+                                    )}
+                                  </FormControl>
+                                </PopoverTrigger>
+                                <ButtonRefetchData
+                                  onClick={async () => {
+                                    await queryEmployees.refetch();
+                                  }}
+                                  disabled={false}
+                                  content="Actualizar datos de empleados involucrados"
+                                />
+                              </div>
                               <PopoverContent className="w-[200px] p-0">
                                 <Command>
                                   <CommandInput
@@ -564,6 +585,25 @@ export const HarvestModuleSearchbar: React.FC = () => {
                       control={form.control}
                       name="filter_by_amount.type_filter_amount"
                     />
+
+                    <FormFieldSelect
+                      items={UnitsType[UnitOfMeasure.GRAMOS]}
+                      control={form.control}
+                      description={
+                        formFieldsSearchBarHarvest.type_unit_of_measure
+                          .description
+                      }
+                      label={
+                        formFieldsSearchBarHarvest.type_unit_of_measure.label
+                      }
+                      name={'filter_by_amount.type_unit_of_measure'}
+                      placeholder={
+                        formFieldsSearchBarHarvest.type_unit_of_measure
+                          .placeholder
+                      }
+                      disabled={false}
+                    />
+
                     <FormFieldInput
                       disabled={false}
                       {...formFieldsSearchBarHarvest.amount}

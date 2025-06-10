@@ -26,7 +26,12 @@ import { toast } from 'sonner';
 import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { CheckboxTableCustom } from '@/modules/core/components/table/CheckboxTableCustom';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
+import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 import { FormProps, ResponseApiGetAllRecords } from '@/modules/core/interfaces';
+import {
+  MassUnitOfMeasure,
+  UnitOfMeasure,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { z } from 'zod';
@@ -39,6 +44,7 @@ export const defaultValuesHarvestDetail: HarvestDetail = {
     id: '',
     first_name: '',
   },
+  unit_of_measure: undefined,
   amount: 10,
   value_pay: 1000,
 };
@@ -84,6 +90,10 @@ export interface FormHarvestContextProps {
   handleDeleteBulkHarvestDetails: () => void;
   removeHarvestDetail: (harvestDetail: HarvestDetail) => void;
   actionsHarvestsModule: Record<string, boolean>;
+  unitTypeToShowAmount: MassUnitOfMeasure;
+  setUnitTypeToShowAmount: React.Dispatch<
+    React.SetStateAction<MassUnitOfMeasure>
+  >;
 }
 
 type HarvestAction =
@@ -141,6 +151,11 @@ export const FormHarvestProvider: React.FC<
     detailsDefaultValues
   );
 
+  const { convert } = useUnitConverter();
+
+  const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
+    useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
+
   const addHarvestDetail = (harvestDetail: HarvestDetail): void => {
     dispatch({ type: 'ADD', payload: harvestDetail });
   };
@@ -159,12 +174,15 @@ export const FormHarvestProvider: React.FC<
 
   const amount = useMemo<number>(
     () =>
-      detailsHarvest.reduce(
-        (amount: number, detail: HarvestDetail) =>
-          Number(amount) + Number(detail.amount),
-        0
-      ),
-    [detailsHarvest]
+      detailsHarvest.reduce((amount: number, detail: HarvestDetail) => {
+        const convertedAmount = convert(
+          Number(detail.amount),
+          detail.unit_of_measure! as UnitOfMeasure,
+          unitTypeToShowAmount as any
+        );
+        return Number(amount) + convertedAmount;
+      }, 0),
+    [detailsHarvest, unitTypeToShowAmount]
   );
   const value_pay = useMemo<number>(
     () =>
@@ -287,6 +305,8 @@ export const FormHarvestProvider: React.FC<
         handleDeleteBulkHarvestDetails,
         removeHarvestDetail,
         actionsHarvestsModule,
+        unitTypeToShowAmount,
+        setUnitTypeToShowAmount,
       }}
     >
       {children}

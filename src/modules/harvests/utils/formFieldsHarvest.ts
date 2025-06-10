@@ -24,7 +24,7 @@ export const formFieldsHarvest: Record<HarvestFormFields, CustomFormField> = {
     name: 'amount',
     label: 'Cantidad:',
     placeholder: '',
-    description: 'Número de kilogramos cosechados',
+    description: 'Número cosechado',
   },
   value_pay: {
     name: 'value_pay',

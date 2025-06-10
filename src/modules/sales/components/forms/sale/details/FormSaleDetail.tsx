@@ -47,6 +47,7 @@ export const FormSaleDetail: React.FC = () => {
       id: values.crop.id,
       name: values.crop?.name!,
       stock: values.amount,
+      unit_of_measure: values.unit_of_measure,
     });
 
     if (!result) return;
@@ -62,6 +63,7 @@ export const FormSaleDetail: React.FC = () => {
         id: values.crop.id,
         name: values.crop?.name!,
         stock: values.amount,
+        unit_of_measure: values.unit_of_measure,
       });
 
       addSaleDetail(record);
@@ -71,6 +73,7 @@ export const FormSaleDetail: React.FC = () => {
         id: values.crop.id,
         name: values.crop?.name!,
         stock: values.amount,
+        unit_of_measure: values.unit_of_measure,
       });
 
       modifySaleDetail({
@@ -106,7 +109,7 @@ export const FormSaleDetail: React.FC = () => {
       </ToolTipTemplate>
       <Dialog open={openDialog} modal={false}>
         <DialogContent
-          className="sm:max-w-[425px]"
+          className="sm:max-w-[525px]"
           onClick={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}

@@ -1,19 +1,21 @@
 import {
-  Button,
   Card,
   CardContent,
   CardHeader,
   CardTitle,
+  Label,
   Separator,
+  Switch,
 } from '@/components';
 import { useFormUserContext } from '../../hooks';
 
 import {
-  Module,
   Action,
+  Module,
 } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
-import { FormUserPermissionAction } from './FormUserPermissionAction';
+import { getRouteIcon } from '@/routes/components';
 import { memo } from 'react';
+import { FormUserPermissionAction } from './FormUserPermissionAction';
 
 interface ModuleCardProps {
   label: string;
@@ -32,22 +34,23 @@ export const ModuleCard: React.FC<ModuleCardProps> = memo<ModuleCardProps>(
 
     return (
       <Card key={name} className="mb-2 w-72">
-        <CardHeader className="border-b">
-          <CardTitle className="capitalize">{label}</CardTitle>
+        <CardHeader className="flex flex-row items-center justify-center gap-2 border-b">
+          <CardTitle className="self-end capitalize">{label}</CardTitle>
+          {getRouteIcon(name)}
         </CardHeader>
         <CardContent className="flex flex-col flex-wrap gap-4 m-2 rounded-md">
-          <Button
-            variant="ghost"
-            onClick={() => handleSelectAllActionInModule(name)}
-          >
-            Marcar todo
-          </Button>
-          <Button
-            variant="ghost"
-            onClick={() => handleInselectAllActionsInModule(name)}
-          >
-            Desmarcar todo
-          </Button>
+          <div className="flex items-center self-start justify-between w-full gap-2 py-4 border-b-2">
+            <Label className="">Activar todo</Label>
+            <Switch
+              defaultChecked={false}
+              onCheckedChange={(isCheked) => {
+                isCheked
+                  ? handleSelectAllActionInModule(name)
+                  : handleInselectAllActionsInModule(name);
+              }}
+            />
+          </div>
+
           {actions.map((action) => (
             <FormUserPermissionAction
               key={action.id}
@@ -79,8 +82,15 @@ export const FormUserFieldsPermissions: React.FC = () => {
           readOnly && 'hidden'
         }`}
       >
-        <Button onClick={handleSelectAllActions}>Marcar todo</Button>
-        <Button onClick={handleInselectAllActions}>Desmarcar todo</Button>
+        <div className="flex items-center self-start gap-2 py-4 ">
+          <Label className="">Activar todos los permisos</Label>
+          <Switch
+            defaultChecked={false}
+            onCheckedChange={(isCheked) => {
+              isCheked ? handleSelectAllActions() : handleInselectAllActions();
+            }}
+          />
+        </div>
       </div>
       <div className="flex flex-wrap gap-2 my-2 justify-evenly">
         {queryModules?.data?.map(({ label, actions, name }: Module) => (

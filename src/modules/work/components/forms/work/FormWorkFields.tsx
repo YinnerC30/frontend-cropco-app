@@ -38,7 +38,7 @@ export const FormWorkFields: React.FC = () => {
             name={'date'}
             placeholder={formFieldsWork.date.placeholder}
             disabled={readOnly}
-            className='w-[240px]'
+            className="w-[240px]"
           />
           <FormFieldCommand
             data={
@@ -57,9 +57,12 @@ export const FormWorkFields: React.FC = () => {
             name={'crop'}
             placeholder={formFieldsWork.crop.placeholder}
             disabled={readOnly || disabledCropField}
-            isLoading={queryCrops.isLoading}
+            isLoading={queryCrops.isLoading || queryCrops.isFetching}
             nameEntity="cultivo"
             className="w-52"
+            reloadData={async () => {
+              await queryCrops.refetch();
+            }}
           />
           <FormFieldTextArea
             className="w-72"

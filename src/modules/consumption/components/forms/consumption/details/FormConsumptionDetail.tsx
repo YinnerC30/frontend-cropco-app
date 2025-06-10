@@ -48,6 +48,8 @@ export const FormConsumptionDetail: React.FC = () => {
       id: values.supply.id,
       name: values.supply?.name!,
       amount: values.amount,
+      unit_of_measure: values.unit_of_measure,
+      supply: values.supply,
     } as any);
 
     if (!result) return;
@@ -61,6 +63,8 @@ export const FormConsumptionDetail: React.FC = () => {
         id: values.supply.id,
         name: values.supply?.name!,
         amount: values.amount,
+        unit_of_measure: values.unit_of_measure,
+        supply: values.supply,
       } as any);
       addConsumptionDetail(record);
       toast.success('Registro añadido');
@@ -70,6 +74,8 @@ export const FormConsumptionDetail: React.FC = () => {
         id: values.supply.id,
         name: values.supply?.name!,
         amount: values.amount,
+        unit_of_measure: values.unit_of_measure,
+        supply: values.supply,
       } as any);
       modifyConsumptionDetail(record);
       toast.success('Registro actualizado');
@@ -90,7 +96,9 @@ export const FormConsumptionDetail: React.FC = () => {
     <>
       <ToolTipTemplate content={'Crear registro'}>
         <Button
-          className={`${readOnly && 'hidden'} bg-primary/70 hover:bg-primary/50`}
+          className={`${
+            readOnly && 'hidden'
+          } bg-primary/70 hover:bg-primary/50`}
           size="icon"
           onClick={handleOpenDialogExtended}
           disabled={readOnly}
@@ -101,7 +109,7 @@ export const FormConsumptionDetail: React.FC = () => {
       </ToolTipTemplate>
       <Dialog open={openDialog} modal={false}>
         <DialogContent
-          className="sm:max-w-[425px]"
+          className="sm:max-w-[525px]"
           onClick={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
@@ -117,8 +125,7 @@ export const FormConsumptionDetail: React.FC = () => {
           <DialogHeader>
             <DialogTitle>Consumo de sumistro</DialogTitle>
             <DialogDescription className="">
-              Información detallada del consumo realizado al insumo por
-              cultivo
+              Información detallada del consumo realizado al insumo por cultivo
             </DialogDescription>
           </DialogHeader>
 

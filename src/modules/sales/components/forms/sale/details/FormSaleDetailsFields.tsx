@@ -1,5 +1,4 @@
 import {
-  Badge,
   Button,
   Form,
   FormControl,
@@ -16,18 +15,18 @@ import {
 import { cn } from '@/lib/utils';
 import { useGetAllClients } from '@/modules/clients/hooks';
 import {
+  ButtonRefetchData,
   FormFieldCheckBox,
   FormFieldCommand,
   FormFieldInput,
+  FormFieldSelect,
   Loading,
 } from '@/modules/core/components';
 import { useFormSaleContext } from '@/modules/sales/hooks';
 import { formFieldsSaleDetail } from '@/modules/sales/utils';
-import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
+import { CaretSortIcon } from '@radix-ui/react-icons';
 
-import { useEffect, useState } from 'react';
-import { ControllerRenderProps } from 'react-hook-form';
-import { CropStock } from '../FormSaleContext';
+import { CapitalizeFirstWord } from '@/auth/helpers';
 import {
   Command,
   CommandEmpty,
@@ -36,7 +35,16 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import { CapitalizeFirstWord } from '@/auth/helpers';
+import {
+  MassUnitOfMeasure,
+  UnitOfMeasure,
+  UnitsType,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { useEffect, useRef, useState } from 'react';
+import { ControllerRenderProps } from 'react-hook-form';
+import { CropStock } from '../FormSaleContext';
+import { BadgeCropStock } from './BadgeCropStock';
+import { CommandItemCropStock } from './CommandItemCropStock';
 
 export const FormSaleDetailsFields: React.FC = () => {
   const {
@@ -55,12 +63,23 @@ export const FormSaleDetailsFields: React.FC = () => {
 
   const [openPopover, setOpenPopover] = useState(false);
 
+  const currentUnitType = formSaleDetail.watch(
+    'unit_of_measure'
+  ) as MassUnitOfMeasure;
+
+  const firstRender = useRef(true);
+
   useEffect(() => {
-    addCropStock({
-      id: saleDetail.crop.id,
-      name: saleDetail.crop?.name!,
-      stock: saleDetail.amount,
-    });
+    if (firstRender.current) {
+      addCropStock({
+        id: saleDetail.crop.id,
+        name: saleDetail.crop?.name!,
+        stock: saleDetail.amount,
+        unit_of_measure: saleDetail.unit_of_measure!,
+      });
+      firstRender.current = false;
+    }
+
     formSaleDetail.reset(saleDetail);
   }, [saleDetail]);
 
@@ -78,8 +97,11 @@ export const FormSaleDetailsFields: React.FC = () => {
           placeholder={formFieldsSaleDetail.client.placeholder}
           disabled={false}
           nameEntity="cliente"
-          isLoading={queryClients.isLoading}
+          isLoading={queryClients.isLoading || queryClients.isFetching}
           className="w-52"
+          reloadData={async () => {
+            await queryClients.refetch();
+          }}
         />
 
         <FormField
@@ -97,49 +119,56 @@ export const FormSaleDetailsFields: React.FC = () => {
                   onOpenChange={setOpenPopover}
                   modal={true}
                 >
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      {queryCropsWithStock.isLoading ? (
-                        <div className="w-[200px]">
-                          <Loading className="" />
-                        </div>
-                      ) : (
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          aria-expanded={openPopover}
-                          className={`w-80 ${cn(
-                            'justify-between',
-                            !field.value && 'text-muted-foreground'
-                          )}`}
-                          ref={field.ref}
-                          onBlur={field.onBlur}
-                          disabled={readOnly}
-                        >
-                          <span className="overflow-auto truncate text-muted-foreground text-ellipsis">
-                            {!!field.value
-                              ? cropStock.find((item: CropStock) => {
-                                  return item.id === field.value;
-                                })?.['name']
-                              : formFieldsSaleDetail.crop.placeholder}
-                          </span>
-
-                          <Badge
-                            className={`${!field.value ? 'hidden' : 'ml-14'}`}
-                            variant={'cyan'}
+                  <div className="flex gap-2">
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        {queryCropsWithStock.isLoading ||
+                        queryCropsWithStock.isFetching ? (
+                          <div className="w-[200px]">
+                            <Loading className="" />
+                          </div>
+                        ) : (
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={openPopover}
+                            className={`w-80 ${cn(
+                              'justify-between',
+                              !field.value && 'text-muted-foreground'
+                            )}`}
+                            ref={field.ref}
+                            onBlur={field.onBlur}
+                            disabled={readOnly}
                           >
-                            {'Disponibles: ' +
-                              cropStock.find((item: CropStock) => {
-                                return item.id === field.value;
-                              })?.['stock'] +
-                              ' Kg'}
-                          </Badge>
+                            <span className="overflow-auto truncate text-muted-foreground text-ellipsis">
+                              {!!field.value
+                                ? cropStock.find((item: CropStock) => {
+                                    return item.id === field.value;
+                                  })?.['name']
+                                : formFieldsSaleDetail.crop.placeholder}
+                            </span>
 
-                          <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                        </Button>
-                      )}
-                    </FormControl>
-                  </PopoverTrigger>
+                            {!!field.value && (
+                              <BadgeCropStock
+                                field={field}
+                                cropsStock={cropStock}
+                                convertTo={currentUnitType}
+                              />
+                            )}
+
+                            <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                          </Button>
+                        )}
+                      </FormControl>
+                    </PopoverTrigger>
+
+                    <ButtonRefetchData
+                      onClick={async () => {
+                        await queryCropsWithStock.refetch();
+                      }}
+                      disabled={false}
+                    />
+                  </div>
                   <PopoverContent className="w-[200px] p-0">
                     <Command>
                       <CommandInput
@@ -180,19 +209,10 @@ export const FormSaleDetailsFields: React.FC = () => {
                                     setOpenPopover(false);
                                   }}
                                 >
-                                  <div className="flex justify-between w-full ">
-                                    <span>{item?.['name']}</span>
-                                    <span className="font-bold">
-                                      {item?.['stock'] + ' Kg'}
-                                    </span>
-                                  </div>
-                                  <CheckIcon
-                                    className={cn(
-                                      'ml-auto h-4 w-4',
-                                      item.id! === field?.value
-                                        ? 'opacity-100'
-                                        : 'opacity-0'
-                                    )}
+                                  <CommandItemCropStock
+                                    field={field}
+                                    converTo={currentUnitType}
+                                    item={item}
                                   />
                                 </CommandItem>
                               );
@@ -212,6 +232,16 @@ export const FormSaleDetailsFields: React.FC = () => {
           }}
         />
 
+        <FormFieldSelect
+          items={UnitsType[UnitOfMeasure.GRAMOS]}
+          control={formSaleDetail.control}
+          description={formFieldsSaleDetail.unit_of_measure.description}
+          label={formFieldsSaleDetail.unit_of_measure.label}
+          name={'unit_of_measure'}
+          placeholder={formFieldsSaleDetail.unit_of_measure.placeholder}
+          disabled={false}
+        />
+
         <FormFieldCheckBox
           control={formSaleDetail.control}
           description={formFieldsSaleDetail.is_receivable.description}
@@ -229,6 +259,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           disabled={false}
           type="number"
           step={50}
+          allowDecimals
         />
         <FormFieldInput
           control={formSaleDetail.control}

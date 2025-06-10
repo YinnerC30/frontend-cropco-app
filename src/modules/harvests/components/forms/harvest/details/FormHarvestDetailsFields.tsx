@@ -1,10 +1,18 @@
 import { Form } from '@/components';
-import { FormFieldCommand, FormFieldInput } from '@/modules/core/components';
+import {
+  FormFieldCommand,
+  FormFieldInput,
+  FormFieldSelect,
+} from '@/modules/core/components';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { HarvestDetail } from '@/modules/harvests/interfaces';
 
 import { formFieldsHarvestDetail } from '@/modules/harvests/utils';
+import {
+  UnitOfMeasure,
+  UnitsType,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { useCallback, useEffect } from 'react';
 
 export const FormHarvestDetailsFields: React.FC = () => {
@@ -43,8 +51,23 @@ export const FormHarvestDetailsFields: React.FC = () => {
           placeholder={formFieldsHarvestDetail.employee.placeholder}
           disabled={false}
           nameEntity="empleado"
-          isLoading={queryEmployees.isLoading}
+          isLoading={queryEmployees.isLoading || queryEmployees.isRefetching}
           className="w-52"
+          reloadData={async() => {
+            await queryEmployees.refetch()
+          }}
+        />
+
+        <FormFieldSelect
+          items={UnitsType[UnitOfMeasure.GRAMOS]}
+          control={formHarvestDetail.control}
+          description={formFieldsHarvestDetail.unit_of_measure.description}
+          label={formFieldsHarvestDetail.unit_of_measure.label}
+          name={'unit_of_measure'}
+          placeholder={formFieldsHarvestDetail.unit_of_measure.placeholder}
+          disabled={false}
+          // currentValue={currentUnitType}
+          // manualValidationValue
         />
 
         <FormFieldInput
@@ -55,6 +78,7 @@ export const FormHarvestDetailsFields: React.FC = () => {
           placeholder={formFieldsHarvestDetail.amount.placeholder}
           disabled={false}
           type="number"
+          allowDecimals
         />
         <FormFieldInput
           control={formHarvestDetail.control}

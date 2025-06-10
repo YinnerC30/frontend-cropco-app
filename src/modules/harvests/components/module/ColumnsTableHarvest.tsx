@@ -3,11 +3,11 @@ import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
-import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
 
 import { Badge, Button } from '@/components';
 import { Harvest, HarvestDetail } from '../../interfaces';
 import { formFieldsHarvest } from '../../utils';
+import { CellHarvestAmount } from './CellHarvestAmount';
 
 export const columnsHarvest: ColumnDef<Harvest>[] = [
   {
@@ -70,9 +70,7 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
 
   {
     accessorKey: formFieldsHarvest.amount.name,
-    cell: ({ row }) => {
-      return FormatNumber(row.getValue('amount')) + ' kg';
-    },
+    cell: ({ row }) => (<CellHarvestAmount row={row}/>),
     header: ({ column }: HeaderContext<Harvest, unknown>) => {
       return (
         <ButtonHeaderTable

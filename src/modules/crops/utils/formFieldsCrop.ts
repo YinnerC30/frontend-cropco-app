@@ -6,6 +6,7 @@ type FormFieldsCrop =
   | 'units'
   | 'location'
   | 'date_of_creation'
+  | 'amount'
   | 'date_of_termination';
 
 export const formFieldsCrop: Record<FormFieldsCrop, CustomFormField> = {
@@ -45,4 +46,10 @@ export const formFieldsCrop: Record<FormFieldsCrop, CustomFormField> = {
     placeholder: 'Selecciona una fecha',
     description: 'Fecha en la que se termino el cultivo',
   },
+  amount: {
+    name: 'harvests_stock.amount',
+    label: 'Inventario actual: ',
+    placeholder: '',
+    description: '',
+  }
 };

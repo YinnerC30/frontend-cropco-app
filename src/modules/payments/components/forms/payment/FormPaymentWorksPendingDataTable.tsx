@@ -28,7 +28,7 @@ import { RecordToPay } from '@/modules/payments/interfaces/RecordToPay';
 export const FormPaymentWorksPendingDataTable: React.FC = () => {
   const { paymentsState, readOnly, addRecordToPay } = useFormPaymentContext();
 
-  if (paymentsState.current_data.works_detail.length === 0) return;
+  // if (paymentsState.current_data.works_detail.length === 0) return;
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsPaymentsPendingWork,
@@ -104,7 +104,7 @@ export const FormPaymentWorksPendingDataTable: React.FC = () => {
             type="auto"
           >
             <FormDataTable
-              onCellDoubleClick={(data) => console.log(data)}
+              onCellDoubleClick={(data) => {}}
               disabledDoubleClick={true}
             />
 

@@ -8,6 +8,7 @@ type SearchBarHarvestFormFields =
   | 'date'
   | 'filter_by_amount'
   | 'type_filter_amount'
+  | 'type_unit_of_measure'
   | 'amount'
   | 'filter_by_value_pay'
   | 'type_filter_value_pay'
@@ -58,6 +59,12 @@ export const formFieldsSearchBarHarvest: Record<
     label: 'Valor menor o mayor a:',
     placeholder: 'Selecciona una opción',
     description: 'Filtrar registros por menor o mayor del valor',
+  },
+  type_unit_of_measure: {
+    name: 'type_unit_of_measure',
+    label: 'Unidad de medida:',
+    placeholder: 'Selecciona',
+    description: 'Unidad de medida del monto cosechado',
   },
   amount: {
     name: 'amount',

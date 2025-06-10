@@ -29,7 +29,9 @@ export const EmployeesActions: React.FC = () => {
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={queryEmployees.refetch}
+        onClick={async () => {
+          await queryEmployees.refetch();
+        }}
         disabled={!actionsEmployeesModule['find_all_employees']}
         className=""
       />

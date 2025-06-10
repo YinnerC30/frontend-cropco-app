@@ -8,6 +8,7 @@ import { TIME_ACTIVE_TOKEN } from '../../components/AuthContext';
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export interface ResponseCheckAuth {
   message: string;
@@ -41,8 +42,11 @@ export const useCheckAuthStatus = ({
     queryKey: ['valid-sesion-user'],
     queryFn: () => checkAuthStatus(token),
     enabled: isLogin,
+    refetchOnWindowFocus: false,
+    // refetchIntervalInBackground
+    ...CACHE_CONFIG_TIME.longTerm,
     refetchInterval: TIME_ACTIVE_TOKEN,
-    retry: 0,
+    retry: false,
   });
 
   const { isError, error } = query;

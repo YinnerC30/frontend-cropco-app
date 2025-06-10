@@ -42,16 +42,16 @@ export const FormConsumptionDataTable: React.FC = () => {
   };
 
   const validateIsDisabled = (
-      row: Row<any>
-    ): { status: boolean; cellColorError: ErrorCell; message: string } => {
-      const { deletedDate } = row.original;
-      const isDisabled = deletedDate !== null;
-      return {
-        status: isDisabled,
-        cellColorError: 'restriction',
-        message: 'No se puede eliminar o modificar este registro porque...',
-      };
+    row: Row<any>
+  ): { status: boolean; cellColorError: ErrorCell; message: string } => {
+    const { deletedDate } = row.original;
+    const isDisabled = deletedDate !== null;
+    return {
+      status: isDisabled,
+      cellColorError: 'restriction',
+      message: 'No se puede eliminar o modificar este registro porque...',
     };
+  };
 
   return (
     <FormDataTableProvider
@@ -65,7 +65,7 @@ export const FormConsumptionDataTable: React.FC = () => {
         <FormDataTableFilter
           placeholder={'Buscar por nombre del cultivo...'}
           nameColumnFilter={'supply_name'}
-          className="w-[250px] ml-10 self-start sm:self-center sm:m-0"
+          className="w-[280px] ml-10 self-start sm:self-center sm:m-0"
         />
 
         {/* Botones */}

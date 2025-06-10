@@ -1,9 +1,19 @@
-import { DataTableTemplate } from '@/modules/core/components';
+import {
+  DataTableTemplate
+} from '@/modules/core/components';
+import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
 import { useCropsModuleContext } from '../../hooks';
 
 export const CropsTable: React.FC = () => {
-  const { dataTable, queryCrops, mutationDeleteCrops, actionsCropsModule, mutationDeleteCrop } =
-    useCropsModuleContext();
+  const {
+    dataTable,
+    queryCrops,
+    mutationDeleteCrops,
+    actionsCropsModule,
+    mutationDeleteCrop,
+    unitTypeToShowAmount,
+    setUnitTypeToShowAmount,
+  } = useCropsModuleContext();
 
   return (
     <DataTableTemplate
@@ -22,6 +32,19 @@ export const CropsTable: React.FC = () => {
         mutationDeleteCrops.isPending ||
         mutationDeleteCrop.isPending
       }
-    />
+    >
+      <div className="flex items-center justify-end gap-2 pb-2">
+        <p className="text-sm font-medium text-muted-foreground">
+          Mostrar inventario como:
+        </p>
+        <div className="font-medium">
+          {' '}
+          <SelectedMassUnitOfMeasure
+            onChange={setUnitTypeToShowAmount}
+            valueSelect={unitTypeToShowAmount}
+          />
+        </div>
+      </div>
+    </DataTableTemplate>
   );
 };

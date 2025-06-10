@@ -58,7 +58,7 @@ export const FormPaymentFields: React.FC = () => {
             name={'date'}
             placeholder={formFieldsPayments.date.placeholder}
             disabled={readOnly}
-            className='w-[240px]'
+            className="w-[240px]"
           />
 
           <FormFieldCommand
@@ -71,8 +71,11 @@ export const FormPaymentFields: React.FC = () => {
             name={'employee'}
             placeholder={formFieldsPayments.employee.placeholder}
             disabled={readOnly}
-            isLoading={queryEmployees.isLoading}
+            isLoading={queryEmployees.isLoading || queryEmployees.isFetching}
             className="w-52"
+            reloadData={async () => {
+              await queryEmployees.refetch();
+            }}
           />
 
           {/* Table */}

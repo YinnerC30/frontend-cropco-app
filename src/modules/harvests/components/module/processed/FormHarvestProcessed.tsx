@@ -12,6 +12,7 @@ import {
 import {
   FormFieldCalendar,
   FormFieldInput,
+  FormFieldSelect,
   Loading,
   ToolTipTemplate,
 } from '@/modules/core/components';
@@ -30,6 +31,10 @@ import { memo, useEffect } from 'react';
 import { ConvertStringToDate } from '@/modules/core/helpers';
 import { z } from 'zod';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
+import {
+  UnitOfMeasure,
+  UnitsType,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 const formSchemaHarvestProcessed = z.object({
   date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
@@ -104,6 +109,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
               date: undefined,
               amount: 0,
               id: undefined,
+              unit_of_measure: undefined,
             });
 
             setOpenDialog(false);
@@ -128,6 +134,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
           ? ConvertStringToDate(harvestProcessed?.date)
           : harvestProcessed.date,
       amount: harvestProcessed.amount,
+      unit_of_measure: harvestProcessed.unit_of_measure,
     });
   }, [harvestProcessed]);
 
@@ -187,8 +194,23 @@ export const FormHarvestProcessed: React.FC = memo(() => {
                     before: new Date(data?.date!),
                     after: new Date(),
                   }}
-                  className='w-[240px]'
+                  className="w-[240px] py-4"
                 />
+
+                <FormFieldSelect
+                  items={UnitsType[UnitOfMeasure.GRAMOS]}
+                  control={formProcessed.control}
+                  description={
+                    formFieldsHarvestProcessed.unit_of_measure.description
+                  }
+                  label={formFieldsHarvestProcessed.unit_of_measure.label}
+                  name={'unit_of_measure'}
+                  placeholder={
+                    formFieldsHarvestProcessed.unit_of_measure.placeholder
+                  }
+                  disabled={false}
+                />
+
                 <FormFieldInput
                   control={formProcessed.control}
                   description={formFieldsHarvestProcessed.amount.description}
@@ -197,6 +219,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
                   placeholder={formFieldsHarvestProcessed.amount.placeholder}
                   disabled={false}
                   type="number"
+                  allowDecimals
                 />
               </form>
             </Form>
