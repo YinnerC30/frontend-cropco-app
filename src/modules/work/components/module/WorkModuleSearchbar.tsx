@@ -275,7 +275,7 @@ export const WorkModuleSearchbar = () => {
     if (queryCrops.isSuccess && queryEmployees.isSuccess && hasParamsQuery) {
       addFilters();
     }
-  }, [queryCrops.isSuccess, queryEmployees.isSuccess, hasParamsQuery]);
+  }, [queryCrops.isSuccess, queryEmployees.isSuccess]);
 
   return (
     <div className="flex flex-col items-start justify-start my-4 sm:w-full">
