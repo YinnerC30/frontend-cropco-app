@@ -6,6 +6,7 @@ import {
   Form,
 } from '@/components';
 import {
+  ButtonRefetchData,
   FormFieldCalendar,
   FormFieldCommand,
   FormFieldInput,
@@ -299,8 +300,13 @@ export const WorkModuleSearchbar = () => {
                   label={''}
                   disabled={readOnly}
                   actionFinal={() => handleAddFilter('crop.id')}
+                  contentTooltip="Actualizar datos de cultivo"
+                  reloadData={async () => {
+                    await queryCrops.refetch();
+                  }}
+                  isLoading={queryCrops.isLoading || queryCrops.isFetching}
                 />
-                <div className="flex gap-2">
+                <div className="flex gap-2 ml-4">
                   <ToolTipTemplate content="Borrar consulta">
                     <Button
                       variant="outline"
@@ -366,37 +372,48 @@ export const WorkModuleSearchbar = () => {
                               onOpenChange={setOpenPopover}
                               modal={true}
                             >
-                              <PopoverTrigger asChild>
-                                <FormControl>
-                                  {queryEmployees.isLoading ? (
-                                    <div className="w-[200px]">
-                                      <Loading className="" />
-                                    </div>
-                                  ) : (
-                                    <Button
-                                      variant="outline"
-                                      role="combobox"
-                                      aria-expanded={openPopover}
-                                      className={` ${cn(
-                                        'justify-between',
-                                        !field.value && 'text-muted-foreground'
-                                      )}`}
-                                      ref={field.ref}
-                                      onBlur={field.onBlur}
-                                      disabled={readOnly}
-                                    >
-                                      {field.value.length > 0 &&
-                                      !!queryEmployees.data
-                                        ? `${
-                                            currentEmployees!.length
-                                          } seleccionado(s)`
-                                        : 'Selecciona empleados'}
+                              <div className="flex gap-2">
+                                <PopoverTrigger asChild>
+                                  <FormControl>
+                                    {queryEmployees.isLoading ||
+                                    queryEmployees.isFetching ? (
+                                      <div className="w-[200px]">
+                                        <Loading className="" />
+                                      </div>
+                                    ) : (
+                                      <Button
+                                        variant="outline"
+                                        role="combobox"
+                                        aria-expanded={openPopover}
+                                        className={` ${cn(
+                                          'justify-between',
+                                          !field.value &&
+                                            'text-muted-foreground'
+                                        )}`}
+                                        ref={field.ref}
+                                        onBlur={field.onBlur}
+                                        disabled={readOnly}
+                                      >
+                                        {field.value.length > 0 &&
+                                        !!queryEmployees.data
+                                          ? `${
+                                              currentEmployees!.length
+                                            } seleccionado(s)`
+                                          : 'Selecciona empleados'}
 
-                                      <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                                    </Button>
-                                  )}
-                                </FormControl>
-                              </PopoverTrigger>
+                                        <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                                      </Button>
+                                    )}
+                                  </FormControl>
+                                </PopoverTrigger>
+                                <ButtonRefetchData
+                                  onClick={async () => {
+                                    await queryEmployees.refetch();
+                                  }}
+                                  disabled={false}
+                                  content="Actualizar datos de empleados involucrados"
+                                />
+                              </div>
                               <PopoverContent className="w-[200px] p-0">
                                 <Command>
                                   <CommandInput

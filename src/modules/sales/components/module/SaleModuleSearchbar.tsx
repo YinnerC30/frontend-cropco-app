@@ -8,6 +8,7 @@ import {
   PopoverTrigger,
 } from '@/components';
 import {
+  ButtonRefetchData,
   FormFieldCalendar,
   FormFieldInput,
   FormFieldSelect,
@@ -451,37 +452,48 @@ export const SaleModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverClient}
                               modal={true}
                             >
-                              <PopoverTrigger asChild>
-                                <FormControl>
-                                  {queryClients.isLoading ? (
-                                    <div className="w-[200px]">
-                                      <Loading className="" />
-                                    </div>
-                                  ) : (
-                                    <Button
-                                      variant="outline"
-                                      role="combobox"
-                                      aria-expanded={openPopoverClient}
-                                      className={` ${cn(
-                                        'justify-between',
-                                        !field.value && 'text-muted-foreground'
-                                      )}`}
-                                      ref={field.ref}
-                                      onBlur={field.onBlur}
-                                      disabled={readOnly}
-                                    >
-                                      {field.value.length > 0 &&
-                                      !!queryClients.data
-                                        ? `${
-                                            currentEmployees!.length
-                                          } seleccionado(s)`
-                                        : 'Selecciona clientes'}
+                              <div className="flex gap-2">
+                                <PopoverTrigger asChild>
+                                  <FormControl>
+                                    {queryClients.isLoading ||
+                                    queryClients.isFetching ? (
+                                      <div className="w-[200px]">
+                                        <Loading className="" />
+                                      </div>
+                                    ) : (
+                                      <Button
+                                        variant="outline"
+                                        role="combobox"
+                                        aria-expanded={openPopoverClient}
+                                        className={` ${cn(
+                                          'justify-between',
+                                          !field.value &&
+                                            'text-muted-foreground'
+                                        )}`}
+                                        ref={field.ref}
+                                        onBlur={field.onBlur}
+                                        disabled={readOnly}
+                                      >
+                                        {field.value.length > 0 &&
+                                        !!queryClients.data
+                                          ? `${
+                                              currentEmployees!.length
+                                            } seleccionado(s)`
+                                          : 'Selecciona clientes'}
 
-                                      <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                                    </Button>
-                                  )}
-                                </FormControl>
-                              </PopoverTrigger>
+                                        <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                                      </Button>
+                                    )}
+                                  </FormControl>
+                                </PopoverTrigger>
+                                <ButtonRefetchData
+                                  onClick={async () => {
+                                    await queryClients.refetch();
+                                  }}
+                                  disabled={false}
+                                  content="Actualizar datos de clientes involucrados"
+                                />
+                              </div>
                               <PopoverContent className="w-[200px] p-0">
                                 <Command>
                                   <CommandInput
@@ -606,37 +618,48 @@ export const SaleModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverCrop}
                               modal={true}
                             >
-                              <PopoverTrigger asChild>
-                                <FormControl>
-                                  {queryCrops.isLoading ? (
-                                    <div className="w-[200px]">
-                                      <Loading className="" />
-                                    </div>
-                                  ) : (
-                                    <Button
-                                      variant="outline"
-                                      role="combobox"
-                                      aria-expanded={openPopoverCrop}
-                                      className={` ${cn(
-                                        'justify-between',
-                                        !field.value && 'text-muted-foreground'
-                                      )}`}
-                                      ref={field.ref}
-                                      onBlur={field.onBlur}
-                                      disabled={readOnly}
-                                    >
-                                      {field.value.length > 0 &&
-                                      !!queryCrops.data
-                                        ? `${
-                                            currentCrops!.length
-                                          } seleccionado(s)`
-                                        : 'Selecciona cultivos'}
+                              <div className="flex gap-2">
+                                <PopoverTrigger asChild>
+                                  <FormControl>
+                                    {queryCrops.isLoading ||
+                                    queryCrops.isFetching ? (
+                                      <div className="w-[200px]">
+                                        <Loading className="" />
+                                      </div>
+                                    ) : (
+                                      <Button
+                                        variant="outline"
+                                        role="combobox"
+                                        aria-expanded={openPopoverCrop}
+                                        className={` ${cn(
+                                          'justify-between',
+                                          !field.value &&
+                                            'text-muted-foreground'
+                                        )}`}
+                                        ref={field.ref}
+                                        onBlur={field.onBlur}
+                                        disabled={readOnly}
+                                      >
+                                        {field.value.length > 0 &&
+                                        !!queryCrops.data
+                                          ? `${
+                                              currentCrops!.length
+                                            } seleccionado(s)`
+                                          : 'Selecciona cultivos'}
 
-                                      <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                                    </Button>
-                                  )}
-                                </FormControl>
-                              </PopoverTrigger>
+                                        <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+                                      </Button>
+                                    )}
+                                  </FormControl>
+                                </PopoverTrigger>
+                                <ButtonRefetchData
+                                  onClick={async () => {
+                                    await queryCrops.refetch();
+                                  }}
+                                  disabled={false}
+                                  content="Actualizar datos de cultivos involucrados"
+                                />
+                              </div>
                               <PopoverContent className="w-[200px] p-0">
                                 <Command>
                                   <CommandInput

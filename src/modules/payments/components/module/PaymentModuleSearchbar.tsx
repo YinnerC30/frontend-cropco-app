@@ -38,7 +38,8 @@ import { formFieldsSearchBarPayment } from '../../utils/formFieldsSearchBarPayme
 import { formSchemaSearchBarPayment } from '../../utils/formSchemaSearchBarPayment';
 
 export const PaymentModuleSearchbar: React.FC = () => {
-  const { paramsQuery, actionsPaymentsModule, queryEmployees } = usePaymentModuleContext();
+  const { paramsQuery, actionsPaymentsModule, queryEmployees } =
+    usePaymentModuleContext();
   const readOnly = !actionsPaymentsModule['find_all_payments'];
   const navigate = useNavigate();
 
@@ -51,8 +52,6 @@ export const PaymentModuleSearchbar: React.FC = () => {
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
-
-  
 
   // TODO: Agregar filtro de metodo de pago
 
@@ -126,7 +125,9 @@ export const PaymentModuleSearchbar: React.FC = () => {
         form.setValue('filter_by_value_pay.type_filter_value_pay', undefined, {
           shouldDirty: false,
         });
-        form.setValue('filter_by_value_pay.value_pay', 0, { shouldDirty: false });
+        form.setValue('filter_by_value_pay.value_pay', 0, {
+          shouldDirty: false,
+        });
         break;
     }
     handleSearch(form.watch());
@@ -212,6 +213,13 @@ export const PaymentModuleSearchbar: React.FC = () => {
                   label={''}
                   disabled={readOnly}
                   actionFinal={() => handleAddFilter('employee.id')}
+                  isLoading={
+                    queryEmployees.isLoading || queryEmployees.isFetching
+                  }
+                  reloadData={async () => {
+                    await queryEmployees.refetch();
+                  }}
+                  contentTooltip="Actualizar datos de empleados involucrados"
                 />
 
                 <ToolTipTemplate content="Borrar consulta">
@@ -220,7 +228,7 @@ export const PaymentModuleSearchbar: React.FC = () => {
                     onClick={handleResetForm}
                     size={'icon'}
                     disabled={readOnly}
-                    className='bg-destructive hover:bg-destructive/80'
+                    className="bg-destructive hover:bg-destructive/80"
                   >
                     <X className="w-4 h-4" />
                   </Button>
@@ -278,7 +286,9 @@ export const PaymentModuleSearchbar: React.FC = () => {
               <FilterDropdownItem
                 label={'Valor a pagar'}
                 actionOnSave={() => handleAddFilter('filter_by_value_pay')}
-                actionOnClose={() => handleClearErrorsForm('filter_by_value_pay')}
+                actionOnClose={() =>
+                  handleClearErrorsForm('filter_by_value_pay')
+                }
                 content={
                   <>
                     <FormFieldSelect
