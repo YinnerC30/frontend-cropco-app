@@ -26,7 +26,7 @@ import { columnsPaymentsPendingHarvest } from '../../columns/ColumnsTablePayment
 export const FormPaymentHarvestsPendingDataTable: React.FC = () => {
   const { paymentsState, readOnly, addRecordToPay } = useFormPaymentContext();
 
-  if (paymentsState.current_data.harvests_detail.length === 0) return;
+  // if (paymentsState.current_data.harvests_detail.length === 0) return;
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsPaymentsPendingHarvest,
