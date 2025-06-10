@@ -1,11 +1,11 @@
 import { ButtonHeaderTable } from '@/modules/core/components';
 
-import { Badge } from '@/components';
 
 import { ColumnDef, HeaderContext, Row } from '@tanstack/react-table';
 import { Supply } from '../../interfaces/Supply';
 import { formFieldsSupply } from '../../utils';
-import { FormatNumber } from '@/modules/core/helpers';
+import { BadgeColumnsUnitOfMeasure } from './BadgeColumnsUnitOfMeasure';
+import { CellSupplyAmount } from './CellSupplyAmount';
 
 export const columnsTableSupplies: ColumnDef<Supply>[] = [
   {
@@ -45,7 +45,7 @@ export const columnsTableSupplies: ColumnDef<Supply>[] = [
   {
     accessorKey: 'stock.amount',
     cell: ({ row }: { row: Row<Supply> }) => {
-      return FormatNumber(row.original?.stock?.amount ?? 0);
+      return <CellSupplyAmount row={row} />;
     },
     header: ({ column }: HeaderContext<Supply, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Inventario actual:'} />;
@@ -62,12 +62,7 @@ export const columnsTableSupplies: ColumnDef<Supply>[] = [
       );
     },
     cell: ({ row }: { row: Row<Supply> }) => {
-      const unitOfMeasure: string = row.getValue('unit_of_measure');
-      return (
-        <Badge variant={unitOfMeasure === 'GRAMOS' ? 'lime' : 'cyan'}>
-          {unitOfMeasure}
-        </Badge>
-      );
+      return <BadgeColumnsUnitOfMeasure row={row} />;
     },
   },
 ];

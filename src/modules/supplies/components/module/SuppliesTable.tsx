@@ -1,6 +1,8 @@
 import { DataTableTemplate } from '@/modules/core/components';
 import React from 'react';
 import { useSuppliesModuleContext } from '../../hooks';
+import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
+import { SelectedVolumeUnitOfMeasure } from '@/modules/core/components/shared/SelectedVolumeUnitOfMeasure';
 
 export const SuppliesTable: React.FC = () => {
   const {
@@ -9,6 +11,10 @@ export const SuppliesTable: React.FC = () => {
     actionsSuppliesModule,
     mutationDeleteSupplies,
     mutationDeleteSupply,
+    unitMassTypeToShowAmount,
+    setMassUnitTypeToShowAmount,
+    unitVolumeTypeToShowAmount,
+    setUnitVolumeTypeToShowAmount,
   } = useSuppliesModuleContext();
 
   return (
@@ -28,6 +34,31 @@ export const SuppliesTable: React.FC = () => {
         mutationDeleteSupplies.isPending ||
         mutationDeleteSupply.isPending
       }
-    />
+    >
+      <div className="flex items-center justify-end gap-2 pb-2">
+        <p className="text-sm font-medium text-muted-foreground">
+          Mostrar inventario de masa como:
+        </p>
+        <div className="font-medium">
+          {' '}
+          <SelectedMassUnitOfMeasure
+            onChange={setMassUnitTypeToShowAmount}
+            valueSelect={unitMassTypeToShowAmount}
+          />
+        </div>
+      </div>
+      <div className="flex items-center justify-end gap-2 pb-2">
+        <p className="text-sm font-medium text-muted-foreground">
+          Mostrar inventario de volumen como:
+        </p>
+        <div className="font-medium">
+          {' '}
+          <SelectedVolumeUnitOfMeasure
+            onChange={setUnitVolumeTypeToShowAmount}
+            valueSelect={unitVolumeTypeToShowAmount}
+          />
+        </div>
+      </div>
+    </DataTableTemplate>
   );
 };

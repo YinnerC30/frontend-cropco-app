@@ -28,7 +28,9 @@ export const UsersActions: React.FC = () => {
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={queryUsers.refetch}
+        onClick={async () => {
+          await queryUsers.refetch();
+        }}
         disabled={!actionsUsersModule['find_all_users']}
         className=""
       />

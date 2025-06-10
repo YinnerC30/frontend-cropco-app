@@ -33,7 +33,9 @@ export const ClientsActions: React.FC = () => {
   return (
     <div className="flex justify-between">
       <ButtonRefetchData
-        onClick={queryClients.refetch}
+        onClick={async () => {
+          await queryClients.refetch();
+        }}
         disabled={!actionsClientsModule["find_all_clients"]}
         className=""
       />

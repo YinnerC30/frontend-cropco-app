@@ -4,7 +4,7 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import { createContext, useEffect, useMemo } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { BulkRecords } from '@/modules/core/interfaces';
@@ -17,6 +17,10 @@ import { Supply } from '../../interfaces/Supply';
 import { columnsTableSupplies } from './columnsTableSupplies';
 import { SuppliesModuleActionsTable } from './SuppliesModuleActionsTable';
 import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
+import {
+  MassUnitOfMeasure,
+  VolumeUnitOfMeasure,
+} from '../../interfaces/UnitOfMeasure';
 
 export interface SuppliesModuleContextProps {
   paramQuery: string;
@@ -25,6 +29,14 @@ export interface SuppliesModuleContextProps {
   mutationDeleteSupplies: UseMutationReturn<UseDeleteBulkResponse, BulkRecords>;
   mutationDeleteSupply: UseMutationReturn<void, string>;
   actionsSuppliesModule: Record<string, boolean>;
+  unitMassTypeToShowAmount: MassUnitOfMeasure;
+  setMassUnitTypeToShowAmount: React.Dispatch<
+    React.SetStateAction<MassUnitOfMeasure>
+  >;
+  unitVolumeTypeToShowAmount: VolumeUnitOfMeasure;
+  setUnitVolumeTypeToShowAmount: React.Dispatch<
+    React.SetStateAction<VolumeUnitOfMeasure>
+  >;
 }
 
 export const SuppliesModuleContext = createContext<
@@ -46,6 +58,11 @@ export const SuppliesModuleProvider = ({ children }: any) => {
   const { getActionsModule } = useAuthContext();
 
   const actionsSuppliesModule = useMemo(() => getActionsModule('supplies'), []);
+
+  const [unitMassTypeToShowAmount, setMassUnitTypeToShowAmount] =
+    useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
+  const [unitVolumeTypeToShowAmount, setUnitVolumeTypeToShowAmount] =
+    useState<VolumeUnitOfMeasure>(VolumeUnitOfMeasure.LITROS);
 
   const columnsTable = useCreateColumnsTable<Supply>({
     columns: columnsTableSupplies,
@@ -81,6 +98,10 @@ export const SuppliesModuleProvider = ({ children }: any) => {
     mutationDeleteSupply,
     actionsSuppliesModule,
     dataTable,
+    unitMassTypeToShowAmount,
+    setMassUnitTypeToShowAmount,
+    unitVolumeTypeToShowAmount,
+    setUnitVolumeTypeToShowAmount,
   };
 
   return (
