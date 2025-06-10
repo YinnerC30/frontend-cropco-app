@@ -80,12 +80,7 @@ export interface FormConsumptionContextValues {
   addSupplyStock: (supplyStock: SupplyStock) => void;
   removeSupplyStock: (supplyStock: SupplyStock) => void;
   validateAvailableStock: (record: SupplyStock) => boolean;
-  // currentSupply: Partial<Supply>;
-  // setCurrentSupply: React.Dispatch<React.SetStateAction<Partial<Supply>>>;
-  // currentUnitType: UnitOfMeasure | null;
-  // setCurrentUnitType: React.Dispatch<
-  //   React.SetStateAction<UnitOfMeasure | null>
-  // >;
+  
 }
 
 interface ConsumptionAction {

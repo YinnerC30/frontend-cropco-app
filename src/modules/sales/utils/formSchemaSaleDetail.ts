@@ -1,3 +1,4 @@
+import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { z } from 'zod';
 
 export const formSchemaSaleDetails = z.object({
@@ -26,6 +27,18 @@ export const formSchemaSaleDetails = z.object({
         message: 'El identificador del cliente debe ser un UUID válido.',
       }),
     full_name: z.string().optional(),
+  }),
+  unit_of_measure: z.nativeEnum(MassUnitOfMeasure, {
+    errorMap: (issue, _ctx) => {
+      switch (issue.code) {
+        case 'invalid_type':
+          return { message: 'Debe seleccionar una unidad de medida.' };
+        case 'invalid_enum_value':
+          return { message: 'Debe seleccionar una unidad de medida válida.' };
+        default:
+          return { message: 'Error en la selección de unidad de medida.' };
+      }
+    },
   }),
   amount: z.coerce
     .number({

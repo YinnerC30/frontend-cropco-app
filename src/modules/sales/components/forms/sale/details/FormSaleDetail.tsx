@@ -47,6 +47,7 @@ export const FormSaleDetail: React.FC = () => {
       id: values.crop.id,
       name: values.crop?.name!,
       stock: values.amount,
+      unit_of_measure: values.unit_of_measure,
     });
 
     if (!result) return;
@@ -62,6 +63,7 @@ export const FormSaleDetail: React.FC = () => {
         id: values.crop.id,
         name: values.crop?.name!,
         stock: values.amount,
+        unit_of_measure: values.unit_of_measure,
       });
 
       addSaleDetail(record);
@@ -71,6 +73,7 @@ export const FormSaleDetail: React.FC = () => {
         id: values.crop.id,
         name: values.crop?.name!,
         stock: values.amount,
+        unit_of_measure: values.unit_of_measure,
       });
 
       modifySaleDetail({

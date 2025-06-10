@@ -58,12 +58,12 @@ export const FormSaleDataTable: React.FC = () => {
       errorMessage={'Ha ocurrido un error en la tabla'}
       lengthColumns={lengthColumns}
     >
-      <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-full">
+      <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-11/12">
         {/* Barra */}
         <FormDataTableFilter
           placeholder={'Buscar por nombre del cliente...'}
           nameColumnFilter={'client_full_name'}
-          className="w-[250px] ml-10 self-start sm:self-center sm:m-0"
+          className="w-[270px] ml-10 self-start sm:self-center sm:m-0"
         />
 
         {/* Botones */}
@@ -89,7 +89,7 @@ export const FormSaleDataTable: React.FC = () => {
 
         {/* Tabla */}
         <ScrollArea
-          className="h-max-[460px] w-[85%] sm:w-full p-1 border rounded-sm self-start"
+          className="h-max-[460px] w-[85%] sm:w-auto p-1 border rounded-sm self-start"
           type="auto"
         >
           <FormDataTable

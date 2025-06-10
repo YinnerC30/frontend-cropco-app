@@ -1,4 +1,4 @@
-import { Badge, Form } from '@/components';
+import { Badge, Form, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components';
 import {
   FormFieldCalendar,
   FormFieldDataTable,
@@ -10,9 +10,10 @@ import { useFormSaleContext } from '@/modules/sales/hooks/context/useFormSaleCon
 import { formFieldsSale } from '@/modules/sales/utils';
 import { FormSaleDataTable } from './FormSaleDataTable';
 import React from 'react';
+import { MassUnitOfMeasure, UnitsType } from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 export const FormSaleFields: React.FC = () => {
-  const { formSale, onSubmit, readOnly, value_pay, amount } =
+  const { formSale, onSubmit, readOnly, value_pay, amount, unitTypeToShowAmount, setUnitTypeToShowAmount } =
     useFormSaleContext();
 
   return (
@@ -67,12 +68,35 @@ export const FormSaleFields: React.FC = () => {
           type="number"
           hiddenInput
         >
-          <Badge
-            className="block h-8 text-base text-center w-28"
-            variant={'cyan'}
-          >
-            {FormatNumber(amount) + ' Kg'}
-          </Badge>
+          <div className="flex items-center w-auto gap-2 py-4">
+              <Badge
+                className="block h-8 text-base text-center w-28"
+                variant={'cyan'}
+              >
+                {Number.isInteger(amount) ? amount : amount.toFixed(2)}
+              </Badge>
+
+              <Select
+                onValueChange={(value: any) => {
+                  setUnitTypeToShowAmount(value);
+                }}
+                defaultValue={MassUnitOfMeasure.KILOGRAMOS}
+                value={unitTypeToShowAmount}
+                disabled={readOnly}
+              >
+                <SelectTrigger /* ref={field.ref} */>
+                  <SelectValue placeholder={'Selecciona una medida'} />
+                </SelectTrigger>
+
+                <SelectContent>
+                  {[...UnitsType['GRAMOS']].map((item: any) => (
+                    <SelectItem key={item.key} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
         </FormFieldInput>
       </form>
     </Form>
