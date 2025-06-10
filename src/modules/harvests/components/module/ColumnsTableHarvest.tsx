@@ -3,7 +3,6 @@ import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
-import { FormatNumber } from '@/modules/core/helpers/formatting/FormatNumber';
 
 import { Badge, Button } from '@/components';
 import { Harvest, HarvestDetail } from '../../interfaces';
