@@ -39,7 +39,7 @@ export const ModuleCard: React.FC<ModuleCardProps> = memo<ModuleCardProps>(
           {getRouteIcon(name)}
         </CardHeader>
         <CardContent className="flex flex-col flex-wrap gap-4 m-2 rounded-md">
-          <div className="flex items-center self-start gap-2 py-4 ">
+          <div className="flex items-center self-start justify-between w-full gap-2 py-4 border-b-2">
             <Label className="">Activar todo</Label>
             <Switch
               defaultChecked={false}
