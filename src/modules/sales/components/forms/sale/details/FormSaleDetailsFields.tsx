@@ -23,7 +23,7 @@ import {
 } from '@/modules/core/components';
 import { useFormSaleContext } from '@/modules/sales/hooks';
 import { formFieldsSaleDetail } from '@/modules/sales/utils';
-import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
+import { CaretSortIcon } from '@radix-ui/react-icons';
 
 import { CapitalizeFirstWord } from '@/auth/helpers';
 import {

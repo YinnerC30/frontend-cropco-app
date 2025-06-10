@@ -4,13 +4,13 @@ import {
   FormFieldDataTable,
   FormFieldInput,
 } from '@/modules/core/components';
-import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
+import { FormatMoneyValue } from '@/modules/core/helpers';
 
 import { useFormSaleContext } from '@/modules/sales/hooks/context/useFormSaleContext';
 import { formFieldsSale } from '@/modules/sales/utils';
-import { FormSaleDataTable } from './FormSaleDataTable';
-import React from 'react';
 import { MassUnitOfMeasure, UnitsType } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import React from 'react';
+import { FormSaleDataTable } from './FormSaleDataTable';
 
 export const FormSaleFields: React.FC = () => {
   const { formSale, onSubmit, readOnly, value_pay, amount, unitTypeToShowAmount, setUnitTypeToShowAmount } =

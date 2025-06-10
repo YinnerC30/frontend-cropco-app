@@ -30,6 +30,7 @@ export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
       id: saleDetail.crop.id,
       name: saleDetail.crop.name,
       stock: saleDetail.amount,
+      unit_of_measure: saleDetail.unit_of_measure!,
     });
     removeSaleDetail(saleDetail);
     toast.success(

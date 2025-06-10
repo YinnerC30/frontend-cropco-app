@@ -4,7 +4,6 @@ import { Badge } from '@/components';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { SaleDetail } from '@/modules/sales/interfaces';
-import { FormatNumber } from '@/modules/core/helpers';
 
 export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
   {

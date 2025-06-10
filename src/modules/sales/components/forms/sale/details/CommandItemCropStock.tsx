@@ -1,7 +1,6 @@
 import { cn } from '@/lib/utils';
 import { FormatNumber } from '@/modules/core/helpers';
 import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
-import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import {
   MassUnitOfMeasure,
   UnitOfMeasure,
