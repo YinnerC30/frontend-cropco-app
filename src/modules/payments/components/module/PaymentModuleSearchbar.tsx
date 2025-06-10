@@ -106,7 +106,8 @@ export const PaymentModuleSearchbar: React.FC = () => {
 
     if (
       filter_by_method_of_payment.method_of_payment !==
-      MethodOfPaymentSearchBar.NONE
+        MethodOfPaymentSearchBar.NONE &&
+      filter_by_method_of_payment.method_of_payment !== undefined
     ) {
       filters.push({
         key: 'method_of_payment',
