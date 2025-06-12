@@ -45,7 +45,12 @@ export const useGetTopEmployeesInHarvests = ({
   const query: UseQueryGetAllRecordsReturn<EmployeeTopHarvest> = useQuery({
     queryKey: ['employees-top-harvests', year],
     queryFn: () => getTopEmployeesInHarvests({ year }),
-    select: ({ data }) => data,
+    select: ({ data }) => ({
+      ...data,
+      records: data.records.map((re) => {
+        return { ...re, full_name: re.first_name + ' ' + re.last_name };
+      }),
+    }),
     enabled: isAuthorized,
     refetchOnWindowFocus: false,
     ...CACHE_CONFIG_TIME.longTerm,

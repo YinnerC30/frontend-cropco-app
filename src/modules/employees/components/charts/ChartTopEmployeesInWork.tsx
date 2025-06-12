@@ -110,11 +110,14 @@ export function ChartTopEmployeesInWorks() {
 
               <CartesianGrid vertical={false} />
               <XAxis
-                dataKey="first_name"
+                dataKey="full_name"
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
-                tickFormatter={(value) => value.slice(0, 10)}
+                tickFormatter={(value) => {
+                  const firstName = value.split(' ')[0];
+                  return firstName.slice(0, 10);
+                }}
               />
 
               <ChartTooltip

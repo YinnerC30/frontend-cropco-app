@@ -85,6 +85,7 @@ export function ChartTopEmployeesInHarvests() {
       <CardContent>
         <div className="flex flex-wrap justify-between gap-4 mb-5">
           <div className="flex items-center px-4 py-2 space-x-2 border rounded-sm">
+            <Label htmlFor="show-value-pay">Mostrar pago</Label>
             <Switch
               defaultChecked={showValuePayBar}
               onCheckedChange={(value) => {
@@ -92,16 +93,21 @@ export function ChartTopEmployeesInHarvests() {
               }}
               id="show-value-pay"
             />
-            <Label htmlFor="show-value-pay">Mostrar pago</Label>
           </div>
           <YearSelector
             selectedYear={selectedYear}
             setSelectedYear={setSelectedYear}
           />
 
-          <div className="flex items-center justify-end gap-2 pb-2">
+          <ButtonRefetchData
+            onClick={async () => {
+              await queryEmployees.refetch();
+            }}
+            disabled={queryEmployees.isLoading}
+          />
+          <div className="flex items-center w-full gap-2 pb-2">
             <p className="text-sm font-medium text-muted-foreground">
-              Mostrar cantidad cosechada como:
+              Unidad de medida:
             </p>
             <div className="font-medium">
               {' '}
@@ -111,13 +117,6 @@ export function ChartTopEmployeesInHarvests() {
               />
             </div>
           </div>
-
-          <ButtonRefetchData
-            onClick={async () => {
-              await queryEmployees.refetch();
-            }}
-            disabled={queryEmployees.isLoading}
-          />
         </div>
         {chartData.length > 0 ? (
           <ChartContainer config={chartConfig}>
@@ -147,11 +146,14 @@ export function ChartTopEmployeesInHarvests() {
 
               <CartesianGrid vertical={false} />
               <XAxis
-                dataKey="first_name"
+                dataKey="full_name"
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
-                tickFormatter={(value) => value.slice(0, 10)}
+                tickFormatter={(value) => {
+                  const firstName = value.split(' ')[0];
+                  return firstName.slice(0, 10);
+                }}
               />
 
               <ChartTooltip
