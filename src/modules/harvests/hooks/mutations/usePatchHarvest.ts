@@ -47,7 +47,7 @@ export const usePatchHarvest = (): UseMutationReturn<void, Harvest> => {
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 };

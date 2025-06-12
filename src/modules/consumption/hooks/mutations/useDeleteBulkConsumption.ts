@@ -37,7 +37,7 @@ export const useDeleteBulkConsumption = (): UseMutationReturn<
       });
     },
 
-    retry: 1,
+    retry: false,
   });
 
   return mutation;

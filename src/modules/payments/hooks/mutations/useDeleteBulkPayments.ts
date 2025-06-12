@@ -53,7 +53,7 @@ export const useDeleteBulkPayments = (): UseMutationReturn<
       });
     },
 
-    retry: 1,
+    retry: false,
   });
 
   return mutation;

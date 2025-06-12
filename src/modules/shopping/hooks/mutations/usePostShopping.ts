@@ -42,7 +42,7 @@ export const usePostShopping = (): UseMutationReturn<
           messagesStatusError: {},
         });
       },
-      retry: 1,
+      retry: false,
     });
 
   return mutation;

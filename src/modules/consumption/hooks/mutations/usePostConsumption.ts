@@ -43,7 +43,7 @@ export const usePostConsumption = (): UseMutationReturn<
           messagesStatusError: {},
         });
       },
-      retry: 1,
+      retry: false,
     });
 
   return mutation;

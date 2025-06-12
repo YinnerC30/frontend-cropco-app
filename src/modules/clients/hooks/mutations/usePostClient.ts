@@ -33,7 +33,7 @@ export const usePostClient = (): UseMutationReturn<Client, Client> => {
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
 
   return mutation;

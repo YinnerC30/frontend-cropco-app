@@ -31,7 +31,7 @@ export const usePostSupply = (): UseMutationReturn<Supply, Supply> => {
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
 
   return mutation;

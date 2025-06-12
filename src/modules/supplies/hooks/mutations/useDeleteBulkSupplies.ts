@@ -47,7 +47,7 @@ export const useDeleteBulkSupplies = (): UseMutationReturn<
         });
       },
 
-      retry: 1,
+      retry: false,
     });
 
   return mutation;

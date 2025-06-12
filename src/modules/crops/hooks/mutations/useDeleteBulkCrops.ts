@@ -48,7 +48,7 @@ export const useDeleteBulkCrops = (): UseMutationReturn<
         });
       },
 
-      retry: 1,
+      retry: false,
     });
 
   return mutation;

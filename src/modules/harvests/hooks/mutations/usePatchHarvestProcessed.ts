@@ -43,7 +43,7 @@ export const usePatchHarvestProcessed = (): UseMutationReturn<
         },
       });
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 };

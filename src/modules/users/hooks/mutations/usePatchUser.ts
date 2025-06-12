@@ -48,7 +48,7 @@ export function usePatchUser(): UseMutationReturn<User, Partial<User>> {
         },
       });
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 }

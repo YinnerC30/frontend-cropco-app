@@ -39,7 +39,7 @@ export function usePatchUserStatus(): UseMutationReturn<void, string> {
         },
       });
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 }

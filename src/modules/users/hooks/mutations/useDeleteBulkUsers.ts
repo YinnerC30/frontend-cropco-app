@@ -35,7 +35,7 @@ export const useDeleteBulkUsers = (): UseMutationReturn<void, BulkRecords> => {
         },
       });
     },
-    retry: 1,
+    retry: false,
   });
 
   return mutation;

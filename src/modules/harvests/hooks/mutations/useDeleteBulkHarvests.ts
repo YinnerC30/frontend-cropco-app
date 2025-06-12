@@ -50,7 +50,7 @@ export const useDeleteBulkHarvests = (): UseMutationReturn<
         });
       },
 
-      retry: 1,
+      retry: false,
     });
 
   return mutation;

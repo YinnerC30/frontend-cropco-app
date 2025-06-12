@@ -38,7 +38,7 @@ export const useDeleteHarvest = (): UseMutationReturn<void, string> => {
         messagesStatusError: {}
       })
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 };

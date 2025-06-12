@@ -43,7 +43,7 @@ export const usePatchConsumption = (
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 };

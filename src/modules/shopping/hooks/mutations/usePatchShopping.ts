@@ -42,7 +42,7 @@ export const usePatchShopping = (
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 };

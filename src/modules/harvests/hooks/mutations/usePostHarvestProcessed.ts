@@ -43,7 +43,7 @@ export const usePostHarvestProcessed = (): UseMutationReturn<
         },
       });
     },
-    retry: 1,
+    retry: false,
   });
 
   return mutation;

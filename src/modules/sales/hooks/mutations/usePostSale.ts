@@ -36,7 +36,7 @@ export const usePostSale = (): UseMutationReturn<void, Sale> => {
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
 
   return mutation;

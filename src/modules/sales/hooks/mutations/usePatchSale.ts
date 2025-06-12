@@ -38,7 +38,7 @@ export const usePatchSale = (id: string): UseMutationReturn<void, Sale> => {
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 };

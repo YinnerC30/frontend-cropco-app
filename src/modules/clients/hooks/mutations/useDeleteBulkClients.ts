@@ -47,7 +47,7 @@ export const useDeleteBulkClients = (): UseMutationReturn<
       });
     },
 
-    retry: 1,
+    retry: false,
   });
 
   return mutation;
