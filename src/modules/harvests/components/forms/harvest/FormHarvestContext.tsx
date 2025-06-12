@@ -29,8 +29,7 @@ import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreate
 import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 import { FormProps, ResponseApiGetAllRecords } from '@/modules/core/interfaces';
 import {
-  MassUnitOfMeasure,
-  UnitOfMeasure,
+  MassUnitOfMeasure
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -177,8 +176,8 @@ export const FormHarvestProvider: React.FC<
       detailsHarvest.reduce((amount: number, detail: HarvestDetail) => {
         const convertedAmount = convert(
           Number(detail.amount),
-          detail.unit_of_measure! as UnitOfMeasure,
-          unitTypeToShowAmount as any
+          detail.unit_of_measure!,
+          unitTypeToShowAmount
         );
         return Number(amount) + convertedAmount;
       }, 0),

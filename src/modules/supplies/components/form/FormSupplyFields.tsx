@@ -6,7 +6,10 @@ import {
   FormFieldSelect,
   FormFieldTextArea,
 } from '@/modules/core/components';
-import { UnitOfMeasure } from '../../interfaces/UnitOfMeasure';
+import {
+  MassUnitOfMeasure,
+  VolumeUnitOfMeasure,
+} from '../../interfaces/UnitOfMeasure';
 import { formFieldsSupply } from '../../utils';
 
 export const FormSupplyFields = () => {
@@ -38,13 +41,13 @@ export const FormSupplyFields = () => {
         <FormFieldSelect
           items={[
             {
-              key: UnitOfMeasure.GRAMOS,
-              value: UnitOfMeasure.GRAMOS,
+              key: MassUnitOfMeasure.GRAMOS,
+              value: MassUnitOfMeasure.GRAMOS,
               label: 'Gramos',
             },
             {
-              key: UnitOfMeasure.MILILITROS,
-              value: UnitOfMeasure.MILILITROS,
+              key: VolumeUnitOfMeasure.MILILITROS,
+              value: VolumeUnitOfMeasure.MILILITROS,
               label: 'Mililitros',
             },
           ]}
@@ -62,7 +65,7 @@ export const FormSupplyFields = () => {
           name={'observation'}
           placeholder={formFieldsSupply.observation.placeholder}
           disabled={readOnly}
-          className='sm:w-2/4'
+          className="sm:w-2/4"
         />
       </form>
     </Form>

@@ -80,7 +80,6 @@ export interface FormConsumptionContextValues {
   addSupplyStock: (supplyStock: SupplyStock) => void;
   removeSupplyStock: (supplyStock: SupplyStock) => void;
   validateAvailableStock: (record: SupplyStock) => boolean;
-  
 }
 
 interface ConsumptionAction {
@@ -329,7 +328,6 @@ export const FormConsumptionProvider: React.FC<
       unit_of_measure: consumptionDetail.unit_of_measure,
       supply: consumptionDetail.supply,
     } as any);
-    // formConsumptionDetail.reset(defaultValuesConsumptionDetail);
     if (formConsumption.formState.isDirty) {
       markChanges(true);
     }

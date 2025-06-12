@@ -29,12 +29,12 @@ import { Plus } from 'lucide-react';
 import { memo, useEffect } from 'react';
 
 import { ConvertStringToDate } from '@/modules/core/helpers';
+import {
+  MassUnitOfMeasure,
+  UnitsType
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { z } from 'zod';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
-import {
-  UnitOfMeasure,
-  UnitsType,
-} from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 const formSchemaHarvestProcessed = z.object({
   date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
@@ -198,7 +198,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
                 />
 
                 <FormFieldSelect
-                  items={UnitsType[UnitOfMeasure.GRAMOS]}
+                  items={UnitsType[MassUnitOfMeasure.GRAMOS]}
                   control={formProcessed.control}
                   description={
                     formFieldsHarvestProcessed.unit_of_measure.description

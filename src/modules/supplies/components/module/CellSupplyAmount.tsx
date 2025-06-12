@@ -2,7 +2,11 @@ import { Row } from '@tanstack/react-table';
 import { useSuppliesModuleContext } from '../../hooks';
 import { Supply } from '../../interfaces/Supply';
 import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
-import { UnitOfMeasure } from '../../interfaces/UnitOfMeasure';
+import {
+  MassUnitOfMeasure,
+  UnitOfMeasure,
+  VolumeUnitOfMeasure,
+} from '../../interfaces/UnitOfMeasure';
 
 export const CellSupplyAmount = ({ row }: { row: Row<Supply> }) => {
   const { getUnitType } = useUnitConverter();
@@ -19,14 +23,14 @@ export const CellSupplyAmount = ({ row }: { row: Row<Supply> }) => {
   if (group === 'mass') {
     convertedValue = convert(
       rawValue,
-      'GRAMOS' as any,
-      unitMassTypeToShowAmount as any
+      MassUnitOfMeasure.GRAMOS,
+      unitMassTypeToShowAmount
     );
   } else if (group === 'volume') {
     convertedValue = convert(
       rawValue,
-      'MILILITROS' as any,
-      unitVolumeTypeToShowAmount as any
+      VolumeUnitOfMeasure.MILILITROS,
+      unitVolumeTypeToShowAmount
     );
   }
 

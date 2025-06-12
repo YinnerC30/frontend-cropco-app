@@ -2,6 +2,7 @@ import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 import { Row } from '@tanstack/react-table';
 import { useSaleModuleContext } from '../../hooks/context/useSaleModuleContext';
 import { Sale } from '../../interfaces';
+import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 export const CellSaleAmount = ({ row }: { row: Row<Sale> }) => {
   const { unitTypeToShowAmount } = useSaleModuleContext();
@@ -12,8 +13,8 @@ export const CellSaleAmount = ({ row }: { row: Row<Sale> }) => {
 
   const convertedValue = convert(
     rawValue,
-    'GRAMOS' as any,
-    unitTypeToShowAmount as any
+    MassUnitOfMeasure.GRAMOS,
+    unitTypeToShowAmount
   );
 
   return convertedValue;

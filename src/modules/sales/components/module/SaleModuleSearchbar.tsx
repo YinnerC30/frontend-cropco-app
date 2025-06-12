@@ -64,12 +64,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { cn } from '@/lib/utils';
-import { CaretSortIcon } from '@radix-ui/react-icons';
 import {
   MassUnitOfMeasure,
-  UnitOfMeasure,
-  UnitsType,
+  UnitsType
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { CaretSortIcon } from '@radix-ui/react-icons';
 
 const valuesResetForm = {
   filter_by_date: {
@@ -798,7 +797,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                     />
                     <FormFieldSelect
                       disabled={false}
-                      items={UnitsType[UnitOfMeasure.GRAMOS]}
+                      items={UnitsType[MassUnitOfMeasure.GRAMOS]}
                       {...formFieldsSearchBarSale.type_unit_of_measure}
                       control={form.control}
                       name="filter_by_amount.type_unit_of_measure"

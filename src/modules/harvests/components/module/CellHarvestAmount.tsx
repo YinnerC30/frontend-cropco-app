@@ -2,6 +2,7 @@ import { Row } from '@tanstack/react-table';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
 import { Harvest } from '../../interfaces';
 import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
+import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 export const CellHarvestAmount = ({ row }: { row: Row<Harvest> }) => {
   const { unitTypeToShowAmount } = useHarvestModuleContext();
@@ -12,8 +13,8 @@ export const CellHarvestAmount = ({ row }: { row: Row<Harvest> }) => {
 
   const convertedValue = convert(
     rawValue,
-    'GRAMOS' as any,
-    unitTypeToShowAmount as any
+    MassUnitOfMeasure.GRAMOS,
+    unitTypeToShowAmount
   );
 
   return convertedValue;

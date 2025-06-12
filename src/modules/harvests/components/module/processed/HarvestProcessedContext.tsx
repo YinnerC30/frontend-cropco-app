@@ -62,7 +62,7 @@ export const HarvestProcessedProvider: React.FC<{
     ? convert(
         queryOneHarvest.data.amount,
         'GRAMOS' as UnitOfMeasure,
-        unitTypeToShowAmount as any
+        unitTypeToShowAmount
       )
     : 0;
 
@@ -70,7 +70,7 @@ export const HarvestProcessedProvider: React.FC<{
     ? convert(
         queryOneHarvest.data.total_amount_processed!,
         'GRAMOS' as UnitOfMeasure,
-        unitTypeToShowProcessedAmount as any
+        unitTypeToShowProcessedAmount
       )
     : 0;
 

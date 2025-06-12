@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { UnitOfMeasure } from "../interfaces/UnitOfMeasure";
+import { AllUnitsOfMeasure } from "../interfaces/UnitOfMeasure";
 
 export const formSchemaSupply = z.object({
   name: z
@@ -14,7 +14,7 @@ export const formSchemaSupply = z.object({
       message: "La marca debe tener al menos 4 caracteres",
     })
     .max(100, { message: `El apellido no debe exceder los 100 caracteres` }),
-  unit_of_measure: z.nativeEnum(UnitOfMeasure, {
+  unit_of_measure: z.nativeEnum(AllUnitsOfMeasure, {
     errorMap: (issue, _ctx) => {
       switch (issue.code) {
         case "invalid_type":

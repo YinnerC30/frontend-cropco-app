@@ -34,8 +34,10 @@ import { useGetAllCrops } from '@/modules/crops/hooks';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
 import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import {
+  MassUnitOfMeasure,
   UnitOfMeasure,
   UnitsType,
+  VolumeUnitOfMeasure,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { useEffect, useRef, useState } from 'react';
@@ -289,9 +291,9 @@ export const FormConsumptionDetailsFields: React.FC = () => {
         )}
 
         {!!currentSupply.id &&
-          currentSupply.unit_of_measure === UnitOfMeasure.GRAMOS && (
+          currentSupply.unit_of_measure === MassUnitOfMeasure.GRAMOS && (
             <FormFieldSelect
-              items={UnitsType[UnitOfMeasure.GRAMOS]}
+              items={UnitsType[MassUnitOfMeasure.GRAMOS]}
               control={formConsumptionDetail.control}
               description={
                 formFieldsConsumptionDetail.unit_of_measure.description
@@ -308,9 +310,9 @@ export const FormConsumptionDetailsFields: React.FC = () => {
           )}
 
         {!!currentSupply.id &&
-          currentSupply.unit_of_measure === UnitOfMeasure.MILILITROS && (
+          currentSupply.unit_of_measure === VolumeUnitOfMeasure.MILILITROS && (
             <FormFieldSelect
-              items={UnitsType[UnitOfMeasure.MILILITROS]}
+              items={UnitsType[VolumeUnitOfMeasure.MILILITROS]}
               control={formConsumptionDetail.control}
               description={
                 formFieldsConsumptionDetail.unit_of_measure.description

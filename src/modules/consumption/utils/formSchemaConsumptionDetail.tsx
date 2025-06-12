@@ -1,4 +1,4 @@
-import { UnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { AllUnitsOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { z } from 'zod';
 
 export const formSchemaConsumptionDetail = z.object({
@@ -17,7 +17,7 @@ export const formSchemaConsumptionDetail = z.object({
         message: 'El insumo es un campo obligatorio',
       }),
     name: z.string().optional(),
-    unit_of_measure: z.nativeEnum(UnitOfMeasure, {
+    unit_of_measure: z.nativeEnum(AllUnitsOfMeasure, {
       errorMap: (issue, _ctx) => {
         switch (issue.code) {
           case 'invalid_type':
@@ -40,7 +40,7 @@ export const formSchemaConsumptionDetail = z.object({
       }),
     name: z.string().optional(),
   }),
-  unit_of_measure: z.nativeEnum(UnitOfMeasure, {
+  unit_of_measure: z.nativeEnum(AllUnitsOfMeasure, {
     errorMap: (issue, _ctx) => {
       switch (issue.code) {
         case 'invalid_type':

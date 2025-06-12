@@ -46,6 +46,10 @@ import {
   numberFilterOptions,
 } from '@/modules/core/interfaces/queries/FilterOptions';
 import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
+import {
+  MassUnitOfMeasure,
+  UnitsType
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -57,11 +61,6 @@ import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleCon
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
 import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarvest';
 import { formSchemaSearchBarHarvest } from '../../utils/formSchemaSearchBarHarvest';
-import {
-  MassUnitOfMeasure,
-  UnitsType,
-  UnitOfMeasure,
-} from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 const valuesResetForm = {
   crop: {
@@ -587,7 +586,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                     />
 
                     <FormFieldSelect
-                      items={UnitsType[UnitOfMeasure.GRAMOS]}
+                      items={UnitsType[MassUnitOfMeasure.GRAMOS]}
                       control={form.control}
                       description={
                         formFieldsSearchBarHarvest.type_unit_of_measure

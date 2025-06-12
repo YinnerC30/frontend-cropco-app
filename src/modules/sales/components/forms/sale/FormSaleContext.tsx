@@ -259,8 +259,8 @@ export const FormSaleProvider: React.FC<
     try {
       saleAmountInGrams = convert(
         record.stock,
-        record.unit_of_measure as any,
-        'GRAMOS' as any
+        record.unit_of_measure,
+        MassUnitOfMeasure.GRAMOS,
       );
     } catch (error) {
       return false;
@@ -270,8 +270,8 @@ export const FormSaleProvider: React.FC<
 
     const cropStockConverted = convert(
       crop.stock,
-      'GRAMOS' as any,
-      record.unit_of_measure as any
+      MassUnitOfMeasure.GRAMOS,
+      record.unit_of_measure
     );
 
     if (!result) {
@@ -299,8 +299,8 @@ export const FormSaleProvider: React.FC<
   const addCropStock = (cropStock: CropStock): void => {
     const result = convert(
       cropStock.stock,
-      cropStock.unit_of_measure as any,
-      'GRAMOS' as any
+      cropStock.unit_of_measure,
+      MassUnitOfMeasure.GRAMOS,
     );
     dispatchCropStock({
       type: 'ADD',
@@ -311,8 +311,8 @@ export const FormSaleProvider: React.FC<
   const removeCropStock = (cropStock: CropStock): void => {
     const result = convert(
       cropStock.stock,
-      cropStock.unit_of_measure as any,
-      'GRAMOS' as any
+      cropStock.unit_of_measure,
+      MassUnitOfMeasure.GRAMOS,
     );
     dispatchCropStock({
       type: 'REMOVE',
@@ -351,8 +351,8 @@ export const FormSaleProvider: React.FC<
       detailsSale.reduce((amount: number, detail: SaleDetail) => {
         const convertedAmount = convert(
           Number(detail.amount),
-          detail.unit_of_measure! as any,
-          unitTypeToShowAmount as any
+          detail.unit_of_measure!,
+          unitTypeToShowAmount
         );
         return Number(amount) + convertedAmount;
       }, 0),

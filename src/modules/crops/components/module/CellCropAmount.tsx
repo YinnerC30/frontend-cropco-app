@@ -2,6 +2,7 @@ import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 import { Row } from '@tanstack/react-table';
 import { useCropsModuleContext } from '../../hooks';
 import { Crop } from '../../interfaces/Crop';
+import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 export const CellCropAmount = ({ row }: { row: Row<Crop> }) => {
   const { unitTypeToShowAmount } = useCropsModuleContext();
@@ -12,8 +13,8 @@ export const CellCropAmount = ({ row }: { row: Row<Crop> }) => {
 
   const convertedValue = convert(
     rawValue,
-    'GRAMOS' as any,
-    unitTypeToShowAmount as any
+    MassUnitOfMeasure.GRAMOS,
+    unitTypeToShowAmount
   );
 
   return convertedValue;

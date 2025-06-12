@@ -7,7 +7,7 @@ export interface HarvestDetail extends LogicDeleteRecordProps {
   id?: string;
   employee: ObjectWithId;
   payments_harvest?: any[];
-  unit_of_measure: MassUnitOfMeasure | string | undefined;
+  unit_of_measure: MassUnitOfMeasure | undefined;
   amount: number;
   value_pay: number;
   harvest?: Harvest;

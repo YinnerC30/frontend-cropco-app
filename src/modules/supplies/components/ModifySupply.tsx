@@ -1,6 +1,8 @@
 import { Loading } from '@/modules/core/components';
 import { BreadCrumb } from '@/modules/core/components/';
-import { UnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import {
+  AllUnitsOfMeasure
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
 
@@ -39,7 +41,9 @@ export const ModifySupply = () => {
           brand: data?.brand!,
           observation: data?.observation!,
           unit_of_measure:
-            UnitOfMeasure[data?.unit_of_measure as keyof typeof UnitOfMeasure],
+            AllUnitsOfMeasure[
+              data?.unit_of_measure as keyof typeof AllUnitsOfMeasure
+            ],
         }}
       />
     </>

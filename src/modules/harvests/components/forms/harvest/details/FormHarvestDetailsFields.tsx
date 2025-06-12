@@ -10,8 +10,8 @@ import { HarvestDetail } from '@/modules/harvests/interfaces';
 
 import { formFieldsHarvestDetail } from '@/modules/harvests/utils';
 import {
-  UnitOfMeasure,
-  UnitsType,
+  MassUnitOfMeasure,
+  UnitsType
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { useCallback, useEffect } from 'react';
 
@@ -59,7 +59,7 @@ export const FormHarvestDetailsFields: React.FC = () => {
         />
 
         <FormFieldSelect
-          items={UnitsType[UnitOfMeasure.GRAMOS]}
+          items={UnitsType[MassUnitOfMeasure.GRAMOS]}
           control={formHarvestDetail.control}
           description={formFieldsHarvestDetail.unit_of_measure.description}
           label={formFieldsHarvestDetail.unit_of_measure.label}

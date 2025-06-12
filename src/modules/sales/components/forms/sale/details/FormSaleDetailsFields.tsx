@@ -37,8 +37,7 @@ import {
 } from '@/components/ui/command';
 import {
   MassUnitOfMeasure,
-  UnitOfMeasure,
-  UnitsType,
+  UnitsType
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { useEffect, useRef, useState } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
@@ -233,7 +232,7 @@ export const FormSaleDetailsFields: React.FC = () => {
         />
 
         <FormFieldSelect
-          items={UnitsType[UnitOfMeasure.GRAMOS]}
+          items={UnitsType[MassUnitOfMeasure.GRAMOS]}
           control={formSaleDetail.control}
           description={formFieldsSaleDetail.unit_of_measure.description}
           label={formFieldsSaleDetail.unit_of_measure.label}

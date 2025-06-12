@@ -39,8 +39,10 @@ import { Loading } from '@/modules/core/components';
 import { formFieldsSaleDetail } from '@/modules/sales/utils';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
 import {
+  MassUnitOfMeasure,
   UnitOfMeasure,
   UnitsType,
+  VolumeUnitOfMeasure,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { CheckIcon } from 'lucide-react';
@@ -286,9 +288,9 @@ export const FormShoppingDetailsFields: React.FC = () => {
         )}
 
         {!!currentSupply.id &&
-          currentSupply.unit_of_measure === UnitOfMeasure.GRAMOS && (
+          currentSupply.unit_of_measure === MassUnitOfMeasure.GRAMOS && (
             <FormFieldSelect
-              items={UnitsType[UnitOfMeasure.GRAMOS]}
+              items={UnitsType[MassUnitOfMeasure.GRAMOS]}
               control={formShoppingDetail.control}
               description={formFieldsShoppingDetail.unit_of_measure.description}
               label={formFieldsShoppingDetail.unit_of_measure.label}
@@ -301,9 +303,9 @@ export const FormShoppingDetailsFields: React.FC = () => {
           )}
 
         {!!currentSupply.id &&
-          currentSupply.unit_of_measure === UnitOfMeasure.MILILITROS && (
+          currentSupply.unit_of_measure === VolumeUnitOfMeasure.MILILITROS && (
             <FormFieldSelect
-              items={UnitsType[UnitOfMeasure.MILILITROS]}
+              items={UnitsType[VolumeUnitOfMeasure.MILILITROS]}
               control={formShoppingDetail.control}
               description={formFieldsShoppingDetail.unit_of_measure.description}
               label={formFieldsShoppingDetail.unit_of_measure.label}

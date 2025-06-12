@@ -1,4 +1,4 @@
-import { UnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { AllUnitsOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { z } from 'zod';
 
 export const formSchemaShoppingDetail = z.object({
@@ -17,7 +17,7 @@ export const formSchemaShoppingDetail = z.object({
         message: 'Debe selecciónar uno de los insumos.',
       }),
     name: z.string().optional(),
-    unit_of_measure: z.nativeEnum(UnitOfMeasure, {
+    unit_of_measure: z.nativeEnum(AllUnitsOfMeasure, {
       errorMap: (issue, _ctx) => {
         switch (issue.code) {
           case 'invalid_type':
@@ -44,7 +44,7 @@ export const formSchemaShoppingDetail = z.object({
     full_name: z.string().optional(),
   }),
 
-  unit_of_measure: z.nativeEnum(UnitOfMeasure, {
+  unit_of_measure: z.nativeEnum(AllUnitsOfMeasure, {
     errorMap: (issue, _ctx) => {
       switch (issue.code) {
         case 'invalid_type':

@@ -4,7 +4,6 @@ import { useCreateForm } from '@/modules/core/hooks';
 import { FormContextProps, FormProps } from '@/modules/core/interfaces';
 import { z } from 'zod';
 import { Supply } from '../../interfaces/Supply';
-import { UnitOfMeasure } from '../../interfaces/UnitOfMeasure';
 import { formSchemaSupply } from '../../utils';
 
 // Definición de los valores por defecto a nivel de módulo
@@ -12,7 +11,7 @@ import { formSchemaSupply } from '../../utils';
 export const moduleDefaultValues: Partial<z.infer<typeof formSchemaSupply>> = {
   name: '',
   brand: '',
-  unit_of_measure: UnitOfMeasure.GRAMOS,
+  unit_of_measure: undefined,
   observation: '',
   // Asegúrate de que todos los campos de formSchemaSupply estén aquí
   // con un valor inicial definido (ej. '', 0, false, [], etc.)

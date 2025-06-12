@@ -29,8 +29,8 @@ export const BadgeCropStock = ({
   try {
     convertedAmount = convert(
       selectedCrop?.stock!,
-      'GRAMOS' as any,
-      convertTo as any
+      MassUnitOfMeasure.GRAMOS,
+      convertTo
     );
   } catch (error) {
     console.error('Hubo un error al convertir', error);

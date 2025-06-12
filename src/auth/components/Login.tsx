@@ -28,7 +28,9 @@ export const Login: React.FC = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const togglePasswordVisibility = (event: any) => {
+  const togglePasswordVisibility = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
     setShowPassword(!showPassword);
   };

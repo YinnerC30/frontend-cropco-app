@@ -4,17 +4,6 @@ export enum VolumeUnitOfMeasure {
   GALONES = 'GALONES',
 }
 
-export enum UnitOfMeasure {
-  GRAMOS = 'GRAMOS',
-  MILILITROS = 'MILILITROS',
-  KILOGRAMOS = 'KILOGRAMOS',
-  LIBRAS = 'LIBRAS',
-  ONZAS = 'ONZAS',
-  TONELADAS = 'TONELADAS',
-  LITROS = 'LITROS',
-  GALONES = 'GALONES',
-}
-
 export enum MassUnitOfMeasure {
   GRAMOS = 'GRAMOS',
   KILOGRAMOS = 'KILOGRAMOS',
@@ -23,59 +12,74 @@ export enum MassUnitOfMeasure {
   TONELADAS = 'TONELADAS',
 }
 
+export enum AllUnitsOfMeasure {
+  //MASS
+  GRAMOS = 'GRAMOS',
+  KILOGRAMOS = 'KILOGRAMOS',
+  LIBRAS = 'LIBRAS',
+  ONZAS = 'ONZAS',
+  TONELADAS = 'TONELADAS',
+  //Volume
+  MILILITROS = 'MILILITROS',
+  LITROS = 'LITROS',
+  GALONES = 'GALONES',
+}
+
+export type UnitOfMeasure = VolumeUnitOfMeasure | MassUnitOfMeasure;
+
 export const UnitsType: {
   GRAMOS: {
-    key: UnitOfMeasure;
-    value: UnitOfMeasure;
+    key: MassUnitOfMeasure;
+    value: MassUnitOfMeasure;
     label: string;
   }[];
   MILILITROS: {
-    key: UnitOfMeasure;
-    value: UnitOfMeasure;
+    key: VolumeUnitOfMeasure;
+    value: VolumeUnitOfMeasure;
     label: string;
   }[];
 } = {
   GRAMOS: [
     {
-      key: UnitOfMeasure.GRAMOS,
-      value: UnitOfMeasure.GRAMOS,
+      key: MassUnitOfMeasure.GRAMOS,
+      value: MassUnitOfMeasure.GRAMOS,
       label: 'Gramos',
     },
     {
-      key: UnitOfMeasure.ONZAS,
-      value: UnitOfMeasure.ONZAS,
+      key: MassUnitOfMeasure.ONZAS,
+      value: MassUnitOfMeasure.ONZAS,
       label: 'Onzas',
     },
     {
-      key: UnitOfMeasure.LIBRAS,
-      value: UnitOfMeasure.LIBRAS,
+      key: MassUnitOfMeasure.LIBRAS,
+      value: MassUnitOfMeasure.LIBRAS,
       label: 'Libras',
     },
     {
-      key: UnitOfMeasure.KILOGRAMOS,
-      value: UnitOfMeasure.KILOGRAMOS,
+      key: MassUnitOfMeasure.KILOGRAMOS,
+      value: MassUnitOfMeasure.KILOGRAMOS,
       label: 'Kilogramos',
     },
     {
-      key: UnitOfMeasure.TONELADAS,
-      value: UnitOfMeasure.TONELADAS,
+      key: MassUnitOfMeasure.TONELADAS,
+      value: MassUnitOfMeasure.TONELADAS,
       label: 'Toneladas',
     },
   ],
   MILILITROS: [
     {
-      key: UnitOfMeasure.MILILITROS,
-      value: UnitOfMeasure.MILILITROS,
+      key: VolumeUnitOfMeasure.MILILITROS,
+      value: VolumeUnitOfMeasure.MILILITROS,
       label: 'Mililitros',
     },
     {
-      key: UnitOfMeasure.LITROS,
-      value: UnitOfMeasure.LITROS,
+      key: VolumeUnitOfMeasure.LITROS,
+      value: VolumeUnitOfMeasure.LITROS,
       label: 'Litros',
     },
     {
-      key: UnitOfMeasure.GALONES,
-      value: UnitOfMeasure.GALONES,
+      key: VolumeUnitOfMeasure.GALONES,
+      value: VolumeUnitOfMeasure.GALONES,
       label: 'Galones',
     },
   ],
