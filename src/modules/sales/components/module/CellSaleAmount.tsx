@@ -1,8 +1,12 @@
+import { Badge } from '@/components';
 import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
+import {
+  MassUnitOfMeasure,
+  UnitSymbols,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { Row } from '@tanstack/react-table';
 import { useSaleModuleContext } from '../../hooks/context/useSaleModuleContext';
 import { Sale } from '../../interfaces';
-import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 export const CellSaleAmount = ({ row }: { row: Row<Sale> }) => {
   const { unitTypeToShowAmount } = useSaleModuleContext();
@@ -17,5 +21,12 @@ export const CellSaleAmount = ({ row }: { row: Row<Sale> }) => {
     unitTypeToShowAmount
   );
 
-  return convertedValue;
+  const symbolToShow = UnitSymbols[unitTypeToShowAmount];
+
+  return (
+    <div className="flex items-center gap-2">
+      <span>{convertedValue}</span>
+      <Badge>{symbolToShow}</Badge>
+    </div>
+  );
 };
