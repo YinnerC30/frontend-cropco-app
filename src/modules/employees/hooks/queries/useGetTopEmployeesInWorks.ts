@@ -14,7 +14,7 @@ interface EmployeeTopWork {
   first_name: string;
   last_name: string;
   total_works: number;
-  value_pay_works: number;
+  total_value_pay: number;
 }
 
 export const getTopEmployeesInWorks = async ({
@@ -54,7 +54,7 @@ export const useGetTopEmployeesInWorks = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado del top usuarios en trabajos 😑'
+        'No tienes permiso para ver el listado del top empleados en los trabajos 😑'
       );
     }
   }, [isAuthorized]);
@@ -65,7 +65,7 @@ export const useGetTopEmployeesInWorks = ({
         error: query.error,
         messagesStatusError: {
           unauthorized:
-            'No tienes permiso para ver el listado del top usuarios en trabajos 😑',
+            'No tienes permiso para ver el listado del top empleados en los trabajos 😑',
         },
       });
     }

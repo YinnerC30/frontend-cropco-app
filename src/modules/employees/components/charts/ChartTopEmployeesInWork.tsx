@@ -27,7 +27,7 @@ const chartConfig: ChartConfig = {
   first_name: {
     label: 'Nombre',
   },
-  value_pay_works: {
+  total_value_pay: {
     label: 'Pago',
     color: 'hsl(var(--chart-1))',
   },
@@ -101,10 +101,10 @@ export function ChartTopEmployeesInWorks() {
 
               {showValuePayBar && (
                 <YAxis
-                  dataKey={'value_pay_works'}
+                  dataKey={'total_value_pay'}
                   yAxisId="right"
                   orientation="right"
-                  stroke="var(--color-value_pay_works)"
+                  stroke="var(--color-total_value_pay)"
                 />
               )}
 
@@ -154,8 +154,8 @@ export function ChartTopEmployeesInWorks() {
               />
               {showValuePayBar && (
                 <Bar
-                  dataKey="value_pay_works"
-                  fill="var(--color-value_pay_works)"
+                  dataKey="total_value_pay"
+                  fill="var(--color-total_value_pay)"
                   radius={4}
                   yAxisId="right"
                 />
