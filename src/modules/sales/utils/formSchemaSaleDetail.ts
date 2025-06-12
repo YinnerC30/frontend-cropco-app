@@ -5,7 +5,7 @@ export const formSchemaSaleDetails = z.object({
   id: z
     .string()
     .uuid({
-      message: 'El identificador del registro detalle debe ser un UUID válido.',
+      message: 'El identificador del detalle de consumo no es valido',
     })
     .optional(),
   crop: z.object({
@@ -14,7 +14,7 @@ export const formSchemaSaleDetails = z.object({
         required_error: 'El cultivo es un campo obligatorio',
       })
       .uuid({
-        message: 'El identificador del cultivo debe ser un UUID válido.',
+        message: 'EEl cultivo es un campo obligatorio',
       }),
     name: z.string().optional(),
   }),
@@ -24,7 +24,7 @@ export const formSchemaSaleDetails = z.object({
         required_error: 'El cliente es un campo obligatorio',
       })
       .uuid({
-        message: 'El identificador del cliente debe ser un UUID válido.',
+        message: 'El cliente es un campo obligatorio',
       }),
     full_name: z.string().optional(),
   }),

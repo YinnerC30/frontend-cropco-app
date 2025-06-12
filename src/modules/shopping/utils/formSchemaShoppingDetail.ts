@@ -5,7 +5,7 @@ export const formSchemaShoppingDetail = z.object({
   id: z
     .string()
     .uuid({
-      message: 'El identificador del registro detalle debe ser un UUID válido.',
+      message: 'El identificador del registro detalle debe no es válido.',
     })
     .optional(),
   supply: z.object({

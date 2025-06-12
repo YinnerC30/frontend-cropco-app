@@ -5,7 +5,7 @@ export const formSchemaConsumptionDetail = z.object({
   id: z
     .string()
     .uuid({
-      message: 'El identificador del cultivo debe ser un UUID válido.',
+      message: 'El identificador del detalle de consumo no es valido',
     })
     .optional(),
   supply: z.object({

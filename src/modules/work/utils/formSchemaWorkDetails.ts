@@ -4,7 +4,7 @@ export const formSchemaWorkDetails = z.object({
   id: z
     .string()
     .uuid({
-      message: 'El identificador del cultivo debe ser un UUID válido.',
+      message: 'El identificador del cultivo no es válido.',
     })
     .optional(),
   value_pay: z.coerce
