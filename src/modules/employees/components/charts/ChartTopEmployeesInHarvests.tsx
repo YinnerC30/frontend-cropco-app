@@ -22,13 +22,16 @@ import YearSelector from '@/modules/core/components/shared/YearSelector';
 import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { useState } from 'react';
 import { useGetTopEmployeesInHarvests } from '../../hooks/queries/useGetTopEmployeesInHarvests';
+import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
+import { MassUnitOfMeasure, UnitSymbols } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 
 const chartConfig: ChartConfig = {
   first_name: {
     label: 'Nombre',
     color: 'var()',
   },
-  total_harvests: {
+  total_harvests_amount: {
     label: 'Cosecha',
     color: 'hsl(var(--chart-3))',
   },
@@ -42,6 +45,11 @@ export function ChartTopEmployeesInHarvests() {
   const [selectedYear, setSelectedYear] = useState(2025);
   const [showValuePayBar, setshowValuePayBar] = useState(true);
 
+  const { convert } = useUnitConverter();
+
+  const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
+    useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
+
   const queryEmployees = useGetTopEmployeesInHarvests({
     year: Number(selectedYear),
   });
@@ -53,6 +61,17 @@ export function ChartTopEmployeesInHarvests() {
   const chartData = queryEmployees.isSuccess
     ? [...(queryEmployees.data?.records || [])]
     : [];
+
+  const dataConvertedToUnitSelected = chartData.map((item) => {
+    return {
+      ...item,
+      total_harvests_amount: convert(
+        item.total_harvests_amount,
+        MassUnitOfMeasure.GRAMOS,
+        unitTypeToShowAmount
+      ),
+    };
+  });
 
   return (
     <Card className="w-auto lg:w-[650px] ">
@@ -76,6 +95,20 @@ export function ChartTopEmployeesInHarvests() {
             selectedYear={selectedYear}
             setSelectedYear={setSelectedYear}
           />
+
+          <div className="flex items-center justify-end gap-2 pb-2">
+            <p className="text-sm font-medium text-muted-foreground">
+              Mostrar cantidad cosechada como:
+            </p>
+            <div className="font-medium">
+              {' '}
+              <SelectedMassUnitOfMeasure
+                onChange={setUnitTypeToShowAmount}
+                valueSelect={unitTypeToShowAmount}
+              />
+            </div>
+          </div>
+
           <ButtonRefetchData
             onClick={async () => {
               await queryEmployees.refetch();
@@ -88,16 +121,16 @@ export function ChartTopEmployeesInHarvests() {
             <BarChart
               barCategoryGap={15}
               accessibilityLayer
-              data={chartData}
+              data={dataConvertedToUnitSelected}
               margin={{
                 top: 40,
               }}
             >
               <YAxis
-                dataKey={'total_harvests'}
+                dataKey={'total_harvests_amount'}
                 yAxisId="left"
                 orientation="left"
-                stroke="var(--color-total_harvests)"
+                stroke="var(--color-total_harvests_amount)"
               />
 
               {showValuePayBar && (
@@ -136,12 +169,12 @@ export function ChartTopEmployeesInHarvests() {
                           {chartConfig[name as keyof typeof chartConfig]
                             ?.label || name}
                           <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
-                            {name === 'total_harvests'
+                            {name === 'total_harvests_amount'
                               ? FormatNumber(Number(value))
                               : FormatMoneyValue(Number(value))}
-                            {name === 'total_harvests' && (
+                            {name === 'total_harvests_amount' && (
                               <span className="font-normal text-muted-foreground">
-                                kg
+                                { UnitSymbols[unitTypeToShowAmount] }
                               </span>
                             )}
                           </div>
@@ -152,10 +185,10 @@ export function ChartTopEmployeesInHarvests() {
                 }
               />
 
-              {/* Barra de total_harvests */}
+              {/* Barra de total_harvests_amount */}
               <Bar
-                dataKey="total_harvests"
-                fill="var(--color-total_harvests)"
+                dataKey="total_harvests_amount"
+                fill="var(--color-total_harvests_amount)"
                 radius={4}
                 yAxisId="left"
               ></Bar>

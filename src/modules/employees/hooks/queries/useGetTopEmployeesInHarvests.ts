@@ -13,7 +13,7 @@ interface EmployeeTopHarvest {
   id: string;
   first_name: string;
   last_name: string;
-  total_harvests: number;
+  total_harvests_amount: number;
   total_value_pay: number;
 }
 
