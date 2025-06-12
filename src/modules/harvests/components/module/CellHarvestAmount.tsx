@@ -2,7 +2,11 @@ import { Row } from '@tanstack/react-table';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
 import { Harvest } from '../../interfaces';
 import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
-import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import {
+  MassUnitOfMeasure,
+  UnitSymbols,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { Badge } from '@/components';
 
 export const CellHarvestAmount = ({ row }: { row: Row<Harvest> }) => {
   const { unitTypeToShowAmount } = useHarvestModuleContext();
@@ -16,6 +20,12 @@ export const CellHarvestAmount = ({ row }: { row: Row<Harvest> }) => {
     MassUnitOfMeasure.GRAMOS,
     unitTypeToShowAmount
   );
+  const symbolToShow = UnitSymbols[unitTypeToShowAmount];
 
-  return convertedValue;
+  return (
+    <div className="flex items-center gap-2">
+      <span>{convertedValue}</span>
+      <Badge>{symbolToShow}</Badge>
+    </div>
+  );
 };
