@@ -18,13 +18,16 @@ import {
 } from '@/components/ui/chart';
 import { ButtonRefetchData } from '@/modules/core/components';
 import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
+import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
 import YearSelector from '@/modules/core/components/shared/YearSelector';
-import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
+import { FormatMoneyValue } from '@/modules/core/helpers';
+import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
+import {
+  MassUnitOfMeasure,
+  UnitSymbols,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { useState } from 'react';
 import { useGetTopEmployeesInHarvests } from '../../hooks/queries/useGetTopEmployeesInHarvests';
-import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
-import { MassUnitOfMeasure, UnitSymbols } from '@/modules/supplies/interfaces/UnitOfMeasure';
-import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 
 const chartConfig: ChartConfig = {
   first_name: {
@@ -170,11 +173,11 @@ export function ChartTopEmployeesInHarvests() {
                             ?.label || name}
                           <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
                             {name === 'total_harvests_amount'
-                              ? FormatNumber(Number(value))
+                              ? Number(value)
                               : FormatMoneyValue(Number(value))}
                             {name === 'total_harvests_amount' && (
                               <span className="font-normal text-muted-foreground">
-                                { UnitSymbols[unitTypeToShowAmount] }
+                                {UnitSymbols[unitTypeToShowAmount]}
                               </span>
                             )}
                           </div>
