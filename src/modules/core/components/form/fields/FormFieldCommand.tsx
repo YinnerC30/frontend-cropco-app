@@ -173,7 +173,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                               <CheckIcon
                                 className={cn(
                                   'ml-auto h-4 w-4',
-                                  item.id! === field?.value
+                                  item.id! === field?.value && item.id !== undefined && item.id.length > 0
                                     ? 'opacity-100'
                                     : 'opacity-0'
                                 )}
