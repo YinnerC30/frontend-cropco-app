@@ -52,12 +52,12 @@ export function ChartTopClientsInSales() {
 
   const { convert } = useUnitConverter();
 
+  const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
+    useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
+
   if (queryClients.isLoading) {
     return <ChartSkeleton />;
   }
-
-  const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
-    useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
 
   const chartData = queryClients.isSuccess
     ? [...(queryClients.data?.records || [])]
