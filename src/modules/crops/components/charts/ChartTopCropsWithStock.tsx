@@ -13,6 +13,10 @@ import { ButtonRefetchData } from '@/modules/core/components';
 
 import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 import { useGetAllCropsWithStockDashboard } from '../../hooks/queries/useGetAllCropsWithStockDashboard';
+import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { useState } from 'react';
+import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
+import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 
 const chartConfig: ChartConfig = {
   name: {
@@ -26,6 +30,11 @@ const chartConfig: ChartConfig = {
 export function ChartTopCropsWithStock() {
   const queryCrops = useGetAllCropsWithStockDashboard();
 
+  const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
+    useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
+
+  const { convert } = useUnitConverter();
+
   if (queryCrops.isLoading) {
     return <ChartSkeleton />;
   }
@@ -34,26 +43,49 @@ export function ChartTopCropsWithStock() {
     ? [...(queryCrops.data?.records.filter((row) => row.stock > 0) || [])]
     : [];
 
+  const dataConvertedToUnitSelected = chartData.map((item) => {
+    return {
+      ...item,
+      stock: convert(
+        item.stock,
+        MassUnitOfMeasure.GRAMOS,
+        unitTypeToShowAmount
+      ),
+    };
+  });
+
   return (
     <Card className="w-auto lg:w-[650px] ">
       <CardHeader>
         <CardTitle>Top 5 cultivos con stock disponible</CardTitle>
       </CardHeader>
       <CardContent className="">
-        <div className="flex justify-end">
+        <div className="flex flex-row items-center justify-between ">
           <ButtonRefetchData
             onClick={async () => {
               await queryCrops.refetch();
             }}
             disabled={queryCrops.isLoading}
           />
+          <div className="flex items-center justify-center gap-2 pb-2 ">
+            <p className="text-sm font-medium text-muted-foreground">
+              Unidad de medida:
+            </p>
+            <div className="font-medium">
+              {' '}
+              <SelectedMassUnitOfMeasure
+                onChange={setUnitTypeToShowAmount}
+                valueSelect={unitTypeToShowAmount}
+              />
+            </div>
+          </div>
         </div>
         {chartData.length > 0 ? (
           <ChartContainer config={chartConfig}>
             <BarChart
               barCategoryGap={15}
               accessibilityLayer
-              data={chartData}
+              data={dataConvertedToUnitSelected}
               margin={{
                 top: 40,
               }}
