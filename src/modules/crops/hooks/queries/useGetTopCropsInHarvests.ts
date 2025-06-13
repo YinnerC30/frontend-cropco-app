@@ -13,7 +13,7 @@ interface CropTopHarvest {
   id: string;
   name: string;
   total_harvests: number;
-  total_stock: number;
+  total_amount: number;
 }
 
 export const getTopCropsInHarvests = async ({

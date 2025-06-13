@@ -23,6 +23,9 @@ import { ChartSkeleton } from "@/modules/core/components/charts/ChartSkeleton";
 import YearSelector from "@/modules/core/components/shared/YearSelector";
 import { FormatNumber } from "@/modules/core/helpers";
 import { useGetTopCropsInHarvests } from "../../hooks/queries/useGetTopCropsInHarvests";
+import { MassUnitOfMeasure, UnitSymbols } from "@/modules/supplies/interfaces/UnitOfMeasure";
+import { useUnitConverter } from "@/modules/core/hooks/useUnitConverter";
+import { SelectedMassUnitOfMeasure } from "@/modules/core/components/shared/SelectedMassUnitOfMeasure";
 
 const chartConfig: ChartConfig = {
   name: {
@@ -43,6 +46,11 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
   const queryCrops = useGetTopCropsInHarvests({ year: selectedYear });
   const [showQuantityHarvests, setShowQuantityHarvests] = useState(true);
 
+  const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
+    useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
+
+    const { convert } = useUnitConverter();
+
   if (queryCrops.isLoading) {
     return <ChartSkeleton />;
   }
@@ -51,6 +59,17 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
     ? [...(queryCrops.data?.records || [])]
     : [];
 
+    const dataConvertedToUnitSelected = chartData.map((item) => {
+      return {
+        ...item,
+        total_amount: convert(
+          item.total_amount,
+          MassUnitOfMeasure.GRAMOS,
+          unitTypeToShowAmount
+        ),
+      };
+    });
+    
   return (
     <Card className="w-auto lg:w-[650px] ">
       <CardHeader>
@@ -81,6 +100,18 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
             }}
             disabled={queryCrops.isLoading}
           />
+          <div className="flex items-center w-full gap-2 pb-2">
+            <p className="text-sm font-medium text-muted-foreground">
+              Unidad de medida:
+            </p>
+            <div className="font-medium">
+              {' '}
+              <SelectedMassUnitOfMeasure
+                onChange={setUnitTypeToShowAmount}
+                valueSelect={unitTypeToShowAmount}
+              />
+            </div>
+          </div>
         </div>
 
         {chartData.length > 0 ? (
@@ -88,7 +119,7 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
             <BarChart
               barCategoryGap={15}
               accessibilityLayer
-              data={chartData}
+              data={dataConvertedToUnitSelected}
               margin={{
                 top: 40,
               }}
@@ -140,7 +171,7 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
                           </div>
                           {name === "total_amount" && (
                             <span className="font-normal text-muted-foreground">
-                              kg
+                              {UnitSymbols[unitTypeToShowAmount]}
                             </span>
                           )}
                         </>
