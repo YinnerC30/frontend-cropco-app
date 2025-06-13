@@ -60,7 +60,7 @@ export function ChartTotalHarvestsInYear() {
     all_records: true,
   });
 
-  if (queryHarvests.isLoading) {
+  if (queryHarvests.isLoading || queryHarvests.isFetching) {
     return <ChartSkeleton />;
   }
 

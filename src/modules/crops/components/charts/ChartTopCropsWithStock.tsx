@@ -35,7 +35,7 @@ export function ChartTopCropsWithStock() {
 
   const { convert } = useUnitConverter();
 
-  if (queryCrops.isLoading) {
+  if (queryCrops.isLoading || queryCrops.isFetching) {
     return <ChartSkeleton />;
   }
 

@@ -55,7 +55,7 @@ export function ChartTopClientsInSales() {
   const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
     useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
 
-  if (queryClients.isLoading) {
+  if (queryClients.isLoading || queryClients.isFetching) {
     return <ChartSkeleton />;
   }
 

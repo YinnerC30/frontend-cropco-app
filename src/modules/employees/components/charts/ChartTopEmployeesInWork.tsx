@@ -44,7 +44,7 @@ export function ChartTopEmployeesInWorks() {
     year: Number(selectedYear),
   });
 
-  if (queryEmployees.isLoading) {
+  if (queryEmployees.isLoading || queryEmployees.isFetching) {
     return <ChartSkeleton />;
   }
 
