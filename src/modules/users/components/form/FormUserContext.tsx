@@ -3,7 +3,13 @@ import {
   Action,
   Module,
 } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
-import React, { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { UserForm } from '../../interfaces';
 import { FormUserContextProps } from '../../interfaces/';
 import { FormUserProps } from '../../interfaces/form/FormUserProps';
@@ -49,7 +55,7 @@ export const FormUserProvider: React.FC<
   onSubmit = (values) => {},
   readOnly = false,
 }) => {
-  const queryModules = useGetAllModules();
+  const queryModules = useGetAllModules({ executeQuery: true });
 
   const { data = [] } = queryModules;
 
@@ -166,13 +172,12 @@ export const FormUserProvider: React.FC<
       const actions = data.flatMap((item: Module): string[] =>
         item.actions.map((act: Action) => act.id)
       );
-      const result =  actions.every((actionId) =>
+      const result = actions.every((actionId) =>
         currentActions.some((currentAction) => currentAction.id === actionId)
       );
       setIsSelectedAllActions(result);
     }
-  }, [currentActions, isSelectedAllActions])
-  
+  }, [currentActions, isSelectedAllActions]);
 
   return (
     <FormUserContext.Provider
