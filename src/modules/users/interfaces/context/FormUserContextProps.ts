@@ -18,4 +18,7 @@ export interface FormUserContextProps extends FormContextProps {
   ) => void;
   hiddenPassword: boolean;
   queryModules: UseQueryResult<Module[], AxiosError>;
+  isSelectedAllActions: boolean;
+  setIsSelectedAllActions: React.Dispatch<React.SetStateAction<boolean>>;
+  IsSelectedAllActionsInModule: (nameModule: string) => boolean;
 }

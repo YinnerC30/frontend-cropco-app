@@ -14,7 +14,7 @@ import {
   Module,
 } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 import { getRouteIcon } from '@/routes/components';
-import { memo } from 'react';
+import React, { memo } from 'react';
 import { FormUserPermissionAction } from './FormUserPermissionAction';
 
 interface ModuleCardProps {
@@ -30,7 +30,16 @@ export const ModuleCard: React.FC<ModuleCardProps> = memo<ModuleCardProps>(
       handleInselectAllActionsInModule,
       userHasAction,
       readOnly,
+      IsSelectedAllActionsInModule,
     } = useFormUserContext();
+
+    const isCheckedSwitch = IsSelectedAllActionsInModule(name);
+
+    const handleOnCheckedChangeSwitch = (isCheked: boolean) => {
+      return isCheked
+        ? handleSelectAllActionInModule(name)
+        : handleInselectAllActionsInModule(name);
+    };
 
     return (
       <Card key={name} className="mb-2 w-72">
@@ -41,13 +50,11 @@ export const ModuleCard: React.FC<ModuleCardProps> = memo<ModuleCardProps>(
         <CardContent className="flex flex-col flex-wrap gap-4 m-2 rounded-md">
           <div className="flex items-center self-start justify-between w-full gap-2 py-4 border-b-2">
             <Label className="">Activar todo</Label>
+
             <Switch
-              defaultChecked={false}
-              onCheckedChange={(isCheked) => {
-                isCheked
-                  ? handleSelectAllActionInModule(name)
-                  : handleInselectAllActionsInModule(name);
-              }}
+              defaultChecked={isCheckedSwitch}
+              onCheckedChange={handleOnCheckedChangeSwitch}
+              checked={isCheckedSwitch}
             />
           </div>
 
@@ -71,7 +78,18 @@ export const FormUserFieldsPermissions: React.FC = () => {
     handleSelectAllActions,
     handleInselectAllActions,
     readOnly,
+    isSelectedAllActions,
   } = useFormUserContext();
+
+  const handleOnCheckedChangeSwitch = (isCheked: boolean) => {
+    return isCheked ? handleSelectAllActions() : handleInselectAllActions();
+  };
+
+  const generateModuleCards = (): React.ReactNode => {
+    return queryModules?.data?.map(({ label, actions, name }: Module) => (
+      <ModuleCard key={name} label={label} actions={actions} name={name} />
+    ));
+  };
 
   return (
     <div>
@@ -85,17 +103,14 @@ export const FormUserFieldsPermissions: React.FC = () => {
         <div className="flex items-center self-start gap-2 py-4 ">
           <Label className="">Activar todos los permisos</Label>
           <Switch
-            defaultChecked={false}
-            onCheckedChange={(isCheked) => {
-              isCheked ? handleSelectAllActions() : handleInselectAllActions();
-            }}
+            defaultChecked={isSelectedAllActions}
+            onCheckedChange={handleOnCheckedChangeSwitch}
+            checked={isSelectedAllActions}
           />
         </div>
       </div>
       <div className="flex flex-wrap gap-2 my-2 justify-evenly">
-        {queryModules?.data?.map(({ label, actions, name }: Module) => (
-          <ModuleCard key={name} label={label} actions={actions} name={name} />
-        ))}
+        {generateModuleCards()}
       </div>
     </div>
   );
