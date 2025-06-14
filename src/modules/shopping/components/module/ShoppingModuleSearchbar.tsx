@@ -101,9 +101,26 @@ export const ShoppingModuleSearchbar: React.FC = () => {
     const isValid = await form.trigger(name);
     if (!isValid) return false;
 
-    const { filter_by_value_pay, suppliers = [], supplies = [] } = form.watch();
+    const { filter_by_value_pay, suppliers = [], supplies = [], filter_by_date } = form.watch();
 
     const filters: FilterSearchBar[] = [];
+
+    const { type_filter_date, date } = filter_by_date;
+
+    if (type_filter_date && date) {
+      const typeFilter = formatTypeFilterDate(
+        type_filter_date as TypeFilterDate
+      );
+
+      const formatDate = format(date, 'PPP', {
+        locale: es,
+      });
+
+      filters.push({
+        key: 'date',
+        label: `Fecha: ${typeFilter} ${formatDate}`,
+      });
+    }
 
     if (suppliers?.length > 0) {
       filters.push({
@@ -165,7 +182,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
         form.setValue('supplies', [], { shouldDirty: false });
         break;
       case 'date':
-        form.setValue('filter_by_date.type_filter_date', undefined, {
+        form.setValue('filter_by_date.type_filter_date', TypeFilterDate.after, {
           shouldDirty: false,
         });
         form.setValue('filter_by_date.date', undefined, { shouldDirty: false });
@@ -246,7 +263,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
     name: keyof z.infer<typeof formSchemaSearchBarShopping>
   ) => {
     form.clearErrors(name);
-    form.resetField(name);
+    // form.resetField(name);
   };
 
   useEffect(() => {
