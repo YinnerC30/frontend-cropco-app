@@ -10,7 +10,7 @@ import {
   ItemQueryAdvanced,
   useAdvancedQueryDataPlus,
 } from '@/modules/core/hooks/useAdvancedQueryDataPlus';
-import { BulkRecords } from '@/modules/core/interfaces';
+import { BulkRecords, TypeFilterDate } from '@/modules/core/interfaces';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { useDeleteBulkSales, useDeleteSale } from '../../hooks';
@@ -193,7 +193,7 @@ export const SalesModuleProvider: React.FC<{
     paramsQuery: {
       // ...paramsValues,
       filter_by_date: {
-        type_filter_date: paramsValues.type_filter_date,
+        type_filter_date: paramsValues.type_filter_date || TypeFilterDate.after,
         date: !paramsValues.date ? undefined : new Date(paramsValues.date),
       },
       filter_by_value_pay: {

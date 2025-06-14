@@ -66,7 +66,7 @@ import {
 import { cn } from '@/lib/utils';
 import {
   MassUnitOfMeasure,
-  UnitsType
+  UnitsType,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 
@@ -122,6 +122,7 @@ export const SaleModuleSearchbar: React.FC = () => {
     if (!isValid) return false;
 
     const {
+      filter_by_date,
       filter_by_value_pay,
       filter_by_amount,
       clients = [],
@@ -129,6 +130,23 @@ export const SaleModuleSearchbar: React.FC = () => {
     } = form.watch();
 
     const filters: FilterSearchBar[] = [];
+
+    const { type_filter_date, date } = filter_by_date;
+
+    if (type_filter_date && date) {
+      const typeFilter = formatTypeFilterDate(
+        type_filter_date as TypeFilterDate
+      );
+
+      const formatDate = format(date, 'PPP', {
+        locale: es,
+      });
+
+      filters.push({
+        key: 'date',
+        label: `Fecha: ${typeFilter} ${formatDate}`,
+      });
+    }
 
     if (clients?.length > 0) {
       filters.push({
@@ -194,7 +212,6 @@ export const SaleModuleSearchbar: React.FC = () => {
     name: keyof z.infer<typeof formSchemaSearchBarSale>
   ) => {
     form.clearErrors(name);
-    form.resetField(name);
   };
 
   const handleRemoveFilter = (filter: FilterSearchBar) => {
@@ -207,7 +224,7 @@ export const SaleModuleSearchbar: React.FC = () => {
         form.setValue('crops', [], { shouldDirty: false });
         break;
       case 'date':
-        form.setValue('filter_by_date.type_filter_date', undefined, {
+        form.setValue('filter_by_date.type_filter_date', TypeFilterDate.after, {
           shouldDirty: false,
         });
         form.setValue('filter_by_date.date', undefined, { shouldDirty: false });
@@ -376,9 +393,10 @@ export const SaleModuleSearchbar: React.FC = () => {
                       <Button
                         variant={'destructive'}
                         className="self-end w-24 mt-4"
-                        onClick={() => {
-                          setOpenPopoverDate(false);
+                        onClick={async () => {
                           handleClearErrorsForm('filter_by_date');
+                          await handleSearch(form.watch());
+                          setOpenPopoverDate(false);
                         }}
                       >
                         Cerrar
