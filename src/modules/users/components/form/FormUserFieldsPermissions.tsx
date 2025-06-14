@@ -106,6 +106,7 @@ export const FormUserFieldsPermissions: React.FC = () => {
             defaultChecked={isSelectedAllActions}
             onCheckedChange={handleOnCheckedChangeSwitch}
             checked={isSelectedAllActions}
+            disabled={readOnly}
           />
         </div>
       </div>
