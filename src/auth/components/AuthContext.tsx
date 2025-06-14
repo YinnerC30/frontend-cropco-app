@@ -89,6 +89,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const removeUser = () => {
+    setExecuteQueryModule(false);
     removeUserInLocalStorage();
     removeUserInState();
     queryClient.clear();
@@ -220,6 +221,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     if (!user?.isLogin) {
+      setExecuteQueryModule(false);
       navigate(PATH_LOGIN, { replace: true });
     } else if (user.isLogin) {
       setExecuteQueryModule(true);

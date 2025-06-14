@@ -7,7 +7,6 @@ import { Module } from '../../interfaces/responses/ResponseGetAllModules';
 import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getModules = async (): Promise<AxiosResponse<Module[]>> => {
-  console.log('Se ejecuto')
   return await cropcoAPI.get(`${pathsCropco.authentication}/modules/all`);
 };
 

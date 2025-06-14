@@ -74,8 +74,6 @@ export const HarvestProcessedProvider: React.FC<{
       )
     : 0;
 
-  console.log(queryOneHarvest.data);
-  console.log('🚀 ~ amountProcessedConverted:', amountProcessedConverted);
 
   const contextValue: HarvestProcessedContextValues = {
     queryOneHarvest,
