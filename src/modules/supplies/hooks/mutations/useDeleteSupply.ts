@@ -30,7 +30,7 @@ export const useDeleteSupply = (): UseMutationReturn<void, string> => {
         },
       });
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 };

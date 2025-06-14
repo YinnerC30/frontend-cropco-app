@@ -72,8 +72,6 @@ export const useUnitConverter = () => {
         finalAmount = amount / conversionFactors[toUnit];
       }
 
-      console.log(finalAmount.toFixed(2));
-
       return Number(finalAmount.toFixed(3));
     },
     []

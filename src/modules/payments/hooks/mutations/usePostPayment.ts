@@ -52,7 +52,7 @@ export const usePostPayment = (): UseMutationReturn<void, Payment> => {
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
 
   return mutation;

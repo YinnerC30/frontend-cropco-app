@@ -48,7 +48,7 @@ export const usePatchEmployee = (): UseMutationReturn<
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 };

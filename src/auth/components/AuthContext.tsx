@@ -7,7 +7,7 @@ import {
 import { RootState, useAppSelector } from '@/redux/store';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { createContext, ReactNode, useEffect, useMemo } from 'react';
+import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -65,7 +65,10 @@ export const AuthContext = createContext<AuthContextProps | undefined>(
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const queryGetAllModules = useGetAllModules();
+  const [executeQueryModule, setExecuteQueryModule] = useState(false);
+  const queryGetAllModules = useGetAllModules({
+    executeQuery: executeQueryModule,
+  });
   const { user } = useAppSelector((state: RootState) => state.authentication);
   const queryClient = useQueryClient();
   const tokenSession = user?.token;
@@ -218,6 +221,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     if (!user?.isLogin) {
       navigate(PATH_LOGIN, { replace: true });
+    } else if (user.isLogin) {
+      setExecuteQueryModule(true);
     }
   }, [navigate, user]);
 

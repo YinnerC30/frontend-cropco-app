@@ -69,6 +69,32 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
     return item;
   };
 
+  const handleOnSelectCommandItem = (
+    field: ControllerRenderProps<any, any>,
+    item: any
+  ) => {
+    if (field?.value === item?.id) {
+      form.setValue(name, {
+        id: '',
+        [nameToShow]: '',
+      });
+    } else {
+      form.setValue(
+        name,
+        {
+          id: item?.id,
+          [nameToShow]: item[nameToShow],
+        },
+        {
+          shouldValidate: true,
+          shouldDirty: true,
+        }
+      );
+    }
+    setOpenPopover(false);
+    actionFinal && actionFinal();
+  };
+
   return (
     <FormField
       control={control}
@@ -147,33 +173,16 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                               value={item?.[nameToShow]}
                               key={item.id!}
                               onSelect={() => {
-                                if (field?.value === item?.id) {
-                                  form.setValue(name, {
-                                    id: '',
-                                    [nameToShow]: '',
-                                  });
-                                } else {
-                                  form.setValue(
-                                    name,
-                                    {
-                                      id: item?.id,
-                                      [nameToShow]: item[nameToShow],
-                                    },
-                                    {
-                                      shouldValidate: true,
-                                      shouldDirty: true,
-                                    }
-                                  );
-                                }
-                                setOpenPopover(false);
-                                actionFinal && actionFinal();
+                                handleOnSelectCommandItem(field, item);
                               }}
                             >
                               <div className="">{item?.[nameToShow]}</div>
                               <CheckIcon
                                 className={cn(
                                   'ml-auto h-4 w-4',
-                                  item.id! === field?.value
+                                  item.id! === field?.value &&
+                                    item.id !== undefined &&
+                                    item.id.length > 0
                                     ? 'opacity-100'
                                     : 'opacity-0'
                                 )}

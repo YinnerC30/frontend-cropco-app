@@ -54,7 +54,7 @@ export const useGetPaymentPDF = ({
 
     select: ({ data }) => data,
     enabled: stateQuery && isAuthorized,
-    retry: 1,
+    retry: false,
     refetchOnWindowFocus: false,
     ...CACHE_CONFIG_TIME.shortTerm,
   });

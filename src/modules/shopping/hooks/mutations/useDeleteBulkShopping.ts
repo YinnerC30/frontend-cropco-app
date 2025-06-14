@@ -36,7 +36,7 @@ export const useDeleteBulkShopping = (): UseMutationReturn<
       });
     },
 
-    retry: 1,
+    retry: false,
   });
 
   return mutation;

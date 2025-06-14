@@ -37,7 +37,7 @@ export const usePatchSupply = (): UseMutationReturn<void, Supply> => {
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 };

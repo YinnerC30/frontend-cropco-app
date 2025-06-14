@@ -27,7 +27,7 @@ const chartConfig: ChartConfig = {
   first_name: {
     label: 'Nombre',
   },
-  value_pay_works: {
+  total_value_pay: {
     label: 'Pago',
     color: 'hsl(var(--chart-1))',
   },
@@ -44,7 +44,7 @@ export function ChartTopEmployeesInWorks() {
     year: Number(selectedYear),
   });
 
-  if (queryEmployees.isLoading) {
+  if (queryEmployees.isLoading || queryEmployees.isFetching) {
     return <ChartSkeleton />;
   }
 
@@ -101,20 +101,23 @@ export function ChartTopEmployeesInWorks() {
 
               {showValuePayBar && (
                 <YAxis
-                  dataKey={'value_pay_works'}
+                  dataKey={'total_value_pay'}
                   yAxisId="right"
                   orientation="right"
-                  stroke="var(--color-value_pay_works)"
+                  stroke="var(--color-total_value_pay)"
                 />
               )}
 
               <CartesianGrid vertical={false} />
               <XAxis
-                dataKey="first_name"
+                dataKey="full_name"
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
-                tickFormatter={(value) => value.slice(0, 10)}
+                tickFormatter={(value) => {
+                  const firstName = value.split(' ')[0];
+                  return firstName.slice(0, 10);
+                }}
               />
 
               <ChartTooltip
@@ -154,8 +157,8 @@ export function ChartTopEmployeesInWorks() {
               />
               {showValuePayBar && (
                 <Bar
-                  dataKey="value_pay_works"
-                  fill="var(--color-value_pay_works)"
+                  dataKey="total_value_pay"
+                  fill="var(--color-total_value_pay)"
                   radius={4}
                   yAxisId="right"
                 />

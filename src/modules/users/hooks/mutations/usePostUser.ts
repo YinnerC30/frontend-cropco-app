@@ -33,7 +33,7 @@ export function usePostUser(): UseMutationReturn<User, Partial<User>> {
         },
       });
     },
-    retry: 1,
+    retry: false,
   });
 
   return mutation;

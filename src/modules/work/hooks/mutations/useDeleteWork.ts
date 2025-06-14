@@ -27,7 +27,7 @@ export const useDeleteWork = (): UseMutationReturn<void, string> => {
         },
       });
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 };

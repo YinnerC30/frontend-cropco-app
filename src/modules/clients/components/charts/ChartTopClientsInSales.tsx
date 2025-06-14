@@ -1,13 +1,13 @@
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
-import { Label, Switch } from "@/components";
+import { Label, Switch } from '@/components';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   ChartConfig,
   ChartContainer,
@@ -15,25 +15,31 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { ButtonRefetchData } from "@/modules/core/components";
-import { ChartSkeleton } from "@/modules/core/components/charts/ChartSkeleton";
-import YearSelector from "@/modules/core/components/shared/YearSelector";
-import { FormatMoneyValue, FormatNumber } from "@/modules/core/helpers";
-import { useState } from "react";
-import { useGetTopClientsInSales } from "../../hooks/queries/useGetTopClientsInSales";
+} from '@/components/ui/chart';
+import { ButtonRefetchData } from '@/modules/core/components';
+import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
+import YearSelector from '@/modules/core/components/shared/YearSelector';
+import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
+import { useState } from 'react';
+import { useGetTopClientsInSales } from '../../hooks/queries/useGetTopClientsInSales';
+import {
+  MassUnitOfMeasure,
+  UnitSymbols,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
+import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 
 const chartConfig: ChartConfig = {
   first_name: {
-    label: "Nombre",
+    label: 'Nombre',
   },
   total_amount: {
-    label: "N° Stock",
-    color: "hsl(var(--chart-4))",
+    label: 'N° Stock',
+    color: 'hsl(var(--chart-4))',
   },
   total_value_pay: {
-    label: "Pago",
-    color: "hsl(var(--chart-3))",
+    label: 'Pago',
+    color: 'hsl(var(--chart-3))',
   },
 } satisfies ChartConfig;
 
@@ -44,7 +50,12 @@ export function ChartTopClientsInSales() {
     year: Number(selectedYear),
   });
 
-  if (queryClients.isLoading) {
+  const { convert } = useUnitConverter();
+
+  const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
+    useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
+
+  if (queryClients.isLoading || queryClients.isFetching) {
     return <ChartSkeleton />;
   }
 
@@ -52,6 +63,16 @@ export function ChartTopClientsInSales() {
     ? [...(queryClients.data?.records || [])]
     : [];
 
+  const dataConvertedToUnitSelected = chartData.map((item) => {
+    return {
+      ...item,
+      total_amount: convert(
+        item.total_amount,
+        MassUnitOfMeasure.GRAMOS,
+        unitTypeToShowAmount
+      ),
+    };
+  });
 
   return (
     <Card className="w-auto lg:w-[650px] ">
@@ -81,6 +102,18 @@ export function ChartTopClientsInSales() {
             }}
             disabled={queryClients.isLoading}
           />
+          <div className="flex items-center w-full gap-2 pb-2">
+            <p className="text-sm font-medium text-muted-foreground">
+              Unidad de medida:
+            </p>
+            <div className="font-medium">
+              {' '}
+              <SelectedMassUnitOfMeasure
+                onChange={setUnitTypeToShowAmount}
+                valueSelect={unitTypeToShowAmount}
+              />
+            </div>
+          </div>
         </div>
 
         {chartData.length > 0 ? (
@@ -88,20 +121,20 @@ export function ChartTopClientsInSales() {
             <BarChart
               barCategoryGap={15}
               accessibilityLayer
-              data={chartData}
+              data={dataConvertedToUnitSelected}
               margin={{
                 top: 40,
               }}
             >
               <YAxis
-                dataKey={"total_amount"}
+                dataKey={'total_amount'}
                 yAxisId="left"
                 orientation="left"
                 stroke="var(--color-total_amount)"
               />
               {showTotalSaleBar && (
                 <YAxis
-                  dataKey={"total_value_pay"}
+                  dataKey={'total_value_pay'}
                   yAxisId="right"
                   orientation="right"
                   stroke="var(--color-total_value_pay)"
@@ -109,11 +142,14 @@ export function ChartTopClientsInSales() {
               )}
               <CartesianGrid vertical={false} />
               <XAxis
-                dataKey="first_name"
+                dataKey="full_name"
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
-                tickFormatter={(value) => value.slice(0, 10)}
+                tickFormatter={(value) => {
+                  const firstName = value.split(' ')[0];
+                  return firstName.slice(0, 10);
+                }}
               />
 
               <ChartTooltip
@@ -127,19 +163,19 @@ export function ChartTopClientsInSales() {
                             className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--color-bg]"
                             style={
                               {
-                                "--color-bg": `var(--color-${name})`,
+                                '--color-bg': `var(--color-${name})`,
                               } as React.CSSProperties
                             }
                           />
                           {chartConfig[name as keyof typeof chartConfig]
                             ?.label || name}
                           <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
-                            {name === "total_amount"
+                            {name === 'total_amount'
                               ? FormatNumber(Number(value))
                               : FormatMoneyValue(Number(value))}
-                            {name === "total_amount" && (
+                            {name === 'total_amount' && (
                               <span className="font-normal text-muted-foreground">
-                                kg
+                                {UnitSymbols[unitTypeToShowAmount]}
                               </span>
                             )}
                           </div>

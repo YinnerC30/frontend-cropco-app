@@ -39,7 +39,7 @@ export const usePostEmployee = (): UseMutationReturn<Employee, Employee> => {
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
 
   return mutation;

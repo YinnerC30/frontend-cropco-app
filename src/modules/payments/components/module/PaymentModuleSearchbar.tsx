@@ -69,6 +69,8 @@ export const PaymentModuleSearchbar: React.FC = () => {
 
     const filters: FilterSearchBar[] = [];
 
+    
+
     if (employee?.id) {
       filters.push({
         key: 'employee',
@@ -123,7 +125,6 @@ export const PaymentModuleSearchbar: React.FC = () => {
 
   const handleClearErrorsForm = (name = '') => {
     form.clearErrors(name);
-    form.resetField(name);
   };
 
   const handleRemoveFilter = (filter: FilterSearchBar) => {

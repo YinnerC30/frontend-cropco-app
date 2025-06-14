@@ -41,7 +41,7 @@ export function userPatchChangePasswordUser(): UseMutationReturn<
         },
       });
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 }

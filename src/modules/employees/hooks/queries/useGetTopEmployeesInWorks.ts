@@ -14,7 +14,7 @@ interface EmployeeTopWork {
   first_name: string;
   last_name: string;
   total_works: number;
-  value_pay_works: number;
+  total_value_pay: number;
 }
 
 export const getTopEmployeesInWorks = async ({
@@ -45,7 +45,12 @@ export const useGetTopEmployeesInWorks = ({
   const query: UseQueryGetAllRecordsReturn<EmployeeTopWork> = useQuery({
     queryKey: ['employees-top-works', year],
     queryFn: () => getTopEmployeesInWorks({ year }),
-    select: ({ data }) => data,
+    select: ({ data }) => ({
+      ...data,
+      records: data.records.map((re) => {
+        return { ...re, full_name: re.first_name + ' ' + re.last_name };
+      }),
+    }),
     enabled: isAuthorized,
     refetchOnWindowFocus: false,
     ...CACHE_CONFIG_TIME.longTerm,
@@ -54,7 +59,7 @@ export const useGetTopEmployeesInWorks = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado del top usuarios en trabajos 😑'
+        'No tienes permiso para ver el listado del top empleados en los trabajos 😑'
       );
     }
   }, [isAuthorized]);
@@ -65,7 +70,7 @@ export const useGetTopEmployeesInWorks = ({
         error: query.error,
         messagesStatusError: {
           unauthorized:
-            'No tienes permiso para ver el listado del top usuarios en trabajos 😑',
+            'No tienes permiso para ver el listado del top empleados en los trabajos 😑',
         },
       });
     }

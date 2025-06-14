@@ -3,7 +3,13 @@ import {
   Action,
   Module,
 } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
-import React, { createContext, ReactNode, useMemo } from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { UserForm } from '../../interfaces';
 import { FormUserContextProps } from '../../interfaces/';
 import { FormUserProps } from '../../interfaces/form/FormUserProps';
@@ -49,25 +55,30 @@ export const FormUserProvider: React.FC<
   onSubmit = (values) => {},
   readOnly = false,
 }) => {
-  const queryModules = useGetAllModules();
+  const queryModules = useGetAllModules({ executeQuery: true });
 
   const { data = [] } = queryModules;
 
-  const combinedDefaultValues = useMemo(() => ({
-    ...defaultValues,
-    ...(propsDefaultValues || {}),
-    passwords: {
-      ...(defaultValues.passwords || {}),
-      ...(propsDefaultValues?.passwords || {}),
-    },
-    modules: propsDefaultValues?.modules ?? defaultValues.modules,
-    actions: propsDefaultValues?.actions ?? defaultValues.actions,
-  }), [propsDefaultValues]);
+  const combinedDefaultValues = useMemo(
+    () => ({
+      ...defaultValues,
+      ...(propsDefaultValues || {}),
+      passwords: {
+        ...(defaultValues.passwords || {}),
+        ...(propsDefaultValues?.passwords || {}),
+      },
+      modules: propsDefaultValues?.modules ?? defaultValues.modules,
+      actions: propsDefaultValues?.actions ?? defaultValues.actions,
+    }),
+    [propsDefaultValues]
+  );
+
+  const [isSelectedAllActions, setIsSelectedAllActions] = useState(false);
 
   const form = useCreateForm({
     schema: hiddenPassword ? formSchemaUser : formSchemaUserWithPassword,
     defaultValues: combinedDefaultValues,
-    validationMode: 'onSubmit'
+    validationMode: 'onSubmit',
   });
 
   const defaultActionsUser = useMemo(
@@ -114,10 +125,12 @@ export const FormUserProvider: React.FC<
       item.actions.map((act: Action) => ({ id: act.id, isActive: true }))
     );
     updateActionsUserForm(actions);
+    setIsSelectedAllActions(true);
   };
 
   const handleInselectAllActions = (): void => {
     updateActionsUserForm([]);
+    setIsSelectedAllActions(false);
   };
 
   const getIdsActionsModule = (
@@ -147,6 +160,25 @@ export const FormUserProvider: React.FC<
     updateActionsUserForm(actions);
   };
 
+  const IsSelectedAllActionsInModule = (nameModule: string) => {
+    const actions = getIdsActionsModule(true, nameModule);
+    return actions.every((action) =>
+      currentActions.some((currentAction) => currentAction.id === action.id)
+    );
+  };
+
+  useEffect(() => {
+    if (currentActions.length > 0) {
+      const actions = data.flatMap((item: Module): string[] =>
+        item.actions.map((act: Action) => act.id)
+      );
+      const result = actions.every((actionId) =>
+        currentActions.some((currentAction) => currentAction.id === actionId)
+      );
+      setIsSelectedAllActions(result);
+    }
+  }, [currentActions, isSelectedAllActions]);
+
   return (
     <FormUserContext.Provider
       value={{
@@ -162,6 +194,9 @@ export const FormUserProvider: React.FC<
         readOnly,
         hiddenPassword,
         queryModules,
+        isSelectedAllActions,
+        setIsSelectedAllActions,
+        IsSelectedAllActionsInModule,
       }}
     >
       {children}

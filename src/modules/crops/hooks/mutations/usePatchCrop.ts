@@ -33,7 +33,7 @@ export const usePatchCrop = (): UseMutationReturn<void, Crop> => {
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 };

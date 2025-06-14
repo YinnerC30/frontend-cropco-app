@@ -89,9 +89,26 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
     const isValid = await form.trigger(name);
     if (!isValid) return false;
 
-    const { supplies = [], crops = [] } = form.watch();
+    const { supplies = [], crops = [], filter_by_date } = form.watch();
 
     const filters: FilterSearchBar[] = [];
+
+    const { type_filter_date, date } = filter_by_date;
+
+    if (type_filter_date && date) {
+      const typeFilter = formatTypeFilterDate(
+        type_filter_date as TypeFilterDate
+      );
+
+      const formatDate = format(date, 'PPP', {
+        locale: es,
+      });
+
+      filters.push({
+        key: 'date',
+        label: `Fecha: ${typeFilter} ${formatDate}`,
+      });
+    }
 
     if (supplies?.length > 0) {
       filters.push({
@@ -142,7 +159,7 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
         form.setValue('supplies', [], { shouldDirty: false });
         break;
       case 'date':
-        form.setValue('filter_by_date.type_filter_date', undefined, {
+        form.setValue('filter_by_date.type_filter_date', TypeFilterDate.after, {
           shouldDirty: false,
         });
         form.setValue('filter_by_date.date', undefined, { shouldDirty: false });
@@ -155,7 +172,6 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
     name: keyof z.infer<typeof formSchemaSearchBarConsumption>
   ) => {
     form.clearErrors(name);
-    form.resetField(name);
   };
 
   const handleSearch = async (

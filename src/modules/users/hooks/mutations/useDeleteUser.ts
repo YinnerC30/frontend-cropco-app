@@ -28,7 +28,7 @@ export const useDeleteUser = (): UseMutationReturn<void, string> => {
         },
       });
     },
-    retry: 1,
+    retry: false,
   });
 
   return mutation;

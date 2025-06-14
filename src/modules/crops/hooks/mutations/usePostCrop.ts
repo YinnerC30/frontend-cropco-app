@@ -30,7 +30,7 @@ export const usePostCrop = (): UseMutationReturn<void, Crop> => {
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
 
   return mutation;

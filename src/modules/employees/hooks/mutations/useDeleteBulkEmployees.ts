@@ -52,7 +52,7 @@ export const useDeleteBulkEmployees = (): UseMutationReturn<
         });
       },
 
-      retry: 1,
+      retry: false,
     });
 
   return mutation;

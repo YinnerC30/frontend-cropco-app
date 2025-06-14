@@ -33,7 +33,7 @@ export function usePostWork(): UseMutationReturn<Work, Work> {
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
 
   return mutation;

@@ -1,5 +1,3 @@
-
-
 import { Check, ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
 
@@ -51,11 +49,21 @@ export default function CropSelector({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[220px] justify-between overflow-hidden text-ellipsis truncate"
         >
-          {!!selectedCrop
-            ? `Cultivo: ${crops.find((item) => item.id === selectedCrop)?.name}`
-            : 'Selecciona un cultivo...'}
+          <span
+            className={cn(
+              'text-muted-foreground',
+              'overflow-hidden text-ellipsis truncate'
+            )}
+          >
+            {!!selectedCrop
+              ? `Cultivo: ${
+                  crops.find((item) => item.id === selectedCrop)?.name
+                }`
+              : 'Selecciona un cultivo...'}
+          </span>
+
           <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
         </Button>
       </PopoverTrigger>

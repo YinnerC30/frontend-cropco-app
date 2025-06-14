@@ -39,7 +39,7 @@ export const usePatchSupplier = (): UseMutationReturn<void, Supplier> => {
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 };

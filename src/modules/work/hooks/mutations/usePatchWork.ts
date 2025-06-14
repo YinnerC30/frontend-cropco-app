@@ -40,7 +40,7 @@ export function usePatchWork(id: string): UseMutationReturn<void, Work> {
         messagesStatusError: {},
       });
     },
-    retry: 1,
+    retry: false,
   });
   return mutation;
 }

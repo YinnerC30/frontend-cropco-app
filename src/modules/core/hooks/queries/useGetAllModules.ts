@@ -7,13 +7,15 @@ import { Module } from '../../interfaces/responses/ResponseGetAllModules';
 import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getModules = async (): Promise<AxiosResponse<Module[]>> => {
+  console.log('Se ejecuto')
   return await cropcoAPI.get(`${pathsCropco.authentication}/modules/all`);
 };
 
-export const useGetAllModules = (): UseQueryResult<
-  Module[],
-  AxiosError<TypedAxiosError, unknown>
-> => {
+export const useGetAllModules = ({
+  executeQuery,
+}: {
+  executeQuery: boolean;
+}): UseQueryResult<Module[], AxiosError<TypedAxiosError, unknown>> => {
   const query: UseQueryResult<
     Module[],
     AxiosError<TypedAxiosError, unknown>
@@ -27,6 +29,7 @@ export const useGetAllModules = (): UseQueryResult<
     refetchOnReconnect: false,
     refetchInterval: false,
     refetchIntervalInBackground: false,
+    enabled: executeQuery,
   });
 
   return query;

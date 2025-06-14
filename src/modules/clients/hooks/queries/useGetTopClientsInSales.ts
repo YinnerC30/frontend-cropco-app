@@ -13,8 +13,8 @@ interface ClientTopSale {
   id: string;
   first_name: string;
   last_name: string;
-  total_sale: number;
-  total_quantity: number;
+  total_value_pay: number;
+  total_amount: number;
 }
 
 export const getTopClientsInSales = async ({
@@ -45,7 +45,12 @@ export const useGetTopClientsInSales = ({
   const query: UseQueryGetAllRecordsReturn<ClientTopSale> = useQuery({
     queryKey: ['clients-top-sales', year],
     queryFn: () => getTopClientsInSales({ year }),
-    select: ({ data }) => data,
+    select: ({ data }) => ({
+      ...data,
+      records: data.records.map((re) => {
+        return { ...re, full_name: re.first_name + ' ' + re.last_name };
+      }),
+    }),
     enabled: isAuthorized,
     refetchOnWindowFocus: false,
     ...CACHE_CONFIG_TIME.longTerm,
