@@ -9,6 +9,7 @@ import {
 } from '@/components';
 import { memo } from 'react';
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
+import { ControllerRenderProps } from 'react-hook-form';
 
 interface FormFieldInputProps extends FormFieldProps {
   step?: number;
@@ -35,6 +36,20 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
     hiddenInput = false,
     allowDecimals = false,
   }) => {
+    const handleOnChageInput = (
+      e: any,
+      field: ControllerRenderProps<any, string>
+    ) => {
+      if (typeInput === 'number') {
+        const value = allowDecimals
+          ? parseFloat(e.target.value)
+          : parseInt(e.target.value, 10);
+        field.onChange(value);
+      } else {
+        field.onChange(e.target.value);
+      }
+    };
+
     return (
       <FormField
         control={control}
@@ -45,7 +60,9 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
             <FormControl>
               <div className="flex gap-4">
                 <Input
-                  className={`w-60 ${hiddenInput && 'hidden'} overflow-hidden text-ellipsis`}
+                  className={`w-60 ${
+                    hiddenInput && 'hidden'
+                  } overflow-hidden text-ellipsis`}
                   placeholder={placeholder}
                   {...field}
                   readOnly={readOnly}
@@ -53,16 +70,7 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
                   step={allowDecimals ? 'any' : step}
                   min={min}
                   autoFocus={autoFocus}
-                  onChange={(e) => {
-                    if (typeInput === 'number') {
-                      const value = allowDecimals 
-                        ? parseFloat(e.target.value)
-                        : parseInt(e.target.value, 10);
-                      field.onChange(value);
-                    } else {
-                      field.onChange(e.target.value);
-                    }
-                  }}
+                  onChange={(e) => handleOnChageInput(e, field)}
                 />
                 {children}
               </div>
