@@ -49,7 +49,9 @@ cropcoAPI.interceptors.request.use(
       // config.headers['x-tenant-id'] = getTenantIdToLocalStorage();
     }
     const tenantId = getTenantIdToLocalStorage();
-    config.headers['x-tenant-id'] = '737ebe70-f535-457e-9aae-5eac695b4f31';
+    if (!!tenantId) {
+      config.headers['x-tenant-id'] = tenantId;
+    }
     return config;
   }
 );

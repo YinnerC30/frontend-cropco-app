@@ -11,7 +11,10 @@ import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { defaultGlobalActionsUserAdmin } from '../helpers/defaultGlobalActionsUserAdmin';
 import { UserActive } from '../interfaces';
+import { AuthContextProps } from '../interfaces/AuthContextProps';
+import { TypedAxiosError } from '../interfaces/AxiosErrorResponse';
 import { removeUserActive, setUserActive } from '../utils';
 import { setToken } from '../utils/authenticationSlice';
 import {
@@ -19,10 +22,12 @@ import {
   renewTokenInLocalStorage,
   saveUserInLocalStorage,
 } from '../utils/manageUserInLocalStorage';
-import { AuthContextProps } from '../interfaces/AuthContextProps';
-import { TypedAxiosError } from '../interfaces/AxiosErrorResponse';
-import { defaultGlobalActionsUserAdmin } from '../helpers/defaultGlobalActionsUserAdmin';
-import { useGetOneTenant } from '../hooks/queries/useGetOneTenant';
+import { Tenant } from '../interfaces/Tenant';
+import { setTenant } from '../utils/tenantSlice';
+import {
+  removeTenantInLocalStorage,
+  saveTenantInLocalStorage,
+} from '../utils/manageTenantInLocalStorage';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
@@ -70,23 +75,39 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const queryGetAllModules = useGetAllModules({
     executeQuery: executeQueryModule,
   });
-  const currentSubdomain = window.location.hostname.split('.')[0];
-
-  const queryTenant = useGetOneTenant(currentSubdomain);
 
   const { user } = useAppSelector((state: RootState) => state.authentication);
+  const { tenant } = useAppSelector((state: RootState) => state.tenant);
+
   const queryClient = useQueryClient();
   const tokenSession = user?.token;
+  const tenantId = tenant.id;
 
   const dispatch = useDispatch();
 
   const saveUserInState = (user: UserActive) => {
     dispatch(setUserActive(user));
   };
+  const saveTenantInState = (tenant: Tenant) => {
+    dispatch(setTenant(tenant));
+  };
 
+  const saveTenant = (tenant: Tenant) => {
+    saveTenantInLocalStorage(tenant);
+    saveTenantInState(tenant);
+  };
   const saveUser = (user: UserActive) => {
     saveUserInLocalStorage(user);
     saveUserInState(user);
+  };
+
+  const removeTenantInState = () => {
+    dispatch(removeUserActive());
+  };
+
+  const removeTenant = () => {
+    removeTenantInLocalStorage();
+    removeTenantInState();
   };
 
   const removeUserInState = () => {
@@ -97,6 +118,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     setExecuteQueryModule(false);
     removeUserInLocalStorage();
     removeUserInState();
+    removeTenant();
     queryClient.clear();
   };
 
@@ -249,8 +271,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         validatePermissionsInModule,
         getGlobalActionsUser,
         getActionsModule,
-        isLoading: queryGetAllModules.isLoading || queryTenant.isLoading,
+        isLoading: queryGetAllModules.isLoading,
         isError: queryGetAllModules.isError,
+        tenantId,
+        saveTenant,
       }}
     >
       {children}

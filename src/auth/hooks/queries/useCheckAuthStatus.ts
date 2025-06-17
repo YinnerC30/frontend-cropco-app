@@ -28,7 +28,7 @@ export const checkAuthStatus = async (
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    skipInterceptor: true,
+    // skipInterceptor: true,
   });
 };
 

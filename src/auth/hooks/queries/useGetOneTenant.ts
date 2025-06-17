@@ -1,14 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { useEffect } from 'react';
 
 import { Tenant } from '@/auth/interfaces/Tenant';
 import { useNavigate } from 'react-router-dom';
-import { error } from 'console';
+import { useAuthContext } from '../useAuthContext';
 
 export const getTenantBySubdomain = async (
   subdomain: string
@@ -19,7 +18,7 @@ export const getTenantBySubdomain = async (
 export const useGetOneTenant = (
   subdomain: string
 ): UseGetOneRecordReturn<Tenant> => {
-  //   const { handleError } = useAuthContext();
+  const { saveTenant } = useAuthContext();
   const navigate = useNavigate();
   //   const isAuthorized = hasPermission('crops', 'find_one_crop');
 
@@ -42,6 +41,12 @@ export const useGetOneTenant = (
   //       );
   //     }
   //   }, [isAuthorized]);
+
+  useEffect(() => {
+    if (query.isSuccess) {
+      saveTenant(query.data);
+    }
+  }, [query.isSuccess]);
 
   useEffect(() => {
     if (query.isError) {
