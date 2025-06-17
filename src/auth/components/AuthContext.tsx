@@ -22,6 +22,7 @@ import {
 import { AuthContextProps } from '../interfaces/AuthContextProps';
 import { TypedAxiosError } from '../interfaces/AxiosErrorResponse';
 import { defaultGlobalActionsUserAdmin } from '../helpers/defaultGlobalActionsUserAdmin';
+import { useGetOneTenant } from '../hooks/queries/useGetOneTenant';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
@@ -69,6 +70,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const queryGetAllModules = useGetAllModules({
     executeQuery: executeQueryModule,
   });
+  const currentSubdomain = window.location.hostname.split('.')[0];
+
+  const queryTenant = useGetOneTenant(currentSubdomain);
+
   const { user } = useAppSelector((state: RootState) => state.authentication);
   const queryClient = useQueryClient();
   const tokenSession = user?.token;
@@ -234,7 +239,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         saveUser,
         isLogin: user?.isLogin ?? false,
         removeUser,
-
         updateTokenInClient,
         tokenSession,
         user,
@@ -245,7 +249,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         validatePermissionsInModule,
         getGlobalActionsUser,
         getActionsModule,
-        isLoading: queryGetAllModules.isLoading,
+        isLoading: queryGetAllModules.isLoading || queryTenant.isLoading,
         isError: queryGetAllModules.isError,
       }}
     >
