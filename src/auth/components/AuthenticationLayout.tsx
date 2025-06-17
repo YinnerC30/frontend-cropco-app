@@ -12,7 +12,11 @@ export const AuthenticationLayout: React.FC = () => {
   const queryTenant = useGetOneTenant(currentSubdomain);
 
   if (isLoading || queryTenant.isLoading) {
-    return <Loading />;
+    return (
+      <main className="flex items-center justify-center w-screen h-screen">
+        <Loading />
+      </main>
+    );
   }
 
   if (isError) {
