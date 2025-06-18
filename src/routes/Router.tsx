@@ -22,6 +22,7 @@ import { HomePage } from './HomePage';
 import AuthenticationTenantLayout from '@/management/components/AuthenticationTenantLayout';
 import { authenticationTenantRoutes } from '@/management/routes/authenticationTenantRoutes';
 import { RoutesManagementController } from './components/RoutesManagementController';
+import { HomeManagementLayout } from '@/management/components/HomeManagementLayout';
 
 export const Router = createBrowserRouter([
   {
@@ -41,6 +42,17 @@ export const Router = createBrowserRouter([
         children: [
           { index: true, element: <Navigate to={'login'} /> },
           ...authenticationTenantRoutes,
+        ],
+      },
+      {
+        path: 'home',
+        element: <HomeManagementLayout />,
+        children: [
+          { index: true, element: <Navigate to={'page'} /> },
+          {
+            path: 'page',
+            element: <HomePage />,
+          },
         ],
       },
     ],

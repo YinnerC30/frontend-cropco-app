@@ -3,7 +3,7 @@ import { TenantAdministrator } from './TenantAdministrator';
 export interface AuthTenantContextProps {
   // saveUser: (user: UserActive) => void;
   // saveTenant: (tenant: Tenant) => void;
-  // isLogin: boolean;
+  isLogin: boolean;
   // removeUser: () => void;
   // updateTokenInClient: (token: string) => void;
   // tokenSession: string | undefined;

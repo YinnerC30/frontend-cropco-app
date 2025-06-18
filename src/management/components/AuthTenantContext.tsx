@@ -1,7 +1,7 @@
 import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
-import { useAppDispatch } from '@/redux/store';
+import { RootState, useAppDispatch, useAppSelector } from '@/redux/store';
 import { AxiosError } from 'axios';
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, ReactNode, useContext, useEffect } from 'react';
 import { AuthTenantContextProps } from '../interfaces/AuthTenantContextProps';
 import { TenantAdministrator } from '../interfaces/TenantAdministrator';
 import {
@@ -12,6 +12,8 @@ import {
   removeTenantManagementInLocalStorage,
   saveTenantManagementInLocalStorage,
 } from '../utils/manageTenantManagementInLocalStorage';
+import { useNavigate } from 'react-router-dom';
+import { PATH_ADMIN_LOGIN } from '@/config';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
@@ -34,6 +36,9 @@ export const AuthTenantContext = createContext<
 export const AuthTenantProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const { user } = useAppSelector(
+    (state: RootState) => state.authenticationManagement
+  );
   const dispatch = useAppDispatch();
 
   const saveTenantManagement = (tenant: TenantAdministrator) => {
@@ -45,12 +50,20 @@ export const AuthTenantProvider: React.FC<{ children: ReactNode }> = ({
     removeTenantManagementInLocalStorage();
     dispatch(removeUserActive());
   };
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user?.isLogin) {
+      navigate(PATH_ADMIN_LOGIN, { replace: true });
+    }
+  }, [navigate, user]);
 
   return (
     <AuthTenantContext.Provider
       value={{
         saveTenantManagement,
         removeTenantManagement,
+        isLogin: user?.isLogin ?? false,
       }}
     >
       {children}
