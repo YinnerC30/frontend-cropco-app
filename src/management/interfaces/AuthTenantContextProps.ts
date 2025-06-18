@@ -1,3 +1,4 @@
+import { TenantAdministrator } from './TenantAdministrator';
 
 export interface AuthTenantContextProps {
   // saveUser: (user: UserActive) => void;
@@ -17,4 +18,6 @@ export interface AuthTenantContextProps {
   // getActionsModule: (moduleName: ModulesCropco) => Record<string, boolean>;
   // isLoading: boolean;
   // isError: boolean;
+  saveTenantManagement: (tenant: TenantAdministrator) => void;
+  removeTenantManagement: () => void;
 }
