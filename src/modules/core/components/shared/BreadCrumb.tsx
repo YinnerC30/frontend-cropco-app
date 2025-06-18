@@ -7,12 +7,12 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { PATH_HOME_APP } from '@/config';
-import { useNavigate } from 'react-router-dom';
+import { SidebarTrigger } from '@/components/ui/sidebar';
+import { PATH_HOME_APP, PATH_MANAGEMENT_HOME_APP } from '@/config';
+import { memo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useToastDiscardChanges } from '../../hooks/useToastDiscardChanges';
 import { useFormChange } from '../form/FormChangeContext';
-import { memo } from 'react';
-import { SidebarTrigger } from '@/components/ui/sidebar';
 
 interface ItemBreadCrumb {
   link: string;
@@ -30,6 +30,9 @@ export const BreadCrumb: React.FC<Props> = memo(
     const navigate = useNavigate();
     const { showToast } = useToastDiscardChanges();
 
+    const url = useLocation();
+    const isInManagement = url.pathname.includes('management');
+
     return (
       <div className="sticky top-0 z-50 pb-4 bg-background">
         <Breadcrumb>
@@ -41,13 +44,18 @@ export const BreadCrumb: React.FC<Props> = memo(
             <BreadcrumbItem>
               <BreadcrumbLink
                 className={`hover:cursor-pointer ${
-                  finalItem.length > 0 ? 'text-foreground/55' : 'text-foreground'
+                  finalItem.length > 0
+                    ? 'text-foreground/55'
+                    : 'text-foreground'
                 }`}
                 onClick={() => {
+                  const urlToRedirect = isInManagement
+                    ? PATH_MANAGEMENT_HOME_APP
+                    : PATH_HOME_APP;
                   if (hasUnsavedChanges) {
-                    showToast({ route: PATH_HOME_APP });
+                    showToast({ route: urlToRedirect });
                   } else {
-                    navigate(PATH_HOME_APP);
+                    navigate(urlToRedirect);
                   }
                 }}
               >

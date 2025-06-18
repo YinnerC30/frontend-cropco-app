@@ -1,13 +1,14 @@
+import { MainContent, SidebarProvider } from '@/components';
 import { PATH_ADMIN_LOGIN } from '@/config';
 import { Navigate } from 'react-router-dom';
+import { AppManagementSidebar } from './AppManagementSideBar';
 import { useAuthTenantContext } from './AuthTenantContext';
-import { Button } from '@/components';
 // import { SidebarProvider } from '../ui/sidebar';
 // import { AppSidebar } from './AppSideBar';
 // import { MainContent } from './MainContent';
 
 export const HomeManagementLayout = () => {
-  const { isLogin, removeTenantManagement } = useAuthTenantContext();
+  const { isLogin } = useAuthTenantContext();
 
   // const query = useCheckAuthStatus({
   //   token: tokenSession!,
@@ -23,10 +24,12 @@ export const HomeManagementLayout = () => {
 
   return (
     <div>
-      <h1>Panel de control de CropCo</h1>
-      <Button type="button" onClick={removeTenantManagement}>
-        Cerrar sesión
-      </Button>
+      <SidebarProvider>
+        {/* <CommandDialogApp /> */}
+        <AppManagementSidebar />
+
+        <MainContent />
+      </SidebarProvider>
     </div>
   );
 };
