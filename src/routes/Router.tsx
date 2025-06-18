@@ -19,6 +19,9 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { HomeLayout } from '../components/home/HomeLayout';
 import { RoutesController } from './components';
 import { HomePage } from './HomePage';
+import AuthenticationTenantLayout from '@/management/components/AuthenticationTenantLayout';
+import { authenticationTenantRoutes } from '@/management/routes/authenticationTenantRoutes';
+import { RoutesManagementController } from './components/RoutesManagementController';
 
 export const Router = createBrowserRouter([
   {
@@ -28,9 +31,19 @@ export const Router = createBrowserRouter([
   },
   {
     path: '/management',
-    element: <h1>Administración Cropco</h1>,
+    element: <RoutesManagementController />,
     errorElement: <ErrorPage />,
-    children: [],
+    children: [
+      { index: true, element: <Navigate to={'authentication/login'} /> },
+      {
+        path: 'authentication',
+        element: <AuthenticationTenantLayout />,
+        children: [
+          { index: true, element: <Navigate to={'login'} /> },
+          ...authenticationTenantRoutes,
+        ],
+      },
+    ],
   },
   {
     path: '/app',

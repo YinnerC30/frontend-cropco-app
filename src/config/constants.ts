@@ -4,6 +4,7 @@ export const BASE_PATH_API_CROPCO = getEnvironmentVariables().HOST_API_CROPCO;
 
 export const PATH_HOME_APP = '/app/home';
 export const PATH_LOGIN = '/app/authentication/login';
+export const PATH_ADMIN_LOGIN = '/management/authentication/login';
 
 type CacheConfig = {
   shortTerm: {
