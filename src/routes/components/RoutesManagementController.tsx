@@ -1,4 +1,4 @@
-import AuthTenantProvider from '@/management/components/AuthTenantContext';
+import AuthTenantProvider from '@/management/auth/components/AuthTenantContext';
 import { FormChangeProvider } from '@/modules/core/components';
 import { Outlet } from 'react-router-dom';
 

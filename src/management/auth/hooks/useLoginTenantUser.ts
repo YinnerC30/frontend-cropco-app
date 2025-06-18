@@ -8,11 +8,10 @@ import { LoginUserData } from '@/auth/interfaces';
 import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
-import { User } from '@/modules/users/interfaces';
-// import { useAuthContext } from '..';
 import { useFormChange } from '@/modules/core/components';
-import { useAuthTenantContext } from '@/management/components/AuthTenantContext';
-import { TenantAdministrator } from '@/management/interfaces/TenantAdministrator';
+
+import { TenantAdministrator } from '@/management/auth/interfaces/TenantAdministrator';
+import { useAuthTenantContext } from '../components/AuthTenantContext';
 
 export const loginTenantUser = async (
   loginUserData: LoginUserData

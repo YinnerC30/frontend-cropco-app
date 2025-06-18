@@ -1,6 +1,6 @@
 import { authenticationReducer } from '@/auth/utils/authenticationSlice';
 import { tenantReducer } from '@/auth/utils/tenantSlice';
-import { authenticationManagementReducer } from '@/management/utils/authenticationManagementSlice';
+import { authenticationManagementReducer } from '@/management/auth/utils/authenticationManagementSlice';
 
 import { configureStore } from '@reduxjs/toolkit';
 

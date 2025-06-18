@@ -19,10 +19,11 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { HomeLayout } from '../components/home/HomeLayout';
 import { RoutesController } from './components';
 import { HomePage } from './HomePage';
-import AuthenticationTenantLayout from '@/management/components/AuthenticationTenantLayout';
-import { authenticationTenantRoutes } from '@/management/routes/authenticationTenantRoutes';
+
+import { authenticationTenantRoutes } from '@/management/auth/routes/authenticationTenantRoutes';
 import { RoutesManagementController } from './components/RoutesManagementController';
-import { HomeManagementLayout } from '@/management/components/HomeManagementLayout';
+import { HomeManagementLayout } from '@/management/auth/components/HomeManagementLayout';
+import AuthenticationTenantLayout from '@/management/auth/components/AuthenticationTenantLayout';
 
 export const Router = createBrowserRouter([
   {
