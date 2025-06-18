@@ -6,7 +6,7 @@ import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGe
 import { useEffect } from 'react';
 
 import { Tenant } from '@/auth/interfaces/Tenant';
-import { useNavigate } from 'react-router-dom';
+
 import { useAuthContext } from '../useAuthContext';
 import { toast } from 'sonner';
 
@@ -20,7 +20,7 @@ export const useGetOneTenant = (
   subdomain: string
 ): UseGetOneRecordReturn<Tenant> => {
   const { saveTenant } = useAuthContext();
-  const navigate = useNavigate();
+
   //   const isAuthorized = hasPermission('crops', 'find_one_crop');
 
   const query: UseGetOneRecordReturn<Tenant> = useQuery({
@@ -51,9 +51,7 @@ export const useGetOneTenant = (
 
   useEffect(() => {
     if (query.isError) {
-      //   console.error('Hubo un error', error);
-      window.location.href = 'http://localhost:5173';
-      toast.error('La empresa solicitada no fue encontrada');
+      toast.error('La empresa solicitada en la solicitud no fue encontrada');
       //   handleError({
       //     error: query.error,
       //     messagesStatusError: {},
