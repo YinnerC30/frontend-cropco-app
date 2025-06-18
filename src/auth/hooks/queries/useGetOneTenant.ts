@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { Tenant } from '@/auth/interfaces/Tenant';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../useAuthContext';
+import { toast } from 'sonner';
 
 export const getTenantBySubdomain = async (
   subdomain: string
@@ -51,7 +52,8 @@ export const useGetOneTenant = (
   useEffect(() => {
     if (query.isError) {
       //   console.error('Hubo un error', error);
-      navigate('/');
+      window.location.href = 'http://localhost:5173';
+      toast.error('La empresa solicitada no fue encontrada');
       //   handleError({
       //     error: query.error,
       //     messagesStatusError: {},
