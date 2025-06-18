@@ -27,6 +27,12 @@ export const Router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
+    path: '/management',
+    element: <h1>Administración Cropco</h1>,
+    errorElement: <ErrorPage />,
+    children: [],
+  },
+  {
     path: '/app',
     element: <RoutesController />,
     errorElement: <ErrorPage />,
