@@ -3,6 +3,7 @@ import { ButtonHeaderTable } from '@/modules/core/components';
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 import { Tenant } from '../../interfaces/Tenant';
 import { formFieldsTenant } from '../../utils/formFieldsTenant';
+import { Badge } from '@/components';
 
 export const columnsTableTenants: ColumnDef<Tenant>[] = [
   {
@@ -47,6 +48,23 @@ export const columnsTableTenants: ColumnDef<Tenant>[] = [
           column={column}
           label={formFieldsTenant.cell_phone_number.label}
         />
+      );
+    },
+  },
+  {
+    accessorKey: 'is_active',
+    header: ({ column }: HeaderContext<Tenant, unknown>) => {
+      return <ButtonHeaderTable column={column} label={'Activo'} />;
+    },
+    cell: ({ row }) => {
+      return (
+        <span>
+          {row.original.is_active ? (
+            <Badge variant={'cyan'}>SI</Badge>
+          ) : (
+            <Badge variant={'red'}>NO</Badge>
+          )}
+        </span>
       );
     },
   },
