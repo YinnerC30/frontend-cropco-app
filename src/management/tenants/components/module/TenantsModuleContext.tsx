@@ -8,8 +8,9 @@ import {
   useBasicQueryData,
   useDataTableManual,
 } from '@/modules/core/hooks';
-import { useGetAllTenants } from '../../hooks';
+import { useDeleteTenant, useGetAllTenants } from '../../hooks';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 
 interface TenantsModuleContextProps {
   selectedTenants: Tenant[];
@@ -22,7 +23,7 @@ interface TenantsModuleContextProps {
   queryTenants: UseQueryGetAllRecordsReturn<Tenant>;
   dataTable: DataTableManualReturn<Tenant>;
   // mutationDeleteCrops: UseMutationReturn<UseDeleteBulkResponse, BulkRecords>;
-  // mutationDeleteCrop: UseMutationReturn<void, string>;
+  mutationDeleteTenant: UseMutationReturn<void, string>;
   // actionsCropsModule: Record<string, boolean>;
   // unitTypeToShowAmount: MassUnitOfMeasure;
   // setUnitTypeToShowAmount: React.Dispatch<
@@ -71,6 +72,8 @@ export const TenantsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
     setPagination,
   });
 
+  const mutationDeleteTenant = useDeleteTenant();
+
   const values: TenantsModuleContextProps = {
     selectedTenants,
     setSelectedTenants,
@@ -81,6 +84,7 @@ export const TenantsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
     dataTable,
     paramQuery: value,
     queryTenants,
+    mutationDeleteTenant,
   };
 
   return (

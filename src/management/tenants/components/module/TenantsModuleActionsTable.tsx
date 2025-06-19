@@ -11,18 +11,25 @@ import React from 'react';
 import { Tenant } from '../../interfaces/Tenant';
 import { ActionToogleStatusTenant } from './ActionToogleStatusTenant';
 import { ActionToogleStatusTenantDB } from './ActionToogleStatusTenantDB';
+import { useTenantsModuleContext } from './TenantsModuleContext';
 
 interface Props {
   row: Row<Tenant>;
 }
 
 export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
+  const { dataTable, mutationDeleteTenant } = useTenantsModuleContext();
+
   const id = row?.original?.id ?? '';
   const is_active = row?.original?.is_active ?? false;
 
   const is_migrated = row?.original?.databases?.[0]?.is_migrated ?? false;
   const handleDelete = () => {
-    console.log('tenant eliminado');
+    mutationDeleteTenant.mutate(id, {
+      onSuccess: () => {
+        dataTable.resetSelectionRows();
+      },
+    });
   };
 
   return (

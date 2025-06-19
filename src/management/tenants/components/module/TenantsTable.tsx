@@ -6,7 +6,7 @@ export const TenantsTable: React.FC = () => {
 
   return (
     <DataTableTemplate
-      errorMessage={''}
+      errorMessage={'No hay registros.'}
       disabledDoubleClick={true}
       table={dataTable.table}
       lengthColumns={dataTable.lengthColumns}
