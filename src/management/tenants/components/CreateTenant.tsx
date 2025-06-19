@@ -1,25 +1,27 @@
 import { BreadCrumb } from '@/modules/core/components';
-import { useAuthContext } from '@/auth/hooks';
-import { Navigate } from 'react-router-dom';
+import { FormTenant } from './form';
 
 export const CreateTenant: React.FC = () => {
-  const { hasPermission } = useAuthContext();
+  // const { hasPermission } = useAuthContext();
 
-  if (!hasPermission('tenants', 'create_tenant')) {
-    return <Navigate to="/tenants/view/all" replace />;
-  }
+  // if (!hasPermission('tenants', 'create_tenant')) {
+  //   return <Navigate to="/tenants/view/all" replace />;
+  // }
+
+  const handleSubmit = (values: any) => {
+    console.log('Crear tenant con valores:', values);
+    // Aquí se implementará la lógica para crear el tenant
+  };
 
   return (
     <div className="select-none">
       <BreadCrumb finalItem="Crear Inquilino" />
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6">Crear Nuevo Inquilino</h1>
-        <p className="text-gray-600">
-          Formulario para crear un nuevo inquilino. (Implementación pendiente)
-        </p>
+        <h1 className="mb-6 text-2xl font-bold">Crear Nuevo Inquilino</h1>
+        <FormTenant onSubmit={handleSubmit} />
       </div>
     </div>
   );
 };
 
-export default CreateTenant; 
+export default CreateTenant;

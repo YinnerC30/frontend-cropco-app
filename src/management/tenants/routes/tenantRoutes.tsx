@@ -2,7 +2,7 @@ import { RouteConfig } from '@/routes/interfaces/RouteConfig';
 
 import { Navigate } from 'react-router-dom';
 import TenantsModule from '../components/module/TenantsModule';
-
+import { CreateTenant } from '../components';
 
 // const TenantsModule = lazy(() => import('../components/module/TenantsModule'));
 // const CreateTenant = lazy(() => import('../components/CreateTenant'));
@@ -42,8 +42,11 @@ const tenantRoutes = {
       path: 'view/all',
       element: <TenantsModule />,
     },
+    {
+      path: 'create/one',
+      element: <CreateTenant />,
+    },
   ],
 };
 
 export { tenantRoutes };
-

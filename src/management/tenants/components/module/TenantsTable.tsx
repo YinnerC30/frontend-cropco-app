@@ -2,7 +2,7 @@ import { DataTableTemplate } from '@/modules/core/components';
 import { useTenantsModuleContext } from './TenantsModuleContext';
 
 export const TenantsTable: React.FC = () => {
-  const { dataTable } = useTenantsModuleContext();
+  const { dataTable, queryTenants } = useTenantsModuleContext();
 
   return (
     <DataTableTemplate
@@ -11,7 +11,7 @@ export const TenantsTable: React.FC = () => {
       table={dataTable.table}
       lengthColumns={dataTable.lengthColumns}
       rowCount={0}
-      isLoading={false}
+      isLoading={queryTenants.isFetching}
     />
   );
 };
