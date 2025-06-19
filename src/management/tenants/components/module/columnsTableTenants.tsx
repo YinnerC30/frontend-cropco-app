@@ -68,4 +68,21 @@ export const columnsTableTenants: ColumnDef<Tenant>[] = [
       );
     },
   },
+  {
+    accessorKey: 'databases',
+    cell: ({ row }) => {
+      const array: any[] = row.getValue('databases') ?? [];
+      const result = array[0].is_migrated;
+      return !result ? (
+        <Badge variant={'red'}>SI</Badge>
+      ) : (
+        <Badge variant={'indigo'}>NO</Badge>
+      );
+    },
+    header: ({ column }: HeaderContext<Tenant, unknown>) => {
+      return (
+        <ButtonHeaderTable column={column} label={'¿Pendiente de migración?'} />
+      );
+    },
+  },
 ];

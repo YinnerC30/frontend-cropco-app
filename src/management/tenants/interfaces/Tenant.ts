@@ -8,4 +8,5 @@ export interface Tenant {
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date | null;
+  databases?: any[];
 }
