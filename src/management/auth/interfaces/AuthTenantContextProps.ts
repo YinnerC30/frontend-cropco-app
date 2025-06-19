@@ -8,7 +8,7 @@ export interface AuthTenantContextProps {
   // updateTokenInClient: (token: string) => void;
   // tokenSession: string | undefined;
   // tenantId: string | undefined;
-  // user: UserActive | null;
+  user: TenantAdministrator | null;
   // handleError: ({ error, messagesStatusError }: HandleErrorProps) => void;
   // nameModulesUser: string[];
   // hasMoreThanOnePermission: (moduleName: string) => number;

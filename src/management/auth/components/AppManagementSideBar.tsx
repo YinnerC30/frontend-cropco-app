@@ -38,7 +38,7 @@ export function AppManagementSidebar() {
   const { hasUnsavedChanges } = useFormChange();
   const { showToast } = useToastDiscardChanges();
 
-  const { removeTenantManagement } = useAuthTenantContext();
+  const { removeTenantManagement, user } = useAuthTenantContext();
 
   const { setTheme } = useTheme();
 
@@ -72,7 +72,13 @@ export function AppManagementSidebar() {
   return (
     <Sidebar collapsible="offcanvas">
       <SidebarHeader>
-        <SidebarHeader>{/* <MyAccount /> */}</SidebarHeader>
+        <SidebarHeader>
+          <Button variant={'ghost'} className="hover:bg-sidebar-accent">
+            <span className="overflow-hidden capitalize text-ellipsis">
+              {user?.first_name! + ' ' + user?.last_name!}
+            </span>
+          </Button>
+        </SidebarHeader>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

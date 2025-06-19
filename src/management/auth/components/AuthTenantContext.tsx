@@ -64,6 +64,7 @@ export const AuthTenantProvider: React.FC<{ children: ReactNode }> = ({
         saveTenantManagement,
         removeTenantManagement,
         isLogin: user?.isLogin ?? false,
+        user,
       }}
     >
       {children}
