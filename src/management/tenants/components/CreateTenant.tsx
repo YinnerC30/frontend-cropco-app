@@ -16,8 +16,7 @@ export const CreateTenant: React.FC = () => {
   return (
     <div className="select-none">
       <BreadCrumb finalItem="Crear Inquilino" />
-      <div className="p-6">
-        <h1 className="mb-6 text-2xl font-bold">Crear Nuevo Inquilino</h1>
+      <div className="">
         <FormTenant onSubmit={handleSubmit} />
       </div>
     </div>
