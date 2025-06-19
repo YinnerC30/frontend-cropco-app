@@ -9,6 +9,7 @@ import { Row } from '@tanstack/react-table';
 import React from 'react';
 
 import { Tenant } from '../../interfaces/Tenant';
+import { ActionToogleStatusTenant } from './ActionToogleStatusTenant';
 
 interface Props {
   row: Row<Tenant>;
@@ -16,7 +17,7 @@ interface Props {
 
 export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
   const id = row?.original?.id ?? '';
-
+  const is_active = row?.original?.is_active ?? false;
   const handleDelete = () => {
     console.log('tenant eliminado');
   };
@@ -30,6 +31,8 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
       <ActionModifyRecord id={id} disabled={false} />
 
       <ActionViewRecord id={id} disabled={false} />
+
+      <ActionToogleStatusTenant id={id} status={is_active} disabled={false} />
     </DropDownMenuActions>
   );
 };
