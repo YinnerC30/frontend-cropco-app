@@ -2,6 +2,7 @@ import { BreadCrumb, Loading } from '@/modules/core/components';
 import { useParams } from 'react-router-dom';
 import { useGetTenant } from '../hooks';
 import { FormTenant } from './form';
+import { MODULE_TENANTS_PATHS } from '../routes/pathRoutes';
 
 export const ViewTenant: React.FC = () => {
   const { id } = useParams();
@@ -12,7 +13,10 @@ export const ViewTenant: React.FC = () => {
 
   return (
     <div className="select-none">
-      <BreadCrumb finalItem="Ver Inquilino" />
+      <BreadCrumb
+        items={[{ link: MODULE_TENANTS_PATHS.ViewAll, name: 'Inquilinos' }]}
+        finalItem={'Ver'}
+      />
       <div className="">
         <FormTenant defaultValues={data} readOnly={true} />
       </div>
