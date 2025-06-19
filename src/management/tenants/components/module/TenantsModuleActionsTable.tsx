@@ -12,6 +12,7 @@ import { Tenant } from '../../interfaces/Tenant';
 import { ActionToogleStatusTenant } from './ActionToogleStatusTenant';
 import { ActionToogleStatusTenantDB } from './ActionToogleStatusTenantDB';
 import { useTenantsModuleContext } from './TenantsModuleContext';
+import { ActionVisitSiteTenant } from './ActionVisitSiteTenant';
 
 interface Props {
   row: Row<Tenant>;
@@ -24,6 +25,9 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
   const is_active = row?.original?.is_active ?? false;
 
   const is_migrated = row?.original?.databases?.[0]?.is_migrated ?? false;
+
+  const subdomain = row?.original?.subdomain ?? '';
+
   const handleDelete = () => {
     mutationDeleteTenant.mutate(id, {
       onSuccess: () => {
@@ -35,6 +39,8 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
   return (
     <DropDownMenuActions>
       <ActionCopyIdRecord id={id} />
+
+      <ActionVisitSiteTenant subdomain={subdomain} disabled={false} />
 
       <ActionDeleteRecord action={handleDelete} disabled={false} />
 

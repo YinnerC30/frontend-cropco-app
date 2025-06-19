@@ -9,6 +9,7 @@ interface Props {
   >;
   name: string;
   disabled?: boolean;
+  target?: string;
 }
 
 export const ActionNavigate = ({
@@ -16,11 +17,13 @@ export const ActionNavigate = ({
   Icon,
   name,
   disabled = false,
+  target = '_self',
 }: Props) => {
   return (
     <DropdownMenuItem asChild disabled={disabled}>
       <Link
         to={`${!disabled ? path : ''}`}
+        target={target}
         className={`${disabled && 'opacity-50'}  ${
           disabled ? 'cursor-default' : 'cursor-pointer'
         } text-foreground font-medium`}
