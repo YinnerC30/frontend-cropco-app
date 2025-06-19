@@ -15,7 +15,6 @@ export const ActionToogleStatusTenant: React.FC<Props> = ({
   status,
   disabled = false,
 }) => {
-  // const { user } = useAuthContext();
   const { toggleOpen } = useDataTableMenuActionsContext();
   const { mutate } = usePatchTenantStatus();
 

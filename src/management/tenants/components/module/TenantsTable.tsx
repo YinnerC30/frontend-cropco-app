@@ -10,7 +10,7 @@ export const TenantsTable: React.FC = () => {
       disabledDoubleClick={true}
       table={dataTable.table}
       lengthColumns={dataTable.lengthColumns}
-      rowCount={0}
+      rowCount={queryTenants.data?.total_row_count || 0}
       isLoading={queryTenants.isFetching}
     />
   );
