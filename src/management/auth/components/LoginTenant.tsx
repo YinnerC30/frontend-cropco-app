@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { formFieldsLogin, formSchemaLogin } from '@/auth/utils';
-import { useLoginTenantUser } from '../hooks/useLoginTenantUser';
+import { useLoginTenantUser } from '../hooks/mutations/useLoginTenantUser';
 
 export const LoginTenant: React.FC = () => {
   const formLogin = useCreateForm({

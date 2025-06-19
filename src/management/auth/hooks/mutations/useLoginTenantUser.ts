@@ -11,7 +11,8 @@ import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutati
 import { useFormChange } from '@/modules/core/components';
 
 import { TenantAdministrator } from '@/management/auth/interfaces/TenantAdministrator';
-import { useAuthTenantContext } from '../components/AuthTenantContext';
+import { useAuthTenantContext } from '../../components/AuthTenantContext';
+
 
 export const loginTenantUser = async (
   loginUserData: LoginUserData
