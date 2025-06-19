@@ -32,7 +32,7 @@ export const useGetOneTenant = (
     // enabled: isAuthorized,
     refetchOnWindowFocus: false,
     retry: false,
-    enabled: false,
+    enabled: true,
     // ...CACHE_CONFIG_TIME.shortTerm,
   });
 
