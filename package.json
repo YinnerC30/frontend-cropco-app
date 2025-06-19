@@ -1,7 +1,7 @@
 {
   "name": "frontend-cropco",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "license": "MIT",
   "scripts": {
@@ -9,7 +9,17 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "version:patch": "npm version patch",
+    "version:minor": "npm version minor",
+    "version:major": "npm version major",
+    "docker:build": "docker build -t cropco-frontend:$npm_package_version .",
+    "docker:build-latest": "docker build -t cropco-frontend:latest .",
+    "docker:push": "docker push cropco-frontend:$npm_package_version",
+    "docker:push-latest": "docker push cropco-frontend:latest",
+    "release:patch": "npm run version:patch && npm run docker:build && npm run docker:build-latest",
+    "release:minor": "npm run version:minor && npm run docker:build && npm run docker:build-latest",
+    "release:major": "npm run version:major && npm run docker:build && npm run docker:build-latest"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

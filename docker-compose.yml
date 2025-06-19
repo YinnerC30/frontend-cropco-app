@@ -3,14 +3,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    # image: stivenc30/cropco-frontend:latest
-    image: cropco-frontend:latest
+      args:
+        VERSION: ${APP_VERSION:-1.0.0}
+    # Para desarrollo local
+    image: cropco-frontend:${APP_VERSION:-1.0.0}
+    # Para producción con Docker Hub
+    # image: tu-usuario/cropco-frontend:${APP_VERSION:-latest}
     container_name: cropco-frontend
     ports:
       - '${PORT:-8081}:80'
     environment:
       - VITE_HOST_API_CROPCO=${VITE_HOST_API_CROPCO}
       - VITE_STATUS_PROJECT=${VITE_STATUS_PROJECT}
+      - APP_VERSION=${APP_VERSION:-1.0.0}
     restart: unless-stopped
     networks:
       - cropco-network
