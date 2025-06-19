@@ -93,7 +93,7 @@ export const CropsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
     mutationDeleteCrops,
     mutationDeleteCrop,
     unitTypeToShowAmount,
-    setUnitTypeToShowAmount
+    setUnitTypeToShowAmount,
   };
 
   return (
