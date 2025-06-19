@@ -1,4 +1,4 @@
-import { LogOut, Moon, Sun } from 'lucide-react';
+import { LogOut, Moon, Sun, Building2 } from 'lucide-react';
 
 import {
   Sidebar,
@@ -10,6 +10,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
+  SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
 import { useFormChange, useTheme } from '@/modules/core/components';
@@ -25,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components';
 import { useAuthTenantContext } from './AuthTenantContext';
+import { PATH_MANAGEMENT_HOME_APP } from '@/config';
 
 export function AppManagementSidebar() {
   // const { nameModulesUser } = useHome();
@@ -58,6 +60,15 @@ export function AppManagementSidebar() {
     }
   };
 
+  const routes = [
+    {
+      path: `${PATH_MANAGEMENT_HOME_APP}/tenants/view/all`,
+      label: 'Inquilinos',
+      Icon: <Building2 className="w-4 h-4" />,
+      name_module: 'tenants',
+    },
+  ];
+
   return (
     <Sidebar collapsible="offcanvas">
       <SidebarHeader>
@@ -68,27 +79,25 @@ export function AppManagementSidebar() {
           <SidebarGroupLabel>Módulos</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {/* {routes.map((route: Route) => {
-                if (nameModulesUser.includes(route.name_module)) {
-                  return (
-                    <SidebarMenuItem
-                      key={route.path}
-                      className="hover:cursor-pointer"
+              {routes.map((route) => {
+                return (
+                  <SidebarMenuItem
+                    key={route.path}
+                    className="hover:cursor-pointer"
+                  >
+                    <SidebarMenuButton
+                      onClick={(e) => handleClick(e, route.path)}
+                      isActive={url.pathname.includes(route.name_module)}
+                      asChild
                     >
-                      <SidebarMenuButton
-                        onClick={(e) => handleClick(e, route.path)}
-                        isActive={url.pathname.includes(route.name_module)}
-                        asChild
-                      >
-                        <div>
-                          {route.Icon}
-                          <span>{route.label}</span>
-                        </div>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  );
-                }
-              })} */}
+                      <div>
+                        {route.Icon}
+                        <span>{route.label}</span>
+                      </div>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

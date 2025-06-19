@@ -21,6 +21,7 @@ import { RoutesController } from './components';
 import { HomePage } from './HomePage';
 
 import { authenticationTenantRoutes } from '@/management/auth/routes/authenticationTenantRoutes';
+import { tenantRoutes } from '@/management/tenants/routes/tenantRoutes';
 import { RoutesManagementController } from './components/RoutesManagementController';
 import { HomeManagementLayout } from '@/management/auth/components/HomeManagementLayout';
 import AuthenticationTenantLayout from '@/management/auth/components/AuthenticationTenantLayout';
@@ -54,6 +55,7 @@ export const Router = createBrowserRouter([
             path: 'page',
             element: <HomePage />,
           },
+          tenantRoutes,
         ],
       },
     ],
