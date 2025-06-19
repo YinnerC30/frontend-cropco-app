@@ -2,13 +2,11 @@ import { BasicSearchBar } from '@/modules/core/components';
 import { useTenantsModuleContext } from './TenantsModuleContext';
 
 export const TenantsSearchBar: React.FC = () => {
-  const { searchValue, setSearchValue } = useTenantsModuleContext();
+  const { paramQuery } = useTenantsModuleContext();
 
   return (
-    <BasicSearchBar
-      query={searchValue}
-      // setQuery={setSearchValue}
-      // placeholder="Buscar inquilinos..."
-    />
+    <div className="flex items-center justify-center w-full">
+      <BasicSearchBar query={paramQuery} disabled={false} />
+    </div>
   );
 };
