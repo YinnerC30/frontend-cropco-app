@@ -10,11 +10,10 @@ import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button, Dialog, useSidebar } from '@/components';
+import { userPatchChangePasswordAdministrator } from '@/management/administrators/hooks/mutations/userPatchChangePasswordAdministrator';
 import { useFormChange } from '@/modules/core/components';
 import { DialogChangePassword } from '@/modules/users/components/DialogChangePassword';
-import { userPatchChangePasswordUser } from '@/modules/users/hooks';
 import { useAuthTenantContext } from './AuthTenantContext';
-import { userPatchChangePasswordAdministrator } from '@/management/administrators/hooks/mutations/userPatchChangePasswordAdministrator';
 
 export const MyAdministratorAccount = () => {
   const { user } = useAuthTenantContext();

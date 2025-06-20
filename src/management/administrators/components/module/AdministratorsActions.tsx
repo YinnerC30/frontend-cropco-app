@@ -1,8 +1,7 @@
 import {
   ButtonClearSelection,
   ButtonCreateRecord,
-  ButtonDeleteBulk,
-  ButtonRefetchData,
+  ButtonRefetchData
 } from '@/modules/core/components';
 import { useAdministratorsModuleContext } from '../../hooks/context/useAdministratorsModuleContext';
 import { MODULE_ADMINISTRATORS_PATHS } from '../../routes/pathsRoutes';

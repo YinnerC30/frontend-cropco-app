@@ -1,11 +1,10 @@
-import { useAuthContext } from '@/auth';
 import { Button, DropdownMenuItem } from '@/components';
+import { useAuthTenantContext } from '@/management/auth/components/AuthTenantContext';
 import { useDataTableMenuActionsContext } from '@/modules/core/components';
 import { ToggleLeft, ToggleRight } from 'lucide-react';
 import React from 'react';
 import { toast } from 'sonner';
 import { usePatchAdministratorStatus } from '../../hooks/mutations/usePatchStatusAdministrator';
-import { useAuthTenantContext } from '@/management/auth/components/AuthTenantContext';
 
 interface Props {
   id: string;

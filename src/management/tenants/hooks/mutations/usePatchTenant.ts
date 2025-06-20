@@ -2,14 +2,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useAuthContext } from '@/auth/hooks';
 import { Tenant } from '@/management/tenants/interfaces/Tenant';
 
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { useAuthTenantContext } from '@/management/auth/components/AuthTenantContext';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_TENANTS_PATHS } from '../../routes/pathRoutes';
-import { useAuthTenantContext } from '@/management/auth/components/AuthTenantContext';
 
 export const updateTenant = async (
   tenant: Tenant

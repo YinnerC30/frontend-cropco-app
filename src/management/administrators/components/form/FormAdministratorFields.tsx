@@ -13,10 +13,9 @@ import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 
 import { FormFieldInput, FormFieldSelect } from '@/modules/core/components';
 import { useState } from 'react';
-import { formFieldsAdministrator } from '../../utils/formFieldsAdministrator';
 import { useFormAdministratorContext } from '../../hooks/context/useFormAdministratorContext';
-import { formFieldsSupply } from '@/modules/supplies/utils/formFieldsSupply';
 import { RolesAdministrator } from '../../interfaces/RolesAdministrator';
+import { formFieldsAdministrator } from '../../utils/formFieldsAdministrator';
 
 export const FormAdministratorFields: React.FC = () => {
   const { form, onSubmit, readOnly, hiddenPassword } =
