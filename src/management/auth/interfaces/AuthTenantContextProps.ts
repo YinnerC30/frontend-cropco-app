@@ -1,3 +1,4 @@
+import { HandleErrorProps } from '../components/AuthTenantContext';
 import { TenantAdministrator } from './TenantAdministrator';
 
 export interface AuthTenantContextProps {
@@ -9,7 +10,7 @@ export interface AuthTenantContextProps {
   // tokenSession: string | undefined;
   // tenantId: string | undefined;
   user: TenantAdministrator | null;
-  // handleError: ({ error, messagesStatusError }: HandleErrorProps) => void;
+  handleError: ({ error, messagesStatusError }: HandleErrorProps) => void;
   // nameModulesUser: string[];
   // hasMoreThanOnePermission: (moduleName: string) => number;
   // hasPermission: (moduleName: string, actionName: string) => boolean;

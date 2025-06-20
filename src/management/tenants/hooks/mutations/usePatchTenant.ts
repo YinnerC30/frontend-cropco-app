@@ -9,15 +9,18 @@ import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_TENANTS_PATHS } from '../../routes/pathRoutes';
+import { useAuthTenantContext } from '@/management/auth/components/AuthTenantContext';
 
-export const updateTenant = async (tenant: Tenant): PromiseReturnRecord<void> => {
+export const updateTenant = async (
+  tenant: Tenant
+): PromiseReturnRecord<void> => {
   const { id, ...rest } = tenant;
   return await cropcoAPI.put(`${pathsCropco.tenants}/update/one/${id}`, rest);
 };
 
 export const usePatchTenant = (): UseMutationReturn<void, Tenant> => {
   const queryClient = useQueryClient();
-  // const { handleError } = useAuthContext();
+  const { handleError } = useAuthTenantContext();
   const navigate = useNavigate();
   const mutation: UseMutationReturn<void, Tenant> = useMutation({
     mutationFn: updateTenant,
@@ -28,12 +31,12 @@ export const usePatchTenant = (): UseMutationReturn<void, Tenant> => {
       toast.success(`Inquilino actualizado exitosamente`);
     },
     onError: (error) => {
-      // handleError({
-      //   error,
-      //   messagesStatusError: {},
-      // });
+      handleError({
+        error,
+        messagesStatusError: {},
+      });
     },
     retry: false,
   });
   return mutation;
-}; 
+};

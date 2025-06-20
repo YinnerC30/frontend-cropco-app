@@ -11,6 +11,7 @@ import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Tenant } from '../../interfaces/Tenant';
+import { useAuthTenantContext } from '@/management/auth/components/AuthTenantContext';
 
 export const getTenants = async (
   values: BasicQueryData
@@ -32,6 +33,7 @@ export const useGetAllTenants = ({
 }: UseGetAllRecordsProps): UseGetAllRecordsReturn<Tenant> => {
   const { pagination, setPagination } = usePaginationDataTable();
   // const { hasPermission, handleError } = useAuthContext();
+  const { handleError } = useAuthTenantContext();
   // const isAuthorized = hasPermission('tenants', 'find_all_tenants');
 
   const query: UseQueryGetAllRecordsReturn<Tenant> = useQuery({
@@ -57,10 +59,10 @@ export const useGetAllTenants = ({
 
   useEffect(() => {
     if (query.isError) {
-      // handleError({
-      //   error: query.error,
-      //   messagesStatusError: {},
-      // });
+      handleError({
+        error: query.error,
+        messagesStatusError: {},
+      });
     }
   }, [query.isError, query.error]);
 

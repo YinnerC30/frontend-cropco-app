@@ -7,14 +7,17 @@ import { Tenant } from '@/management/tenants/interfaces/Tenant';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useNavigate } from 'react-router-dom';
 import { MODULE_TENANTS_PATHS } from '../../routes/pathRoutes';
+import { useAuthTenantContext } from '@/management/auth/components/AuthTenantContext';
 
-export const createTenant = async (tenant: Tenant): PromiseReturnRecord<void> => {
+export const createTenant = async (
+  tenant: Tenant
+): PromiseReturnRecord<void> => {
   return await cropcoAPI.post(`${pathsCropco.tenants}/create`, tenant);
 };
 
 export const usePostTenant = (): UseMutationReturn<void, Tenant> => {
   const queryClient = useQueryClient();
-  // const { handleError } = useAuthContext();
+  const { handleError } = useAuthTenantContext();
   const navigate = useNavigate();
   const mutation: UseMutationReturn<void, Tenant> = useMutation({
     mutationFn: createTenant,
@@ -24,13 +27,13 @@ export const usePostTenant = (): UseMutationReturn<void, Tenant> => {
       toast.success(`Inquilino creado exitosamente`);
     },
     onError: (error) => {
-      // handleError({
-      //   error,
-      //   messagesStatusError: {},
-      // });
+      handleError({
+        error,
+        messagesStatusError: {},
+      });
     },
     retry: false,
   });
 
   return mutation;
-}; 
+};
