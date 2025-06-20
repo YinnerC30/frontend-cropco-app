@@ -7,7 +7,7 @@ export interface AuthTenantContextProps {
   isLogin: boolean;
   // removeUser: () => void;
   // updateTokenInClient: (token: string) => void;
-  // tokenSession: string | undefined;
+  tokenSession: string | undefined;
   // tenantId: string | undefined;
   user: TenantAdministrator | null;
   handleError: ({ error, messagesStatusError }: HandleErrorProps) => void;

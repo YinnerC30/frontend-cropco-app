@@ -40,6 +40,7 @@ export const AuthTenantProvider: React.FC<{ children: ReactNode }> = ({
   const { user } = useAppSelector(
     (state: RootState) => state.authenticationManagement
   );
+  const tokenSession = user?.token;
   const dispatch = useAppDispatch();
 
   const saveTenantManagement = (tenant: TenantAdministrator) => {
@@ -111,6 +112,7 @@ export const AuthTenantProvider: React.FC<{ children: ReactNode }> = ({
         isLogin: user?.isLogin ?? false,
         user,
         handleError,
+        tokenSession,
       }}
     >
       {children}

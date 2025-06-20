@@ -3,20 +3,22 @@ import { PATH_ADMIN_LOGIN } from '@/config';
 import { Navigate } from 'react-router-dom';
 import { AppManagementSidebar } from './AppManagementSideBar';
 import { useAuthTenantContext } from './AuthTenantContext';
+import { Loading } from '@/modules/core/components';
+import { useCheckAuthStatusManagement } from '../hooks/queries/useCheckAuthStatusManagement';
 // import { SidebarProvider } from '../ui/sidebar';
 // import { AppSidebar } from './AppSideBar';
 // import { MainContent } from './MainContent';
 
 export const HomeManagementLayout = () => {
-  const { isLogin } = useAuthTenantContext();
+  const { isLogin, tokenSession } = useAuthTenantContext();
 
-  // const query = useCheckAuthStatus({
-  //   token: tokenSession!,
-  // });
+  const query = useCheckAuthStatusManagement({
+    token: tokenSession!,
+  });
 
-  // if (query.isLoading) {
-  //   return <Loading />;
-  // }
+  if (query.isLoading) {
+    return <Loading />;
+  }
 
   if (!isLogin) {
     return <Navigate to={PATH_ADMIN_LOGIN} replace />;
