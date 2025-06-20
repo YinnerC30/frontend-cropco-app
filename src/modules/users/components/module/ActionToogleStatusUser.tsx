@@ -35,23 +35,6 @@ export const ActionToogleStatusUser: React.FC<Props> = ({
       },
       duration: 3000,
     });
-    // return toast({
-    //   title: 'Se cerrara la sesión',
-    //   duration: 3000,
-    //   description:
-    //     'Esta por desactivar su usuario, si desea continuar por favor presione "Desactivar"',
-
-    //   action: (
-    //     <ToastAction
-    //       onClick={() => {
-    //         executeMutation();
-    //       }}
-    //       altText="Desactivar"
-    //     >
-    //       Desactivar
-    //     </ToastAction>
-    //   ),
-    // });
   };
 
   const handleToggleStatus = () => {
@@ -73,11 +56,11 @@ export const ActionToogleStatusUser: React.FC<Props> = ({
       >
         {status ? (
           <>
-            <ToggleLeft className="w-4 h-4 mr-2" /> Desactivar
+            <ToggleRight className="w-4 h-4 mr-2" /> Desactivar
           </>
         ) : (
           <>
-            <ToggleRight className="w-4 h-4 mr-2" /> Activar
+            <ToggleLeft className="w-4 h-4 mr-2" /> Activar
           </>
         )}
       </Button>

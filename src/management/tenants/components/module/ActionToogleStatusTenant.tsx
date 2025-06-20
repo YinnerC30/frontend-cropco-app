@@ -22,43 +22,6 @@ export const ActionToogleStatusTenant: React.FC<Props> = ({
     mutate(id, { onSuccess: () => toggleOpen(false) });
   };
 
-  // const showToast = () => {
-  //   toast('Se cerrara la sesión', {
-  //     description:
-  //       'Esta por desactivar su usuario, si desea continuar por favor presione "Desactivar"',
-  //     action: {
-  //       label: 'Desactivar',
-  //       onClick: handleToggleTenant,
-  //     },
-  //     duration: 3000,
-  //   });
-  //   // return toast({
-  //   //   title: 'Se cerrara la sesión',
-  //   //   duration: 3000,
-  //   //   description:
-  //   //     'Esta por desactivar su usuario, si desea continuar por favor presione "Desactivar"',
-
-  //   //   action: (
-  //   //     <ToastAction
-  //   //       onClick={() => {
-  //   //         executeMutation();
-  //   //       }}
-  //   //       altText="Desactivar"
-  //   //     >
-  //   //       Desactivar
-  //   //     </ToastAction>
-  //   //   ),
-  //   // });
-  // };
-
-  // const handleToggleStatus = () => {
-  //   if (user?.id === id) {
-  //     showToast();
-  //   } else {
-  //     handleToggleTenant();
-  //   }
-  // };
-
   return (
     <DropdownMenuItem asChild>
       <Button
@@ -70,11 +33,11 @@ export const ActionToogleStatusTenant: React.FC<Props> = ({
       >
         {status ? (
           <>
-            <ToggleLeft className="w-4 h-4 mr-2" /> Desactivar
+            <ToggleRight className="w-4 h-4 mr-2" /> Desactivar
           </>
         ) : (
           <>
-            <ToggleRight className="w-4 h-4 mr-2" /> Activar
+            <ToggleLeft className="w-4 h-4 mr-2" /> Activar
           </>
         )}
       </Button>
