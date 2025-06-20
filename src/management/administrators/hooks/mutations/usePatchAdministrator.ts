@@ -8,17 +8,15 @@ import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { useAuthTenantContext } from '@/management/auth/components/AuthTenantContext';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { Administrator } from '../../interfaces/Administrator';
-import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
+
 import { TenantAdministrator } from '@/management/auth/interfaces/TenantAdministrator';
+import { MODULE_ADMINISTRATORS_PATHS } from '../../routes/pathsRoutes';
 
 async function updateAdministrator({
   id,
   ...rest
 }: Partial<Administrator>): PromiseReturnRecord<Administrator> {
-  return await cropcoAPI.put(
-    `${pathsCropco.administrators}/update/one/${id}`,
-    rest
-  );
+  return await cropcoAPI.put(`${pathsCropco.tenants}/update/one/${id}`, rest);
 }
 export function usePatchAdministrator(): UseMutationReturn<
   Administrator,
@@ -37,7 +35,9 @@ export function usePatchAdministrator(): UseMutationReturn<
     mutationFn: updateAdministrator,
     onSuccess: async ({ data }, variables: Partial<Administrator>) => {
       await queryClient.invalidateQueries({ queryKey: ['administrators'] });
-      await queryClient.invalidateQueries({ queryKey: ['administrator', variables.id] });
+      await queryClient.invalidateQueries({
+        queryKey: ['administrator', variables.id],
+      });
 
       if (variables.id === user.id) {
         saveTenantManagement({
@@ -50,7 +50,7 @@ export function usePatchAdministrator(): UseMutationReturn<
       } else {
         toast.success(`Usuario actualizado`);
       }
-      navigate(MODULE_USER_PATHS.ViewAll);
+      navigate(MODULE_ADMINISTRATORS_PATHS.ViewAll);
     },
     onError: (error) => {
       handleError({

@@ -6,12 +6,6 @@ import {
 } from '../../utils/formSchemaAdministrator';
 
 export interface FormAdministratorContextProps extends FormContextProps {
-  // userHasAction: ({ id }: { id: string }) => boolean;
-  // handleInselectAllActions: () => void;
-  // handleInselectAllActionsInModule: (nameModule: string) => void;
-  // handleSelectAllActionInModule: (nameModule: string) => void;
-  // handleSelectAllActions: () => void;
-  // updateActionsAdministratorForm: (actions: AdministratorAction[]) => void;
   onSubmit: (
     values: z.infer<
       | typeof formSchemaAdministratorWithPassword
@@ -19,8 +13,4 @@ export interface FormAdministratorContextProps extends FormContextProps {
     >
   ) => void;
   hiddenPassword: boolean;
-  // queryModules: UseQueryResult<Module[], AxiosError>;
-  // isSelectedAllActions: boolean;
-  // setIsSelectedAllActions: React.Dispatch<React.SetStateAction<boolean>>;
-  // IsSelectedAllActionsInModule: (nameModule: string) => boolean;
 }

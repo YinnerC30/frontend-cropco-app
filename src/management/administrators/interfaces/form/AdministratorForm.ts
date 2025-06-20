@@ -1,3 +1,4 @@
+import { RolesAdministrator } from "../RolesAdministrator";
 
 export interface AdministratorForm {
   id?: string;
@@ -9,4 +10,5 @@ export interface AdministratorForm {
     password1: string;
     password2: string;
   };
+  role: RolesAdministrator;
 }

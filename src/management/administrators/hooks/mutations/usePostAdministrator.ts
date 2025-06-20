@@ -11,7 +11,7 @@ import { Administrator } from '../../interfaces/Administrator';
 async function createAdministrator(
   user: Partial<Administrator>
 ): PromiseReturnRecord<Administrator> {
-  return await cropcoAPI.post(`${pathsCropco.administrators}/create`, user);
+  return await cropcoAPI.post(`${pathsCropco.tenants}/create/one/admin`, user);
 }
 
 export function usePostAdministrator(): UseMutationReturn<

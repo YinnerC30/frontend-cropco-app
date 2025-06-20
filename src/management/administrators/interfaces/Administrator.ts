@@ -1,3 +1,5 @@
+import { RolesAdministrator } from './RolesAdministrator';
+
 export interface Administrator {
   first_name: string;
   last_name: string;
@@ -7,5 +9,5 @@ export interface Administrator {
   is_active: boolean;
   token: string;
   passwords?: any;
-  role?: string;
+  role?: RolesAdministrator;
 }

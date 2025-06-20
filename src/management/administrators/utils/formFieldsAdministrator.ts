@@ -6,7 +6,8 @@ type AdministratorFormFields =
   | 'email'
   | 'cell_phone_number'
   | 'password1'
-  | 'password2';
+  | 'password2'
+  | 'role';
 
 export const formFieldsAdministrator: Record<
   AdministratorFormFields,
@@ -47,5 +48,11 @@ export const formFieldsAdministrator: Record<
     label: 'Repetir contraseña:',
     placeholder: '',
     description: 'Escriba nuevamente la contraseña',
+  },
+  role: {
+    name: 'role',
+    label: 'Rol:',
+    placeholder: 'Selecciona',
+    description: 'El rol del administrador',
   },
 };

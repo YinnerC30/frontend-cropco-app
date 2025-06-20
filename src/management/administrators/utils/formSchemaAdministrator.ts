@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { RolesAdministrator } from '../interfaces/RolesAdministrator';
 
 export const formSchemaAdministrator = z.object({
   first_name: z
@@ -31,27 +32,36 @@ export const formSchemaAdministrator = z.object({
         message: 'El número celular es incorrecto',
       }
     ),
-  actions: z
-    .array(z.object({ id: z.string().uuid() }))
-    .optional()
-    .default([])
+  role: z.nativeEnum(RolesAdministrator, {
+    errorMap: (issue, _ctx) => {
+      switch (issue.code) {
+        case 'invalid_type':
+          return { message: 'Debe seleccionar un rol.' };
+        case 'invalid_enum_value':
+          return { message: 'Debe seleccionar un rol.' };
+        default:
+          return { message: 'Error en la selección de rol.' };
+      }
+    },
+  }),
 });
 
-export const formSchemaAdministratorWithPassword = formSchemaAdministrator.extend({
-  passwords: z
-    .object({
-      password1: z
-        .string({ required_error: 'La contraseña es obligatoria' })
-        .min(6, {
-          message: 'La contraseña debe tener mínimo 6 caracteres',
-        })
-        .max(100, {
-          message: `La contraseña debe tener máximo 100 caracteres`,
-        }),
-      password2: z.string({ required_error: 'Este campo es obligatorio' }),
-    })
-    .refine((data) => data.password1 === data.password2, {
-      message: 'Las contraseñas no coinciden',
-      path: ['password2'],
-    }),
-});
+export const formSchemaAdministratorWithPassword =
+  formSchemaAdministrator.extend({
+    passwords: z
+      .object({
+        password1: z
+          .string({ required_error: 'La contraseña es obligatoria' })
+          .min(6, {
+            message: 'La contraseña debe tener mínimo 6 caracteres',
+          })
+          .max(100, {
+            message: `La contraseña debe tener máximo 100 caracteres`,
+          }),
+        password2: z.string({ required_error: 'Este campo es obligatorio' }),
+      })
+      .refine((data) => data.password1 === data.password2, {
+        message: 'Las contraseñas no coinciden',
+        path: ['password2'],
+      }),
+  });
