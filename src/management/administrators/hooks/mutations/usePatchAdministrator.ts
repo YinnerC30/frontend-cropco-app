@@ -16,7 +16,7 @@ async function updateAdministrator({
   id,
   ...rest
 }: Partial<Administrator>): PromiseReturnRecord<Administrator> {
-  return await cropcoAPI.put(`${pathsCropco.tenants}/update/one/${id}`, rest);
+  return await cropcoAPI.patch(`${pathsCropco.tenants}/update/one/admin/${id}`, rest);
 }
 export function usePatchAdministrator(): UseMutationReturn<
   Administrator,

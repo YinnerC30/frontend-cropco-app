@@ -1,6 +1,8 @@
 import { Navigate } from 'react-router-dom';
 import { AdministratorsModule } from '../components/module';
 import { CreateAdministrator } from '../components/CreateAdministrator';
+import { ModifyAdministrator } from '../components/ModifyAdministrator';
+import ViewAdministrator from '../components/ViewAdministrator';
 
 // const CreateAdministrator = lazy(() => import('../components/CreateAdministrator'));
 // const ModifyAdministrator = lazy(() => import('../components/ModifyAdministrator'));
@@ -43,6 +45,14 @@ const administratorRoutes = {
     {
       path: 'create/one',
       element: <CreateAdministrator />,
+    },
+    {
+      path: 'view/one/:id',
+      element: <ViewAdministrator />,
+    },
+    {
+      path: 'update/one/:id',
+      element: <ModifyAdministrator />,
     },
     // ...generateRoutes('administrators', routeConfig),
   ],

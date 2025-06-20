@@ -1,5 +1,4 @@
 import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
-import { useAuthContext } from "@/auth/hooks";
 import { PromiseReturnRecord } from "@/auth/interfaces/PromiseReturnRecord";
 import { useAuthTenantContext } from "@/management/auth/components/AuthTenantContext";
 import { UseMutationReturn } from "@/modules/core/interfaces/responses/UseMutationReturn";
@@ -13,7 +12,7 @@ export interface DataResetPassword {
 async function resetPasswordAdministrator(
   id: string
 ): PromiseReturnRecord<DataResetPassword> {
-  return await cropcoAPI.put(`${pathsCropco.administrators}/reset-password/one/${id}`);
+  return await cropcoAPI.put(`${pathsCropco.tenants}/reset-password/one/${id}`);
 }
 
 export function usePatchResetPasswordAdministrator(): UseMutationReturn<
