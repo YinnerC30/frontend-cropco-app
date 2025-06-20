@@ -27,6 +27,7 @@ import {
 } from '@/components';
 import { PATH_MANAGEMENT_HOME_APP } from '@/config';
 import { useAuthTenantContext } from './AuthTenantContext';
+import { MyAdministratorAccount } from './MyAdministratorAccount';
 
 export function AppManagementSidebar() {
   // const { nameModulesUser } = useHome();
@@ -38,7 +39,7 @@ export function AppManagementSidebar() {
   const { hasUnsavedChanges } = useFormChange();
   const { showToast } = useToastDiscardChanges();
 
-  const { removeTenantManagement, user } = useAuthTenantContext();
+  const { removeTenantManagement } = useAuthTenantContext();
 
   const { setTheme } = useTheme();
 
@@ -79,11 +80,7 @@ export function AppManagementSidebar() {
     <Sidebar collapsible="offcanvas">
       <SidebarHeader>
         <SidebarHeader>
-          <Button variant={'ghost'} className="hover:bg-sidebar-accent">
-            <span className="overflow-hidden capitalize text-ellipsis">
-              {user?.first_name! + ' ' + user?.last_name!}
-            </span>
-          </Button>
+          <MyAdministratorAccount />
         </SidebarHeader>
       </SidebarHeader>
       <SidebarContent>

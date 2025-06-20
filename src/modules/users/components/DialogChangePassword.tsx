@@ -12,11 +12,14 @@ import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
 import { Button, Form } from '@/components';
 import { FormFieldInput } from '@/modules/core/components';
 
+import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { useCreateForm } from '@/modules/core/hooks';
 import { RootState, useAppSelector } from '@/redux/store';
+import { UseMutateFunction } from '@tanstack/react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import React from 'react';
 import { z } from 'zod';
-import { userPatchChangePasswordUser } from '../hooks/mutations';
+import { DataChangePassword } from '../hooks/mutations';
 
 const formSchemaChangePassword = z.object({
   old_password: z
@@ -38,17 +41,25 @@ const formSchemaChangePassword = z.object({
 });
 
 interface Props {
+  id: string;
   handleCloseDialog: (event: React.MouseEvent<HTMLButtonElement>) => void;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  isPending: boolean;
+  mutate: UseMutateFunction<
+    AxiosResponse<void, any>,
+    AxiosError<TypedAxiosError, unknown>,
+    DataChangePassword,
+    unknown
+  >;
 }
 
 export const DialogChangePassword: React.FC<Props> = ({
   handleCloseDialog,
   setOpenDialog,
+  isPending,
+  mutate,
+  id,
 }) => {
-  const { id } = useAppSelector(
-    (state: RootState) => state.authentication.user
-  );
   const form = useCreateForm({
     schema: formSchemaChangePassword,
     defaultValues: {
@@ -56,8 +67,6 @@ export const DialogChangePassword: React.FC<Props> = ({
       new_password: '',
     },
   });
-
-  const { isPending, mutate } = userPatchChangePasswordUser();
 
   const handleSubmit = (values: z.infer<typeof formSchemaChangePassword>) => {
     mutate({ id, ...values }, { onSuccess: () => setOpenDialog(false) });

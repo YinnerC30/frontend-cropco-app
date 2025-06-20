@@ -5,22 +5,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { useAuthContext } from '@/auth/hooks/useAuthContext';
 
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
+import { Button, Dialog, useSidebar } from '@/components';
 import { useFormChange } from '@/modules/core/components';
 import { DialogChangePassword } from '@/modules/users/components/DialogChangePassword';
 import { userPatchChangePasswordUser } from '@/modules/users/hooks';
-import { Button } from '../ui/button';
-import { Dialog } from '../ui/dialog';
-import { useSidebar } from '../ui/sidebar';
+import { useAuthTenantContext } from './AuthTenantContext';
+import { userPatchChangePasswordAdministrator } from '@/management/administrators/hooks/mutations/userPatchChangePasswordAdministrator';
 
-export const MyAccount = () => {
-  const { user, hasPermission } = useAuthContext();
-
-  const userCanChangePassword = hasPermission('users', 'change_password_user');
+export const MyAdministratorAccount = () => {
+  const { user } = useAuthTenantContext();
 
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -43,7 +40,7 @@ export const MyAccount = () => {
 
   const [openDropDown, setOpenDropDown] = useState(false);
 
-  const { isPending, mutate } = userPatchChangePasswordUser();
+  const { isPending, mutate } = userPatchChangePasswordAdministrator();
 
   return (
     <Dialog onOpenChange={setOpenDialog} modal={false} open={openDialog}>
@@ -66,14 +63,12 @@ export const MyAccount = () => {
         <DropdownMenuContent side={isMobile ? 'bottom' : 'right'}>
           {/* Info User Login */}
 
-          {userCanChangePassword && (
-            <DropdownMenuItem onClick={handleTrigger}>
-              Cambiar contraseña
-            </DropdownMenuItem>
-          )}
+          <DropdownMenuItem onClick={handleTrigger}>
+            Cambiar contraseña
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      {openDialog && userCanChangePassword && (
+      {openDialog && (
         <DialogChangePassword
           handleCloseDialog={handleCloseDialog}
           setOpenDialog={setOpenDialog}
