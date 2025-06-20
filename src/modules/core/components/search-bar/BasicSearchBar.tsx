@@ -13,6 +13,7 @@ import {
 import { Search, X } from 'lucide-react';
 import { useCreateForm } from '../../hooks/useCreateForm';
 import { ToolTipTemplate } from '../shared/ToolTipTemplate';
+import { useEffect } from 'react';
 
 interface BasicSearchBarProps {
   query: string;
@@ -39,6 +40,8 @@ export const BasicSearchBar = ({
     skipDirty: true,
   });
 
+  const currentQueryValue = form.watch()?.query || '';
+
   const onReset = () => {
     form.reset({ query: '' });
     navigate(window.location.pathname);
@@ -50,6 +53,12 @@ export const BasicSearchBar = ({
       navigate(`?query=${query}`);
     }
   };
+
+  useEffect(() => {
+    if (query.length > 0 && currentQueryValue.length === 0) {
+      navigate('');
+    }
+  }, [currentQueryValue, query]);
 
   return (
     <div className="flex flex-row justify-center w-3/4 gap-4 my-4 min-w-80">
@@ -96,7 +105,7 @@ export const BasicSearchBar = ({
             disabled={disabled}
             size={'icon'}
             variant={'outline'}
-            className='bg-destructive hover:bg-destructive/80'
+            className="bg-destructive hover:bg-destructive/80"
           >
             <X className="w-4 h-4" />
             <span className="sr-only">Limpiar</span>
