@@ -1,4 +1,4 @@
-import { LogOut, Moon, Sun, Building2 } from 'lucide-react';
+import { Building2, LogOut, Moon, Sun, UserRoundCog } from 'lucide-react';
 
 import {
   Sidebar,
@@ -25,8 +25,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components';
-import { useAuthTenantContext } from './AuthTenantContext';
 import { PATH_MANAGEMENT_HOME_APP } from '@/config';
+import { useAuthTenantContext } from './AuthTenantContext';
 
 export function AppManagementSidebar() {
   // const { nameModulesUser } = useHome();
@@ -61,6 +61,12 @@ export function AppManagementSidebar() {
   };
 
   const routes = [
+    {
+      path: `${PATH_MANAGEMENT_HOME_APP}/administrators/view/all`,
+      label: 'Administradores',
+      Icon: <UserRoundCog className="w-4 h-4" />,
+      name_module: 'administrators',
+    },
     {
       path: `${PATH_MANAGEMENT_HOME_APP}/tenants/view/all`,
       label: 'Inquilinos',
