@@ -22,7 +22,7 @@ Seguimos el estándar [Semantic Versioning](https://semver.org/) (MAJOR.MINOR.PA
 
 ### 1. CI/CD Pipeline (`.github/workflows/ci.yml`)
 
-Se ejecuta en cada push a `main` y `develop`:
+Se ejecuta en cada push a `main` y `development`:
 
 - ✅ Ejecuta tests y linting
 - 🐳 Construye imagen Docker con versión actual
@@ -114,12 +114,12 @@ v2.0.0    # Breaking changes
 
 ### Para Features Nuevas
 
-1. Crear branch desde `develop`
+1. Crear branch desde `development`
 2. Desarrollar feature
-3. Crear Pull Request a `develop`
-4. Merge a `develop`
+3. Crear Pull Request a `development`
+4. Merge a `development`
 5. Cuando esté listo para release:
-   - Merge `develop` a `main`
+   - Merge `development` a `main`
    - Ejecutar workflow de release manualmente
 
 ### Para Hotfixes
