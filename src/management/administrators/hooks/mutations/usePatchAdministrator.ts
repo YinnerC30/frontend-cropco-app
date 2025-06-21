@@ -16,7 +16,7 @@ async function updateAdministrator({
   ...rest
 }: Partial<Administrator>): PromiseReturnRecord<Administrator> {
   return await cropcoAPI.patch(
-    `${pathsCropco.administrators}/update/one/admin/${id}`,
+    `${pathsCropco.administrators}/update/one/${id}`,
     rest
   );
 }

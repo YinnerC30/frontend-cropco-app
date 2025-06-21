@@ -12,7 +12,7 @@ import { Administrator } from '../../interfaces/Administrator';
 async function getAdministratorById(
   id: string
 ): PromiseReturnRecord<Administrator> {
-  return await cropcoAPI.get(`${pathsCropco.administrators}/one/admin/${id}`);
+  return await cropcoAPI.get(`${pathsCropco.administrators}/one/${id}`);
 }
 
 export function useGetAdministrator(

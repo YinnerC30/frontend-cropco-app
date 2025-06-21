@@ -16,7 +16,7 @@ async function changePasswordAdministrator({
   ...rest
 }: DataChangePassword): PromiseReturnRecord<void> {
   return await cropcoAPI.put(
-    `${pathsCropco.administrators}/change-password/one/admin`,
+    `${pathsCropco.administrators}/change-password/one`,
     rest
   );
 }

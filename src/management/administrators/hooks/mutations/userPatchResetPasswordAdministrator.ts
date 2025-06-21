@@ -12,7 +12,7 @@ export interface DataResetPassword {
 async function resetPasswordAdministrator(
   id: string
 ): PromiseReturnRecord<DataResetPassword> {
-  return await cropcoAPI.put(`${pathsCropco.administrators}/reset-password/one/admin/${id}`);
+  return await cropcoAPI.put(`${pathsCropco.administrators}/reset-password/one/${id}`);
 }
 
 export function usePatchResetPasswordAdministrator(): UseMutationReturn<

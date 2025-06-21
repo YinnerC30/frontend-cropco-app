@@ -7,7 +7,7 @@ import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutati
 import { toast } from 'sonner';
 
 async function updateAdministratorStatus(id: string): PromiseReturnRecord<void> {
-  return await cropcoAPI.put(`${pathsCropco.administrators}/toggle-status/one/admin/${id}`);
+  return await cropcoAPI.put(`${pathsCropco.administrators}/toggle-status/one/${id}`);
 }
 export function usePatchAdministratorStatus(): UseMutationReturn<void, string> {
   const { handleError } = useAuthTenantContext();

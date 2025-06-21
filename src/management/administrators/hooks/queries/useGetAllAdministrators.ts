@@ -22,7 +22,7 @@ async function getAdministrators(
     offset: offset.toString(),
   });
 
-  return await cropcoAPI.get(`${pathsCropco.administrators}/all/admin?${params}`);
+  return await cropcoAPI.get(`${pathsCropco.administrators}/all?${params}`);
 }
 
 export function useGetAllAdministrators({

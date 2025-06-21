@@ -56,7 +56,7 @@ cropcoAPI.interceptors.request.use(
     }
     const tenantToken = getTenantManagementTokenToLocalStorage();
     if (!!tenantToken) {
-      config.headers['x-tenant-token'] = tenantToken;
+      config.headers['x-administration-token'] = tenantToken;
     }
     return config;
   }

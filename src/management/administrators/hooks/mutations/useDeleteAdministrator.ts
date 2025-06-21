@@ -9,7 +9,7 @@ export const deleteAdministrator = async (
   id: string
 ): PromiseReturnRecord<void> => {
   return await cropcoAPI.delete(
-    `${pathsCropco.administrators}/remove/one/admin/${id}`
+    `${pathsCropco.administrators}/remove/one/${id}`
   );
 };
 

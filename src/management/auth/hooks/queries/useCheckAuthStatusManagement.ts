@@ -26,7 +26,7 @@ export const checkAuthStatusManagement = async (
     `${pathsCropco.authentication}/management/check-status`,
     {
       headers: {
-        'x-tenant-token': token,
+        'x-administration-token': token,
       },
     }
   );
