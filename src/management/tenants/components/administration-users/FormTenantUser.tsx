@@ -21,6 +21,8 @@ import { z } from 'zod';
 import { usePostTenantUser } from '../../hooks/mutations/usePostTenantUser';
 import { FormTenantUserFields } from './FormTenantUserFields';
 import { useCreateForm } from '@/modules/core/hooks';
+import { formSchemaTenantUser } from '../../utils/formSchemaTenantUser';
+import { RolesAdministrator } from '@/management/administrators/interfaces/RolesAdministrator';
 
 export const defaultValues = {
   first_name: '',
@@ -31,6 +33,7 @@ export const defaultValues = {
     password1: '',
     password2: '',
   },
+  rol: RolesAdministrator.USER,
 };
 
 export const FormTenantUser: React.FC<{ tenantId: string }> = memo(
@@ -50,7 +53,7 @@ export const FormTenantUser: React.FC<{ tenantId: string }> = memo(
     const { mutate, isPending } = usePostTenantUser(tenantId);
 
     const form = useCreateForm({
-      schema: formSchemaUserWithPassword,
+      schema: formSchemaTenantUser,
       defaultValues: { ...defaultValues },
       validationMode: 'onChange',
     });
@@ -64,6 +67,13 @@ export const FormTenantUser: React.FC<{ tenantId: string }> = memo(
         password: passwords.password1,
       };
       mutate(data);
+    };
+
+    const handleOnClickButton = async () => {
+      const result = await form.trigger();
+      if (result) {
+        handleSubmit(form.watch());
+      }
     };
 
     return (
@@ -111,14 +121,9 @@ export const FormTenantUser: React.FC<{ tenantId: string }> = memo(
             <DialogFooter>
               <Button
                 disabled={isPending}
-                type="submit"
+                type="button"
                 form="formTenantUser"
-                onClick={async () => {
-                  const result = await form.trigger();
-                  if (result) {
-                    handleSubmit(form.watch());
-                  }
-                }}
+                onClick={handleOnClickButton}
               >
                 Guardar
               </Button>

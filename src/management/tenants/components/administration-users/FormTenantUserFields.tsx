@@ -11,6 +11,7 @@ import {
 } from '@/components';
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 
+import { RolesAdministrator } from '@/management/administrators/interfaces/RolesAdministrator';
 import { FormFieldInput, FormFieldSelect } from '@/modules/core/components';
 import {
   formFieldsUser,
@@ -19,8 +20,6 @@ import {
 import { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
-import { RolesAdministrator } from '@/management/administrators/interfaces/RolesAdministrator';
-import { formFieldsAdministrator } from '@/management/administrators/utils/formFieldsAdministrator';
 
 interface Props {
   form: UseFormReturn<any, any, undefined>;
