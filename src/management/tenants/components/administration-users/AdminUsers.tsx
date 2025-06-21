@@ -22,7 +22,13 @@ export const AdminUsers = () => {
         finalItem={'Administrar usuarios'}
       />
       <FormTenant defaultValues={queryTenant.data} readOnly={true}>
-        <TenantUsersTable tenantId={id!} data={queryTenantUsers.data || []} />
+        <TenantUsersTable
+          tenantId={id!}
+          data={queryTenantUsers.data || []}
+          refetchAction={async () => {
+            await queryTenantUsers.refetch();
+          }}
+        />
       </FormTenant>
     </div>
   );

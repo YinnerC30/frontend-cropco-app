@@ -1,6 +1,7 @@
 import { ScrollArea, ScrollBar } from '@/components';
 import {
   ActionCopyIdRecord,
+  ButtonRefetchData,
   DropDownMenuActions,
 } from '@/modules/core/components';
 import {
@@ -23,9 +24,10 @@ import { FormTenantUser } from './FormTenantUser';
 interface Props {
   tenantId: string;
   data: User[];
+  refetchAction: () => Promise<void>;
 }
 
-export const TenantUsersTable = ({ tenantId, data }: Props) => {
+export const TenantUsersTable = ({ tenantId, data, refetchAction }: Props) => {
   const columnsTable = useCreateColumnsTable({
     columns: columnsTableUsers,
     actions: ActionsTenantUsersTable,
@@ -63,6 +65,12 @@ export const TenantUsersTable = ({ tenantId, data }: Props) => {
             onClick={handleDeleteBulkWorkDetails}
             visible={hasSelectedRecords}
           /> */}
+            <ButtonRefetchData
+              onClick={async () => {
+                await refetchAction();
+              }}
+              disabled={false}
+            />
             <FormTenantUser tenantId={tenantId} />
           </div>
 
