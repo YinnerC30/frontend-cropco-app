@@ -23,8 +23,6 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
   const id = row?.original?.id ?? '';
   const is_active = row?.original?.is_active ?? false;
 
-  // const is_migrated = row?.original?.databases?.[0]?.is_migrated ?? false;
-
   const subdomain = row?.original?.subdomain ?? '';
 
   const handleDelete = () => {
@@ -39,7 +37,7 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
     <DropDownMenuActions>
       <ActionCopyIdRecord id={id} />
 
-      <ActionVisitSiteTenant subdomain={subdomain} disabled={false} />
+      <ActionVisitSiteTenant subdomain={subdomain} disabled={!is_active} />
 
       <ActionDeleteRecord action={handleDelete} disabled={false} />
 
