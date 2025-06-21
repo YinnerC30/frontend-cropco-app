@@ -13,7 +13,7 @@ export const AdminUsers = () => {
 
   const queryTenantUsers = useGetAllTenantUsers(id!);
 
-  if (queryTenant.isLoading || queryTenantUsers.isLoading) return <Loading />;
+  if (queryTenant.isFetching || queryTenantUsers.isFetching) return <Loading />;
 
   return (
     <div>
