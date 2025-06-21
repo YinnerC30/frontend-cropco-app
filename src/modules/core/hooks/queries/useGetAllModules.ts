@@ -29,6 +29,7 @@ export const useGetAllModules = ({
     refetchInterval: false,
     refetchIntervalInBackground: false,
     enabled: executeQuery,
+    retry: false,
   });
 
   return query;
