@@ -1,6 +1,7 @@
 import { ScrollArea, ScrollBar } from '@/components';
 import {
   ActionCopyIdRecord,
+  ActionDeleteRecord,
   ButtonRefetchData,
   DropDownMenuActions,
 } from '@/modules/core/components';
@@ -20,6 +21,7 @@ import { columnsTableUsers } from '@/modules/users/components';
 import { User } from '@/modules/users/interfaces';
 import { Row } from '@tanstack/react-table';
 import { FormTenantUser } from './FormTenantUser';
+import { useDeleteTenantUser } from '../../hooks/mutations/useDeleteTenantUser';
 
 interface Props {
   tenantId: string;
@@ -30,7 +32,9 @@ interface Props {
 export const TenantUsersTable = ({ tenantId, data, refetchAction }: Props) => {
   const columnsTable = useCreateColumnsTable({
     columns: columnsTableUsers,
-    actions: ActionsTenantUsersTable,
+    actions: ({ row }) => (
+      <ActionsTenantUsersTable row={row} tenantId={tenantId} />
+    ),
   });
 
   const dataTable = useDataTableGeneric<User>({
@@ -93,11 +97,25 @@ export const TenantUsersTable = ({ tenantId, data, refetchAction }: Props) => {
   );
 };
 
-const ActionsTenantUsersTable = ({ row }: { row: Row<User> }) => {
+const ActionsTenantUsersTable = ({
+  row,
+  tenantId,
+}: {
+  row: Row<User>;
+  tenantId: string;
+}) => {
   const user: User = row.original;
+
+  const { mutate } = useDeleteTenantUser();
+
+  const handleDeleteTenantUser = async () => {
+    mutate({ userId: user.id, tenantId });
+  };
+
   return (
     <DropDownMenuActions>
       <ActionCopyIdRecord id={user?.id!} />
+      <ActionDeleteRecord action={handleDeleteTenantUser} />
     </DropDownMenuActions>
   );
 };

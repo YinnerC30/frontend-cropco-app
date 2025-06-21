@@ -33,7 +33,7 @@ export const defaultValues = {
     password1: '',
     password2: '',
   },
-  rol: RolesAdministrator.USER,
+  role: RolesAdministrator.USER,
 };
 
 export const FormTenantUser: React.FC<{ tenantId: string }> = memo(
