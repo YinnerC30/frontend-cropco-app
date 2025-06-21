@@ -10,9 +10,8 @@ import React from 'react';
 
 import { Tenant } from '../../interfaces/Tenant';
 import { ActionToogleStatusTenant } from './ActionToogleStatusTenant';
-import { ActionToogleStatusTenantDB } from './ActionToogleStatusTenantDB';
-import { useTenantsModuleContext } from './TenantsModuleContext';
 import { ActionVisitSiteTenant } from './ActionVisitSiteTenant';
+import { useTenantsModuleContext } from './TenantsModuleContext';
 
 interface Props {
   row: Row<Tenant>;
@@ -24,7 +23,7 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
   const id = row?.original?.id ?? '';
   const is_active = row?.original?.is_active ?? false;
 
-  const is_migrated = row?.original?.databases?.[0]?.is_migrated ?? false;
+  // const is_migrated = row?.original?.databases?.[0]?.is_migrated ?? false;
 
   const subdomain = row?.original?.subdomain ?? '';
 
@@ -50,11 +49,11 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
 
       <ActionToogleStatusTenant id={id} status={is_active} disabled={false} />
 
-      <ActionToogleStatusTenantDB
+      {/* <ActionToogleStatusTenantDB
         id={id}
         status={is_migrated}
         disabled={false}
-      />
+      /> */}
     </DropDownMenuActions>
   );
 };

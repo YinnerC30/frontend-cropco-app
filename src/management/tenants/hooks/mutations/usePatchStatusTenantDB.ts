@@ -41,6 +41,7 @@ export function usePatchTenantDBStatus(): UseMutationReturn<void, string> {
         },
       });
     },
+
     retry: false,
   });
   return mutation;
