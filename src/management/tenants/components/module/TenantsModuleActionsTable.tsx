@@ -12,6 +12,7 @@ import { Tenant } from '../../interfaces/Tenant';
 import { ActionToogleStatusTenant } from './ActionToogleStatusTenant';
 import { ActionVisitSiteTenant } from './ActionVisitSiteTenant';
 import { useTenantsModuleContext } from './TenantsModuleContext';
+import { ActionAdminUsers } from './ActionAdministrationUsers';
 
 interface Props {
   row: Row<Tenant>;
@@ -46,6 +47,8 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
       <ActionViewRecord id={id} disabled={false} />
 
       <ActionToogleStatusTenant id={id} status={is_active} disabled={false} />
+
+      <ActionAdminUsers/>
 
       {/* <ActionToogleStatusTenantDB
         id={id}
