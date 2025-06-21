@@ -1,9 +1,9 @@
-import { TenantAdministrator } from '../interfaces/TenantAdministrator';
+import { Administrator } from '../interfaces/Administrator';
 
 const KEY_TENANT_MANAGEMENT_LOCAL_STORAGE = 'current-tenant-management';
 
-export const getTenantManagementToLocalStorage = (): TenantAdministrator => {
-  const defaultValues: TenantAdministrator = {
+export const getTenantManagementToLocalStorage = (): Administrator => {
+  const defaultValues: Administrator = {
     id: '',
     first_name: '',
     last_name: '',
@@ -40,7 +40,7 @@ export const removeTenantManagementInLocalStorage = (): void => {
 };
 
 export const saveTenantManagementInLocalStorage = (
-  tenant: TenantAdministrator
+  tenant: Administrator
 ): void => {
   localStorage.setItem(
     KEY_TENANT_MANAGEMENT_LOCAL_STORAGE,

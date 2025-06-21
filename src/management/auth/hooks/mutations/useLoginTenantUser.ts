@@ -10,13 +10,13 @@ import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useFormChange } from '@/modules/core/components';
 
-import { TenantAdministrator } from '@/management/auth/interfaces/TenantAdministrator';
+import { Administrator } from '@/management/auth/interfaces/Administrator';
 import { useAuthTenantContext } from '../../components/AuthTenantContext';
 
 
 export const loginTenantUser = async (
   loginUserData: LoginUserData
-): PromiseReturnRecord<TenantAdministrator> => {
+): PromiseReturnRecord<Administrator> => {
   return await cropcoAPI.post(
     `${pathsCropco.authentication}/management/login`,
     loginUserData
@@ -24,14 +24,14 @@ export const loginTenantUser = async (
 };
 
 export const useLoginTenantUser = (): UseMutationReturn<
-  TenantAdministrator,
+  Administrator,
   LoginUserData
 > => {
   const { saveTenantManagement } = useAuthTenantContext();
 
   const queryClient = useQueryClient();
   const { markChanges } = useFormChange();
-  const mutation: UseMutationReturn<TenantAdministrator, LoginUserData> =
+  const mutation: UseMutationReturn<Administrator, LoginUserData> =
     useMutation({
       mutationFn: loginTenantUser,
       onSuccess: async ({ data }) => {

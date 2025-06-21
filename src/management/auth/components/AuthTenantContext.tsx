@@ -3,7 +3,7 @@ import { RootState, useAppDispatch, useAppSelector } from '@/redux/store';
 import { AxiosError } from 'axios';
 import { createContext, ReactNode, useContext, useEffect } from 'react';
 import { AuthTenantContextProps } from '../interfaces/AuthTenantContextProps';
-import { TenantAdministrator } from '../interfaces/TenantAdministrator';
+import { Administrator } from '../interfaces/Administrator';
 import {
   removeUserActive,
   setUserActive,
@@ -43,7 +43,7 @@ export const AuthTenantProvider: React.FC<{ children: ReactNode }> = ({
   const tokenSession = user?.token;
   const dispatch = useAppDispatch();
 
-  const saveTenantManagement = (tenant: TenantAdministrator) => {
+  const saveTenantManagement = (tenant: Administrator) => {
     saveTenantManagementInLocalStorage(tenant);
     dispatch(setUserActive(tenant));
   };

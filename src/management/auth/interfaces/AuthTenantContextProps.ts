@@ -1,5 +1,6 @@
 import { HandleErrorProps } from '../components/AuthTenantContext';
-import { TenantAdministrator } from './TenantAdministrator';
+import { Administrator } from './Administrator';
+
 
 export interface AuthTenantContextProps {
   // saveUser: (user: UserActive) => void;
@@ -9,7 +10,7 @@ export interface AuthTenantContextProps {
   // updateTokenInClient: (token: string) => void;
   tokenSession: string | undefined;
   // tenantId: string | undefined;
-  user: TenantAdministrator | null;
+  user: Administrator | null;
   handleError: ({ error, messagesStatusError }: HandleErrorProps) => void;
   // nameModulesUser: string[];
   // hasMoreThanOnePermission: (moduleName: string) => number;
@@ -19,6 +20,6 @@ export interface AuthTenantContextProps {
   // getActionsModule: (moduleName: ModulesCropco) => Record<string, boolean>;
   // isLoading: boolean;
   // isError: boolean;
-  saveTenantManagement: (tenant: TenantAdministrator) => void;
+  saveTenantManagement: (tenant: Administrator) => void;
   removeTenantManagement: () => void;
 }

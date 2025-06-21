@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TenantAdministrator } from '../interfaces/TenantAdministrator';
+import { Administrator } from '../interfaces/Administrator';
 import { getTenantManagementToLocalStorage } from './manageTenantManagementInLocalStorage';
 
 interface authenticationManagementState {
-  user: TenantAdministrator;
+  user: Administrator;
 }
 
 const initialState: authenticationManagementState = {
@@ -14,7 +14,7 @@ export const authenticationManagementSlice = createSlice({
   name: 'authentication-management',
   initialState,
   reducers: {
-    setUserActive: (state, action: PayloadAction<TenantAdministrator>) => {
+    setUserActive: (state, action: PayloadAction<Administrator>) => {
       const data = action.payload;
       state.user = data;
     },

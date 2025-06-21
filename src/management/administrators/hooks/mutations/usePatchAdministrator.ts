@@ -9,14 +9,16 @@ import { useAuthTenantContext } from '@/management/auth/components/AuthTenantCon
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { Administrator } from '../../interfaces/Administrator';
 
-import { TenantAdministrator } from '@/management/auth/interfaces/TenantAdministrator';
 import { MODULE_ADMINISTRATORS_PATHS } from '../../routes/pathsRoutes';
 
 async function updateAdministrator({
   id,
   ...rest
 }: Partial<Administrator>): PromiseReturnRecord<Administrator> {
-  return await cropcoAPI.patch(`${pathsCropco.tenants}/update/one/admin/${id}`, rest);
+  return await cropcoAPI.patch(
+    `${pathsCropco.tenants}/update/one/admin/${id}`,
+    rest
+  );
 }
 export function usePatchAdministrator(): UseMutationReturn<
   Administrator,
@@ -44,7 +46,7 @@ export function usePatchAdministrator(): UseMutationReturn<
           ...data,
           token: user.token,
           is_login: true,
-        } as TenantAdministrator);
+        } as any);
         await queryClient.invalidateQueries();
         toast.success(`Tu información han sido actualizada`);
       } else {
