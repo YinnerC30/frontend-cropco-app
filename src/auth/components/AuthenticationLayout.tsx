@@ -5,7 +5,7 @@ import { Loading } from '@/modules/core/components';
 import { useGetOneTenant } from '../hooks/queries/useGetOneTenant';
 
 export const AuthenticationLayout: React.FC = () => {
-  const { isLogin, isLoading, isError } = useAuthContext();
+  const { is_login, isLoading, isError } = useAuthContext();
 
   const currentSubdomain = window.location.hostname.split('.')[0];
 
@@ -23,7 +23,7 @@ export const AuthenticationLayout: React.FC = () => {
     return <Navigate to={PATH_LOGIN} replace />;
   }
 
-  if (isLogin) {
+  if (is_login) {
     return <Navigate to={PATH_HOME_APP} replace />;
   }
   return <Outlet />;

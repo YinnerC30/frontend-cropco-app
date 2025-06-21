@@ -11,5 +11,5 @@ export interface TenantAdministrator {
   updatedAt: Date;
   deletedAt: Date | null;
   token: string;
-  isLogin: boolean;
+  is_login: boolean;
 }

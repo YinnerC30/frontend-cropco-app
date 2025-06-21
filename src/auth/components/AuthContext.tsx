@@ -248,10 +248,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   useEffect(() => {
-    if (!user?.isLogin) {
+    if (!user?.is_login) {
       setExecuteQueryModule(false);
       navigate(PATH_LOGIN, { replace: true });
-    } else if (user.isLogin) {
+    } else if (user.is_login) {
       setExecuteQueryModule(true);
     }
   }, [navigate, user]);
@@ -260,7 +260,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     <AuthContext.Provider
       value={{
         saveUser,
-        isLogin: user?.isLogin ?? false,
+        is_login: user?.is_login ?? false,
         removeUser,
         updateTokenInClient,
         tokenSession,

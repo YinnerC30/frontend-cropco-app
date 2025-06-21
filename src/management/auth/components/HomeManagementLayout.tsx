@@ -10,7 +10,7 @@ import { useCheckAuthStatusManagement } from '../hooks/queries/useCheckAuthStatu
 // import { MainContent } from './MainContent';
 
 export const HomeManagementLayout = () => {
-  const { isLogin, tokenSession } = useAuthTenantContext();
+  const { is_login, tokenSession } = useAuthTenantContext();
 
   const query = useCheckAuthStatusManagement({
     token: tokenSession!,
@@ -20,7 +20,7 @@ export const HomeManagementLayout = () => {
     return <Loading />;
   }
 
-  if (!isLogin) {
+  if (!is_login) {
     return <Navigate to={PATH_ADMIN_LOGIN} replace />;
   }
 

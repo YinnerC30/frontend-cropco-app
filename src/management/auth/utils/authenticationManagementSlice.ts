@@ -32,7 +32,7 @@ export const authenticationManagementSlice = createSlice({
         createdAt: new Date(),
         updatedAt: new Date(),
         deletedAt: null,
-        isLogin: false,
+        is_login: false,
       };
     },
     setToken: (state, action: PayloadAction<string>) => {

@@ -43,7 +43,7 @@ export function usePatchAdministrator(): UseMutationReturn<
         saveTenantManagement({
           ...data,
           token: user.token,
-          isLogin: true,
+          is_login: true,
         } as TenantAdministrator);
         await queryClient.invalidateQueries();
         toast.success(`Tu información han sido actualizada`);

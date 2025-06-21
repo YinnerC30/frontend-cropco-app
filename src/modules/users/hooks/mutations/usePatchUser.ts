@@ -30,7 +30,7 @@ export function usePatchUser(): UseMutationReturn<User, Partial<User>> {
       await queryClient.invalidateQueries({ queryKey: ['user', variables.id] });
 
       if (variables.id === user.id) {
-        saveUser({ ...data, token: user.token, isLogin: true });
+        saveUser({ ...data, token: user.token, is_login: true });
         await queryClient.invalidateQueries();
         toast.success(`Tu información han sido actualizada`);
       } else {

@@ -99,7 +99,7 @@ export const AuthTenantProvider: React.FC<{ children: ReactNode }> = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user?.isLogin) {
+    if (!user?.is_login) {
       navigate(PATH_ADMIN_LOGIN, { replace: true });
     }
   }, [navigate, user]);
@@ -109,7 +109,7 @@ export const AuthTenantProvider: React.FC<{ children: ReactNode }> = ({
       value={{
         saveTenantManagement,
         removeTenantManagement,
-        isLogin: user?.isLogin ?? false,
+        is_login: user?.is_login ?? false,
         user,
         handleError,
         tokenSession,

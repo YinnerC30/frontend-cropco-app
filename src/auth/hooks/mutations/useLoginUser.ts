@@ -31,7 +31,7 @@ export const useLoginUser = (): UseMutationReturn<User, LoginUserData> => {
     onSuccess: async ({ data }) => {
       markChanges(false);
       await queryClient.invalidateQueries({ queryKey: ['user-active'] });
-      saveUser({ ...data, isLogin: true });
+      saveUser({ ...data, is_login: true });
       toast.success(`Bienvenido, ${CapitalizeFirstWord(data.first_name)}`, {});
     },
     onError: (error) => {

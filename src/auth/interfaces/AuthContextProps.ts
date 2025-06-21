@@ -5,7 +5,7 @@ import { UserActive } from './UserActive';
 export interface AuthContextProps {
   saveUser: (user: UserActive) => void;
   saveTenant: (tenant: Tenant) => void;
-  isLogin: boolean;
+  is_login: boolean;
   removeUser: () => void;
   updateTokenInClient: (token: string) => void;
   tokenSession: string | undefined;

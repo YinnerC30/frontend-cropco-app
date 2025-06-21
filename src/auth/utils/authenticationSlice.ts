@@ -26,7 +26,7 @@ export const authenticationSlice = createSlice({
         id: '',
         token: '',
         modules: [],
-        isLogin: false,
+        is_login: false,
       };
     },
     setToken: (state, action: PayloadAction<string>) => {

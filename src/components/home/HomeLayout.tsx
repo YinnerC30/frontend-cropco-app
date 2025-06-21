@@ -9,7 +9,7 @@ import { AppSidebar } from './AppSideBar';
 import { MainContent } from './MainContent';
 
 export const HomeLayout = () => {
-  const { tokenSession, isLogin } = useAuthContext();
+  const { tokenSession, is_login } = useAuthContext();
 
   const query = useCheckAuthStatus({
     token: tokenSession!,
@@ -19,7 +19,7 @@ export const HomeLayout = () => {
     return <Loading />;
   }
 
-  if (!isLogin) {
+  if (!is_login) {
     return <Navigate to={PATH_LOGIN} replace />;
   }
 

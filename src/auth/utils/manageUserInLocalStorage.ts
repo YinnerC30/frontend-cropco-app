@@ -16,7 +16,7 @@ export const getUserInLocalStorage = (): UserActive => {
     id: '',
     token: '',
     modules: [],
-    isLogin: false,
+    is_login: false,
     first_name: '',
     last_name: '',
   };

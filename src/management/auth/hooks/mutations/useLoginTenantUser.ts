@@ -39,7 +39,7 @@ export const useLoginTenantUser = (): UseMutationReturn<
         await queryClient.invalidateQueries({
           queryKey: ['user-tenant-active'],
         });
-        saveTenantManagement({ ...data, isLogin: true });
+        saveTenantManagement({ ...data, is_login: true });
         toast.success(
           `Bienvenido, ${CapitalizeFirstWord(data.first_name)}`,
           {}

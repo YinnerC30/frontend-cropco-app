@@ -18,7 +18,7 @@ export const ProtectedRoute = ({
   if (!user || !hasPermission(module, action)) {
     setTimeout(
       () =>
-        user?.isLogin &&
+        user?.is_login &&
         toast.error('No tienes permiso para esta acción, seras redirigido'),
       1000
     );

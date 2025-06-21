@@ -37,11 +37,11 @@ export const useCheckAuthStatus = ({
 }: {
   token: string;
 }): UseGetOneRecordReturn<ResponseCheckAuth> => {
-  const { isLogin, handleError } = useAuthContext();
+  const { is_login, handleError } = useAuthContext();
   const query: UseGetOneRecordReturn<ResponseCheckAuth> = useQuery({
     queryKey: ['valid-sesion-user'],
     queryFn: () => checkAuthStatus(token),
-    enabled: isLogin,
+    enabled: is_login,
     refetchOnWindowFocus: false,
     // refetchIntervalInBackground
     ...CACHE_CONFIG_TIME.longTerm,

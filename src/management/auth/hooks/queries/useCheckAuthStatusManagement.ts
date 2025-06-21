@@ -37,11 +37,11 @@ export const useCheckAuthStatusManagement = ({
 }: {
   token: string;
 }): UseGetOneRecordReturn<ResponseCheckAuth> => {
-  const { isLogin, handleError } = useAuthTenantContext();
+  const { is_login, handleError } = useAuthTenantContext();
   const query: UseGetOneRecordReturn<ResponseCheckAuth> = useQuery({
     queryKey: ['valid-sesion-user'],
     queryFn: () => checkAuthStatusManagement(token),
-    enabled: isLogin,
+    enabled: is_login,
     refetchOnWindowFocus: false,
     ...CACHE_CONFIG_TIME.longTerm,
     retry: false,

@@ -16,7 +16,7 @@ export const getTenantManagementToLocalStorage = (): TenantAdministrator => {
     updatedAt: new Date(),
     deletedAt: null,
     token: '',
-    isLogin: false,
+    is_login: false,
   };
   const data = localStorage.getItem(KEY_TENANT_MANAGEMENT_LOCAL_STORAGE);
   if (!data) {
