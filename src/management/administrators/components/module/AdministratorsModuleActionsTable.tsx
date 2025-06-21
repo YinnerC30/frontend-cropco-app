@@ -7,11 +7,11 @@ import {
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
 
-import { ActionResetPassword } from './ActionResetPassword';
-import { ActionToogleStatusAdministrator } from './ActionToogleStatusAdministrator';
 import { useAdministratorsModuleContext } from '../../hooks/context/useAdministratorsModuleContext';
 import { usePatchResetPasswordAdministrator } from '../../hooks/mutations/userPatchResetPasswordAdministrator';
 import { Administrator } from '../../interfaces/Administrator';
+import { ActionResetPassword } from './ActionResetPassword';
+import { ActionToogleStatusAdministrator } from './ActionToogleStatusAdministrator';
 
 interface Props {
   row: Row<Administrator>;
@@ -24,9 +24,9 @@ export const AdministratorsModuleActionsTable: React.FC<Props> = ({ row }) => {
 
     mutationDeleteAdministrator,
   } = useAdministratorsModuleContext();
-  const { id, email, is_active } = row.original;
+  const { id, email, is_active, role } = row.original;
 
-  // const isAdmin = role === 'admin';
+  const isAdmin = role === 'admin';
 
   const mutationPatchPassword = usePatchResetPasswordAdministrator();
 
@@ -42,14 +42,14 @@ export const AdministratorsModuleActionsTable: React.FC<Props> = ({ row }) => {
     <DropDownMenuActions>
       <ActionCopyIdRecord id={id} />
 
-      <ActionDeleteRecord action={handleDelete} disabled={false} />
+      <ActionDeleteRecord action={handleDelete} disabled={isAdmin} />
 
-      <ActionModifyRecord id={id} disabled={false} />
+      <ActionModifyRecord id={id} disabled={isAdmin} />
 
       <ActionResetPassword
         id={id}
         mutation={mutationPatchPassword}
-        disabled={false}
+        disabled={isAdmin}
         email={email}
       />
 
@@ -58,7 +58,7 @@ export const AdministratorsModuleActionsTable: React.FC<Props> = ({ row }) => {
       <ActionToogleStatusAdministrator
         id={id}
         status={is_active}
-        disabled={false}
+        disabled={isAdmin}
       />
     </DropDownMenuActions>
   );
