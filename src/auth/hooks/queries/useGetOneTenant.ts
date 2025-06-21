@@ -9,6 +9,8 @@ import { Tenant } from '@/auth/interfaces/Tenant';
 
 import { useAuthContext } from '../useAuthContext';
 import { toast } from 'sonner';
+import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
+import { CACHE_CONFIG_TIME } from '@/config';
 
 export const getTenantBySubdomain = async (
   subdomain: string
@@ -21,28 +23,17 @@ export const useGetOneTenant = (
 ): UseGetOneRecordReturn<Tenant> => {
   const { saveTenant } = useAuthContext();
 
-  //   const isAuthorized = hasPermission('crops', 'find_one_crop');
-
   const query: UseGetOneRecordReturn<Tenant> = useQuery({
     queryKey: ['tenant', subdomain],
     queryFn: () => getTenantBySubdomain(subdomain),
     select: ({ data }) => ({
       ...data,
     }),
-    // enabled: isAuthorized,
     refetchOnWindowFocus: false,
-    retry: false,
     enabled: true,
-    // ...CACHE_CONFIG_TIME.shortTerm,
+    ...CACHE_CONFIG_TIME.longTerm,
+    retry: false,
   });
-
-  //   useEffect(() => {
-  //     if (!isAuthorized) {
-  //       toast.error(
-  //         'Requieres del permiso de lectura para obtener la información del cultivo solicitado'
-  //       );
-  //     }
-  //   }, [isAuthorized]);
 
   useEffect(() => {
     if (query.isSuccess) {
@@ -52,11 +43,34 @@ export const useGetOneTenant = (
 
   useEffect(() => {
     if (query.isError) {
-      toast.error('La empresa en la solicitud no fue encontrada');
-      //   handleError({
-      //     error: query.error,
-      //     messagesStatusError: {},
-      //   });
+      const { error } = query;
+
+      if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
+        toast.error('El servicio actualmente no se encuentra disponible');
+        return;
+      }
+      const { status } = error.response as unknown as TypedAxiosError;
+      switch (status) {
+        case 401:
+          toast.error('No estas autorizado para realizar esta solicitud');
+          return;
+        case 403:
+          toast.error(
+            'El acceso al sistema se encuentra desactivado, por favor comuniquese con su adminstrador'
+          );
+          return;
+        case 404:
+          toast.error('No se ha encontrado la información del inquilino');
+          return;
+        case 400:
+          toast.error(
+            'Las credenciales enviadas son invalidas, revise nuevamente los campos del formulario'
+          );
+          return;
+        default:
+          toast.error('Hubo un problema en el sistema, inténtelo nuevamente');
+          return;
+      }
     }
   }, [query.isError, query.error]);
   return query;
