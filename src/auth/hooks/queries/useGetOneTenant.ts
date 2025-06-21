@@ -52,7 +52,7 @@ export const useGetOneTenant = (
 
   useEffect(() => {
     if (query.isError) {
-      toast.error('La empresa solicitada en la solicitud no fue encontrada');
+      toast.error('La empresa en la solicitud no fue encontrada');
       //   handleError({
       //     error: query.error,
       //     messagesStatusError: {},
