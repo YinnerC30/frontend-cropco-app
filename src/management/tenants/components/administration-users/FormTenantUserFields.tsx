@@ -102,10 +102,10 @@ export const FormTenantUserFields: React.FC<Props> = ({
               },
             ]}
             control={form.control}
-            description={formFieldsAdministrator.role.description}
-            label={formFieldsAdministrator.role.label}
+            description={formFieldsUser.roles.description}
+            label={formFieldsUser.roles.label}
             name={'role'}
-            placeholder={formFieldsAdministrator.role.placeholder}
+            placeholder={formFieldsUser.roles.placeholder}
             disabled={false}
           />
 

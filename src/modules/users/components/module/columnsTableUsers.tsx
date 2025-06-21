@@ -1,9 +1,10 @@
 import { ButtonHeaderTable } from '@/modules/core/components';
 
-import { ColumnDef, HeaderContext } from '@tanstack/react-table';
+import { ColumnDef, HeaderContext, Row } from '@tanstack/react-table';
 import { User } from '../../interfaces';
 import { formFieldsUser } from '../../utils';
 import { Badge } from '@/components';
+import { CapitalizeFirstWord } from '@/auth';
 
 export const columnsTableUsers: ColumnDef<User>[] = [
   {
@@ -44,6 +45,24 @@ export const columnsTableUsers: ColumnDef<User>[] = [
           column={column}
           label={formFieldsUser.cell_phone_number.label}
         />
+      );
+    },
+  },
+  {
+    accessorKey: formFieldsUser.roles.name,
+    cell: ({ row }: { row: Row<User> }) => {
+      const { roles } = row.original;
+      return (
+        <>
+          {roles?.map((rol) => {
+            return <Badge>{CapitalizeFirstWord(rol)}</Badge>;
+          })}
+        </>
+      );
+    },
+    header: ({ column }: HeaderContext<User, unknown>) => {
+      return (
+        <ButtonHeaderTable column={column} label={formFieldsUser.roles.label} />
       );
     },
   },

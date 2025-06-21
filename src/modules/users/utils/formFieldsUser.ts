@@ -6,7 +6,8 @@ type UserFormFields =
   | 'email'
   | 'cell_phone_number'
   | 'password1'
-  | 'password2';
+  | 'password2'
+  | 'roles';
 
 export const formFieldsUser: Record<UserFormFields, CustomFormField> = {
   first_name: {
@@ -44,5 +45,11 @@ export const formFieldsUser: Record<UserFormFields, CustomFormField> = {
     label: 'Repetir contraseña:',
     placeholder: '',
     description: 'Escriba nuevamente la contraseña',
+  },
+  roles: {
+    name: 'roles',
+    label: 'Rol asignado:',
+    placeholder: '',
+    description: '',
   },
 };
