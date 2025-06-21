@@ -9,5 +9,5 @@ export const MODULE_TENANTS_PATHS: Record<TenantRoutes, string> = {
   Create: `${PATH_BASE}/create/one`,
   Update: `${PATH_BASE}/update/one/`,
   ViewOne: `${PATH_BASE}/view/one/`,
-  AdminUsers: `${PATH_BASE}/administration-users/`,
+  AdminUsers: `${PATH_BASE}/administration-users/one/`,
 }; 

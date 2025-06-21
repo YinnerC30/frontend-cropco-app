@@ -48,7 +48,7 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
 
       <ActionToogleStatusTenant id={id} status={is_active} disabled={false} />
 
-      <ActionAdminUsers/>
+      <ActionAdminUsers id={id} />
 
       {/* <ActionToogleStatusTenantDB
         id={id}

@@ -1,5 +1,3 @@
 export const AdminUsers = () => {
-  return (
-    <div>AdminUsers</div>
-  )
-}
+  return <div>Administración de usuarios</div>;
+};

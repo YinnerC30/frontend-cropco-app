@@ -20,7 +20,7 @@ const tenantRoutes = {
       element: <ViewTenant />,
     },
     {
-      path: 'administration-users',
+      path: 'administration-users/one/:id',
       element: <AdminUsers />,
     },
   ],

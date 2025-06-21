@@ -1,20 +1,18 @@
 import { ActionNavigate } from '@/modules/core/components';
-import { GlobeIcon } from '@radix-ui/react-icons';
+import { UsersRound } from 'lucide-react';
 import { MODULE_TENANTS_PATHS } from '../../routes/pathRoutes';
 
 interface Props {
-  //   subdomain: string;
+  id: string;
   disabled?: boolean;
-  //   path?: string;
 }
-export const ActionAdminUsers = ({ disabled = false }: Props) => {
+export const ActionAdminUsers = ({ id, disabled = false }: Props) => {
   return (
     <ActionNavigate
-      path={MODULE_TENANTS_PATHS.AdminUsers}
-      Icon={GlobeIcon}
+      path={MODULE_TENANTS_PATHS.AdminUsers + id}
+      Icon={UsersRound}
       name={'Usuarios'}
       disabled={disabled}
-      //   target="_blank"
     />
   );
 };
