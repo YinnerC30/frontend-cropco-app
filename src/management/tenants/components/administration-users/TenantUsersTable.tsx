@@ -18,12 +18,14 @@ import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTabl
 import { columnsTableUsers } from '@/modules/users/components';
 import { User } from '@/modules/users/interfaces';
 import { Row } from '@tanstack/react-table';
+import { FormTenantUser } from './FormTenantUser';
 
 interface Props {
+  tenantId: string;
   data: User[];
 }
 
-export const TenantUsersTable = ({ data }: Props) => {
+export const TenantUsersTable = ({ tenantId, data }: Props) => {
   const columnsTable = useCreateColumnsTable({
     columns: columnsTableUsers,
     actions: ActionsTenantUsersTable,
@@ -51,8 +53,8 @@ export const TenantUsersTable = ({ data }: Props) => {
           />
 
           {/* Botones */}
-          {/* <div className="flex justify-end w-4/5 gap-2 mr-6 sm:mr-0">
-          <ButtonClearSelection
+          <div className="flex justify-end w-4/5 gap-2 mr-6 sm:mr-0">
+            {/* <ButtonClearSelection
             onClick={resetSelectionRows}
             visible={hasSelectedRecords}
           />
@@ -60,9 +62,9 @@ export const TenantUsersTable = ({ data }: Props) => {
             disabled={readOnly}
             onClick={handleDeleteBulkWorkDetails}
             visible={hasSelectedRecords}
-          />
-          <FormWorkDetail />
-        </div> */}
+          /> */}
+            <FormTenantUser tenantId={tenantId} />
+          </div>
 
           {/* Paginacion */}
           <div className="flex flex-col items-center w-full gap-2 sm:flex-row sm:justify-evenly">

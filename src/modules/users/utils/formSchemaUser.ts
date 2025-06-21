@@ -34,7 +34,7 @@ export const formSchemaUser = z.object({
   actions: z
     .array(z.object({ id: z.string().uuid() }))
     .optional()
-    .default([])
+    .default([]),
 });
 
 export const formSchemaUserWithPassword = formSchemaUser.extend({

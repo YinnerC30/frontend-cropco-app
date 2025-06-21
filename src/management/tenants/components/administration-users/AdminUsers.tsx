@@ -22,7 +22,7 @@ export const AdminUsers = () => {
         finalItem={'Administrar usuarios'}
       />
       <FormTenant defaultValues={queryTenant.data} readOnly={true}>
-        <TenantUsersTable data={queryTenantUsers.data || []} />
+        <TenantUsersTable tenantId={id!} data={queryTenantUsers.data || []} />
       </FormTenant>
     </div>
   );

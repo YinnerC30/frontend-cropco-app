@@ -17,8 +17,10 @@ export const FormTenant: React.FC<FormTenantPropsExtend> = ({
     <FormTenantProvider {...props}>
       <div className="flex flex-col items-center">
         <ScrollArea className="h-[80vh] w-full pb-2">
-          <FormTenantFields />
-          {children}
+          <div className="flex flex-col justify-evenly lg:flex-row">
+            <FormTenantFields />
+            <div className="my-4 lg:my-0">{children}</div>
+          </div>
         </ScrollArea>
         {!hiddenButtons && <FormTenantButtons />}
       </div>
