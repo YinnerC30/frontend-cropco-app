@@ -55,16 +55,7 @@ export const TenantUsersTable = ({ tenantId, data, refetchAction }: Props) => {
           />
 
           {/* Botones */}
-          <div className="flex justify-end w-4/5 gap-2 mr-6 sm:mr-0">
-            {/* <ButtonClearSelection
-            onClick={resetSelectionRows}
-            visible={hasSelectedRecords}
-          />
-          <ButtonDeleteBulk
-            disabled={readOnly}
-            onClick={handleDeleteBulkWorkDetails}
-            visible={hasSelectedRecords}
-          /> */}
+          <div className="flex justify-between w-4/5 gap-2 mr-6 sm:mr-0">
             <ButtonRefetchData
               onClick={async () => {
                 await refetchAction();
