@@ -82,7 +82,7 @@ export const FormTenantUser: React.FC<{ tenantId: string }> = memo(
 
         <Dialog open={openDialog} onOpenChange={setOpenDialog} modal={false}>
           <DialogContent
-            className="sm:max-w-[425px]"
+            className="sm:max-w-[425px] h-[85vh] overflow-hidden"
             onClick={(e) => e.preventDefault()}
             onPointerDownOutside={(e) => e.preventDefault()}
             onInteractOutside={(e) => e.preventDefault()}
@@ -103,7 +103,7 @@ export const FormTenantUser: React.FC<{ tenantId: string }> = memo(
             </DialogHeader>
 
             <div className="flex flex-col items-center">
-              <ScrollArea className="h-[80vh] w-full py-2">
+              <ScrollArea className="h-[60vh] w-full py-2">
                 <FormTenantUserFields onSubmit={handleSubmit} form={form} />
               </ScrollArea>
             </div>
