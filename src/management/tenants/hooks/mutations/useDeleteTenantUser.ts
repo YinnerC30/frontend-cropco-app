@@ -15,7 +15,7 @@ export const deleteTenantUser = async (
   userId: string
 ): PromiseReturnRecord<void> => {
   return await cropcoAPI.delete(
-    `${pathsCropco.tenants}/remove/one/${tenantId}`
+    `${pathsCropco.tenants}/remove-tenant-user/one/${tenantId}/${userId}`
   );
 };
 
