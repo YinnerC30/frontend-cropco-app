@@ -85,11 +85,6 @@ export const FormAdministratorFields: React.FC = () => {
                 value: RolesAdministrator.USER,
                 label: 'Usuario',
               },
-              {
-                key: RolesAdministrator.MANAGER,
-                value: RolesAdministrator.MANAGER,
-                label: 'Gerente',
-              },
             ]}
             control={form.control}
             description={formFieldsAdministrator.role.description}
