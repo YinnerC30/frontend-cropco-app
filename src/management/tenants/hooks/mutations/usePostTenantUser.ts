@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
@@ -21,7 +21,7 @@ export function usePostTenantUser(
   tenantId: string
 ): UseMutationReturn<User, Partial<User>> {
   // const navigate = useNavigate();
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const { handleError } = useAuthTenantContext();
   const mutation: UseMutationReturn<User, Partial<User>> = useMutation({
@@ -29,7 +29,7 @@ export function usePostTenantUser(
       return createTenantUser(tenantId, user);
     },
     onSuccess: async () => {
-      // await queryClient.invalidateQueries({ queryKey: ['users'] });
+      await queryClient.invalidateQueries({ queryKey: ['tenant-users'] });
       // navigate('../view/all');
       toast.success(`Usuario creado`);
     },
