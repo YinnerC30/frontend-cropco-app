@@ -23,6 +23,7 @@ import { useFormShoppingContext } from '@/modules/shopping/hooks/context/useForm
 import { formSchemaShoppingDetail } from '@/modules/shopping/utils';
 import { z } from 'zod';
 import { FormShoppingDetailsFields } from './FormShoppingDetailsFields';
+import { ScrollArea } from '@/components';
 
 export const FormShoppingDetail: React.FC = () => {
   const {
@@ -69,7 +70,9 @@ export const FormShoppingDetail: React.FC = () => {
     <>
       <ToolTipTemplate content={'Crear registro'}>
         <Button
-          className={`${readOnly && 'hidden'} bg-primary/70 hover:bg-primary/50`}
+          className={`${
+            readOnly && 'hidden'
+          } bg-primary/70 hover:bg-primary/50`}
           size="icon"
           onClick={handleOpenDialogExtended}
           disabled={readOnly}
@@ -80,7 +83,7 @@ export const FormShoppingDetail: React.FC = () => {
       </ToolTipTemplate>
       <Dialog open={openDialog} modal={false}>
         <DialogContent
-          className="sm:max-w-[525px]"
+          className="sm:max-w-[425px] h-[85vh] overflow-hidden"
           onClick={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
@@ -100,7 +103,9 @@ export const FormShoppingDetail: React.FC = () => {
             </DialogDescription>
           </DialogHeader>
 
-          <FormShoppingDetailsFields />
+          <ScrollArea className="h-[60vh] w-full py-2">
+            <FormShoppingDetailsFields />
+          </ScrollArea>
 
           <DialogFooter>
             <Button

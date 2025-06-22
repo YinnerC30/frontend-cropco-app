@@ -24,6 +24,7 @@ import { useFormConsumptionContext } from '@/modules/consumption/hooks/context/u
 import { formSchemaConsumptionDetail } from '@/modules/consumption/utils';
 import { z } from 'zod';
 import { FormConsumptionDetailsFields } from './FormConsumptionDetailsFields';
+import { ScrollArea } from '@/components';
 
 export const FormConsumptionDetail: React.FC = () => {
   const {
@@ -109,7 +110,7 @@ export const FormConsumptionDetail: React.FC = () => {
       </ToolTipTemplate>
       <Dialog open={openDialog} modal={false}>
         <DialogContent
-          className="sm:max-w-[525px]"
+          className="sm:max-w-[425px] h-[85vh] overflow-hidden"
           onClick={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
@@ -129,7 +130,9 @@ export const FormConsumptionDetail: React.FC = () => {
             </DialogDescription>
           </DialogHeader>
 
-          <FormConsumptionDetailsFields />
+          <ScrollArea className="h-[60vh] w-full py-2">
+            <FormConsumptionDetailsFields />
+          </ScrollArea>
 
           <DialogFooter>
             <Button
