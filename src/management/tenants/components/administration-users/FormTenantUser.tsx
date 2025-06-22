@@ -91,7 +91,6 @@ export const FormTenantUser: React.FC<{ tenantId: string }> = memo(
 
     const handleOnClickButton = async () => {
       const result = await form.trigger();
-      const { errors } = form.formState;
       if (result) {
         handleSubmit(form.watch());
       }
