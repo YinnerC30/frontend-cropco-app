@@ -30,8 +30,10 @@ interface FormFieldSelectProps extends FormFieldProps {
   manualValidationValue?: boolean;
   isValueInArray?: boolean;
   manualOnChangeValue?: boolean;
-  callBackOnChangeValue?: (field: ControllerRenderProps<any, string>,
-    value: string) => void;
+  callBackOnChangeValue?: (
+    field: ControllerRenderProps<any, string>,
+    value: string
+  ) => void;
 }
 
 export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
@@ -87,8 +89,8 @@ export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
                 onValueChange={(value: any) => {
                   handleOnChangeValue(field, value);
                 }}
-                defaultValue={ isValueInArray ? field.value[0] : field.value }
-                value={!!field.value[0] ? field.value[0] : ''}
+                defaultValue={isValueInArray ? field.value[0] : field.value}
+                value={isValueInArray ? field.value[0] : field.value || ''}
                 disabled={readOnly}
               >
                 <SelectTrigger ref={field.ref}>
