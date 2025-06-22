@@ -56,6 +56,7 @@ export const TenantsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
   const columnsTable = useCreateColumnsTable<Tenant>({
     columns: columnsTableTenants,
     actions: TenantsModuleActionsTable,
+    hiddenCheckbox: true,
   });
 
   const dataTable = useDataTableManual<Tenant>({

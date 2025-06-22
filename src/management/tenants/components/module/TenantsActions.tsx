@@ -1,16 +1,14 @@
 import {
-  ButtonClearSelection,
   ButtonCreateRecord,
-  ButtonDeleteBulk,
-  ButtonRefetchData,
+  ButtonRefetchData
 } from '@/modules/core/components';
-import { useTenantsModuleContext } from './TenantsModuleContext';
 import { MODULE_TENANTS_PATHS } from '../../routes/pathRoutes';
+import { useTenantsModuleContext } from './TenantsModuleContext';
 
 export const TenantsActions: React.FC = () => {
-  const { queryTenants, dataTable } = useTenantsModuleContext();
+  const { queryTenants /* dataTable */ } = useTenantsModuleContext();
 
-  const handleDeleteBulkTenants = () => {};
+  // const handleDeleteBulkTenants = () => {};
 
   return (
     <div className="flex justify-between">
@@ -23,7 +21,7 @@ export const TenantsActions: React.FC = () => {
       />
 
       <div className="flex items-center gap-1">
-        <ButtonClearSelection
+        {/* <ButtonClearSelection
           onClick={() => dataTable.resetSelectionRows()}
           visible={dataTable.hasSelectedRecords}
         />
@@ -32,7 +30,7 @@ export const TenantsActions: React.FC = () => {
           disabled={false}
           onClick={handleDeleteBulkTenants}
           visible={dataTable.hasSelectedRecords}
-        />
+        /> */}
 
         <ButtonCreateRecord
           route={MODULE_TENANTS_PATHS.Create}

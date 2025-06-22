@@ -1,7 +1,6 @@
 import {
-  ButtonClearSelection,
   ButtonCreateRecord,
-  ButtonRefetchData
+  ButtonRefetchData,
 } from '@/modules/core/components';
 import { useAdministratorsModuleContext } from '../../hooks/context/useAdministratorsModuleContext';
 import { MODULE_ADMINISTRATORS_PATHS } from '../../routes/pathsRoutes';
@@ -9,7 +8,7 @@ import { MODULE_ADMINISTRATORS_PATHS } from '../../routes/pathsRoutes';
 export const AdministratorsActions: React.FC = () => {
   const {
     queryAdministrators,
-    dataTable,
+    // dataTable,
     // mutationDeleteAdministrators,
     // actionsAdministratorsModule,
   } = useAdministratorsModuleContext();
@@ -25,7 +24,7 @@ export const AdministratorsActions: React.FC = () => {
   //   );
   // };
 
-  const { resetSelectionRows, hasSelectedRecords } = dataTable;
+  // const { resetSelectionRows, hasSelectedRecords } = dataTable;
 
   return (
     <div className="flex justify-between">
@@ -38,10 +37,10 @@ export const AdministratorsActions: React.FC = () => {
       />
 
       <div className="flex items-center gap-1">
-        <ButtonClearSelection
+        {/* <ButtonClearSelection
           onClick={resetSelectionRows}
           visible={hasSelectedRecords}
-        />
+        /> */}
 
         {/* <ButtonDeleteBulk
           disabled={

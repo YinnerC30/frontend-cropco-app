@@ -1,16 +1,15 @@
-import { useDataTableManual } from "@/modules/core/hooks";
-import { useBasicQueryData } from "@/modules/core/hooks/";
-import { useCreateColumnsTable } from "@/modules/core/hooks/data-table/useCreateColumnsTable";
-import React, { createContext, useEffect } from "react";
+import { useDataTableManual } from '@/modules/core/hooks';
+import { useBasicQueryData } from '@/modules/core/hooks/';
+import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
+import React, { createContext, useEffect } from 'react';
 
-
-import { useDeleteAdministrator } from "../../hooks/mutations/useDeleteAdministrator";
-import { useDeleteBulkAdministrators } from "../../hooks/mutations/useDeleteBulkAdministrators";
-import { useGetAllAdministrators } from "../../hooks/queries/useGetAllAdministrators";
-import { Administrator } from "../../interfaces/Administrator";
-import { AdministratorsModuleContextProps } from "../../interfaces/context/AdministratorsModuleContextProps";
-import { AdministratorsModuleActionsTable } from "./AdministratorsModuleActionsTable";
-import { columnsTableAdministrators } from "./columnsTableAdministrators";
+import { useDeleteAdministrator } from '../../hooks/mutations/useDeleteAdministrator';
+import { useDeleteBulkAdministrators } from '../../hooks/mutations/useDeleteBulkAdministrators';
+import { useGetAllAdministrators } from '../../hooks/queries/useGetAllAdministrators';
+import { Administrator } from '../../interfaces/Administrator';
+import { AdministratorsModuleContextProps } from '../../interfaces/context/AdministratorsModuleContextProps';
+import { AdministratorsModuleActionsTable } from './AdministratorsModuleActionsTable';
+import { columnsTableAdministrators } from './columnsTableAdministrators';
 
 export const AdministratorsModuleContext = createContext<
   AdministratorsModuleContextProps | undefined
@@ -36,6 +35,7 @@ export const AdministratorsModuleProvider: React.FC<{
   const columnsTable = useCreateColumnsTable({
     columns: columnsTableAdministrators,
     actions: AdministratorsModuleActionsTable,
+    hiddenCheckbox: true,
   });
 
   const dataTable = useDataTableManual<Administrator>({
