@@ -16,13 +16,13 @@ import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
 import { Plus } from 'lucide-react';
 import { memo, useState } from 'react';
 
+import { RolesAdministrator } from '@/management/administrators/interfaces/RolesAdministrator';
+import { useCreateForm } from '@/modules/core/hooks';
 import { formSchemaUserWithPassword } from '@/modules/users/utils';
 import { z } from 'zod';
 import { usePostTenantUser } from '../../hooks/mutations/usePostTenantUser';
-import { FormTenantUserFields } from './FormTenantUserFields';
-import { useCreateForm } from '@/modules/core/hooks';
 import { formSchemaTenantUser } from '../../utils/formSchemaTenantUser';
-import { RolesAdministrator } from '@/management/administrators/interfaces/RolesAdministrator';
+import { FormTenantUserFields } from './FormTenantUserFields';
 
 export const defaultValues = {
   first_name: '',
@@ -33,7 +33,7 @@ export const defaultValues = {
     password1: '',
     password2: '',
   },
-  role: RolesAdministrator.USER,
+  roles: [RolesAdministrator.USER],
 };
 
 export const FormTenantUser: React.FC<{ tenantId: string }> = memo(
@@ -58,6 +58,7 @@ export const FormTenantUser: React.FC<{ tenantId: string }> = memo(
             setOpenDialog(false);
           },
         });
+
         return;
       }
       form.reset();
@@ -90,6 +91,7 @@ export const FormTenantUser: React.FC<{ tenantId: string }> = memo(
 
     const handleOnClickButton = async () => {
       const result = await form.trigger();
+      const { errors } = form.formState;
       if (result) {
         handleSubmit(form.watch());
       }

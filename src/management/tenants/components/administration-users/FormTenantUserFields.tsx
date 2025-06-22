@@ -103,9 +103,15 @@ export const FormTenantUserFields: React.FC<Props> = ({
             control={form.control}
             description={formFieldsUser.roles.description}
             label={formFieldsUser.roles.label}
-            name={'role'}
+            name={'roles'}
             placeholder={formFieldsUser.roles.placeholder}
             disabled={false}
+            isValueInArray
+            manualOnChangeValue
+            callBackOnChangeValue={(field, value) => {
+              field.onChange(value);
+              form.setValue('roles', [value]);
+            }}
           />
 
           <>

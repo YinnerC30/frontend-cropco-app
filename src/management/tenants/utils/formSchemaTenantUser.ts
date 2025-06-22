@@ -48,16 +48,18 @@ export const formSchemaTenantUser = z.object({
       message: 'Las contraseñas no coinciden',
       path: ['password2'],
     }),
-  role: z.nativeEnum(RolesAdministrator, {
-    errorMap: (issue, _ctx) => {
-      switch (issue.code) {
-        case 'invalid_type':
-          return { message: 'Debe seleccionar un rol.' };
-        case 'invalid_enum_value':
-          return { message: 'Debe seleccionar un rol.' };
-        default:
-          return { message: 'Error en la selección de rol.' };
-      }
-    },
-  }),
+  roles: z.array(
+    z.nativeEnum(RolesAdministrator, {
+      errorMap: (issue, _ctx) => {
+        switch (issue.code) {
+          case 'invalid_type':
+            return { message: 'Debe seleccionar un rol.' };
+          case 'invalid_enum_value':
+            return { message: 'Debe seleccionar un rol.' };
+          default:
+            return { message: 'Error en la selección de rol.' };
+        }
+      },
+    })
+  ),
 });
