@@ -51,11 +51,15 @@ export const columnsTableUsers: ColumnDef<User>[] = [
   {
     accessorKey: formFieldsUser.roles.name,
     cell: ({ row }: { row: Row<User> }) => {
-      const { roles } = row.original;
+      const { roles, id } = row.original;
       return (
         <>
-          {roles?.map((rol) => {
-            return <Badge>{CapitalizeFirstWord(rol)}</Badge>;
+          {roles?.map((rol, index) => {
+            return (
+              <Badge key={`${rol}-${index}-${id}`}>
+                {CapitalizeFirstWord(rol)}
+              </Badge>
+            );
           })}
         </>
       );
