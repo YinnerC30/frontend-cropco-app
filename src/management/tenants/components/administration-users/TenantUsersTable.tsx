@@ -35,6 +35,7 @@ export const TenantUsersTable = ({ tenantId, data, refetchAction }: Props) => {
     actions: ({ row }) => (
       <ActionsTenantUsersTable row={row} tenantId={tenantId} />
     ),
+    hiddenCheckbox: true,
   });
 
   const dataTable = useDataTableGeneric<User>({
