@@ -11,7 +11,7 @@ import {
 } from '@/components';
 import { ToolTipTemplate } from '@/modules/core/components';
 
-import { Cross2Icon } from '@radix-ui/react-icons';
+import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
 
 import { Plus } from 'lucide-react';
 import { memo, useState } from 'react';
@@ -66,7 +66,12 @@ export const FormTenantUser: React.FC<{ tenantId: string }> = memo(
         ...rest,
         password: passwords.password1,
       };
-      mutate(data);
+      mutate(data, {
+        onSuccess: () => {
+          handleCloseDialog();
+          form.reset();
+        },
+      });
     };
 
     const handleOnClickButton = async () => {
@@ -125,6 +130,9 @@ export const FormTenantUser: React.FC<{ tenantId: string }> = memo(
                 form="formTenantUser"
                 onClick={handleOnClickButton}
               >
+                {isPending && (
+                  <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
+                )}
                 Guardar
               </Button>
             </DialogFooter>
