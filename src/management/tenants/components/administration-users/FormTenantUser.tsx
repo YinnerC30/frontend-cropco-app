@@ -25,13 +25,13 @@ import { formSchemaTenantUser } from '../../utils/formSchemaTenantUser';
 import { FormTenantUserFields } from './FormTenantUserFields';
 
 export const defaultValues = {
-  first_name: '',
-  last_name: '',
-  email: '',
-  cell_phone_number: '',
+  first_name: 'Usuario',
+  last_name: 'Mantenimiento',
+  email: 'usermant@mail.com',
+  cell_phone_number: '3146573245',
   passwords: {
-    password1: '',
-    password2: '',
+    password1: '123456',
+    password2: '123456',
   },
   roles: [RolesAdministrator.USER],
 };
