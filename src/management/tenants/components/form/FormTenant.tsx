@@ -2,6 +2,7 @@ import { ScrollArea } from '@/components';
 import { FormTenantButtons } from './FormTenantButtons';
 import { FormTenantProps, FormTenantProvider } from './FormTenantContext';
 import { FormTenantFields } from './FormTenantFields';
+import { cn } from '@/lib/utils';
 
 interface FormTenantPropsExtend extends FormTenantProps {
   hiddenButtons?: boolean;
@@ -17,7 +18,7 @@ export const FormTenant: React.FC<FormTenantPropsExtend> = ({
     <FormTenantProvider {...props}>
       <div className="flex flex-col items-center">
         <ScrollArea className="h-[80vh] w-full pb-2">
-          <div className="flex flex-col justify-evenly lg:flex-row">
+          <div className={cn('flex flex-col lg:flex-row', !!children ? 'justify-evenly' : '')}>
             <FormTenantFields />
             <div className="my-4 lg:my-0">{children}</div>
           </div>
