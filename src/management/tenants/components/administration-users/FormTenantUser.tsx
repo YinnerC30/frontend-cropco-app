@@ -9,7 +9,7 @@ import {
   DialogTitle,
   ScrollArea,
 } from '@/components';
-import { ToolTipTemplate } from '@/modules/core/components';
+import { ToolTipTemplate, useFormChange } from '@/modules/core/components';
 
 import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
 
@@ -40,13 +40,27 @@ export const FormTenantUser: React.FC<{ tenantId: string }> = memo(
   ({ tenantId }: { tenantId: string }) => {
     const [openDialog, setOpenDialog] = useState(false);
 
+    const { showToast } = useFormChange();
+
     const handleOpenDialogExtended = (
       event: React.MouseEvent<HTMLButtonElement>
     ) => {
       event.preventDefault();
       setOpenDialog(true);
     };
-    const handleCloseDialog = () => {
+    const handleCloseDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      if (form.formState.isDirty) {
+        showToast({
+          skipRedirection: true,
+          action: (): void => {
+            form.reset();
+            setOpenDialog(false);
+          },
+        });
+        return;
+      }
+      form.reset();
       setOpenDialog(false);
     };
 
@@ -68,8 +82,8 @@ export const FormTenantUser: React.FC<{ tenantId: string }> = memo(
       };
       mutate(data, {
         onSuccess: () => {
-          handleCloseDialog();
           form.reset();
+          setOpenDialog(false);
         },
       });
     };
