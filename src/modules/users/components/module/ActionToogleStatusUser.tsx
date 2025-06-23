@@ -19,7 +19,7 @@ export const ActionToogleStatusUser: React.FC<Props> = ({
 }) => {
   const { user } = useAuthContext();
   const { toggleOpen } = useDataTableMenuActionsContext();
-  const { mutate } = usePatchUserStatus();
+  const { mutate, isPending } = usePatchUserStatus();
 
   const handleToggleUser = () => {
     mutate(id, { onSuccess: () => toggleOpen(false) });
@@ -52,7 +52,7 @@ export const ActionToogleStatusUser: React.FC<Props> = ({
         onClick={handleToggleStatus}
         variant={'ghost'}
         className="cursor-pointer"
-        disabled={disabled}
+        disabled={disabled || isPending}
       >
         {status ? (
           <>
