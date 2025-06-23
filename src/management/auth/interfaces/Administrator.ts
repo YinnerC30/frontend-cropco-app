@@ -7,9 +7,6 @@ export interface Administrator {
   password: string;
   role: string;
   is_active: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date | null;
   token: string;
   is_login: boolean;
 }

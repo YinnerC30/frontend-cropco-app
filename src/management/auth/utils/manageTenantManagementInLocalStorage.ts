@@ -12,9 +12,6 @@ export const getTenantManagementToLocalStorage = (): Administrator => {
     password: '',
     role: '',
     is_active: false,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    deletedAt: null,
     token: '',
     is_login: false,
   };
