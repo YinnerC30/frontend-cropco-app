@@ -29,9 +29,6 @@ export const authenticationManagementSlice = createSlice({
         token: '',
         role: '',
         is_active: false,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        deletedAt: null,
         is_login: false,
       };
     },

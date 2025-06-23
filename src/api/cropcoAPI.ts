@@ -1,8 +1,8 @@
-import { BASE_PATH_API_CROPCO } from '@/config';
-import { getTokenToLocalStorage } from '@/auth/utils/manageUserInLocalStorage';
-import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import { getTenantIdToLocalStorage } from '@/auth/utils/manageTenantInLocalStorage';
+import { UserLocalStorageManager } from '@/auth/utils/UserLocalStorageManager';
+import { BASE_PATH_API_CROPCO } from '@/config';
 import { getTenantManagementTokenToLocalStorage } from '@/management/auth/utils/manageTenantManagementInLocalStorage';
+import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 declare module 'axios' {
   export interface InternalAxiosRequestConfig {
@@ -45,7 +45,7 @@ cropcoAPI.interceptors.request.use(
     if (config.skipInterceptor) {
       return config; // Ignora el interceptor y devuelve la configuración
     }
-    const token = getTokenToLocalStorage();
+    const token = UserLocalStorageManager.getToken()
     if (!!token) {
       config.headers['Authorization'] = `Bearer ${token}`;
       // config.headers['x-tenant-id'] = getTenantIdToLocalStorage();

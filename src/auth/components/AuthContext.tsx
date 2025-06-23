@@ -15,19 +15,17 @@ import { defaultGlobalActionsUserAdmin } from '../helpers/defaultGlobalActionsUs
 import { UserActive } from '../interfaces';
 import { AuthContextProps } from '../interfaces/AuthContextProps';
 import { TypedAxiosError } from '../interfaces/AxiosErrorResponse';
+import { Tenant } from '../interfaces/Tenant';
 import { removeUserActive, setUserActive } from '../utils';
 import { setToken } from '../utils/authenticationSlice';
-import {
-  removeUserInLocalStorage,
-  renewTokenInLocalStorage,
-  saveUserInLocalStorage,
-} from '../utils/manageUserInLocalStorage';
-import { Tenant } from '../interfaces/Tenant';
-import { setTenant } from '../utils/tenantSlice';
 import {
   removeTenantInLocalStorage,
   saveTenantInLocalStorage,
 } from '../utils/manageTenantInLocalStorage';
+import {
+  UserLocalStorageManager
+} from '../utils/UserLocalStorageManager';
+import { setTenant } from '../utils/tenantSlice';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
@@ -98,7 +96,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     saveTenantInState(tenant);
   };
   const saveUser = (user: UserActive) => {
-    saveUserInLocalStorage(user);
+    UserLocalStorageManager.saveUser(user);
     saveUserInState(user);
   };
 
@@ -117,7 +115,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const removeUser = () => {
     setExecuteQueryModule(false);
-    removeUserInLocalStorage();
+    UserLocalStorageManager.removeUser();
     removeUserInState();
     removeTenant();
     queryClient.clear();
@@ -129,7 +127,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const updateTokenInClient = (token: string) => {
     if (user) {
-      renewTokenInLocalStorage(user, token);
+      UserLocalStorageManager.renewToken(user, token);
       renewTokenInState(token);
     }
   };
