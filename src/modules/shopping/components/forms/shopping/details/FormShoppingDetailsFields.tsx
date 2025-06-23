@@ -138,7 +138,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                     <PopoverTrigger asChild>
                       <FormControl>
                         {querySupplies.isLoading || querySupplies.isFetching ? (
-                          <div className="w-[200px]">
+                          <div className="w-auto">
                             <Loading className="" />
                           </div>
                         ) : (
@@ -146,7 +146,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                             variant="outline"
                             role="combobox"
                             aria-expanded={openPopover}
-                            className={`w-80 flex justify-between ${cn(
+                            className={`w-auto flex justify-between ${cn(
                               `${!field.value && 'flex justify-between'}`,
                               !field.value && 'text-muted-foreground'
                             )}`}

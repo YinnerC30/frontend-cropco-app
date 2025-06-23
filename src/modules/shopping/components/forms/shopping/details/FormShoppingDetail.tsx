@@ -83,7 +83,7 @@ export const FormShoppingDetail: React.FC = () => {
       </ToolTipTemplate>
       <Dialog open={openDialog} modal={false}>
         <DialogContent
-          className="sm:max-w-[425px] h-[85vh] overflow-hidden"
+          className="sm:max-w-[425px] h-[85vh] overflow-hidden max-w-[95vw]"
           onClick={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
