@@ -1,33 +1,26 @@
 import { Tenant } from '../interfaces/Tenant';
+import { createLocalStorageManager } from '../../lib/localStorageManager';
 
-const KEY_TENANT_LOCAL_STORAGE = 'current-tenant';
+const defaultValues: Tenant = {
+  id: '',
+};
 
+// Crear instancia del manager para tenant
+const tenantStorage = createLocalStorageManager('current-tenant', defaultValues);
+
+// Exportar funciones usando la nueva utilidad
 export const getTenantToLocalStorage = (): Tenant => {
-  const defaultValues: Tenant = {
-    id: '',
-  };
-  const data = localStorage.getItem(KEY_TENANT_LOCAL_STORAGE);
-  if (!data) {
-    return defaultValues;
-  }
-  // return JSON.parse(data || '');
-  return {
-    ...JSON.parse(data),
-  };
+  return tenantStorage.get();
 };
 
 export const getTenantIdToLocalStorage = (): string => {
-  const data = localStorage.getItem(KEY_TENANT_LOCAL_STORAGE);
-  if (!data) {
-    return '';
-  }
-  return JSON.parse(data).id;
+  return tenantStorage.getProperty('id');
 };
 
 export const removeTenantInLocalStorage = (): void => {
-  localStorage.removeItem(KEY_TENANT_LOCAL_STORAGE);
+  tenantStorage.remove();
 };
 
 export const saveTenantInLocalStorage = (tenant: Tenant): void => {
-  localStorage.setItem(KEY_TENANT_LOCAL_STORAGE, JSON.stringify(tenant));
+  tenantStorage.save(tenant);
 };

@@ -1,43 +1,36 @@
 import { UserActive } from '../interfaces';
+import { createLocalStorageManager } from '../../lib/localStorageManager';
 
-const KEY_USER_LOCAL_STORAGE = 'user-active';
+const defaultValues: UserActive = {
+  email: '',
+  id: '',
+  token: '',
+  modules: [],
+  is_login: false,
+  first_name: '',
+  last_name: '',
+};
 
+// Crear instancia del manager para user
+const userStorage = createLocalStorageManager('user-active', defaultValues);
+
+// Exportar funciones usando la nueva utilidad
 export const getTokenToLocalStorage = (): string => {
-  const data = localStorage.getItem(KEY_USER_LOCAL_STORAGE);
-  if (!data) {
-    return '';
-  }
-  return JSON.parse(data).token;
+  return userStorage.getProperty('token');
 };
 
 export const getUserInLocalStorage = (): UserActive => {
-  const defaultValues: UserActive = {
-    email: '',
-    id: '',
-    token: '',
-    modules: [],
-    is_login: false,
-    first_name: '',
-    last_name: '',
-  };
-  const data = localStorage.getItem(KEY_USER_LOCAL_STORAGE);
-  if (!data) {
-    return defaultValues;
-  }
-  return JSON.parse(data);
+  return userStorage.get();
 };
 
 export const removeUserInLocalStorage = (): void => {
-  localStorage.removeItem(KEY_USER_LOCAL_STORAGE);
+  userStorage.remove();
 };
 
 export const saveUserInLocalStorage = (user: UserActive): void => {
-  localStorage.setItem(KEY_USER_LOCAL_STORAGE, JSON.stringify(user));
+  userStorage.save(user);
 };
 
 export const renewTokenInLocalStorage = (user: any, token: string): void => {
-  localStorage.setItem(
-    KEY_USER_LOCAL_STORAGE,
-    JSON.stringify({ ...user, token })
-  );
+  userStorage.save({ ...user, token });
 };

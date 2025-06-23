@@ -1,46 +1,47 @@
 import { Administrator } from '../interfaces/Administrator';
+import { createLocalStorageManager } from '../../../lib/localStorageManager';
 
-const KEY_TENANT_MANAGEMENT_LOCAL_STORAGE = 'current-tenant-management';
+const defaultValues: Administrator = {
+  id: '',
+  first_name: '',
+  last_name: '',
+  email: '',
+  cell_phone_number: '',
+  password: '',
+  role: '',
+  is_active: false,
+  token: '',
+  is_login: false,
+};
 
+// Crear instancia del manager para tenant management
+const tenantManagementStorage = createLocalStorageManager(
+  'current-tenant-management',
+  defaultValues
+);
+
+// Exportar funciones usando la nueva utilidad
 export const getTenantManagementToLocalStorage = (): Administrator => {
-  const defaultValues: Administrator = {
-    id: '',
-    first_name: '',
-    last_name: '',
-    email: '',
-    cell_phone_number: '',
-    password: '',
-    role: '',
-    is_active: false,
-    token: '',
-    is_login: false,
-  };
-  const data = localStorage.getItem(KEY_TENANT_MANAGEMENT_LOCAL_STORAGE);
-  if (!data) {
-    return defaultValues;
-  }
-  return {
-    ...JSON.parse(data),
-  };
+  return tenantManagementStorage.get();
 };
 
 export const getTenantManagementTokenToLocalStorage = (): string => {
-  const data = localStorage.getItem(KEY_TENANT_MANAGEMENT_LOCAL_STORAGE);
-  if (!data) {
-    return '';
-  }
-  return JSON.parse(data).token;
+  return tenantManagementStorage.getProperty('token');
 };
 
 export const removeTenantManagementInLocalStorage = (): void => {
-  localStorage.removeItem(KEY_TENANT_MANAGEMENT_LOCAL_STORAGE);
+  tenantManagementStorage.remove();
 };
 
 export const saveTenantManagementInLocalStorage = (
   tenant: Administrator
 ): void => {
-  localStorage.setItem(
-    KEY_TENANT_MANAGEMENT_LOCAL_STORAGE,
-    JSON.stringify(tenant)
-  );
+  tenantManagementStorage.save(tenant);
+};
+
+// Función adicional para renovar solo el token
+export const renewTenantManagementTokenInLocalStorage = (
+  token: string
+): void => {
+  tenantManagementStorage.updatePartial({ token });
 };
