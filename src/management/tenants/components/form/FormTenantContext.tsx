@@ -49,6 +49,7 @@ export const FormTenantProvider: React.FC<
   const form = useCreateForm({
     schema: formSchemaTenant,
     defaultValues: combinedDefaultValues,
+    validationMode: 'onSubmit'
   });
 
   return (
