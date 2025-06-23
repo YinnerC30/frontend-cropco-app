@@ -31,7 +31,7 @@ import { memo, useEffect } from 'react';
 import { ConvertStringToDate } from '@/modules/core/helpers';
 import {
   MassUnitOfMeasure,
-  UnitsType
+  UnitsType,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { z } from 'zod';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
@@ -233,10 +233,10 @@ export const FormHarvestProcessed: React.FC = memo(() => {
                 mutationPatchHarvestProcessed.isPending
               }
             >
-              {mutationPostHarvestProcessed.isPending ||
-                (mutationPatchHarvestProcessed.isPending && (
-                  <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
-                ))}
+              {(mutationPostHarvestProcessed.isPending ||
+                mutationPatchHarvestProcessed.isPending) && (
+                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
+              )}
               Guardar
             </Button>
           </DialogFooter>
