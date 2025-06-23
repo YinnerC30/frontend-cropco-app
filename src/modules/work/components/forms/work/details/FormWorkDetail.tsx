@@ -86,7 +86,7 @@ export const FormWorkDetail: React.FC = () => {
       </ToolTipTemplate>
       <Dialog open={openDialog} modal={false}>
         <DialogContent
-          className="sm:max-w-[425px]"
+          className="max-w-[95vw] sm:max-w-[425px]"
           onClick={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
