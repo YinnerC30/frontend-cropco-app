@@ -1,7 +1,7 @@
 import { getTenantIdToLocalStorage } from '@/auth/utils/manageTenantInLocalStorage';
 import { UserLocalStorageManager } from '@/auth/utils/UserLocalStorageManager';
 import { BASE_PATH_API_CROPCO } from '@/config';
-import { getTenantManagementTokenToLocalStorage } from '@/management/auth/utils/manageTenantManagementInLocalStorage';
+import { TenantManagementLocalStorageManager } from '@/management/auth/utils/TenantManagementLocalStorageManager';
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 declare module 'axios' {
@@ -54,7 +54,7 @@ cropcoAPI.interceptors.request.use(
     if (!!tenantId) {
       config.headers['x-tenant-id'] = tenantId;
     }
-    const tenantToken = getTenantManagementTokenToLocalStorage();
+    const tenantToken = TenantManagementLocalStorageManager.getToken();
     if (!!tenantToken) {
       config.headers['x-administration-token'] = tenantToken;
     }

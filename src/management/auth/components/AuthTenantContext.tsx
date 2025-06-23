@@ -1,20 +1,17 @@
 import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
+import { PATH_ADMIN_LOGIN } from '@/config';
 import { RootState, useAppDispatch, useAppSelector } from '@/redux/store';
 import { AxiosError } from 'axios';
 import { createContext, ReactNode, useContext, useEffect } from 'react';
-import { AuthTenantContextProps } from '../interfaces/AuthTenantContextProps';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { Administrator } from '../interfaces/Administrator';
+import { AuthTenantContextProps } from '../interfaces/AuthTenantContextProps';
 import {
   removeUserActive,
   setUserActive,
 } from '../utils/authenticationManagementSlice';
-import {
-  removeTenantManagementInLocalStorage,
-  saveTenantManagementInLocalStorage,
-} from '../utils/manageTenantManagementInLocalStorage';
-import { useNavigate } from 'react-router-dom';
-import { PATH_ADMIN_LOGIN } from '@/config';
-import { toast } from 'sonner';
+import { TenantManagementLocalStorageManager } from '../utils/TenantManagementLocalStorageManager';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
@@ -44,12 +41,12 @@ export const AuthTenantProvider: React.FC<{ children: ReactNode }> = ({
   const dispatch = useAppDispatch();
 
   const saveTenantManagement = (tenant: Administrator) => {
-    saveTenantManagementInLocalStorage(tenant);
+    TenantManagementLocalStorageManager.saveTenantManagement(tenant);
     dispatch(setUserActive(tenant));
   };
 
   const removeTenantManagement = () => {
-    removeTenantManagementInLocalStorage();
+    TenantManagementLocalStorageManager.removeTenantManagement();
     dispatch(removeUserActive());
   };
 

@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Administrator } from '../interfaces/Administrator';
-import { getTenantManagementToLocalStorage } from './manageTenantManagementInLocalStorage';
+import { TenantManagementLocalStorageManager } from './TenantManagementLocalStorageManager';
 
 interface authenticationManagementState {
   user: Administrator;
 }
 
 const initialState: authenticationManagementState = {
-  user: getTenantManagementToLocalStorage(),
+  user: TenantManagementLocalStorageManager.getTenantManagement(),
 };
 
 export const authenticationManagementSlice = createSlice({
