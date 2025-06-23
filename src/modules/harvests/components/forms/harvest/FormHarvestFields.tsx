@@ -24,6 +24,7 @@ import {
   UnitsType,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { FormHarvestDataTable } from './FormHarvestDataTable';
+import { Crop } from '@/modules/crops/interfaces/Crop';
 
 export const FormHarvestFields: React.FC = () => {
   const {
@@ -44,6 +45,21 @@ export const FormHarvestFields: React.FC = () => {
     all_records: true,
   });
 
+  const getCropDataToCommand = (): Crop[] => {
+    let crops: Crop[] = [];
+    if (queryCrops.isSuccess) {
+      crops = [...queryCrops.data?.records];
+      const hasCropDefaultValue: boolean =
+        formHarvest.formState.defaultValues?.crop?.id === '';
+      if (hasCropDefaultValue) {
+        crops = [...crops, formHarvest.formState.defaultValues?.crop];
+      }
+
+      return crops;
+    }
+    return [];
+  };
+
   return (
     <Form {...formHarvest}>
       <form
@@ -62,14 +78,7 @@ export const FormHarvestFields: React.FC = () => {
             className="w-[240px]"
           />
           <FormFieldCommand
-            data={
-              queryCrops.isSuccess
-                ? [
-                    ...queryCrops.data?.records,
-                    formHarvest.formState.defaultValues?.crop,
-                  ]
-                : []
-            }
+            data={getCropDataToCommand()}
             form={formHarvest}
             nameToShow={'name'}
             control={formHarvest.control}

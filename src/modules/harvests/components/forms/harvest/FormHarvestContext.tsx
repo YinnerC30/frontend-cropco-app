@@ -28,9 +28,7 @@ import { CheckboxTableCustom } from '@/modules/core/components/table/CheckboxTab
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 import { FormProps, ResponseApiGetAllRecords } from '@/modules/core/interfaces';
-import {
-  MassUnitOfMeasure
-} from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { z } from 'zod';
