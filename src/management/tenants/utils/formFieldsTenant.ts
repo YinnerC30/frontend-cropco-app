@@ -21,13 +21,13 @@ export const formFieldsTenant: Record<FormFieldsTenant, CustomFormField> = {
   },
   email: {
     name: 'email',
-    label: 'Correo electrónico de la empresa:',
+    label: 'Correo electrónico:',
     placeholder: 'empresa-1@gmail.com',
     description: 'Correo electrónico de la empresa',
   },
   cell_phone_number: {
     name: 'cell_phone_number',
-    label: 'Número de celular de la empresa:',
+    label: 'Número de celular:',
     placeholder: '3178901234',
     description: 'Número de celular de la empresa',
   },
