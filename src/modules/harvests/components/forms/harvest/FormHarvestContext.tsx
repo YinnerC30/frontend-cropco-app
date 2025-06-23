@@ -169,6 +169,19 @@ export const FormHarvestProvider: React.FC<
     dispatch({ type: 'RESET', payload: detailsDefaultValues });
   };
 
+  const amountForm = useMemo<number>(
+    () =>
+      detailsHarvest.reduce((amount: number, detail: HarvestDetail) => {
+        const convertedAmount = convert(
+          Number(detail.amount),
+          detail.unit_of_measure!,
+          MassUnitOfMeasure.GRAMOS
+        );
+        return Number(amount) + convertedAmount;
+      }, 0),
+    [detailsHarvest]
+  );
+
   const amount = useMemo<number>(
     () =>
       detailsHarvest.reduce((amount: number, detail: HarvestDetail) => {
@@ -268,7 +281,7 @@ export const FormHarvestProvider: React.FC<
       shouldValidate: detailsHarvest.length > 0,
       shouldDirty: true,
     });
-    formHarvest.setValue('amount', amount, { shouldValidate: true });
+    formHarvest.setValue('amount', amountForm, { shouldValidate: true });
     formHarvest.setValue('value_pay', value_pay, { shouldValidate: true });
   }, [detailsHarvest]);
 
