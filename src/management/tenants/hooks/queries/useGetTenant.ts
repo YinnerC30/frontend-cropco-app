@@ -4,7 +4,6 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
 import { CACHE_CONFIG_TIME } from '@/config';
 import { useAuthTenantContext } from '@/management/auth/components/AuthTenantContext';
-import { ConvertStringToDate } from '@/modules/core/helpers';
 import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { useEffect } from 'react';
 import { Tenant } from '../../interfaces/Tenant';
@@ -25,17 +24,6 @@ export const useGetTenant = (id: string): UseGetOneRecordReturn<Tenant> => {
     queryFn: () => getTenantById(id),
     select: ({ data }) => ({
       ...data,
-      dates: {
-        createdAt: data?.createdAt
-          ? ConvertStringToDate(data.createdAt)
-          : undefined,
-        updatedAt: data?.updatedAt
-          ? ConvertStringToDate(data.updatedAt)
-          : undefined,
-        deletedAt: data?.deletedAt
-          ? ConvertStringToDate(data.deletedAt)
-          : undefined,
-      },
     }),
     enabled: true,
     refetchOnWindowFocus: false,
