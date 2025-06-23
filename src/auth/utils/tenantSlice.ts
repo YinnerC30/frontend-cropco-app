@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Tenant } from '../interfaces/Tenant';
-import { getTenantToLocalStorage } from './manageTenantInLocalStorage';
+import { TenantLocalStorageManager } from './TenantLocalStorageManager';
 
 interface TenantState {
   tenant: Tenant;
 }
 
 const initialState: TenantState = {
-  tenant: getTenantToLocalStorage(),
+  tenant: TenantLocalStorageManager.getTenantToLocalStorage(),
 };
 
 export const tenantSlice = createSlice({

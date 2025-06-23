@@ -18,10 +18,8 @@ import { TypedAxiosError } from '../interfaces/AxiosErrorResponse';
 import { Tenant } from '../interfaces/Tenant';
 import { removeUserActive, setUserActive } from '../utils';
 import { setToken } from '../utils/authenticationSlice';
-import {
-  removeTenantInLocalStorage,
-  saveTenantInLocalStorage,
-} from '../utils/manageTenantInLocalStorage';
+
+import { TenantLocalStorageManager } from '../utils/TenantLocalStorageManager';
 import {
   UserLocalStorageManager
 } from '../utils/UserLocalStorageManager';
@@ -92,7 +90,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const saveTenant = (tenant: Tenant) => {
-    saveTenantInLocalStorage(tenant);
+    TenantLocalStorageManager.saveTenantInLocalStorage(tenant);
     saveTenantInState(tenant);
   };
   const saveUser = (user: UserActive) => {
@@ -105,7 +103,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const removeTenant = () => {
-    removeTenantInLocalStorage();
+    TenantLocalStorageManager.removeTenantInLocalStorage();
     removeTenantInState();
   };
 

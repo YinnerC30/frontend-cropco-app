@@ -1,4 +1,4 @@
-import { getTenantIdToLocalStorage } from '@/auth/utils/manageTenantInLocalStorage';
+import { TenantLocalStorageManager } from '@/auth/utils/TenantLocalStorageManager';
 import { UserLocalStorageManager } from '@/auth/utils/UserLocalStorageManager';
 import { BASE_PATH_API_CROPCO } from '@/config';
 import { TenantManagementLocalStorageManager } from '@/management/auth/utils/TenantManagementLocalStorageManager';
@@ -45,12 +45,11 @@ cropcoAPI.interceptors.request.use(
     if (config.skipInterceptor) {
       return config; // Ignora el interceptor y devuelve la configuración
     }
-    const token = UserLocalStorageManager.getToken()
+    const token = UserLocalStorageManager.getToken();
     if (!!token) {
       config.headers['Authorization'] = `Bearer ${token}`;
-      // config.headers['x-tenant-id'] = getTenantIdToLocalStorage();
     }
-    const tenantId = getTenantIdToLocalStorage();
+    const tenantId = TenantLocalStorageManager.getTenantIdToLocalStorage();
     if (!!tenantId) {
       config.headers['x-tenant-id'] = tenantId;
     }
