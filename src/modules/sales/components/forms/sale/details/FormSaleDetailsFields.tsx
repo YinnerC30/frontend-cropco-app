@@ -123,7 +123,7 @@ export const FormSaleDetailsFields: React.FC = () => {
                       <FormControl>
                         {queryCropsWithStock.isLoading ||
                         queryCropsWithStock.isFetching ? (
-                          <div className="w-[200px]">
+                          <div className="w-auto">
                             <Loading className="" />
                           </div>
                         ) : (
@@ -131,7 +131,7 @@ export const FormSaleDetailsFields: React.FC = () => {
                             variant="outline"
                             role="combobox"
                             aria-expanded={openPopover}
-                            className={`w-80 ${cn(
+                            className={`w-auto ${cn(
                               'justify-between',
                               !field.value && 'text-muted-foreground'
                             )}`}
@@ -248,6 +248,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           name={'is_receivable'}
           placeholder={formFieldsSaleDetail.is_receivable.placeholder}
           disabled={false}
+          className='w-auto'
         />
         <FormFieldInput
           control={formSaleDetail.control}
