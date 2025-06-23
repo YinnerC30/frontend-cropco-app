@@ -3,6 +3,7 @@ import { CustomFormField } from '@/modules/core/interfaces/form/CustomFormField'
 type FormFieldsCrop =
   | 'name'
   | 'description'
+  | 'number_hectares'
   | 'units'
   | 'location'
   | 'date_of_creation'
@@ -21,6 +22,12 @@ export const formFieldsCrop: Record<FormFieldsCrop, CustomFormField> = {
     label: 'Descripción:',
     placeholder: 'El cultivo presenta las siguientes...',
     description: 'Información de interés sobre el cultivo',
+  },
+  number_hectares: {
+    name: 'number_hectares',
+    label: 'Número de hectáreas:',
+    placeholder: '3',
+    description: 'Cantidad de hectáreas que tiene el cultivo',
   },
   units: {
     name: 'units',
@@ -51,5 +58,5 @@ export const formFieldsCrop: Record<FormFieldsCrop, CustomFormField> = {
     label: 'Inventario actual: ',
     placeholder: '',
     description: '',
-  }
+  },
 };

@@ -38,6 +38,15 @@ export const FormCropFields: React.FC = () => {
         />
         <FormFieldInput
           control={form.control}
+          description={formFieldsCrop.number_hectares.description}
+          label={formFieldsCrop.number_hectares.label}
+          name={'number_hectares'}
+          placeholder={formFieldsCrop.number_hectares.placeholder}
+          disabled={readOnly}
+          type="number"
+        />
+        <FormFieldInput
+          control={form.control}
           description={formFieldsCrop.units.description}
           label={formFieldsCrop.units.label}
           name={'units'}

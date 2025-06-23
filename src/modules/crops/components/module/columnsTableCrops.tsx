@@ -27,6 +27,20 @@ export const columnsTableCrops: ColumnDef<Crop>[] = [
     },
   },
   {
+    accessorKey: formFieldsCrop.number_hectares.name,
+    cell: ({ row }: { row: Row<Crop> }) => {
+      return FormatNumber(row.getValue('number_hectares'));
+    },
+    header: ({ column }: HeaderContext<Crop, unknown>) => {
+      return (
+        <ButtonHeaderTable
+          column={column}
+          label={formFieldsCrop.number_hectares.label}
+        />
+      );
+    },
+  },
+  {
     accessorKey: formFieldsCrop.units.name,
     cell: ({ row }: { row: Row<Crop> }) => {
       return FormatNumber(row.getValue('units'));
