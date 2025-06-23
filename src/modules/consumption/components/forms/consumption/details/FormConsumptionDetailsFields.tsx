@@ -160,7 +160,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                     <FormControl>
                       {querySuppliesStock.isLoading ||
                       querySuppliesStock.isFetching ? (
-                        <div className="w-[200px]">
+                        <div className="w-auto">
                           <Loading className="" />
                         </div>
                       ) : (
@@ -168,7 +168,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                           variant="outline"
                           role="combobox"
                           aria-expanded={openPopover}
-                          className={`w-80 ${cn(
+                          className={`w-auto ${cn(
                             `${!field.value && 'flex justify-between'}`,
                             !field.value && 'text-muted-foreground'
                           )}`}
