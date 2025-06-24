@@ -44,20 +44,21 @@ export const useGetAllClients = ({
         offset: pagination.pageIndex,
         all_records,
       }),
-      select: ({ data }) => {
-        return {
-          ...data,
-          records: data.records.map((cl) => {
-            return {
-              ...cl,
-              full_name: cl.first_name + ' ' + cl.last_name,
-            };
-          }),
-        };
-      },
+    select: ({ data }) => {
+      return {
+        ...data,
+        records: data.records.map((cl) => {
+          return {
+            ...cl,
+            full_name: cl.first_name + ' ' + cl.last_name,
+          };
+        }),
+      };
+    },
     enabled: isAuthorized,
     refetchOnWindowFocus: false,
     ...CACHE_CONFIG_TIME.mediumTerm,
+    retry: false,
   });
 
   useEffect(() => {

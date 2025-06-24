@@ -42,7 +42,7 @@ export const useCheckAuthStatus = ({
     queryKey: ['valid-sesion-user'],
     queryFn: () => checkAuthStatus(token),
     enabled: is_login,
-    refetchOnWindowFocus: false,
+    // refetchOnWindowFocus: false,
     // refetchIntervalInBackground
     ...CACHE_CONFIG_TIME.longTerm,
     refetchInterval: TIME_ACTIVE_TOKEN,
