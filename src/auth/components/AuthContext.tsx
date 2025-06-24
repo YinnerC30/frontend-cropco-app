@@ -6,7 +6,6 @@ import {
 } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 import { RootState, useAppSelector } from '@/redux/store';
 import { useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -14,15 +13,14 @@ import { toast } from 'sonner';
 import { defaultGlobalActionsUserAdmin } from '../helpers/defaultGlobalActionsUserAdmin';
 import { UserActive } from '../interfaces';
 import { AuthContextProps } from '../interfaces/AuthContextProps';
-import { TypedAxiosError } from '../interfaces/AxiosErrorResponse';
 import { Tenant } from '../interfaces/Tenant';
 import { removeUserActive, setUserActive } from '../utils';
 import { setToken } from '../utils/authenticationSlice';
 
+import { HandleErrorProps } from '../interfaces/HandleErrorProps';
 import { TenantLocalStorageManager } from '../utils/TenantLocalStorageManager';
 import { UserLocalStorageManager } from '../utils/UserLocalStorageManager';
 import { setTenant } from '../utils/tenantSlice';
-import { HandleErrorProps } from '../interfaces/HandleErrorProps';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
@@ -70,51 +68,32 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const dispatch = useDispatch();
 
-  const saveUserInState = (user: UserActive) => {
-    dispatch(setUserActive(user));
-  };
-  const saveTenantInState = (tenant: Tenant) => {
-    dispatch(setTenant(tenant));
-  };
-
   const saveTenant = (tenant: Tenant) => {
     TenantLocalStorageManager.saveTenantInLocalStorage(tenant);
-    saveTenantInState(tenant);
+    dispatch(setTenant(tenant));
   };
   const saveUser = (user: UserActive) => {
     UserLocalStorageManager.saveUser(user);
-    saveUserInState(user);
-  };
-
-  const removeTenantInState = () => {
-    dispatch(removeUserActive());
+    dispatch(setUserActive(user));
   };
 
   const removeTenant = () => {
     TenantLocalStorageManager.removeTenantInLocalStorage();
-    removeTenantInState();
-  };
-
-  const removeUserInState = () => {
     dispatch(removeUserActive());
   };
 
   const removeUser = () => {
     setExecuteQueryModule(false);
     UserLocalStorageManager.removeUser();
-    removeUserInState();
+    dispatch(removeUserActive());
     removeTenant();
     queryClient.clear();
-  };
-
-  const renewTokenInState = (token: string) => {
-    dispatch(setToken(token));
   };
 
   const updateTokenInClient = (token: string) => {
     if (user) {
       UserLocalStorageManager.renewToken(user, token);
-      renewTokenInState(token);
+      dispatch(setToken(token));
     }
   };
 
