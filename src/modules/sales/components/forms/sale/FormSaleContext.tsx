@@ -100,6 +100,8 @@ export interface FormSaleContextValues {
   setUnitTypeToShowAmount: React.Dispatch<
     React.SetStateAction<MassUnitOfMeasure>
   >;
+  isSubmittingSaleDetail: boolean;
+  setIsSubmittingSaleDetail: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type SaleAction =
@@ -215,7 +217,12 @@ export const FormSaleProvider: React.FC<
     detailsDefaultValues
   );
 
+  const [isSubmittingSaleDetail, setIsSubmittingSaleDetail] =
+    useState(false);
+
   const addSaleDetail = (saleDetail: SaleDetail): void => {
+    if (isSubmittingSaleDetail) return;
+    setIsSubmittingSaleDetail(true);
     dispatchSaleDetails({ type: 'ADD', payload: saleDetail });
   };
 
@@ -224,6 +231,8 @@ export const FormSaleProvider: React.FC<
   };
 
   const modifySaleDetail = (saleDetail: SaleDetail): void => {
+    if (isSubmittingSaleDetail) return;
+    setIsSubmittingSaleDetail(true);
     dispatchSaleDetails({ type: 'MODIFY', payload: saleDetail });
   };
 
@@ -402,6 +411,7 @@ export const FormSaleProvider: React.FC<
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
+    setIsSubmittingSaleDetail(false);
   };
 
   const ClearFormSaleDetail = () => {
@@ -493,6 +503,8 @@ export const FormSaleProvider: React.FC<
         toggleStatusPayment,
         unitTypeToShowAmount,
         setUnitTypeToShowAmount,
+        isSubmittingSaleDetail,
+        setIsSubmittingSaleDetail,
       }}
     >
       {children}

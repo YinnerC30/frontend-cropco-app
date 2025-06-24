@@ -39,6 +39,7 @@ export const FormSaleDetail: React.FC = () => {
     formSaleDetail,
     removeCropStock,
     validateAvailableStock,
+    isSubmittingSaleDetail,
   } = useFormSaleContext();
 
   const onSubmitSaleDetail = (
@@ -140,6 +141,7 @@ export const FormSaleDetail: React.FC = () => {
             <Button
               type="submit"
               onClick={formSaleDetail.handleSubmit(onSubmitSaleDetail)}
+              disabled={isSubmittingSaleDetail}
             >
               Guardar
             </Button>
