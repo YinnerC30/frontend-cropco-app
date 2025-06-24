@@ -35,7 +35,12 @@ function Calendar({
   showOutsideDays = true,
   ...props
 }: CalendarProps) {
-  const [currentMonth, setCurrentMonth] = React.useState(new Date());
+  const [currentMonth, setCurrentMonth] = React.useState(
+    props.selected as Date
+  );
+  // const [currentMonth, setCurrentMonth] = React.useState(
+  //   new Date(props.selected as any)
+  // );
 
   // Generamos los años una sola vez cuando se monta el componente
   const years = React.useMemo(() => {
@@ -97,6 +102,10 @@ function Calendar({
       </SelectContent>
     </Select>
   ));
+
+  // React.useEffect(() => {
+  //   setCurrentMonth(new Date(props.selected as any));
+  // }, [props.selected]);
 
   return (
     <DayPicker
