@@ -36,7 +36,7 @@ export const FormShoppingDetail: React.FC = () => {
     resetShoppingDetail,
     formShoppingDetail,
     addShoppingDetail,
-
+    isSubmittingShoppingDetail, 
     modifyShoppingDetail,
   } = useFormShoppingContext();
 
@@ -111,6 +111,7 @@ export const FormShoppingDetail: React.FC = () => {
             <Button
               type="submit"
               onClick={formShoppingDetail.handleSubmit(onSubmitShoppingDetail)}
+              disabled={isSubmittingShoppingDetail}
             >
               Guardar
             </Button>

@@ -80,6 +80,8 @@ export interface FormShoppingContextValues {
   handleDeleteBulkShoppingDetails: () => void;
   removeShoppingDetail: (shoppingDetail: ShoppingDetail) => void;
   actionsShoppingModule: Record<string, boolean>;
+  isSubmittingShoppingDetail: boolean;
+  setIsSubmittingShoppingDetail: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface ShoppingAction {
@@ -134,7 +136,12 @@ export const FormShoppingProvider: React.FC<
     detailsDefaultValues
   );
 
+  const [isSubmittingShoppingDetail, setIsSubmittingShoppingDetail] =
+    useState(false);
+
   const addShoppingDetail = (shoppingDetail: ShoppingDetail): void => {
+    if (isSubmittingShoppingDetail) return;
+    setIsSubmittingShoppingDetail(true);
     dispatch({ type: 'ADD', payload: shoppingDetail });
   };
 
@@ -143,6 +150,8 @@ export const FormShoppingProvider: React.FC<
   };
 
   const modifyShoppingDetail = (shoppingDetail: ShoppingDetail): void => {
+    if (isSubmittingShoppingDetail) return;
+    setIsSubmittingShoppingDetail(true);
     dispatch({ type: 'MODIFY', payload: shoppingDetail });
   };
 
@@ -199,6 +208,7 @@ export const FormShoppingProvider: React.FC<
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
+    setIsSubmittingShoppingDetail(false);
   };
 
   const ClearFormShoppingDetail = () => {
@@ -265,6 +275,8 @@ export const FormShoppingProvider: React.FC<
         handleDeleteBulkShoppingDetails,
         removeShoppingDetail,
         actionsShoppingModule,
+        isSubmittingShoppingDetail,
+        setIsSubmittingShoppingDetail,
       }}
     >
       {children}
