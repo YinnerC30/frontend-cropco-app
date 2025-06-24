@@ -80,6 +80,10 @@ export interface FormConsumptionContextValues {
   addSupplyStock: (supplyStock: SupplyStock) => void;
   removeSupplyStock: (supplyStock: SupplyStock) => void;
   validateAvailableStock: (record: SupplyStock) => boolean;
+  isSubmittingConsumptionDetail: boolean;
+  setIsSubmittingConsumptionDetail: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
 }
 
 interface ConsumptionAction {
@@ -183,9 +187,14 @@ export const FormConsumptionProvider: React.FC<
     detailsDefaultValues
   );
 
+  const [isSubmittingConsumptionDetail, setIsSubmittingConsumptionDetail] =
+    useState(false);
+
   const addConsumptionDetail = (
     consumptionDetail: ConsumptionDetails
   ): void => {
+    if (isSubmittingConsumptionDetail) return;
+    setIsSubmittingConsumptionDetail(true);
     dispatch({ type: 'ADD', payload: consumptionDetail });
   };
 
@@ -198,6 +207,8 @@ export const FormConsumptionProvider: React.FC<
   const modifyConsumptionDetail = (
     consumptionDetail: ConsumptionDetails
   ): void => {
+    if (isSubmittingConsumptionDetail) return;
+    setIsSubmittingConsumptionDetail(true);
     dispatch({ type: 'MODIFY', payload: consumptionDetail });
   };
 
@@ -318,6 +329,7 @@ export const FormConsumptionProvider: React.FC<
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
+    setIsSubmittingConsumptionDetail(false);
   };
 
   const ClearFormConsumptionDetail = () => {
@@ -410,6 +422,8 @@ export const FormConsumptionProvider: React.FC<
         // setCurrentSupply,
         // currentUnitType,
         // setCurrentUnitType,
+        isSubmittingConsumptionDetail,
+        setIsSubmittingConsumptionDetail,
       }}
     >
       {children}

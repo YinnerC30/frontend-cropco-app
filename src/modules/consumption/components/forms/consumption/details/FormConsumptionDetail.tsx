@@ -40,6 +40,7 @@ export const FormConsumptionDetail: React.FC = () => {
     formConsumptionDetail,
     validateAvailableStock,
     removeSupplyStock,
+    isSubmittingConsumptionDetail,
   } = useFormConsumptionContext();
 
   const onSubmitConsumptionDetail = (
@@ -140,6 +141,7 @@ export const FormConsumptionDetail: React.FC = () => {
               onClick={formConsumptionDetail.handleSubmit(
                 onSubmitConsumptionDetail
               )}
+              disabled={isSubmittingConsumptionDetail}
             >
               Guardar
             </Button>
