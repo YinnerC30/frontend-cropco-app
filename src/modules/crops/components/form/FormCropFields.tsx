@@ -44,6 +44,7 @@ export const FormCropFields: React.FC = () => {
           placeholder={formFieldsCrop.number_hectares.placeholder}
           disabled={readOnly}
           type="number"
+          allowDecimals
         />
         <FormFieldInput
           control={form.control}
