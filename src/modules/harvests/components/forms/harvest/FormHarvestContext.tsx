@@ -159,6 +159,8 @@ export const FormHarvestProvider: React.FC<
     useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
 
   const addHarvestDetail = (harvestDetail: HarvestDetail): void => {
+    if (isSubmittingHarvestDetail) return;
+    setIsSubmittingHarvestDetail(true);
     dispatch({ type: 'ADD', payload: harvestDetail });
   };
 
@@ -167,6 +169,8 @@ export const FormHarvestProvider: React.FC<
   };
 
   const modifyHarvestDetail = (harvestDetail: HarvestDetail): void => {
+    if (isSubmittingHarvestDetail) return;
+    setIsSubmittingHarvestDetail(true);
     dispatch({ type: 'MODIFY', payload: harvestDetail });
   };
 
@@ -252,7 +256,7 @@ export const FormHarvestProvider: React.FC<
     event: React.MouseEvent<HTMLButtonElement>
   ): void => {
     event.preventDefault();
-    
+
     if (formHarvestDetail.formState.isDirty) {
       showToast({
         skipRedirection: true,

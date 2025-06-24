@@ -35,14 +35,11 @@ export const FormHarvestDetail: React.FC = () => {
     addHarvestDetail,
     modifyHarvestDetail,
     isSubmittingHarvestDetail,
-    setIsSubmittingHarvestDetail,
   } = useFormHarvestContext();
 
   const onSubmitHarvestDetail = (
     values: z.infer<typeof formSchemaHarvestDetail>
   ) => {
-    if (isSubmittingHarvestDetail) return;
-    setIsSubmittingHarvestDetail(true);
     let record;
     if (!values.id) {
       record = {
