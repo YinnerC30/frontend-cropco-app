@@ -17,8 +17,6 @@ import { TenantManagementLocalStorageManager } from '../utils/TenantManagementLo
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
 
-
-
 export const AuthTenantContext = createContext<
   AuthTenantContextProps | undefined
 >(undefined);
@@ -44,7 +42,20 @@ export const AuthTenantProvider: React.FC<{ children: ReactNode }> = ({
 
   const { handleErrorByStatus } = useHandlerError();
   const handleError = (props: UseHandlerErrorProps) => {
-    handleErrorByStatus(props);
+    handleErrorByStatus({
+      ...props,
+      handlers: {
+        ...props.handlers,
+        unauthorized: {
+          onHandle: () => {
+            setTimeout(() => {
+              removeTenantManagement();
+              window.location.reload();
+            }, 3000);
+          },
+        },
+      },
+    });
   };
 
   const navigate = useNavigate();
