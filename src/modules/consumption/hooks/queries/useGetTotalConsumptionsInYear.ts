@@ -68,10 +68,7 @@ export const useGetTotalConsumptionsInYear = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          unauthorized:
-            'No tienes permiso para ver el listado del total de consumos en el año 😑',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

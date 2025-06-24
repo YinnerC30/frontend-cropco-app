@@ -15,7 +15,6 @@ export const getSuppliesWithConsumptions =
     return await cropcoAPI.get(`${pathsCropco.supplies}/consumptions/all`);
   };
 
-
 export const useGetAllSuppliesWithConsumptions =
   (): UseQueryGetAllRecordsReturn<Supply> => {
     const { hasPermission, handleError } = useAuthContext();
@@ -46,7 +45,7 @@ export const useGetAllSuppliesWithConsumptions =
       if (query.isError) {
         handleError({
           error: query.error,
-          messagesStatusError: {},
+          handlers: {},
         });
       }
     }, [query.isError, query.error]);

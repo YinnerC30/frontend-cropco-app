@@ -53,9 +53,7 @@ export const useCheckAuthStatusManagement = ({
     if (isError) {
       handleError({
         error,
-        messagesStatusError: {
-          unauthorized: 'Tu sesión ha expirado',
-        },
+        handlers: {},
       });
     }
   }, [isError]);

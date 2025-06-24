@@ -6,8 +6,12 @@ import { useAuthTenantContext } from '@/management/auth/components/AuthTenantCon
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { toast } from 'sonner';
 
-async function updateAdministratorStatus(id: string): PromiseReturnRecord<void> {
-  return await cropcoAPI.put(`${pathsCropco.administrators}/toggle-status/one/${id}`);
+async function updateAdministratorStatus(
+  id: string
+): PromiseReturnRecord<void> {
+  return await cropcoAPI.put(
+    `${pathsCropco.administrators}/toggle-status/one/${id}`
+  );
 }
 export function usePatchAdministratorStatus(): UseMutationReturn<void, string> {
   const { handleError } = useAuthTenantContext();
@@ -31,12 +35,7 @@ export function usePatchAdministratorStatus(): UseMutationReturn<void, string> {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          notFound: 'No se encontro el usuario a actualizar',
-          badRequest: 'La solicitud no es válida',
-          unauthorized:
-            'No tienes permisos para actualizar el estado del usuario',
-        },
+        handlers: {},
       });
     },
     retry: false,

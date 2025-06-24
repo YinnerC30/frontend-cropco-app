@@ -22,8 +22,6 @@ export const getCertificationEmployee = async (
   );
 };
 
-
-
 interface Props {
   userId: string;
   stateQuery: boolean;
@@ -85,11 +83,7 @@ export const useGetCertificationEmployee = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          notFound: 'La constancia solicitada no fue encontrada',
-          unauthorized:
-            'No tienes permiso para obtener la constancia del empleado',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

@@ -35,7 +35,7 @@ export const usePatchSale = (id: string): UseMutationReturn<void, Sale> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

@@ -43,11 +43,7 @@ export function useGetAdministrator(
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          notFound: 'El usuario solicitado no fue encontrado',
-          unauthorized:
-            'No tienes permiso para obtener la información del usuario',
-        },
+        handlers: {},
       });
     }
   }, [query.isError]);

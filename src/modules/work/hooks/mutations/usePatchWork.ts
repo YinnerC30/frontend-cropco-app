@@ -37,7 +37,7 @@ export function usePatchWork(id: string): UseMutationReturn<void, Work> {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

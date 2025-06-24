@@ -42,7 +42,7 @@ export const useGetTenant = (id: string): UseGetOneRecordReturn<Tenant> => {
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {},
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

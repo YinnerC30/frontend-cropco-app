@@ -33,12 +33,7 @@ export function usePatchTenantDBStatus(): UseMutationReturn<void, string> {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          notFound: 'No se encontro el usuario a actualizar',
-          badRequest: 'La solicitud no es válida',
-          unauthorized:
-            'No tienes permisos para actualizar el estado del usuario',
-        },
+        handlers: {},
       });
     },
 

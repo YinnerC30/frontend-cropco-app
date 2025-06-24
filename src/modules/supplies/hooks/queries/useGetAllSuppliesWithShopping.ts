@@ -15,7 +15,6 @@ export const getSuppliesWithShopping =
     return await cropcoAPI.get(`${pathsCropco.supplies}/shopping/all`);
   };
 
-
 export const useGetAllSuppliesWithShopping =
   (): UseQueryGetAllRecordsReturn<Supply> => {
     const { hasPermission, handleError } = useAuthContext();
@@ -46,7 +45,7 @@ export const useGetAllSuppliesWithShopping =
       if (query.isError) {
         handleError({
           error: query.error,
-          messagesStatusError: {},
+          handlers: {},
         });
       }
     }, [query.isError, query.error]);

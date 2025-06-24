@@ -32,7 +32,7 @@ export const usePatchTenant = (): UseMutationReturn<void, Tenant> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

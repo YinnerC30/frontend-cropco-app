@@ -32,10 +32,7 @@ export const useRenewToken = (): UseMutationReturn<
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          unauthorized:
-            'Tu sesión ha expirado, por favor vuelve a iniciar sesión',
-        },
+        handlers: {},
       });
     },
     retry: false,

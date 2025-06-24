@@ -35,10 +35,7 @@ export function userPatchChangePasswordAdministrator(): UseMutationReturn<
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          notFound: 'No se encontro el usuario a actualizar su contraseña',
-          unauthorized: 'No tienes permisos para actualizar la contraseña',
-        },
+        handlers: {},
       });
     },
     retry: false,

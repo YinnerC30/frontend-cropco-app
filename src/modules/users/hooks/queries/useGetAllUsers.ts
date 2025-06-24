@@ -58,10 +58,7 @@ export function useGetAllUsers({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          badRequest: 'La solicitud contiene información incorrecta',
-          unauthorized: 'No tienes permiso para ver el listado de usuarios 😑',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

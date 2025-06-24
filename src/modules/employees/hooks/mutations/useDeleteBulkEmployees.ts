@@ -48,7 +48,7 @@ export const useDeleteBulkEmployees = (): UseMutationReturn<
       onError: (error) => {
         handleError({
           error,
-          messagesStatusError: {},
+          handlers: {},
         });
       },
 

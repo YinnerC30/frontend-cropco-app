@@ -33,7 +33,7 @@ export const useDeleteBulkSales = (): UseMutationReturn<void, BulkRecords> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
 

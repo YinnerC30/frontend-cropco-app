@@ -68,10 +68,7 @@ export const useGetTopEmployeesInWorks = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          unauthorized:
-            'No tienes permiso para ver el listado del top empleados en los trabajos 😑',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

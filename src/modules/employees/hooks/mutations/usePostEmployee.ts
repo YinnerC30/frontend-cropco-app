@@ -36,7 +36,7 @@ export const usePostEmployee = (): UseMutationReturn<Employee, Employee> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

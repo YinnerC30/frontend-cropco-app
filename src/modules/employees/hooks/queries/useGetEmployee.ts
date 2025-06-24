@@ -41,11 +41,7 @@ export const useGetEmployee = (id: string): UseGetOneRecordReturn<Employee> => {
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          notFound: 'El empleado solicitado no fue encontrado',
-          unauthorized:
-            'No tienes permiso para obtener la información del empleado',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

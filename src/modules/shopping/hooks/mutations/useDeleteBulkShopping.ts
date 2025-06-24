@@ -32,7 +32,7 @@ export const useDeleteBulkShopping = (): UseMutationReturn<
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
 

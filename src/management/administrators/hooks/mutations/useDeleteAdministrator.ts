@@ -25,11 +25,7 @@ export const useDeleteAdministrator = (): UseMutationReturn<void, string> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          notFound: 'No se encontro el usuario a eliminar',
-          badRequest: 'La solicitud no es válida',
-          unauthorized: 'No tienes permisos para eliminar el usuario',
-        },
+        handlers: {}
       });
     },
     retry: false,

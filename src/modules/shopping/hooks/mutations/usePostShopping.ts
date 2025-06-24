@@ -39,7 +39,7 @@ export const usePostShopping = (): UseMutationReturn<
       onError: (error) => {
         handleError({
           error,
-          messagesStatusError: {},
+          handlers: {},
         });
       },
       retry: false,

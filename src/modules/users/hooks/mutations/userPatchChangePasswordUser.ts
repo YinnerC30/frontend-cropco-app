@@ -15,10 +15,7 @@ async function changePasswordUser({
   id,
   ...rest
 }: DataChangePassword): PromiseReturnRecord<void> {
-  return await cropcoAPI.put(
-    `${pathsCropco.users}/change-password/one`,
-    rest
-  );
+  return await cropcoAPI.put(`${pathsCropco.users}/change-password/one`, rest);
 }
 
 export function userPatchChangePasswordUser(): UseMutationReturn<
@@ -35,10 +32,7 @@ export function userPatchChangePasswordUser(): UseMutationReturn<
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          notFound: 'No se encontro el usuario a actualizar su contraseña',
-          unauthorized: 'No tienes permisos para actualizar la contraseña',
-        },
+        handlers: {},
       });
     },
     retry: false,

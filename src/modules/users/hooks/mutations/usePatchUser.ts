@@ -41,11 +41,7 @@ export function usePatchUser(): UseMutationReturn<User, Partial<User>> {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          notFound: 'No se encontro el usuario a actualizar',
-          badRequest: 'La solicitud no es válida',
-          unauthorized: 'No tienes permisos para actualizar el usuario',
-        },
+        handlers: {},
       });
     },
     retry: false,

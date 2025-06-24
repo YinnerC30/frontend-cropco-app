@@ -78,10 +78,7 @@ export const useGetWorkPDF = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          notFound: 'El documento solicitado no fue encontrado',
-          unauthorized: 'No tienes permiso para obtener el documento',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

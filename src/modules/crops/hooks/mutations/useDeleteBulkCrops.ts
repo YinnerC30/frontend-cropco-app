@@ -43,7 +43,7 @@ export const useDeleteBulkCrops = (): UseMutationReturn<
       onError: (error) => {
         handleError({
           error,
-          messagesStatusError: {},
+          handlers: {},
         });
       },
 

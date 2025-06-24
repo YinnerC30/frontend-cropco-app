@@ -33,7 +33,7 @@ export const useDeleteBulkConsumption = (): UseMutationReturn<
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
 

@@ -46,9 +46,7 @@ export function useGetConvertToAdmin(
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          unauthorized: 'No tienes permisos para convertir a administrador',
-        },
+        handlers: {},
       });
     }
   }, [query.isError]);

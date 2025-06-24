@@ -16,7 +16,10 @@ const deleteBulkAdministrators = async (
   });
 };
 
-export const useDeleteBulkAdministrators = (): UseMutationReturn<void, BulkRecords> => {
+export const useDeleteBulkAdministrators = (): UseMutationReturn<
+  void,
+  BulkRecords
+> => {
   const queryClient = useQueryClient();
   const { handleError } = useAuthTenantContext();
   const mutation: UseMutationReturn<void, BulkRecords> = useMutation({
@@ -28,11 +31,7 @@ export const useDeleteBulkAdministrators = (): UseMutationReturn<void, BulkRecor
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          notFound: 'No se encontro el usuario a eliminar',
-          badRequest: 'La solicitud no es válida',
-          unauthorized: 'No tienes permisos para eliminar usuarios',
-        },
+        handlers: {},
       });
     },
     retry: false,

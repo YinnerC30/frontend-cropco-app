@@ -72,10 +72,7 @@ export const useGetTotalSalesInYear = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          unauthorized:
-            'No tienes permiso para ver el listado del value_pay de ventas en el año 😑',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

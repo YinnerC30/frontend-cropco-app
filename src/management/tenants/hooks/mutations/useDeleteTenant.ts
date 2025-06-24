@@ -22,10 +22,7 @@ export const useDeleteTenant = (): UseMutationReturn<void, string> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          conflict:
-            'El inquilino no puede ser eliminado porque tiene datos asociados',
-        },
+        handlers: {},
       });
     },
     retry: false,

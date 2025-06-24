@@ -33,7 +33,7 @@ export const usePostSale = (): UseMutationReturn<void, Sale> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

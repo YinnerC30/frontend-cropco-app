@@ -74,9 +74,7 @@ export const useGetAllEmployees = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          unauthorized: 'No tienes permiso para ver el listado de empleados 😑',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

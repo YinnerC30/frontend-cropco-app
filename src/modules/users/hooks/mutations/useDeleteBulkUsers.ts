@@ -28,11 +28,7 @@ export const useDeleteBulkUsers = (): UseMutationReturn<void, BulkRecords> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          notFound: 'No se encontro el usuario a eliminar',
-          badRequest: 'La solicitud no es válida',
-          unauthorized: 'No tienes permisos para eliminar usuarios',
-        },
+        handlers: {},
       });
     },
     retry: false,

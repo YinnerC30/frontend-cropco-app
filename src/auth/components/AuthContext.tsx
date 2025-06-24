@@ -17,7 +17,10 @@ import { Tenant } from '../interfaces/Tenant';
 import { removeUserActive, setUserActive } from '../utils';
 import { setToken } from '../utils/authenticationSlice';
 
-import { HandleErrorProps } from '../interfaces/HandleErrorProps';
+import {
+  useHandlerError,
+  UseHandlerErrorProps,
+} from '../hooks/errors/useHandlerError';
 import { TenantLocalStorageManager } from '../utils/TenantLocalStorageManager';
 import { UserLocalStorageManager } from '../utils/UserLocalStorageManager';
 import { setTenant } from '../utils/tenantSlice';
@@ -98,47 +101,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const handleError = ({ error, messagesStatusError }: HandleErrorProps) => {
-    const { response } = error;
-    const {
-      badRequest = 'La solicitud contiene información incorrecta',
-      unauthorized = 'No tienes permiso para realizar esta acción',
-      other = 'Ocurrió un error inesperado',
-      notFound = 'No se encontró la información solicitada',
-      conflict = 'Existe un conflicto al realizar la solicitud',
-    } = messagesStatusError;
+  const { handleErrorByStatus } = useHandlerError();
 
-    const handleNetworkError = () => {
-      if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
-        toast.error('El servicio actualmente no se encuentra disponible');
-        return true;
-      }
-      return false;
-    };
-
-    if (handleNetworkError()) return;
-
-    switch (response?.status) {
-      case 400:
-        toast.error(badRequest);
-        break;
-      case 401:
-        removeUser();
-        toast.error('Su sesión ha expirado, volveras al Login 😉');
-        break;
-      case 403:
-        toast.error(unauthorized);
-        break;
-      case 404:
-        toast.error(notFound);
-        break;
-      case 409:
-        toast.error(conflict);
-        break;
-      default:
-        toast.error(other);
-        break;
-    }
+  const handleError = (props: UseHandlerErrorProps) => {
+    handleErrorByStatus(props);
   };
 
   const navigate = useNavigate();

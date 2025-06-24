@@ -71,10 +71,7 @@ export const useGetTotalWorksInYear = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          unauthorized:
-            "No tienes permiso para ver el listado del value_pay de trabajos en el año 😑",
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

@@ -30,7 +30,7 @@ export const usePatchCrop = (): UseMutationReturn<void, Crop> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

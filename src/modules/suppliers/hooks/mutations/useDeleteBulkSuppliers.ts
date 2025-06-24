@@ -32,7 +32,7 @@ export const useDeleteBulkSuppliers = (): UseMutationReturn<
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
 

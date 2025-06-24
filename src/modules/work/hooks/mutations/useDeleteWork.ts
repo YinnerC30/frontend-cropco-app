@@ -22,9 +22,7 @@ export const useDeleteWork = (): UseMutationReturn<void, string> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          conflict: 'El registro tiene pagos realizados',
-        },
+        handlers: {},
       });
     },
     retry: false,

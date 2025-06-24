@@ -68,10 +68,7 @@ export const useGetTopEmployeesInHarvests = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          unauthorized:
-            'No tienes permiso para ver el listado del top usuarios en cosechas 😑',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

@@ -46,7 +46,7 @@ export const useDeleteBulkHarvests = (): UseMutationReturn<
       onError: (error) => {
         handleError({
           error,
-          messagesStatusError: {},
+          handlers: {},
         });
       },
 

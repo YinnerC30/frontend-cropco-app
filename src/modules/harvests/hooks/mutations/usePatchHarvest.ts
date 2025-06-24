@@ -44,7 +44,7 @@ export const usePatchHarvest = (): UseMutationReturn<void, Harvest> => {
     onError: (error: AxiosError<TypedAxiosError, unknown>) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

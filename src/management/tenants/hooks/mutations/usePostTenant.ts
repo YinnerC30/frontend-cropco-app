@@ -29,7 +29,7 @@ export const usePostTenant = (): UseMutationReturn<void, Tenant> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

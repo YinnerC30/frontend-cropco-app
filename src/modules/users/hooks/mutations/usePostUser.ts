@@ -27,10 +27,7 @@ export function usePostUser(): UseMutationReturn<User, Partial<User>> {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          badRequest: 'La solicitud no es válida',
-          unauthorized: 'No tienes permisos para crear un usuario',
-        },
+        handlers: {},
       });
     },
     retry: false,

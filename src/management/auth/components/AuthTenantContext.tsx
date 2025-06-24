@@ -1,10 +1,11 @@
-import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
+import {
+  useHandlerError,
+  UseHandlerErrorProps,
+} from '@/auth/hooks/errors/useHandlerError';
 import { PATH_ADMIN_LOGIN } from '@/config';
 import { RootState, useAppDispatch, useAppSelector } from '@/redux/store';
-import { AxiosError } from 'axios';
 import { createContext, ReactNode, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
 import { Administrator } from '../interfaces/Administrator';
 import { AuthTenantContextProps } from '../interfaces/AuthTenantContextProps';
 import {
@@ -16,16 +17,7 @@ import { TenantManagementLocalStorageManager } from '../utils/TenantManagementLo
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
 
-export interface HandleErrorProps {
-  error: AxiosError<TypedAxiosError, unknown>;
-  messagesStatusError: {
-    notFound?: string;
-    badRequest?: string;
-    unauthorized?: string;
-    conflict?: string;
-    other?: string;
-  };
-}
+
 
 export const AuthTenantContext = createContext<
   AuthTenantContextProps | undefined
@@ -50,47 +42,9 @@ export const AuthTenantProvider: React.FC<{ children: ReactNode }> = ({
     dispatch(removeUserActive());
   };
 
-  const handleError = ({ error, messagesStatusError }: HandleErrorProps) => {
-    const { response } = error;
-    const {
-      badRequest = 'La solicitud contiene información incorrecta',
-      unauthorized = 'No tienes permiso para realizar esta acción',
-      other = 'Ocurrió un error inesperado',
-      notFound = 'No se encontró la información solicitada',
-      conflict = 'Existe un conflicto al realizar la solicitud',
-    } = messagesStatusError;
-
-    const handleNetworkError = () => {
-      if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
-        toast.error('El servicio actualmente no se encuentra disponible');
-        return true;
-      }
-      return false;
-    };
-
-    if (handleNetworkError()) return;
-
-    switch (response?.status) {
-      case 400:
-        toast.error(badRequest);
-        break;
-      case 401:
-        removeTenantManagement();
-        toast.error('Su sesión ha expirado, volveras al Login 😉');
-        break;
-      case 403:
-        toast.error(unauthorized);
-        break;
-      case 404:
-        toast.error(notFound);
-        break;
-      case 409:
-        toast.error(conflict);
-        break;
-      default:
-        toast.error(other);
-        break;
-    }
+  const { handleErrorByStatus } = useHandlerError();
+  const handleError = (props: UseHandlerErrorProps) => {
+    handleErrorByStatus(props);
   };
 
   const navigate = useNavigate();

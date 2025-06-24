@@ -1,11 +1,11 @@
-import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
-import { useAuthContext } from "@/auth/hooks";
-import { PromiseReturnRecord } from "@/auth/interfaces/PromiseReturnRecord";
-import { BulkRecords } from "@/modules/core/interfaces/bulk-data/BulkRecords";
-import { UseDeleteBulkResponse } from "@/modules/core/interfaces/responses/UseDeleteBulkResponse";
-import { UseMutationReturn } from "@/modules/core/interfaces/responses/UseMutationReturn";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
+import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 const deleteBulkSupplies = async (
   data: BulkRecords
@@ -27,10 +27,10 @@ export const useDeleteBulkSupplies = (): UseMutationReturn<
     useMutation({
       mutationFn: deleteBulkSupplies,
       onSuccess: async ({ data: { failed, success } }) => {
-        await queryClient.invalidateQueries({ queryKey: ["supplies"] });
-        await queryClient.invalidateQueries({ queryKey: ["supply"] });
-        await queryClient.invalidateQueries({ queryKey: ["consumption"] });
-        await queryClient.invalidateQueries({ queryKey: ["shopping"] });
+        await queryClient.invalidateQueries({ queryKey: ['supplies'] });
+        await queryClient.invalidateQueries({ queryKey: ['supply'] });
+        await queryClient.invalidateQueries({ queryKey: ['consumption'] });
+        await queryClient.invalidateQueries({ queryKey: ['shopping'] });
 
         if (success.length > 0 && failed.length === 0) {
           toast.success(`Insumos eliminados`);
@@ -43,7 +43,7 @@ export const useDeleteBulkSupplies = (): UseMutationReturn<
       onError: (error) => {
         handleError({
           error,
-          messagesStatusError: {},
+          handlers: {},
         });
       },
 
