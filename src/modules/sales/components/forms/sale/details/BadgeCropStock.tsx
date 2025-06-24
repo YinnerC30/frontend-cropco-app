@@ -37,7 +37,7 @@ export const BadgeCropStock = ({
   }
 
   return (
-    <Badge className={`${!field.value ? 'hidden' : 'ml-10'}`} variant={'cyan'}>
+    <Badge className={`${!field.value ? 'hidden' : ''}`} variant={'cyan'}>
       {`Disponibles: ${convertedAmount} ${UnitSymbols[convertTo]}`}
     </Badge>
   );

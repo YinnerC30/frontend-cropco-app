@@ -155,7 +155,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                 onOpenChange={setOpenPopover}
                 modal={true}
               >
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <PopoverTrigger asChild>
                     <FormControl>
                       {querySuppliesStock.isLoading ||
@@ -168,15 +168,15 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                           variant="outline"
                           role="combobox"
                           aria-expanded={openPopover}
-                          className={`w-auto ${cn(
-                            `${!field.value && 'flex justify-between'}`,
+                          className={`w-auto max-w-[75%] flex gap-2 ${cn(
+                            `${!field.value && ''}`,
                             !field.value && 'text-muted-foreground'
                           )}`}
                           ref={field.ref}
                           onBlur={field.onBlur}
                           disabled={readOnly}
                         >
-                          <span className="overflow-auto truncate text-muted-foreground text-ellipsis">
+                          <span className="overflow-auto truncate text-muted-foreground text-ellipsis max-w-36">
                             {!!field.value
                               ? suppliesStock.find((item: SupplyStock) => {
                                   return item.id === field.value;

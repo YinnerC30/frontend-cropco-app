@@ -134,7 +134,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                   onOpenChange={setOpenPopover}
                   modal={true}
                 >
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2 ">
                     <PopoverTrigger asChild>
                       <FormControl>
                         {querySupplies.isLoading || querySupplies.isFetching ? (
@@ -146,7 +146,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                             variant="outline"
                             role="combobox"
                             aria-expanded={openPopover}
-                            className={`w-auto flex justify-between ${cn(
+                            className={`w-auto flex max-w-[80%] gap-2${cn(
                               `${!field.value && 'flex justify-between'}`,
                               !field.value && 'text-muted-foreground'
                             )}`}
@@ -154,7 +154,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                             onBlur={field.onBlur}
                             disabled={readOnly}
                           >
-                            <span className="overflow-auto truncate text-muted-foreground text-ellipsis">
+                            <span className="overflow-auto truncate text-muted-foreground text-ellipsis max-w-36">
                               {!!field.value
                                 ? querySupplies.data?.records.find(
                                     (item: Supply) => {
