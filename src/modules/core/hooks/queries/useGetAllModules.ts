@@ -13,12 +13,12 @@ export const getModules = async (): Promise<AxiosResponse<Module[]>> => {
 
 interface UseGetAllModulesProps {
   executeQuery: boolean;
-  actionOnError: () => void;
+  actionOnError?: () => void;
 }
 
 export const useGetAllModules = ({
   executeQuery,
-  actionOnError,
+  actionOnError = () => {},
 }: UseGetAllModulesProps): UseQueryResult<
   Module[],
   AxiosError<TypedAxiosError, unknown>
