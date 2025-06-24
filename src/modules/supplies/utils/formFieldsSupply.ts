@@ -16,9 +16,9 @@ export const formFieldsSupply: Record<FormFieldsSupply, CustomFormField> = {
   },
   unit_of_measure: {
     name: 'unit_of_measure',
-    label: 'Unidad de medida:',
+    label: 'Unidad de medida base:',
     placeholder: 'Selecciona',
-    description: 'Unidad de medida que posee el insumo',
+    description: 'Unidad de medida base con la que se trabajara el insumo',
   },
 
   observation: {
