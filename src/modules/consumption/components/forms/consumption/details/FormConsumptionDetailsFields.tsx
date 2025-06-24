@@ -336,7 +336,6 @@ export const FormConsumptionDetailsFields: React.FC = () => {
           placeholder={formFieldsConsumptionDetail.amount.placeholder}
           disabled={false}
           type="number"
-          step={50}
         />
       </form>
     </Form>
