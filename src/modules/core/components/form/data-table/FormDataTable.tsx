@@ -87,7 +87,23 @@ export const FormDataTable = memo(
                       return;
                     }
                     if (!disabledDoubleClick) {
-                      onCellDoubleClick(row.original);
+                      const hasRadixDialog = document.querySelector(
+                        '[data-radix-popper-content-wrapper]'
+                      );
+                      const hasRadixDropdown = document.querySelector(
+                        '[data-radix-dropdown-menu-content]'
+                      );
+                      const hasRadixAlertDialog = document.querySelector(
+                        '[data-radix-alert-dialog-content]'
+                      );
+
+                      if (
+                        !hasRadixDialog &&
+                        !hasRadixDropdown &&
+                        !hasRadixAlertDialog
+                      ) {
+                        onCellDoubleClick(row.original);
+                      }
                     }
                   }}
                 >
