@@ -58,10 +58,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [executeQueryModule, setExecuteQueryModule] = useState(false);
-  const queryGetAllModules = useGetAllModules({
-    executeQuery: executeQueryModule,
-    actionOnError: () => {},
-  });
 
   const { user } = useAppSelector((state: RootState) => state.authentication);
   const { tenant } = useAppSelector((state: RootState) => state.tenant);
@@ -93,6 +89,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     removeTenant();
     queryClient.clear();
   };
+
+  const queryGetAllModules = useGetAllModules({
+    executeQuery: executeQueryModule,
+    actionOnError: () => {
+      removeUser();
+    },
+  });
 
   const updateTokenInClient = (token: string) => {
     if (user) {

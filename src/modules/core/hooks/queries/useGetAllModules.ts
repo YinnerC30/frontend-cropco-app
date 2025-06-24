@@ -6,6 +6,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { Module } from '../../interfaces/responses/ResponseGetAllModules';
 import { CACHE_CONFIG_TIME } from '@/config';
 import { useEffect } from 'react';
+import { useHandlerError } from '@/auth/hooks/errors/useHandlerError';
 
 export const getModules = async (): Promise<AxiosResponse<Module[]>> => {
   return await cropcoAPI.get(`${pathsCropco.authentication}/modules/all`);
@@ -23,6 +24,8 @@ export const useGetAllModules = ({
   Module[],
   AxiosError<TypedAxiosError, unknown>
 > => {
+  const { handleErrorByStatus } = useHandlerError();
+
   const query: UseQueryResult<
     Module[],
     AxiosError<TypedAxiosError, unknown>
@@ -42,7 +45,23 @@ export const useGetAllModules = ({
 
   useEffect(() => {
     if (query.isError) {
-      actionOnError();
+      handleErrorByStatus({
+        error: query.error,
+        handlers: {
+          unauthorized: {
+            message: 'No esta autorizado para solicitar esta información',
+            onHandle: () => {
+              // actionOnError();
+            },
+          },
+          forbidden: {
+            message: 'Su sesión ha terminado',
+            onHandle: () => {
+              actionOnError();
+            },
+          },
+        },
+      });
     }
   }, [query.isError, query.error]);
 
