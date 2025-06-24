@@ -91,6 +91,8 @@ export interface FormHarvestContextProps {
   setUnitTypeToShowAmount: React.Dispatch<
     React.SetStateAction<MassUnitOfMeasure>
   >;
+  isSubmittingHarvestDetail: boolean;
+  setIsSubmittingHarvestDetail: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type HarvestAction =
@@ -147,6 +149,9 @@ export const FormHarvestProvider: React.FC<
     harvestDetailsReducer,
     detailsDefaultValues
   );
+
+  const [isSubmittingHarvestDetail, setIsSubmittingHarvestDetail] =
+    useState(false);
 
   const { convert } = useUnitConverter();
 
@@ -240,12 +245,14 @@ export const FormHarvestProvider: React.FC<
 
   const handleOpenDialog = (): void => {
     setOpenDialog(true);
+    setIsSubmittingHarvestDetail(false);
   };
 
   const handleCloseDialog = (
     event: React.MouseEvent<HTMLButtonElement>
   ): void => {
     event.preventDefault();
+    
     if (formHarvestDetail.formState.isDirty) {
       showToast({
         skipRedirection: true,
@@ -258,7 +265,7 @@ export const FormHarvestProvider: React.FC<
       });
       return;
     }
-
+    setIsSubmittingHarvestDetail(false);
     setOpenDialog(false);
   };
 
@@ -306,6 +313,8 @@ export const FormHarvestProvider: React.FC<
         setHarvestDetail,
         detailsHarvest,
         addHarvestDetail,
+        isSubmittingHarvestDetail,
+        setIsSubmittingHarvestDetail,
         // queries
         queryEmployees,
         dataTableHarvestDetail,
