@@ -88,7 +88,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     dispatch(removeUserActive());
     removeTenant();
     queryClient.clear();
-    console.log('Se elimino el user');
   };
 
   const queryGetAllModules = useGetAllModules({
@@ -115,6 +114,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         unauthorized: {
           onHandle: () => {
             removeUser();
+            window.location.reload();
           },
         },
       },
