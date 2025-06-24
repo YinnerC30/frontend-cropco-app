@@ -38,7 +38,7 @@ export type ModulesCropco =
   | 'shopping'
   | 'consumptions'
   | 'dashboard'
-  | 'tenants';
+  
 type GlobalActionsUser = Record<ModulesCropco, Record<string, boolean>>;
 
 interface DataActionsAuthorization {
