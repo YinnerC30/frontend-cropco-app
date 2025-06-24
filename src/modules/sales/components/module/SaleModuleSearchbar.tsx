@@ -395,7 +395,6 @@ export const SaleModuleSearchbar: React.FC = () => {
                         className="self-end w-24 mt-4"
                         onClick={async () => {
                           handleClearErrorsForm('filter_by_date');
-                          await handleSearch(form.watch());
                           setOpenPopoverDate(false);
                         }}
                       >
