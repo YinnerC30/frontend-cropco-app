@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 type StatusKey =
   | 'notFound'
   | 'badRequest'
+  | 'forbidden'
   | 'unauthorized'
   | 'conflict'
   | 'unknown';
@@ -14,7 +15,7 @@ export type StatusErrorHandlers = Partial<
     StatusKey,
     {
       message?: string;
-      onHandle?: (error: AxiosError<TypedAxiosError, unknown>) => Promise<void>;
+      onHandle?: (error: AxiosError<TypedAxiosError, unknown>) => void;
     }
   >
 >;
@@ -32,7 +33,7 @@ export const useHandlerError = () => {
     return false;
   };
 
-  const handleErrorByStatus = async (props: UseHandlerErrorProps) => {
+  const handleErrorByStatus = (props: UseHandlerErrorProps) => {
     const { error, handlers } = props;
     if (handleNetworkError(error)) return;
 
@@ -41,7 +42,7 @@ export const useHandlerError = () => {
     switch (response?.status) {
       case 400:
         if (handlers.badRequest?.onHandle) {
-          await handlers.badRequest.onHandle(error);
+          handlers.badRequest.onHandle(error);
         }
         toast.error(
           handlers.badRequest?.message ||
@@ -50,16 +51,25 @@ export const useHandlerError = () => {
         break;
       case 401:
         if (handlers.unauthorized?.onHandle) {
-          await handlers.unauthorized.onHandle(error);
+          handlers.unauthorized.onHandle(error);
         }
         toast.error(
           handlers.unauthorized?.message ||
             'No tienes permiso para realizar esta acción'
         );
         break;
+      case 403:
+        if (handlers.forbidden?.onHandle) {
+          handlers.forbidden.onHandle(error);
+        }
+        toast.error(
+          handlers.forbidden?.message ||
+            'No tienes permiso para realizar esta acción'
+        );
+        break;
       case 404:
         if (handlers.notFound?.onHandle) {
-          await handlers.notFound.onHandle(error);
+          handlers.notFound.onHandle(error);
         }
         toast.error(
           handlers.notFound?.message ||
@@ -68,7 +78,7 @@ export const useHandlerError = () => {
         break;
       case 409:
         if (handlers.conflict?.onHandle) {
-          await handlers.conflict.onHandle(error);
+          handlers.conflict.onHandle(error);
         }
         toast.error(
           handlers.conflict?.message ||
@@ -77,7 +87,7 @@ export const useHandlerError = () => {
         break;
       default:
         if (handlers.unknown?.onHandle) {
-          await handlers.unknown.onHandle(error);
+          handlers.unknown.onHandle(error);
         }
         toast.error(handlers.unknown?.message || 'Ocurrió un error inesperado');
         break;
