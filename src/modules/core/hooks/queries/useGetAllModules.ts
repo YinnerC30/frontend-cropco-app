@@ -5,16 +5,24 @@ import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { AxiosError, AxiosResponse } from 'axios';
 import { Module } from '../../interfaces/responses/ResponseGetAllModules';
 import { CACHE_CONFIG_TIME } from '@/config';
+import { useEffect } from 'react';
 
 export const getModules = async (): Promise<AxiosResponse<Module[]>> => {
   return await cropcoAPI.get(`${pathsCropco.authentication}/modules/all`);
 };
 
+interface UseGetAllModulesProps {
+  executeQuery: boolean;
+  actionOnError: () => void;
+}
+
 export const useGetAllModules = ({
   executeQuery,
-}: {
-  executeQuery: boolean;
-}): UseQueryResult<Module[], AxiosError<TypedAxiosError, unknown>> => {
+  actionOnError,
+}: UseGetAllModulesProps): UseQueryResult<
+  Module[],
+  AxiosError<TypedAxiosError, unknown>
+> => {
   const query: UseQueryResult<
     Module[],
     AxiosError<TypedAxiosError, unknown>
@@ -31,6 +39,12 @@ export const useGetAllModules = ({
     enabled: executeQuery,
     retry: false,
   });
+
+  useEffect(() => {
+    if (query.isError) {
+      actionOnError();
+    }
+  }, [query.isError, query.error]);
 
   return query;
 };

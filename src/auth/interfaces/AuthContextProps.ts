@@ -1,4 +1,5 @@
-import { HandleErrorProps, ModulesCropco } from '../components';
+import { ModulesCropco } from '../components';
+import { HandleErrorProps } from './HandleErrorProps';
 import { Tenant } from './Tenant';
 import { UserActive } from './UserActive';
 

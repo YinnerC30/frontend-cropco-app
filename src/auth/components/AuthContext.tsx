@@ -37,8 +37,8 @@ export type ModulesCropco =
   | 'payments'
   | 'shopping'
   | 'consumptions'
-  | 'dashboard'
-  
+  | 'dashboard';
+
 type GlobalActionsUser = Record<ModulesCropco, Record<string, boolean>>;
 
 interface DataActionsAuthorization {
@@ -57,6 +57,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [executeQueryModule, setExecuteQueryModule] = useState(false);
   const queryGetAllModules = useGetAllModules({
     executeQuery: executeQueryModule,
+    actionOnError: () => {},
   });
 
   const { user } = useAppSelector((state: RootState) => state.authentication);
@@ -159,8 +160,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     );
   }, [user]);
 
-  const hasPermission = (moduleName: string, actionName: string): boolean => {
-    return userAuthData[moduleName]?.actions.has(actionName) ?? false;
+  const hasPermission = (
+    moduleName: string,
+    actionName: string,
+    showToastError = false,
+    messageError = 'No tienes permisos para esta acción'
+  ): boolean => {
+    const isAuthorized =
+      userAuthData[moduleName]?.actions.has(actionName) ?? false;
+    if (!isAuthorized && showToastError) {
+      toast.error(messageError);
+    }
+    return isAuthorized;
   };
 
   const getNameActionsModule = (nameModule: string) => {
