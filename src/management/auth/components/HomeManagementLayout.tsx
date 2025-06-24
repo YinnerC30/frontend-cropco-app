@@ -17,7 +17,11 @@ export const HomeManagementLayout = () => {
   });
 
   if (query.isLoading) {
-    return <Loading />;
+    return (
+      <main className="flex items-center justify-center w-screen h-screen">
+        <Loading />
+      </main>
+    );
   }
 
   if (!is_login) {
