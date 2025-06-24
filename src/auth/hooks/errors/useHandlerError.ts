@@ -55,7 +55,7 @@ export const useHandlerError = () => {
         }
         toast.error(
           handlers.unauthorized?.message ||
-            'No tienes permiso para realizar esta acción'
+            'Tu sesión ha terminado, seras redirigido al login'
         );
         break;
       case 403:

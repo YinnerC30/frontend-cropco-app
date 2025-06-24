@@ -113,8 +113,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         ...props.handlers,
         unauthorized: {
           onHandle: () => {
-            removeUser();
-            window.location.reload();
+            setTimeout(() => {
+              removeUser();
+              window.location.reload();
+            }, 3000);
           },
         },
       },
