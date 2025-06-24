@@ -1,5 +1,5 @@
 export enum TypeFilterDate {
-  after = 'AFTER',
-  before = 'BEFORE',
-  equal = 'EQUAL',
+  AFTER = 'AFTER',
+  BEFORE = 'BEFORE',
+  EQUAL = 'EQUAL',
 }
