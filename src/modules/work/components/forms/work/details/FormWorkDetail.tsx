@@ -35,6 +35,7 @@ export const FormWorkDetail: React.FC = () => {
     addWorkDetail,
     modifyWorkDetail,
     formWorkDetail,
+    isSubmittingWorkDetail,
   } = useFormWorkContext();
 
   const onSubmitWorkDetail = (
@@ -112,6 +113,7 @@ export const FormWorkDetail: React.FC = () => {
             <Button
               type="submit"
               onClick={formWorkDetail.handleSubmit(onSubmitWorkDetail)}
+              disabled={isSubmittingWorkDetail}
             >
               Guardar
             </Button>

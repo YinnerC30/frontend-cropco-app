@@ -79,6 +79,8 @@ export interface FormWorkContextValues {
   handleDeleteBulkWorkDetails: () => void;
   removeWorkDetail: (workDetail: WorkDetail) => void;
   actionsWorksModule: Record<string, boolean>;
+  isSubmittingWorkDetail: boolean;
+  setIsSubmittingWorkDetail: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type WorkAction =
@@ -134,7 +136,12 @@ export const FormWorkProvider: React.FC<
     detailsDefaultValues
   );
 
+  const [isSubmittingWorkDetail, setIsSubmittingWorkDetail] =
+    useState(false);
+
   const addWorkDetail = (workDetail: WorkDetail): void => {
+    if (isSubmittingWorkDetail) return;
+    setIsSubmittingWorkDetail(true);
     dispatch({ type: 'ADD', payload: workDetail });
   };
 
@@ -143,6 +150,8 @@ export const FormWorkProvider: React.FC<
   };
 
   const modifyWorkDetail = (workDetail: WorkDetail): void => {
+    if (isSubmittingWorkDetail) return;
+    setIsSubmittingWorkDetail(true);
     dispatch({ type: 'MODIFY', payload: workDetail });
   };
 
@@ -203,6 +212,7 @@ export const FormWorkProvider: React.FC<
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
+    setIsSubmittingWorkDetail(false);
   };
 
   const ClearFormWorkDetail = () => {
@@ -266,6 +276,8 @@ export const FormWorkProvider: React.FC<
         modifyWorkDetail,
         resetWorkDetails,
         actionsWorksModule,
+        isSubmittingWorkDetail,
+        setIsSubmittingWorkDetail,
       }}
     >
       {children}
