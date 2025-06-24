@@ -634,6 +634,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                       control={form.control}
                       type="number"
                       name="filter_by_value_pay.value_pay"
+                      step={50}
                     />
                   </>
                 }
