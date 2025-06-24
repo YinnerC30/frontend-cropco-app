@@ -20,6 +20,7 @@ import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { Plus } from 'lucide-react';
 
 import { formSchemaHarvestDetail } from '@/modules/harvests/utils';
+import { useEffect, useState } from 'react';
 import { z } from 'zod';
 import { FormHarvestDetailsFields } from './FormHarvestDetailsFields';
 
@@ -36,9 +37,13 @@ export const FormHarvestDetail: React.FC = () => {
     modifyHarvestDetail,
   } = useFormHarvestContext();
 
+  const [disableButton, setDisableButton] = useState(false);
+
   const onSubmitHarvestDetail = (
     values: z.infer<typeof formSchemaHarvestDetail>
   ) => {
+    if (disableButton) return;
+    setDisableButton(true);
     let record;
     if (!values.id) {
       record = {
@@ -67,8 +72,16 @@ export const FormHarvestDetail: React.FC = () => {
   ) => {
     event.preventDefault();
     resetHarvestDetail();
+    setDisableButton(false);
     handleOpenDialog();
   };
+
+  useEffect(() => {
+    return () => {
+      setOpenDialog(false);
+      setDisableButton(false);
+    };
+  }, []);
 
   return (
     <>
@@ -112,6 +125,7 @@ export const FormHarvestDetail: React.FC = () => {
           <DialogFooter>
             <Button
               type="submit"
+              disabled={disableButton}
               onClick={formHarvestDetail.handleSubmit(onSubmitHarvestDetail)}
             >
               Guardar
