@@ -40,7 +40,7 @@ export const useDeleteBulkEmployees = (): UseMutationReturn<
         if (success.length > 0 && failed.length === 0) {
           toast.success(`Empleados eliminados`);
         } else if (failed.length > 0) {
-          toast.error(
+          toast.info(
             `No se pudieron eliminar algunos empleados, revisa si tienen cosechas o trabajos pendientes de pago`
           );
         }

@@ -1,11 +1,11 @@
-import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
-import { useAuthContext } from "@/auth/hooks";
-import { PromiseReturnRecord } from "@/auth/interfaces/PromiseReturnRecord";
-import { BulkRecords } from "@/modules/core/interfaces/bulk-data/BulkRecords";
-import { UseDeleteBulkResponse } from "@/modules/core/interfaces/responses/UseDeleteBulkResponse";
-import { UseMutationReturn } from "@/modules/core/interfaces/responses/UseMutationReturn";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
+import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 const deleteBulkHarvests = async (
   data: BulkRecords
@@ -27,19 +27,19 @@ export const useDeleteBulkHarvests = (): UseMutationReturn<
     useMutation({
       mutationFn: deleteBulkHarvests,
       onSuccess: async ({ data: { failed, success } }) => {
-        await queryClient.invalidateQueries({ queryKey: ["harvests"] });
+        await queryClient.invalidateQueries({ queryKey: ['harvests'] });
         await queryClient.invalidateQueries({
-          queryKey: ["crops"],
+          queryKey: ['crops'],
         });
         await queryClient.invalidateQueries({
-          queryKey: ["harvests-amount-year"],
+          queryKey: ['harvests-amount-year'],
         });
 
         if (success.length > 0 && failed.length === 0) {
           toast.success(`Cosechas eliminadas`);
         } else if (failed.length > 0) {
-          toast.error(
-            `No se pudieron eliminar algunas cosechas, es posible que alguna tenga aun cosechas pendientes de pago`
+          toast.info(
+            `No se pudieron eliminar algunas cosechas, es posible que tengan cosechas pendientes de pago`
           );
         }
       },

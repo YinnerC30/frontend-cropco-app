@@ -35,8 +35,8 @@ export const useDeleteBulkSupplies = (): UseMutationReturn<
         if (success.length > 0 && failed.length === 0) {
           toast.success(`Insumos eliminados`);
         } else if (failed.length > 0) {
-          toast.error(
-            `No se pudieron eliminar algunos insumos, es posible que alguno tenga aun stock disponible`
+          toast.info(
+            `No se pudieron eliminar algunos insumos, es posible que tengan stock disponible`
           );
         }
       },
