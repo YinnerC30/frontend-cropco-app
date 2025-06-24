@@ -20,10 +20,9 @@ import { removeUserActive, setUserActive } from '../utils';
 import { setToken } from '../utils/authenticationSlice';
 
 import { TenantLocalStorageManager } from '../utils/TenantLocalStorageManager';
-import {
-  UserLocalStorageManager
-} from '../utils/UserLocalStorageManager';
+import { UserLocalStorageManager } from '../utils/UserLocalStorageManager';
 import { setTenant } from '../utils/tenantSlice';
+import { HandleErrorProps } from '../interfaces/HandleErrorProps';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
@@ -43,17 +42,6 @@ export type ModulesCropco =
   | 'dashboard'
   | 'tenants';
 type GlobalActionsUser = Record<ModulesCropco, Record<string, boolean>>;
-
-export interface HandleErrorProps {
-  error: AxiosError<TypedAxiosError, unknown>;
-  messagesStatusError: {
-    notFound?: string;
-    badRequest?: string;
-    unauthorized?: string;
-    conflict?: string;
-    other?: string;
-  };
-}
 
 interface DataActionsAuthorization {
   [key: string]: {
