@@ -107,7 +107,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const { handleErrorByStatus } = useHandlerError();
 
   const handleError = (props: UseHandlerErrorProps) => {
-    handleErrorByStatus(props);
+    handleErrorByStatus({
+      ...props,
+      handlers: {
+        ...props.handlers,
+        unauthorized: {
+          onHandle: () => {
+            removeUser();
+          },
+        },
+      },
+    });
   };
 
   const navigate = useNavigate();
