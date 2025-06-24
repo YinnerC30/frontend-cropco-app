@@ -75,10 +75,10 @@ const valuesResetForm = {
   },
   filter_by_date: {
     date: undefined,
-    type_filter_date: TypeFilterDate.after,
+    type_filter_date: TypeFilterDate.AFTER,
   },
   filter_by_value_pay: {
-    type_filter_value_pay: TypeFilterNumber.MIN,
+    type_filter_value_pay: TypeFilterNumber.LESS_THAN,
     value_pay: 0,
   },
   employees: [],

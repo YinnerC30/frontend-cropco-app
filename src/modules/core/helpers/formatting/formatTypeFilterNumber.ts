@@ -7,9 +7,9 @@ export const formatTypeFilterNumber = (
     throw new Error('El valor recibido es undefined');
   }
   const formatTypeFilterTotal =
-    value === TypeFilterNumber.MAX
+    value === TypeFilterNumber.GREATER_THAN
       ? 'Mayor a:'
-      : value === TypeFilterNumber.MIN
+      : value === TypeFilterNumber.LESS_THAN
       ? 'Menor a:'
       : 'Igual a:';
   return formatTypeFilterTotal;

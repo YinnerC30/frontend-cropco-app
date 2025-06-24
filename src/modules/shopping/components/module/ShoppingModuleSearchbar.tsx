@@ -182,7 +182,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
         form.setValue('supplies', [], { shouldDirty: false });
         break;
       case 'date':
-        form.setValue('filter_by_date.type_filter_date', TypeFilterDate.after, {
+        form.setValue('filter_by_date.type_filter_date', TypeFilterDate.AFTER, {
           shouldDirty: false,
         });
         form.setValue('filter_by_date.date', undefined, { shouldDirty: false });
@@ -241,10 +241,10 @@ export const ShoppingModuleSearchbar: React.FC = () => {
       {
         filter_by_date: {
           date: undefined,
-          type_filter_date: TypeFilterDate.after,
+          type_filter_date: TypeFilterDate.AFTER,
         },
         filter_by_value_pay: {
-          type_filter_value_pay: TypeFilterNumber.MIN,
+          type_filter_value_pay: TypeFilterNumber.LESS_THAN,
           value_pay: 0,
         },
         suppliers: [],
