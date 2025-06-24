@@ -1,12 +1,15 @@
 import {
   ActionCopyIdRecord,
+  ActionNavigate,
   DropDownMenuActions,
 } from '@/modules/core/components';
-import { toast } from 'sonner';
-import { ActionPayPendingPayment } from './ActionPayPendingPayment';
 import { HarvestDetail } from '@/modules/harvests/interfaces';
+import { MODULE_HARVESTS_PATHS } from '@/modules/harvests/routes/pathRoutes';
 import { Row } from '@tanstack/react-table';
+import { ShieldCheck } from 'lucide-react';
+import { toast } from 'sonner';
 import { useFormPaymentContext } from '../../hooks/context/useFormPaymentContext';
+import { ActionPayPendingPayment } from './ActionPayPendingPayment';
 
 export const ActionsTablePaymentsPendingHarvest: React.FC<{
   row: Row<HarvestDetail>;
@@ -33,6 +36,12 @@ export const ActionsTablePaymentsPendingHarvest: React.FC<{
     <DropDownMenuActions>
       <ActionCopyIdRecord id={id!} />
       <ActionPayPendingPayment action={handlePayRecord} />
+      <ActionNavigate
+        path={MODULE_HARVESTS_PATHS.ViewOne + harvest?.id}
+        Icon={ShieldCheck}
+        name={'Consultar'}
+        target="_blank"
+      />
     </DropDownMenuActions>
   );
 };

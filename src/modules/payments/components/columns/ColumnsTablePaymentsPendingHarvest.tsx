@@ -21,6 +21,24 @@ export const columnsPaymentsPendingHarvest: ColumnDef<HarvestDetail>[] = [
     },
   },
   {
+    accessorKey: 'amount',
+    cell: ({ row }) => {
+      return FormatNumber(row.getValue('amount'));
+    },
+    header: ({ column }: any) => {
+      return <ButtonHeaderTable column={column} label={'Monto cosechado'} />;
+    },
+  },
+  {
+    accessorKey: 'unit_of_measure',
+    cell: ({ row }) => {
+      return row.getValue('unit_of_measure');
+    },
+    header: ({ column }: any) => {
+      return <ButtonHeaderTable column={column} label={'Unidad de medida'} />;
+    },
+  },
+  {
     accessorKey: 'value_pay',
     cell: ({ row }) => {
       return FormatNumber(row.getValue('value_pay'));
