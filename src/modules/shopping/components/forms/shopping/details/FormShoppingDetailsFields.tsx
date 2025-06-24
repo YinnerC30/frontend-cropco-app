@@ -325,7 +325,6 @@ export const FormShoppingDetailsFields: React.FC = () => {
           placeholder={formFieldsShoppingDetail.amount.placeholder}
           disabled={false}
           type="number"
-          step={50}
         />
         <FormFieldInput
           control={formShoppingDetail.control}
