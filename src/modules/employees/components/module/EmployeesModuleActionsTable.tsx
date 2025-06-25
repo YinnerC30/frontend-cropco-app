@@ -1,4 +1,4 @@
-import { Dialog } from '@/components';
+import { Button, Dialog, DialogTrigger, DropdownMenuItem } from '@/components';
 import { useFormChange } from '@/modules/core/components';
 import {
   ActionCopyIdRecord,
@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { useEmployeesModuleContext } from '../../hooks';
 import { Employee } from '../../interfaces/Employee';
 import { ActionGenerateCertification } from './ActionGenerateCertification';
+import { ShieldPlus } from 'lucide-react';
 
 interface Props {
   row: Row<Employee>;
@@ -73,19 +74,33 @@ export const EmployeesModuleActionsTable: React.FC<Props> = ({
           disabled={!actionsEmployeesModule['update_one_employee']}
         />
 
-        <ActionGenerateCertification
-          employeeId={id!}
-          disabled={!actionsEmployeesModule['generate_certification_employee']}
-          mutation={mutationGenerateCertification}
-          handleCloseDialog={handleCloseDialog}
-          handleOpenDialog={handleOpenDialog}
-        />
+        {/* Button Certificate Employee */}
+        <DialogTrigger asChild>
+          <DropdownMenuItem
+            disabled={
+              !actionsEmployeesModule['generate_certification_employee']
+            }
+            asChild
+          >
+            <Button onClick={() => handleOpenDialog()} variant="ghost">
+              <ShieldPlus className="w-4 h-4 mr-2" /> Certificar
+            </Button>
+          </DropdownMenuItem>
+        </DialogTrigger>
 
         <ActionViewRecord
           id={id!}
           disabled={!actionsEmployeesModule['find_one_employee']}
         />
       </DropDownMenuActions>
+      {open && (
+        <ActionGenerateCertification
+          employeeId={id!}
+          disabled={!actionsEmployeesModule['generate_certification_employee']}
+          mutation={mutationGenerateCertification}
+          handleCloseDialog={handleCloseDialog}
+        />
+      )}
     </Dialog>
   );
 };

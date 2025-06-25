@@ -1,4 +1,4 @@
-import { DropdownMenuItem, ScrollArea } from '@/components';
+import { ScrollArea } from '@/components';
 import { Button } from '@/components/ui/button';
 import {
   DialogClose,
@@ -7,17 +7,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
-import {
-  useDataTableMenuActionsContext,
-  useFormChange,
-} from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
-import { ShieldPlus } from 'lucide-react';
 import { z } from 'zod';
 import { MutationVariables } from '../../hooks/mutations/usePostCertificationEmployee';
 import { EmployeeCertification } from '../../interfaces/EmployeeCertification';
@@ -28,7 +22,6 @@ interface Props {
   employeeId: string;
   mutation: UseMutationReturn<Blob, MutationVariables>;
   disabled: boolean;
-  handleOpenDialog: () => void;
   handleCloseDialog: () => void;
 }
 
@@ -46,13 +39,8 @@ export function ActionGenerateCertification({
   mutation,
   disabled,
   handleCloseDialog,
-  handleOpenDialog,
 }: Props) {
   const { mutate, isPending } = mutation;
-
-  const { toggleOpen } = useDataTableMenuActionsContext();
-
-  const { hasUnsavedChanges } = useFormChange();
 
   const form = useCreateForm({
     schema: formSchemaEmployeeCertification,
@@ -64,9 +52,6 @@ export function ActionGenerateCertification({
   ) => {
     event.preventDefault();
     handleCloseDialog();
-    if (!hasUnsavedChanges) {
-      toggleOpen(false);
-    }
   };
 
   const handleSubmitCertification = (
@@ -77,7 +62,6 @@ export function ActionGenerateCertification({
       {
         onSuccess: () => {
           handleCloseDialog();
-          toggleOpen(false);
         },
       }
     );
@@ -85,13 +69,6 @@ export function ActionGenerateCertification({
 
   return (
     <>
-      <DialogTrigger asChild>
-        <DropdownMenuItem disabled={disabled} asChild>
-          <Button onClick={() => handleOpenDialog()} variant="ghost">
-            <ShieldPlus className="w-4 h-4 mr-2" /> Certificar
-          </Button>
-        </DropdownMenuItem>
-      </DialogTrigger>
       <DialogContent
         className="sm:max-w-[425px]"
         onPointerDownOutside={(event) => {
@@ -99,7 +76,6 @@ export function ActionGenerateCertification({
         }}
         onDoubleClick={(event) => event.preventDefault()}
         onOpenAutoFocus={(event) => event.preventDefault()}
-        forceMount={true}
         onInteractOutside={(event) => {
           event.preventDefault();
         }}
