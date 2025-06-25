@@ -6,7 +6,14 @@ export const useActiveDialog = () => {
   useEffect(() => {
     const checkActiveDialog = () => {
       const hasRoleDialog = document.querySelector('[role="dialog"]');
-      setIsActiveDialog(!!hasRoleDialog);
+      const hasRadixAlertDialog = document.querySelector(
+        '[role="alertdialog"]'
+      );
+      console.log(
+        '🚀 ~ checkActiveDialog ~ hasRadixAlertDialog:',
+        hasRadixAlertDialog
+      );
+      setIsActiveDialog(!!hasRoleDialog || !!hasRadixAlertDialog);
     };
 
     // Verificar inmediatamente
