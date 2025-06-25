@@ -1,6 +1,7 @@
 import { Check, ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
 
+import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { Button } from '@/components/ui/button';
 import {
   Command,
@@ -16,47 +17,38 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-
-import { Employee } from '@/modules/employees/interfaces/Employee';
-import { useGetAllEmployeesWithHarvests } from '@/modules/payments/hooks/queries/useGetAllEmployeesWithHarvests';
-import { useGetAllEmployeesWithWorks } from '@/modules/payments/hooks/queries/useGetAllEmployeesWithWorks';
+import { Crop } from '@/modules/crops/interfaces/Crop';
+import { UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { ResponseApiGetAllRecords } from '../../interfaces';
 import { ButtonRefetchData } from '../actions-module/ButtonRefetchData';
 import { Loading } from './Loading';
 
 interface Props {
-  selectedEmployee: string;
-  setSelectedEmployee: React.Dispatch<React.SetStateAction<string>>;
-  employeesIn: 'harvests' | 'works';
+  selectedCrop: string;
+  setSelectedCrop: React.Dispatch<React.SetStateAction<string>>;
+  query: UseQueryResult<
+    ResponseApiGetAllRecords<Crop>,
+    AxiosError<TypedAxiosError, unknown>
+  >;
 }
 
-export default function EmployeeSelector({
-  selectedEmployee,
-  setSelectedEmployee,
-  employeesIn,
+export default function ChartCropSelector({
+  selectedCrop,
+  setSelectedCrop,
+  query,
 }: Props) {
   const [open, setOpen] = React.useState(false);
 
-  const queryEmployees =
-    employeesIn === 'harvests'
-      ? useGetAllEmployeesWithHarvests()
-      : useGetAllEmployeesWithWorks();
+  const data = query.data?.records ?? [];
 
-  const data = queryEmployees.data?.records ?? [];
-
-  const employees: Partial<Employee>[] = [
-    { first_name: 'Todos', full_name: 'Todos', id: '' },
-    ...data,
-  ];
+  const crops = [{ name: 'Todos', id: '' }, ...data];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <div className="flex items-center gap-2">
         <PopoverTrigger asChild>
-          {queryEmployees.isFetching ? (
-            <div className="w-[200px]">
-              <Loading className="" />
-            </div>
-          ) : (
+          {!query.isFetching ? (
             <Button
               variant="outline"
               role="combobox"
@@ -69,38 +61,41 @@ export default function EmployeeSelector({
                   'overflow-hidden text-ellipsis truncate'
                 )}
               >
-                {!!selectedEmployee
-                  ? `Empleado: ${employees.find(
-                      (item) => item.id === selectedEmployee
-                    )?.full_name!}`
-                  : 'Selecciona un empleado...'}
+                {!!selectedCrop
+                  ? `Cultivo: ${
+                      crops.find((item) => item.id === selectedCrop)?.name
+                    }`
+                  : 'Selecciona un cultivo...'}
               </span>
 
               <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </Button>
+          ) : (
+            <div className="w-[200px]">
+              <Loading className="" />
+            </div>
           )}
         </PopoverTrigger>
         <ButtonRefetchData
           onClick={async () => {
-            await queryEmployees.refetch();
+            await query.refetch();
           }}
-          disabled={queryEmployees.isLoading}
+          disabled={query.isLoading}
         />
       </div>
-
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Buscar empleado..." />
+          <CommandInput placeholder="Buscar cultivo..." />
           <CommandList>
-            <CommandEmpty>No se encontró el empleado</CommandEmpty>
+            <CommandEmpty>No se encontró el cultivo</CommandEmpty>
             <CommandGroup>
-              {employees.map((employee) => (
+              {crops.map((crop) => (
                 <CommandItem
-                  key={employee.first_name}
-                  value={employee.id}
+                  key={crop.name}
+                  value={crop.id}
                   onSelect={(currentValue) => {
-                    setSelectedEmployee(
-                      currentValue === selectedEmployee ? '' : currentValue
+                    setSelectedCrop(
+                      currentValue === selectedCrop ? '' : currentValue
                     );
                     setOpen(false);
                   }}
@@ -108,12 +103,10 @@ export default function EmployeeSelector({
                   <Check
                     className={cn(
                       'mr-2 h-4 w-4',
-                      selectedEmployee === employee.id
-                        ? 'opacity-100'
-                        : 'opacity-0'
+                      selectedCrop === crop.id ? 'opacity-100' : 'opacity-0'
                     )}
                   />
-                  {employee.full_name}
+                  {crop.name}
                 </CommandItem>
               ))}
             </CommandGroup>

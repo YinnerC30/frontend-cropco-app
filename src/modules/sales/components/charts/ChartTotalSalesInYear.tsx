@@ -23,8 +23,8 @@ import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 
 import { Label, Switch } from '@/components';
 import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
-import ClientSelector from '@/modules/core/components/shared/ClientSelector';
-import CropSelector from '@/modules/core/components/shared/CropSelector';
+import ChartClientSelector from '@/modules/core/components/shared/ChartClientSelector';
+import ChartCropSelector from '@/modules/core/components/shared/ChartCropSelector';
 import { FormatMoneyValue } from '@/modules/core/helpers';
 import { useGetAllCropsWithSales } from '@/modules/crops/hooks/queries/useGetAllCropsWithSales';
 import { organizeSaleData } from '../../helpers/organizeSaleData';
@@ -95,11 +95,11 @@ export function ChartTotalSalesInYear() {
           </div>
 
           <div className="flex flex-wrap justify-between gap-4 mb-5">
-            <ClientSelector
+            <ChartClientSelector
               selectedClient={selectedClient}
               setSelectedClient={setSelectedClient}
             />
-            <CropSelector
+            <ChartCropSelector
               selectedCrop={selectedCrop}
               setSelectedCrop={setSelectedCrop}
               query={queryCrops}

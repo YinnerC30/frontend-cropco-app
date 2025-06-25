@@ -1,6 +1,7 @@
 import { Check, ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
 
+import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { Button } from '@/components/ui/button';
 import {
   Command,
@@ -16,32 +17,39 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { useGetAllClientsWithSales } from '@/modules/clients/hooks/queries/useGetAllClientsWithSales';
+
+import { Supply } from '@/modules/supplies/interfaces/Supply';
+import { UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { ResponseApiGetAllRecords } from '../../interfaces';
 import { ButtonRefetchData } from '../actions-module/ButtonRefetchData';
 import { Loading } from './Loading';
 
 interface Props {
-  selectedClient: string;
-  setSelectedClient: React.Dispatch<React.SetStateAction<string>>;
+  selectedsupply: string;
+  setSelectedsupply: React.Dispatch<React.SetStateAction<string>>;
+  query: UseQueryResult<
+    ResponseApiGetAllRecords<Supply>,
+    AxiosError<TypedAxiosError, unknown>
+  >;
 }
 
-export default function ClientSelector({
-  selectedClient,
-  setSelectedClient,
+export default function ChartSupplySelector({
+  selectedsupply,
+  setSelectedsupply,
+  query,
 }: Props) {
   const [open, setOpen] = React.useState(false);
 
-  const queryClients = useGetAllClientsWithSales();
+  const data = query.data?.records ?? [];
 
-  const data = queryClients.data?.records ?? [];
-
-  const clients = [{ first_name: 'Todos', id: '' }, ...data];
+  const supplies = [{ name: 'Todos', id: '' }, ...data];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <div className="flex items-center gap-2">
         <PopoverTrigger asChild>
-          {queryClients.isFetching ? (
+          {query.isFetching ? (
             <div className="w-[200px]">
               <Loading className="" />
             </div>
@@ -50,39 +58,45 @@ export default function ClientSelector({
               variant="outline"
               role="combobox"
               aria-expanded={open}
-              className="w-[200px] justify-between"
+              className="w-[220px] justify-between overflow-hidden text-ellipsis truncate"
             >
-              {!!selectedClient
-                ? `Cliente: ${
-                    clients.find((item) => item.id === selectedClient)
-                      ?.first_name
-                  }`
-                : 'Selecciona un cliente...'}
+              <span
+                className={cn(
+                  'text-muted-foreground',
+                  'overflow-hidden text-ellipsis truncate'
+                )}
+              >
+                {!!selectedsupply
+                  ? `Insumo: ${
+                      supplies.find((item) => item.id === selectedsupply)?.name
+                    }`
+                  : 'Selecciona un insumo...'}
+              </span>
               <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </Button>
           )}
         </PopoverTrigger>
         <ButtonRefetchData
           onClick={async () => {
-            await queryClients.refetch();
+            await query.refetch();
           }}
-          disabled={queryClients.isLoading}
+          disabled={query.isLoading}
         />
       </div>
 
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Buscar cliente..." />
+          <CommandInput placeholder="Buscar insumo..." />
           <CommandList>
-            <CommandEmpty>No se encontró el cliente</CommandEmpty>
+            <CommandEmpty>No se encontró el insumo</CommandEmpty>
             <CommandGroup>
-              {clients.map((client) => (
+              {supplies.map((supply) => (
                 <CommandItem
-                  key={client.first_name}
-                  value={client.id}
+                  key={supply.name}
+                  value={supply.id}
                   onSelect={(currentValue) => {
-                    setSelectedClient(
-                      currentValue === selectedClient ? '' : currentValue
+                    setSelectedsupply(
+                      currentValue === selectedsupply ? '' : currentValue
                     );
                     setOpen(false);
                   }}
@@ -90,10 +104,10 @@ export default function ClientSelector({
                   <Check
                     className={cn(
                       'mr-2 h-4 w-4',
-                      selectedClient === client.id ? 'opacity-100' : 'opacity-0'
+                      selectedsupply === supply.id ? 'opacity-100' : 'opacity-0'
                     )}
                   />
-                  {client.first_name}
+                  {supply.name}
                 </CommandItem>
               ))}
             </CommandGroup>

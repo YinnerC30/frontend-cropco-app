@@ -21,8 +21,8 @@ import YearSelector from '@/modules/core/components/shared/YearSelector';
 
 import { Label, Switch } from '@/components';
 import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
-import CropSelector from '@/modules/core/components/shared/CropSelector';
-import EmployeeSelector from '@/modules/core/components/shared/EmployeeSelector';
+import ChartCropSelector from '@/modules/core/components/shared/ChartCropSelector';
+import ChartEmployeeSelector from '@/modules/core/components/shared/ChartEmployeeSelector';
 import { useGetAllCropsWithWork } from '@/modules/crops/hooks';
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 import { organizeWorkData } from '../../helpers/organizeWorkData';
@@ -92,12 +92,12 @@ export function ChartTotalWorksInYear() {
           </div>
 
           <div className="flex flex-wrap justify-between gap-4 mb-5">
-            <CropSelector
+            <ChartCropSelector
               selectedCrop={selectedCrop}
               setSelectedCrop={setSelectedCrop}
               query={queryCrops}
             />
-            <EmployeeSelector
+            <ChartEmployeeSelector
               employeesIn="works"
               selectedEmployee={selectedEmployee}
               setSelectedEmployee={setSelectedEmployee}

@@ -23,8 +23,8 @@ import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 
 import { Label, Switch } from '@/components';
 import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
-import CropSelector from '@/modules/core/components/shared/CropSelector';
-import SupplySelector from '@/modules/core/components/shared/SupplySelector';
+import ChartCropSelector from '@/modules/core/components/shared/ChartCropSelector';
+import SupplySelector from '@/modules/core/components/shared/ChartSupplySelector';
 import { FormatNumber } from '@/modules/core/helpers';
 import { useGetAllCropsWithConsumptions } from '@/modules/crops/hooks/queries/useGetAllCropsWithConsumptions';
 import { useGetAllSuppliesWithConsumptions } from '@/modules/supplies/hooks/queries/useGetAllSuppliesWithConsumptions';
@@ -103,7 +103,7 @@ export const ChartTotalConsumptionsInYear = () => {
               setSelectedsupply={setSelectedSupply}
               query={querySupplies}
             />
-            <CropSelector
+            <ChartCropSelector
               selectedCrop={selectedCrop}
               setSelectedCrop={setSelectedCrop}
               query={queryCrops}
