@@ -57,7 +57,7 @@ export function ChartTopCropsWithStock() {
   return (
     <Card className="w-auto lg:w-[650px] ">
       <CardHeader>
-        <CardTitle>Top 5 cultivos con stock disponible</CardTitle>
+        <CardTitle>Top 5 cultivos con stock</CardTitle>
       </CardHeader>
       <CardContent className="">
         <div className="flex flex-row items-center justify-between ">

@@ -36,7 +36,7 @@ export const useDeleteBulkSupplies = (): UseMutationReturn<
           status,
           customMessages: {
             multiStatus:
-              'No se pudieron eliminar algunos insumos, revisa si aun tienen stock disponible',
+              'No se pudieron eliminar algunos insumos, revisa que no tenga stock',
           },
         });
       },
@@ -46,7 +46,7 @@ export const useDeleteBulkSupplies = (): UseMutationReturn<
           handlers: {
             conflict: {
               message:
-                'No se pudieron eliminar los insumos seleccionados, revisa si aun tienen stock disponible',
+                'No se pudieron eliminar los insumos seleccionados, revisa que no tenga stock',
             },
           },
         });
