@@ -74,7 +74,7 @@ export const DialogChangePassword: React.FC<Props> = ({
   return (
     <DialogContent
       forceMount={true}
-      className="sm:max-w-[425px]"
+      className="sm:max-w-[425px] max-w-[90vw]"
       onInteractOutside={(event) => {
         event.preventDefault();
       }}

@@ -37,7 +37,10 @@ export const ActionDeleteRecord = ({ action, disabled }: Props) => {
         </DropdownMenuItem>
       </AlertDialogTrigger>
 
-      <AlertDialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
+      <AlertDialogContent
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        className="sm:max-w-[425px] max-w-[90vw]"
+      >
         <AlertDialogHeader>
           <AlertDialogTitle>
             ¿Estas seguro de eliminar el registro?

@@ -73,7 +73,7 @@ export function ActionResetPassword({ id, mutation, disabled, email }: Props) {
         </DropdownMenuItem>
       </DialogTrigger>
       <DialogContent
-        className="sm:max-w-[425px]"
+        className="sm:max-w-[425px] max-w-[90vw]"
         onPointerDownOutside={(event) => {
           event.preventDefault();
         }}
