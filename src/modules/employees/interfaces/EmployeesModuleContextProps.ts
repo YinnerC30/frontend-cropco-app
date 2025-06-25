@@ -1,11 +1,12 @@
 import { DataTableManualReturn } from '@/modules/core/hooks';
 import { BulkRecords } from '@/modules/core/interfaces';
+import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { MutationVariables } from '../hooks/mutations/usePostCertificationEmployee';
 import { Employee } from './Employee';
-import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
 
 export interface EmployeesModuleContextProps {
   paramQuery: string;
@@ -13,6 +14,7 @@ export interface EmployeesModuleContextProps {
   dataTable: DataTableManualReturn<Employee>;
   mutationDeleteEmployees: UseMutationReturn<UseDeleteBulkResponse, BulkRecords>;
   mutationDeleteEmployee: UseMutationReturn<void, string>;
+  mutationGenerateCertification: UseMutationReturn<Blob, MutationVariables>;
   actionsEmployeesModule: Record<string, boolean>;
   queryGetCertification: UseQueryResult<Blob, AxiosError>;
   userIdCertification: string;

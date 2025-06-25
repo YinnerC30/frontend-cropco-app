@@ -1,18 +1,19 @@
-import { useAuthContext } from "@/auth";
-import { useDataTableManual } from "@/modules/core/hooks";
-import { useBasicQueryData } from "@/modules/core/hooks/";
-import { useCreateColumnsTable } from "@/modules/core/hooks/data-table/useCreateColumnsTable";
-import { createContext, useEffect, useMemo, useState } from "react";
+import { useAuthContext } from '@/auth';
+import { useDataTableManual } from '@/modules/core/hooks';
+import { useBasicQueryData } from '@/modules/core/hooks/';
+import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
+import { createContext, useEffect, useMemo, useState } from 'react';
 import {
   useDeleteBulkEmployees,
   useDeleteEmployee,
   useGetAllEmployees,
-} from "../../hooks";
-import { useGetCertificationEmployee } from "../../hooks/queries/useGetCertificationEmployee";
-import { Employee } from "../../interfaces/Employee";
-import { EmployeesModuleContextProps } from "../../interfaces/EmployeesModuleContextProps";
-import { EmployeesModuleActionsTable } from "./EmployeesModuleActionsTable";
-import { columnsTableEmployees } from "./columnsTableEmployees";
+} from '../../hooks';
+import { useGetCertificationEmployee } from '../../hooks/queries/useGetCertificationEmployee';
+import { Employee } from '../../interfaces/Employee';
+import { EmployeesModuleContextProps } from '../../interfaces/EmployeesModuleContextProps';
+import { EmployeesModuleActionsTable } from './EmployeesModuleActionsTable';
+import { columnsTableEmployees } from './columnsTableEmployees';
+import { usePostCertificationEmployee } from '../../hooks/mutations/usePostCertificationEmployee';
 
 export const EmployeesModuleContext = createContext<
   EmployeesModuleContextProps | undefined
@@ -37,7 +38,7 @@ export const EmployeesModuleProvider = ({
   const { getActionsModule } = useAuthContext();
 
   const actionsEmployeesModule = useMemo(
-    () => getActionsModule("employees"),
+    () => getActionsModule('employees'),
     []
   );
 
@@ -59,21 +60,25 @@ export const EmployeesModuleProvider = ({
     setPagination,
   });
 
-  const [userIdCertification, setUserIdCertification] = useState("");
+  const [userIdCertification, setUserIdCertification] = useState('');
   const [executeQuery, setExecuteQuery] = useState(false);
 
   const queryGetCertification = useGetCertificationEmployee({
     userId: userIdCertification,
     stateQuery: executeQuery,
-    actionPDF: "DownloadPDF",
+    actionPDF: 'DownloadPDF',
     actionOnSuccess: () => {
       setExecuteQuery(false);
-      setUserIdCertification("");
+      setUserIdCertification('');
     },
   });
 
   const mutationDeleteEmployees = useDeleteBulkEmployees();
   const mutationDeleteEmployee = useDeleteEmployee();
+
+  const mutationGenerateCertification = usePostCertificationEmployee({
+    actionPDF: 'DownloadPDF',
+  });
 
   useEffect(() => {
     if (value.length > 0) {
@@ -92,6 +97,7 @@ export const EmployeesModuleProvider = ({
     setUserIdCertification,
     setExecuteQuery,
     actionsEmployeesModule,
+    mutationGenerateCertification
   };
 
   return (
