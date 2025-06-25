@@ -6,10 +6,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { flexRender } from '@tanstack/react-table';
+import { flexRender, Row } from '@tanstack/react-table';
 import { useNavigate } from 'react-router-dom';
 
 import { ScrollArea, ScrollBar } from '@/components';
+import { useActiveDialog } from '@/hooks/useActiveDialog';
 import { Loading } from '../shared/Loading';
 import { useDataTableContext } from './DataTableContext';
 
@@ -17,6 +18,14 @@ export const DataTable = () => {
   const { table, disabledDoubleClick, errorMessage, lengthColumns, isLoading } =
     useDataTableContext();
   const navigate = useNavigate();
+
+  const { isActiveDialog } = useActiveDialog();
+
+  const handleDoubleClickRow = (row: Row<any>) => {
+    if (!disabledDoubleClick && !isActiveDialog) {
+      navigate(`../view/one/${row.original.id}`);
+    }
+  };
 
   return (
     <ScrollArea
@@ -54,29 +63,7 @@ export const DataTable = () => {
                 className=""
                 key={row.id}
                 onDoubleClick={() => {
-                  if (!disabledDoubleClick) {
-                    const hasRadixDialog = document.querySelector(
-                      '[data-radix-popper-content-wrapper]'
-                    );
-                    const hasRadixDropdown = document.querySelector(
-                      '[data-radix-dropdown-menu-content]'
-                    );
-                    const hasRadixAlertDialog = document.querySelector(
-                      '[data-radix-alert-dialog-content]'
-                    );
-
-                    const hasRoleDialog =
-                      document.querySelector('[role="dialog"]');
-
-                    if (
-                      !hasRadixDialog &&
-                      !hasRadixDropdown &&
-                      !hasRadixAlertDialog &&
-                      !hasRoleDialog
-                    ) {
-                      navigate(`../view/one/${row.original.id}`);
-                    }
-                  }
+                  handleDoubleClickRow(row);
                 }}
                 data-state={row.getIsSelected() && 'selected'}
               >
