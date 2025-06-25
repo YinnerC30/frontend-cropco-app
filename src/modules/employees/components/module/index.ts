@@ -1,4 +1,3 @@
-export * from './ActionGetCertification';
 export * from './columnsTableEmployees';
 export * from './EmployeesActions';
 export * from './EmployeesModule';

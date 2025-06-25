@@ -5,6 +5,5 @@ export * from './mutations/useDeleteEmployee';
 export * from './mutations/usePatchEmployee';
 export * from './mutations/usePostEmployee';
 export * from './queries/useGetAllEmployees';
-export * from './queries/useGetCertificationEmployee';
 export * from './queries/useGetEmployee';
 

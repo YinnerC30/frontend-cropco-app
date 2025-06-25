@@ -8,12 +8,11 @@ import {
   useDeleteEmployee,
   useGetAllEmployees,
 } from '../../hooks';
-import { useGetCertificationEmployee } from '../../hooks/queries/useGetCertificationEmployee';
+import { usePostCertificationEmployee } from '../../hooks/mutations/usePostCertificationEmployee';
 import { Employee } from '../../interfaces/Employee';
 import { EmployeesModuleContextProps } from '../../interfaces/EmployeesModuleContextProps';
 import { EmployeesModuleActionsTable } from './EmployeesModuleActionsTable';
 import { columnsTableEmployees } from './columnsTableEmployees';
-import { usePostCertificationEmployee } from '../../hooks/mutations/usePostCertificationEmployee';
 
 export const EmployeesModuleContext = createContext<
   EmployeesModuleContextProps | undefined
@@ -61,17 +60,6 @@ export const EmployeesModuleProvider = ({
   });
 
   const [userIdCertification, setUserIdCertification] = useState('');
-  const [executeQuery, setExecuteQuery] = useState(false);
-
-  const queryGetCertification = useGetCertificationEmployee({
-    userId: userIdCertification,
-    stateQuery: executeQuery,
-    actionPDF: 'DownloadPDF',
-    actionOnSuccess: () => {
-      setExecuteQuery(false);
-      setUserIdCertification('');
-    },
-  });
 
   const mutationDeleteEmployees = useDeleteBulkEmployees();
   const mutationDeleteEmployee = useDeleteEmployee();
@@ -92,12 +80,10 @@ export const EmployeesModuleProvider = ({
     dataTable,
     mutationDeleteEmployees,
     mutationDeleteEmployee,
-    queryGetCertification,
     userIdCertification,
     setUserIdCertification,
-    setExecuteQuery,
     actionsEmployeesModule,
-    mutationGenerateCertification
+    mutationGenerateCertification,
   };
 
   return (

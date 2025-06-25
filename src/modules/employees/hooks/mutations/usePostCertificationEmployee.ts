@@ -71,7 +71,6 @@ export const usePostCertificationEmployee = ({
       }
     },
     onError: (error) => {
-      console.log('🚀 ~ error:', error);
       handleError({
         error: error as AxiosError<TypedAxiosError, unknown>,
         handlers: {},
