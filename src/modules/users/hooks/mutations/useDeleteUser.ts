@@ -21,7 +21,12 @@ export const useDeleteUser = (): UseMutationReturn<void, string> => {
     onError: (error) => {
       handleError({
         error,
-        handlers: {},
+        handlers: {
+          conflict: {
+            message:
+              'No se pudo eliminar el usuario seleccionado, revisa que no tenga rol "Administrador"',
+          },
+        },
       });
     },
     retry: false,

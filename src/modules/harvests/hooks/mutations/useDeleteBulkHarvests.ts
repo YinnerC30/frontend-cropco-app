@@ -1,11 +1,11 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { ManageMessageBulkRemove } from '@/modules/core/helpers/ManageMessageBulkRemove';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
 import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
 
 const deleteBulkHarvests = async (
   data: BulkRecords
@@ -26,7 +26,7 @@ export const useDeleteBulkHarvests = (): UseMutationReturn<
   const mutation: UseMutationReturn<UseDeleteBulkResponse, BulkRecords> =
     useMutation({
       mutationFn: deleteBulkHarvests,
-      onSuccess: async ({ data: { failed, success } }) => {
+      onSuccess: async ({ status, data: { failed, success } }) => {
         await queryClient.invalidateQueries({ queryKey: ['harvests'] });
         await queryClient.invalidateQueries({
           queryKey: ['crops'],
@@ -35,18 +35,23 @@ export const useDeleteBulkHarvests = (): UseMutationReturn<
           queryKey: ['harvests-amount-year'],
         });
 
-        if (success.length > 0 && failed.length === 0) {
-          toast.success(`Cosechas eliminadas`);
-        } else if (failed.length > 0) {
-          toast.info(
-            `No se pudieron eliminar algunas cosechas, es posible que tengan cosechas pendientes de pago`
-          );
-        }
+        ManageMessageBulkRemove({
+          status,
+          customMessages: {
+            multiStatus:
+              'No se pudieron eliminar algunas cosechas, revisa  que no tengan registros pagos',
+          },
+        });
       },
       onError: (error) => {
         handleError({
           error,
-          handlers: {},
+          handlers: {
+            conflict: {
+              message:
+                'No se pudieron eliminar las cosechas seleccionadas, revisa que no tengan registros pagos',
+            },
+          },
         });
       },
 

@@ -34,7 +34,12 @@ export const useDeleteHarvest = (): UseMutationReturn<void, string> => {
     onError: (error) => {
       handleError({
         error,
-        handlers: {},
+        handlers: {
+          conflict: {
+            message:
+              'No se pudo eliminar la cosecha seleccionada, revisa que no tenga registros pagos',
+          },
+        },
       });
     },
     retry: false,

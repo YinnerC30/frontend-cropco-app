@@ -26,7 +26,12 @@ export const useDeleteSale = (): UseMutationReturn<void, string> => {
     onError: (error) => {
       handleError({
         error,
-        handlers: {},
+        handlers: {
+          conflict: {
+            message:
+              'No se pudo eliminar la venta seleccionada, revisa que no tenga pagos pendientes',
+          },
+        },
       });
     },
     retry: false,

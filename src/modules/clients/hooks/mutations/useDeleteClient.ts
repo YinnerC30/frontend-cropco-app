@@ -25,7 +25,12 @@ export const useDeleteClient = (): UseMutationReturn<void, string> => {
     onError: (error) => {
       handleError({
         error,
-        handlers: {},
+        handlers: {
+          conflict: {
+            message:
+              'No se pudo eliminar el cliente seleccionado, revisa si tiene ventas pendientes de pago',
+          },
+        },
       });
     },
     retry: false,
