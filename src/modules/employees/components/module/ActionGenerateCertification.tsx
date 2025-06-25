@@ -1,7 +1,6 @@
-import { DropdownMenuItem } from '@/components';
+import { DropdownMenuItem, ScrollArea } from '@/components';
 import { Button } from '@/components/ui/button';
 import {
-  Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
@@ -10,48 +9,49 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useDataTableMenuActionsContext } from '@/modules/core/components';
+import { useCreateForm } from '@/modules/core/hooks';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
-import { KeyRound, ShieldPlus } from 'lucide-react';
-import { useState } from 'react';
-import { EmployeeCertification } from '../../interfaces/EmployeeCertification';
+import { ShieldPlus } from 'lucide-react';
+import { z } from 'zod';
 import { MutationVariables } from '../../hooks/mutations/usePostCertificationEmployee';
+import { formSchemaEmployeeCertification } from '../../utils/formSchemaEmployeeCertification';
+import { FormEmployeeCertification } from './form/FormEmployeeCertification';
 
 interface Props {
-  id: string;
+  employeeId: string;
   mutation: UseMutationReturn<Blob, MutationVariables>;
   disabled: boolean;
-  data: EmployeeCertification;
+  handleOpenDialog: () => void;
+  handleCloseDialog: () => void;
 }
 
 export function ActionGenerateCertification({
-  id,
+  employeeId,
   mutation,
   disabled,
-  data,
-}: Props) {
-  const { toggleOpen } = useDataTableMenuActionsContext();
-  const [open, setOpen] = useState(false);
-
+  handleCloseDialog,
+  handleOpenDialog,
+}: // data,
+Props) {
   const { mutate, isPending } = mutation;
 
-  const handleSubmit = () => {
-    mutate(data as any);
+  const form = useCreateForm({
+    schema: formSchemaEmployeeCertification,
+    defaultValues: {},
+  });
+
+  const handleSubmitCertification = (
+    values: z.infer<typeof formSchemaEmployeeCertification>
+  ) => {
+    mutate({ employeeId, data: { ...values } });
   };
 
-  const handleOpenDialog = () => {
-    setOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpen(false);
-    toggleOpen(false);
-  };
+  console.log(form.formState.errors);
 
   return (
-    <Dialog defaultOpen={false} open={open} onOpenChange={setOpen} modal={open}>
+    <>
       <DialogTrigger asChild>
         <DropdownMenuItem disabled={disabled} asChild>
           <Button onClick={() => handleOpenDialog()} variant="ghost">
@@ -66,6 +66,10 @@ export function ActionGenerateCertification({
         }}
         onDoubleClick={(event) => event.preventDefault()}
         onOpenAutoFocus={(event) => event.preventDefault()}
+        forceMount={true}
+        onInteractOutside={(event) => {
+          event.preventDefault();
+        }}
       >
         <DialogClose asChild>
           <DialogPrimitive.Close
@@ -84,16 +88,19 @@ export function ActionGenerateCertification({
           </DialogDescription>
         </DialogHeader>
 
-        <div>
-          <h1>Hola este es un certificado</h1>
-        </div>
+        <ScrollArea className="h-[60vh] w-full py-2">
+          <FormEmployeeCertification formEmployeeCertification={form} />
+        </ScrollArea>
 
         <DialogFooter>
-          <Button onClick={handleSubmit} disabled={isPending}>
+          <Button
+            onClick={form.handleSubmit(handleSubmitCertification)}
+            disabled={isPending}
+          >
             Generar
           </Button>
         </DialogFooter>
       </DialogContent>
-    </Dialog>
+    </>
   );
 }

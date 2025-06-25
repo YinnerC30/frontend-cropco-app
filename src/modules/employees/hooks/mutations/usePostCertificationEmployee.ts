@@ -13,11 +13,12 @@ import { AxiosError } from 'axios';
 import { EmployeeCertification } from '../../interfaces/EmployeeCertification';
 
 export const generateCertificationEmployee = async (
-  id: string,
+  employeeId: string,
   data: EmployeeCertification
 ): PromiseReturnRecord<Blob> => {
+  console.log({ employeeId, data });
   return await cropcoAPI.post<Blob>(
-    `${pathsCropco.employees}/generate/certification/one/${id}`,
+    `${pathsCropco.employees}/generate/certification/one/${employeeId}`,
     data,
     {
       responseType: 'blob',
@@ -54,6 +55,7 @@ export const usePostCertificationEmployee = ({
         success: 'La constancia ha sido generada con éxito.',
         error: 'Hubo un error al generar la constancia.',
       });
+
       return (await promise).data;
     },
     onSuccess: (blob, variables) => {
@@ -69,6 +71,7 @@ export const usePostCertificationEmployee = ({
       }
     },
     onError: (error) => {
+      console.log('🚀 ~ error:', error);
       handleError({
         error: error as AxiosError<TypedAxiosError, unknown>,
         handlers: {},

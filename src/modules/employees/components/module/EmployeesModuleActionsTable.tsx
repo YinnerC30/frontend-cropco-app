@@ -8,9 +8,10 @@ import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/D
 import { Row } from '@tanstack/react-table';
 import { useEmployeesModuleContext } from '../../hooks';
 import { Employee } from '../../interfaces/Employee';
-import { ActionGetCertification } from './ActionGetCertification';
 import { ActionGenerateCertification } from './ActionGenerateCertification';
-import { EmployeeCertification } from '../../interfaces/EmployeeCertification';
+import { ActionGetCertification } from './ActionGetCertification';
+import { useState } from 'react';
+import { Dialog } from '@/components';
 
 interface Props {
   row: Row<Employee>;
@@ -28,6 +29,9 @@ export const EmployeesModuleActionsTable: React.FC<Props> = ({
 
   const { id } = row.original;
 
+  // const { toggleOpen } = useDataTableMenuActionsContext();
+  const [open, setOpen] = useState(false);
+
   const handleDelete = () => {
     mutationDeleteEmployee.mutate(id!, {
       onSuccess: () => {
@@ -36,50 +40,53 @@ export const EmployeesModuleActionsTable: React.FC<Props> = ({
     });
   };
 
-  const demoData: EmployeeCertification = {
-    generator_name: '',
-    generator_position: '',
-    company_name: '',
-    start_date: new Date(),
-    employee_position: '',
-    weekly_working_hours: 0,
+  const handleOpenDialog = () => {
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+    // toggleOpen(false);
   };
 
   return (
-    <DropDownMenuActions>
-      <ActionCopyIdRecord id={id!} />
+    <Dialog
+      defaultOpen={false}
+      open={open}
+      onOpenChange={setOpen}
+      modal={false}
+    >
+      <DropDownMenuActions>
+        <ActionCopyIdRecord id={id!} />
 
-      <ActionDeleteRecord
-        action={handleDelete}
-        disabled={!actionsEmployeesModule['remove_one_employee']}
-      />
+        <ActionDeleteRecord
+          action={handleDelete}
+          disabled={!actionsEmployeesModule['remove_one_employee']}
+        />
 
-      <ActionModifyRecord
-        id={id!}
-        disabled={!actionsEmployeesModule['update_one_employee']}
-      />
+        <ActionModifyRecord
+          id={id!}
+          disabled={!actionsEmployeesModule['update_one_employee']}
+        />
 
-      <ActionGetCertification
-        id={id!}
-        disabled={!actionsEmployeesModule['find_certification_employee']}
-      />
+        <ActionGetCertification
+          id={id!}
+          disabled={!actionsEmployeesModule['find_certification_employee']}
+        />
 
-      <ActionGenerateCertification
-        id={id!}
-        disabled={!actionsEmployeesModule['generate_certification_employee']}
-        data={demoData}
-        mutation={mutationGenerateCertification}
-      />
+        <ActionGenerateCertification
+          employeeId={id!}
+          disabled={!actionsEmployeesModule['generate_certification_employee']}
+          mutation={mutationGenerateCertification}
+          handleCloseDialog={handleCloseDialog}
+          handleOpenDialog={handleOpenDialog}
+        />
 
-      <ActionGetCertification
-        id={id!}
-        disabled={!actionsEmployeesModule['find_certification_employee']}
-      />
-
-      <ActionViewRecord
-        id={id!}
-        disabled={!actionsEmployeesModule['find_one_employee']}
-      />
-    </DropDownMenuActions>
+        <ActionViewRecord
+          id={id!}
+          disabled={!actionsEmployeesModule['find_one_employee']}
+        />
+      </DropDownMenuActions>
+    </Dialog>
   );
 };
