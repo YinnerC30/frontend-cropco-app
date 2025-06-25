@@ -1,5 +1,3 @@
-
-
 import { Check, ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
 
@@ -19,6 +17,8 @@ import {
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { useGetAllClientsWithSales } from '@/modules/clients/hooks/queries/useGetAllClientsWithSales';
+import { ButtonRefetchData } from '../actions-module/ButtonRefetchData';
+import { Loading } from './Loading';
 
 interface Props {
   selectedClient: string;
@@ -39,21 +39,37 @@ export default function ClientSelector({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[200px] justify-between"
-        >
-          {!!selectedClient
-            ? `Cliente: ${
-                clients.find((item) => item.id === selectedClient)?.first_name
-              }`
-            : 'Selecciona un cliente...'}
-          <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-        </Button>
-      </PopoverTrigger>
+      <div className="flex items-center gap-2">
+        <PopoverTrigger asChild>
+          {queryClients.isFetching ? (
+            <div className="w-[200px]">
+              <Loading className="" />
+            </div>
+          ) : (
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className="w-[200px] justify-between"
+            >
+              {!!selectedClient
+                ? `Cliente: ${
+                    clients.find((item) => item.id === selectedClient)
+                      ?.first_name
+                  }`
+                : 'Selecciona un cliente...'}
+              <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+            </Button>
+          )}
+        </PopoverTrigger>
+        <ButtonRefetchData
+          onClick={async () => {
+            await queryClients.refetch();
+          }}
+          disabled={queryClients.isLoading}
+        />
+      </div>
+
       <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandInput placeholder="Buscar cliente..." />

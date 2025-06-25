@@ -1,5 +1,3 @@
-
-
 import {
   Card,
   CardContent,
@@ -45,9 +43,9 @@ export function ChartTotalSalesInYear() {
     client: selectedClient,
   });
 
-  const queryCrops = useGetAllCropsWithSales()
+  const queryCrops = useGetAllCropsWithSales();
 
-  if (querySales.isLoading) {
+  if (querySales.isLoading || querySales.isFetching) {
     return <ChartSkeleton />;
   }
 
@@ -75,17 +73,25 @@ export function ChartTotalSalesInYear() {
       </CardHeader>
       <CardContent>
         <div>
-          <div className="inline-flex items-center px-4 py-2 my-4 space-x-2 border rounded-sm">
-            <Switch
-              defaultChecked={showPreviousYear}
-              onCheckedChange={(value) => {
-                setShowPreviousYear(value);
+          <div className="flex items-center justify-between">
+            <div className="inline-flex items-center px-4 py-2 my-4 space-x-2 border rounded-sm">
+              <Switch
+                defaultChecked={showPreviousYear}
+                onCheckedChange={(value) => {
+                  setShowPreviousYear(value);
+                }}
+                id="show-previous-year"
+              />
+              <Label htmlFor="show-previous-year">
+                Mostrar información del año anterior
+              </Label>
+            </div>
+            <ButtonRefetchData
+              onClick={async () => {
+                await querySales.refetch();
               }}
-              id="show-previous-year"
+              disabled={querySales.isLoading}
             />
-            <Label htmlFor="show-previous-year">
-              Mostrar información del año anterior
-            </Label>
           </div>
 
           <div className="flex flex-wrap justify-between gap-4 mb-5">
@@ -102,12 +108,6 @@ export function ChartTotalSalesInYear() {
               selectedYear={selectedYear}
               setSelectedYear={setSelectedYear}
               initialYear={2023}
-            />
-            <ButtonRefetchData
-              onClick={async () => {
-                await querySales.refetch();
-              }}
-              disabled={querySales.isLoading}
             />
           </div>
           <ChartContainer config={chartConfig}>
