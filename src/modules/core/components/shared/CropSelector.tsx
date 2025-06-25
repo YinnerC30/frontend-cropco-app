@@ -21,6 +21,8 @@ import { Crop } from '@/modules/crops/interfaces/Crop';
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { ResponseApiGetAllRecords } from '../../interfaces';
+import { ButtonRefetchData } from '../actions-module/ButtonRefetchData';
+import { Loading } from './Loading';
 
 interface Props {
   selectedCrop: string;
@@ -44,29 +46,43 @@ export default function CropSelector({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[220px] justify-between overflow-hidden text-ellipsis truncate"
-        >
-          <span
-            className={cn(
-              'text-muted-foreground',
-              'overflow-hidden text-ellipsis truncate'
-            )}
-          >
-            {!!selectedCrop
-              ? `Cultivo: ${
-                  crops.find((item) => item.id === selectedCrop)?.name
-                }`
-              : 'Selecciona un cultivo...'}
-          </span>
+      <div className="flex items-center gap-2">
+        <PopoverTrigger asChild>
+          {!query.isFetching ? (
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className="w-[220px] justify-between overflow-hidden text-ellipsis truncate"
+            >
+              <span
+                className={cn(
+                  'text-muted-foreground',
+                  'overflow-hidden text-ellipsis truncate'
+                )}
+              >
+                {!!selectedCrop
+                  ? `Cultivo: ${
+                      crops.find((item) => item.id === selectedCrop)?.name
+                    }`
+                  : 'Selecciona un cultivo...'}
+              </span>
 
-          <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-        </Button>
-      </PopoverTrigger>
+              <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+            </Button>
+          ) : (
+            <div className="w-[200px]">
+              <Loading className="" />
+            </div>
+          )}
+        </PopoverTrigger>
+        <ButtonRefetchData
+          onClick={async () => {
+            await query.refetch();
+          }}
+          disabled={query.isLoading}
+        />
+      </div>
       <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandInput placeholder="Buscar cultivo..." />

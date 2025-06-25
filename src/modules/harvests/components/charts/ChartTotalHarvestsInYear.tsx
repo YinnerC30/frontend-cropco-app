@@ -119,17 +119,25 @@ export function ChartTotalHarvestsInYear() {
       <CardContent>
         <div className="space-y-4"></div>
         <div>
-          <div className="inline-flex items-center px-4 py-2 my-4 space-x-2 border rounded-sm">
-            <Switch
-              defaultChecked={showPreviousYear}
-              onCheckedChange={(value) => {
-                setShowPreviousYear(value);
+          <div className="flex items-center justify-between mb-4">
+            <div className="inline-flex items-center px-4 py-2 my-4 space-x-2 border rounded-sm">
+              <Switch
+                defaultChecked={showPreviousYear}
+                onCheckedChange={(value) => {
+                  setShowPreviousYear(value);
+                }}
+                id="show-previous-year"
+              />
+              <Label htmlFor="show-previous-year">
+                Mostrar información del año anterior
+              </Label>
+            </div>
+            <ButtonRefetchData
+              onClick={async () => {
+                await queryHarvests.refetch();
               }}
-              id="show-previous-year"
+              disabled={queryHarvests.isLoading}
             />
-            <Label htmlFor="show-previous-year">
-              Mostrar información del año anterior
-            </Label>
           </div>
 
           <div className="flex flex-wrap justify-between gap-4 mb-5">
@@ -138,23 +146,16 @@ export function ChartTotalHarvestsInYear() {
               setSelectedCrop={setSelectedCrop}
               query={queryCrops}
             />
+
             <EmployeeSelector
               employeesIn="harvests"
               selectedEmployee={selectedEmployee}
               setSelectedEmployee={setSelectedEmployee}
             />
-            <YearSelector
-              selectedYear={selectedYear}
-              setSelectedYear={setSelectedYear}
-              initialYear={2023}
-            />
-            <ButtonRefetchData
-              onClick={async () => {
-                await queryHarvests.refetch();
-              }}
-              disabled={queryHarvests.isLoading}
-            />
-            <div className="flex items-center w-full gap-2 pb-2">
+          </div>
+
+          <div className="flex justify-between">
+            <div className="flex items-center gap-2 pb-2">
               <p className="text-sm font-medium text-muted-foreground">
                 Unidad de medida:
               </p>
@@ -166,6 +167,11 @@ export function ChartTotalHarvestsInYear() {
                 />
               </div>
             </div>
+            <YearSelector
+              selectedYear={selectedYear}
+              setSelectedYear={setSelectedYear}
+              initialYear={2023}
+            />
           </div>
           <ChartContainer config={chartConfig}>
             <AreaChart

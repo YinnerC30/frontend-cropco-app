@@ -17,9 +17,11 @@ import {
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
+import { Employee } from '@/modules/employees/interfaces/Employee';
 import { useGetAllEmployeesWithHarvests } from '@/modules/payments/hooks/queries/useGetAllEmployeesWithHarvests';
 import { useGetAllEmployeesWithWorks } from '@/modules/payments/hooks/queries/useGetAllEmployeesWithWorks';
-import { Employee } from '@/modules/employees/interfaces/Employee';
+import { ButtonRefetchData } from '../actions-module/ButtonRefetchData';
+import { Loading } from './Loading';
 
 interface Props {
   selectedEmployee: string;
@@ -42,35 +44,50 @@ export default function EmployeeSelector({
   const data = queryEmployees.data?.records ?? [];
 
   const employees: Partial<Employee>[] = [
-    { first_name: 'Todos', full_name: 'Todos' ,  id: '' },
+    { first_name: 'Todos', full_name: 'Todos', id: '' },
     ...data,
   ];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[220px] justify-between overflow-hidden text-ellipsis truncate"
-        >
-          <span
-            className={cn(
-              'text-muted-foreground',
-              'overflow-hidden text-ellipsis truncate'
-            )}
-          >
-            {!!selectedEmployee
-              ? `Empleado: ${employees.find(
-                  (item) => item.id === selectedEmployee
-                )?.full_name!}`
-              : 'Selecciona un empleado...'}
-          </span>
+      <div className="flex items-center gap-2">
+        <PopoverTrigger asChild>
+          {queryEmployees.isFetching ? (
+            <div className="w-[200px]">
+              <Loading className="" />
+            </div>
+          ) : (
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className="w-[220px] justify-between overflow-hidden text-ellipsis truncate"
+            >
+              <span
+                className={cn(
+                  'text-muted-foreground',
+                  'overflow-hidden text-ellipsis truncate'
+                )}
+              >
+                {!!selectedEmployee
+                  ? `Empleado: ${employees.find(
+                      (item) => item.id === selectedEmployee
+                    )?.full_name!}`
+                  : 'Selecciona un empleado...'}
+              </span>
 
-          <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-        </Button>
-      </PopoverTrigger>
+              <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+            </Button>
+          )}
+        </PopoverTrigger>
+        <ButtonRefetchData
+          onClick={async () => {
+            await queryEmployees.refetch();
+          }}
+          disabled={queryEmployees.isLoading}
+        />
+      </div>
+
       <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandInput placeholder="Buscar empleado..." />
