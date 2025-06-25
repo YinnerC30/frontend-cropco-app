@@ -61,12 +61,6 @@ export function ChartTopCropsWithStock() {
       </CardHeader>
       <CardContent className="">
         <div className="flex flex-row items-center justify-between ">
-          <ButtonRefetchData
-            onClick={async () => {
-              await queryCrops.refetch();
-            }}
-            disabled={queryCrops.isLoading}
-          />
           <div className="flex items-center justify-center gap-2 pb-2 ">
             <p className="text-sm font-medium text-muted-foreground">
               Unidad de medida:
@@ -79,6 +73,12 @@ export function ChartTopCropsWithStock() {
               />
             </div>
           </div>
+          <ButtonRefetchData
+            onClick={async () => {
+              await queryCrops.refetch();
+            }}
+            disabled={queryCrops.isLoading}
+          />
         </div>
         {chartData.length > 0 ? (
           <ChartContainer config={chartConfig}>
