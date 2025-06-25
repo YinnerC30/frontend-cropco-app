@@ -10,11 +10,10 @@ import { flexRender } from '@tanstack/react-table';
 import { useNavigate } from 'react-router-dom';
 
 import { ScrollArea, ScrollBar } from '@/components';
-import { memo } from 'react';
 import { Loading } from '../shared/Loading';
 import { useDataTableContext } from './DataTableContext';
 
-export const DataTable = memo(() => {
+export const DataTable = () => {
   const { table, disabledDoubleClick, errorMessage, lengthColumns, isLoading } =
     useDataTableContext();
   const navigate = useNavigate();
@@ -56,7 +55,27 @@ export const DataTable = memo(() => {
                 key={row.id}
                 onDoubleClick={() => {
                   if (!disabledDoubleClick) {
-                    navigate(`../view/one/${row.original.id}`);
+                    const hasRadixDialog = document.querySelector(
+                      '[data-radix-popper-content-wrapper]'
+                    );
+                    const hasRadixDropdown = document.querySelector(
+                      '[data-radix-dropdown-menu-content]'
+                    );
+                    const hasRadixAlertDialog = document.querySelector(
+                      '[data-radix-alert-dialog-content]'
+                    );
+
+                    const hasRoleDialog =
+                      document.querySelector('[role="dialog"]');
+
+                    if (
+                      !hasRadixDialog &&
+                      !hasRadixDropdown &&
+                      !hasRadixAlertDialog &&
+                      !hasRoleDialog
+                    ) {
+                      navigate(`../view/one/${row.original.id}`);
+                    }
                   }
                 }}
                 data-state={row.getIsSelected() && 'selected'}
@@ -80,4 +99,4 @@ export const DataTable = memo(() => {
       <ScrollBar className="mt-4" orientation="horizontal" />
     </ScrollArea>
   );
-});
+};
