@@ -1,20 +1,38 @@
-import { Badge, Form, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components';
+import {
+  Badge,
+  Form,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components';
 import {
   FormFieldCalendar,
   FormFieldDataTable,
   FormFieldInput,
 } from '@/modules/core/components';
-import { FormatMoneyValue } from '@/modules/core/helpers';
+import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 
 import { useFormSaleContext } from '@/modules/sales/hooks/context/useFormSaleContext';
 import { formFieldsSale } from '@/modules/sales/utils';
-import { MassUnitOfMeasure, UnitsType } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import {
+  MassUnitOfMeasure,
+  UnitsType,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import React from 'react';
 import { FormSaleDataTable } from './FormSaleDataTable';
 
 export const FormSaleFields: React.FC = () => {
-  const { formSale, onSubmit, readOnly, value_pay, amount, unitTypeToShowAmount, setUnitTypeToShowAmount } =
-    useFormSaleContext();
+  const {
+    formSale,
+    onSubmit,
+    readOnly,
+    value_pay,
+    amount,
+    unitTypeToShowAmount,
+    setUnitTypeToShowAmount,
+  } = useFormSaleContext();
 
   return (
     <Form {...formSale}>
@@ -26,7 +44,7 @@ export const FormSaleFields: React.FC = () => {
           name={'date'}
           placeholder={formFieldsSale.date.placeholder}
           disabled={readOnly}
-          className='w-[240px]'
+          className="w-[240px]"
         />
         <div className="sm:w-[600px] mt-4">
           <FormFieldDataTable
@@ -69,34 +87,34 @@ export const FormSaleFields: React.FC = () => {
           hiddenInput
         >
           <div className="flex items-center w-auto gap-2 py-4">
-              <Badge
-                className="block h-8 text-base text-center w-28"
-                variant={'cyan'}
-              >
-                {Number.isInteger(amount) ? amount : amount.toFixed(2)}
-              </Badge>
+            <Badge
+              className="block h-8 text-base text-center w-28"
+              variant={'cyan'}
+            >
+              {FormatNumber(amount)}
+            </Badge>
 
-              <Select
-                onValueChange={(value: any) => {
-                  setUnitTypeToShowAmount(value);
-                }}
-                defaultValue={MassUnitOfMeasure.KILOGRAMOS}
-                value={unitTypeToShowAmount}
-                disabled={readOnly}
-              >
-                <SelectTrigger /* ref={field.ref} */>
-                  <SelectValue placeholder={'Selecciona una medida'} />
-                </SelectTrigger>
+            <Select
+              onValueChange={(value: any) => {
+                setUnitTypeToShowAmount(value);
+              }}
+              defaultValue={MassUnitOfMeasure.KILOGRAMOS}
+              value={unitTypeToShowAmount}
+              disabled={readOnly}
+            >
+              <SelectTrigger /* ref={field.ref} */>
+                <SelectValue placeholder={'Selecciona una medida'} />
+              </SelectTrigger>
 
-                <SelectContent>
-                  {[...UnitsType['GRAMOS']].map((item: any) => (
-                    <SelectItem key={item.key} value={item.value}>
-                      {item.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+              <SelectContent>
+                {[...UnitsType['GRAMOS']].map((item: any) => (
+                  <SelectItem key={item.key} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </FormFieldInput>
       </form>
     </Form>

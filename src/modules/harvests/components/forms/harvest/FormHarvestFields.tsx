@@ -14,7 +14,7 @@ import {
   FormFieldInput,
   FormFieldTextArea,
 } from '@/modules/core/components';
-import { FormatMoneyValue } from '@/modules/core/helpers';
+import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { formFieldsHarvest } from '@/modules/harvests/utils';
 
@@ -133,7 +133,7 @@ export const FormHarvestFields: React.FC = () => {
                 className="block h-8 text-base text-center w-28"
                 variant={'cyan'}
               >
-                {Number.isInteger(amount) ? amount : amount.toFixed(2)}
+                {FormatNumber(amount)}
               </Badge>
 
               <Select

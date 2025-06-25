@@ -7,6 +7,7 @@ import {
   UnitOfMeasure,
   VolumeUnitOfMeasure,
 } from '../../interfaces/UnitOfMeasure';
+import { FormatNumber } from '@/modules/core/helpers';
 
 export const CellSupplyAmount = ({ row }: { row: Row<Supply> }) => {
   const { getUnitType } = useUnitConverter();
@@ -34,5 +35,5 @@ export const CellSupplyAmount = ({ row }: { row: Row<Supply> }) => {
     );
   }
 
-  return convertedValue;
+  return FormatNumber(convertedValue);
 };

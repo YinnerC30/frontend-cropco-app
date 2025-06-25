@@ -29,7 +29,7 @@ export const columnsTableCrops: ColumnDef<Crop>[] = [
   {
     accessorKey: formFieldsCrop.number_hectares.name,
     cell: ({ row }: { row: Row<Crop> }) => {
-      return row.getValue('number_hectares');
+      return FormatNumber(row.getValue('number_hectares') || 0);
     },
     header: ({ column }: HeaderContext<Crop, unknown>) => {
       return (

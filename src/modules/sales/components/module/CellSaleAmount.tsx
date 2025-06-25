@@ -7,6 +7,7 @@ import {
 import { Row } from '@tanstack/react-table';
 import { useSaleModuleContext } from '../../hooks/context/useSaleModuleContext';
 import { Sale } from '../../interfaces';
+import { FormatNumber } from '@/modules/core/helpers';
 
 export const CellSaleAmount = ({ row }: { row: Row<Sale> }) => {
   const { unitTypeToShowAmount } = useSaleModuleContext();
@@ -25,7 +26,7 @@ export const CellSaleAmount = ({ row }: { row: Row<Sale> }) => {
 
   return (
     <div className="flex items-center gap-2">
-      <span>{convertedValue}</span>
+      <span>{FormatNumber(convertedValue)}</span>
       <Badge>{symbolToShow}</Badge>
     </div>
   );
