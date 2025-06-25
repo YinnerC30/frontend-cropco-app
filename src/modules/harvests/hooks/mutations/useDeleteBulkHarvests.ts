@@ -49,7 +49,7 @@ export const useDeleteBulkHarvests = (): UseMutationReturn<
           handlers: {
             conflict: {
               message:
-                'No se pudieron eliminar las cosechas seleccionadas, revisa que no tengan registros pagos',
+                'No se pudieron eliminar las cosechas seleccionadas, revisa que no tengan registros pagos o registros de cosecha procesada',
             },
           },
         });
