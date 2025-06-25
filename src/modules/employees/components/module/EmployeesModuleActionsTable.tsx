@@ -29,7 +29,6 @@ export const EmployeesModuleActionsTable: React.FC<Props> = ({
 
   const { id } = row.original;
 
-  // const { toggleOpen } = useDataTableMenuActionsContext();
   const [open, setOpen] = useState(false);
 
   const handleDelete = () => {
@@ -46,7 +45,6 @@ export const EmployeesModuleActionsTable: React.FC<Props> = ({
 
   const handleCloseDialog = () => {
     setOpen(false);
-    // toggleOpen(false);
   };
 
   return (
@@ -67,11 +65,6 @@ export const EmployeesModuleActionsTable: React.FC<Props> = ({
         <ActionModifyRecord
           id={id!}
           disabled={!actionsEmployeesModule['update_one_employee']}
-        />
-
-        <ActionGetCertification
-          id={id!}
-          disabled={!actionsEmployeesModule['find_certification_employee']}
         />
 
         <ActionGenerateCertification

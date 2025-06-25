@@ -75,7 +75,7 @@ export function ActionGenerateCertification({
       <DialogTrigger asChild>
         <DropdownMenuItem disabled={disabled} asChild>
           <Button onClick={() => handleOpenDialog()} variant="ghost">
-            <ShieldPlus className="w-4 h-4 mr-2" /> Certificado
+            <ShieldPlus className="w-4 h-4 mr-2" /> Certificar
           </Button>
         </DropdownMenuItem>
       </DialogTrigger>
