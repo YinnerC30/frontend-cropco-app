@@ -28,7 +28,7 @@ export const formFieldsTenant: Record<FormFieldsTenant, CustomFormField> = {
   cell_phone_number: {
     name: 'cell_phone_number',
     label: 'Número de celular:',
-    placeholder: '3178901234',
+    placeholder: '+573178901234',
     description: 'Número de celular de la empresa',
   },
 };

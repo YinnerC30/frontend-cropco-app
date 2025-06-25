@@ -20,13 +20,20 @@ export const formSchemaEmployee = z.object({
       message: `El correo electrónico no debe superar los 100 caracteres`,
     }),
   cell_phone_number: z
-    .string({ required_error: `El número de teléfono es requerido` })
+    .string()
+    .min(1, { message: 'El número de celular es requerido' })
+    .regex(/^\+?[1-9]\d{8,14}$/, {
+      message:
+        'El número de celular debe tener entre 9 y 15 dígitos y puede incluir el código de país con +',
+    })
     .refine(
-      (data) => {
-        return /^3\d{9}$/.test(data);
+      (value) => {
+        // Remover espacios y caracteres especiales para validar solo números
+        const cleanNumber = value.replace(/[\s\-\(\)]/g, '');
+        return /^\+?[1-9]\d{8,14}$/.test(cleanNumber);
       },
       {
-        message: 'El número de teléfono es incorrecto.',
+        message: 'Formato de número de celular no válido',
       }
     ),
 
