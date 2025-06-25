@@ -67,6 +67,11 @@ export const useLoginTenantUser = (): UseMutationReturn<
               'Las credenciales enviadas son invalidas, revise nuevamente los campos del formulario'
             );
             return;
+          case 404:
+            toast.error(
+              'Las credenciales enviadas son invalidas, revise nuevamente los campos del formulario'
+            );
+            return;
           default:
             toast.error('Hubo un problema en el sistema, inténtelo nuevamente');
             return;
