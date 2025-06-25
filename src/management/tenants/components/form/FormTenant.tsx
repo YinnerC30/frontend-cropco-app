@@ -18,7 +18,12 @@ export const FormTenant: React.FC<FormTenantPropsExtend> = ({
     <FormTenantProvider {...props}>
       <div className="flex flex-col items-center">
         <ScrollArea className="h-[80vh] w-full pb-2">
-          <div className={cn('flex flex-col lg:flex-row', !!children ? 'justify-evenly' : '')}>
+          <div
+            className={cn(
+              'flex flex-col lg:flex-row',
+              !!children ? 'justify-evenly' : ''
+            )}
+          >
             <FormTenantFields />
             <div className="my-4 lg:my-0">{children}</div>
           </div>

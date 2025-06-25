@@ -5,6 +5,7 @@ import { MODULE_TENANTS_PATHS } from '../../routes/pathRoutes';
 import { TenantUsersTable } from './TenantUsersTable';
 import { FormTenant } from '../form';
 import { useGetTenant } from '../../hooks';
+import { Label } from '@/components';
 
 export const AdminUsers = () => {
   const { id } = useParams();
@@ -22,6 +23,8 @@ export const AdminUsers = () => {
         finalItem={'Administrar usuarios'}
       />
       <FormTenant defaultValues={queryTenant.data} readOnly={true}>
+        <Label>Usuarios del inquilino</Label>
+
         <TenantUsersTable
           tenantId={id!}
           data={queryTenantUsers.data || []}

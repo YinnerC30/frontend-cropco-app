@@ -56,7 +56,7 @@ export const TenantUsersTable = ({ tenantId, data, refetchAction }: Props) => {
           <FormDataTableFilter
             placeholder={'Buscar por nombre de empleado...'}
             nameColumnFilter={'first_name'}
-            className="w-[300px] ml-10 self-start sm:self-center sm:m-0"
+            className="self-start w-auto ml-10 sm:self-center sm:m-0"
           />
 
           {/* Botones */}
