@@ -51,7 +51,7 @@ export const useGetAllModules = ({
           unauthorized: {
             message: 'No esta autorizado para solicitar esta información',
             onHandle: () => {
-              // actionOnError();
+              actionOnError();
             },
           },
           forbidden: {

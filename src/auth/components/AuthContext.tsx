@@ -93,7 +93,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const queryGetAllModules = useGetAllModules({
     executeQuery: executeQueryModule,
     actionOnError: () => {
-      removeUser();
+      setTimeout(() => {
+        removeUser();
+        window.location.reload();
+      }, 3000);
     },
   });
 
