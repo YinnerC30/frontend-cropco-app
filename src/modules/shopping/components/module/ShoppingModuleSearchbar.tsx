@@ -425,7 +425,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverSupplier}
                               modal={true}
                             >
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2">
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     {querySuppliers.isLoading ||
@@ -593,7 +593,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverSupply}
                               modal={true}
                             >
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2">
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     {querySupplies.isLoading ||

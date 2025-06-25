@@ -406,7 +406,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopover}
                               modal={true}
                             >
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2">
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     {queryEmployees.isLoading ||

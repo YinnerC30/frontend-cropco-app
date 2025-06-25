@@ -468,7 +468,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverClient}
                               modal={true}
                             >
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2">
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     {queryClients.isLoading ||
@@ -634,7 +634,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverCrop}
                               modal={true}
                             >
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2">
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     {queryCrops.isLoading ||

@@ -377,7 +377,7 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverSupplier}
                               modal={true}
                             >
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2">
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     {queryCrops.isLoading ||
@@ -544,7 +544,7 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverSupply}
                               modal={true}
                             >
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2">
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     {querySupplies.isLoading ||
