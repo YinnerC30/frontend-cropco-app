@@ -7,12 +7,33 @@ import {
   DropdownMenuTrigger,
 } from '@/components';
 import { MoreHorizontal } from 'lucide-react';
-import { createContext, useContext, useState } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 
-const DataTableMenuActionsContext = createContext<any>(undefined);
+// Definición del tipo para el contexto
+interface DataTableMenuActionsContextType {
+  open: boolean;
+  toggleOpen: Dispatch<SetStateAction<boolean>>;
+}
 
-export const DataTableMenuActionsProvider = ({ children }: any) => {
-  const [open, toggleOpen] = useState(false);
+const DataTableMenuActionsContext = createContext<
+  DataTableMenuActionsContextType | undefined
+>(undefined);
+
+interface DataTableMenuActionsProviderProps {
+  children: ReactNode;
+}
+
+export const DataTableMenuActionsProvider = ({
+  children,
+}: DataTableMenuActionsProviderProps) => {
+  const [open, toggleOpen] = useState<boolean>(false);
   return (
     <DataTableMenuActionsContext.Provider value={{ open, toggleOpen }}>
       <DropdownMenu open={open} modal={false}>
@@ -40,12 +61,13 @@ export const DataTableMenuActionsProvider = ({ children }: any) => {
   );
 };
 
-export const useDataTableMenuActionsContext = () => {
-  const context = useContext(DataTableMenuActionsContext);
-  if (!context) {
-    throw new Error(
-      'useDataTableMenuActionsContext must be used within useDataTableMenuActionsProvider'
-    );
-  }
-  return context;
-};
+export const useDataTableMenuActionsContext =
+  (): DataTableMenuActionsContextType => {
+    const context = useContext(DataTableMenuActionsContext);
+    if (!context) {
+      throw new Error(
+        'useDataTableMenuActionsContext must be used within DataTableMenuActionsProvider'
+      );
+    }
+    return context;
+  };

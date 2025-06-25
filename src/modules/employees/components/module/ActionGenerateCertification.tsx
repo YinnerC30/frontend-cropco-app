@@ -12,12 +12,14 @@ import {
 import { useCreateForm } from '@/modules/core/hooks';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Cross2Icon } from '@radix-ui/react-icons';
+import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
 import { ShieldPlus } from 'lucide-react';
 import { z } from 'zod';
 import { MutationVariables } from '../../hooks/mutations/usePostCertificationEmployee';
 import { formSchemaEmployeeCertification } from '../../utils/formSchemaEmployeeCertification';
 import { FormEmployeeCertification } from './form/FormEmployeeCertification';
+import { EmployeeCertification } from '../../interfaces/EmployeeCertification';
+import { useDataTableMenuActionsContext } from '@/modules/core/components';
 
 interface Props {
   employeeId: string;
@@ -27,28 +29,46 @@ interface Props {
   handleCloseDialog: () => void;
 }
 
+const defaultValuesCertification: EmployeeCertification = {
+  generator_name: '',
+  generator_position: '',
+  company_name: '',
+  start_date: new Date(),
+  employee_position: '',
+  weekly_working_hours: 0,
+};
+
 export function ActionGenerateCertification({
   employeeId,
   mutation,
   disabled,
   handleCloseDialog,
   handleOpenDialog,
-}: // data,
-Props) {
+}: Props) {
   const { mutate, isPending } = mutation;
+
+  const { toggleOpen } = useDataTableMenuActionsContext();
 
   const form = useCreateForm({
     schema: formSchemaEmployeeCertification,
-    defaultValues: {},
+    defaultValues: defaultValuesCertification,
   });
+
+  const handleCloseDialogExtended = () => {
+    handleCloseDialog();
+    toggleOpen(false);
+  };
 
   const handleSubmitCertification = (
     values: z.infer<typeof formSchemaEmployeeCertification>
   ) => {
-    mutate({ employeeId, data: { ...values } });
+    mutate(
+      { employeeId, data: { ...values } },
+      {
+        onSuccess: handleCloseDialogExtended,
+      }
+    );
   };
-
-  console.log(form.formState.errors);
 
   return (
     <>
@@ -73,7 +93,7 @@ Props) {
       >
         <DialogClose asChild>
           <DialogPrimitive.Close
-            onClick={handleCloseDialog}
+            onClick={handleCloseDialogExtended}
             className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
           >
             <Cross2Icon className="w-4 h-4" />
@@ -97,6 +117,7 @@ Props) {
             onClick={form.handleSubmit(handleSubmitCertification)}
             disabled={isPending}
           >
+            {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
             Generar
           </Button>
         </DialogFooter>
