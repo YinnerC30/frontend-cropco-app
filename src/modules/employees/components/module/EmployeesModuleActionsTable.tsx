@@ -1,3 +1,5 @@
+import { Dialog } from '@/components';
+import { useFormChange } from '@/modules/core/components';
 import {
   ActionCopyIdRecord,
   ActionDeleteRecord,
@@ -6,12 +8,10 @@ import {
 } from '@/modules/core/components/data-table/menu/actions';
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
+import { useState } from 'react';
 import { useEmployeesModuleContext } from '../../hooks';
 import { Employee } from '../../interfaces/Employee';
 import { ActionGenerateCertification } from './ActionGenerateCertification';
-import { ActionGetCertification } from './ActionGetCertification';
-import { useState } from 'react';
-import { Dialog } from '@/components';
 
 interface Props {
   row: Row<Employee>;
@@ -31,6 +31,8 @@ export const EmployeesModuleActionsTable: React.FC<Props> = ({
 
   const [open, setOpen] = useState(false);
 
+  const { hasUnsavedChanges, showToast } = useFormChange();
+
   const handleDelete = () => {
     mutationDeleteEmployee.mutate(id!, {
       onSuccess: () => {
@@ -44,6 +46,10 @@ export const EmployeesModuleActionsTable: React.FC<Props> = ({
   };
 
   const handleCloseDialog = () => {
+    if (hasUnsavedChanges) {
+      showToast({ skipRedirection: true, action: () => setOpen(false) });
+      return;
+    }
     setOpen(false);
   };
 

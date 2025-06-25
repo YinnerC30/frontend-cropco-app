@@ -9,6 +9,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+  useDataTableMenuActionsContext,
+  useFormChange,
+} from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
@@ -16,10 +20,9 @@ import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
 import { ShieldPlus } from 'lucide-react';
 import { z } from 'zod';
 import { MutationVariables } from '../../hooks/mutations/usePostCertificationEmployee';
+import { EmployeeCertification } from '../../interfaces/EmployeeCertification';
 import { formSchemaEmployeeCertification } from '../../utils/formSchemaEmployeeCertification';
 import { FormEmployeeCertification } from './form/FormEmployeeCertification';
-import { EmployeeCertification } from '../../interfaces/EmployeeCertification';
-import { useDataTableMenuActionsContext } from '@/modules/core/components';
 
 interface Props {
   employeeId: string;
@@ -49,14 +52,21 @@ export function ActionGenerateCertification({
 
   const { toggleOpen } = useDataTableMenuActionsContext();
 
+  const { hasUnsavedChanges } = useFormChange();
+
   const form = useCreateForm({
     schema: formSchemaEmployeeCertification,
     defaultValues: defaultValuesCertification,
   });
 
-  const handleCloseDialogExtended = () => {
+  const handleCloseDialogExtended = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
     handleCloseDialog();
-    toggleOpen(false);
+    if (!hasUnsavedChanges) {
+      toggleOpen(false);
+    }
   };
 
   const handleSubmitCertification = (
@@ -65,7 +75,10 @@ export function ActionGenerateCertification({
     mutate(
       { employeeId, data: { ...values } },
       {
-        onSuccess: handleCloseDialogExtended,
+        onSuccess: () => {
+          handleCloseDialog();
+          toggleOpen(false);
+        },
       }
     );
   };
@@ -93,7 +106,10 @@ export function ActionGenerateCertification({
       >
         <DialogClose asChild>
           <DialogPrimitive.Close
-            onClick={handleCloseDialogExtended}
+            onClick={(e) => {
+              e.preventDefault();
+              handleCloseDialogExtended(e);
+            }}
             className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
           >
             <Cross2Icon className="w-4 h-4" />
