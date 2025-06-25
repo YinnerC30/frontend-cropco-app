@@ -39,7 +39,7 @@ export const formFieldsEmployeeCertification: Record<
   employee_position: {
     name: 'employee_position',
     label: 'Cargo del empleado:',
-    placeholder: 'Desarrollador de Software',
+    placeholder: 'Manipulador de Fruta/Cosecha',
     description: 'Cargo desempeñado por el empleado',
   },
   weekly_working_hours: {

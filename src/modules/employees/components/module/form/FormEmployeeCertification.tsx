@@ -5,11 +5,14 @@ import { UseFormReturn } from 'react-hook-form';
 
 interface Props {
   formEmployeeCertification: UseFormReturn<any, any, undefined>;
+//   employee: Partial<Employee>;
 }
 
 export const FormEmployeeCertification = ({
   formEmployeeCertification: form,
+//   employee,
 }: Props) => {
+//   console.log({ employee });
   return (
     <Form {...form}>
       <form
@@ -19,14 +22,10 @@ export const FormEmployeeCertification = ({
       >
         <FormFieldInput
           control={form.control}
-          description={
-            formFieldsEmployeeCertification.company_name.description
-          }
+          description={formFieldsEmployeeCertification.company_name.description}
           label={formFieldsEmployeeCertification.company_name.label}
           name={'company_name'}
-          placeholder={
-            formFieldsEmployeeCertification.company_name.placeholder
-          }
+          placeholder={formFieldsEmployeeCertification.company_name.placeholder}
           disabled={false}
         />
         <FormFieldInput

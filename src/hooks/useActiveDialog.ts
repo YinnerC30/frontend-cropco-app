@@ -9,10 +9,7 @@ export const useActiveDialog = () => {
       const hasRadixAlertDialog = document.querySelector(
         '[role="alertdialog"]'
       );
-      console.log(
-        '🚀 ~ checkActiveDialog ~ hasRadixAlertDialog:',
-        hasRadixAlertDialog
-      );
+
       setIsActiveDialog(!!hasRoleDialog || !!hasRadixAlertDialog);
     };
 

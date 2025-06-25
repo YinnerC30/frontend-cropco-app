@@ -1,4 +1,4 @@
-import { ScrollArea } from '@/components';
+import { Input, Label, ScrollArea } from '@/components';
 import { Button } from '@/components/ui/button';
 import {
   DialogClose,
@@ -17,12 +17,14 @@ import { MutationVariables } from '../../hooks/mutations/usePostCertificationEmp
 import { EmployeeCertification } from '../../interfaces/EmployeeCertification';
 import { formSchemaEmployeeCertification } from '../../utils/formSchemaEmployeeCertification';
 import { FormEmployeeCertification } from './form/FormEmployeeCertification';
+import { Employee } from '../../interfaces/Employee';
 
 interface Props {
   employeeId: string;
   mutation: UseMutationReturn<Blob, MutationVariables>;
   disabled: boolean;
   handleCloseDialog: () => void;
+  employee: Partial<Employee>;
 }
 
 const defaultValuesCertification: EmployeeCertification = {
@@ -39,6 +41,7 @@ export function ActionGenerateCertification({
   mutation,
   disabled,
   handleCloseDialog,
+  employee,
 }: Props) {
   const { mutate, isPending } = mutation;
 
@@ -70,7 +73,7 @@ export function ActionGenerateCertification({
   return (
     <>
       <DialogContent
-        className="sm:max-w-[425px]"
+        className="sm:max-w-[425px] max-w-[95vw]"
         onPointerDownOutside={(event) => {
           event.preventDefault();
         }}
@@ -101,7 +104,18 @@ export function ActionGenerateCertification({
         </DialogHeader>
 
         <ScrollArea className="h-[60vh] w-full py-2">
-          <FormEmployeeCertification formEmployeeCertification={form} />
+          <div className="pl-1 my-2">
+            <Label>Empleado:</Label>
+            <Input
+              value={employee.first_name + ' ' + employee.last_name}
+              className="w-auto"
+              disabled
+            />
+          </div>
+          <FormEmployeeCertification
+            formEmployeeCertification={form}
+            // employee={employee}
+          />
         </ScrollArea>
 
         <DialogFooter>

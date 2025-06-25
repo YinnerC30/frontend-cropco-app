@@ -99,6 +99,7 @@ export const EmployeesModuleActionsTable: React.FC<Props> = ({
           disabled={!actionsEmployeesModule['generate_certification_employee']}
           mutation={mutationGenerateCertification}
           handleCloseDialog={handleCloseDialog}
+          employee={{ ...row.original }}
         />
       )}
     </Dialog>
