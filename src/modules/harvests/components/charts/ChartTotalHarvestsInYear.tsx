@@ -209,7 +209,7 @@ export function ChartTotalHarvestsInYear() {
                           {chartConfig[name as keyof typeof chartConfig]
                             ?.label || name}
                           <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
-                            {value}
+                            {FormatNumber(value as number)}
 
                             <span className="font-normal text-muted-foreground">
                               {UnitSymbols[unitTypeToShowAmount]}

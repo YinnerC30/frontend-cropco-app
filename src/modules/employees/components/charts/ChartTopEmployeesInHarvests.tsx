@@ -20,7 +20,7 @@ import { ButtonRefetchData } from '@/modules/core/components';
 import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
 import YearSelector from '@/modules/core/components/shared/YearSelector';
-import { FormatMoneyValue } from '@/modules/core/helpers';
+import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 import {
   MassUnitOfMeasure,
@@ -175,7 +175,7 @@ export function ChartTopEmployeesInHarvests() {
                             ?.label || name}
                           <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
                             {name === 'total_harvests_amount'
-                              ? Number(value)
+                              ? FormatNumber(value as number)
                               : FormatMoneyValue(Number(value))}
                             {name === 'total_harvests_amount' && (
                               <span className="font-normal text-muted-foreground">
