@@ -101,7 +101,12 @@ export const ShoppingModuleSearchbar: React.FC = () => {
     const isValid = await form.trigger(name);
     if (!isValid) return false;
 
-    const { filter_by_value_pay, suppliers = [], supplies = [], filter_by_date } = form.watch();
+    const {
+      filter_by_value_pay,
+      suppliers = [],
+      supplies = [],
+      filter_by_date,
+    } = form.watch();
 
     const filters: FilterSearchBar[] = [];
 
