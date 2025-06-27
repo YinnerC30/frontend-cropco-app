@@ -1,3 +1,4 @@
+import { UserLocalStorageManager } from '@/auth';
 import { TenantLocalStorageManager } from '@/auth/utils/TenantLocalStorageManager';
 import { BASE_PATH_API_CROPCO } from '@/config';
 import { TenantManagementLocalStorageManager } from '@/management/auth/utils/TenantManagementLocalStorageManager';
@@ -47,6 +48,10 @@ cropcoAPI.interceptors.request.use(
       return config; // Ignora el interceptor y devuelve la configuración
     }
 
+    const token = UserLocalStorageManager.getToken();
+    if (!!token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
     // Ya no enviamos el token JWT manualmente - se envía automáticamente via cookies
     // Solo mantenemos los headers adicionales que necesites
     const tenantId = TenantLocalStorageManager.getTenantIdToLocalStorage();

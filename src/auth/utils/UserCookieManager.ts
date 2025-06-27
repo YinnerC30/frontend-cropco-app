@@ -1,5 +1,9 @@
 import { UserActive } from '../interfaces';
-import { createCookieManager, type CookieOptions } from '../../lib/cookieManager';
+import {
+  createCookieManager,
+  type CookieOptions,
+  getDefaultCookieOptions,
+} from '../../lib/cookieManager';
 
 export class UserCookieManager {
   private static readonly defaultValues: UserActive = {
@@ -13,21 +17,18 @@ export class UserCookieManager {
   };
 
   // Configuración de cookies para datos de usuario
-  private static readonly cookieOptions: CookieOptions = {
-    expires: 7, // 7 días
-    secure: window.location.protocol === 'https:', // Secure si es HTTPS
-    sameSite: 'strict', // Protección CSRF estricta para datos de autenticación
-    path: '/', // Disponible en toda la aplicación
-  };
+  private static readonly cookieOptions: CookieOptions =
+    getDefaultCookieOptions({
+      expires: 7, // 7 días
+      sameSite: 'strict', // Protección CSRF estricta para datos de autenticación
+    });
 
   // Configuración específica para el token (más segura y con menor duración)
-  private static readonly tokenCookieOptions: CookieOptions = {
-    expires: 1, // 1 día para el token
-    secure: window.location.protocol === 'https:',
-    sameSite: 'strict',
-    path: '/',
-    // httpOnly: true, // No se puede usar en el frontend, solo en backend
-  };
+  private static readonly tokenCookieOptions: CookieOptions =
+    getDefaultCookieOptions({
+      expires: 1, // 1 día para el token
+      sameSite: 'strict',
+    });
 
   private static readonly userStorage = createCookieManager(
     'user-active',
@@ -53,7 +54,7 @@ export class UserCookieManager {
    * Elimina todos los datos del usuario de las cookies
    */
   static removeUser(): void {
-    UserCookieManager.userStorage.remove();
+    // UserCookieManager.userStorage.remove();
   }
 
   /**
@@ -143,10 +144,10 @@ export class UserCookieManager {
   static getUserWithCustomExpiry(days: number): UserActive {
     const user = UserCookieManager.userStorage.get();
     // Actualiza la expiración
-    UserCookieManager.userStorage.save(user, { 
-      ...UserCookieManager.cookieOptions, 
-      expires: days 
+    UserCookieManager.userStorage.save(user, {
+      ...UserCookieManager.cookieOptions,
+      expires: days,
     });
     return user;
   }
-} 
+}
