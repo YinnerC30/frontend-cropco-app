@@ -67,7 +67,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const { user } = useAppSelector((state: RootState) => state.authentication);
   const { tenant } = useAppSelector((state: RootState) => state.tenant);
 
-  const userTokenCookieManager = createCookieManager('user-token', {}, {});
+  // const userTokenCookieManager = createCookieManager('user-token', {}, {});
 
   const queryClient = useQueryClient();
   const tokenSession = user?.token;
@@ -82,7 +82,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
   const saveUser = (user: UserActive) => {
     UserLocalStorageManager.saveUser(user);
-    userTokenCookieManager.save(user.token);
+    // userTokenCookieManager.save(user.token);
     dispatch(setUserActive(user));
   };
 
@@ -92,17 +92,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   // Función helper para eliminar cookies de manera consistente
-  const removeCookieWithOptions = (cookieName: string) => {
-    const cookieOptions = {
-      path: '/',
-      domain: getCookieDomain(),
-    };
-    Cookies.remove(cookieName, cookieOptions);
-  };
+  // const removeCookieWithOptions = (cookieName: string) => {
+  //   const cookieOptions = {
+  //     path: '/',
+  //     domain: getCookieDomain(),
+  //   };
+  //   Cookies.remove(cookieName, cookieOptions);
+  // };
 
   const removeUser = () => {
     // Eliminar la cookie con las mismas opciones que se usaron al crearla
-    removeCookieWithOptions('user-token');
+    // removeCookieWithOptions('user-token');
     setExecuteQueryModule(false);
     UserLocalStorageManager.removeUser();
     dispatch(removeUserActive());
