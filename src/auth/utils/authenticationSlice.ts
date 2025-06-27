@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UserActive } from '../interfaces/UserActive';
-import { UserLocalStorageManager } from './UserLocalStorageManager';
+import { UserCookieManager } from './UserCookieManager';
 
 interface authenticationState {
   user: UserActive;
 }
 
 const initialState: authenticationState = {
-  user: UserLocalStorageManager.getUser(),
+  user: UserCookieManager.getUser(),
 };
 
 export const authenticationSlice = createSlice({

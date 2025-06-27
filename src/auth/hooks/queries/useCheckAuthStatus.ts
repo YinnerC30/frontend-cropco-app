@@ -21,26 +21,15 @@ declare module 'axios' {
   }
 }
 
-export const checkAuthStatus = async (
-  token: string
-): PromiseReturnRecord<ResponseCheckAuth> => {
-  return await cropcoAPI.get(`${pathsCropco.authentication}/check-status`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    // skipInterceptor: true,
-  });
+export const checkAuthStatus = async (): PromiseReturnRecord<ResponseCheckAuth> => {
+  return await cropcoAPI.get(`${pathsCropco.authentication}/check-status`);
 };
 
-export const useCheckAuthStatus = ({
-  token = '',
-}: {
-  token: string;
-}): UseGetOneRecordReturn<ResponseCheckAuth> => {
+export const useCheckAuthStatus = (): UseGetOneRecordReturn<ResponseCheckAuth> => {
   const { is_login, handleError } = useAuthContext();
   const query: UseGetOneRecordReturn<ResponseCheckAuth> = useQuery({
     queryKey: ['valid-sesion-user'],
-    queryFn: () => checkAuthStatus(token),
+    queryFn: () => checkAuthStatus(),
     enabled: is_login,
     refetchOnWindowFocus: false,
     // refetchIntervalInBackground

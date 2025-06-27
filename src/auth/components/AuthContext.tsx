@@ -22,8 +22,8 @@ import {
   UseHandlerErrorProps,
 } from '../hooks/errors/useHandlerError';
 import { TenantLocalStorageManager } from '../utils/TenantLocalStorageManager';
-import { UserLocalStorageManager } from '../utils/UserLocalStorageManager';
 import { setTenant } from '../utils/tenantSlice';
+import { UserCookieManager } from '../utils/UserCookieManager';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
@@ -73,7 +73,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     dispatch(setTenant(tenant));
   };
   const saveUser = (user: UserActive) => {
-    UserLocalStorageManager.saveUser(user);
+    UserCookieManager.saveUser(user);
     dispatch(setUserActive(user));
   };
 
@@ -84,7 +84,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const removeUser = () => {
     setExecuteQueryModule(false);
-    UserLocalStorageManager.removeUser();
+    UserCookieManager.removeUser();
     dispatch(removeUserActive());
     removeTenant();
     queryClient.clear();
@@ -102,7 +102,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const updateTokenInClient = (token: string) => {
     if (user) {
-      UserLocalStorageManager.renewToken(user, token);
+      UserCookieManager.renewToken(user, token);
       dispatch(setToken(token));
     }
   };
