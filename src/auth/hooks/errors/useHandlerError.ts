@@ -51,7 +51,7 @@ export const useHandlerError = () => {
         break;
       case 401:
         if (handlers.unauthorized?.onHandle) {
-          // handlers.unauthorized.onHandle(error);
+          handlers.unauthorized.onHandle(error);
         }
         toast.error(
           handlers.unauthorized?.message ||
