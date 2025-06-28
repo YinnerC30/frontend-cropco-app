@@ -18,6 +18,7 @@ import { useToastDiscardChanges } from '@/modules/core/hooks/useToastDiscardChan
 import { Route, routes } from '@/routes/components/RoutesNavBar';
 
 import { useAuthContext } from '@/auth';
+import { useLogoutUser } from '@/auth/hooks/mutations/useLogoutUser';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useHome } from '../hooks/useHome';
 import { Button } from '../ui/button';
@@ -39,7 +40,8 @@ export function AppSidebar() {
   const { hasUnsavedChanges } = useFormChange();
   const { showToast } = useToastDiscardChanges();
 
-  const { logout } = useAuthContext();
+  const { removeUser } = useAuthContext();
+  const mutationLogoutUser = useLogoutUser();
 
   const { setTheme } = useTheme();
 
@@ -61,12 +63,9 @@ export function AppSidebar() {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-    } catch (error) {
-      console.error('Error durante el logout:', error);
-    }
+  const handleLogout = () => {
+    removeUser();
+    mutationLogoutUser.mutate();
   };
 
   return (
@@ -84,7 +83,10 @@ export function AppSidebar() {
               {routes.map((route: Route) => {
                 if (nameModulesUser.includes(route.name_module)) {
                   return (
-                    <SidebarMenuItem key={route.path} className='hover:cursor-pointer'>
+                    <SidebarMenuItem
+                      key={route.path}
+                      className="hover:cursor-pointer"
+                    >
                       <SidebarMenuButton
                         onClick={(e) => handleClick(e, route.path)}
                         isActive={url.pathname.includes(route.name_module)}
