@@ -4,6 +4,7 @@ import {
   type CookieOptions,
   getDefaultCookieOptions,
 } from '../../lib/cookieManager';
+import { cropcoAPI, pathsCropco } from '../../api/cropcoAPI';
 
 export class UserCookieManager {
   private static readonly defaultValues: UserActive = {
@@ -54,7 +55,7 @@ export class UserCookieManager {
    * Elimina todos los datos del usuario de las cookies
    */
   static removeUser(): void {
-    // UserCookieManager.userStorage.remove();
+    UserCookieManager.userStorage.remove();
   }
 
   /**
@@ -149,5 +150,24 @@ export class UserCookieManager {
       expires: days,
     });
     return user;
+  }
+
+  /**
+   * Realiza logout completo: llama al servidor y limpia las cookies locales
+   */
+  static async performLogout(): Promise<void> {
+    try {
+      // 1. Llamar al endpoint de logout del servidor
+      await cropcoAPI.post(`${pathsCropco.authentication}/logout`);
+      
+      // 2. Limpiar las cookies locales
+      UserCookieManager.removeUser();
+      
+      console.log('Logout exitoso: cookies limpiadas y servidor notificado');
+    } catch (error) {
+      // Si falla la llamada al servidor, aún limpiamos las cookies locales
+      console.warn('Error al notificar logout al servidor, pero limpiando cookies locales:', error);
+      UserCookieManager.removeUser();
+    }
   }
 }

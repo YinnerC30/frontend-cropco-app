@@ -39,7 +39,7 @@ export function AppSidebar() {
   const { hasUnsavedChanges } = useFormChange();
   const { showToast } = useToastDiscardChanges();
 
-  const { removeUser } = useAuthContext();
+  const { logout } = useAuthContext();
 
   const { setTheme } = useTheme();
 
@@ -58,6 +58,14 @@ export function AppSidebar() {
     } else {
       isMobile && setOpenMobile(false);
       navigate(path);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Error durante el logout:', error);
     }
   };
 
@@ -120,7 +128,7 @@ export function AppSidebar() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <SidebarMenuButton onClick={() => removeUser()}>
+        <SidebarMenuButton onClick={handleLogout}>
           <LogOut /> Salir
         </SidebarMenuButton>
       </SidebarFooter>

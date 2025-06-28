@@ -29,6 +29,8 @@ import {
 } from '../hooks/errors/useHandlerError';
 import { TenantLocalStorageManager } from '../utils/TenantLocalStorageManager';
 import { setTenant } from '../utils/tenantSlice';
+import { UserCookieManager } from '../utils/UserCookieManager';
+import { cropcoAPI, pathsCropco } from '../../api/cropcoAPI';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
@@ -108,6 +110,34 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     dispatch(removeUserActive());
     removeTenant();
     queryClient.clear();
+  };
+
+  /**
+   * Realiza logout completo: llama al servidor y limpia el estado local
+   */
+  const logout = async (): Promise<void> => {
+    try {
+      // 1. Llamar al endpoint de logout del servidor
+      await cropcoAPI.post(`${pathsCropco.authentication}/logout`);
+      
+      // 2. Limpiar cookies locales
+      UserCookieManager.removeUser();
+      
+      // 3. Limpiar estado local
+      removeUser();
+      
+      // 4. Redirigir al login
+      navigate(PATH_LOGIN, { replace: true });
+      
+      console.log('Logout exitoso: servidor notificado y estado limpiado');
+    } catch (error) {
+      console.warn('Error al notificar logout al servidor, pero limpiando estado local:', error);
+      
+      // Aún limpiamos el estado local en caso de error
+      UserCookieManager.removeUser();
+      removeUser();
+      navigate(PATH_LOGIN, { replace: true });
+    }
   };
 
   const queryGetAllModules = useGetAllModules({
@@ -241,6 +271,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         saveUser,
         is_login: user?.is_login ?? false,
         removeUser,
+        logout,
         updateTokenInClient,
         tokenSession,
         user,
