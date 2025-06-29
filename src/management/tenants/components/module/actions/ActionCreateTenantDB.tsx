@@ -1,24 +1,21 @@
 import { Button, DropdownMenuItem } from '@/components';
 import { useDataTableMenuActionsContext } from '@/modules/core/components';
-import { ToggleLeft, ToggleRight } from 'lucide-react';
 import React from 'react';
-import { usePatchTenantStatus } from '../../hooks/mutations/usePatchStatusTenant';
+import { useCreateTenantDB } from '../../../hooks/mutations/useCreateTenantDB';
 
 interface Props {
   id: string;
-  status: boolean;
   disabled?: boolean;
 }
 
-export const ActionToogleStatusTenant: React.FC<Props> = ({
+export const ActionCreateTenantDB: React.FC<Props> = ({
   id,
-  status,
   disabled = false,
 }) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
-  const { mutate } = usePatchTenantStatus();
+  const { mutate } = useCreateTenantDB();
 
-  const handleToggleTenant = () => {
+  const handleCreateTenantDB = () => {
     mutate(id, { onSuccess: () => toggleOpen(false) });
   };
 
@@ -26,20 +23,12 @@ export const ActionToogleStatusTenant: React.FC<Props> = ({
     <DropdownMenuItem asChild>
       <Button
         type="button"
-        onClick={handleToggleTenant}
+        onClick={handleCreateTenantDB}
         variant={'ghost'}
         className="cursor-pointer"
         disabled={disabled}
       >
-        {status ? (
-          <>
-            <ToggleRight className="w-4 h-4 mr-2" /> Desactivar
-          </>
-        ) : (
-          <>
-            <ToggleLeft className="w-4 h-4 mr-2" /> Activar
-          </>
-        )}
+        Crear
       </Button>
     </DropdownMenuItem>
   );

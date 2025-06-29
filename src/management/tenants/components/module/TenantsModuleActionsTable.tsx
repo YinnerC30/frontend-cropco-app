@@ -8,13 +8,23 @@ import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/D
 import { Row } from '@tanstack/react-table';
 import React from 'react';
 
+import {
+  Button,
+  DropdownMenuPortal,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+} from '@/components';
+import { Database } from 'lucide-react';
 import { Tenant } from '../../interfaces/Tenant';
-import { ActionToogleStatusTenant } from './ActionToogleStatusTenant';
-import { ActionVisitSiteTenant } from './ActionVisitSiteTenant';
+
+import { ActionAdminUsers } from './actions/ActionAdministrationUsers';
+import { ActionCreateTenantDB } from './actions/ActionCreateTenantDB';
+import { ActionVisitSiteTenant } from './actions/ActionVisitSiteTenant';
+
 import { useTenantsModuleContext } from './TenantsModuleContext';
-import { ActionAdminUsers } from './ActionAdministrationUsers';
-import { ActionCreateTenantDB } from './ActionCreateTenantDB';
-import { ActionConfigTenantDB } from './ActionConfigTenantDB';
+import { ActionConfigTenantDB } from './actions/ActionConfigTenantDB';
+import { ActionToogleStatusTenant } from './actions/ActionToogleStatusTenant';
 
 interface Props {
   row: Row<Tenant>;
@@ -48,12 +58,24 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
 
       <ActionViewRecord id={id} disabled={false} />
 
+      <DropdownMenuSub>
+        <DropdownMenuSubTrigger>
+          <Button type="button" variant={'ghost'} className="cursor-pointer">
+            <Database className="w-4 h-4 mr-2" />
+            {'DB'}
+          </Button>
+        </DropdownMenuSubTrigger>
+        <DropdownMenuPortal>
+          <DropdownMenuSubContent>
+            <ActionCreateTenantDB id={id} disabled={false} />
+            <ActionConfigTenantDB id={id} status={false} disabled={false} />
+          </DropdownMenuSubContent>
+        </DropdownMenuPortal>
+      </DropdownMenuSub>
+
       <ActionToogleStatusTenant id={id} status={is_active} disabled={false} />
-      <ActionCreateTenantDB id={id} disabled={false} />
 
       <ActionAdminUsers id={id} disabled={!is_active} />
-
-      <ActionConfigTenantDB id={id} status={false} disabled={false} />
     </DropDownMenuActions>
   );
 };

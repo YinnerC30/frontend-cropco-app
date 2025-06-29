@@ -1,8 +1,8 @@
 import { Button, DropdownMenuItem } from '@/components';
+import { usePatchTenantStatus } from '@/management/tenants/hooks/mutations/usePatchStatusTenant';
 import { useDataTableMenuActionsContext } from '@/modules/core/components';
-import { Database } from 'lucide-react';
+import { ToggleLeft, ToggleRight } from 'lucide-react';
 import React from 'react';
-import { useConfigTenantDB } from '../../hooks/mutations/useConfigTenantDB';
 
 interface Props {
   id: string;
@@ -10,15 +10,15 @@ interface Props {
   disabled?: boolean;
 }
 
-export const ActionConfigTenantDB: React.FC<Props> = ({
+export const ActionToogleStatusTenant: React.FC<Props> = ({
   id,
   status,
   disabled = false,
 }) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
-  const { mutate } = useConfigTenantDB();
+  const { mutate } = usePatchTenantStatus();
 
-  const handleToggleTenantDB = () => {
+  const handleToggleTenant = () => {
     mutate(id, { onSuccess: () => toggleOpen(false) });
   };
 
@@ -26,13 +26,20 @@ export const ActionConfigTenantDB: React.FC<Props> = ({
     <DropdownMenuItem asChild>
       <Button
         type="button"
-        onClick={handleToggleTenantDB}
+        onClick={handleToggleTenant}
         variant={'ghost'}
         className="cursor-pointer"
-        disabled={status}
+        disabled={disabled}
       >
-        <Database className="w-4 h-4 mr-2" />
-        {status ? 'Ya se migró' : 'Migrar DB'}
+        {status ? (
+          <>
+            <ToggleRight className="w-4 h-4 mr-2" /> Desactivar
+          </>
+        ) : (
+          <>
+            <ToggleLeft className="w-4 h-4 mr-2" /> Activar
+          </>
+        )}
       </Button>
     </DropdownMenuItem>
   );

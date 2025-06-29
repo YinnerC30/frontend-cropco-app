@@ -1,22 +1,24 @@
 import { Button, DropdownMenuItem } from '@/components';
+import { useConfigTenantDB } from '@/management/tenants/hooks/mutations/useConfigTenantDB';
 import { useDataTableMenuActionsContext } from '@/modules/core/components';
 import { Database } from 'lucide-react';
 import React from 'react';
-import { useCreateTenantDB } from '../../hooks/mutations/useCreateTenantDB';
 
 interface Props {
   id: string;
+  status: boolean;
   disabled?: boolean;
 }
 
-export const ActionCreateTenantDB: React.FC<Props> = ({
+export const ActionConfigTenantDB: React.FC<Props> = ({
   id,
+  status,
   disabled = false,
 }) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
-  const { mutate } = useCreateTenantDB();
+  const { mutate } = useConfigTenantDB();
 
-  const handleCreateTenantDB = () => {
+  const handleToggleTenantDB = () => {
     mutate(id, { onSuccess: () => toggleOpen(false) });
   };
 
@@ -24,12 +26,12 @@ export const ActionCreateTenantDB: React.FC<Props> = ({
     <DropdownMenuItem asChild>
       <Button
         type="button"
-        onClick={handleCreateTenantDB}
+        onClick={handleToggleTenantDB}
         variant={'ghost'}
         className="cursor-pointer"
-        disabled={disabled}
+        disabled={status}
       >
-        <Database className="w-4 h-4 mr-2" /> Crear DB
+        {status ? 'Ya se migró' : 'Migrar'}
       </Button>
     </DropdownMenuItem>
   );
