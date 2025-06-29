@@ -54,7 +54,7 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
 
       <ActionVisitSiteTenant
         subdomain={subdomain}
-        disabled={!is_active_tenant}
+        disabled={!is_active_tenant || !is_created_db || !is_migrated_db}
       />
 
       <ActionDeleteRecord action={handleDelete} disabled={false} />
@@ -92,7 +92,10 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
         disabled={false}
       />
 
-      <ActionAdminUsers id={id} disabled={!is_active_tenant || !is_created_db} />
+      <ActionAdminUsers
+        id={id}
+        disabled={!is_active_tenant || !is_created_db}
+      />
     </DropDownMenuActions>
   );
 };
