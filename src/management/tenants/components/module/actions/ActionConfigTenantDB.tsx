@@ -1,7 +1,6 @@
 import { Button, DropdownMenuItem } from '@/components';
 import { useConfigTenantDB } from '@/management/tenants/hooks/mutations/useConfigTenantDB';
 import { useDataTableMenuActionsContext } from '@/modules/core/components';
-import { Database } from 'lucide-react';
 import React from 'react';
 
 interface Props {

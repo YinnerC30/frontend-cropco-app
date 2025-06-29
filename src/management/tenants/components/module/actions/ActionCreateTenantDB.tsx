@@ -5,11 +5,13 @@ import { useCreateTenantDB } from '../../../hooks/mutations/useCreateTenantDB';
 
 interface Props {
   id: string;
+  status: boolean;
   disabled?: boolean;
 }
 
 export const ActionCreateTenantDB: React.FC<Props> = ({
   id,
+  status = false,
   disabled = false,
 }) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
@@ -28,7 +30,7 @@ export const ActionCreateTenantDB: React.FC<Props> = ({
         className="cursor-pointer"
         disabled={disabled}
       >
-        Crear
+        {status ? 'Ya se creo' : 'Crear'}
       </Button>
     </DropdownMenuItem>
   );

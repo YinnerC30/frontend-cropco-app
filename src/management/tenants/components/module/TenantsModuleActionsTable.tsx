@@ -34,7 +34,9 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
   const { dataTable, mutationDeleteTenant } = useTenantsModuleContext();
 
   const id = row?.original?.id ?? '';
-  const is_active = row?.original?.is_active ?? false;
+  const is_active_tenant = row?.original?.is_active ?? false;
+  const is_created_db = row?.original?.is_created_db ?? false;
+  const is_migrated_db = row?.original?.databases?.[0]?.is_migrated ?? false;
 
   const subdomain = row?.original?.subdomain ?? '';
 
@@ -50,7 +52,10 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
     <DropDownMenuActions>
       <ActionCopyIdRecord id={id} />
 
-      <ActionVisitSiteTenant subdomain={subdomain} disabled={!is_active} />
+      <ActionVisitSiteTenant
+        subdomain={subdomain}
+        disabled={!is_active_tenant}
+      />
 
       <ActionDeleteRecord action={handleDelete} disabled={false} />
 
@@ -67,15 +72,27 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
         </DropdownMenuSubTrigger>
         <DropdownMenuPortal>
           <DropdownMenuSubContent>
-            <ActionCreateTenantDB id={id} disabled={false} />
-            <ActionConfigTenantDB id={id} status={false} disabled={false} />
+            <ActionCreateTenantDB
+              id={id}
+              status={is_created_db}
+              disabled={is_created_db}
+            />
+            <ActionConfigTenantDB
+              id={id}
+              status={is_migrated_db}
+              disabled={false}
+            />
           </DropdownMenuSubContent>
         </DropdownMenuPortal>
       </DropdownMenuSub>
 
-      <ActionToogleStatusTenant id={id} status={is_active} disabled={false} />
+      <ActionToogleStatusTenant
+        id={id}
+        status={is_active_tenant}
+        disabled={false}
+      />
 
-      <ActionAdminUsers id={id} disabled={!is_active} />
+      <ActionAdminUsers id={id} disabled={!is_active_tenant} />
     </DropDownMenuActions>
   );
 };
