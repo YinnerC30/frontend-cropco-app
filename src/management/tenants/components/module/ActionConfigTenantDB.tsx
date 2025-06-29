@@ -2,7 +2,7 @@ import { Button, DropdownMenuItem } from '@/components';
 import { useDataTableMenuActionsContext } from '@/modules/core/components';
 import { Database } from 'lucide-react';
 import React from 'react';
-import { usePatchTenantDBStatus } from '../../hooks/mutations/usePatchStatusTenantDB';
+import { useConfigTenantDB } from '../../hooks/mutations/useConfigTenantDB';
 
 interface Props {
   id: string;
@@ -10,13 +10,13 @@ interface Props {
   disabled?: boolean;
 }
 
-export const ActionToogleStatusTenantDB: React.FC<Props> = ({
+export const ActionConfigTenantDB: React.FC<Props> = ({
   id,
   status,
   disabled = false,
 }) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
-  const { mutate } = usePatchTenantDBStatus();
+  const { mutate } = useConfigTenantDB();
 
   const handleToggleTenantDB = () => {
     mutate(id, { onSuccess: () => toggleOpen(false) });

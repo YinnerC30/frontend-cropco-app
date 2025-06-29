@@ -13,6 +13,8 @@ import { ActionToogleStatusTenant } from './ActionToogleStatusTenant';
 import { ActionVisitSiteTenant } from './ActionVisitSiteTenant';
 import { useTenantsModuleContext } from './TenantsModuleContext';
 import { ActionAdminUsers } from './ActionAdministrationUsers';
+import { ActionCreateTenantDB } from './ActionCreateTenantDB';
+import { ActionConfigTenantDB } from './ActionConfigTenantDB';
 
 interface Props {
   row: Row<Tenant>;
@@ -47,14 +49,11 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
       <ActionViewRecord id={id} disabled={false} />
 
       <ActionToogleStatusTenant id={id} status={is_active} disabled={false} />
+      <ActionCreateTenantDB id={id} disabled={false} />
 
       <ActionAdminUsers id={id} disabled={!is_active} />
 
-      {/* <ActionToogleStatusTenantDB
-        id={id}
-        status={is_migrated}
-        disabled={false}
-      /> */}
+      <ActionConfigTenantDB id={id} status={false} disabled={false} />
     </DropDownMenuActions>
   );
 };
