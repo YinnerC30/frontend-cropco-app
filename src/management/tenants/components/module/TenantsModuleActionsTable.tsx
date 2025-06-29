@@ -22,9 +22,9 @@ import { ActionAdminUsers } from './actions/ActionAdministrationUsers';
 import { ActionCreateTenantDB } from './actions/ActionCreateTenantDB';
 import { ActionVisitSiteTenant } from './actions/ActionVisitSiteTenant';
 
-import { useTenantsModuleContext } from './TenantsModuleContext';
 import { ActionConfigTenantDB } from './actions/ActionConfigTenantDB';
 import { ActionToogleStatusTenant } from './actions/ActionToogleStatusTenant';
+import { useTenantsModuleContext } from './TenantsModuleContext';
 
 interface Props {
   row: Row<Tenant>;
@@ -64,7 +64,7 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
       <ActionViewRecord id={id} disabled={false} />
 
       <DropdownMenuSub>
-        <DropdownMenuSubTrigger>
+        <DropdownMenuSubTrigger className={'h-8'}>
           <Button type="button" variant={'ghost'} className="cursor-pointer">
             <Database className="w-4 h-4 mr-2" />
             {'DB'}
