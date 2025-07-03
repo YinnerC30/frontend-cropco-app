@@ -28,6 +28,7 @@ import {
 import { PATH_MANAGEMENT_HOME_APP } from '@/config';
 import { useAuthTenantContext } from './AuthTenantContext';
 import { MyAdministratorAccount } from './MyAdministratorAccount';
+import { useLogoutAdministrator } from '../hooks/mutations/useLogoutAdministrator';
 
 export function AppManagementSidebar() {
   // const { nameModulesUser } = useHome();
@@ -40,6 +41,7 @@ export function AppManagementSidebar() {
   const { showToast } = useToastDiscardChanges();
 
   const { removeTenantManagement } = useAuthTenantContext();
+  const mutationLogoutAdmin = useLogoutAdministrator();
 
   const { setTheme } = useTheme();
 
@@ -59,6 +61,11 @@ export function AppManagementSidebar() {
       isMobile && setOpenMobile(false);
       navigate(path);
     }
+  };
+
+  const handleLogout = () => {
+    removeTenantManagement();
+    mutationLogoutAdmin.mutate();
   };
 
   const routes = [
@@ -136,7 +143,7 @@ export function AppManagementSidebar() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <SidebarMenuButton onClick={() => removeTenantManagement()}>
+        <SidebarMenuButton onClick={handleLogout}>
           <LogOut /> Salir
         </SidebarMenuButton>
       </SidebarFooter>

@@ -18,6 +18,7 @@ import { useToastDiscardChanges } from '@/modules/core/hooks/useToastDiscardChan
 import { Route, routes } from '@/routes/components/RoutesNavBar';
 
 import { useAuthContext } from '@/auth';
+import { useLogoutUser } from '@/auth/hooks/mutations/useLogoutUser';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useHome } from '../hooks/useHome';
 import { Button } from '../ui/button';
@@ -40,6 +41,7 @@ export function AppSidebar() {
   const { showToast } = useToastDiscardChanges();
 
   const { removeUser } = useAuthContext();
+  const mutationLogoutUser = useLogoutUser();
 
   const { setTheme } = useTheme();
 
@@ -61,6 +63,11 @@ export function AppSidebar() {
     }
   };
 
+  const handleLogout = () => {
+    removeUser();
+    mutationLogoutUser.mutate();
+  };
+
   return (
     <Sidebar collapsible="offcanvas">
       <SidebarHeader>
@@ -76,7 +83,10 @@ export function AppSidebar() {
               {routes.map((route: Route) => {
                 if (nameModulesUser.includes(route.name_module)) {
                   return (
-                    <SidebarMenuItem key={route.path} className='hover:cursor-pointer'>
+                    <SidebarMenuItem
+                      key={route.path}
+                      className="hover:cursor-pointer"
+                    >
                       <SidebarMenuButton
                         onClick={(e) => handleClick(e, route.path)}
                         isActive={url.pathname.includes(route.name_module)}
@@ -120,7 +130,7 @@ export function AppSidebar() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <SidebarMenuButton onClick={() => removeUser()}>
+        <SidebarMenuButton onClick={handleLogout}>
           <LogOut /> Salir
         </SidebarMenuButton>
       </SidebarFooter>

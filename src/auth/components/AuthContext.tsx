@@ -14,7 +14,11 @@ import { defaultGlobalActionsUserAdmin } from '../helpers/defaultGlobalActionsUs
 import { UserActive } from '../interfaces';
 import { AuthContextProps } from '../interfaces/AuthContextProps';
 import { Tenant } from '../interfaces/Tenant';
-import { removeUserActive, setUserActive } from '../utils';
+import {
+  removeUserActive,
+  setUserActive,
+  UserLocalStorageManager,
+} from '../utils';
 import { setToken } from '../utils/authenticationSlice';
 
 import {
@@ -22,7 +26,6 @@ import {
   UseHandlerErrorProps,
 } from '../hooks/errors/useHandlerError';
 import { TenantLocalStorageManager } from '../utils/TenantLocalStorageManager';
-import { UserLocalStorageManager } from '../utils/UserLocalStorageManager';
 import { setTenant } from '../utils/tenantSlice';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
@@ -70,10 +73,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const saveTenant = (tenant: Tenant) => {
     TenantLocalStorageManager.saveTenantInLocalStorage(tenant);
+
     dispatch(setTenant(tenant));
   };
   const saveUser = (user: UserActive) => {
     UserLocalStorageManager.saveUser(user);
+    // userTokenCookieManager.save(user.token);
     dispatch(setUserActive(user));
   };
 
@@ -86,7 +91,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     setExecuteQueryModule(false);
     UserLocalStorageManager.removeUser();
     dispatch(removeUserActive());
-    removeTenant();
     queryClient.clear();
   };
 
@@ -221,6 +225,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         saveUser,
         is_login: user?.is_login ?? false,
         removeUser,
+        // logout,
         updateTokenInClient,
         tokenSession,
         user,
@@ -235,6 +240,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         isError: queryGetAllModules.isError,
         tenantId,
         saveTenant,
+        removeTenant,
       }}
     >
       {children}

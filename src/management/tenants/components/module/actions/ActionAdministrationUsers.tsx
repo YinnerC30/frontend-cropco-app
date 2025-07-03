@@ -1,6 +1,6 @@
 import { ActionNavigate } from '@/modules/core/components';
 import { UsersRound } from 'lucide-react';
-import { MODULE_TENANTS_PATHS } from '../../routes/pathRoutes';
+import { MODULE_TENANTS_PATHS } from '../../../routes/pathRoutes';
 
 interface Props {
   id: string;

@@ -6,23 +6,24 @@ import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutati
 import { toast } from 'sonner';
 import { useAuthTenantContext } from '@/management/auth/components/AuthTenantContext';
 
-async function updateTenantDBStatus(id: string): PromiseReturnRecord<void> {
+async function updateConfigTenantDB(id: string): PromiseReturnRecord<void> {
   return await cropcoAPI.put(`${pathsCropco.tenants}/config-db/one/${id}`);
 }
-export function usePatchTenantDBStatus(): UseMutationReturn<void, string> {
+export function useConfigTenantDB(): UseMutationReturn<void, string> {
   const { handleError } = useAuthTenantContext();
 
   const queryClient = useQueryClient();
   const mutation: UseMutationReturn<void, string> = useMutation({
     mutationFn: (id) => {
-      const fetchUpdateStatusTenant = updateTenantDBStatus(id);
+      const fetchUpdateStatusTenant = updateConfigTenantDB(id);
 
       toast.promise(fetchUpdateStatusTenant, {
-        loading: 'Actualizando estado de la base de datos del inquilino...',
+        loading:
+          'Actualizando configuración de la base de datos del inquilino...',
         success:
-          'El estado de la base de datos del inquilino ha sido actualizado con éxito.',
+          'El configuración de la base de datos del inquilino ha sido actualizado con éxito.',
         error:
-          'Hubo un error al actualizar el estado de la base de datos del inquilino.',
+          'Hubo un error al actualizar la configuración de la base de datos del inquilino.',
       });
 
       return fetchUpdateStatusTenant;

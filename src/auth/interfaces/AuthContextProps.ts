@@ -8,6 +8,8 @@ export interface AuthContextProps {
   saveTenant: (tenant: Tenant) => void;
   is_login: boolean;
   removeUser: () => void;
+  removeTenant: () => void;
+  // logout: () => Promise<void>;
   updateTokenInClient: (token: string) => void;
   tokenSession: string | undefined;
   tenantId: string | undefined;

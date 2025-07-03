@@ -9,11 +9,9 @@ import { AppSidebar } from './AppSideBar';
 import { MainContent } from './MainContent';
 
 export const HomeLayout = () => {
-  const { tokenSession, is_login } = useAuthContext();
+  const { is_login } = useAuthContext();
 
-  const query = useCheckAuthStatus({
-    token: tokenSession!,
-  });
+  const query = useCheckAuthStatus();
 
   if (query.isLoading) {
     return (

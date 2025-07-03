@@ -21,7 +21,10 @@ export class LocalStorageManager<T> {
       }
       return { ...this.defaultValue, ...JSON.parse(data) };
     } catch (error) {
-      console.warn(`Error parsing localStorage data for key "${this.key}":`, error);
+      console.warn(
+        `Error parsing localStorage data for key "${this.key}":`,
+        error
+      );
       return this.defaultValue;
     }
   }
@@ -33,7 +36,10 @@ export class LocalStorageManager<T> {
     try {
       localStorage.setItem(this.key, JSON.stringify(value));
     } catch (error) {
-      console.error(`Error saving to localStorage for key "${this.key}":`, error);
+      console.error(
+        `Error saving to localStorage for key "${this.key}":`,
+        error
+      );
     }
   }
 
@@ -77,4 +83,4 @@ export const createLocalStorageManager = <T>(
   defaultValue: T
 ): LocalStorageManager<T> => {
   return new LocalStorageManager(key, defaultValue);
-}; 
+};

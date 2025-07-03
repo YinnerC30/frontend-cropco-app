@@ -23,6 +23,7 @@ export const getClients = async (
     offset: offset.toString(),
     all_records: all_records.toString(),
   });
+
   return await cropcoAPI.get(`${pathsCropco.clients}/all?${params}`);
 };
 
