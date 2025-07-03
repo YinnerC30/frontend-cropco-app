@@ -58,7 +58,7 @@ export const FormSaleDataTable: React.FC = () => {
       errorMessage={'Ha ocurrido un error en la tabla'}
       lengthColumns={lengthColumns}
     >
-      <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-11/12">
+      <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-full">
         {/* Barra */}
         <FormDataTableFilter
           placeholder={'Buscar por nombre del cliente...'}
