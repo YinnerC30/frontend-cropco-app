@@ -82,7 +82,7 @@ export const FormFieldCalendar: React.FC<FieldCalendarProps> = memo(
                       !!field.value ? new Date(`${field.value}`) : new Date()
                     }
                     onSelect={(date) => {
-                      field.onChange(date);
+                      !date ? field.onChange(new Date()) : field.onChange(date);
                       setOpenPopover(false);
                     }}
                     disabled={conditionCalendar}
