@@ -21,8 +21,8 @@ export const Login: React.FC = () => {
   const formLogin = useCreateForm({
     schema: formSchemaLogin,
     defaultValues: {
-      email: 'usermant@mail.com',
-      password: '123456',
+      email: '',
+      password: '',
     },
   });
 

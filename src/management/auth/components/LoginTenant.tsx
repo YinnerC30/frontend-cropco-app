@@ -22,8 +22,8 @@ export const LoginTenant: React.FC = () => {
   const formLogin = useCreateForm({
     schema: formSchemaLogin,
     defaultValues: {
-      email: 'yinnerchilito@gmail.com',
-      password: '123456',
+      email: '',
+      password: '',
     },
   });
 
