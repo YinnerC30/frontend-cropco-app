@@ -4,7 +4,7 @@ export interface Tenant {
   subdomain: string;
   cell_phone_number: string;
   id?: string;
-  is_active: boolean;
-  is_created_db: boolean;
-  databases: any[];
+  is_active?: boolean;
+  is_created_db?: boolean;
+  databases?: any[];
 }
