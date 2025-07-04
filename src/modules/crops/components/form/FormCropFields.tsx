@@ -20,6 +20,7 @@ export const FormCropFields: React.FC = () => {
         className="flex flex-col gap-2 ml-1"
       >
         <FormFieldInput
+          autoFocus
           control={form.control}
           description={formFieldsCrop.name.description}
           label={formFieldsCrop.name.label}
@@ -71,7 +72,7 @@ export const FormCropFields: React.FC = () => {
           name={'dates.date_of_creation'}
           placeholder={formFieldsCrop.date_of_creation.placeholder}
           disabled={readOnly}
-          className='w-[240px]'
+          className="w-[240px]"
         />
 
         <FormFieldCalendar
@@ -81,7 +82,7 @@ export const FormCropFields: React.FC = () => {
           name={'dates.date_of_termination'}
           placeholder={formFieldsCrop.date_of_termination.placeholder}
           disabled={readOnly}
-          className='w-[240px]'
+          className="w-[240px]"
         />
       </form>
     </Form>

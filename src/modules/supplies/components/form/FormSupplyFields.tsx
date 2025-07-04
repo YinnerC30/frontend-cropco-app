@@ -23,6 +23,7 @@ export const FormSupplyFields = () => {
         className="flex flex-col gap-2 ml-1"
       >
         <FormFieldInput
+          autoFocus
           control={form.control}
           description={formFieldsSupply.name.description}
           label={formFieldsSupply.name.label}

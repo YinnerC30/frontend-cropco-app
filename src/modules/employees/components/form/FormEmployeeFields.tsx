@@ -15,6 +15,7 @@ export const FormEmployeeFields: React.FC = () => {
         className="flex flex-col gap-2 ml-1"
       >
         <FormFieldInput
+          autoFocus
           control={form.control}
           description={formFieldsEmployee.first_name.description}
           label={formFieldsEmployee.first_name.label}
