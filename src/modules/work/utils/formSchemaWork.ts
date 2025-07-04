@@ -8,8 +8,8 @@ export const formSchemaWork = z.object({
       required_error: 'La descripción del trabajo es requerida',
     })
     .min(15, "La descripción debe tener al menos 15 caracteres")
-    .max(100, {
-      message: "La descripción no puede tener más de 100 caracteres.",
+    .max(500, {
+      message: "La descripción no puede tener más de 500 caracteres.",
     }),
 
   crop: z.object({
