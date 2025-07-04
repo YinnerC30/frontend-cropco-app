@@ -10,7 +10,7 @@ export const formSchemaCrop = z.object({
   description: z
     .string({ required_error: `La descripción es requerida` })
     .min(15, { message: `La descripción debe tener mínimo 15 caracteres` })
-    .max(100, { message: `La descripción no debe exceder los 100 caracteres` }),
+    .max(500, { message: `La descripción no debe exceder los 500 caracteres` }),
   number_hectares: z.coerce
     .number({
       required_error: `El número de hectáreas es requerido`,
