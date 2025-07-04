@@ -97,9 +97,9 @@ export const columnsWork: ColumnDef<Work>[] = [
       const array: WorkDetail[] = row.getValue('details') ?? [];
       const result = array.some((item) => item.payment_is_pending);
       return result ? (
-        <Badge variant={'red'}>SI</Badge>
+        <Badge variant={'destructive'}>SI</Badge>
       ) : (
-        <Badge variant={'indigo'}>NO</Badge>
+        <Badge variant={'success'}>NO</Badge>
       );
     },
     header: ({ column }: HeaderContext<Work, unknown>) => {
