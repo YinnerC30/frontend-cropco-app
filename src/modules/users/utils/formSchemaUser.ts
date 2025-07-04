@@ -9,8 +9,8 @@ export const formSchemaUser = z.object({
     .max(100, { message: `El nombre no debe exceder los 100 caracteres` }),
   last_name: z
     .string({ required_error: 'El apellido es obligatorio' })
-    .min(4, {
-      message: 'El apellido debe tener al menos 4 caracteres',
+    .min(2, {
+      message: 'El apellido debe tener al menos 2 caracteres',
     })
     .max(100, { message: `El apellido no debe exceder los 100 caracteres` }),
   email: z
