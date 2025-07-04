@@ -9,8 +9,8 @@ export const formSchemaSupplier = z.object({
     .max(100, { message: `El nombre no debe exceder los 100 caracteres` }),
   last_name: z
     .string()
-    .min(4, {
-      message: 'El apellido debe tener al menos 4 caracteres',
+    .min(2, {
+      message: 'El apellido debe tener al menos 2 caracteres',
     })
     .max(100, { message: `El apellido no debe exceder los 100 caracteres` }),
   email: z.string().email('El correo electrónico es incorrecto').max(100, {
@@ -36,12 +36,15 @@ export const formSchemaSupplier = z.object({
 
   address: z
     .string()
-    .min(6, {
-      message: 'La dirección debe tener mínimo 6 caracteres',
+    .min(15, {
+      message: 'La dirección debe tener mínimo 15 caracteres',
     })
     .max(200, { message: `La dirección debe tener máximo 200 caracteres` }),
   company_name: z
     .string()
+    .min(4, {
+      message: `El nombre de la empresa debe tener minimo 4 caracteres`,
+    })
     .max(100, {
       message: `El nombre de la empresa debe tener máximo 100 caracteres`,
     })
