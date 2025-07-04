@@ -60,7 +60,7 @@ export function ChartTotalWorksInYear() {
   const chartData = organizeWorkData(queryWorks.data as any);
 
   return queryWorks.isSuccess ? (
-    <Card className="w-auto lg:w-[650px] ">
+    <Card className="w-11/12 lg:w-2/4">
       <CardHeader>
         <CardTitle>Total de los trabajos por año</CardTitle>
         <CardDescription>

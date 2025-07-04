@@ -66,7 +66,7 @@ export const ChartTotalConsumptionsInYear = () => {
   const chartData = organizeConsumptionData(queryConsumptions.data as any);
 
   return queryConsumptions.isSuccess ? (
-    <Card className="w-auto lg:w-[650px] ">
+    <Card className="w-11/12 lg:w-2/4">
       <CardHeader>
         <CardTitle>Total de los consumos por año</CardTitle>
         <CardDescription>

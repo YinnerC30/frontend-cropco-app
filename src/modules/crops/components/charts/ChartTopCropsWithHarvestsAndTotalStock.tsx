@@ -71,7 +71,7 @@ export function ChartTopCropsWithHarvestsAndTotalStock() {
     });
     
   return (
-    <Card className="w-auto lg:w-[650px] ">
+    <Card className="w-11/12 lg:w-2/4">
       <CardHeader>
         <CardTitle>
           Top 5 cultivos con más cosechas y total recolectado

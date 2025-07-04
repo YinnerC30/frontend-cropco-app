@@ -77,7 +77,7 @@ export function ChartTopEmployeesInHarvests() {
   });
 
   return (
-    <Card className="w-auto lg:w-[650px] ">
+    <Card className="w-11/12 lg:w-2/4">
       <CardHeader>
         <CardTitle>Top 5 empleados de las cosechas</CardTitle>
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>

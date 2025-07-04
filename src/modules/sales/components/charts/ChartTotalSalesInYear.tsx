@@ -63,7 +63,7 @@ export function ChartTotalSalesInYear() {
   const chartData = organizeSaleData(querySales.data as any);
 
   return querySales.isSuccess ? (
-    <Card className="w-auto lg:w-[650px] ">
+    <Card className="w-11/12 lg:w-2/4">
       <CardHeader>
         <CardTitle>Total de las ventas por año</CardTitle>
         <CardDescription>
