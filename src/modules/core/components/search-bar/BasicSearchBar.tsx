@@ -23,7 +23,7 @@ interface BasicSearchBarProps {
 
 export const BasicSearchBar = ({
   query = '',
-  autoFocus = false,
+  autoFocus = true,
   disabled = false,
 }: BasicSearchBarProps) => {
   const navigate = useNavigate();
