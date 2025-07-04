@@ -11,22 +11,11 @@ export const HomeManagementPage: React.FC = () => {
             Bienvenid@ a la administración de CropCo
           </h1>
           <p className="text-center text-muted-foreground">
-            Aquí podras controlar la información de los inquilinos de la
+            Aquí podrás controlar la información de los inquilinos de la
             plataforma
           </p>
           <p className="text-center text-muted-foreground">
-            Dale un vistaso a la barra lateral donde encontraras las
-            herramientas disponibles
-          </p>
-          <p className="my-2 text-center text-muted-foreground">
-            O puedes intentar presionar{' '}
-            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-              <span className="text-xs">⌘ + J</span>
-            </kbd>
-            <span> o </span>
-            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-              <span className="text-xs">CTRL + J</span>
-            </kbd>
+            Explora la barra lateral para acceder a las herramientas disponibles
           </p>
         </div>
       </main>
