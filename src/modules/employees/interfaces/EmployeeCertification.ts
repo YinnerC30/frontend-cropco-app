@@ -4,5 +4,6 @@ export interface EmployeeCertification {
   company_name: string;
   start_date: Date;
   employee_position: string;
+  id_number: string;
   weekly_working_hours: number;
 }

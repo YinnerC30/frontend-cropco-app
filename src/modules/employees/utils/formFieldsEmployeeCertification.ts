@@ -6,6 +6,7 @@ type EmployeeCertificationFormFields =
   | 'company_name'
   | 'start_date'
   | 'employee_position'
+  | 'id_number'
   | 'weekly_working_hours';
 
 export const formFieldsEmployeeCertification: Record<
@@ -41,6 +42,12 @@ export const formFieldsEmployeeCertification: Record<
     label: 'Cargo del empleado:',
     placeholder: 'Manipulador de Fruta/Cosecha',
     description: 'Cargo desempeñado por el empleado',
+  },
+  id_number: {
+    name: 'id_number',
+    label: 'Número de cédula:',
+    placeholder: '1234567890',
+    description: 'Número de cédula del empleado',
   },
   weekly_working_hours: {
     name: 'weekly_working_hours',

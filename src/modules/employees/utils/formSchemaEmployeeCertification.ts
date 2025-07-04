@@ -38,8 +38,20 @@ export const formSchemaEmployeeCertification = z.object({
     .max(100, {
       message: 'El cargo del empleado no debe exceder los 100 caracteres',
     }),
+  id_number: z
+    .string({ required_error: 'El número de cédula es requerido' })
+    .min(5, { message: 'El número de cédula debe tener al menos 5 caracteres' })
+    .max(20, {
+      message: 'El número de cédula no debe exceder los 20 caracteres',
+    })
+    .regex(/^\d+$/, {
+      message: 'El número de cédula solo debe contener números',
+    }),
   weekly_working_hours: z.coerce
-    .number({ required_error: 'Las horas semanales son requeridas', invalid_type_error: 'Las horas semanales son requeridas' })
+    .number({
+      required_error: 'Las horas semanales son requeridas',
+      invalid_type_error: 'Las horas semanales son requeridas',
+    })
     .int({ message: 'Las horas semanales deben ser un número entero' })
     .min(1, { message: 'Las horas semanales deben ser al menos 1' })
     .max(168, { message: 'Las horas semanales no pueden exceder 168' }),
