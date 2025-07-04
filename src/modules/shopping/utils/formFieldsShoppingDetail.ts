@@ -33,7 +33,7 @@ export const formFieldsShoppingDetail: Record<
     name: 'amount',
     label: 'Monto:',
     placeholder: '0',
-    description: 'Monto a comprar (mililitros o gramos)',
+    description: 'Cantidad a comprar (mililitros o gramos)',
   },
   value_pay: {
     name: 'value_pay',

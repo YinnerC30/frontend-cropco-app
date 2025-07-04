@@ -7,7 +7,7 @@ export const formFieldsConsumption: Record<FormFieldsConsumption, CustomFormFiel
     name: "date",
     label: "Fecha:",
     placeholder: "Selecciona una fecha",
-    description: "Fecha en la que se realizo el consumo",
+    description: "Fecha en la que se realizó el consumo",
   },
   details: {
     name: "details",

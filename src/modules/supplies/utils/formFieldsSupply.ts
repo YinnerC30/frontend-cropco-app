@@ -12,13 +12,13 @@ export const formFieldsSupply: Record<FormFieldsSupply, CustomFormField> = {
     name: 'brand',
     label: 'Marca:',
     placeholder: 'Yara',
-    description: 'Marca a la cual pertenece al producto',
+    description: 'Marca a la cual pertenece el producto',
   },
   unit_of_measure: {
     name: 'unit_of_measure',
     label: 'Unidad de medida base:',
     placeholder: 'Selecciona',
-    description: 'Unidad de medida base con la que se trabajara el insumo',
+    description: 'Unidad de medida base con la que se trabajará el insumo',
   },
 
   observation: {

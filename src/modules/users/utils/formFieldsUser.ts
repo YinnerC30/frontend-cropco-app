@@ -20,7 +20,7 @@ export const formFieldsUser: Record<UserFormFields, CustomFormField> = {
     name: 'last_name',
     label: 'Apellido(s):',
     placeholder: 'Gomez',
-    description: 'Su primer apellido',
+    description: 'Su(s) apellido(s)',
   },
   email: {
     name: 'email',

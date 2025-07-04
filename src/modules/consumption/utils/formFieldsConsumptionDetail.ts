@@ -20,7 +20,7 @@ export const formFieldsConsumptionDetail: Record<
     name: 'crop',
     label: 'Cultivo:',
     placeholder: 'Seleccione un cultivo',
-    description: 'Cultivo al cual se insumo el insumo',
+    description: 'Cultivo donde se utilizó el insumo',
   },
   unit_of_measure: {
     name: 'unit_of_measure',

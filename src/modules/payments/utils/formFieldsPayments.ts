@@ -7,7 +7,7 @@ export const formFieldsPayments: Record<FormFieldsPayments, CustomFormField> = {
     name: 'date',
     label: 'Fecha:',
     placeholder: 'Selecciona una fecha',
-    description: 'Fecha en la que se realizo el pago',
+    description: 'Fecha en la que se realizó el pago',
   },
   employee: {
     name: 'employee',
@@ -19,7 +19,7 @@ export const formFieldsPayments: Record<FormFieldsPayments, CustomFormField> = {
     name: 'method_of_payment',
     label: 'Método de pago:',
     placeholder: 'Selecciona',
-    description: 'Medio por el cual se pagara al empleado',
+    description: 'Medio por el cual se pagará al empleado',
   },
   value_pay: {
     name: 'value_pay',

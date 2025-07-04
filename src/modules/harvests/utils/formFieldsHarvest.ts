@@ -12,13 +12,13 @@ export const formFieldsHarvest: Record<HarvestFormFields, CustomFormField> = {
     name: 'date',
     label: 'Fecha:',
     placeholder: 'Selecciona una fecha',
-    description: 'Fecha en la que se realizo la cosecha',
+    description: 'Fecha en la que se realizó la cosecha',
   },
   crop: {
     name: 'crop',
     label: 'Cultivo:',
     placeholder: 'Selecciona un cultivo',
-    description: 'Nombre del cultivo al cual se le realizo la cosecha',
+    description: 'Nombre del cultivo al cual se le realizó la cosecha',
   },
   amount: {
     name: 'amount',
@@ -35,8 +35,8 @@ export const formFieldsHarvest: Record<HarvestFormFields, CustomFormField> = {
   observation: {
     name: 'observation',
     label: 'Observación:',
-    placeholder: 'Se cosecho hasta...',
-    description: 'Comentario u observación sobre la cosecha realizada',
+    placeholder: 'Se cosechó hasta...',
+    description: 'Observaciones sobre la cosecha realizada',
   },
   details: {
     name: 'details',

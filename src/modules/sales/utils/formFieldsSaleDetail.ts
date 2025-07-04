@@ -28,7 +28,7 @@ export const formFieldsSaleDetail: Record<
     name: 'value_pay',
     label: 'Valor a pagar:',
     placeholder: '0',
-    description: 'Introduce la cantidad de dinero a recibir',
+    description: 'Cantidad de dinero a recibir',
   },
   unit_of_measure: {
     name: 'unit_of_measure',
@@ -40,12 +40,12 @@ export const formFieldsSaleDetail: Record<
     name: 'amount',
     label: 'Cantidad:',
     placeholder: '0',
-    description: 'Introduce la cantidad a vender',
+    description: 'Cantidad a vender',
   },
   is_receivable: {
     name: 'is_receivable',
     label: '¿Pendiente de pago?:',
     placeholder: '',
-    description: '¿Esta pendiente por cobrar?',
+    description: '¿Está pendiente por cobrar?',
   },
 };

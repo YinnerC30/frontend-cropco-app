@@ -33,7 +33,7 @@ export const formFieldsCrop: Record<FormFieldsCrop, CustomFormField> = {
     name: 'units',
     label: 'Número de unidades:',
     placeholder: '1000',
-    description: 'Cantidad de plantas u arboles que tiene el cultivo',
+    description: 'Cantidad de plantas u árboles que tiene el cultivo',
   },
   location: {
     name: 'location',
@@ -45,13 +45,13 @@ export const formFieldsCrop: Record<FormFieldsCrop, CustomFormField> = {
     name: 'date_of_creation',
     label: 'Fecha de creación:',
     placeholder: 'Selecciona una fecha',
-    description: 'Fecha en la que se creo el cultivo',
+    description: 'Fecha en la que se creó el cultivo',
   },
   date_of_termination: {
     name: 'date_of_termination',
     label: 'Fecha de terminación:',
     placeholder: 'Selecciona una fecha',
-    description: 'Fecha en la que se termino el cultivo',
+    description: 'Fecha en la que se terminó el cultivo',
   },
   amount: {
     name: 'harvests_stock.amount',

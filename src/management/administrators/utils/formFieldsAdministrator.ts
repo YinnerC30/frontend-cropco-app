@@ -17,13 +17,13 @@ export const formFieldsAdministrator: Record<
     name: 'first_name',
     label: 'Nombre(s):',
     placeholder: 'Stiven',
-    description: 'Su primer nombre',
+    description: 'Sus nombres',
   },
   last_name: {
     name: 'last_name',
     label: 'Apellido(s):',
     placeholder: 'Gomez',
-    description: 'Su primer apellido',
+    description: 'Sus apellidos',
   },
   email: {
     name: 'email',
@@ -33,15 +33,15 @@ export const formFieldsAdministrator: Record<
   },
   cell_phone_number: {
     name: 'cell_phone_number',
-    label: 'Número celular:',
+    label: 'Número de celular:',
     placeholder: '+573148009870',
-    description: 'Su número celular personal',
+    description: 'Su número de celular personal',
   },
   password1: {
     name: 'password',
     label: 'Contraseña:',
     placeholder: '',
-    description: 'Una contraseña de mínimo 6 caracteres',
+    description: 'Una contraseña de al menos 6 caracteres',
   },
   password2: {
     name: 'password2',
