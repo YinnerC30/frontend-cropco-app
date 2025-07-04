@@ -25,8 +25,8 @@ export const formSchemaCrop = z.object({
     .positive({ message: `El número debe ser positivo` }),
   location: z
     .string({ required_error: `La ubicación es requerida` })
-    .min(4, { message: `La ubicación debe tener al menos 4 caracteres` })
-    .max(100, { message: `La ubicación no debe superar los 100 caracteres` }),
+    .min(15, { message: `La ubicación debe tener al menos 15 caracteres` })
+    .max(150, { message: `La ubicación no debe superar los 150 caracteres` }),
 
   dates: z
     .object({
