@@ -66,11 +66,13 @@ export const MyAccount = () => {
         <DropdownMenuContent side={isMobile ? 'bottom' : 'right'}>
           {/* Info User Login */}
 
-          {userCanChangePassword && (
-            <DropdownMenuItem onClick={handleTrigger}>
-              Cambiar contraseña
-            </DropdownMenuItem>
-          )}
+          <DropdownMenuItem
+            onClick={handleTrigger}
+            disabled={!userCanChangePassword}
+            className=""
+          >
+            Cambiar contraseña
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       {openDialog && userCanChangePassword && (
