@@ -15,7 +15,7 @@ const conversionFactors = {
 };
 
 // Mapeo de unidades a su tipo (masa o volumen)
-const unitTypeMap: Record<UnitOfMeasure, 'mass' | 'volume'> = {
+export const unitTypeMap: Record<UnitOfMeasure, 'mass' | 'volume'> = {
   // Masa
   GRAMOS: 'mass',
   KILOGRAMOS: 'mass',

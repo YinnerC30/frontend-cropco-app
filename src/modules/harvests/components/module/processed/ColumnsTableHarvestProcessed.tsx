@@ -48,7 +48,7 @@ export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
     cell: ({ row }) => {
       const unitOfMeasure: any = row.original.unit_of_measure;
       return (
-        <Badge variant={unitOfMeasure === 'GRAMOS' ? 'lime' : 'cyan'}>
+        <Badge variant={'zinc'}>
           {unitOfMeasure}
         </Badge>
       );

@@ -35,11 +35,7 @@ export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
     },
     cell: ({ row }) => {
       const unitOfMeasure: any = row.original.unit_of_measure;
-      return (
-        <Badge variant={unitOfMeasure === 'GRAMOS' ? 'lime' : 'cyan'}>
-          {unitOfMeasure}
-        </Badge>
-      );
+      return <Badge variant={'zinc'}>{unitOfMeasure}</Badge>;
     },
   },
   {

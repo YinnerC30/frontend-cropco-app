@@ -124,7 +124,7 @@ export const HarvestProcessedFields: React.FC = () => {
         >
           <Badge
             className="block w-auto h-8 text-base text-center"
-            variant={'cyan'}
+            variant={'zinc'}
           >
             {amountConverted}
           </Badge>
@@ -165,7 +165,7 @@ export const HarvestProcessedFields: React.FC = () => {
         >
           <Badge
             className="block h-8 text-base text-center w-28"
-            variant={'indigo'}
+            variant={'emerald'}
           >
             {FormatMoneyValue(data?.value_pay! ?? 0)}
           </Badge>

@@ -14,7 +14,7 @@ export const BadgeColumnsUnitOfMeasure = ({ row }: { row: Row<Supply> }) => {
   const group = getUnitType(row.original.unit_of_measure as UnitOfMeasure);
 
   return (
-    <Badge variant={group === 'mass' ? 'lime' : 'cyan'}>
+    <Badge variant={group === 'mass' ? 'zinc' : 'blue'}>
       {group === 'mass' ? unitMassTypeToShowAmount : unitVolumeTypeToShowAmount}
     </Badge>
   );

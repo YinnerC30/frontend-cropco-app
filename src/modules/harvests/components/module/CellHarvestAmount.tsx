@@ -26,7 +26,7 @@ export const CellHarvestAmount = ({ row }: { row: Row<Harvest> }) => {
   return (
     <div className="flex items-center gap-2">
       <span>{FormatNumber(convertedValue)}</span>
-      <Badge>{symbolToShow}</Badge>
+      <Badge variant={'zinc'}>{symbolToShow}</Badge>
     </div>
   );
 };

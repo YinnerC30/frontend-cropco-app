@@ -48,7 +48,7 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {employees.slice(0, maxVisible).map((employee, index) => (
-            <Badge key={`${employee?.id}-${index}`} className="mb-1 mr-1">
+            <Badge key={`${employee?.id}-${index}`} className="mb-1 mr-1" variant={'orange'}>
               {employee.full_name}
             </Badge>
           ))}

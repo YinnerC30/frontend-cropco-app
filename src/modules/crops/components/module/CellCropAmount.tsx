@@ -2,7 +2,10 @@ import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 import { Row } from '@tanstack/react-table';
 import { useCropsModuleContext } from '../../hooks';
 import { Crop } from '../../interfaces/Crop';
-import { MassUnitOfMeasure, UnitSymbols } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import {
+  MassUnitOfMeasure,
+  UnitSymbols,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { Badge } from '@/components';
 
 export const CellCropAmount = ({ row }: { row: Row<Crop> }) => {
@@ -23,7 +26,7 @@ export const CellCropAmount = ({ row }: { row: Row<Crop> }) => {
   return (
     <div className="flex items-center gap-2">
       <span>{convertedValue}</span>
-      <Badge>{symbolToShow}</Badge>
+      <Badge variant={'zinc'}>{symbolToShow}</Badge>
     </div>
   );
 };

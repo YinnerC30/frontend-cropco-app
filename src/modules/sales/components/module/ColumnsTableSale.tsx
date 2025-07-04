@@ -37,7 +37,7 @@ export const columnsSale: ColumnDef<Sale>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {clients.slice(0, maxVisible).map((client, index) => (
-            <Badge key={`${client}-${index}`} className="mb-1 mr-1">
+            <Badge key={`${client}-${index}`} className="mb-1 mr-1" variant={'orange'}>
               {client}
             </Badge>
           ))}
@@ -65,7 +65,7 @@ export const columnsSale: ColumnDef<Sale>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {crops.slice(0, maxVisible).map((crop, index) => (
-            <Badge key={`${crop}-${index}`} className="mb-1 mr-1">
+            <Badge key={`${crop}-${index}`} className="mb-1 mr-1" variant={'purple'}>
               {crop}
             </Badge>
           ))}
@@ -118,9 +118,9 @@ export const columnsSale: ColumnDef<Sale>[] = [
       const array: SaleDetail[] = row.getValue('details') ?? [];
       const result = array.some((item) => item.is_receivable);
       return result ? (
-        <Badge variant={'red'}>SI</Badge>
+        <Badge variant={'destructive'}>SI</Badge>
       ) : (
-        <Badge variant={'indigo'}>NO</Badge>
+        <Badge variant={'success'}>NO</Badge>
       );
     },
     header: ({ column }: HeaderContext<Sale, unknown>) => {

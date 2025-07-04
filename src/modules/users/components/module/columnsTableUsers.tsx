@@ -56,7 +56,10 @@ export const columnsTableUsers: ColumnDef<User>[] = [
         <>
           {roles?.map((rol, index) => {
             return (
-              <Badge key={`${rol}-${index}-${id}`}>
+              <Badge
+                key={`${rol}-${index}-${id}`}
+                variant={rol == 'admin' ? 'emerald' : 'pink'}
+              >
                 {CapitalizeFirstWord(rol)}
               </Badge>
             );

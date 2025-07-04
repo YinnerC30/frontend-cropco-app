@@ -4,6 +4,9 @@ import { Badge } from '@/components';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatNumber } from '@/modules/core/helpers';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
+import {
+  useUnitConverter
+} from '@/modules/core/hooks/useUnitConverter';
 import { ShoppingDetail } from '@/modules/shopping/interfaces';
 
 export const columnsShoppingDetail: ColumnDef<ShoppingDetail>[] = [
@@ -35,9 +38,11 @@ export const columnsShoppingDetail: ColumnDef<ShoppingDetail>[] = [
       return <ButtonHeaderTable column={column} label={'Unidad de medida:'} />;
     },
     cell: ({ row }) => {
+      const { getUnitType } = useUnitConverter();
       const unitOfMeasure: any = row.original.unit_of_measure;
+      const unit = getUnitType(unitOfMeasure);
       return (
-        <Badge variant={unitOfMeasure === 'GRAMOS' ? 'lime' : 'cyan'}>
+        <Badge variant={unit === 'mass' ? 'zinc' : 'blue'}>
           {unitOfMeasure}
         </Badge>
       );

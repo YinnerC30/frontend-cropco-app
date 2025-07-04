@@ -28,8 +28,8 @@ export const formSchemaSupply = z.object({
   }),
   observation: z
     .string()
-    .min(6, {
-      message: "La observación debe tener mínimo 6 caracteres",
+    .min(10, {
+      message: "La observación debe tener mínimo 10 caracteres",
     })
     .max(500, { message: `La dirección debe tener máximo 200 caracteres` }),
 });

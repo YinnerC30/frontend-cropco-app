@@ -4,6 +4,7 @@ import { ConsumptionDetails } from '@/modules/consumption/interfaces';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatNumber } from '@/modules/core/helpers';
 import { Badge } from '@/components';
+import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 
 export const columnsConsumptionDetail: ColumnDef<ConsumptionDetails>[] = [
   {
@@ -33,9 +34,11 @@ export const columnsConsumptionDetail: ColumnDef<ConsumptionDetails>[] = [
       return <ButtonHeaderTable column={column} label={'Unidad de medida:'} />;
     },
     cell: ({ row }) => {
+      const { getUnitType } = useUnitConverter();
       const unitOfMeasure: any = row.original.unit_of_measure;
+      const unit = getUnitType(unitOfMeasure);
       return (
-        <Badge variant={unitOfMeasure === 'GRAMOS' ? 'lime' : 'cyan'}>
+        <Badge variant={unit === 'mass' ? 'zinc' : 'blue'}>
           {unitOfMeasure}
         </Badge>
       );

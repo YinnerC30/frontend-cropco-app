@@ -99,7 +99,7 @@ export const FormWorkFields: React.FC = () => {
           >
             <Badge
               className="block h-8 text-base text-center w-28"
-              variant={'cyan'}
+              variant={'emerald'}
             >
               {FormatMoneyValue(value_pay)}
             </Badge>

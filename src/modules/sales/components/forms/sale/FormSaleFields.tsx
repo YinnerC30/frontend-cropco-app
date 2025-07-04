@@ -71,7 +71,7 @@ export const FormSaleFields: React.FC = () => {
         >
           <Badge
             className="block h-8 text-base text-center w-28"
-            variant={'cyan'}
+            variant={'emerald'}
           >
             {FormatMoneyValue(value_pay)}
           </Badge>
@@ -89,7 +89,7 @@ export const FormSaleFields: React.FC = () => {
           <div className="flex items-center w-auto gap-2 py-4">
             <Badge
               className="block h-8 text-base text-center w-28"
-              variant={'cyan'}
+              variant={'zinc'}
             >
               {FormatNumber(amount)}
             </Badge>

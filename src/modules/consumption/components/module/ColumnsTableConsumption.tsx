@@ -39,7 +39,7 @@ export const columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {supplies.slice(0, maxVisible).map((supply, index) => (
-            <Badge key={`${supply}-${index}`} className="mb-1 mr-1">
+            <Badge key={`${supply}-${index}`} className="mb-1 mr-1" variant={'cyan'}>
               {supply}
             </Badge>
           ))}
@@ -69,7 +69,7 @@ export const columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {crops.slice(0, maxVisible).map((crop, index) => (
-            <Badge key={`${crop}-${index}`} className="mb-1 mr-1">
+            <Badge key={`${crop}-${index}`} className="mb-1 mr-1" variant={'purple'}>
               {crop}
             </Badge>
           ))}
