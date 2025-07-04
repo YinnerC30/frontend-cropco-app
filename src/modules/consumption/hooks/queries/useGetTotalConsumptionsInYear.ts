@@ -59,7 +59,7 @@ export const useGetTotalConsumptionsInYear = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado del total de consumos en el año 😑'
+        'No tienes permiso para ver el listado del total de consumos en el año '
       );
     }
   }, [isAuthorized]);

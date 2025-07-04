@@ -59,7 +59,7 @@ export const useGetTopEmployeesInHarvests = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado del top usuarios en cosechas 😑'
+        'No tienes permiso para ver el listado del top usuarios en cosechas '
       );
     }
   }, [isAuthorized]);

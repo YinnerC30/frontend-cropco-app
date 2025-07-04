@@ -64,7 +64,7 @@ export const useGetAllSuppliers = ({
 
   useEffect(() => {
     if (!isAuthorized) {
-      toast.error('No tienes permiso para ver el listado de proveedores 😑');
+      toast.error('No tienes permiso para ver el listado de proveedores ');
     }
   }, [isAuthorized]);
 

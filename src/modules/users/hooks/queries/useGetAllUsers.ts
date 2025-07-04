@@ -50,7 +50,7 @@ export function useGetAllUsers({
 
   useEffect(() => {
     if (!isAuthorized) {
-      toast.error('No tienes permiso para ver el listado de usuarios 😑');
+      toast.error('No tienes permiso para ver el listado de usuarios ');
     }
   }, [isAuthorized]);
 

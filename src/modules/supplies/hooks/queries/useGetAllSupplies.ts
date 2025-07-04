@@ -58,7 +58,7 @@ export const useGetAllSupplies = ({
 
   useEffect(() => {
     if (!isAuthorized) {
-      toast.error('No tienes permiso para ver el listado de insumos 😑');
+      toast.error('No tienes permiso para ver el listado de insumos ');
     }
   }, [isAuthorized]);
 

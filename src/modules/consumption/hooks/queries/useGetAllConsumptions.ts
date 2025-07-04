@@ -67,7 +67,7 @@ export function useGetAllConsumptions(
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado de consumos de insumos 😑'
+        'No tienes permiso para ver el listado de consumos de insumos '
       );
     }
   }, [isAuthorized]);

@@ -63,7 +63,7 @@ export const useGetTotalSalesInYear = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado del value_pay de ventas en el año 😑'
+        'No tienes permiso para ver el listado del value_pay de ventas en el año '
       );
     }
   }, [isAuthorized]);

@@ -61,7 +61,7 @@ export const useGetTotalHarvestsInYear = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado del amount de cosechas en el año 😑'
+        'No tienes permiso para ver el listado del amount de cosechas en el año '
       );
     }
   }, [isAuthorized]);

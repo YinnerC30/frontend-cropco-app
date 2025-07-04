@@ -65,7 +65,7 @@ export const useGetAllSuppliesStock = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado de insumos con stock 😑'
+        'No tienes permiso para ver el listado de insumos con stock '
       );
     }
   }, [isAuthorized]);

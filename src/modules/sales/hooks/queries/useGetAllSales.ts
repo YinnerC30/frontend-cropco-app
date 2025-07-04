@@ -112,7 +112,7 @@ export const useGetAllSales = (
 
   useEffect(() => {
     if (!isAuthorized) {
-      toast.error('No tienes permiso para ver el listado de ventas 😑');
+      toast.error('No tienes permiso para ver el listado de ventas ');
     }
   }, [isAuthorized]);
 

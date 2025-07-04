@@ -53,7 +53,7 @@ export const useGetAllTenants = ({
 
   // useEffect(() => {
   //   if (!isAuthorized) {
-  //     toast.error('No tienes permiso para ver el listado de inquilinos 😑');
+  //     toast.error('No tienes permiso para ver el listado de inquilinos ');
   //   }
   // }, [isAuthorized]);
 

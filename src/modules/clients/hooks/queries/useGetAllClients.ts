@@ -64,7 +64,7 @@ export const useGetAllClients = ({
 
   useEffect(() => {
     if (!isAuthorized) {
-      toast.error('No tienes permiso para ver el listado de clientes 😑');
+      toast.error('No tienes permiso para ver el listado de clientes ');
     }
   }, [isAuthorized]);
 

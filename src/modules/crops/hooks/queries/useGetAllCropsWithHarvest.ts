@@ -59,7 +59,7 @@ export const useGetAllCropsWithHarvest = ({
 
   useEffect(() => {
     if (!isAuthorized) {
-      toast.error('No tienes permiso para ver el cultivos con cosechas 😑');
+      toast.error('No tienes permiso para ver el cultivos con cosechas ');
     }
   }, [isAuthorized]);
 

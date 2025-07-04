@@ -34,7 +34,7 @@ export const useGetAllCropsWithConsumptions =
     useEffect(() => {
       if (!isAuthorized) {
         toast.error(
-          'No tienes permiso para ver el listado de cultivos con consumos 😑'
+          'No tienes permiso para ver el listado de cultivos con consumos '
         );
       }
     }, [isAuthorized]);

@@ -98,7 +98,7 @@ export function useGetAllShopping(
 
   useEffect(() => {
     if (!isAuthorized) {
-      toast.error('No tienes permiso para ver el listado de compras 😑');
+      toast.error('No tienes permiso para ver el listado de compras ');
     }
   }, [isAuthorized]);
 

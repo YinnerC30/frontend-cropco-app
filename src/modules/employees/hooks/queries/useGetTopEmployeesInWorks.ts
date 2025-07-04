@@ -59,7 +59,7 @@ export const useGetTopEmployeesInWorks = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado del top empleados en los trabajos 😑'
+        'No tienes permiso para ver el listado del top empleados en los trabajos '
       );
     }
   }, [isAuthorized]);

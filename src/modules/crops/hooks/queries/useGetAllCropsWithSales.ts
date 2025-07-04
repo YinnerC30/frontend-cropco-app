@@ -30,7 +30,7 @@ export const useGetAllCropsWithSales = (): UseQueryGetAllRecordsReturn<Crop> => 
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado de cultivos con trabajos 😑'
+        'No tienes permiso para ver el listado de cultivos con trabajos '
       );
     }
   }, [isAuthorized]);

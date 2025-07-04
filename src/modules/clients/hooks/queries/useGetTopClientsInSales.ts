@@ -59,7 +59,7 @@ export const useGetTopClientsInSales = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado del top clientes en ventas 😑'
+        'No tienes permiso para ver el listado del top clientes en ventas '
       );
     }
   }, [isAuthorized]);
