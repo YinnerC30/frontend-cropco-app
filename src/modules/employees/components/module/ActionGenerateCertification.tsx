@@ -34,6 +34,7 @@ const defaultValuesCertification: EmployeeCertification = {
   start_date: new Date(),
   employee_position: '',
   weekly_working_hours: 0,
+  id_number: ''
 };
 
 export function ActionGenerateCertification({
