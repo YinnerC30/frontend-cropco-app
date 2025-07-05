@@ -17,8 +17,10 @@ import { Link } from 'react-router-dom';
 
 import { formFieldsLogin, formSchemaLogin } from '@/auth/utils';
 import { useLoginTenantUser } from '../hooks/mutations/useLoginTenantUser';
+import useDocumentTitle from '@/modules/core/hooks/useDocumentTitle';
 
 export const LoginTenant: React.FC = () => {
+  useDocumentTitle({ title: 'Login Administración' });
   const formLogin = useCreateForm({
     schema: formSchemaLogin,
     defaultValues: {

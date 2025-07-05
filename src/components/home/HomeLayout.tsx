@@ -3,6 +3,7 @@ import { CommandDialogApp } from '@/modules/core/components/shared/CommandDialog
 import { useAuthContext, useCheckAuthStatus } from '@/auth/hooks';
 import { PATH_LOGIN } from '@/config';
 import { Loading } from '@/modules/core/components';
+import useDocumentTitle from '@/modules/core/hooks/useDocumentTitle';
 import { Navigate } from 'react-router-dom';
 import { SidebarProvider } from '../ui/sidebar';
 import { AppSidebar } from './AppSideBar';
@@ -10,6 +11,8 @@ import { MainContent } from './MainContent';
 
 export const HomeLayout = () => {
   const { is_login } = useAuthContext();
+
+  useDocumentTitle({ title: 'Inicio' });
 
   const query = useCheckAuthStatus();
 

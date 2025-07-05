@@ -16,21 +16,25 @@ const routeConfig: RouteConfig[] = [
     action: 'find_all_crops',
     element: <CropsModule />,
     viewComponent: true,
+    label: 'Cultivos'
   },
   {
     path: 'create/one',
     action: 'create_crop',
     element: <CreateCrop />,
+    label: 'Crear Cultivo'
   },
   {
     path: 'view/one/:id',
     action: 'find_one_crop',
     element: <ViewCrop />,
+    label: 'Ver Cultivo'
   },
   {
     path: 'update/one/:id',
     action: 'update_one_crop',
     element: <ModifyCrop />,
+    label: 'Modificar Cultivo'
   },
 ];
 

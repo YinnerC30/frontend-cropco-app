@@ -5,7 +5,7 @@ import { RouteConfig } from '../interfaces/RouteConfig';
 
 export const generateRoutes = (nameModule: string, routes: RouteConfig[]) =>
   routes.map(
-    ({ path, action, element, viewComponent = false }: RouteConfig) => ({
+    ({ path, action, element, viewComponent = false, label }: RouteConfig) => ({
       path,
       element: (
         <Suspense fallback={<Loading />}>
@@ -14,6 +14,7 @@ export const generateRoutes = (nameModule: string, routes: RouteConfig[]) =>
             action={action}
             element={element}
             viewComponent={viewComponent}
+            label={label}
           />
         </Suspense>
       ),

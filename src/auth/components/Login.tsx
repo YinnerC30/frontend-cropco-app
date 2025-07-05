@@ -16,8 +16,10 @@ import { useCreateForm } from '@/modules/core/hooks';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLoginUser } from '../hooks/mutations/useLoginUser';
+import useDocumentTitle from '@/modules/core/hooks/useDocumentTitle';
 
 export const Login: React.FC = () => {
+  useDocumentTitle({ title: 'Login' });
   const formLogin = useCreateForm({
     schema: formSchemaLogin,
     defaultValues: {

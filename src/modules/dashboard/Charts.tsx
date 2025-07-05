@@ -21,6 +21,7 @@ import { ChartTopEmployeesInWorks } from '../employees/components/charts/ChartTo
 import { ChartTotalHarvestsInYear } from '../harvests/components/charts/ChartTotalHarvestsInYear';
 import { ChartTotalSalesInYear } from '../sales/components/charts/ChartTotalSalesInYear';
 import { ChartTotalWorksInYear } from '../work/components/charts/ChartTotalWorksInYear';
+import useDocumentTitle from '../core/hooks/useDocumentTitle';
 
 interface TitleModuleProps {
   label: string;
@@ -162,6 +163,7 @@ const ConsumptionCharts: React.FC = () => {
 };
 
 export function Charts() {
+  useDocumentTitle({ title: 'Gráficas' });
   const { isMobile, open } = useSidebar();
   const { getActionsModule } = useAuthContext();
   const actionsDashboard = getActionsModule('dashboard');
