@@ -5,11 +5,13 @@ import { AppManagementSidebar } from './AppManagementSideBar';
 import { useAuthTenantContext } from './AuthTenantContext';
 import { Loading } from '@/modules/core/components';
 import { useCheckAuthStatusManagement } from '../hooks/queries/useCheckAuthStatusManagement';
+import useDocumentTitle from '@/modules/core/hooks/useDocumentTitle';
 // import { SidebarProvider } from '../ui/sidebar';
 // import { AppSidebar } from './AppSideBar';
 // import { MainContent } from './MainContent';
 
 export const HomeManagementLayout = () => {
+  useDocumentTitle({ title: 'Inicio Administración' });
   const { is_login, tokenSession } = useAuthTenantContext();
 
   const query = useCheckAuthStatusManagement({
