@@ -23,7 +23,7 @@ export const useGetSupplier = (id: string): UseGetOneRecordReturn<Supplier> => {
   const query: UseGetOneRecordReturn<Supplier> = useQuery({
     queryKey: ["supplier", id],
     queryFn: () => getSupplierById(id),
-    select: ({ data }) => ({ ...data, company_name: undefined }),
+    select: ({ data }) => ({ ...data }),
     enabled: isAuthorized,
     refetchOnWindowFocus: false,
     ...CACHE_CONFIG_TIME.shortTerm,
