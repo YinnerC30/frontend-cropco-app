@@ -1,6 +1,6 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
-import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { useAuthTenantContext } from '@/management/auth/components/AuthTenantContext';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -9,20 +9,22 @@ export interface DataResetPassword {
   password: string;
 }
 
-async function resetPasswordUser(
+async function resetPasswordAdministrator(
   id: string
 ): PromiseReturnRecord<DataResetPassword> {
-  return await cropcoAPI.put(`${pathsCropco.users}/reset-password/one/${id}`);
+  return await cropcoAPI.put(
+    `${pathsCropco.administrators}/reset-password/one/${id}`
+  );
 }
 
-export function usePatchResetPasswordUser(): UseMutationReturn<
+export function usePutResetPasswordAdministrator(): UseMutationReturn<
   DataResetPassword,
   string
 > {
-  const { handleError } = useAuthContext();
+  const { handleError } = useAuthTenantContext();
 
   const mutation: UseMutationReturn<DataResetPassword, string> = useMutation({
-    mutationFn: resetPasswordUser,
+    mutationFn: resetPasswordAdministrator,
     onSuccess: () => {
       toast.success(`Contraseña restablecida`);
     },

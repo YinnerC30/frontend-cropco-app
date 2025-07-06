@@ -8,7 +8,7 @@ import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/D
 import { Row } from '@tanstack/react-table';
 
 import { useAdministratorsModuleContext } from '../../hooks/context/useAdministratorsModuleContext';
-import { usePatchResetPasswordAdministrator } from '../../hooks/mutations/userPatchResetPasswordAdministrator';
+import { usePutResetPasswordAdministrator } from '../../hooks/mutations/userPutResetPasswordAdministrator';
 import { Administrator } from '../../interfaces/Administrator';
 import { ActionResetPassword } from './ActionResetPassword';
 import { ActionToogleStatusAdministrator } from './ActionToogleStatusAdministrator';
@@ -28,7 +28,7 @@ export const AdministratorsModuleActionsTable: React.FC<Props> = ({ row }) => {
 
   const isAdmin = role === 'admin';
 
-  const mutationPatchPassword = usePatchResetPasswordAdministrator();
+  const mutationPatchPassword = usePutResetPasswordAdministrator();
 
   const handleDelete = () => {
     mutationDeleteAdministrator.mutate(id, {

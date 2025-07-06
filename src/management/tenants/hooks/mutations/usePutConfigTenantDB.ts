@@ -9,7 +9,7 @@ import { useAuthTenantContext } from '@/management/auth/components/AuthTenantCon
 async function updateConfigTenantDB(id: string): PromiseReturnRecord<void> {
   return await cropcoAPI.put(`${pathsCropco.tenants}/config-db/one/${id}`);
 }
-export function useConfigTenantDB(): UseMutationReturn<void, string> {
+export function usePutConfigTenantDB(): UseMutationReturn<void, string> {
   const { handleError } = useAuthTenantContext();
 
   const queryClient = useQueryClient();

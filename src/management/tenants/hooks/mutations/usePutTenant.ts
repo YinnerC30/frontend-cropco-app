@@ -17,7 +17,7 @@ export const updateTenant = async (
   return await cropcoAPI.put(`${pathsCropco.tenants}/update/one/${id}`, rest);
 };
 
-export const usePatchTenant = (): UseMutationReturn<void, Tenant> => {
+export const usePutTenant = (): UseMutationReturn<void, Tenant> => {
   const queryClient = useQueryClient();
   const { handleError } = useAuthTenantContext();
   const navigate = useNavigate();

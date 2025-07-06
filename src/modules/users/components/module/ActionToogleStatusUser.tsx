@@ -4,7 +4,7 @@ import { useDataTableMenuActionsContext } from '@/modules/core/components';
 import { ToggleLeft, ToggleRight } from 'lucide-react';
 import React from 'react';
 import { toast } from 'sonner';
-import { usePatchUserStatus } from '../../hooks/mutations/usePatchStatusUser';
+import { usePutUserStatus } from '../../hooks/mutations/usePutUserStatus';
 
 interface Props {
   id: string;
@@ -19,7 +19,7 @@ export const ActionToogleStatusUser: React.FC<Props> = ({
 }) => {
   const { user } = useAuthContext();
   const { toggleOpen } = useDataTableMenuActionsContext();
-  const { mutate, isPending } = usePatchUserStatus();
+  const { mutate, isPending } = usePutUserStatus();
 
   const handleToggleUser = () => {
     mutate(id, { onSuccess: () => toggleOpen(false) });

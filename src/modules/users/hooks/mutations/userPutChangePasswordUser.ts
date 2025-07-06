@@ -1,6 +1,6 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { useAuthTenantContext } from '@/management/auth/components/AuthTenantContext';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -11,24 +11,21 @@ export interface DataChangePassword {
   new_password: string;
 }
 
-async function changePasswordAdministrator({
+async function changePasswordUser({
   id,
   ...rest
 }: DataChangePassword): PromiseReturnRecord<void> {
-  return await cropcoAPI.put(
-    `${pathsCropco.administrators}/change-password/one`,
-    rest
-  );
+  return await cropcoAPI.put(`${pathsCropco.users}/change-password/one`, rest);
 }
 
-export function userPatchChangePasswordAdministrator(): UseMutationReturn<
+export function userPutChangePasswordUser(): UseMutationReturn<
   void,
   DataChangePassword
 > {
-  const { handleError } = useAuthTenantContext();
+  const { handleError } = useAuthContext();
 
   const mutation: UseMutationReturn<void, DataChangePassword> = useMutation({
-    mutationFn: changePasswordAdministrator,
+    mutationFn: changePasswordUser,
     onSuccess: () => {
       toast.success(`Contraseña cambiada`);
     },

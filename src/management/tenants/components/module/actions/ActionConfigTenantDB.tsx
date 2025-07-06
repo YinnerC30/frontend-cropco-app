@@ -1,5 +1,5 @@
 import { Button, DropdownMenuItem } from '@/components';
-import { useConfigTenantDB } from '@/management/tenants/hooks/mutations/useConfigTenantDB';
+import { usePutConfigTenantDB } from '@/management/tenants/hooks/mutations/usePutConfigTenantDB';
 import { useDataTableMenuActionsContext } from '@/modules/core/components';
 import React from 'react';
 
@@ -15,7 +15,7 @@ export const ActionConfigTenantDB: React.FC<Props> = ({
   disabled = false,
 }) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
-  const { mutate } = useConfigTenantDB();
+  const { mutate } = usePutConfigTenantDB();
 
   const handleToggleTenantDB = () => {
     mutate(id, { onSuccess: () => toggleOpen(false) });

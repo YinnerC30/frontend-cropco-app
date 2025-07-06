@@ -12,7 +12,7 @@ import { useState } from 'react';
 
 import { useFormChange } from '@/modules/core/components';
 import { DialogChangePassword } from '@/modules/users/components/DialogChangePassword';
-import { userPatchChangePasswordUser } from '@/modules/users/hooks';
+import { userPutChangePasswordUser } from '@/modules/users/hooks';
 import { Button } from '../ui/button';
 import { Dialog } from '../ui/dialog';
 import { useSidebar } from '../ui/sidebar';
@@ -43,7 +43,7 @@ export const MyAccount = () => {
 
   const [openDropDown, setOpenDropDown] = useState(false);
 
-  const { isPending, mutate } = userPatchChangePasswordUser();
+  const { isPending, mutate } = userPutChangePasswordUser();
 
   return (
     <Dialog onOpenChange={setOpenDialog} modal={false} open={openDialog}>

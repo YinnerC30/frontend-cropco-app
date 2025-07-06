@@ -1,36 +1,32 @@
+import { useAuthContext } from '@/auth/hooks';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
-import { useAuthTenantContext } from '@/management/auth/components/AuthTenantContext';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { toast } from 'sonner';
 
-async function updateAdministratorStatus(
-  id: string
-): PromiseReturnRecord<void> {
-  return await cropcoAPI.put(
-    `${pathsCropco.administrators}/toggle-status/one/${id}`
-  );
+async function updateUserStatus(id: string): PromiseReturnRecord<void> {
+  return await cropcoAPI.put(`${pathsCropco.users}/toggle-status/one/${id}`);
 }
-export function usePatchAdministratorStatus(): UseMutationReturn<void, string> {
-  const { handleError } = useAuthTenantContext();
+export function usePutUserStatus(): UseMutationReturn<void, string> {
+  const { handleError } = useAuthContext();
 
   const queryClient = useQueryClient();
   const mutation: UseMutationReturn<void, string> = useMutation({
     mutationFn: (id) => {
-      const fetchUpdateStatusAdministrator = updateAdministratorStatus(id);
+      const fetchUpdateStatusUser = updateUserStatus(id);
 
-      toast.promise(fetchUpdateStatusAdministrator, {
+      toast.promise(fetchUpdateStatusUser, {
         loading: 'Actualizando estado del usuario...',
         success: 'El estado del usuario ha sido actualizado con éxito.',
         error: 'Hubo un error al actualizar el estado del usuario.',
       });
 
-      return fetchUpdateStatusAdministrator;
+      return fetchUpdateStatusUser;
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['administrators'] });
+      await queryClient.invalidateQueries({ queryKey: ['users'] });
     },
     onError: (error) => {
       handleError({

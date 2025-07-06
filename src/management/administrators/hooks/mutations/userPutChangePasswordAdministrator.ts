@@ -5,28 +5,32 @@ import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutati
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-export interface DataResetPassword {
-  password: string;
+export interface DataChangePassword {
+  id: string;
+  old_password: string;
+  new_password: string;
 }
 
-async function resetPasswordAdministrator(
-  id: string
-): PromiseReturnRecord<DataResetPassword> {
+async function changePasswordAdministrator({
+  id,
+  ...rest
+}: DataChangePassword): PromiseReturnRecord<void> {
   return await cropcoAPI.put(
-    `${pathsCropco.administrators}/reset-password/one/${id}`
+    `${pathsCropco.administrators}/change-password/one`,
+    rest
   );
 }
 
-export function usePatchResetPasswordAdministrator(): UseMutationReturn<
-  DataResetPassword,
-  string
+export function userPutChangePasswordAdministrator(): UseMutationReturn<
+  void,
+  DataChangePassword
 > {
   const { handleError } = useAuthTenantContext();
 
-  const mutation: UseMutationReturn<DataResetPassword, string> = useMutation({
-    mutationFn: resetPasswordAdministrator,
+  const mutation: UseMutationReturn<void, DataChangePassword> = useMutation({
+    mutationFn: changePasswordAdministrator,
     onSuccess: () => {
-      toast.success(`Contraseña restablecida`);
+      toast.success(`Contraseña cambiada`);
     },
     onError: (error) => {
       handleError({

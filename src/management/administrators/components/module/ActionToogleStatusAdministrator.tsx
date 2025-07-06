@@ -4,7 +4,7 @@ import { useDataTableMenuActionsContext } from '@/modules/core/components';
 import { ToggleLeft, ToggleRight } from 'lucide-react';
 import React from 'react';
 import { toast } from 'sonner';
-import { usePatchAdministratorStatus } from '../../hooks/mutations/usePatchStatusAdministrator';
+import { usePutAdministratorStatus } from '../../hooks/mutations/usePutStatusAdministrator';
 
 interface Props {
   id: string;
@@ -19,7 +19,7 @@ export const ActionToogleStatusAdministrator: React.FC<Props> = ({
 }) => {
   const { user } = useAuthTenantContext();
   const { toggleOpen } = useDataTableMenuActionsContext();
-  const { mutate, isPending } = usePatchAdministratorStatus();
+  const { mutate, isPending } = usePutAdministratorStatus();
 
   const handleToggleAdministrator = () => {
     mutate(id, { onSuccess: () => toggleOpen(false) });

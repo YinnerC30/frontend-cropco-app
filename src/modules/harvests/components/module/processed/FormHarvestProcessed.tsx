@@ -18,7 +18,7 @@ import {
 } from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks';
 import {
-  usePatchHarvestProcessed,
+  usePutHarvestProcessed,
   usePostHarvestProcessed,
 } from '@/modules/harvests/hooks';
 import { formFieldsHarvestProcessed } from '@/modules/harvests/utils/formFieldsHarvestProcessed';
@@ -75,7 +75,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
   };
 
   const mutationPostHarvestProcessed = usePostHarvestProcessed();
-  const mutationPatchHarvestProcessed = usePatchHarvestProcessed();
+  const mutationPatchHarvestProcessed = usePutHarvestProcessed();
 
   const onSubmitHarvestProcessed = async () => {
     const result = await formProcessed.trigger();

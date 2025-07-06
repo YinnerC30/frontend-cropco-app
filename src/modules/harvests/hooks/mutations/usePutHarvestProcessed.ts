@@ -17,7 +17,7 @@ export const updateHarvestProcessed = async (
   );
 };
 
-export const usePatchHarvestProcessed = (): UseMutationReturn<
+export const usePutHarvestProcessed = (): UseMutationReturn<
   void,
   HarvestProcessed
 > => {

@@ -10,7 +10,7 @@ import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button, Dialog, useSidebar } from '@/components';
-import { userPatchChangePasswordAdministrator } from '@/management/administrators/hooks/mutations/userPatchChangePasswordAdministrator';
+import { userPutChangePasswordAdministrator } from '@/management/administrators/hooks/mutations/userPutChangePasswordAdministrator';
 import { useFormChange } from '@/modules/core/components';
 import { DialogChangePassword } from '@/modules/users/components/DialogChangePassword';
 import { useAuthTenantContext } from './AuthTenantContext';
@@ -39,7 +39,7 @@ export const MyAdministratorAccount = () => {
 
   const [openDropDown, setOpenDropDown] = useState(false);
 
-  const { isPending, mutate } = userPatchChangePasswordAdministrator();
+  const { isPending, mutate } = userPutChangePasswordAdministrator();
 
   return (
     <Dialog onOpenChange={setOpenDialog} modal={false} open={openDialog}>

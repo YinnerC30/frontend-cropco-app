@@ -7,7 +7,7 @@ import {
 import { DropDownMenuActions } from '@/modules/core/components/data-table/menu/DropDownMenuActions';
 import { Row } from '@tanstack/react-table';
 import { useUsersModuleContext } from '../../hooks';
-import { usePatchResetPasswordUser } from '../../hooks/mutations';
+import { usePutResetPasswordUser } from '../../hooks/mutations';
 import { User } from '../../interfaces';
 import { ActionResetPassword } from './ActionResetPassword';
 import { ActionToogleStatusUser } from './ActionToogleStatusUser';
@@ -23,7 +23,7 @@ export const UsersModuleActionsTable: React.FC<Props> = ({ row }) => {
 
   const isAdmin = roles?.includes('admin') || false;
 
-  const mutationPatchPassword = usePatchResetPasswordUser();
+  const mutationPatchPassword = usePutResetPasswordUser();
 
   const handleDelete = () => {
     mutationDeleteUser.mutate(id, {

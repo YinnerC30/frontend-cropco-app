@@ -16,7 +16,7 @@ async function updateUser({
 }: Partial<User>): PromiseReturnRecord<User> {
   return await cropcoAPI.put(`${pathsCropco.users}/update/one/${id}`, rest);
 }
-export function usePatchUser(): UseMutationReturn<User, Partial<User>> {
+export function usePutUser(): UseMutationReturn<User, Partial<User>> {
   const navigate = useNavigate();
   const user = useAppSelector((state: RootState) => state.authentication.user);
 
