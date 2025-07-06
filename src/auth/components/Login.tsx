@@ -106,7 +106,7 @@ export const Login: React.FC = () => {
               disabled={isPending}
             >
               {isPending && (
-                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
+                <ReloadIcon className="w-4 h-4 mr-2 animate-spin"/>
               )}
               Ingresar
             </Button>

@@ -71,6 +71,7 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
                   min={min}
                   autoFocus={autoFocus}
                   onChange={(e) => handleOnChageInput(e, field)}
+                  data-testid="password-input"
                 />
                 {children}
               </div>
