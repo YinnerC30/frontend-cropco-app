@@ -1,38 +1,17 @@
+import { Loading } from '@/modules/core/components';
+import { lazy, Suspense } from 'react';
 import { Navigate } from 'react-router-dom';
-import { AdministratorsModule } from '../components/module';
-import { CreateAdministrator } from '../components/CreateAdministrator';
-import { ModifyAdministrator } from '../components/ModifyAdministrator';
-import ViewAdministrator from '../components/ViewAdministrator';
 
-// const CreateAdministrator = lazy(() => import('../components/CreateAdministrator'));
-// const ModifyAdministrator = lazy(() => import('../components/ModifyAdministrator'));
-// const AdministratorsModule = lazy(() => import('../components/module/AdministratorsModule'));
-// const ViewAdministrator = lazy(() => import('../components/ViewAdministrator'));
-
-// Configuración genérica de las rutas
-// const routeConfig: RouteConfig[] = [
-//   {
-//     path: 'view/all',
-//     action: 'find_all_administrators',
-//     element: <AdministratorsModule />,
-//     viewComponent: true,
-//   },
-//   {
-//     path: 'create/one',
-//     action: 'create_administrator',
-//     element: <CreateAdministrator />,
-//   },
-//   {
-//     path: 'view/one/:id',
-//     action: 'find_one_administrator',
-//     element: <ViewAdministrator />,
-//   },
-//   {
-//     path: 'update/one/:id',
-//     action: 'update_one_administrator',
-//     element: <ModifyAdministrator />,
-//   },
-// ];
+const CreateAdministrator = lazy(
+  () => import('../components/CreateAdministrator')
+);
+const ModifyAdministrator = lazy(
+  () => import('../components/ModifyAdministrator')
+);
+const AdministratorsModule = lazy(
+  () => import('../components/module/AdministratorsModule')
+);
+const ViewAdministrator = lazy(() => import('../components/ViewAdministrator'));
 
 const administratorRoutes = {
   path: 'administrators',
@@ -40,21 +19,36 @@ const administratorRoutes = {
     { index: true, element: <Navigate to="view/all" /> },
     {
       path: 'view/all',
-      element: <AdministratorsModule />,
+      element: (
+        <Suspense fallback={<Loading />}>
+          <AdministratorsModule />
+        </Suspense>
+      ),
     },
     {
       path: 'create/one',
-      element: <CreateAdministrator />,
+      element: (
+        <Suspense fallback={<Loading />}>
+          <CreateAdministrator />
+        </Suspense>
+      ),
     },
     {
       path: 'view/one/:id',
-      element: <ViewAdministrator />,
+      element: (
+        <Suspense fallback={<Loading />}>
+          <ViewAdministrator />
+        </Suspense>
+      ),
     },
     {
       path: 'update/one/:id',
-      element: <ModifyAdministrator />,
+      element: (
+        <Suspense fallback={<Loading />}>
+          <ModifyAdministrator />
+        </Suspense>
+      ),
     },
-    // ...generateRoutes('administrators', routeConfig),
   ],
 };
 

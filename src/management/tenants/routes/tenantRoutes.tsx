@@ -1,7 +1,14 @@
 import { Navigate } from 'react-router-dom';
-import { CreateTenant, ModifyTenant, ViewTenant } from '../components';
+import { Loading } from '@/modules/core/components';
+import { lazy, Suspense } from 'react';
 import TenantsModule from '../components/module/TenantsModule';
-import { AdminUsers } from '../components/administration-users/AdminUsers';
+
+const CreateTenant = lazy(() => import('../components/CreateTenant'));
+const ModifyTenant = lazy(() => import('../components/ModifyTenant'));
+const ViewTenant = lazy(() => import('../components/ViewTenant'));
+const AdminUsers = lazy(
+  () => import('../components/administration-users/AdminUsers')
+);
 
 const tenantRoutes = {
   path: 'tenants',
@@ -9,23 +16,43 @@ const tenantRoutes = {
     { index: true, element: <Navigate to="view/all" /> },
     {
       path: 'view/all',
-      element: <TenantsModule />,
+      element: (
+        <Suspense fallback={<Loading />}>
+          <TenantsModule />
+        </Suspense>
+      ),
     },
     {
       path: 'create/one',
-      element: <CreateTenant />,
+      element: (
+        <Suspense fallback={<Loading />}>
+          <CreateTenant />
+        </Suspense>
+      ),
     },
     {
       path: 'view/one/:id',
-      element: <ViewTenant />,
+      element: (
+        <Suspense fallback={<Loading />}>
+          <ViewTenant />
+        </Suspense>
+      ),
     },
     {
       path: 'update/one/:id',
-      element: <ModifyTenant />,
+      element: (
+        <Suspense fallback={<Loading />}>
+          <ModifyTenant />
+        </Suspense>
+      ),
     },
     {
       path: 'administration-users/one/:id',
-      element: <AdminUsers />,
+      element: (
+        <Suspense fallback={<Loading />}>
+          <AdminUsers />
+        </Suspense>
+      ),
     },
   ],
 };

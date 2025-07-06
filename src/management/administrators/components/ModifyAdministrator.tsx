@@ -44,4 +44,4 @@ export const ModifyAdministrator: React.FC = () => {
   );
 };
 
-export default ModifyUser;
+export default ModifyAdministrator;

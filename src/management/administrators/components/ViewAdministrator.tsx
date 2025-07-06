@@ -5,7 +5,7 @@ import { useGetAdministrator } from '../hooks/queries/useGetAdministrator';
 import { MODULE_ADMINISTRATORS_PATHS } from '../routes/pathsRoutes';
 import { FormAdministrator } from './form/FormAdministrator';
 
-export const ViewUser: React.FC = () => {
+export const ViewAdministrator: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useGetAdministrator(id!);
 
@@ -35,4 +35,4 @@ export const ViewUser: React.FC = () => {
   );
 };
 
-export default ViewUser;
+export default ViewAdministrator;
