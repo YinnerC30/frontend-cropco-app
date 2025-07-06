@@ -1,8 +1,14 @@
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import Features from '../Features';
 
 describe('Features', () => {
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    cleanup();
+  });
+
   it('debería renderizar correctamente', () => {
     render(<Features />);
 

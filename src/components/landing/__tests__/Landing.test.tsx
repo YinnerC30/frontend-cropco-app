@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { LandingPage } from '../LandingPage';
 
@@ -28,6 +28,12 @@ vi.mock('../Features', () => {
 });
 
 describe('LandingPage', () => {
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    cleanup();
+  });
+
   it('debería renderizar correctamente', () => {
     render(<LandingPage />);
 

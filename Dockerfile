@@ -19,6 +19,9 @@ ENV NODE_OPTIONS="--max-old-space-size=4096"
 ARG VERSION
 RUN if [ -z "$VERSION" ]; then VERSION=$(node -p "require('./package.json').version"); fi && echo "Building version: $VERSION"
 
+# tests
+RUN npm run test
+
 # Construye la aplicación
 RUN npm run build
 

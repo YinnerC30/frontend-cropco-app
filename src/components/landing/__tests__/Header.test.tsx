@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import Header from '../Header';
@@ -18,6 +18,12 @@ const renderWithRouter = (component: React.ReactElement) => {
 };
 
 describe('Header', () => {
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    cleanup();
+  });
+
   it('debería renderizar correctamente', () => {
     renderWithRouter(<Header />);
 
