@@ -13,15 +13,14 @@ import {
 } from '@/modules/core/components/form/data-table';
 import { FormDataTablePageCount } from '@/modules/core/components/form/data-table/FormDataTablePageCount';
 import { FormDataTableRowCount } from '@/modules/core/components/form/data-table/FormDataTableRowCount';
-import { FormDataTableRowSelection } from '@/modules/core/components/form/data-table/FormDataTableRowSelection';
 import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data-table/FormDataTableSelectPageSize';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
 import { columnsTableUsers } from '@/modules/users/components';
 import { User } from '@/modules/users/interfaces';
 import { Row } from '@tanstack/react-table';
-import { FormTenantUser } from './FormTenantUser';
 import { useDeleteTenantUser } from '../../hooks/mutations/useDeleteTenantUser';
+import { FormTenantUser } from './FormTenantUser';
 
 interface Props {
   tenantId: string;
