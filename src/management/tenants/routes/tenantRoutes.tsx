@@ -2,6 +2,7 @@ import { Navigate } from 'react-router-dom';
 import { Loading } from '@/modules/core/components';
 import { lazy, Suspense } from 'react';
 import TenantsModule from '../components/module/TenantsModule';
+import CustomLazyLoadComponent from '@/routes/components/CustomLazyLoadComponent';
 
 const CreateTenant = lazy(() => import('../components/CreateTenant'));
 const ModifyTenant = lazy(() => import('../components/ModifyTenant'));
@@ -17,41 +18,51 @@ const tenantRoutes = {
     {
       path: 'view/all',
       element: (
-        <Suspense fallback={<Loading />}>
-          <TenantsModule />
-        </Suspense>
+        <CustomLazyLoadComponent titlePage="Inquilinos">
+          <Suspense fallback={<Loading />}>
+            <TenantsModule />
+          </Suspense>
+        </CustomLazyLoadComponent>
       ),
     },
     {
       path: 'create/one',
       element: (
-        <Suspense fallback={<Loading />}>
-          <CreateTenant />
-        </Suspense>
+        <CustomLazyLoadComponent titlePage="Crear inquilino">
+          <Suspense fallback={<Loading />}>
+            <CreateTenant />
+          </Suspense>
+        </CustomLazyLoadComponent>
       ),
     },
     {
       path: 'view/one/:id',
       element: (
-        <Suspense fallback={<Loading />}>
-          <ViewTenant />
-        </Suspense>
+        <CustomLazyLoadComponent titlePage="Ver inquilino">
+          <Suspense fallback={<Loading />}>
+            <ViewTenant />
+          </Suspense>
+        </CustomLazyLoadComponent>
       ),
     },
     {
       path: 'update/one/:id',
       element: (
-        <Suspense fallback={<Loading />}>
-          <ModifyTenant />
-        </Suspense>
+        <CustomLazyLoadComponent titlePage="Actualizar inquilino">
+          <Suspense fallback={<Loading />}>
+            <ModifyTenant />
+          </Suspense>
+        </CustomLazyLoadComponent>
       ),
     },
     {
       path: 'administration-users/one/:id',
       element: (
-        <Suspense fallback={<Loading />}>
-          <AdminUsers />
-        </Suspense>
+        <CustomLazyLoadComponent titlePage="Administrar usuarios de inquilino">
+          <Suspense fallback={<Loading />}>
+            <AdminUsers />
+          </Suspense>
+        </CustomLazyLoadComponent>
       ),
     },
   ],

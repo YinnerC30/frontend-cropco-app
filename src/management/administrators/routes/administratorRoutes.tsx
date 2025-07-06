@@ -1,4 +1,5 @@
 import { Loading } from '@/modules/core/components';
+import CustomLazyLoadComponent from '@/routes/components/CustomLazyLoadComponent';
 import { lazy, Suspense } from 'react';
 import { Navigate } from 'react-router-dom';
 
@@ -20,33 +21,41 @@ const administratorRoutes = {
     {
       path: 'view/all',
       element: (
-        <Suspense fallback={<Loading />}>
-          <AdministratorsModule />
-        </Suspense>
+        <CustomLazyLoadComponent titlePage="Administradores">
+          <Suspense fallback={<Loading />}>
+            <AdministratorsModule />
+          </Suspense>
+        </CustomLazyLoadComponent>
       ),
     },
     {
       path: 'create/one',
       element: (
-        <Suspense fallback={<Loading />}>
-          <CreateAdministrator />
-        </Suspense>
+        <CustomLazyLoadComponent titlePage="Crear administrador">
+          <Suspense fallback={<Loading />}>
+            <CreateAdministrator />
+          </Suspense>
+        </CustomLazyLoadComponent>
       ),
     },
     {
       path: 'view/one/:id',
       element: (
-        <Suspense fallback={<Loading />}>
-          <ViewAdministrator />
-        </Suspense>
+        <CustomLazyLoadComponent titlePage="Ver administrador">
+          <Suspense fallback={<Loading />}>
+            <ViewAdministrator />
+          </Suspense>
+        </CustomLazyLoadComponent>
       ),
     },
     {
       path: 'update/one/:id',
       element: (
-        <Suspense fallback={<Loading />}>
-          <ModifyAdministrator />
-        </Suspense>
+        <CustomLazyLoadComponent titlePage="Actualizar administrador">
+          <Suspense fallback={<Loading />}>
+            <ModifyAdministrator />
+          </Suspense>
+        </CustomLazyLoadComponent>
       ),
     },
   ],
