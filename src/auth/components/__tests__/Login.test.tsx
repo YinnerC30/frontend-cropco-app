@@ -9,7 +9,7 @@ import * as matchers from '@testing-library/jest-dom/matchers';
 expect.extend(matchers);
 
 // Componente a probar
-import { Login } from './Login';
+import { Login } from '../Login';
 
 // Mock del hook useLoginUser
 const mockMutate = vi.fn();
