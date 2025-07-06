@@ -5,7 +5,6 @@ export * from './home/MainContent';
 export * from './home/MyAccount';
 export * from './home/NavBar';
 export * from './home/NavElement';
-export * from './home/SheetNavBar';
 export * from './hooks/useHome';
 export * from './landing/Features';
 export * from './landing/Header';
