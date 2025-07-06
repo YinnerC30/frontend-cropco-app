@@ -17,10 +17,10 @@ export const FormTenant: React.FC<FormTenantPropsExtend> = ({
   return (
     <FormTenantProvider {...props}>
       <div className="flex flex-col items-center">
-        <ScrollArea className="h-[80vh] w-full pb-2">
+        <ScrollArea className="h-[80vh] w-full pb-2 pr-4">
           <div
             className={cn(
-              'flex flex-col lg:flex-row',
+              'flex flex-col lg:flex-row gap-10',
               !!children ? 'justify-evenly' : ''
             )}
           >

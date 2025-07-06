@@ -51,7 +51,7 @@ export const TenantUsersTable = ({ tenantId, data, refetchAction }: Props) => {
         errorMessage={'Ha ocurrido un error en la tabla'}
         lengthColumns={dataTable.lengthColumns}
       >
-        <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-full">
+        <div className="flex flex-col items-center justify-center w-[95vw] gap-2 sm:w-full">
           {/* Barra */}
           <FormDataTableFilter
             placeholder={'Buscar por nombre de empleado...'}
@@ -73,13 +73,13 @@ export const TenantUsersTable = ({ tenantId, data, refetchAction }: Props) => {
           {/* Paginacion */}
           <div className="flex flex-col items-center w-full gap-2 sm:flex-row sm:justify-evenly">
             <FormDataTableRowCount />
-            <FormDataTableRowSelection />
+            {/* <FormDataTableRowSelection /> */}
             <FormDataTableSelectPageSize />
           </div>
 
           {/* Tabla */}
           <ScrollArea
-            className="h-max-[460px] w-[85%] sm:w-full p-1 border rounded-sm self-start"
+            className="h-[45vh] w-[87%] p-1 border rounded-sm self-start pr-4"
             type="auto"
           >
             <FormDataTable
