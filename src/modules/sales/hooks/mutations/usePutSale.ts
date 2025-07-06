@@ -15,7 +15,7 @@ export const updateSale = async (sale: Sale): PromiseReturnRecord<void> => {
   return await cropcoAPI.put(`${pathsCropco.sales}/update/one/${id}`, rest);
 };
 
-export const usePatchSale = (id: string): UseMutationReturn<void, Sale> => {
+export const usePutSale = (id: string): UseMutationReturn<void, Sale> => {
   const queryClient = useQueryClient();
   const { handleError } = useAuthContext();
   const navigate = useNavigate();

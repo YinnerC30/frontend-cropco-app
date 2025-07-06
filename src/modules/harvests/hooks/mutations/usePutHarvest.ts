@@ -16,13 +16,10 @@ export const updateHarvest = async (
   harvest: Harvest
 ): PromiseReturnRecord<void> => {
   const { id, ...rest } = harvest;
-  return await cropcoAPI.put(
-    `${pathsCropco.harvests}/update/one/${id}`,
-    rest
-  );
+  return await cropcoAPI.put(`${pathsCropco.harvests}/update/one/${id}`, rest);
 };
 
-export const usePatchHarvest = (): UseMutationReturn<void, Harvest> => {
+export const usePutHarvest = (): UseMutationReturn<void, Harvest> => {
   const { handleError } = useAuthContext();
   const queryClient = useQueryClient();
   const navigate = useNavigate();

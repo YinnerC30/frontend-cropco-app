@@ -1,7 +1,7 @@
 import { Loading } from '@/modules/core/components';
 import { useParams } from 'react-router-dom';
 import { z } from 'zod';
-import { useGetSale, usePatchSale } from '../hooks';
+import { useGetSale, usePutSale } from '../hooks';
 import { SaleDetail } from '../interfaces';
 import { formSchemaSale } from '../utils';
 
@@ -13,7 +13,7 @@ import { FormSale } from './forms/sale/FormSale';
 export const ModifySale: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetSale(id!);
-  const { mutate, isPending } = usePatchSale(id!);
+  const { mutate, isPending } = usePutSale(id!);
 
   const onSubmitSale = (values: z.infer<typeof formSchemaSale>) => {
     mutate({

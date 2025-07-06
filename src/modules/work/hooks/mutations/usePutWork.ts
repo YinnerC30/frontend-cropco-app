@@ -20,7 +20,7 @@ export async function updateWork({
   }
 }
 
-export function usePatchWork(id: string): UseMutationReturn<void, Work> {
+export function usePutWork(id: string): UseMutationReturn<void, Work> {
   const queryClient = useQueryClient();
   const { handleError } = useAuthContext();
   const navigate = useNavigate();
