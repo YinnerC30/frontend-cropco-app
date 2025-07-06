@@ -91,6 +91,7 @@ export const Login: React.FC = () => {
                     type="button"
                     onClick={togglePasswordVisibility}
                     className="p-2"
+                    aria-label='show-pass'
                   >
                     {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                   </Button>
@@ -106,7 +107,7 @@ export const Login: React.FC = () => {
               disabled={isPending}
             >
               {isPending && (
-                <ReloadIcon className="w-4 h-4 mr-2 animate-spin"/>
+                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" aria-label='icon-animate-spin'/>
               )}
               Ingresar
             </Button>

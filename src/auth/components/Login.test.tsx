@@ -48,10 +48,7 @@ describe('Login Component', () => {
   it('debería renderizar el componente correctamente', async () => {
     render(<Login />);
 
-    // Usar waitFor para esperar a que el componente se estabilice
-    await waitFor(() => {
-      expect(screen.getByText('Inicio de sesión')).toBeInTheDocument();
-    });
+    expect(screen.getByText('Inicio de sesión')).toBeInTheDocument();
 
     expect(
       screen.getByText(
@@ -65,29 +62,23 @@ describe('Login Component', () => {
   it('debería mostrar los campos de email y contraseña', async () => {
     render(<Login />);
 
-    await waitFor(() => {
-      expect(screen.getByText('Correo electrónico:')).toBeInTheDocument();
-      const emailInput = screen.getByPlaceholderText('email@google.com');
-      expect(emailInput).toBeInTheDocument();
-      expect(screen.getByText('Contraseña:')).toBeInTheDocument();
-      const passInput = screen.getByPlaceholderText('mypass1234');
-      expect(passInput).toBeInTheDocument();
-    });
+    expect(screen.getByText('Correo electrónico:')).toBeInTheDocument();
+    const emailInput = screen.getByPlaceholderText('email@google.com');
+    expect(emailInput).toBeInTheDocument();
+    expect(screen.getByText('Contraseña:')).toBeInTheDocument();
+    const passInput = screen.getByPlaceholderText('mypass1234');
+    expect(passInput).toBeInTheDocument();
   });
 
   it('debería alternar la visibilidad de la contraseña al hacer clic en el botón', async () => {
     render(<Login />);
 
-    await waitFor(() => {
-      expect(screen.getByText('Contraseña:')).toBeInTheDocument();
-      const passwordInput = screen.getByPlaceholderText('mypass1234');
-      expect(passwordInput).toBeInTheDocument();
-    });
+    expect(screen.getByText('Contraseña:')).toBeInTheDocument();
 
     const passwordInput = screen.getByPlaceholderText('mypass1234');
     expect(passwordInput).toBeInTheDocument();
 
-    const toggleButton = screen.getByRole('button', { name: '' }); // Botón del ojo
+    const toggleButton = screen.getByRole('button', { name: 'show-pass' });
     expect(toggleButton).toBeInTheDocument();
     // Inicialmente la contraseña debería estar oculta
     expect(passwordInput).toHaveAttribute('type', 'password');
@@ -104,9 +95,7 @@ describe('Login Component', () => {
   it('debería enviar el formulario con los datos correctos', async () => {
     render(<Login />);
 
-    await waitFor(() => {
-      expect(screen.getByText('Ingresar')).toBeInTheDocument();
-    });
+    expect(screen.getByText('Ingresar')).toBeInTheDocument();
 
     const emailInput = screen.getByPlaceholderText('email@google.com');
     const passwordInput = screen.getByPlaceholderText('mypass1234');
@@ -133,13 +122,11 @@ describe('Login Component', () => {
 
     render(<Login />);
 
-    await waitFor(() => {
-      const submitButton = screen.getByText('Ingresar');
-      expect(submitButton).toBeDisabled();
-      // const reloadIcon = screen.getByTestId('reload-icon');
-      // expect(reloadIcon).toBeInTheDocument();
-      // expect(reloadIcon).toHaveClass('animate-spin');
-    });
+    const submitButton = screen.getByText('Ingresar');
+    expect(submitButton).toBeDisabled();
+    const reloadIcon = screen.getByLabelText('icon-animate-spin');
+    expect(reloadIcon).toBeInTheDocument();
+    expect(reloadIcon).toHaveClass('animate-spin');
   });
 
   it('debería validar campos requeridos', async () => {
@@ -158,6 +145,12 @@ describe('Login Component', () => {
     await waitFor(() => {
       // Verificar que no se llamó a mutate porque hay errores de validación
       expect(mockMutate).not.toHaveBeenCalled();
+      expect(
+        screen.getByText(/El correo electrónico no es valido/i)
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/Debes ingresar la contraseña/i)
+      ).toBeInTheDocument();
     });
   });
 });
