@@ -78,7 +78,7 @@ export const TenantUsersTable = ({ tenantId, data, refetchAction }: Props) => {
 
           {/* Tabla */}
           <ScrollArea
-            className="h-[45vh] w-[87%] p-1 border rounded-sm self-start pr-4"
+            className="h-[45vh] w-[87%] lg:w-full p-1 border rounded-sm self-start pr-4"
             type="auto"
           >
             <FormDataTable
