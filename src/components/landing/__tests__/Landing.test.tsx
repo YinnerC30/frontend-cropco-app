@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { LandingPage } from '../LandingPage';
 
 // Mock de los componentes hijos
-vi.mock('./Header', () => {
+vi.mock('../Header', () => {
   return {
     default: function MockHeader() {
       return <div data-testid="header">Header</div>;
@@ -11,7 +11,7 @@ vi.mock('./Header', () => {
   };
 });
 
-vi.mock('./Hero', () => {
+vi.mock('../Hero', () => {
   return {
     default: function MockHero() {
       return <div data-testid="hero">Hero</div>;
@@ -19,7 +19,7 @@ vi.mock('./Hero', () => {
   };
 });
 
-vi.mock('./Features', () => {
+vi.mock('../Features', () => {
   return {
     default: function MockFeatures() {
       return <div data-testid="features">Features</div>;
