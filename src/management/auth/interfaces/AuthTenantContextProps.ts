@@ -20,6 +20,6 @@ export interface AuthTenantContextProps {
   // getActionsModule: (moduleName: ModulesCropco) => Record<string, boolean>;
   // isLoading: boolean;
   // isError: boolean;
-  saveTenantManagement: (tenant: Administrator) => void;
-  removeTenantManagement: () => void;
+  saveAdministrator: (tenant: Administrator) => void;
+  removeAdministrator: () => void;
 }

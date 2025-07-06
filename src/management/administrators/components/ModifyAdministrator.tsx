@@ -3,13 +3,12 @@ import { z } from 'zod';
 
 import { BreadCrumb } from '@/modules/core/components/';
 import { useParams } from 'react-router-dom';
-import { MODULE_ADMINISTRATORS_PATHS } from '../routes/pathsRoutes';
-import { FormAdministrator } from './form/FormAdministrator';
-import { Administrator } from '../interfaces/Administrator';
-import { formSchemaAdministrator } from '../utils/formSchemaAdministrator';
-import { ModifyUser } from '@/modules/users/components';
 import { usePatchAdministrator } from '../hooks/mutations/usePatchAdministrator';
 import { useGetAdministrator } from '../hooks/queries/useGetAdministrator';
+import { Administrator } from '../interfaces/Administrator';
+import { MODULE_ADMINISTRATORS_PATHS } from '../routes/pathsRoutes';
+import { formSchemaAdministrator } from '../utils/formSchemaAdministrator';
+import { FormAdministrator } from './form/FormAdministrator';
 
 export const ModifyAdministrator: React.FC = () => {
   const { id } = useParams<{ id: string }>();

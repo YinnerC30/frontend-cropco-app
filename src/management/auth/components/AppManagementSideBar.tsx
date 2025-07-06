@@ -40,7 +40,7 @@ export function AppManagementSidebar() {
   const { hasUnsavedChanges } = useFormChange();
   const { showToast } = useToastDiscardChanges();
 
-  const { removeTenantManagement } = useAuthTenantContext();
+  const { removeAdministrator } = useAuthTenantContext();
   const mutationLogoutAdmin = useLogoutAdministrator();
 
   const { setTheme } = useTheme();
@@ -64,7 +64,7 @@ export function AppManagementSidebar() {
   };
 
   const handleLogout = () => {
-    removeTenantManagement();
+    removeAdministrator();
     mutationLogoutAdmin.mutate();
   };
 

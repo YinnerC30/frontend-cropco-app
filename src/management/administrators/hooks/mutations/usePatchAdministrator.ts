@@ -27,7 +27,7 @@ export function usePatchAdministrator(): UseMutationReturn<
   const navigate = useNavigate();
   const user = useAppSelector((state: RootState) => state.authentication.user);
 
-  const { handleError, saveTenantManagement } = useAuthTenantContext();
+  const { handleError, saveAdministrator } = useAuthTenantContext();
 
   const queryClient = useQueryClient();
   const mutation: UseMutationReturn<
@@ -42,7 +42,7 @@ export function usePatchAdministrator(): UseMutationReturn<
       });
 
       if (variables.id === user.id) {
-        saveTenantManagement({
+        saveAdministrator({
           ...data,
           token: user.token,
           is_login: true,

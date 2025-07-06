@@ -27,7 +27,7 @@ export const useLoginTenantUser = (): UseMutationReturn<
   Administrator,
   LoginUserData
 > => {
-  const { saveTenantManagement } = useAuthTenantContext();
+  const { saveAdministrator } = useAuthTenantContext();
 
   const queryClient = useQueryClient();
   const { markChanges } = useFormChange();
@@ -39,7 +39,7 @@ export const useLoginTenantUser = (): UseMutationReturn<
         await queryClient.invalidateQueries({
           queryKey: ['user-tenant-active'],
         });
-        saveTenantManagement({ ...data, is_login: true });
+        saveAdministrator({ ...data, is_login: true });
         toast.success(
           `Bienvenido, ${CapitalizeFirstWord(data.first_name)}`,
           {}

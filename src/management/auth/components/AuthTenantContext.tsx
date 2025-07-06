@@ -12,7 +12,7 @@ import {
   removeUserActive,
   setUserActive,
 } from '../utils/authenticationManagementSlice';
-import { TenantManagementLocalStorageManager } from '../utils/TenantManagementLocalStorageManager';
+import { AdministratorLocalStorageManager } from '../utils/AdministratorLocalStorageManager';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
@@ -30,13 +30,13 @@ export const AuthTenantProvider: React.FC<{ children: ReactNode }> = ({
   const tokenSession = user?.token;
   const dispatch = useAppDispatch();
 
-  const saveTenantManagement = (tenant: Administrator) => {
-    TenantManagementLocalStorageManager.saveTenantManagement(tenant);
+  const saveAdministrator = (tenant: Administrator) => {
+    AdministratorLocalStorageManager.saveAdministrator(tenant);
     dispatch(setUserActive(tenant));
   };
 
-  const removeTenantManagement = () => {
-    TenantManagementLocalStorageManager.removeTenantManagement();
+  const removeAdministrator = () => {
+    AdministratorLocalStorageManager.removeAdministrator();
     dispatch(removeUserActive());
   };
 
@@ -49,7 +49,7 @@ export const AuthTenantProvider: React.FC<{ children: ReactNode }> = ({
         unauthorized: {
           onHandle: () => {
             setTimeout(() => {
-              removeTenantManagement();
+              removeAdministrator();
               window.location.reload();
             }, 3000);
           },
@@ -69,8 +69,8 @@ export const AuthTenantProvider: React.FC<{ children: ReactNode }> = ({
   return (
     <AuthTenantContext.Provider
       value={{
-        saveTenantManagement,
-        removeTenantManagement,
+        saveAdministrator,
+        removeAdministrator,
         is_login: user?.is_login ?? false,
         user,
         handleError,
