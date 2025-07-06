@@ -63,7 +63,7 @@ export const FormSaleDataTable: React.FC = () => {
         <FormDataTableFilter
           placeholder={'Buscar por nombre del cliente...'}
           nameColumnFilter={'client_full_name'}
-          className="w-[270px] ml-10 self-start sm:self-center sm:m-0"
+          className="w-[270px] lg:ml-10 self-start sm:self-center sm:m-0"
         />
 
         {/* Botones */}

@@ -167,7 +167,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                             {!!field.value && (
                               <Badge
                                 className={`${
-                                  !field.value ? 'hidden' : 'ml-10'
+                                  !field.value ? 'hidden' : 'lg:ml-10'
                                 }`}
                                 variant={'cyan'}
                               >
