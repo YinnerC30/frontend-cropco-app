@@ -1,8 +1,9 @@
 import { Button } from '@/components';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { PaperPlaneIcon } from '@radix-ui/react-icons';
+
 import { toast } from 'sonner';
 import { useDataTableMenuActionsContext } from '../DataTableMenuActionsContext';
+import { Clipboard } from 'lucide-react';
 
 interface Props {
   id: string;
@@ -21,7 +22,7 @@ export const ActionCopyIdRecord = ({ id }: Props) => {
         variant={'ghost'}
         className="cursor-pointer"
       >
-        <PaperPlaneIcon className="w-4 h-4 mr-2" /> Copiar Id
+        <Clipboard className="w-4 h-4 mr-2" /> Copiar Id
       </Button>
     </DropdownMenuItem>
   );
