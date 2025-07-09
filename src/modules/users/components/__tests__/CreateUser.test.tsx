@@ -5,16 +5,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CreateUser } from '../CreateUser';
 
 // Mock de dependencias del core
-vi.mock('@/modules/core/components', async (importOriginal) => {
-  // const actual = (await importOriginal()) as any;
+vi.mock('@/modules/core/components', () => {
   return {
-    // ...actual,
-    // useFormChange: () => ({
-    //   hasUnsavedChanges: false,
-    // }),
-    useTheme: () => ({
-      setTheme: vi.fn(),
-    }),
     FormChangeProvider: ({ children }: { children: React.ReactNode }) => (
       <div data-testid="form-change-provider">{children}</div>
     ),
@@ -211,63 +203,6 @@ vi.mock('@/auth/hooks', () => ({
     handleError: vi.fn(),
   }),
 }));
-
-// Mock de los componentes de UI Sidebar
-vi.mock('@/components/ui/sidebar', async (importOriginal) => {
-  const actual = (await importOriginal()) as any;
-  return {
-    ...actual,
-    // Sidebar: ({ children }: { children: React.ReactNode }) => (
-    //   <div data-testid="sidebar">{children}</div>
-    // ),
-    // SidebarContent: ({ children }: { children: React.ReactNode }) => (
-    //   <div data-testid="sidebar-content">{children}</div>
-    // ),
-    // SidebarFooter: ({ children }: { children: React.ReactNode }) => (
-    //   <div data-testid="sidebar-footer">{children}</div>
-    // ),
-    // SidebarGroup: ({ children }: { children: React.ReactNode }) => (
-    //   <div data-testid="sidebar-group">{children}</div>
-    // ),
-    // SidebarGroupContent: ({ children }: { children: React.ReactNode }) => (
-    //   <div data-testid="sidebar-group-content">{children}</div>
-    // ),
-    // SidebarGroupLabel: ({ children }: { children: React.ReactNode }) => (
-    //   <div data-testid="sidebar-group-label">{children}</div>
-    // ),
-    // SidebarHeader: ({ children }: { children: React.ReactNode }) => (
-    //   <div data-testid="sidebar-header">{children}</div>
-    // ),
-    // SidebarMenu: ({ children }: { children: React.ReactNode }) => (
-    //   <ul data-testid="sidebar-menu">{children}</ul>
-    // ),
-    // SidebarMenuButton: ({
-    //   onClick,
-    //   isActive,
-    //   children,
-    //   asChild,
-    //   ...props
-    // }: any) => (
-    //   <button
-    //     onClick={onClick}
-    //     data-active={isActive}
-    //     data-testid="sidebar-menu-button"
-    //     {...props}
-    //   >
-    //     {children}
-    //   </button>
-    // ),
-    // SidebarMenuItem: ({ className, children }: any) => (
-    //   <li className={className} data-testid="sidebar-menu-item">
-    //     {children}
-    //   </li>
-    // ),
-    // useSidebar: () => ({
-    //   setOpenMobile: vi.fn(),
-    //   isMobile: false,
-    // }),
-  };
-});
 
 describe('CreateUser', () => {
   beforeEach(() => {
