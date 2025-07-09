@@ -15,6 +15,14 @@ import { Login } from '../Login';
 const mockMutate = vi.fn();
 let mockIsPending = false;
 
+vi.mock(import("@/auth"), async (importOriginal) => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    // your mocked methods
+  }
+})
+
 vi.mock('@/auth/hooks/mutations/useLoginUser', () => ({
   useLoginUser: () => ({
     mutate: mockMutate,

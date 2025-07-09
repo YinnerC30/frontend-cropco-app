@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, cleanup } from '@testing-library/react';
 import { AppSidebar } from '../AppSideBar';
 import { render } from '@/test-utils';
 
@@ -205,6 +205,11 @@ vi.mock('lucide-react', async (importOriginal) => {
 describe('AppSidebar', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    cleanup();
   });
 
   it('debería renderizar correctamente los módulos disponibles', () => {

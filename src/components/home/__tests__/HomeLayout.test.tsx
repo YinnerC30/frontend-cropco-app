@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, waitFor } from '@testing-library/react';
+import { cleanup, screen, waitFor } from '@testing-library/react';
 import { render } from '@/test-utils';
 import { HomeLayout } from '../HomeLayout';
 
@@ -12,6 +12,14 @@ const mockUseFormChange = vi.hoisted(() =>
     hasUnsavedChanges: false,
   }))
 );
+
+vi.mock(import('@/auth'), async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    // your mocked methods
+  };
+});
 
 vi.mock('@/auth/hooks', () => ({
   useAuthContext: () => mockUseAuthContext(),
@@ -153,6 +161,11 @@ vi.mock('@/modules/core/components', () => ({
 describe('HomeLayout', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    cleanup();
   });
 
   it('muestra el loading mientras se verifica el estado de autenticación', () => {

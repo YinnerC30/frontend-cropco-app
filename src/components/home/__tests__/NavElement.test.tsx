@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, fireEvent, waitFor } from '@testing-library/react';
+import { screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import { render } from '@/test-utils';
 import { NavElement } from '../NavElement';
 import { Route } from '@/routes/components/RoutesNavBar';
@@ -47,6 +47,11 @@ describe('NavElement', () => {
     mockUseToastDiscardChanges.mockReturnValue({
       showToast: mockShowToast,
     });
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    cleanup();
   });
 
   it('renderiza correctamente con la ruta proporcionada', () => {
