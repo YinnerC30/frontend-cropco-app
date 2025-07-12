@@ -52,13 +52,8 @@ interface Props {
   >;
 }
 
-export const DialogChangePassword: React.FC<Props> = ({
-  handleCloseDialog,
-  setOpenDialog,
-  isPending,
-  mutate,
-  id,
-}) => {
+export const DialogChangePassword: React.FC<Props> = (props) => {
+  const { handleCloseDialog, setOpenDialog, isPending, mutate, id } = props;
   const form = useCreateForm({
     schema: formSchemaChangePassword,
     defaultValues: {
@@ -111,6 +106,7 @@ export const DialogChangePassword: React.FC<Props> = ({
               placeholder={'antiguacontraseña'}
               disabled={false}
               type="password"
+              dataTestiId='input-old-pass'
             />
             <FormFieldInput
               control={form.control}
@@ -120,6 +116,7 @@ export const DialogChangePassword: React.FC<Props> = ({
               placeholder={'nuevacontraseña'}
               disabled={false}
               type="password"
+              dataTestiId='input-new-pass'
             />
           </form>
         </Form>

@@ -35,8 +35,8 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
     autoFocus = false,
     hiddenInput = false,
     allowDecimals = false,
+    dataTestiId,
   }) => {
-    console.log("🚀 ~ readOnly:", readOnly)
     const handleOnChageInput = (
       e: any,
       field: ControllerRenderProps<any, string>
@@ -72,6 +72,7 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
                   min={min}
                   autoFocus={autoFocus}
                   onChange={(e) => handleOnChageInput(e, field)}
+                  data-testid={dataTestiId}
                 />
                 {children}
               </div>

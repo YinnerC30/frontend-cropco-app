@@ -1,4 +1,5 @@
 import { Control } from 'react-hook-form';
+import { string } from 'zod';
 
 export interface FormFieldProps {
   control: Control<any>;
@@ -11,4 +12,5 @@ export interface FormFieldProps {
   value?: any;
   className?: string;
   children?: React.ReactNode;
+  dataTestiId?: string;
 }
