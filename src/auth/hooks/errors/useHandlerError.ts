@@ -87,8 +87,8 @@ export const useHandlerError = () => {
         );
         break;
       case 429:
-        if (handlers.conflict?.onHandle) {
-          handlers.conflict.onHandle(error);
+        if (handlers.TooManyRequests?.onHandle) {
+          handlers.TooManyRequests.onHandle(error);
         }
         toast.error(
           handlers.TooManyRequests?.message ||
