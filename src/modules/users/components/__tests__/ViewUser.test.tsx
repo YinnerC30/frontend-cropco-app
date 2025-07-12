@@ -112,8 +112,6 @@ describe('ViewUser', () => {
   it('pasa los valores por defecto correctos al formulario', () => {
     const result = render(<ViewUser />);
 
-    result.debug(result.container, 99999);
-
     // Verifica que los campos del formulario estén presentes con los valores correctos
     const firstNameInput = result.getByDisplayValue(mockUserData.first_name);
     expect(firstNameInput).toBeInTheDocument();

@@ -150,8 +150,6 @@ describe('ModifyUser', () => {
   it('pasa los valores por defecto correctos al formulario', () => {
     const result = render(<ModifyUser />);
 
-    result.debug(result.container, 99999);
-
     // Verifica que los campos del formulario estén presentes con los valores correctos
     expect(
       result.getByDisplayValue(mockUserData.first_name)
