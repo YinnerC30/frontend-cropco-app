@@ -12,7 +12,7 @@ import { useFormChange } from '@/modules/core/components';
 
 import { Administrator } from '@/management/auth/interfaces/Administrator';
 import { useAuthTenantContext } from '../../components/AuthTenantContext';
-
+import { useHandlerError } from '@/auth/hooks/errors/useHandlerError';
 
 export const loginTenantUser = async (
   loginUserData: LoginUserData
@@ -31,8 +31,9 @@ export const useLoginTenantUser = (): UseMutationReturn<
 
   const queryClient = useQueryClient();
   const { markChanges } = useFormChange();
-  const mutation: UseMutationReturn<Administrator, LoginUserData> =
-    useMutation({
+  const { handleErrorByStatus } = useHandlerError();
+  const mutation: UseMutationReturn<Administrator, LoginUserData> = useMutation(
+    {
       mutationFn: loginTenantUser,
       onSuccess: async ({ data }) => {
         markChanges(false);
@@ -46,39 +47,26 @@ export const useLoginTenantUser = (): UseMutationReturn<
         );
       },
       onError: (error) => {
-        if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
-          toast.error('El servicio actualmente no se encuentra disponible');
-          return;
-        }
-        const { status } = error.response as unknown as TypedAxiosError;
-        switch (status) {
-          case 401:
-            toast.error(
-              'Usuario o contraseña incorrectos, inténtelo nuevamente'
-            );
-            return;
-          case 403:
-            toast.error(
-              'El usuario no cuenta con suficientes permisos para acceder al sistema'
-            );
-            return;
-          case 400:
-            toast.error(
-              'Las credenciales enviadas son invalidas, revise nuevamente los campos del formulario'
-            );
-            return;
-          case 404:
-            toast.error(
-              'Las credenciales enviadas son invalidas, revise nuevamente los campos del formulario'
-            );
-            return;
-          default:
-            toast.error('Hubo un problema en el sistema, inténtelo nuevamente');
-            return;
-        }
+        handleErrorByStatus({
+          error,
+          handlers: {
+            unauthorized: {
+              message: 'Usuario o contraseña incorrectos, inténtelo nuevamente',
+            },
+            forbidden: {
+              message:
+                'El usuario no cuenta con suficientes permisos para acceder al sistema',
+            },
+            badRequest: {
+              message:
+                'Las credenciales enviadas son invalidas, revise nuevamente los campos del formulario',
+            },
+          },
+        });
       },
       retry: false,
-    });
+    }
+  );
 
   return mutation;
 };
