@@ -10,15 +10,16 @@ interface Props {
 }
 
 export const ButtonsForm: React.FC<Props> = ({
-  isPending,
+  isPending = false,
   formId,
   className,
   actionToCancel,
 }) => {
+  console.log({isPending})
   return (
-    <div className={className}>
+    <div className={className} data-testid="form-buttons">
       <ButtonCancelRegister action={actionToCancel} />
-      <Button type="submit" form={formId} disabled={isPending}>
+      <Button type="submit" form={formId} disabled={isPending} data-testid="form-submit-button">
         {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
         Guardar
       </Button>

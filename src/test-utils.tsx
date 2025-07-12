@@ -6,6 +6,7 @@ import { ReactElement } from 'react';
 import { store } from '@/redux/store';
 import { AuthProvider } from '@/auth';
 import { FormChangeProvider } from '@/modules/core/components';
+import { SidebarProvider } from './components';
 
 // Configuración optimizada de QueryClient para pruebas
 const createTestQueryClient = () => {
@@ -33,18 +34,28 @@ interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
 }
 
 // Wrapper personalizado que incluye todos los providers necesarios
-const AllTheProviders = ({ 
-  children, 
+const AllTheProviders = ({
+  children,
   queryClient = createTestQueryClient(),
   withAuth = true,
-  withFormChange = true 
-}: { 
+  withFormChange = true,
+  withSideBar = true,
+}: {
   children: React.ReactNode;
   queryClient?: QueryClient;
   withAuth?: boolean;
   withFormChange?: boolean;
+  withSideBar?: boolean;
 }) => {
   let content = children;
+
+  if (withSideBar) {
+    content = <SidebarProvider>{content}</SidebarProvider>;
+  }
+
+  if (withFormChange) {
+    content = <FormChangeProvider>{content}</FormChangeProvider>;
+  }
 
   if (withFormChange) {
     content = <FormChangeProvider>{content}</FormChangeProvider>;
@@ -57,19 +68,14 @@ const AllTheProviders = ({
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          {content}
-        </BrowserRouter>
+        <BrowserRouter>{content}</BrowserRouter>
       </QueryClientProvider>
     </Provider>
   );
 };
 
 // Función de renderizado personalizada
-const customRender = (
-  ui: ReactElement,
-  options: CustomRenderOptions = {}
-) => {
+const customRender = (ui: ReactElement, options: CustomRenderOptions = {}) => {
   const {
     queryClient = createTestQueryClient(),
     withAuth = true,
@@ -79,7 +85,7 @@ const customRender = (
 
   return render(ui, {
     wrapper: ({ children }) => (
-      <AllTheProviders 
+      <AllTheProviders
         queryClient={queryClient}
         withAuth={withAuth}
         withFormChange={withFormChange}
@@ -104,22 +110,22 @@ export { createTestQueryClient };
 export const setupTestEnvironment = () => {
   // Limpiar todos los mocks
   vi.clearAllMocks();
-  
+
   // Limpiar localStorage
   localStorage.clear();
-  
+
   // Limpiar sessionStorage
   sessionStorage.clear();
-  
+
   // Limpiar cookies (si es necesario)
-  document.cookie.split(";").forEach((c) => {
+  document.cookie.split(';').forEach((c) => {
     document.cookie = c
-      .replace(/^ +/, "")
-      .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      .replace(/^ +/, '')
+      .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
   });
 };
 
 // Función helper para esperar a que el componente se estabilice
 export const waitForStableComponent = async (timeout = 1000) => {
-  await new Promise(resolve => setTimeout(resolve, 100));
-}; 
+  await new Promise((resolve) => setTimeout(resolve, 100));
+};

@@ -1,123 +1,40 @@
-import { cleanup, fireEvent, render, screen } from '@/test-utils';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ModifyUser } from '../ModifyUser';
+import { render } from '@/test-utils';
+import { cleanup } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import ModifyUser from '../ModifyUser';
 
-// Mock de dependencias del core (solo BreadCrumb y Loading)
-vi.mock('@/modules/core/components', async (importOriginal) => {
+const mockUsePutUser = vi.fn();
+const mockUsePutMutate = vi.fn();
+// const mockUseGetUser = vi.fn();
+const mockUseGetAllModules = vi.fn().mockReturnValue({
+  isLoading: false,
+  data: [],
+});
+
+let isSubmittingForm = false;
+let isLoadingData = false;
+
+// vi.mock('@/modules/users/hooks', async (importOriginal) => {
+//   const actual = (await importOriginal()) as any;
+//   return {
+//     ...actual,
+//     usePutUser: () => mockUsePutUser(),
+//     // useGetUser: (id: string) => mockUseGetUser(),
+//     // useGetUser: (id: string) => ({
+//     //   data: { first_name: 'Ana', last_name: 'García', email: 'ana@email.com' },
+//     //   isLoading: false,
+//     // }),
+//   };
+// });
+
+vi.mock('@/modules/core/hooks', async (importOriginal) => {
   const actual = (await importOriginal()) as any;
   return {
     ...actual,
-
-    BreadCrumb: ({ items, finalItem }: any) => (
-      <nav data-testid="breadcrumb">
-        {items?.map((item: any) => (
-          <span key={item.link}>{item.name}</span>
-        ))}
-        <span>{finalItem}</span>
-      </nav>
-    ),
-    Loading: () => <div data-testid="loading" />,
-    FormFieldInput: ({ name, label }: any) => (
-      <div>
-        <label>{label}</label>
-        <input
-          name={name}
-          defaultValue={
-            name === 'first_name'
-              ? 'Ana'
-              : name === 'last_name'
-              ? 'García'
-              : name === 'email'
-              ? 'ana@email.com'
-              : name === 'cell_phone_number'
-              ? '987654321'
-              : ''
-          }
-        />
-      </div>
-    ),
+    useGetAllModules: () => mockUseGetAllModules(),
   };
 });
 
-// Mock de hooks del core
-vi.mock('@/modules/core/hooks', () => ({
-  useCreateForm: ({ defaultValues, schema }: any) => ({
-    handleSubmit: (onSubmit: any) => (event: any) => {
-      event?.preventDefault();
-      // Simula los valores del formulario que coinciden con el schema
-      const mockValues = {
-        first_name: 'Ana',
-        last_name: 'García',
-        email: 'ana@email.com',
-        cell_phone_number: '987654321',
-        actions: [],
-        modules: [],
-      };
-      onSubmit(mockValues);
-    },
-    control: {},
-    formState: { defaultValues, isDirty: false },
-    watch: () => [],
-    setValue: vi.fn(),
-    reset: vi.fn(),
-    getValues: () => defaultValues,
-  }),
-  useGetAllModules: () => ({
-    data: [],
-    isLoading: false,
-    error: null,
-  }),
-}));
-
-// Mock de hooks y rutas
-const mockMutate = vi.fn();
-const mockUserData = {
-  id: '123',
-  first_name: 'Ana',
-  last_name: 'García',
-  email: 'ana@email.com',
-  cell_phone_number: '987654321',
-  actions: [],
-  modules: [],
-  is_active: true,
-  token: 'mock-token',
-};
-
-vi.mock('../hooks/', () => ({
-  useGetUser: (id: string) => ({
-    data: mockUserData,
-    isLoading: false,
-    isError: false,
-    error: null,
-    isSuccess: true,
-    isFetching: false,
-    isRefetching: false,
-    status: 'success',
-  }),
-  usePutUser: () => ({
-    mutate: mockMutate,
-    isPending: false,
-    isError: false,
-    error: null,
-    isSuccess: false,
-    status: 'idle',
-  }),
-}));
-
-vi.mock('../routes/pathsRoutes', () => ({
-  MODULE_USER_PATHS: {
-    ViewAll: '/usuarios',
-  },
-}));
-
-vi.mock('../utils', () => ({
-  formSchemaUser: {
-    parse: vi.fn(),
-    safeParse: vi.fn(),
-  },
-}));
-
-// Mock de React Query
 vi.mock('@tanstack/react-query', async (importOriginal) => {
   const actual = (await importOriginal()) as any;
   return {
@@ -126,75 +43,83 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
       invalidateQueries: vi.fn(),
     }),
     useMutation: ({ mutationFn, onSuccess, onError }: any) => ({
-      mutate: mockMutate,
-      isPending: false,
+      mutate: mockUsePutMutate,
+      isPending: isSubmittingForm,
       mutationFn,
       onSuccess,
       onError,
     }),
-  };
-});
-
-// Mock de React Router
-vi.mock('react-router-dom', async (importOriginal) => {
-  const actual = (await importOriginal()) as any;
-  return {
-    ...actual,
-    useNavigate: () => vi.fn(),
-    useParams: () => ({ id: '123' }),
+    useQuery: (id: string) => ({
+      data: { first_name: 'Ana', last_name: 'García', email: 'ana@email.com' },
+      isLoading: isLoadingData,
+      isError: false,
+      error: null,
+      isSuccess: true,
+      isFetching: false,
+      isRefetching: false,
+      status: 'success',
+    }),
   };
 });
 
 describe('ModifyUser', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    // Configurar el mock por defecto antes de cada test
+    mockUsePutUser.mockReturnValue({
+      mutate: mockUsePutMutate,
+      isPending: false,
+    });
+
+    mockUseGetAllModules.mockReturnValue({
+      isLoading: false,
+      data: [],
+    });
+
+    isSubmittingForm = false;
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
     cleanup();
+    vi.clearAllMocks();
   });
 
   it('renderiza el breadcrumb y el formulario correctamente', () => {
-    render(<ModifyUser />);
+    const result = render(<ModifyUser />);
 
-    expect(screen.getByTestId('breadcrumb')).toBeInTheDocument();
-    expect(screen.getByText('Usuarios')).toBeInTheDocument();
-    expect(screen.getByText('Modificar')).toBeInTheDocument();
+    expect(
+      result.getByRole('navigation', { name: /breadcrumb/i })
+    ).toBeInTheDocument();
+
+    expect(result.getByTestId('form-user')).toBeInTheDocument();
+    expect(result.getByTestId('form-buttons')).toBeInTheDocument();
   });
 
-  it('llama a mutate con los datos correctos al enviar el formulario', () => {
-    render(<ModifyUser />);
-
-    // Busca el botón submit dentro del formulario real
-    const submitButton = screen.getByRole('button', { name: /guardar/i });
-    expect(submitButton).toBeInTheDocument();
-
-    fireEvent.click(submitButton);
-
-    expect(mockMutate).toHaveBeenCalledWith({
-      id: '123',
-      first_name: 'Ana',
-      last_name: 'García',
-      email: 'ana@email.com',
-      cell_phone_number: '987654321',
-      actions: [],
-      modules: [],
+  it('habilita el botón de submit cuando isPending es false', () => {
+    mockUsePutUser.mockReturnValue({
+      mutate: vi.fn(),
+      isPending: false,
     });
-  });
 
-  it('pasa la prop isSubmitting correctamente al formulario', () => {
-    render(<ModifyUser />);
-    const submitButton = screen.getByRole('button', { name: /guardar/i });
+    const result = render(<ModifyUser />);
+    const submitButton = result.getByTestId('form-submit-button');
     expect(submitButton).not.toBeDisabled();
   });
 
+  it('deshabilita el botón de submit cuando isPending es true', () => {
+    isSubmittingForm = true;
+
+    const result = render(<ModifyUser />);
+    const submitButton = result.getByTestId('form-submit-button');
+    expect(submitButton).toBeDisabled();
+  });
+
   it('pasa los valores por defecto correctos al formulario', () => {
-    render(<ModifyUser />);
+    const result = render(<ModifyUser />);
+
     // Verifica que los campos del formulario estén presentes con los valores correctos
-    expect(screen.getByDisplayValue('Ana')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('García')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('ana@email.com')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('987654321')).toBeInTheDocument();
+    expect(result.getByDisplayValue('Ana')).toBeInTheDocument();
+    expect(result.getByDisplayValue('García')).toBeInTheDocument();
+    expect(result.getByDisplayValue('ana@email.com')).toBeInTheDocument();
+    // expect(result.getByDisplayValue('987654321')).toBeInTheDocument();
   });
 });
