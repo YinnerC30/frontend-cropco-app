@@ -1,5 +1,5 @@
 import { render } from '@/test-utils';
-import { fireEvent, screen } from '@testing-library/react';
+import { cleanup, fireEvent } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { FormUserFieldsPermissions } from '../FormUserFieldsPermissions';
 
@@ -17,6 +17,7 @@ vi.mock('@/auth/helpers', () => {
 
 describe('FormUserFieldsPermissions', () => {
   beforeEach(() => {
+    cleanup();
     vi.clearAllMocks();
   });
 

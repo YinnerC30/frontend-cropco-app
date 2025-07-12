@@ -1,5 +1,5 @@
 import { render } from '@/test-utils';
-import { screen } from '@testing-library/react';
+import { cleanup, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { FormUserButtons } from '../FormUserButtons';
 
@@ -18,8 +18,17 @@ vi.mock('@/modules/users/hooks', () => ({
 }));
 
 describe('FormUserButtons', () => {
+  beforeAll(() => {
+    cleanup();
+  });
+
   beforeEach(() => {
+    cleanup();
     vi.clearAllMocks();
+  });
+
+  afterAll(() => {
+    cleanup();
   });
 
   it('debe mostrar ButtonBack si readOnly es true', () => {

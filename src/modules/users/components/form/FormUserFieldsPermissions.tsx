@@ -81,7 +81,6 @@ export const FormUserFieldsPermissions: React.FC = () => {
     readOnly,
     isSelectedAllActions,
   } = useFormUserContext();
-  console.log('🚀 ~ readOnly:', readOnly);
 
   const handleOnCheckedChangeSwitch = (isCheked: boolean) => {
     return isCheked ? handleSelectAllActions() : handleInselectAllActions();
