@@ -8,6 +8,7 @@ type StatusKey =
   | 'forbidden'
   | 'unauthorized'
   | 'conflict'
+  | 'TooManyRequests'
   | 'unknown';
 
 export type StatusErrorHandlers = Partial<
@@ -83,6 +84,15 @@ export const useHandlerError = () => {
         toast.error(
           handlers.conflict?.message ||
             'Existe un conflicto al realizar la solicitud'
+        );
+        break;
+      case 429:
+        if (handlers.conflict?.onHandle) {
+          handlers.conflict.onHandle(error);
+        }
+        toast.error(
+          handlers.TooManyRequests?.message ||
+            'Has realizado demasiadas solicitudes al sistema, por favor espera un minuto'
         );
         break;
       default:
