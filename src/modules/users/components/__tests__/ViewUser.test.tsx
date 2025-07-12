@@ -1,125 +1,61 @@
-import { cleanup, render, screen } from '@/test-utils';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { render } from '@/test-utils';
+import { cleanup } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import ViewUser from '../ViewUser';
 
-// Mock de dependencias del core (solo BreadCrumb y Loading)
-vi.mock('@/modules/core/components', async (importOriginal) => {
-  const actual = (await importOriginal()) as any;
-  return {
-    ...actual,
+const mockUsePutUser = vi.fn();
+const mockUsePutMutate = vi.fn();
+// const mockUseGetUser = vi.fn();
 
-    BreadCrumb: ({ items, finalItem }: any) => (
-      <nav data-testid="breadcrumb">
-        {items?.map((item: any) => (
-          <span key={item.link}>{item.name}</span>
-        ))}
-        <span>{finalItem}</span>
-      </nav>
-    ),
-    Loading: () => <div data-testid="loading" />,
-    FormFieldInput: ({ name, label, readOnly }: any) => (
-      <div>
-        <label>{label}</label>
-        <input
-          data-testid={`input-${name}`}
-          readOnly
-          name={name}
-          defaultValue={
-            name === 'first_name'
-              ? 'Ana'
-              : name === 'last_name'
-              ? 'García'
-              : name === 'email'
-              ? 'ana@email.com'
-              : name === 'cell_phone_number'
-              ? '987654321'
-              : ''
-          }
-        />
-      </div>
-    ),
-  };
-});
-
-// Mock de hooks del core
-vi.mock('@/modules/core/hooks', () => ({
-  useCreateForm: ({ defaultValues, schema }: any) => ({
-    handleSubmit: (onSubmit: any) => (event: any) => {
-      event?.preventDefault();
-      // Simula los valores del formulario que coinciden con el schema
-      const mockValues = {
-        first_name: 'Ana',
-        last_name: 'García',
-        email: 'ana@email.com',
-        cell_phone_number: '987654321',
-        actions: [],
-        modules: [],
-      };
-      onSubmit(mockValues);
-    },
-    control: {},
-    formState: { defaultValues, isDirty: false },
-    watch: () => [],
-    setValue: vi.fn(),
-    reset: vi.fn(),
-    getValues: () => defaultValues,
-  }),
-  useGetAllModules: () => ({
-    data: [],
-    isLoading: false,
-    error: null,
-  }),
-}));
-
-// Mock de hooks y rutas
-// const mockMutate = vi.fn();
 const mockUserData = {
-  id: '123',
   first_name: 'Ana',
   last_name: 'García',
   email: 'ana@email.com',
-  cell_phone_number: '987654321',
-  actions: [],
-  modules: [],
-  is_active: true,
-  token: 'mock-token',
+  cell_phone_number: 3147736549,
+  actions: [
+    {
+      id: '6f76fad1-5c37-4cc5-b9a2-9c614a41cc77',
+      createdDate: '2025-07-04T13:47:28.850Z',
+      updatedDate: '2025-07-04T13:47:28.850Z',
+      deletedDate: null,
+    },
+    {
+      id: 'e2696cbf-a35c-42dd-9118-172516368369',
+      createdDate: '2025-07-04T13:47:28.860Z',
+      updatedDate: '2025-07-04T13:47:28.860Z',
+      deletedDate: null,
+    },
+    {
+      id: '5b4740b0-78fe-4302-b39c-d5c37c106cd6',
+      createdDate: '2025-07-04T13:47:28.874Z',
+      updatedDate: '2025-07-04T13:47:28.874Z',
+      deletedDate: null,
+    },
+    {
+      id: '17fe3c94-6feb-40d8-91ea-ebf8cc2a9e02',
+      createdDate: '2025-07-04T13:47:28.887Z',
+      updatedDate: '2025-07-04T13:47:28.887Z',
+      deletedDate: null,
+    },
+  ],
 };
 
-vi.mock('../hooks/', () => ({
-  useGetUser: (id: string) => ({
-    data: mockUserData,
-    isLoading: false,
-    isError: false,
-    error: null,
-    isSuccess: true,
-    isFetching: false,
-    isRefetching: false,
-    status: 'success',
-  }),
-  // usePutUser: () => ({
-  //   mutate: mockMutate,
-  //   isPending: false,
-  //   isError: false,
-  //   error: null,
-  //   isSuccess: false,
-  //   status: 'idle',
-  // }),
-}));
+const mockUseGetAllModules = vi.fn().mockReturnValue({
+  isLoading: false,
+  data: [],
+});
 
-vi.mock('../routes/pathsRoutes', () => ({
-  MODULE_USER_PATHS: {
-    ViewAll: '/usuarios',
-  },
-}));
+let isSubmittingForm = false;
+let isLoadingData = false;
 
-vi.mock('../utils', () => ({
-  formSchemaUser: {
-    parse: vi.fn(),
-    safeParse: vi.fn(),
-  },
-}));
+vi.mock('@/modules/core/hooks', async (importOriginal) => {
+  const actual = (await importOriginal()) as any;
+  return {
+    ...actual,
+    useGetAllModules: () => mockUseGetAllModules(),
+  };
+});
 
-// Mock de React Query
 vi.mock('@tanstack/react-query', async (importOriginal) => {
   const actual = (await importOriginal()) as any;
   return {
@@ -127,68 +63,74 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
     useQueryClient: () => ({
       invalidateQueries: vi.fn(),
     }),
-    // useMutation: ({ mutationFn, onSuccess, onError }: any) => ({
-    //   mutate: mockMutate,
-    //   isPending: false,
-    //   mutationFn,
-    //   onSuccess,
-    //   onError,
-    // }),
-  };
-});
 
-// Mock de React Router
-vi.mock('react-router-dom', async (importOriginal) => {
-  const actual = (await importOriginal()) as any;
-  return {
-    ...actual,
-    useNavigate: () => vi.fn(),
-    useParams: () => ({ id: '123' }),
+    useQuery: (id: string) => ({
+      data: mockUserData,
+      isLoading: isLoadingData,
+      isError: false,
+      error: null,
+      isSuccess: true,
+      isFetching: false,
+      isRefetching: false,
+      status: 'success',
+    }),
   };
 });
 
 describe('ViewUser', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    // Configurar el mock por defecto antes de cada test
+    mockUsePutUser.mockReturnValue({
+      mutate: mockUsePutMutate,
+      isPending: false,
+    });
+
+    mockUseGetAllModules.mockReturnValue({
+      isLoading: false,
+      data: [],
+    });
+
+    isSubmittingForm = false;
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
     cleanup();
+    vi.clearAllMocks();
   });
 
   it('renderiza el breadcrumb y el formulario correctamente', () => {
-    render(<ViewUser />);
+    const result = render(<ViewUser />);
 
-    expect(screen.getByTestId('breadcrumb')).toBeInTheDocument();
-    expect(screen.getByText('Usuarios')).toBeInTheDocument();
-    expect(screen.getByText('Volver')).toBeInTheDocument();
-  });
+    expect(
+      result.getByRole('navigation', { name: /breadcrumb/i })
+    ).toBeInTheDocument();
 
-  it('pasa la prop readOnly correctamente al formulario', () => {
-    render(<ViewUser />);
-
-    const inputNombre = screen.getByTestId('input-first_name');
-    const inputApellido = screen.getByTestId('input-last_name');
-    const inputEmail = screen.getByTestId('input-email');
-    const inputTelefono = screen.getByTestId('input-cell_phone_number');
-
-    expect(inputNombre).toHaveAttribute('readonly');
-    expect(inputApellido).toHaveAttribute('readonly');
-    expect(inputEmail).toHaveAttribute('readonly');
-    expect(inputTelefono).toHaveAttribute('readonly');
-
-    // Verifica que el botón de guardar no esté presente o esté deshabilitado
-    const submitButton = screen.queryByRole('button', { name: /guardar/i });
-    expect(submitButton).toBeNull();
+    expect(result.getByTestId('form-user')).toBeInTheDocument();
+    expect(result.getByTestId('form-back-button')).toBeInTheDocument();
   });
 
   it('pasa los valores por defecto correctos al formulario', () => {
-    render(<ViewUser />);
+    const result = render(<ViewUser />);
+
+    result.debug(result.container, 99999);
+
     // Verifica que los campos del formulario estén presentes con los valores correctos
-    expect(screen.getByDisplayValue('Ana')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('García')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('ana@email.com')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('987654321')).toBeInTheDocument();
+    const firstNameInput = result.getByDisplayValue(mockUserData.first_name);
+    expect(firstNameInput).toBeInTheDocument();
+    expect(firstNameInput).toHaveAttribute('readonly');
+
+    const lastNameInput = result.getByDisplayValue(mockUserData.last_name);
+    expect(lastNameInput).toBeInTheDocument();
+    expect(lastNameInput).toHaveAttribute('readonly');
+
+    const emailInput = result.getByDisplayValue(mockUserData.email);
+    expect(emailInput).toBeInTheDocument();
+    expect(emailInput).toHaveAttribute('readonly');
+
+    const cellPhoneInput = result.getByDisplayValue(
+      mockUserData.cell_phone_number
+    );
+    expect(cellPhoneInput).toBeInTheDocument();
+    expect(cellPhoneInput).toHaveAttribute('readonly');
   });
 });

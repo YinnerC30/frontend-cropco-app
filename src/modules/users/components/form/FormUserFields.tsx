@@ -18,6 +18,7 @@ import { useState } from 'react';
 
 export const FormUserFields: React.FC = () => {
   const { form, onSubmit, readOnly, hiddenPassword } = useFormUserContext();
+  console.log("🚀 ~ readOnly:", readOnly)
 
   const [showPassword, setShowPassword] = useState(false);
 

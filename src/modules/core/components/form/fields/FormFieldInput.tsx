@@ -36,6 +36,7 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
     hiddenInput = false,
     allowDecimals = false,
   }) => {
+    console.log("🚀 ~ readOnly:", readOnly)
     const handleOnChageInput = (
       e: any,
       field: ControllerRenderProps<any, string>
