@@ -1,7 +1,7 @@
 import { ButtonsForm } from '@/modules/core/components';
 import { ButtonBack } from '@/modules/core/components/form/buttons/ButtonBack';
 import { useNavigate } from 'react-router-dom';
-import { useFormUserContext } from '../../hooks';
+import { useFormUserContext } from '@/modules/users/hooks';
 import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
 
 export const FormUserButtons: React.FC = () => {
