@@ -45,7 +45,7 @@ const mockUseGetAllModules = vi.fn().mockReturnValue({
   data: [],
 });
 
-let isSubmittingForm = false;
+// let isSubmittingForm = false;
 let isLoadingData = false;
 
 vi.mock('@/modules/core/hooks', async (importOriginal) => {
@@ -90,7 +90,7 @@ describe('ViewUser', () => {
       data: [],
     });
 
-    isSubmittingForm = false;
+    // isSubmittingForm = false;
   });
 
   afterEach(() => {
