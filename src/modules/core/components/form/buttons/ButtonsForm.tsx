@@ -15,7 +15,6 @@ export const ButtonsForm: React.FC<Props> = ({
   className,
   actionToCancel,
 }) => {
-  console.log({isPending})
   return (
     <div className={className} data-testid="form-buttons">
       <ButtonCancelRegister action={actionToCancel} />

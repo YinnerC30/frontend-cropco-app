@@ -17,9 +17,8 @@ export const ModifyUser: React.FC = () => {
   const handleSubmit = (values: z.infer<typeof formSchemaUser>) => {
     mutate({ id: id ?? undefined, ...values } as Partial<User>);
   };
-  
+
   if (isLoading) return <Loading />;
-  console.log("🚀 ~ data:", data)
 
   return (
     <>
