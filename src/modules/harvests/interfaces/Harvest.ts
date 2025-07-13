@@ -3,10 +3,10 @@ import { HarvestDetail } from "./HarvestDetail";
 import { HarvestProcessed } from "./HarvestProcessed";
 
 export interface Harvest {
+  id?: string;
   crop: ObjectWithId;
   date: string;
   details: HarvestDetail[];
-  id?: string;
   observation?: string | undefined;
   amount: number;
   value_pay: number;

@@ -1,3 +1,5 @@
+import { Harvest } from "@/modules/harvests/interfaces";
+
 export interface Crop {
   id?: string | undefined;
   name: string;
@@ -6,6 +8,7 @@ export interface Crop {
   location: string;
   date_of_creation: string;
   date_of_termination: string;
+  harvests?: Harvest[];
   harvests_stock?: {
     id: string;
     amount: number
