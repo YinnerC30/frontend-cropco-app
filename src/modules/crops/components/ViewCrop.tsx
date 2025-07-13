@@ -155,7 +155,7 @@ export const ViewCrop: React.FC = () => {
           Vinculo en otros registros:
         </h3>
         <Tabs defaultValue="harvests" className="w-10/12 lg:w-auto">
-          <TabsList className="grid w-auto grid-cols-5 gap-1">
+          <TabsList className="flex flex-wrap w-auto h-32 lg:h-10">
             <TabsTrigger value="harvests">
               <span className="flex items-center gap-2">
                 <span>Cosechas</span>
