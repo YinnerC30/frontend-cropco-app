@@ -12,7 +12,7 @@ export const FormEmployeeFields: React.FC = () => {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         id="formEmployee"
-        className="flex flex-row flex-wrap gap-10 ml-1"
+        className="flex flex-row flex-wrap gap-1 ml-1 lg:gap-10"
       >
         <FormFieldInput
           autoFocus

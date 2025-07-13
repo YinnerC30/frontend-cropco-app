@@ -234,8 +234,11 @@ export const ViewEmployee: React.FC = () => {
       />
 
       <FormEmployee defaultValues={data} readOnly>
-        <Tabs defaultValue="harvests" className="w-10/12">
-          <TabsList className="grid w-full grid-cols-3">
+        <h3 className="my-5 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          Vinculo en otros registros:
+        </h3>
+        <Tabs defaultValue="harvests" className="w-10/12 lg:w-auto">
+          <TabsList className="grid w-auto grid-cols-3 gap-1">
             <TabsTrigger value="harvests">
               <span className="flex items-center gap-2">
                 <span>Cosechas</span>
