@@ -29,174 +29,100 @@ import { Payment } from '@/modules/payments/interfaces/Payment';
 import { WorkDetailEmployee } from '../interfaces/WorkDetailEmployee';
 import { ActionsTablePaymentEmployee } from './form/actions/ActionsTablePaymentEmployee';
 
-interface EmployeeHarvestDataTableProps {
+// Componente genérico para todas las tablas de empleados
+interface EmployeeDataTableProps<T> {
+  data: T[];
+  columns: any[];
+  actions: React.ComponentType<any>;
+  hiddenCheckbox?: boolean;
+  hiddenActions?: boolean;
+}
+
+export const EmployeeDataTable = <T extends Record<string, any>>({
+  data,
+  columns,
+  actions,
+  hiddenCheckbox = true,
+  hiddenActions = false,
+}: EmployeeDataTableProps<T>) => {
+  const columnsTable = useCreateColumnsTable<T>({
+    columns,
+    actions: actions as any,
+    hiddenCheckbox,
+    hiddenActions,
+  });
+
+  const dataTable = useDataTableGeneric<T>({
+    columns: columnsTable,
+    rows: data,
+  });
+
+  return (
+    <div>
+      <FormDataTableProvider
+        table={dataTable.table}
+        disabledDoubleClick={true}
+        errorMessage={'Ha ocurrido un error en la tabla'}
+        lengthColumns={dataTable.lengthColumns}
+      >
+        <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-full">
+          {/* Paginacion */}
+          <div className="flex flex-col items-center w-full gap-2 sm:flex-row sm:justify-evenly">
+            <FormDataTableRowCount />
+            <FormDataTableSelectPageSize />
+          </div>
+
+          {/* Tabla */}
+          <ScrollArea
+            className="h-max-[460px] w-[85%] sm:w-full p-1 border rounded-sm self-start"
+            type="auto"
+          >
+            <FormDataTable
+              onCellDoubleClick={(data) => {}}
+              disabledDoubleClick={true}
+            />
+
+            <ScrollBar className="mt-2" orientation="horizontal" forceMount />
+          </ScrollArea>
+
+          <FormDataTableButtonsPagination />
+          <FormDataTablePageCount />
+        </div>
+      </FormDataTableProvider>
+    </div>
+  );
+};
+
+// Componentes específicos usando el componente genérico
+export const EmployeeHarvestDataTable: React.FC<{
   data: HarvestDetail[];
-}
+}> = ({ data }) => (
+  <EmployeeDataTable<HarvestDetailEmployee>
+    data={data as any}
+    columns={columnsHarvestDetailEmployee}
+    actions={ActionsTableHarvestDetailEmployee}
+  />
+);
 
-export const EmployeeHarvestDataTable: React.FC<
-  EmployeeHarvestDataTableProps
-> = (props) => {
-  const { data } = props;
-
-  const columnsTable = useCreateColumnsTable<HarvestDetailEmployee>({
-    columns: columnsHarvestDetailEmployee,
-    actions: ActionsTableHarvestDetailEmployee,
-    hiddenCheckbox: true,
-  });
-
-  const dataTableHarvestDetail = useDataTableGeneric<HarvestDetailEmployee>({
-    columns: columnsTable,
-    rows: data,
-  });
-
-  return (
-    <div>
-      <FormDataTableProvider
-        table={dataTableHarvestDetail.table}
-        disabledDoubleClick={true}
-        errorMessage={'Ha ocurrido un error en la tabla'}
-        lengthColumns={dataTableHarvestDetail.lengthColumns}
-      >
-        <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-full">
-          {/* Paginacion */}
-          <div className="flex flex-col items-center w-full gap-2 sm:flex-row sm:justify-evenly">
-            <FormDataTableRowCount />
-            <FormDataTableSelectPageSize />
-          </div>
-
-          {/* Tabla */}
-          <ScrollArea
-            className="h-max-[460px] w-[85%] sm:w-full p-1 border rounded-sm self-start"
-            type="auto"
-          >
-            <FormDataTable
-              onCellDoubleClick={(data) => {}}
-              disabledDoubleClick={true}
-            />
-
-            <ScrollBar className="mt-2" orientation="horizontal" forceMount />
-          </ScrollArea>
-
-          <FormDataTableButtonsPagination />
-          <FormDataTablePageCount />
-        </div>
-      </FormDataTableProvider>
-    </div>
-  );
-};
-
-interface EmployeeWorkDataTableProps {
+export const EmployeeWorkDataTable: React.FC<{
   data: WorkDetailEmployee[];
-}
+}> = ({ data }) => (
+  <EmployeeDataTable<WorkDetailEmployee>
+    data={data}
+    columns={columnsWorkDetailEmployee}
+    actions={ActionsTableWorkDetailEmployee}
+  />
+);
 
-export const EmployeeWorkDataTable: React.FC<EmployeeWorkDataTableProps> = (
-  props
-) => {
-  const { data } = props;
-
-  const columnsTable = useCreateColumnsTable<WorkDetailEmployee>({
-    columns: columnsWorkDetailEmployee,
-    actions: ActionsTableWorkDetailEmployee,
-    hiddenCheckbox: true,
-  });
-
-  const dataTableHarvestDetail = useDataTableGeneric<WorkDetailEmployee>({
-    columns: columnsTable,
-    rows: data,
-  });
-
-  return (
-    <div>
-      <FormDataTableProvider
-        table={dataTableHarvestDetail.table}
-        disabledDoubleClick={true}
-        errorMessage={'Ha ocurrido un error en la tabla'}
-        lengthColumns={dataTableHarvestDetail.lengthColumns}
-      >
-        <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-full">
-          {/* Paginacion */}
-          <div className="flex flex-col items-center w-full gap-2 sm:flex-row sm:justify-evenly">
-            <FormDataTableRowCount />
-            <FormDataTableSelectPageSize />
-          </div>
-
-          {/* Tabla */}
-          <ScrollArea
-            className="h-max-[460px] w-[85%] sm:w-full p-1 border rounded-sm self-start"
-            type="auto"
-          >
-            <FormDataTable
-              onCellDoubleClick={(data) => {}}
-              disabledDoubleClick={true}
-            />
-
-            <ScrollBar className="mt-2" orientation="horizontal" forceMount />
-          </ScrollArea>
-
-          <FormDataTableButtonsPagination />
-          <FormDataTablePageCount />
-        </div>
-      </FormDataTableProvider>
-    </div>
-  );
-};
-
-interface EmployeePaymentDataTableProps {
+export const EmployeePaymentDataTable: React.FC<{
   data: Payment[];
-}
-
-export const EmployeePaymentDataTable: React.FC<
-  EmployeePaymentDataTableProps
-> = (props) => {
-  const { data } = props;
-
-  const columnsTable = useCreateColumnsTable<Payment>({
-    columns: columnsPayment,
-    actions: ActionsTablePaymentEmployee,
-    hiddenCheckbox: true,
-    // hiddenActions: true,
-  });
-
-  const dataTableHarvestDetail = useDataTableGeneric<Payment>({
-    columns: columnsTable,
-    rows: data,
-  });
-
-  return (
-    <div>
-      <FormDataTableProvider
-        table={dataTableHarvestDetail.table}
-        disabledDoubleClick={true}
-        errorMessage={'Ha ocurrido un error en la tabla'}
-        lengthColumns={dataTableHarvestDetail.lengthColumns}
-      >
-        <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-full">
-          {/* Paginacion */}
-          <div className="flex flex-col items-center w-full gap-2 sm:flex-row sm:justify-evenly">
-            <FormDataTableRowCount />
-            <FormDataTableSelectPageSize />
-          </div>
-
-          {/* Tabla */}
-          <ScrollArea
-            className="h-max-[460px] w-[85%] sm:w-full p-1 border rounded-sm self-start"
-            type="auto"
-          >
-            <FormDataTable
-              onCellDoubleClick={(data) => {}}
-              disabledDoubleClick={true}
-            />
-
-            <ScrollBar className="mt-2" orientation="horizontal" forceMount />
-          </ScrollArea>
-
-          <FormDataTableButtonsPagination />
-          <FormDataTablePageCount />
-        </div>
-      </FormDataTableProvider>
-    </div>
-  );
-};
+}> = ({ data }) => (
+  <EmployeeDataTable<Payment>
+    data={data}
+    columns={columnsPayment}
+    actions={ActionsTablePaymentEmployee}
+  />
+);
 
 export const ViewEmployee: React.FC = () => {
   const { id } = useParams();
