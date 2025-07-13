@@ -17,7 +17,7 @@ export const FormCropFields: React.FC = () => {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         id="formCrop"
-        className="flex flex-col gap-2 ml-1"
+        className="flex flex-row flex-wrap gap-2 ml-1 lg:gap-5"
       >
         <FormFieldInput
           autoFocus
@@ -28,15 +28,7 @@ export const FormCropFields: React.FC = () => {
           placeholder={formFieldsCrop.name.placeholder}
           disabled={readOnly}
         />
-        <FormFieldTextArea
-          control={form.control}
-          description={formFieldsCrop.description.description}
-          label={formFieldsCrop.description.label}
-          name={'description'}
-          placeholder={formFieldsCrop.description.placeholder}
-          disabled={readOnly}
-          className="sm:w-2/4"
-        />
+
         <FormFieldInput
           control={form.control}
           description={formFieldsCrop.number_hectares.description}
@@ -56,15 +48,7 @@ export const FormCropFields: React.FC = () => {
           disabled={readOnly}
           type="number"
         />
-        <FormFieldTextArea
-          control={form.control}
-          description={formFieldsCrop.location.description}
-          label={formFieldsCrop.location.label}
-          name={'location'}
-          placeholder={formFieldsCrop.location.placeholder}
-          disabled={readOnly}
-          className="sm:w-2/4"
-        />
+
         <FormFieldCalendar
           control={form.control}
           description={formFieldsCrop.date_of_creation.description}
@@ -83,6 +67,26 @@ export const FormCropFields: React.FC = () => {
           placeholder={formFieldsCrop.date_of_termination.placeholder}
           disabled={readOnly}
           className="w-[240px]"
+        />
+
+        <FormFieldTextArea
+          control={form.control}
+          description={formFieldsCrop.description.description}
+          label={formFieldsCrop.description.label}
+          name={'description'}
+          placeholder={formFieldsCrop.description.placeholder}
+          disabled={readOnly}
+          className="sm:w-2/4"
+        />
+
+        <FormFieldTextArea
+          control={form.control}
+          description={formFieldsCrop.location.description}
+          label={formFieldsCrop.location.label}
+          name={'location'}
+          placeholder={formFieldsCrop.location.placeholder}
+          disabled={readOnly}
+          className="sm:w-2/4"
         />
       </form>
     </Form>

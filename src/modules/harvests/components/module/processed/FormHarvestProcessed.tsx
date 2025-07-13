@@ -110,7 +110,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
               amount: 0,
               id: undefined,
               unit_of_measure: undefined,
-            });
+            } as any);
 
             setOpenDialog(false);
           },
