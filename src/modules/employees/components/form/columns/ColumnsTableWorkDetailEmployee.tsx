@@ -1,16 +1,15 @@
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
+import { Badge } from '@/components';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
-import { Work } from '@/modules/work/interfaces/Work';
-import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
-import { Badge } from '@/components';
+import { WorkDetailEmployee } from '@/modules/employees/interfaces/WorkDetailEmployee';
 
-export const columnsWorkDetailEmployee: ColumnDef<any>[] = [
+export const columnsWorkDetailEmployee: ColumnDef<WorkDetailEmployee>[] = [
   {
     accessorKey: 'work.date',
-    header: ({ column }: HeaderContext<Work, unknown>) => {
+    header: ({ column }: HeaderContext<WorkDetailEmployee, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Fecha:'} />;
     },
     cell: ({ row }) => {
@@ -20,7 +19,7 @@ export const columnsWorkDetailEmployee: ColumnDef<any>[] = [
   },
   {
     accessorKey: 'employee.full_name',
-    header: ({ column }: HeaderContext<WorkDetail, unknown>) => {
+    header: ({ column }: HeaderContext<WorkDetailEmployee, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Empleado:'} />;
     },
   },
@@ -29,7 +28,7 @@ export const columnsWorkDetailEmployee: ColumnDef<any>[] = [
     cell: ({ row }) => {
       return FormatMoneyValue(row.getValue('value_pay'));
     },
-    header: ({ column }: HeaderContext<WorkDetail, unknown>) => {
+    header: ({ column }: HeaderContext<WorkDetailEmployee, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Valor a pagar:'} />;
     },
   },
@@ -43,7 +42,7 @@ export const columnsWorkDetailEmployee: ColumnDef<any>[] = [
         <Badge variant={'success'}>NO</Badge>
       );
     },
-    header: ({ column }: any) => {
+    header: ({ column }: HeaderContext<WorkDetailEmployee, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Pago pendiente'} />;
     },
   },

@@ -11,7 +11,6 @@ import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
 import { HarvestDetail } from '@/modules/harvests/interfaces';
-import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
 import { CreditCard, Pickaxe, Tractor } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { Loading } from '../../core/components';
@@ -27,6 +26,7 @@ import FormEmployee from './form/FormEmployee';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import columnsPayment from '@/modules/payments/components/module/ColumnsTablePayment';
 import { Payment } from '@/modules/payments/interfaces/Payment';
+import { WorkDetailEmployee } from '../interfaces/WorkDetailEmployee';
 import { ActionsTablePaymentEmployee } from './form/actions/ActionsTablePaymentEmployee';
 
 interface EmployeeHarvestDataTableProps {
@@ -86,7 +86,7 @@ export const EmployeeHarvestDataTable: React.FC<
 };
 
 interface EmployeeWorkDataTableProps {
-  data: WorkDetail[];
+  data: WorkDetailEmployee[];
 }
 
 export const EmployeeWorkDataTable: React.FC<EmployeeWorkDataTableProps> = (
@@ -94,13 +94,13 @@ export const EmployeeWorkDataTable: React.FC<EmployeeWorkDataTableProps> = (
 ) => {
   const { data } = props;
 
-  const columnsTable = useCreateColumnsTable<any>({
+  const columnsTable = useCreateColumnsTable<WorkDetailEmployee>({
     columns: columnsWorkDetailEmployee,
     actions: ActionsTableWorkDetailEmployee,
     hiddenCheckbox: true,
   });
 
-  const dataTableHarvestDetail = useDataTableGeneric<any>({
+  const dataTableHarvestDetail = useDataTableGeneric<WorkDetailEmployee>({
     columns: columnsTable,
     rows: data,
   });
@@ -150,14 +150,14 @@ export const EmployeePaymentDataTable: React.FC<
 > = (props) => {
   const { data } = props;
 
-  const columnsTable = useCreateColumnsTable<any>({
+  const columnsTable = useCreateColumnsTable<Payment>({
     columns: columnsPayment,
     actions: ActionsTablePaymentEmployee,
     hiddenCheckbox: true,
     // hiddenActions: true,
   });
 
-  const dataTableHarvestDetail = useDataTableGeneric<any>({
+  const dataTableHarvestDetail = useDataTableGeneric<Payment>({
     columns: columnsTable,
     rows: data,
   });
@@ -259,13 +259,17 @@ export const ViewEmployee: React.FC = () => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="harvests">
-            <EmployeeHarvestDataTable data={[...(harvestData as any)]} />
+            <EmployeeHarvestDataTable
+              data={[...(harvestData as HarvestDetailEmployee[])]}
+            />
           </TabsContent>
           <TabsContent value="works">
-            <EmployeeWorkDataTable data={[...(workData as any)]} />
+            <EmployeeWorkDataTable
+              data={[...(workData as WorkDetailEmployee[])]}
+            />
           </TabsContent>
           <TabsContent value="payments">
-            <EmployeePaymentDataTable data={[...(paymentData as any)]} />
+            <EmployeePaymentDataTable data={[...(paymentData as any[])]} />
           </TabsContent>
         </Tabs>
       </FormEmployee>

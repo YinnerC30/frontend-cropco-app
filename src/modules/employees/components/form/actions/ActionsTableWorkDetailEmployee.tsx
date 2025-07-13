@@ -3,13 +3,13 @@ import {
   ActionNavigate,
   DropDownMenuActions,
 } from '@/modules/core/components';
-import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
+import { WorkDetailEmployee } from '@/modules/employees/interfaces/WorkDetailEmployee';
 import { MODULE_WORKS_PATHS } from '@/modules/work/routes/pathRoutes';
 import { Row } from '@tanstack/react-table';
 import { ShieldCheck } from 'lucide-react';
 
 interface Props {
-  row: Row<WorkDetail>;
+  row: Row<WorkDetailEmployee>;
 }
 
 export const ActionsTableWorkDetailEmployee: React.FC<Props> = ({ row }) => {
