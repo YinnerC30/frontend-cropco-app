@@ -1,4 +1,5 @@
 import { Harvest } from "@/modules/harvests/interfaces";
+import { SaleDetail } from "@/modules/sales/interfaces";
 import { Work } from "@/modules/work/interfaces/Work";
 
 export interface Crop {
@@ -11,6 +12,7 @@ export interface Crop {
   date_of_termination: string;
   harvests?: Harvest[];
   works?: Work[];
+  sales_detail?: SaleDetail[];
   harvests_stock?: {
     id: string;
     amount: number
