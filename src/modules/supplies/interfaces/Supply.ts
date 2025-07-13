@@ -1,4 +1,6 @@
+import { ShoppingDetail } from '@/modules/shopping/interfaces';
 import { UnitOfMeasure } from './UnitOfMeasure';
+import { ConsumptionDetails } from '@/modules/consumption/interfaces';
 
 export interface Supply {
   id?: string;
@@ -9,5 +11,7 @@ export interface Supply {
   stock?: {
     id: string;
     amount: number;
-  }
+  };
+  shopping_details?: ShoppingDetail[];
+  consumption_details?: ConsumptionDetails[];
 }

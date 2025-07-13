@@ -1,13 +1,51 @@
+import { Badge } from '@/components';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { columnsConsumptionDetail } from '@/modules/consumption/components/forms/consumption/details/ColumnsTableConsumptionDetail';
 import { ErrorLoading, Loading } from '@/modules/core/components';
 import { BreadCrumb } from '@/modules/core/components/';
+import { BasicDataTable } from '@/modules/core/components/form/basic/BasicDataTable';
+import { FormatNumber } from '@/modules/core/helpers';
+import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
+import { ActionsTableConsumptionCrop } from '@/modules/crops/components/form/actions/ActionsTableConsumptionCrop';
+import { ActionsTableShoppingDetailSupplier } from '@/modules/suppliers/components/form/actions/ActionsTableShoppingDetailSupplier';
+import { columnsShoppingDetailSupplier } from '@/modules/suppliers/components/form/columns/ColumnsTableShoppingDetailSupplier';
+import { Cable, ShoppingBagIcon } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { useGetSupply } from '../hooks/';
+import {
+  MassUnitOfMeasure,
+  UnitOfMeasure,
+  UnitSymbols,
+  VolumeUnitOfMeasure,
+} from '../interfaces/UnitOfMeasure';
 import { MODULE_SUPPLIES_PATHS } from '../routes/pathRoutes';
 import { FormSupply } from './form/FormSupply';
+
+export const SupplyConsumptionsDataTable: React.FC<{
+  data: any[];
+}> = ({ data }) => (
+  <BasicDataTable<any>
+    data={data}
+    columns={columnsConsumptionDetail}
+    actions={ActionsTableConsumptionCrop}
+  />
+);
+
+export const SupplyShoppingDataTable: React.FC<{
+  data: any[];
+}> = ({ data }) => (
+  <BasicDataTable<any>
+    data={data as any}
+    columns={columnsShoppingDetailSupplier}
+    actions={ActionsTableShoppingDetailSupplier}
+  />
+);
 
 export const ViewSupply = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetSupply(id!);
+
+  const { convert } = useUnitConverter();
 
   if (isLoading) {
     return <Loading />;
@@ -17,6 +55,33 @@ export const ViewSupply = () => {
     return <ErrorLoading />;
   }
 
+  const consumptionData = Array.isArray(data?.consumption_details)
+    ? data?.consumption_details.map((item) => ({
+        ...item,
+      }))
+    : [];
+
+  const shoppingData = Array.isArray(data?.shopping_details)
+    ? data?.shopping_details.map((item) => ({
+        ...item,
+        supplier: {
+          ...item.supplier,
+          full_name: `${item.supplier.first_name} ${item.supplier.last_name}`,
+        },
+      }))
+    : [];
+
+  const currentStock = data?.stock?.amount || 0;
+  const currentUnitType = data.unit_of_measure;
+
+  const convertedAmount = convert(
+    currentStock,
+    currentUnitType as UnitOfMeasure,
+    currentUnitType === 'GRAMOS'
+      ? MassUnitOfMeasure.KILOGRAMOS
+      : VolumeUnitOfMeasure.LITROS
+  );
+
   return (
     <>
       <BreadCrumb
@@ -24,7 +89,54 @@ export const ViewSupply = () => {
         finalItem={`Información del insumo`}
       />
 
-      <FormSupply defaultValues={data} readOnly />
+      <FormSupply defaultValues={data} readOnly>
+        <h3 className="my-5 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          Stock disponible:
+        </h3>
+        <div className="flex gap-2">
+          <span>{FormatNumber(convertedAmount)}</span>
+          <Badge
+            className="w-auto"
+            variant={currentUnitType === 'GRAMOS' ? 'zinc' : 'blue'}
+          >
+            {
+              UnitSymbols[
+                currentUnitType === 'GRAMOS'
+                  ? MassUnitOfMeasure.KILOGRAMOS
+                  : VolumeUnitOfMeasure.LITROS
+              ]
+            }
+          </Badge>
+        </div>
+
+        <h3 className="my-5 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          Vinculo en otros registros:
+        </h3>
+
+        <Tabs defaultValue="consumptions" className="w-10/12 lg:w-auto">
+          <TabsList className="flex flex-wrap w-auto h-32 lg:h-10">
+            <TabsTrigger value="consumptions">
+              <span className="flex items-center gap-2">
+                <span>Consumos</span>
+                <Cable className="w-4 h-4" />
+              </span>
+            </TabsTrigger>
+            <TabsTrigger value="shopping">
+              <span className="flex items-center gap-2">
+                <span>Compras</span>
+                <ShoppingBagIcon className="w-4 h-4" />
+              </span>
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="consumptions">
+            <SupplyConsumptionsDataTable data={consumptionData as any} />
+          </TabsContent>
+          <TabsContent value="shopping">
+            <SupplyShoppingDataTable data={shoppingData as any} />
+          </TabsContent>
+        </Tabs>
+      </FormSupply>
     </>
   );
 };
