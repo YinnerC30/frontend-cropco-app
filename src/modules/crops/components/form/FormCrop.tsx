@@ -10,7 +10,7 @@ export const FormCrop: React.FC<Props> = ({ children, ...props }) => {
   return (
     <FormCropProvider {...props}>
       <div className="flex flex-col items-center">
-        <ScrollArea className="h-[80vh] w-full pb-2 pr-6">
+        <ScrollArea className="h-[80vh] w-full pb-2 sm:pr-6">
           <FormCropFields />
           <div className="flex flex-col lg:justify-center">{children}</div>
         </ScrollArea>

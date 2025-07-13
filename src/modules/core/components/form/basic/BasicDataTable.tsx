@@ -1,7 +1,7 @@
-import { ScrollBar } from '@/components';
+import { ScrollArea, ScrollBar } from '@/components';
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
-import { ScrollArea } from '@radix-ui/react-scroll-area';
+
 import {
   FormDataTableProvider,
   FormDataTable,
@@ -55,7 +55,7 @@ export const BasicDataTable = <T extends Record<string, any>>({
 
           {/* Tabla */}
           <ScrollArea
-            className="h-max-[460px] w-[85%] sm:w-full p-1 border rounded-sm self-start"
+            className="h-max-[460px] w-[85%] sm:w-full  p-1 border rounded-sm self-start"
             type="auto"
           >
             <FormDataTable
