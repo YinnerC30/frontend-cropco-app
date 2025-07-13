@@ -37,6 +37,21 @@ export const columnsPayment: ColumnDef<Payment>[] = [
       );
     },
   },
+
+  {
+    accessorKey: formFieldsPayments.value_pay.name,
+    cell: ({ row }) => {
+      return FormatMoneyValue(row.getValue('value_pay'));
+    },
+    header: ({ column }: HeaderContext<Payment, unknown>) => {
+      return (
+        <ButtonHeaderTable
+          column={column}
+          label={formFieldsPayments.value_pay.label}
+        />
+      );
+    },
+  },
   {
     accessorKey: formFieldsPayments.method_of_payment.name,
     cell: ({ row }) => {
@@ -62,20 +77,6 @@ export const columnsPayment: ColumnDef<Payment>[] = [
         <ButtonHeaderTable
           column={column}
           label={formFieldsPayments.method_of_payment.label}
-        />
-      );
-    },
-  },
-  {
-    accessorKey: formFieldsPayments.value_pay.name,
-    cell: ({ row }) => {
-      return FormatMoneyValue(row.getValue('value_pay'));
-    },
-    header: ({ column }: HeaderContext<Payment, unknown>) => {
-      return (
-        <ButtonHeaderTable
-          column={column}
-          label={formFieldsPayments.value_pay.label}
         />
       );
     },

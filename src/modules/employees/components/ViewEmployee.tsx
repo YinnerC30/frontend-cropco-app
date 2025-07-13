@@ -12,7 +12,7 @@ import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreate
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
 import { HarvestDetail } from '@/modules/harvests/interfaces';
 import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
-import { Pickaxe, Tractor } from 'lucide-react';
+import { CreditCard, Pickaxe, Tractor } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { Loading } from '../../core/components';
 import { useGetEmployee } from '../hooks/queries/useGetEmployee';
@@ -25,19 +25,9 @@ import { columnsWorkDetailEmployee } from './form/columns/ColumnsTableWorkDetail
 import FormEmployee from './form/FormEmployee';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
-export function TabsEmployeeTables() {
-  return (
-    <Tabs defaultValue="harvests" className="w-[400px]">
-      <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="harvests">Cosechas</TabsTrigger>
-        <TabsTrigger value="works">Trabajos</TabsTrigger>
-      </TabsList>
-      <TabsContent value="harvests">{/* TODO: implementar */}</TabsContent>
-      <TabsContent value="works">{/* TODO: implementar */}</TabsContent>
-    </Tabs>
-  );
-}
+import columnsPayment from '@/modules/payments/components/module/ColumnsTablePayment';
+import { Payment } from '@/modules/payments/interfaces/Payment';
+import { ActionsTablePaymentEmployee } from './form/actions/ActionsTablePaymentEmployee';
 
 interface EmployeeHarvestDataTableProps {
   data: HarvestDetail[];
@@ -151,6 +141,63 @@ export const EmployeeWorkDataTable: React.FC<EmployeeWorkDataTableProps> = (
   );
 };
 
+interface EmployeePaymentDataTableProps {
+  data: Payment[];
+}
+
+export const EmployeePaymentDataTable: React.FC<
+  EmployeePaymentDataTableProps
+> = (props) => {
+  const { data } = props;
+
+  const columnsTable = useCreateColumnsTable<any>({
+    columns: columnsPayment,
+    actions: ActionsTablePaymentEmployee,
+    hiddenCheckbox: true,
+    // hiddenActions: true,
+  });
+
+  const dataTableHarvestDetail = useDataTableGeneric<any>({
+    columns: columnsTable,
+    rows: data,
+  });
+
+  return (
+    <div>
+      <FormDataTableProvider
+        table={dataTableHarvestDetail.table}
+        disabledDoubleClick={true}
+        errorMessage={'Ha ocurrido un error en la tabla'}
+        lengthColumns={dataTableHarvestDetail.lengthColumns}
+      >
+        <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-full">
+          {/* Paginacion */}
+          <div className="flex flex-col items-center w-full gap-2 sm:flex-row sm:justify-evenly">
+            <FormDataTableRowCount />
+            <FormDataTableSelectPageSize />
+          </div>
+
+          {/* Tabla */}
+          <ScrollArea
+            className="h-max-[460px] w-[85%] sm:w-full p-1 border rounded-sm self-start"
+            type="auto"
+          >
+            <FormDataTable
+              onCellDoubleClick={(data) => {}}
+              disabledDoubleClick={true}
+            />
+
+            <ScrollBar className="mt-2" orientation="horizontal" forceMount />
+          </ScrollArea>
+
+          <FormDataTableButtonsPagination />
+          <FormDataTablePageCount />
+        </div>
+      </FormDataTableProvider>
+    </div>
+  );
+};
+
 export const ViewEmployee: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetEmployee(id!);
@@ -172,6 +219,12 @@ export const ViewEmployee: React.FC = () => {
         employee: { full_name: `${data.first_name} ${data.last_name}` },
       }))
     : [];
+  const paymentData = Array.isArray(data?.payments)
+    ? data?.payments.map((item) => ({
+        ...item,
+        employee: { full_name: `${data.first_name} ${data.last_name}` },
+      }))
+    : [];
 
   return (
     <>
@@ -182,7 +235,7 @@ export const ViewEmployee: React.FC = () => {
 
       <FormEmployee defaultValues={data} readOnly>
         <Tabs defaultValue="harvests" className="w-10/12">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="harvests">
               <span className="flex items-center gap-2">
                 <span>Cosechas</span>
@@ -195,12 +248,21 @@ export const ViewEmployee: React.FC = () => {
                 <Pickaxe className="w-4 h-4" />
               </span>
             </TabsTrigger>
+            <TabsTrigger value="payments">
+              <span className="flex items-center gap-2">
+                <span>Pagos</span>
+                <CreditCard className="w-4 h-4" />
+              </span>
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="harvests">
             <EmployeeHarvestDataTable data={[...(harvestData as any)]} />
           </TabsContent>
           <TabsContent value="works">
             <EmployeeWorkDataTable data={[...(workData as any)]} />
+          </TabsContent>
+          <TabsContent value="payments">
+            <EmployeePaymentDataTable data={[...(paymentData as any)]} />
           </TabsContent>
         </Tabs>
       </FormEmployee>
