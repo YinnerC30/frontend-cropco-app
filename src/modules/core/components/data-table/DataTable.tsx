@@ -60,7 +60,6 @@ export const DataTable = () => {
           ) : table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row: any) => (
               <TableRow
-                className=""
                 key={row.id}
                 onDoubleClick={() => {
                   handleDoubleClickRow(row);
@@ -68,7 +67,7 @@ export const DataTable = () => {
                 data-state={row.getIsSelected() && 'selected'}
               >
                 {row.getVisibleCells().map((cell: any) => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} className="max-w-[250px] truncate">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
