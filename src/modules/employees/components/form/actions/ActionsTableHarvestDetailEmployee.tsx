@@ -3,13 +3,13 @@ import {
   ActionNavigate,
   DropDownMenuActions,
 } from '@/modules/core/components';
-import { HarvestDetail } from '@/modules/harvests/interfaces';
+import { HarvestDetailEmployee } from '@/modules/employees/interfaces/HarvestDetailEmployee';
 import { MODULE_HARVESTS_PATHS } from '@/modules/harvests/routes/pathRoutes';
 import { Row } from '@tanstack/react-table';
 import { ShieldCheck } from 'lucide-react';
 
 interface Props {
-  row: Row<HarvestDetail>;
+  row: Row<HarvestDetailEmployee>;
 }
 
 export const ActionsTableHarvestDetailEmployee: React.FC<Props> = ({ row }) => {

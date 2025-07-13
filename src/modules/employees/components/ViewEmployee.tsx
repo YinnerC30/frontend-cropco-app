@@ -16,6 +16,7 @@ import { Pickaxe, Tractor } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { Loading } from '../../core/components';
 import { useGetEmployee } from '../hooks/queries/useGetEmployee';
+import { HarvestDetailEmployee } from '../interfaces/HarvestDetailEmployee';
 import { MODULE_EMPLOYEE_PATHS } from '../routes/pathRoutes';
 import { ActionsTableHarvestDetailEmployee } from './form/actions/ActionsTableHarvestDetailEmployee';
 import { ActionsTableWorkDetailEmployee } from './form/actions/ActionsTableWorkDetailEmployee';
@@ -32,13 +33,13 @@ export const EmployeeHarvestDataTable: React.FC<
 > = (props) => {
   const { data } = props;
 
-  const columnsTable = useCreateColumnsTable<any>({
+  const columnsTable = useCreateColumnsTable<HarvestDetailEmployee>({
     columns: columnsHarvestDetailEmployee,
     actions: ActionsTableHarvestDetailEmployee,
     hiddenCheckbox: true,
   });
 
-  const dataTableHarvestDetail = useDataTableGeneric<any>({
+  const dataTableHarvestDetail = useDataTableGeneric<HarvestDetailEmployee>({
     columns: columnsTable,
     rows: data,
   });
