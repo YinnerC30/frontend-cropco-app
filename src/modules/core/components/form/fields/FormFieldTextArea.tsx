@@ -10,7 +10,11 @@ import {
 import React, { memo } from 'react';
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
 
-export const FormFieldTextArea: React.FC<FormFieldProps> = memo(
+interface FormFieldTextAreaProps extends FormFieldProps {
+  rowsTextArea?: number;
+}
+
+export const FormFieldTextArea: React.FC<FormFieldTextAreaProps> = memo(
   ({
     control,
     description,
@@ -19,6 +23,7 @@ export const FormFieldTextArea: React.FC<FormFieldProps> = memo(
     placeholder,
     disabled: readOnly = false,
     className,
+    rowsTextArea = 8,
   }) => {
     return (
       <FormField
@@ -29,8 +34,10 @@ export const FormFieldTextArea: React.FC<FormFieldProps> = memo(
             <FormLabel>{label}</FormLabel>
             <FormControl>
               <Textarea
-                className={`${className} ${readOnly ? 'resize-none' : ''}`}
-                rows={4}
+                className={`${className} ${
+                  readOnly ? 'resize-none' : ''
+                } max-w-[85vw]`}
+                rows={rowsTextArea}
                 placeholder={placeholder}
                 {...field}
                 readOnly={readOnly}

@@ -12,7 +12,7 @@ export const FormEmployeeFields: React.FC = () => {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         id="formEmployee"
-        className="flex flex-row flex-wrap gap-1 ml-1 lg:gap-10"
+        className="flex flex-row flex-wrap gap-1 ml-1 sm:gap-10"
       >
         <FormFieldInput
           autoFocus
@@ -55,7 +55,7 @@ export const FormEmployeeFields: React.FC = () => {
           name={'address'}
           placeholder={formFieldsEmployee.address.placeholder}
           disabled={readOnly}
-          className="w-60"
+          className="w-[300px]"
         />
       </form>
     </Form>

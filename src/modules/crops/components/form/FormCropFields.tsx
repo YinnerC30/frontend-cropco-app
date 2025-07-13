@@ -76,7 +76,7 @@ export const FormCropFields: React.FC = () => {
           name={'description'}
           placeholder={formFieldsCrop.description.placeholder}
           disabled={readOnly}
-          className="sm:w-2/4"
+          className='w-[300px] '
         />
 
         <FormFieldTextArea
@@ -86,7 +86,7 @@ export const FormCropFields: React.FC = () => {
           name={'location'}
           placeholder={formFieldsCrop.location.placeholder}
           disabled={readOnly}
-          className="sm:w-2/4"
+          className='w-[300px] '
         />
       </form>
     </Form>
