@@ -1,3 +1,5 @@
+import { ShoppingDetail } from "@/modules/shopping/interfaces";
+
 export interface Supplier {
   id?: string;
   address: string;
@@ -7,4 +9,5 @@ export interface Supplier {
   first_name: string;
   last_name: string;
   full_name?: string;
+  supplies_shopping_details?: ShoppingDetail[];
 }
