@@ -1,3 +1,5 @@
+import { SaleDetail } from "@/modules/sales/interfaces";
+
 export interface Client {
   id?: string;
   first_name: string;
@@ -6,4 +8,5 @@ export interface Client {
   email: string;
   cell_phone_number: string;
   address: string;
+  sales_detail?: SaleDetail[];
 }
