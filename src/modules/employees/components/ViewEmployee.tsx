@@ -1,4 +1,4 @@
-import { ScrollArea, ScrollBar, Separator } from '@/components';
+import { ScrollArea, ScrollBar } from '@/components';
 import { BreadCrumb } from '@/modules/core/components/';
 import {
   FormDataTable,
@@ -23,6 +23,21 @@ import { ActionsTableWorkDetailEmployee } from './form/actions/ActionsTableWorkD
 import { columnsHarvestDetailEmployee } from './form/columns/ColumnsTableHarvestDetailEmployee';
 import { columnsWorkDetailEmployee } from './form/columns/ColumnsTableWorkDetailEmployee';
 import FormEmployee from './form/FormEmployee';
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+export function TabsEmployeeTables() {
+  return (
+    <Tabs defaultValue="harvests" className="w-[400px]">
+      <TabsList className="grid w-full grid-cols-2">
+        <TabsTrigger value="harvests">Cosechas</TabsTrigger>
+        <TabsTrigger value="works">Trabajos</TabsTrigger>
+      </TabsList>
+      <TabsContent value="harvests">{/* TODO: implementar */}</TabsContent>
+      <TabsContent value="works">{/* TODO: implementar */}</TabsContent>
+    </Tabs>
+  );
+}
 
 interface EmployeeHarvestDataTableProps {
   data: HarvestDetail[];
@@ -166,26 +181,28 @@ export const ViewEmployee: React.FC = () => {
       />
 
       <FormEmployee defaultValues={data} readOnly>
-        <Separator className="my-10" />
-        <div className="flex items-center gap-2">
-          <h3 className="mt-4 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-            Cosechas donde participo:
-          </h3>
-          <span className="mt-4">
-            <Tractor />
-          </span>
-        </div>
-        <EmployeeHarvestDataTable data={[...(harvestData as any)]} />
-        <Separator className="my-10" />
-        <div className="flex items-center gap-2">
-          <h3 className="mt-4 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-            Trabajos donde participo:
-          </h3>
-          <span className="mt-4">
-            <Pickaxe />
-          </span>
-        </div>
-        <EmployeeWorkDataTable data={[...(workData as any)]} />
+        <Tabs defaultValue="harvests" className="w-10/12">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="harvests">
+              <span className="flex items-center gap-2">
+                <span>Cosechas</span>
+                <Tractor className="w-4 h-4" />
+              </span>
+            </TabsTrigger>
+            <TabsTrigger value="works">
+              <span className="flex items-center gap-2">
+                <span>Trabajos</span>
+                <Pickaxe className="w-4 h-4" />
+              </span>
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="harvests">
+            <EmployeeHarvestDataTable data={[...(harvestData as any)]} />
+          </TabsContent>
+          <TabsContent value="works">
+            <EmployeeWorkDataTable data={[...(workData as any)]} />
+          </TabsContent>
+        </Tabs>
       </FormEmployee>
     </>
   );

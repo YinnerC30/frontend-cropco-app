@@ -12,7 +12,7 @@ export const FormEmployee: React.FC<Props> = ({ children, ...props }) => {
       <div className="flex flex-col items-center">
         <ScrollArea className="h-[80vh] w-full pb-2 pr-6">
           <FormEmployeeFields />
-          {children}
+          <div className="flex justify-center">{children}</div>
         </ScrollArea>
         <FormEmployeeButtons />
       </div>

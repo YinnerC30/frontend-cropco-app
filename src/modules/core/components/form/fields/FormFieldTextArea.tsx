@@ -29,7 +29,7 @@ export const FormFieldTextArea: React.FC<FormFieldProps> = memo(
             <FormLabel>{label}</FormLabel>
             <FormControl>
               <Textarea
-                className={`resize-none ${className}`}
+                className={`${className} ${readOnly ? 'resize-none' : ''}`}
                 rows={4}
                 placeholder={placeholder}
                 {...field}
