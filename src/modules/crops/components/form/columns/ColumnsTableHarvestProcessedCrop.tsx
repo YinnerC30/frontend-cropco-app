@@ -5,6 +5,7 @@ import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { HarvestProcessed } from '@/modules/harvests/interfaces';
 import { formFieldsHarvestProcessed } from '@/modules/harvests/utils/formFieldsHarvestProcessed';
+import { FormatNumber } from '@/modules/core/helpers';
 
 export const columnsHarvestProcessedCrop: ColumnDef<HarvestProcessed>[] = [
   {
@@ -26,7 +27,7 @@ export const columnsHarvestProcessedCrop: ColumnDef<HarvestProcessed>[] = [
     accessorKey: formFieldsHarvestProcessed.amount.name,
     cell: ({ row }) => {
       const amount: number = row.getValue('amount');
-      return Number.isInteger(amount) ? amount : amount.toFixed(2);
+      return FormatNumber(amount);
     },
     header: ({ column }: HeaderContext<HarvestProcessed, unknown>) => {
       return (

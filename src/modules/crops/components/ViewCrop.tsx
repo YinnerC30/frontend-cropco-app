@@ -2,7 +2,6 @@ import { useParams } from 'react-router-dom';
 
 import { Badge } from '@/components';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { columnsConsumptionDetail } from '@/modules/consumption/components/forms/consumption/details/ColumnsTableConsumptionDetail';
 import { BreadCrumb } from '@/modules/core/components/';
 import { BasicDataTable } from '@/modules/core/components/form/basic/BasicDataTable';
 import { FormatNumber } from '@/modules/core/helpers';
@@ -23,16 +22,17 @@ import {
 import { Loading } from '../../core/components';
 import { useGetCrop } from '../hooks/queries/useGetCrop';
 import { MODULE_CROPS_PATHS } from '../routes/pathRoutes';
+import { ActionsTableConsumptionCrop } from './form/actions/ActionsTableConsumptionCrop';
 import { ActionsTableHarvestCrop } from './form/actions/ActionsTableHarvestCrop';
 import { ActionsTableHarvestProcessedCrop } from './form/actions/ActionsTableHarvestProcessedCrop';
 import { ActionsTableSaleDetailCrop } from './form/actions/ActionsTableSaleDetailCrop';
 import { ActionsTableWorkCrop } from './form/actions/ActionsTableWorkCrop';
+import { columnsConsumptionDetailCrop } from './form/columns/ColumnsTableConsumptionDetailCrop';
 import columnsHarvestCrop from './form/columns/ColumnsTableHarvestCrop';
 import columnsHarvestProcessedCrop from './form/columns/ColumnsTableHarvestProcessedCrop';
 import { columnsSaleDetailCrop } from './form/columns/ColumnsTableSaleDetailCrop';
 import columnsWorkCrop from './form/columns/ColumnsTableWorkCrop';
 import { FormCrop } from './form/FormCrop';
-import { ActionsTableConsumptionCrop } from './form/actions/ActionsTableConsumptionCrop';
 
 export const CropHarvestsDataTable: React.FC<{
   data: Harvest[];
@@ -79,7 +79,7 @@ export const CropConsumptionsDataTable: React.FC<{
 }> = ({ data }) => (
   <BasicDataTable<any>
     data={data}
-    columns={columnsConsumptionDetail}
+    columns={columnsConsumptionDetailCrop}
     actions={ActionsTableConsumptionCrop}
   />
 );

@@ -4,6 +4,7 @@ import { Badge } from '@/components';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { SaleDetail } from '@/modules/sales/interfaces';
+import { FormatNumber } from '@/modules/core/helpers';
 
 export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
   {
@@ -22,7 +23,7 @@ export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
     accessorKey: 'amount',
     cell: ({ row }) => {
       const amount: number = row.getValue('amount');
-      return Number.isInteger(amount) ? amount : amount.toFixed(2);
+      return FormatNumber(amount);
     },
     header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
       return <ButtonHeaderTable column={column} label={'Cantidad:'} />;

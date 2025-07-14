@@ -1,12 +1,10 @@
 import { Badge } from '@/components';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { columnsConsumptionDetail } from '@/modules/consumption/components/forms/consumption/details/ColumnsTableConsumptionDetail';
 import { ErrorLoading, Loading } from '@/modules/core/components';
 import { BreadCrumb } from '@/modules/core/components/';
 import { BasicDataTable } from '@/modules/core/components/form/basic/BasicDataTable';
 import { FormatNumber } from '@/modules/core/helpers';
 import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
-import { ActionsTableConsumptionCrop } from '@/modules/crops/components/form/actions/ActionsTableConsumptionCrop';
 import { ActionsTableShoppingDetailSupplier } from '@/modules/suppliers/components/form/actions/ActionsTableShoppingDetailSupplier';
 import { columnsShoppingDetailSupplier } from '@/modules/suppliers/components/form/columns/ColumnsTableShoppingDetailSupplier';
 import { Cable, ShoppingBagIcon } from 'lucide-react';
@@ -20,14 +18,16 @@ import {
 } from '../interfaces/UnitOfMeasure';
 import { MODULE_SUPPLIES_PATHS } from '../routes/pathRoutes';
 import { FormSupply } from './form/FormSupply';
+import { ActionsTableConsumptionSupply } from './form/actions/ActionsTableConsumptionSupply';
+import { columnsConsumptionDetailSupply } from './form/columns/ColumnsTableConsumptionDetailSupply';
 
 export const SupplyConsumptionsDataTable: React.FC<{
   data: any[];
 }> = ({ data }) => (
   <BasicDataTable<any>
     data={data}
-    columns={columnsConsumptionDetail}
-    actions={ActionsTableConsumptionCrop}
+    columns={columnsConsumptionDetailSupply}
+    actions={ActionsTableConsumptionSupply}
   />
 );
 

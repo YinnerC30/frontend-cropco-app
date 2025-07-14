@@ -2,7 +2,7 @@ import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
 import { Badge } from '@/components';
 import { ButtonHeaderTable } from '@/modules/core/components';
-import { FormatDate } from '@/modules/core/helpers';
+import { FormatDate, FormatNumber } from '@/modules/core/helpers';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { HarvestDetailEmployee } from '@/modules/employees/interfaces/HarvestDetailEmployee';
 
@@ -28,7 +28,7 @@ export const columnsHarvestDetailEmployee: ColumnDef<HarvestDetailEmployee>[] =
       accessorKey: 'amount',
       cell: ({ row }) => {
         const amount: number = row.getValue('amount');
-        return Number.isInteger(amount) ? amount : amount.toFixed(2);
+        return FormatNumber(amount);
       },
       header: ({ column }: HeaderContext<HarvestDetailEmployee, unknown>) => {
         return (
