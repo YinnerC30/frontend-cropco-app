@@ -1,7 +1,40 @@
-import { fireEvent, render } from '@/test-utils';
+import { cleanup, fireEvent, render } from '@/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { UsersActions } from '../UsersActions';
 import { UsersModuleProvider } from '../UsersModuleContext';
+
+// const mockMutate = vi.fn();
+
+const mockUseUsersModuleContext = vi.fn().mockReturnValue({
+  paramQuery: '',
+  queryUsers: {
+    refetch: vi.fn(),
+    isSuccess: true,
+    data: {
+      records: [],
+      total_page_count: 0,
+      current_row_count: 0,
+    },
+  },
+  dataTable: {
+    getIdsToRowsSelected: () => ['1', '2'],
+    resetSelectionRows: vi.fn(),
+    hasSelectedRecords: false,
+  },
+  mutationDeleteUsers: {
+    mutate: vi.fn(),
+    isPending: false,
+  },
+  mutationDeleteUser: {
+    mutate: vi.fn(),
+    isPending: false,
+  },
+  actionsUsersModule: {
+    find_all_users: true,
+    remove_bulk_users: true,
+    create_user: true,
+  },
+});
 
 // Configurar todos los mocks antes de los tests
 vi.mock('@/modules/users/hooks', () => ({
@@ -26,36 +59,7 @@ vi.mock('@/modules/users/hooks', () => ({
     mutate: vi.fn(),
     isPending: false,
   }),
-  useUsersModuleContext: vi.fn().mockReturnValue({
-    paramQuery: '',
-    queryUsers: {
-      refetch: vi.fn(),
-      isSuccess: true,
-      data: {
-        records: [],
-        total_page_count: 0,
-        current_row_count: 0,
-      },
-    },
-    dataTable: {
-      getIdsToRowsSelected: () => ['1', '2'],
-      resetSelectionRows: vi.fn(),
-      hasSelectedRecords: false,
-    },
-    mutationDeleteUsers: {
-      mutate: vi.fn(),
-      isPending: false,
-    },
-    mutationDeleteUser: {
-      mutate: vi.fn(),
-      isPending: false,
-    },
-    actionsUsersModule: {
-      find_all_users: true,
-      remove_bulk_users: true,
-      create_user: true,
-    },
-  }),
+  useUsersModuleContext: () => mockUseUsersModuleContext(),
 }));
 
 vi.mock('@/modules/core/hooks', () => ({
@@ -91,12 +95,27 @@ vi.mock('@/auth/hooks', () => ({
   }),
 }));
 
-// Importar los mocks después de definirlos
-import { useUsersModuleContext } from '@/modules/users/hooks';
+// vi.mock('@tanstack/react-query', async (importOriginal) => {
+//   const actual = (await importOriginal()) as any;
+//   return {
+//     ...actual,
+//     useQueryClient: () => ({
+//       invalidateQueries: vi.fn(),
+//     }),
+//     useMutation: ({ mutationFn, onSuccess, onError }: any) => ({
+//       mutate: mockMutate,
+//       isPending: false,
+//       mutationFn,
+//       onSuccess,
+//       onError,
+//     }),
+//   };
+// });
 
 describe('UsersActions', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    cleanup();
   });
 
   it('debe renderizar todos los botones principales', () => {
@@ -114,7 +133,7 @@ describe('UsersActions', () => {
 
   it('debe llamar a refetch al hacer click en el botón de actualizar', async () => {
     const mockRefetch = vi.fn();
-    (useUsersModuleContext as any).mockReturnValue({
+    mockUseUsersModuleContext.mockReturnValue({
       paramQuery: '',
       queryUsers: {
         refetch: mockRefetch,
@@ -161,7 +180,7 @@ describe('UsersActions', () => {
     const mockResetSelectionRows = vi.fn();
 
     // Configurar que hay registros seleccionados
-    (useUsersModuleContext as any).mockReturnValue({
+    mockUseUsersModuleContext.mockReturnValue({
       paramQuery: '',
       queryUsers: {
         refetch: vi.fn(),
@@ -204,11 +223,12 @@ describe('UsersActions', () => {
     expect(mockResetSelectionRows).toHaveBeenCalled();
   });
 
-  //   it.only('debe llamar a mutate al hacer click en eliminar', () => {
-  //     const mockMutate = vi.fn();
+  //   TODO: Completar caso de prueba
 
+  //   it.only('debe llamar a mutate al hacer click en eliminar', () => {
+  //     const mockDeleteMutation = vi.fn();
   //     // Configurar que hay registros seleccionados
-  //     (useUsersModuleContext as any).mockReturnValue({
+  //     mockUseUsersModuleContext.mockReturnValue({
   //       paramQuery: '',
   //       queryUsers: {
   //         refetch: vi.fn(),
@@ -225,7 +245,7 @@ describe('UsersActions', () => {
   //         hasSelectedRecords: true,
   //       },
   //       mutationDeleteUsers: {
-  //         mutate: mockMutate,
+  //         mutate: mockDeleteMutation,
   //         isPending: false,
   //       },
   //       mutationDeleteUser: {
@@ -248,6 +268,7 @@ describe('UsersActions', () => {
   //     const btn = getByTestId('btn-delete-bulk');
   //     fireEvent.click(btn);
 
+  //     expect(mockDeleteMutation).toHaveBeenCalled();
   //     expect(mockMutate).toHaveBeenCalledWith(
   //       { userIds: ['1', '2'] },
   //       expect.objectContaining({
@@ -257,7 +278,7 @@ describe('UsersActions', () => {
   //   });
 
   it('debe deshabilitar el botón de actualizar si no tiene permiso', () => {
-    (useUsersModuleContext as any).mockReturnValue({
+    mockUseUsersModuleContext.mockReturnValue({
       paramQuery: '',
       queryUsers: {
         refetch: vi.fn(),
@@ -299,7 +320,7 @@ describe('UsersActions', () => {
   });
 
   it('debe deshabilitar el botón de eliminar si no tiene permiso', () => {
-    (useUsersModuleContext as any).mockReturnValue({
+    mockUseUsersModuleContext.mockReturnValue({
       paramQuery: '',
       queryUsers: {
         refetch: vi.fn(),
@@ -341,7 +362,7 @@ describe('UsersActions', () => {
   });
 
   it('debe deshabilitar el botón de eliminar si está pendiente', () => {
-    (useUsersModuleContext as any).mockReturnValue({
+    mockUseUsersModuleContext.mockReturnValue({
       paramQuery: '',
       queryUsers: {
         refetch: vi.fn(),
@@ -383,7 +404,7 @@ describe('UsersActions', () => {
   });
 
   it('debe deshabilitar el botón de crear si no tiene permiso', () => {
-    (useUsersModuleContext as any).mockReturnValue({
+    mockUseUsersModuleContext.mockReturnValue({
       paramQuery: '',
       queryUsers: {
         refetch: vi.fn(),
@@ -425,7 +446,7 @@ describe('UsersActions', () => {
   });
 
   it('no debe mostrar los botones de limpiar selección y eliminar si no hay selección', () => {
-    (useUsersModuleContext as any).mockReturnValue({
+    mockUseUsersModuleContext.mockReturnValue({
       paramQuery: '',
       queryUsers: {
         refetch: vi.fn(),

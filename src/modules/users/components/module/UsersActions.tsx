@@ -11,7 +11,6 @@ import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
 export const UsersActions: React.FC = () => {
   const { queryUsers, dataTable, mutationDeleteUsers, actionsUsersModule } =
     useUsersModuleContext();
-  console.log("🚀 ~ actionsUsersModule:", actionsUsersModule)
 
   const handleDeleteBulkUsers = (): void => {
     mutationDeleteUsers.mutate(
@@ -25,7 +24,6 @@ export const UsersActions: React.FC = () => {
   };
 
   const { resetSelectionRows, hasSelectedRecords } = dataTable;
-  console.log("🚀 ~ hasSelectedRecords:", hasSelectedRecords)
 
   return (
     <div className="flex justify-between">
