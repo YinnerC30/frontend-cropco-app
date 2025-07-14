@@ -35,7 +35,10 @@ export const DataTableTemplate = ({
       rowCount={rowCount}
       isLoading={isLoading}
     >
-      <div className="flex flex-col w-full my-1">
+      <div
+        data-testid="datatable-template"
+        className="flex flex-col w-full my-1"
+      >
         <div className="flex justify-between my-2">
           <div className="flex flex-col gap-2">
             <DataTableRowCount />
