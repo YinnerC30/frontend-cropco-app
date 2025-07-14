@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@/test-utils';
-import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { UsersActions } from '../UsersActions';
 import { UsersModuleProvider } from '../UsersModuleContext';
 
@@ -92,19 +92,13 @@ vi.mock('@/auth/hooks', () => ({
 }));
 
 // Importar los mocks después de definirlos
+import { useAuthContext } from '@/auth/hooks';
+import { useDataTableManual } from '@/modules/core/hooks';
 import {
-  useGetAllUsers,
   useDeleteBulkUsers,
-  useDeleteUser,
+  useGetAllUsers,
   useUsersModuleContext,
 } from '@/modules/users/hooks';
-import {
-  useDataTableManual,
-  useBasicQueryData,
-  useGetAllModules,
-} from '@/modules/core/hooks';
-import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
-import { useAuthContext } from '@/auth/hooks';
 
 describe('UsersActions', () => {
   beforeEach(() => {
@@ -281,57 +275,57 @@ describe('UsersActions', () => {
     expect(mockResetSelectionRows).toHaveBeenCalled();
   });
 
-//   it.only('debe llamar a mutate al hacer click en eliminar', () => {
-//     const mockMutate = vi.fn();
+  //   it.only('debe llamar a mutate al hacer click en eliminar', () => {
+  //     const mockMutate = vi.fn();
 
-//     // Configurar que hay registros seleccionados
-//     (useUsersModuleContext as any).mockReturnValue({
-//       paramQuery: '',
-//       queryUsers: {
-//         refetch: vi.fn(),
-//         isSuccess: true,
-//         data: {
-//           records: [],
-//           total_page_count: 0,
-//           current_row_count: 0,
-//         },
-//       },
-//       dataTable: {
-//         getIdsToRowsSelected: () => ['1', '2'],
-//         resetSelectionRows: vi.fn(),
-//         hasSelectedRecords: true,
-//       },
-//       mutationDeleteUsers: {
-//         mutate: mockMutate,
-//         isPending: false,
-//       },
-//       mutationDeleteUser: {
-//         mutate: vi.fn(),
-//         isPending: false,
-//       },
-//       actionsUsersModule: {
-//         find_all_users: true,
-//         remove_bulk_users: true,
-//         create_user: true,
-//       },
-//     });
+  //     // Configurar que hay registros seleccionados
+  //     (useUsersModuleContext as any).mockReturnValue({
+  //       paramQuery: '',
+  //       queryUsers: {
+  //         refetch: vi.fn(),
+  //         isSuccess: true,
+  //         data: {
+  //           records: [],
+  //           total_page_count: 0,
+  //           current_row_count: 0,
+  //         },
+  //       },
+  //       dataTable: {
+  //         getIdsToRowsSelected: () => ['1', '2'],
+  //         resetSelectionRows: vi.fn(),
+  //         hasSelectedRecords: true,
+  //       },
+  //       mutationDeleteUsers: {
+  //         mutate: mockMutate,
+  //         isPending: false,
+  //       },
+  //       mutationDeleteUser: {
+  //         mutate: vi.fn(),
+  //         isPending: false,
+  //       },
+  //       actionsUsersModule: {
+  //         find_all_users: true,
+  //         remove_bulk_users: true,
+  //         create_user: true,
+  //       },
+  //     });
 
-//     const { getByTestId } = render(
-//       <UsersModuleProvider>
-//         <UsersActions />
-//       </UsersModuleProvider>
-//     );
+  //     const { getByTestId } = render(
+  //       <UsersModuleProvider>
+  //         <UsersActions />
+  //       </UsersModuleProvider>
+  //     );
 
-//     const btn = getByTestId('btn-delete-bulk');
-//     fireEvent.click(btn);
+  //     const btn = getByTestId('btn-delete-bulk');
+  //     fireEvent.click(btn);
 
-//     expect(mockMutate).toHaveBeenCalledWith(
-//       { userIds: ['1', '2'] },
-//       expect.objectContaining({
-//         onSuccess: expect.any(Function),
-//       })
-//     );
-//   });
+  //     expect(mockMutate).toHaveBeenCalledWith(
+  //       { userIds: ['1', '2'] },
+  //       expect.objectContaining({
+  //         onSuccess: expect.any(Function),
+  //       })
+  //     );
+  //   });
 
   it('debe deshabilitar el botón de actualizar si no tiene permiso', () => {
     (useUsersModuleContext as any).mockReturnValue({
@@ -502,37 +496,36 @@ describe('UsersActions', () => {
   });
 
   it('no debe mostrar los botones de limpiar selección y eliminar si no hay selección', () => {
-
     (useUsersModuleContext as any).mockReturnValue({
-        paramQuery: '',
-        queryUsers: {
-          refetch: vi.fn(),
-          isSuccess: true,
-          data: {
-            records: [],
-            total_page_count: 0,
-            current_row_count: 0,
-          },
+      paramQuery: '',
+      queryUsers: {
+        refetch: vi.fn(),
+        isSuccess: true,
+        data: {
+          records: [],
+          total_page_count: 0,
+          current_row_count: 0,
         },
-        dataTable: {
-          getIdsToRowsSelected: () => ['1', '2'],
-          resetSelectionRows: vi.fn(),
-          hasSelectedRecords: false,
-        },
-        mutationDeleteUsers: {
-          mutate: vi.fn(),
-          isPending: false,
-        },
-        mutationDeleteUser: {
-          mutate: vi.fn(),
-          isPending: false,
-        },
-        actionsUsersModule: {
-          find_all_users: true,
-          remove_bulk_users: true,
-          create_user: false,
-        },
-      });
+      },
+      dataTable: {
+        getIdsToRowsSelected: () => ['1', '2'],
+        resetSelectionRows: vi.fn(),
+        hasSelectedRecords: false,
+      },
+      mutationDeleteUsers: {
+        mutate: vi.fn(),
+        isPending: false,
+      },
+      mutationDeleteUser: {
+        mutate: vi.fn(),
+        isPending: false,
+      },
+      actionsUsersModule: {
+        find_all_users: true,
+        remove_bulk_users: true,
+        create_user: false,
+      },
+    });
 
     const { getByTestId } = render(
       <UsersModuleProvider>
