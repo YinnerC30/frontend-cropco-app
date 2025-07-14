@@ -5,12 +5,13 @@ import {
   ButtonRefetchData,
 } from '@/modules/core/components';
 
-import { useUsersModuleContext } from '../../hooks';
+import { useUsersModuleContext } from '@/modules/users/hooks';
 import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
 
 export const UsersActions: React.FC = () => {
   const { queryUsers, dataTable, mutationDeleteUsers, actionsUsersModule } =
     useUsersModuleContext();
+  console.log("🚀 ~ actionsUsersModule:", actionsUsersModule)
 
   const handleDeleteBulkUsers = (): void => {
     mutationDeleteUsers.mutate(
@@ -24,6 +25,7 @@ export const UsersActions: React.FC = () => {
   };
 
   const { resetSelectionRows, hasSelectedRecords } = dataTable;
+  console.log("🚀 ~ hasSelectedRecords:", hasSelectedRecords)
 
   return (
     <div className="flex justify-between">
@@ -32,6 +34,7 @@ export const UsersActions: React.FC = () => {
           await queryUsers.refetch();
         }}
         disabled={!actionsUsersModule['find_all_users']}
+        // disabled={false}
         className=""
       />
 

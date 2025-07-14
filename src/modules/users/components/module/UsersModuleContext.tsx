@@ -28,6 +28,7 @@ export const UsersModuleProvider: React.FC<{
   const { getActionsModule } = useAuthContext();
 
   const actionsUsersModule = useMemo(() => getActionsModule("users"), []);
+  // const actionsUsersModule = getActionsModule("users")
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsTableUsers,

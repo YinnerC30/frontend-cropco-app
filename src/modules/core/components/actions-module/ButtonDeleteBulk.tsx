@@ -40,8 +40,9 @@ export const ButtonDeleteBulk = memo(
             className={`${className} ${!visible ? 'hidden' : ''} `}
             variant="outline"
             size="icon"
-            disabled={disabled}
+            disabled={disabled || !visible}
             onClick={handleOpenAlertDialog}
+            data-testid='btn-delete-bulk'
           >
             <Trash className="w-4 h-4" />
             <span className="sr-only">Eliminar registros</span>

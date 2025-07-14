@@ -7,55 +7,55 @@ import { ActionToogleStatusUser } from '../ActionToogleStatusUser';
 const mockMutate = vi.fn();
 // const mockToggleOpen = vi.fn();
 
-const mockUseAuthContext = vi.fn().mockReturnValue({
-  user: {
-    id: 'user-1',
-  },
-});
+// const mockUseAuthContext = vi.fn().mockReturnValue({
+//   user: {
+//     id: 'user-1',
+//   },
+// });
 
 // Mock simple de la mutación
-const mockMutation = {
-  mutate: mockMutate,
-  isPending: false,
-  isError: false,
-  isSuccess: false,
-  error: null,
-  data: undefined,
-  reset: vi.fn(),
-  mutateAsync: vi.fn(),
-  variables: undefined,
-  context: undefined,
-  failureCount: 0,
-  failureReason: null,
-  isIdle: true,
-  isPaused: false,
-  status: 'idle' as const,
-  submittedAt: 0,
-  setData: vi.fn(),
-  setError: vi.fn(),
-  setVariables: vi.fn(),
-  getMeta: vi.fn(),
-  getContext: vi.fn(),
-  getData: vi.fn(),
-  getError: vi.fn(),
-  getFailureCount: vi.fn(),
-  getFailureReason: vi.fn(),
-  getIsError: vi.fn(),
-  getIsIdle: vi.fn(),
-  getIsLoading: vi.fn(),
-  getIsPaused: vi.fn(),
-  getIsPending: vi.fn(),
-  getIsSuccess: vi.fn(),
-  getStatus: vi.fn(),
-  getSubmittedAt: vi.fn(),
-  getVariables: vi.fn(),
-};
+// const mockMutation = {
+//   mutate: mockMutate,
+//   isPending: false,
+//   isError: false,
+//   isSuccess: false,
+//   error: null,
+//   data: undefined,
+//   reset: vi.fn(),
+//   mutateAsync: vi.fn(),
+//   variables: undefined,
+//   context: undefined,
+//   failureCount: 0,
+//   failureReason: null,
+//   isIdle: true,
+//   isPaused: false,
+//   status: 'idle' as const,
+//   submittedAt: 0,
+//   setData: vi.fn(),
+//   setError: vi.fn(),
+//   setVariables: vi.fn(),
+//   getMeta: vi.fn(),
+//   getContext: vi.fn(),
+//   getData: vi.fn(),
+//   getError: vi.fn(),
+//   getFailureCount: vi.fn(),
+//   getFailureReason: vi.fn(),
+//   getIsError: vi.fn(),
+//   getIsIdle: vi.fn(),
+//   getIsLoading: vi.fn(),
+//   getIsPaused: vi.fn(),
+//   getIsPending: vi.fn(),
+//   getIsSuccess: vi.fn(),
+//   getStatus: vi.fn(),
+//   getSubmittedAt: vi.fn(),
+//   getVariables: vi.fn(),
+// };
 
-const defaultProps = {
-  id: 'user-1',
-  status: true,
-  disabled: false,
-};
+// const defaultProps = {
+//   id: 'user-1',
+//   status: true,
+//   disabled: false,
+// };
 
 const mockToast = vi.fn();
 
@@ -135,10 +135,10 @@ describe('ActionToogleStatusUser', () => {
   //     // require('sonner').toast.mockImplementation(vi.fn());
   //   });
 
-    afterEach(() => {
+  afterEach(() => {
     //   vi.clearAllMocks();
-      cleanup();
-    });
+    cleanup();
+  });
 
   it('debe renderizar el botón "Desactivar" si el usuario está activo', () => {
     render(
