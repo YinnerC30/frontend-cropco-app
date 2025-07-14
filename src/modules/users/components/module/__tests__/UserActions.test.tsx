@@ -92,82 +92,11 @@ vi.mock('@/auth/hooks', () => ({
 }));
 
 // Importar los mocks después de definirlos
-import { useAuthContext } from '@/auth/hooks';
-import { useDataTableManual } from '@/modules/core/hooks';
-import {
-  useDeleteBulkUsers,
-  useGetAllUsers,
-  useUsersModuleContext,
-} from '@/modules/users/hooks';
+import { useUsersModuleContext } from '@/modules/users/hooks';
 
 describe('UsersActions', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-
-    // Resetear los mocks a sus valores por defecto
-    (useGetAllUsers as any).mockReturnValue({
-      query: {
-        refetch: vi.fn(),
-        isSuccess: true,
-        data: {
-          records: [],
-          total_page_count: 0,
-          current_row_count: 0,
-        },
-      },
-      pagination: { pageIndex: 0, pageSize: 10 },
-      setPagination: vi.fn(),
-    });
-
-    (useDataTableManual as any).mockReturnValue({
-      getIdsToRowsSelected: () => ['1', '2'],
-      resetSelectionRows: vi.fn(),
-      hasSelectedRecords: false,
-    });
-
-    (useDeleteBulkUsers as any).mockReturnValue({
-      mutate: vi.fn(),
-      isPending: false,
-    });
-
-    (useAuthContext as any).mockReturnValue({
-      getActionsModule: vi.fn().mockReturnValue({
-        find_all_users: true,
-        remove_bulk_users: true,
-        create_user: true,
-      }),
-    });
-
-    (useUsersModuleContext as any).mockReturnValue({
-      paramQuery: '',
-      queryUsers: {
-        refetch: vi.fn(),
-        isSuccess: true,
-        data: {
-          records: [],
-          total_page_count: 0,
-          current_row_count: 0,
-        },
-      },
-      dataTable: {
-        getIdsToRowsSelected: () => ['1', '2'],
-        resetSelectionRows: vi.fn(),
-        hasSelectedRecords: false,
-      },
-      mutationDeleteUsers: {
-        mutate: vi.fn(),
-        isPending: false,
-      },
-      mutationDeleteUser: {
-        mutate: vi.fn(),
-        isPending: false,
-      },
-      actionsUsersModule: {
-        find_all_users: true,
-        remove_bulk_users: true,
-        create_user: true,
-      },
-    });
   });
 
   it('debe renderizar todos los botones principales', () => {
