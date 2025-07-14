@@ -61,7 +61,10 @@ export const BasicSearchBar = ({
   }, [currentQueryValue, query]);
 
   return (
-    <div className="flex flex-row justify-center w-3/4 gap-4 my-4 min-w-80">
+    <div
+      data-testid="basic-search-bar"
+      className="flex flex-row justify-center w-3/4 gap-4 my-4 min-w-80"
+    >
       <div className="w-[70%] lg:w-96 ">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} id="formSearchBar">
@@ -72,9 +75,11 @@ export const BasicSearchBar = ({
                 <FormItem>
                   <FormControl>
                     <Input
+                      data-testid="input-basic-search-bar"
                       className="w-full"
                       placeholder="Escribe algo..."
                       autoFocus={autoFocus}
+                      readOnly={disabled}
                       disabled={disabled}
                       {...field}
                     />
