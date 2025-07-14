@@ -98,6 +98,7 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
 
 describe('ModifyUser', () => {
   beforeEach(() => {
+    cleanup();
     // Configurar el mock por defecto antes de cada test
     mockUsePutUser.mockReturnValue({
       mutate: mockUsePutMutate,

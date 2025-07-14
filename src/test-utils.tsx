@@ -49,14 +49,8 @@ const AllTheProviders = ({
 }) => {
   let content = children;
 
-
-
   if (withSideBar) {
     content = <SidebarProvider>{content}</SidebarProvider>;
-  }
-
-  if (withFormChange) {
-    content = <FormChangeProvider>{content}</FormChangeProvider>;
   }
 
   if (withFormChange) {

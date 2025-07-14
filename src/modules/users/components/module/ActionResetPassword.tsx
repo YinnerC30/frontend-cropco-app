@@ -125,6 +125,7 @@ export function ActionResetPassword({ id, mutation, disabled, email }: Props) {
                   />
                   <ToolTipTemplate content="Copiar nueva contraseña">
                     <Button
+                      data-testid="btn-copy-pass"
                       variant={'outline'}
                       size={'icon'}
                       onClick={handleCopyToClipboard}
