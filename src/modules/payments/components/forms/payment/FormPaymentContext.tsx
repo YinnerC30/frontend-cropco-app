@@ -298,7 +298,7 @@ export const FormPaymentProvider: React.FC<
   }, [records_to_pay]);
 
   useEffect(() => {
-    if (paymentsState.records_to_pay.length > 0) {
+    if (paymentsState.records_to_pay.length > 0 || employeeId.length === 0) {
       resetToDefaultValues();
     }
   }, [employeeId]);
