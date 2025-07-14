@@ -1,0 +1,791 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`UsersModule > should match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar"
+    style="--sidebar-width: 16rem; --sidebar-width-icon: 3rem;"
+  >
+    <div
+      class="select-none"
+      data-testid="module-user"
+    >
+      <div
+        class="sticky top-0 z-50 pb-4 bg-background"
+      >
+        <nav
+          aria-label="breadcrumb"
+        >
+          <ol
+            class="flex flex-wrap items-center gap-1.5 break-words text-lg text-muted-foreground sm:gap-2.5"
+          >
+            <li
+              class="inline-flex items-center gap-1.5 pr-2 border-r"
+            >
+              <button
+                class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7"
+                data-sidebar="trigger"
+              >
+                <svg
+                  class="lucide lucide-panel-left-close w-5 h-5"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    height="18"
+                    rx="2"
+                    width="18"
+                    x="3"
+                    y="3"
+                  />
+                  <path
+                    d="M9 3v18"
+                  />
+                  <path
+                    d="m16 15-3-3 3-3"
+                  />
+                </svg>
+                <span
+                  class="sr-only"
+                >
+                  Toggle Sidebar
+                </span>
+              </button>
+            </li>
+            <li
+              class="inline-flex items-center gap-1.5"
+            >
+              <a
+                class="transition-colors hover:text-foreground hover:cursor-pointer text-foreground/55"
+              >
+                Inicio
+              </a>
+            </li>
+            <li
+              aria-hidden="true"
+              class="[&>svg]:size-3.5"
+              role="presentation"
+            >
+              <svg
+                fill="none"
+                height="15"
+                viewBox="0 0 15 15"
+                width="15"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M6.1584 3.13508C6.35985 2.94621 6.67627 2.95642 6.86514 3.15788L10.6151 7.15788C10.7954 7.3502 10.7954 7.64949 10.6151 7.84182L6.86514 11.8418C6.67627 12.0433 6.35985 12.0535 6.1584 11.8646C5.95694 11.6757 5.94673 11.3593 6.1356 11.1579L9.565 7.49985L6.1356 3.84182C5.94673 3.64036 5.95694 3.32394 6.1584 3.13508Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </li>
+            <li
+              class="inline-flex items-center gap-1.5"
+            >
+              <span
+                aria-current="page"
+                aria-disabled="true"
+                class="font-normal text-foreground"
+                role="link"
+              >
+                Usuarios
+              </span>
+            </li>
+          </ol>
+        </nav>
+        <div
+          class="shrink-0 bg-border h-[1px] w-full my-1 hidden"
+          data-orientation="horizontal"
+          role="none"
+        />
+      </div>
+      <div
+        class="flex items-center justify-center w-full"
+      >
+        <div
+          class="flex flex-row justify-center w-3/4 gap-4 my-4 min-w-80"
+        >
+          <div
+            class="w-[70%] lg:w-96 "
+          >
+            <form
+              id="formSearchBar"
+            >
+              <div
+                class="space-y-2"
+              >
+                <input
+                  aria-describedby=":rg:-form-item-description"
+                  aria-invalid="false"
+                  class="flex h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 w-full"
+                  disabled=""
+                  id=":rg:-form-item"
+                  name="query"
+                  placeholder="Escribe algo..."
+                  value=""
+                />
+              </div>
+            </form>
+          </div>
+          <div
+            class="flex flex-row items-center justify-end gap-1 "
+          >
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 w-9"
+              data-state="closed"
+              disabled=""
+              form="formSearchBar"
+              type="submit"
+            >
+              <svg
+                class="lucide lucide-search w-4 h-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="8"
+                />
+                <path
+                  d="m21 21-4.3-4.3"
+                />
+              </svg>
+              <span
+                class="sr-only"
+              >
+                Buscar
+              </span>
+            </button>
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input shadow-sm hover:text-accent-foreground h-9 w-9 bg-destructive hover:bg-destructive/80"
+              data-state="closed"
+              disabled=""
+            >
+              <svg
+                class="lucide lucide-x w-4 h-4"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18 6 6 18"
+                />
+                <path
+                  d="m6 6 12 12"
+                />
+              </svg>
+              <span
+                class="sr-only"
+              >
+                Limpiar
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex justify-between"
+      >
+        <button
+          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 w-9"
+          data-state="closed"
+          data-testid="btn-refetch-data"
+          disabled=""
+          type="button"
+        >
+          <svg
+            class="lucide lucide-refresh-cw w-4 h-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"
+            />
+            <path
+              d="M21 3v5h-5"
+            />
+            <path
+              d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"
+            />
+            <path
+              d="M8 16H3v5"
+            />
+          </svg>
+          <span
+            class="sr-only"
+          >
+            Recargar datos
+          </span>
+        </button>
+        <div
+          class="flex items-center gap-1"
+        >
+          <button
+            class="items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 undefined hidden"
+            data-state="closed"
+            data-testid="btn-clear-selection-table"
+            disabled=""
+          >
+            <svg
+              class="lucide lucide-circle-x w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+              />
+              <path
+                d="m15 9-6 6"
+              />
+              <path
+                d="m9 9 6 6"
+              />
+            </svg>
+            <span
+              class="sr-only"
+            >
+              Limpiar selección
+            </span>
+          </button>
+          <button
+            class="items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 w-9 undefined hidden"
+            data-state="closed"
+            data-testid="btn-delete-bulk"
+            disabled=""
+          >
+            <svg
+              class="lucide lucide-trash w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3 6h18"
+              />
+              <path
+                d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"
+              />
+              <path
+                d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"
+              />
+            </svg>
+            <span
+              class="sr-only"
+            >
+              Eliminar registros
+            </span>
+          </button>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow h-9 w-9 bg-primary/70 hover:bg-primary/50 opacity-50 cursor-default"
+            data-state="closed"
+            data-testid="btn-create-record"
+            disabled=""
+          >
+            <svg
+              class="lucide lucide-plus w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12h14"
+              />
+              <path
+                d="M12 5v14"
+              />
+            </svg>
+            <span
+              class="sr-only"
+            >
+              Crear nuevo registro
+            </span>
+          </button>
+        </div>
+      </div>
+      <div
+        class="flex flex-col w-full my-1"
+      >
+        <div
+          class="flex justify-between my-2"
+        >
+          <div
+            class="flex flex-col gap-2"
+          >
+            <p
+              class="text-sm font-medium text-muted-foreground"
+            >
+              Total: 0
+            </p>
+            <div>
+              <p
+                class="text-sm font-medium text-muted-foreground"
+              >
+                N° seleccionados:
+                <span
+                  class="font-medium"
+                >
+                   0
+                </span>
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex items-center space-x-2"
+          >
+            <p
+              class="text-sm font-medium text-muted-foreground"
+            >
+              N° registros
+            </p>
+            <button
+              aria-autocomplete="none"
+              aria-controls="radix-:rq:"
+              aria-expanded="false"
+              class="flex items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 h-8 w-[70px]"
+              data-state="closed"
+              dir="ltr"
+              role="combobox"
+              type="button"
+            >
+              <span
+                style="pointer-events: none;"
+              >
+                10
+              </span>
+              <svg
+                aria-hidden="true"
+                class="h-4 w-4 opacity-50"
+                fill="none"
+                height="15"
+                viewBox="0 0 15 15"
+                width="15"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          class="relative overflow-hidden h-[50vh] border rounded-sm py-2 px-3"
+          dir="ltr"
+          style="position: relative; --radix-scroll-area-corner-width: 0px; --radix-scroll-area-corner-height: 0px;"
+        >
+          <style>
+            [data-radix-scroll-area-viewport]{scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;}[data-radix-scroll-area-viewport]::-webkit-scrollbar{display:none}
+          </style>
+          <div
+            class="h-full w-full rounded-[inherit]"
+            data-radix-scroll-area-viewport=""
+            style="overflow-x: scroll; overflow-y: scroll;"
+          >
+            <div
+              style="min-width: 100%; display: table;"
+            >
+              <table
+                class="w-full caption-bottom text-sm mb-4"
+              >
+                <thead
+                  class="[&_tr]:border-b sticky top-0 bg-background z-50 w-auto overflow-hidden shadow-md"
+                >
+                  <tr
+                    class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                  >
+                    <th
+                      class="h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"
+                    >
+                      <button
+                        aria-checked="false"
+                        aria-label="Select all"
+                        class="peer h-4 w-4 shrink-0 rounded-sm border border-primary shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground -ml-[6px] mr-2"
+                        data-state="unchecked"
+                        role="checkbox"
+                        type="button"
+                        value="on"
+                      />
+                    </th>
+                    <th
+                      class="h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"
+                    >
+                      <button
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-9 py-2 px-0 hover:bg-transparent -ml-2"
+                        type="button"
+                      >
+                        Nombre(s):
+                        <svg
+                          class="lucide lucide-arrow-up-down w-4 h-4 ml-2"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="m21 16-4 4-4-4"
+                          />
+                          <path
+                            d="M17 20V4"
+                          />
+                          <path
+                            d="m3 8 4-4 4 4"
+                          />
+                          <path
+                            d="M7 4v16"
+                          />
+                        </svg>
+                      </button>
+                    </th>
+                    <th
+                      class="h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"
+                    >
+                      <button
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-9 py-2 px-0 hover:bg-transparent -ml-2"
+                        type="button"
+                      >
+                        Apellido(s):
+                        <svg
+                          class="lucide lucide-arrow-up-down w-4 h-4 ml-2"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="m21 16-4 4-4-4"
+                          />
+                          <path
+                            d="M17 20V4"
+                          />
+                          <path
+                            d="m3 8 4-4 4 4"
+                          />
+                          <path
+                            d="M7 4v16"
+                          />
+                        </svg>
+                      </button>
+                    </th>
+                    <th
+                      class="h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"
+                    >
+                      <button
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-9 py-2 px-0 hover:bg-transparent -ml-2"
+                        type="button"
+                      >
+                        Correo electrónico:
+                        <svg
+                          class="lucide lucide-arrow-up-down w-4 h-4 ml-2"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="m21 16-4 4-4-4"
+                          />
+                          <path
+                            d="M17 20V4"
+                          />
+                          <path
+                            d="m3 8 4-4 4 4"
+                          />
+                          <path
+                            d="M7 4v16"
+                          />
+                        </svg>
+                      </button>
+                    </th>
+                    <th
+                      class="h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"
+                    >
+                      <button
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-9 py-2 px-0 hover:bg-transparent -ml-2"
+                        type="button"
+                      >
+                        Número celular:
+                        <svg
+                          class="lucide lucide-arrow-up-down w-4 h-4 ml-2"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="m21 16-4 4-4-4"
+                          />
+                          <path
+                            d="M17 20V4"
+                          />
+                          <path
+                            d="m3 8 4-4 4 4"
+                          />
+                          <path
+                            d="M7 4v16"
+                          />
+                        </svg>
+                      </button>
+                    </th>
+                    <th
+                      class="h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"
+                    >
+                      <button
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-9 py-2 px-0 hover:bg-transparent -ml-2"
+                        type="button"
+                      >
+                        Rol asignado:
+                        <svg
+                          class="lucide lucide-arrow-up-down w-4 h-4 ml-2"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="m21 16-4 4-4-4"
+                          />
+                          <path
+                            d="M17 20V4"
+                          />
+                          <path
+                            d="m3 8 4-4 4 4"
+                          />
+                          <path
+                            d="M7 4v16"
+                          />
+                        </svg>
+                      </button>
+                    </th>
+                    <th
+                      class="h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"
+                    >
+                      <button
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-9 py-2 px-0 hover:bg-transparent -ml-2"
+                        type="button"
+                      >
+                        Activo
+                        <svg
+                          class="lucide lucide-arrow-up-down w-4 h-4 ml-2"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="m21 16-4 4-4-4"
+                          />
+                          <path
+                            d="M17 20V4"
+                          />
+                          <path
+                            d="m3 8 4-4 4 4"
+                          />
+                          <path
+                            d="M7 4v16"
+                          />
+                        </svg>
+                      </button>
+                    </th>
+                    <th
+                      class="h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"
+                    />
+                  </tr>
+                </thead>
+                <tbody
+                  class="[&_tr:last-child]:border-0"
+                >
+                  <tr
+                    class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                  >
+                    <td
+                      class="align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] h-24 text-center"
+                      colspan="8"
+                    >
+                      No tienes permiso para ver el listado de usuarios 😢
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex justify-center gap-4 my-2"
+        >
+          <button
+            class="items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground hidden w-8 h-8 p-0 lg:flex"
+            disabled=""
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              height="15"
+              viewBox="0 0 15 15"
+              width="15"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M6.85355 3.85355C7.04882 3.65829 7.04882 3.34171 6.85355 3.14645C6.65829 2.95118 6.34171 2.95118 6.14645 3.14645L2.14645 7.14645C1.95118 7.34171 1.95118 7.65829 2.14645 7.85355L6.14645 11.8536C6.34171 12.0488 6.65829 12.0488 6.85355 11.8536C7.04882 11.6583 7.04882 11.3417 6.85355 11.1464L3.20711 7.5L6.85355 3.85355ZM12.8536 3.85355C13.0488 3.65829 13.0488 3.34171 12.8536 3.14645C12.6583 2.95118 12.3417 2.95118 12.1464 3.14645L8.14645 7.14645C7.95118 7.34171 7.95118 7.65829 8.14645 7.85355L12.1464 11.8536C12.3417 12.0488 12.6583 12.0488 12.8536 11.8536C13.0488 11.6583 13.0488 11.3417 12.8536 11.1464L9.20711 7.5L12.8536 3.85355Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </button>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground w-8 h-8 p-0"
+            disabled=""
+          >
+            <svg
+              class="lucide lucide-chevron-left w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m15 18-6-6 6-6"
+              />
+            </svg>
+          </button>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground w-8 h-8 p-0"
+            disabled=""
+          >
+            <svg
+              class="lucide lucide-chevron-right w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m9 18 6-6-6-6"
+              />
+            </svg>
+          </button>
+          <button
+            class="items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground hidden w-8 h-8 p-0 lg:flex"
+            disabled=""
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              height="15"
+              viewBox="0 0 15 15"
+              width="15"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M2.14645 11.1464C1.95118 11.3417 1.95118 11.6583 2.14645 11.8536C2.34171 12.0488 2.65829 12.0488 2.85355 11.8536L6.85355 7.85355C7.04882 7.65829 7.04882 7.34171 6.85355 7.14645L2.85355 3.14645C2.65829 2.95118 2.34171 2.95118 2.14645 3.14645C1.95118 3.34171 1.95118 3.65829 2.14645 3.85355L5.79289 7.5L2.14645 11.1464ZM8.14645 11.1464C7.95118 11.3417 7.95118 11.6583 8.14645 11.8536C8.34171 12.0488 8.65829 12.0488 8.85355 11.8536L12.8536 7.85355C13.0488 7.65829 13.0488 7.34171 12.8536 7.14645L8.85355 3.14645C8.65829 2.95118 8.34171 2.95118 8.14645 3.14645C7.95118 3.34171 7.95118 3.65829 8.14645 3.85355L11.7929 7.5L8.14645 11.1464Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+        <p
+          class="text-sm font-medium text-center text-muted-foreground"
+        >
+          Página 1 de 0
+        </p>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
