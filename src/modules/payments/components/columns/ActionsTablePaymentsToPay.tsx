@@ -21,7 +21,7 @@ export const ActionsTablePaymentsToPay = ({
 }) => {
   const record: RecordToPay = row.original;
 
-  const { removeRecordToPay, paymentsState } = useFormPaymentContext();
+  const { removeRecordToPay, paymentsState, readOnly } = useFormPaymentContext();
 
   const handleDelete = () => {
     removeRecordToPay(record);
@@ -55,7 +55,9 @@ export const ActionsTablePaymentsToPay = ({
         name={'Consultar'}
         target="_blank"
       />
-      <ActionDeleteRecord action={handleDelete} />
+      {
+        !readOnly && (<ActionDeleteRecord action={handleDelete} />)
+      }
     </DropDownMenuActions>
   );
 };

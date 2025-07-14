@@ -31,7 +31,8 @@ export const FormPaymentToPayDataTable: React.FC = () => {
   const columnsTable = useCreateColumnsTable({
     columns: columnsPaymentsToPay,
     actions: ActionsTablePaymentsToPay,
-    hiddenActions: readOnly,
+    hiddenActions: false,
+    hiddenCheckbox: readOnly,
   });
 
   const {
@@ -64,25 +65,27 @@ export const FormPaymentToPayDataTable: React.FC = () => {
       >
         <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-full">
           {/* Botones */}
-          <div className="flex justify-end w-4/5 gap-2 mr-6 sm:mr-0">
-            <ButtonClearSelection
-              onClick={resetSelectionRows}
-              visible={hasSelectedRecords}
-            />
-            <ToolTipTemplate content={'Quitar de la lista de pago'}>
-              <Button
-                type="button"
-                className={`${''} ${!hasSelectedRecords ? 'hidden' : ''} `}
-                variant="outline"
-                size="icon"
-                disabled={false}
-                onClick={handleBulkRemoveRecordsToPay}
-              >
-                <Trash2 className="w-4 h-4" />
-                <span className="sr-only">Eliminar</span>
-              </Button>
-            </ToolTipTemplate>
-          </div>
+          {!readOnly && (
+            <div className="flex justify-end w-4/5 gap-2 mr-6 sm:mr-0">
+              <ButtonClearSelection
+                onClick={resetSelectionRows}
+                visible={hasSelectedRecords}
+              />
+              <ToolTipTemplate content={'Quitar de la lista de pago'}>
+                <Button
+                  type="button"
+                  className={`${''} ${!hasSelectedRecords ? 'hidden' : ''} `}
+                  variant="outline"
+                  size="icon"
+                  disabled={readOnly}
+                  onClick={handleBulkRemoveRecordsToPay}
+                >
+                  <Trash2 className="w-4 h-4" />
+                  <span className="sr-only">Eliminar</span>
+                </Button>
+              </ToolTipTemplate>
+            </div>
+          )}
 
           {/* Paginacion */}
           <div className="flex flex-col items-center w-full gap-2 sm:flex-row sm:justify-evenly">
