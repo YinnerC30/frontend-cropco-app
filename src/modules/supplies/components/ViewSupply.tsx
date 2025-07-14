@@ -113,7 +113,10 @@ export const ViewSupply = () => {
           Vinculo en otros registros:
         </h3>
 
-        <Tabs defaultValue="consumptions" className="w-10/12 lg:w-auto">
+        <Tabs
+          defaultValue="consumptions"
+          className="w-10/12 p-4 border rounded-sm lg:w-auto"
+        >
           <TabsList className="flex flex-wrap w-auto lg:h-10">
             <TabsTrigger value="consumptions">
               <span className="flex items-center gap-2">
