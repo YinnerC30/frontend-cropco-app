@@ -40,11 +40,28 @@ describe('Login de usuario', () => {
     );
   });
 
-  it.only('debería redirigir al login si se intenta acceder a /app/home/page sin autenticación', () => {
+  it('debería redirigir al login si se intenta acceder a /app/home/page sin autenticación', () => {
     cy.visit('/app/home/page');
     cy.wait(3000);
     cy.url().should('include', '/app/authentication/login');
   });
 
+  it('debería mantener el mensaje de bienvenida visible tras recargar la ventana después del login', () => {
+    cy.visit('/app/authentication/login');
+    cy.get('input[name="email"]').type('usermant@mail.com');
+    cy.get('input[name="password"]').type('123456');
+    cy.get('button[type="submit"]', { timeout: 5000 })
+      .should('be.visible')
+      .click();
 
+    cy.contains('Bienvenid@ a CropCo').should('be.visible');
+    cy.url().should('include', '/app/home/page');
+
+    // Forzar recarga de la ventana
+    cy.reload();
+
+    // Verificar que el mensaje de bienvenida sigue visible tras la recarga
+    cy.contains('Bienvenid@ a CropCo').should('be.visible');
+    cy.url().should('include', '/app/home/page');
+  });
 });
