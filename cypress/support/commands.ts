@@ -126,6 +126,22 @@ Cypress.Commands.add('checkCurrentUrl', (partialUrl: string) => {
   cy.url().should('include', partialUrl);
 });
 
+Cypress.Commands.add('getFormInput', (name: string) => {
+  cy.get(`input[name="${name}"]`);
+});
+
+Cypress.Commands.add('clickOnCreateButton', () => {
+  cy.get('button[data-testid="btn-create-record"]').click();
+});
+
+Cypress.Commands.add('clickOnSubmitButton', () => {
+  cy.get('button[data-testid="form-submit-button"]').click();
+});
+
+Cypress.Commands.add('checkDisabledSubmitButton', () => {
+  cy.get('button[data-testid="form-submit-button"]').should('be.disabled');
+});
+
 // Declaraciones de tipos para TypeScript
 declare namespace Cypress {
   interface Chainable<Subject = any> {
@@ -173,5 +189,11 @@ declare namespace Cypress {
 
     navigateToModuleWithSideBar(nameModule: string): Chainable<void>;
     checkCurrentUrl(partialUrl: string): Chainable<void>;
+
+    getFormInput(name: string): Chainable<HTMLElement>;
+
+    clickOnCreateButton(): Chainable<void>;
+    clickOnSubmitButton(): Chainable<void>;
+    checkDisabledSubmitButton(): Chainable<void>;
   }
 }
