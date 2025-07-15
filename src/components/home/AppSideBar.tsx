@@ -90,12 +90,13 @@ export function AppSidebar() {
                       <SidebarMenuButton
                         onClick={(e) => handleClick(e, route.path)}
                         isActive={url.pathname.includes(route.name_module)}
+                        data-testid={'btn-module-' + route.name_module}
                         asChild
                       >
-                        <div>
+                        <button data-test-id={'btn-module-' + route.name_module}>
                           {route.Icon}
                           <span>{route.label}</span>
-                        </div>
+                        </button>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   );
@@ -110,7 +111,11 @@ export function AppSidebar() {
           <DropdownMenu>
             {/* <SidebarMenuButton> */}
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon" data-testid='btn-change-theme-app'>
+              <Button
+                variant="outline"
+                size="icon"
+                data-testid="btn-change-theme-app"
+              >
                 <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 <span className="sr-only">Tema</span>
@@ -118,19 +123,28 @@ export function AppSidebar() {
             </DropdownMenuTrigger>
             {/* </SidebarMenuButton> */}
             <DropdownMenuContent>
-              <DropdownMenuItem data-testid='btn-light-theme' onClick={() => setTheme('light')}>
+              <DropdownMenuItem
+                data-testid="btn-light-theme"
+                onClick={() => setTheme('light')}
+              >
                 Claro
               </DropdownMenuItem>
-              <DropdownMenuItem data-testid='btn-dark-theme' onClick={() => setTheme('dark')}>
+              <DropdownMenuItem
+                data-testid="btn-dark-theme"
+                onClick={() => setTheme('dark')}
+              >
                 Oscuro
               </DropdownMenuItem>
-              <DropdownMenuItem data-testid='btn-system-theme' onClick={() => setTheme('system')}>
+              <DropdownMenuItem
+                data-testid="btn-system-theme"
+                onClick={() => setTheme('system')}
+              >
                 Sistema
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <SidebarMenuButton onClick={handleLogout} data-testid='btn-logout-user'>
+        <SidebarMenuButton onClick={handleLogout} data-testid="btn-logout-user">
           <LogOut /> Salir
         </SidebarMenuButton>
       </SidebarFooter>

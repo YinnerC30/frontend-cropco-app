@@ -76,7 +76,7 @@ export const columnsTableUsers: ColumnDef<User>[] = [
   {
     accessorKey: 'is_active',
     header: ({ column }: HeaderContext<User, unknown>) => {
-      return <ButtonHeaderTable column={column} label={'Activo'} />;
+      return <ButtonHeaderTable column={column} label={'Activo:'} />;
     },
     cell: ({ row }) => {
       return (

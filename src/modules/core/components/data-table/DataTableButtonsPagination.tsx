@@ -16,6 +16,7 @@ export const DataTableButtonsPagination = memo(() => {
         className="hidden w-8 h-8 p-0 lg:flex"
         onClick={() => table.setPageIndex(0)}
         disabled={!table.getCanPreviousPage()}
+        data-testid="btn-go-first-page"
       >
         <DoubleArrowLeftIcon className="w-4 h-4" />
       </Button>
@@ -24,6 +25,7 @@ export const DataTableButtonsPagination = memo(() => {
         className="w-8 h-8 p-0"
         onClick={() => table.previousPage()}
         disabled={!table.getCanPreviousPage()}
+        data-testid="btn-go-previous-page"
       >
         <ChevronLeftIcon className="w-4 h-4" />
       </Button>
@@ -32,6 +34,7 @@ export const DataTableButtonsPagination = memo(() => {
         className="w-8 h-8 p-0"
         onClick={() => table.nextPage()}
         disabled={!table.getCanNextPage()}
+        data-testid="btn-go-next-page"
       >
         <ChevronRightIcon className="w-4 h-4" />
       </Button>
@@ -40,6 +43,7 @@ export const DataTableButtonsPagination = memo(() => {
         className="hidden w-8 h-8 p-0 lg:flex"
         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
         disabled={!table.getCanNextPage()}
+        data-testid="btn-go-last-page"
       >
         <DoubleArrowRightIcon className="w-4 h-4" />
       </Button>

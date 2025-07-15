@@ -99,6 +99,7 @@ export const BasicSearchBar = ({
             disabled={disabled}
             size={'icon'}
             variant={'outline'}
+            data-testid='btn-submit-basic-searchbar'
           >
             <Search className="w-4 h-4" />
             <span className="sr-only">Buscar</span>
@@ -111,6 +112,7 @@ export const BasicSearchBar = ({
             size={'icon'}
             variant={'outline'}
             className="bg-destructive hover:bg-destructive/80"
+            data-testid='btn-clear-basic-searchbar'
           >
             <X className="w-4 h-4" />
             <span className="sr-only">Limpiar</span>
