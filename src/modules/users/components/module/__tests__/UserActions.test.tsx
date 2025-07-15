@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render } from '@/test-utils';
+import { cleanup, fireEvent, render, screen } from '@/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { UsersActions } from '../UsersActions';
 import { UsersModuleProvider } from '../UsersModuleContext';
@@ -223,59 +223,60 @@ describe('UsersActions', () => {
     expect(mockResetSelectionRows).toHaveBeenCalled();
   });
 
-  //   TODO: Completar caso de prueba
+  it('debe llamar a mutate al hacer click en eliminar', () => {
+    const mockDeleteMutation = vi.fn();
+    // Configurar que hay registros seleccionados
+    mockUseUsersModuleContext.mockReturnValue({
+      paramQuery: '',
+      queryUsers: {
+        refetch: vi.fn(),
+        isSuccess: true,
+        data: {
+          records: [],
+          total_page_count: 0,
+          current_row_count: 0,
+        },
+      },
+      dataTable: {
+        getIdsToRowsSelected: () => ['1', '2'],
+        resetSelectionRows: vi.fn(),
+        hasSelectedRecords: true,
+      },
+      mutationDeleteUsers: {
+        mutate: mockDeleteMutation,
+        isPending: false,
+      },
+      mutationDeleteUser: {
+        mutate: vi.fn(),
+        isPending: false,
+      },
+      actionsUsersModule: {
+        find_all_users: true,
+        remove_bulk_users: true,
+        create_user: true,
+      },
+    });
 
-  //   it.only('debe llamar a mutate al hacer click en eliminar', () => {
-  //     const mockDeleteMutation = vi.fn();
-  //     // Configurar que hay registros seleccionados
-  //     mockUseUsersModuleContext.mockReturnValue({
-  //       paramQuery: '',
-  //       queryUsers: {
-  //         refetch: vi.fn(),
-  //         isSuccess: true,
-  //         data: {
-  //           records: [],
-  //           total_page_count: 0,
-  //           current_row_count: 0,
-  //         },
-  //       },
-  //       dataTable: {
-  //         getIdsToRowsSelected: () => ['1', '2'],
-  //         resetSelectionRows: vi.fn(),
-  //         hasSelectedRecords: true,
-  //       },
-  //       mutationDeleteUsers: {
-  //         mutate: mockDeleteMutation,
-  //         isPending: false,
-  //       },
-  //       mutationDeleteUser: {
-  //         mutate: vi.fn(),
-  //         isPending: false,
-  //       },
-  //       actionsUsersModule: {
-  //         find_all_users: true,
-  //         remove_bulk_users: true,
-  //         create_user: true,
-  //       },
-  //     });
+    const { getByTestId } = render(
+      <UsersModuleProvider>
+        <UsersActions />
+      </UsersModuleProvider>
+    );
 
-  //     const { getByTestId } = render(
-  //       <UsersModuleProvider>
-  //         <UsersActions />
-  //       </UsersModuleProvider>
-  //     );
+    const btn = getByTestId('btn-delete-bulk');
+    fireEvent.click(btn);
 
-  //     const btn = getByTestId('btn-delete-bulk');
-  //     fireEvent.click(btn);
+    const btnContinue = getByTestId('btn-continue-delete');
+    fireEvent.click(btnContinue);
 
-  //     expect(mockDeleteMutation).toHaveBeenCalled();
-  //     expect(mockMutate).toHaveBeenCalledWith(
-  //       { userIds: ['1', '2'] },
-  //       expect.objectContaining({
-  //         onSuccess: expect.any(Function),
-  //       })
-  //     );
-  //   });
+    expect(mockDeleteMutation).toHaveBeenCalled();
+    expect(mockDeleteMutation).toHaveBeenCalledWith(
+      { userIds: ['1', '2'] },
+      expect.objectContaining({
+        onSuccess: expect.any(Function),
+      })
+    );
+  });
 
   it('debe deshabilitar el botón de actualizar si no tiene permiso', () => {
     mockUseUsersModuleContext.mockReturnValue({

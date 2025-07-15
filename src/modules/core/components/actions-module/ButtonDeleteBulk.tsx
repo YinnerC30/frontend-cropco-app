@@ -61,10 +61,10 @@ export const ButtonDeleteBulk = memo(
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel asChild>
-                <Button variant="secondary">Cancelar</Button>
+                <Button variant="secondary" data-testid='btn-cancel-delete'>Cancelar</Button>
               </AlertDialogCancel>
               <AlertDialogAction asChild>
-                <Button onClick={onClick}>Continuar</Button>
+                <Button onClick={onClick} data-testid='btn-continue-delete'>Continuar</Button>
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
