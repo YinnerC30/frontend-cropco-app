@@ -8,6 +8,10 @@ describe('Login de usuario', () => {
       .click();
 
     cy.contains('Bienvenid@ a CropCo').should('be.visible');
+    cy.url().should('include', '/app/home/page');
+    cy.visit('/app/authentication/login');
+    cy.wait(5000);
+    cy.url().should('include', '/app/home/page');
   });
 
   it('debería mostrar error con credenciales inválidas', () => {
@@ -18,7 +22,9 @@ describe('Login de usuario', () => {
       .should('be.visible')
       .click();
 
-    cy.contains('Usuario o contraseña incorrectos, inténtelo nuevamente').should('be.visible');
+    cy.contains(
+      'Usuario o contraseña incorrectos, inténtelo nuevamente'
+    ).should('be.visible');
   });
 
   it('debería mostrar errores al intentar enviar el formulario vacío', () => {
@@ -29,6 +35,16 @@ describe('Login de usuario', () => {
 
     cy.contains('El correo electrónico no es valido').should('be.visible');
     cy.contains('Debes ingresar la contraseña').should('be.visible');
-    cy.contains('Faltan campos por rellenar en el formulario').should('be.visible');
+    cy.contains('Faltan campos por rellenar en el formulario').should(
+      'be.visible'
+    );
   });
+
+  it.only('debería redirigir al login si se intenta acceder a /app/home/page sin autenticación', () => {
+    cy.visit('/app/home/page');
+    cy.wait(3000);
+    cy.url().should('include', '/app/authentication/login');
+  });
+
+
 });
