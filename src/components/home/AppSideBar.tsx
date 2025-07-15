@@ -130,7 +130,7 @@ export function AppSidebar() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <SidebarMenuButton onClick={handleLogout}>
+        <SidebarMenuButton onClick={handleLogout} data-testid='btn-logout-user'>
           <LogOut /> Salir
         </SidebarMenuButton>
       </SidebarFooter>
