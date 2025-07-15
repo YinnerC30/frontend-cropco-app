@@ -1,5 +1,5 @@
-describe('template spec', () => {
-  it('passes', () => {
+describe('Login de usuario', () => {
+  it('debería permitir iniciar sesión con credenciales válidas', () => {
     cy.visit('/app/authentication/login');
     cy.get('input[name="email"]').type('usermant@mail.com');
     cy.get('input[name="password"]').type('123456');
