@@ -1,28 +1,23 @@
 describe('Modulo de usuarios', () => {
   beforeEach(() => {
     cy.loginUser();
-    cy.get('button[data-testid="btn-module-users"]').click();
+    // cy.get('button[data-testid="btn-module-users"]').click();
+    cy.navigateToModuleWithSideBar('users');
   });
 
   it('Debe ingresar a la ruta correcta ', () => {
     cy.contains('Usuarios');
-    cy.url().should('include', 'users/view/all');
+    // cy.url().should('include', 'users/view/all');
+    cy.checkCurrentUrl('users/view/all');
   });
 
-  it('Debe contener los elementos necesarios', () => {
-    cy.get('input[data-testid="input-basic-search-bar"]').should('exist');
-    cy.get('input[placeholder="Escribe algo..."]').should('exist');
+  it.only('Debe contener los elementos necesarios', () => {
+    cy.existBasicSearchBar();
 
-    cy.get('button[data-testid="btn-submit-basic-searchbar"]').should('exist');
-    cy.get('button[data-testid="btn-clear-basic-searchbar"]').should('exist');
+    cy.existRefetchButton();
+    cy.existCreateButton();
 
-    cy.get('button[data-testid="btn-refetch-data"]').should('exist');
-    cy.get('button[data-testid="btn-create-record"]').should('exist');
-
-    cy.contains('Total:');
-    cy.contains('N° seleccionados:');
-    cy.contains('N° registros:');
-    cy.get('button[data-testid="btn-page-size-selector"]').should('exist');
+    cy.existPaginationInfo();
 
     cy.contains('Nombre(s):');
     cy.contains('Apellido(s):');
@@ -31,15 +26,10 @@ describe('Modulo de usuarios', () => {
     cy.contains('Rol asignado:');
     cy.contains('Activo:');
 
-    cy.get('button[data-testid="btn-go-first-page"]').should('exist');
-    cy.get('button[data-testid="btn-go-previous-page"]').should('exist');
-    cy.get('button[data-testid="btn-go-next-page"]').should('exist');
-    cy.get('button[data-testid="btn-go-last-page"]').should('exist');
-
-    cy.contains('Página 1 de');
+    cy.existPaginationButtons();
   });
 
-  it.only('Debe crear un usuario ', () => {
+  it('Debe crear un usuario ', () => {
     cy.get('button[data-testid="btn-create-record"]').click();
     cy.get('input[name="first_name"]').type('UserName');
     cy.get('input[name="last_name"]').type('LastName');
