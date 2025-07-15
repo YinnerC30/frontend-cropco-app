@@ -9,7 +9,7 @@ describe('Modulo de usuarios', () => {
     cy.url().should('include', 'users/view/all');
   });
 
-  it.only('Debe contener los elementos necesarios', () => {
+  it('Debe contener los elementos necesarios', () => {
     cy.get('input[data-testid="input-basic-search-bar"]').should('exist');
     cy.get('input[placeholder="Escribe algo..."]').should('exist');
 
@@ -37,5 +37,20 @@ describe('Modulo de usuarios', () => {
     cy.get('button[data-testid="btn-go-last-page"]').should('exist');
 
     cy.contains('Página 1 de');
+  });
+
+  it.only('Debe crear un usuario ', () => {
+    cy.get('button[data-testid="btn-create-record"]').click();
+    cy.get('input[name="first_name"]').type('UserName');
+    cy.get('input[name="last_name"]').type('LastName');
+    const randomNum = Math.floor(10 + Math.random() * 90);
+    cy.get('input[name="email"]').type(`emailtest${randomNum}@gmail.com`);
+    cy.get('input[name="cell_phone_number"]').type('3123456547');
+    cy.get('input[name="passwords.password1"]').type('123456');
+    cy.get('input[name="passwords.password2"]').type('123456');
+
+    cy.get('button[data-testid="form-submit-button"]').click();
+    cy.get('button[data-testid="form-submit-button"]').should('be.disabled');
+    cy.contains('Usuario creado');
   });
 });
