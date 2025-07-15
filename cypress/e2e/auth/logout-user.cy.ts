@@ -1,15 +1,41 @@
 describe('Logout de usuario', () => {
-  it('debería permitir cerrar la sesión', () => {
-    cy.visit('/app/authentication/login');
-    cy.get('input[name="email"]').type('usermant@mail.com');
-    cy.get('input[name="password"]').type('123456');
-    cy.get('button[type="submit"]', { timeout: 5000 })
-      .should('be.visible')
-      .click();
+  beforeEach(() => {
+    // Limpiar sesión antes de cada test
+    cy.clearSession();
+  });
 
-    cy.contains('Bienvenid@ a CropCo').should('be.visible');
-    cy.url().should('include', '/app/home/page');
-    cy.get('button[data-testid="btn-logout-user"]').click();
-    cy.url().should('include', '/app/authentication/login');
+  it('debería permitir cerrar la sesión', () => {
+    // Usar comando personalizado para login
+    cy.loginUser();
+    
+    // Usar comando personalizado para logout
+    cy.logoutUser();
+  });
+
+  it('debería redirigir al login después del logout', () => {
+    // Login primero
+    cy.loginUser();
+    
+    // Verificar que está autenticado
+    cy.shouldBeAuthenticated();
+    
+    // Hacer logout
+    cy.logoutUser();
+    
+    // Verificar que no está autenticado
+    cy.shouldNotBeAuthenticated();
+  });
+
+  it('debería limpiar la sesión completamente tras logout', () => {
+    // Login
+    cy.loginUser();
+    
+    // Logout
+    cy.logoutUser();
+    
+    // Intentar acceder a página protegida debería redirigir al login
+    cy.visit('/app/home/page');
+    cy.wait(2000);
+    cy.shouldNotBeAuthenticated();
   });
 });

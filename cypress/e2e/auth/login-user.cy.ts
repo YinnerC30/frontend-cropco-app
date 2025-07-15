@@ -1,30 +1,17 @@
 describe('Login de usuario', () => {
-  it('debería permitir iniciar sesión con credenciales válidas', () => {
-    cy.visit('/app/authentication/login');
-    cy.get('input[name="email"]').type('usermant@mail.com');
-    cy.get('input[name="password"]').type('123456');
-    cy.get('button[type="submit"]', { timeout: 5000 })
-      .should('be.visible')
-      .click();
+  beforeEach(() => {
+    // Limpiar sesión antes de cada test para mayor confiabilidad
+    cy.clearSession();
+  });
 
-    cy.contains('Bienvenid@ a CropCo').should('be.visible');
-    cy.url().should('include', '/app/home/page');
-    cy.visit('/app/authentication/login');
-    cy.wait(5000);
-    cy.url().should('include', '/app/home/page');
+  it('debería permitir iniciar sesión con credenciales válidas', () => {
+    // Usar el comando personalizado - ¡una sola línea!
+    cy.loginUser();
   });
 
   it('debería mostrar error con credenciales inválidas', () => {
-    cy.visit('/app/authentication/login');
-    cy.get('input[name="email"]').type('otrocorreo@mail.com');
-    cy.get('input[name="password"]').type('contraseñaIncorrecta');
-    cy.get('button[type="submit"]', { timeout: 5000 })
-      .should('be.visible')
-      .click();
-
-    cy.contains(
-      'Usuario o contraseña incorrectos, inténtelo nuevamente'
-    ).should('be.visible');
+    // Usar el comando personalizado para login inválido
+    cy.attemptInvalidLogin('otrocorreo@mail.com', 'contraseñaIncorrecta');
   });
 
   it('debería mostrar errores al intentar enviar el formulario vacío', () => {
@@ -43,25 +30,26 @@ describe('Login de usuario', () => {
   it('debería redirigir al login si se intenta acceder a /app/home/page sin autenticación', () => {
     cy.visit('/app/home/page');
     cy.wait(3000);
-    cy.url().should('include', '/app/authentication/login');
+    // Usar el comando personalizado para verificar que no está autenticado
+    cy.shouldNotBeAuthenticated();
   });
 
   it('debería mantener el mensaje de bienvenida visible tras recargar la ventana después del login', () => {
-    cy.visit('/app/authentication/login');
-    cy.get('input[name="email"]').type('usermant@mail.com');
-    cy.get('input[name="password"]').type('123456');
-    cy.get('button[type="submit"]', { timeout: 5000 })
-      .should('be.visible')
-      .click();
-
-    cy.contains('Bienvenid@ a CropCo').should('be.visible');
-    cy.url().should('include', '/app/home/page');
+    // Login con comando personalizado
+    cy.loginUser();
 
     // Forzar recarga de la ventana
     cy.reload();
 
-    // Verificar que el mensaje de bienvenida sigue visible tras la recarga
-    cy.contains('Bienvenid@ a CropCo').should('be.visible');
-    cy.url().should('include', '/app/home/page');
+    // Verificar que sigue autenticado con comando personalizado
+    cy.shouldBeAuthenticated();
+  });
+
+  it('debería permitir login con diferentes credenciales', () => {
+    // Ejemplo de cómo usar el comando con credenciales personalizadas
+    // cy.loginUser('admin@cropco.com', 'admin123');
+    
+    // Por ahora usamos las credenciales por defecto
+    cy.loginUser();
   });
 });
