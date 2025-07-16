@@ -4,10 +4,16 @@
 // Comandos personalizados para CropCo App
 // ***********************************************
 
+// =================================================
+// 1. Comandos de Autenticación
+// =================================================
+
 /**
- * Comando para realizar login de usuario
- * @param email - Email del usuario (opcional, usa valor por defecto)
- * @param password - Contraseña del usuario (opcional, usa valor por defecto)
+ * Realiza login de usuario en la aplicación.
+ * @param email Email del usuario (opcional, valor por defecto: 'usermant@mail.com')
+ * @param password Contraseña del usuario (opcional, valor por defecto: '123456')
+ * @example
+ * cy.loginUser('usuario@mail.com', 'password123');
  */
 Cypress.Commands.add(
   'loginUser',
@@ -18,29 +24,29 @@ Cypress.Commands.add(
     cy.get('button[type="submit"]', { timeout: 5000 })
       .should('be.visible')
       .click();
-
-    // Verificar que el login fue exitoso
     cy.contains('Bienvenid@ a CropCo').should('be.visible');
     cy.url().should('include', '/app/home/page');
   }
 );
 
 /**
- * Comando para realizar logout de usuario
- * Asume que el usuario ya está logueado
+ * Realiza logout del usuario actual.
+ * Asume que el usuario ya está autenticado.
+ * @example
+ * cy.logoutUser();
  */
 Cypress.Commands.add('logoutUser', () => {
   cy.get('button[data-testid="btn-logout-user"]', { timeout: 5000 })
     .should('be.visible')
     .click();
-
-  // Verificar que el logout fue exitoso
   cy.url().should('include', '/app/authentication/login');
 });
 
 /**
- * Comando para limpiar toda la sesión del usuario
- * Útil para preparar tests limpios
+ * Limpia toda la sesión del usuario (cookies, localStorage, sessionStorage).
+ * Útil para preparar tests limpios.
+ * @example
+ * cy.clearSession();
  */
 Cypress.Commands.add('clearSession', () => {
   cy.clearCookies();
@@ -51,7 +57,9 @@ Cypress.Commands.add('clearSession', () => {
 });
 
 /**
- * Comando para verificar que el usuario está autenticado
+ * Verifica que el usuario está autenticado correctamente.
+ * @example
+ * cy.shouldBeAuthenticated();
  */
 Cypress.Commands.add('shouldBeAuthenticated', () => {
   cy.url().should('include', '/app/home');
@@ -59,16 +67,20 @@ Cypress.Commands.add('shouldBeAuthenticated', () => {
 });
 
 /**
- * Comando para verificar que el usuario NO está autenticado
+ * Verifica que el usuario NO está autenticado.
+ * @example
+ * cy.shouldNotBeAuthenticated();
  */
 Cypress.Commands.add('shouldNotBeAuthenticated', () => {
   cy.url().should('include', '/app/authentication/login');
 });
 
 /**
- * Comando para intentar login con credenciales inválidas
- * @param email - Email inválido
- * @param password - Contraseña inválida
+ * Intenta hacer login con credenciales inválidas.
+ * @param email Email inválido
+ * @param password Contraseña inválida
+ * @example
+ * cy.attemptInvalidLogin('fake@mail.com', 'wrongpass');
  */
 Cypress.Commands.add(
   'attemptInvalidLogin',
@@ -79,30 +91,84 @@ Cypress.Commands.add(
     cy.get('button[type="submit"]', { timeout: 5000 })
       .should('be.visible')
       .click();
-
-    // Verificar que aparece el mensaje de error
-    // cy.contains(
-    //   'Usuario o contraseña incorrectos, inténtelo nuevamente'
-    // ).should('be.visible');
+    // Mensaje de error comentado por si cambia el texto
+    // cy.contains('Usuario o contraseña incorrectos, inténtelo nuevamente').should('be.visible');
   }
 );
 
+// =================================================
+// 2. Comandos de Navegación y Utilidades Comunes
+// =================================================
+
+/**
+ * Navega a un módulo usando el sidebar por nombre de módulo.
+ * @param nameModule Nombre del módulo (ej: 'users', 'clients', etc.)
+ * @example
+ * cy.navigateToModuleWithSideBar('users');
+ */
+Cypress.Commands.add('navigateToModuleWithSideBar', (nameModule: string) => {
+  cy.get(`button[data-testid="btn-module-${nameModule}"]`).click();
+});
+
+/**
+ * Verifica que la URL actual contiene un fragmento específico.
+ * @param partialUrl Fragmento esperado en la URL
+ * @example
+ * cy.checkCurrentUrl('/app/home');
+ */
+Cypress.Commands.add('checkCurrentUrl', (partialUrl: string) => {
+  cy.url().should('include', partialUrl);
+});
+
+// =================================================
+// 3. Comandos de Elementos Comunes de UI
+// =================================================
+
+/**
+ * Verifica la existencia de la barra de búsqueda básica y sus botones.
+ * @example
+ * cy.existBasicSearchBar();
+ */
 Cypress.Commands.add('existBasicSearchBar', () => {
   cy.get('input[data-testid="input-basic-search-bar"]').should('exist');
   cy.get('input[placeholder="Escribe algo..."]').should('exist');
-
   cy.get('button[data-testid="btn-submit-basic-searchbar"]').should('exist');
   cy.get('button[data-testid="btn-clear-basic-searchbar"]').should('exist');
 });
 
-Cypress.Commands.add('clickOnSubmitBasicSearchBar', () => {
-  cy.get('button[data-testid="btn-submit-basic-searchbar"]').click();
-});
-
+/**
+ * Escribe un valor en la barra de búsqueda básica.
+ * @param value Texto a escribir
+ * @example
+ * cy.typeOnInputBasicSearchBar('buscar');
+ */
 Cypress.Commands.add('typeOnInputBasicSearchBar', (value: string) => {
   cy.get('input[data-testid="input-basic-search-bar"]').type(value);
 });
 
+/**
+ * Hace clic en el botón de submit de la barra de búsqueda básica.
+ * @example
+ * cy.clickOnSubmitBasicSearchBar();
+ */
+Cypress.Commands.add('clickOnSubmitBasicSearchBar', () => {
+  cy.get('button[data-testid="btn-submit-basic-searchbar"]').click();
+});
+
+/**
+ * Limpia el input de la barra de búsqueda básica.
+ * @example
+ * cy.clearInputBasicSearchBar();
+ */
+Cypress.Commands.add('clearInputBasicSearchBar', () => {
+  cy.get('button[data-testid="btn-clear-basic-searchbar"]').click();
+});
+
+/**
+ * Verifica la existencia de los botones de paginación.
+ * @example
+ * cy.existPaginationButtons();
+ */
 Cypress.Commands.add('existPaginationButtons', () => {
   cy.get('button[data-testid="btn-go-first-page"]').should('exist');
   cy.get('button[data-testid="btn-go-previous-page"]').should('exist');
@@ -110,6 +176,11 @@ Cypress.Commands.add('existPaginationButtons', () => {
   cy.get('button[data-testid="btn-go-last-page"]').should('exist');
 });
 
+/**
+ * Verifica la existencia de la información de paginación.
+ * @example
+ * cy.existPaginationInfo();
+ */
 Cypress.Commands.add('existPaginationInfo', () => {
   cy.contains('Total:');
   cy.contains('N° seleccionados:');
@@ -118,75 +189,135 @@ Cypress.Commands.add('existPaginationInfo', () => {
   cy.contains('Página 1 de');
 });
 
+/**
+ * Verifica la existencia del botón de refetch.
+ * @example
+ * cy.existRefetchButton();
+ */
 Cypress.Commands.add('existRefetchButton', () => {
   cy.get('button[data-testid="btn-refetch-data"]').should('exist');
 });
 
+/**
+ * Verifica la existencia del botón para crear un registro.
+ * @example
+ * cy.existCreateButton();
+ */
 Cypress.Commands.add('existCreateButton', () => {
   cy.get('button[data-testid="btn-create-record"]').should('exist');
 });
 
-Cypress.Commands.add('navigateToModuleWithSideBar', (nameModule: string) => {
-  cy.get(`button[data-testid="btn-module-${nameModule}"]`).click();
-});
+// =================================================
+// 4. Comandos de Formularios
+// =================================================
 
-Cypress.Commands.add('checkCurrentUrl', (partialUrl: string) => {
-  cy.url().should('include', partialUrl);
-});
-
+/**
+ * Obtiene un input de formulario por su atributo name.
+ * @param name Nombre del input
+ * @example
+ * cy.getFormInput('email');
+ */
 Cypress.Commands.add('getFormInput', (name: string) => {
   cy.get(`input[name="${name}"]`);
 });
 
+/**
+ * Hace clic en el botón para crear un registro.
+ * @example
+ * cy.clickOnCreateButton();
+ */
 Cypress.Commands.add('clickOnCreateButton', () => {
   cy.get('button[data-testid="btn-create-record"]').click();
 });
 
+/**
+ * Hace clic en el botón de submit de un formulario.
+ * @example
+ * cy.clickOnSubmitButton();
+ */
 Cypress.Commands.add('clickOnSubmitButton', () => {
   cy.get('button[data-testid="form-submit-button"]').click();
 });
 
+/**
+ * Verifica que el botón de submit está deshabilitado.
+ * @example
+ * cy.checkDisabledSubmitButton();
+ */
 Cypress.Commands.add('checkDisabledSubmitButton', () => {
   cy.get('button[data-testid="form-submit-button"]').should('be.disabled');
 });
 
-Cypress.Commands.add('clearInputBasicSearchBar', () => {
-  cy.get('button[data-testid="btn-clear-basic-searchbar"]').click();
-});
+// =================================================
+// 5. Comandos de Switches y Acciones Globales
+// =================================================
 
 /**
- * Comando para hacer clic en el switch global de acciones
+ * Hace clic en el switch global de acciones.
+ * @example
+ * cy.clickGlobalActionsSwitch();
  */
 Cypress.Commands.add('clickGlobalActionsSwitch', () => {
   cy.get('button[data-testid="switch-global-actions"]').click();
 });
 
 /**
- * Comando para verificar el estado del switch global de acciones
- * @param shouldBeActive - true si debe estar activo, false si no
+ * Verifica el estado del switch global de acciones.
+ * @param shouldBeActive true si debe estar activo, false si no
+ * @example
+ * cy.checkGlobalActionsSwitchState(true);
  */
-Cypress.Commands.add('checkGlobalActionsSwitchState', (shouldBeActive: boolean) => {
-  cy.get('button[data-testid="switch-global-actions"]').should(
-    'have.attr',
-    'aria-checked',
-    shouldBeActive ? 'true' : 'false'
-  );
-});
+Cypress.Commands.add(
+  'checkGlobalActionsSwitchState',
+  (shouldBeActive: boolean) => {
+    cy.get('button[data-testid="switch-global-actions"]').should(
+      'have.attr',
+      'aria-checked',
+      shouldBeActive ? 'true' : 'false'
+    );
+  }
+);
 
 /**
- * Comando para verificar el estado (activo/inactivo) del switch de un módulo
- * @param moduleName - Nombre del módulo (ej: 'clients', 'crops', 'employees', etc.)
- * @param shouldBeActive - true si debe estar activo, false si no (por defecto: true)
+ * Verifica el estado (activo/inactivo) del switch de un módulo.
+ * @param moduleName Nombre del módulo (ej: 'clients', 'crops', etc.)
+ * @param shouldBeActive true si debe estar activo, false si no (por defecto: true)
+ * @example
+ * cy.checkModuleSwitchState('clients', true);
  */
-Cypress.Commands.add('checkModuleSwitchState', (moduleName: string, shouldBeActive: boolean = true) => {
-  cy.get(`button[data-testid="switch-actions-module-${moduleName}"]`).should(
-    'have.attr',
-    'aria-checked',
-    shouldBeActive ? 'true' : 'false'
-  );
+Cypress.Commands.add(
+  'checkModuleSwitchState',
+  (moduleName: string, shouldBeActive: boolean = true) => {
+    cy.get(`button[data-testid="switch-actions-module-${moduleName}"]`).should(
+      'have.attr',
+      'aria-checked',
+      shouldBeActive ? 'true' : 'false'
+    );
+  }
+);
+
+/**
+ * Hace clic en el switch de acciones de un módulo específico.
+ * @param moduleName Nombre del módulo (ej: 'clients', 'crops', etc.)
+ * @example
+ * cy.clickModuleActionsSwitch('clients');
+ */
+Cypress.Commands.add('clickModuleActionsSwitch', (moduleName: string) => {
+  cy.get(`button[data-testid="switch-actions-module-${moduleName}"]`).click();
 });
 
-// Users module
+// =================================================
+// 6. Comandos Específicos de Módulos
+// =================================================
+
+/**
+ * Crea un usuario en el módulo de usuarios.
+ * Si no se pasan datos, se generan valores por defecto y aleatorios para email.
+ * @param data Objeto con los datos del usuario
+ * @returns El email usado para el usuario creado (envuelto en cy.wrap)
+ * @example
+ * cy.createUser({ firstName: 'Juan', email: 'juan@mail.com' });
+ */
 Cypress.Commands.add(
   'createUser',
   function ({
@@ -207,31 +338,27 @@ Cypress.Commands.add(
     cy.navigateToModuleWithSideBar('users');
     cy.wait(3000);
     cy.clickOnCreateButton();
-
     const defaultFirstName = 'UserName';
     const defaultLastName = 'LastName';
     const randomNum = Math.floor(10 + Math.random() * 90);
     const randomLetter = String.fromCharCode(
       97 + Math.floor(Math.random() * 26)
-    ); // letra aleatoria a-z
+    );
     const defaultEmail = `emailtest${randomNum}${randomLetter}@gmail.com`;
     const defaultCellPhoneNumber = '3123456547';
     const defaultPassword = '123456';
-
     const usedFirstName = firstName ?? defaultFirstName;
     const usedLastName = lastName ?? defaultLastName;
     const usedEmail = email ?? defaultEmail;
     const usedCellPhoneNumber = cellPhoneNumber ?? defaultCellPhoneNumber;
     const usedPassword1 = password1 ?? defaultPassword;
     const usedPassword2 = password2 ?? defaultPassword;
-
     cy.getFormInput('first_name').type(usedFirstName);
     cy.getFormInput('last_name').type(usedLastName);
     cy.getFormInput('email').type(usedEmail);
     cy.getFormInput('cell_phone_number').type(usedCellPhoneNumber);
     cy.getFormInput('passwords.password1').type(usedPassword1);
     cy.getFormInput('passwords.password2').type(usedPassword2);
-
     cy.clickOnSubmitButton();
     cy.checkDisabledSubmitButton();
     cy.wait(3000);
@@ -239,83 +366,111 @@ Cypress.Commands.add(
   }
 );
 
-// Declaraciones de tipos para TypeScript
+// =================================================
+// 7. Declaraciones de Tipos para TypeScript
+// =================================================
+
+// Extiende la interfaz Chainable de Cypress para incluir los comandos personalizados documentados arriba
+
 declare namespace Cypress {
   interface Chainable<Subject = any> {
     /**
-     * Comando personalizado para realizar login
+     * Realiza login de usuario en la aplicación.
      * @param email Email del usuario (opcional)
      * @param password Contraseña del usuario (opcional)
      */
     loginUser(email?: string, password?: string): Chainable<void>;
 
     /**
-     * Comando personalizado para realizar logout
+     * Realiza logout del usuario actual.
      */
     logoutUser(): Chainable<void>;
 
     /**
-     * Comando para limpiar toda la sesión
+     * Limpia toda la sesión del usuario (cookies, localStorage, sessionStorage).
      */
     clearSession(): Chainable<void>;
 
     /**
-     * Comando para verificar autenticación exitosa
+     * Verifica que el usuario está autenticado correctamente.
      */
     shouldBeAuthenticated(): Chainable<void>;
 
     /**
-     * Comando para verificar que no está autenticado
+     * Verifica que el usuario NO está autenticado.
      */
     shouldNotBeAuthenticated(): Chainable<void>;
 
     /**
-     * Comando para intentar login con credenciales inválidas
+     * Intenta hacer login con credenciales inválidas.
      * @param email Email inválido
      * @param password Contraseña inválida
      */
     attemptInvalidLogin(email: string, password: string): Chainable<void>;
 
-    // Elementos comunes de los modulos
+    // Elementos comunes de los módulos
     existBasicSearchBar(): Chainable<void>;
     existPaginationButtons(): Chainable<void>;
     existPaginationInfo(): Chainable<void>;
-
     existRefetchButton(): Chainable<void>;
     existCreateButton(): Chainable<void>;
 
+    /**
+     * Navega a un módulo usando el sidebar por nombre de módulo.
+     * @param nameModule Nombre del módulo
+     */
     navigateToModuleWithSideBar(nameModule: string): Chainable<void>;
+
+    /**
+     * Verifica que la URL actual contiene un fragmento específico.
+     * @param partialUrl Fragmento esperado en la URL
+     */
     checkCurrentUrl(partialUrl: string): Chainable<void>;
 
+    /**
+     * Obtiene un input de formulario por su atributo name.
+     * @param name Nombre del input
+     */
     getFormInput(name: string): Chainable<HTMLElement>;
 
     clickOnCreateButton(): Chainable<void>;
     clickOnSubmitButton(): Chainable<void>;
     checkDisabledSubmitButton(): Chainable<void>;
-
     clickOnSubmitBasicSearchBar(): Chainable<void>;
     typeOnInputBasicSearchBar(value: string): Chainable<void>;
     clearInputBasicSearchBar(): Chainable<void>;
 
     /**
-     * Comando para verificar el estado (activo/inactivo) del switch de un módulo
+     * Verifica el estado (activo/inactivo) del switch de un módulo.
      * @param moduleName Nombre del módulo
      * @param shouldBeActive true si debe estar activo, false si no (por defecto: true)
      */
-    checkModuleSwitchState(moduleName: string, shouldBeActive?: boolean): Chainable<void>;
+    checkModuleSwitchState(
+      moduleName: string,
+      shouldBeActive?: boolean
+    ): Chainable<void>;
 
     /**
-     * Comando para hacer clic en el switch global de acciones
+     * Hace clic en el switch global de acciones.
      */
     clickGlobalActionsSwitch(): Chainable<void>;
 
     /**
-     * Comando para verificar el estado del switch global de acciones
+     * Hace clic en el switch de acciones de un módulo específico.
+     * @param moduleName Nombre del módulo
+     */
+    clickModuleActionsSwitch(moduleName: string): Chainable<void>;
+
+    /**
+     * Verifica el estado del switch global de acciones.
      * @param shouldBeActive true si debe estar activo, false si no
      */
     checkGlobalActionsSwitchState(shouldBeActive: boolean): Chainable<void>;
 
-    // Users module
+    /**
+     * Crea un usuario en el módulo de usuarios.
+     * @param data Objeto con los datos del usuario
+     */
     createUser(data: {
       firstName?: string;
       lastName?: string;

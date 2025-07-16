@@ -196,7 +196,7 @@ describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
   });
 });
 
-describe.only('Creación de usuarios', () => {
+describe('Creación de usuarios', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('users');
@@ -222,7 +222,7 @@ describe.only('Creación de usuarios', () => {
     cy.contains('Usuario creado');
   });
 
-  it.only('Debe crear un usuario con todos los permisos ', () => {
+  it('Debe crear un usuario con todos los permisos ', () => {
     cy.wait(3000);
     cy.clickOnCreateButton();
     cy.getFormInput('first_name').type('UserName');
