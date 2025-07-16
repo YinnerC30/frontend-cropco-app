@@ -165,6 +165,8 @@ describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
 });
 
 describe('Creación de usuarios', () => {
+  let creationUserEndpoint = 'http://localhost:3000/users/create';
+
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('users');
@@ -172,7 +174,7 @@ describe('Creación de usuarios', () => {
     cy.clickOnCreateButton();
   });
 
-  it('Debe crear un usuario sin permisos ', () => {
+  it.only('Debe crear un usuario sin permisos ', () => {
     cy.getFormInput('first_name').type('UserName');
     cy.getFormInput('last_name').type('LastName');
     const randomNum = Math.floor(10 + Math.random() * 90);
@@ -187,6 +189,9 @@ describe('Creación de usuarios', () => {
 
     cy.clickOnSubmitButton();
     cy.checkDisabledSubmitButton();
+    cy.interceptApiRequest(creationUserEndpoint, 'POST').then((data) => {
+      expect(data).to.have.property('first_name');
+    });
     cy.contains('Usuario creado');
   });
 
