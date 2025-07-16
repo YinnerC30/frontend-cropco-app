@@ -32,7 +32,9 @@ export const useToastDiscardChanges = () => {
           handleToastAction(route, skipRedirection);
           action && action();
         },
+
       },
+      duration: 10_000
     });
 
     //   return toast({

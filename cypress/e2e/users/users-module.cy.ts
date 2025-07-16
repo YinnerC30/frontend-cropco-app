@@ -164,15 +164,15 @@ describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
   });
 });
 
-describe('Creación de usuarios', () => {
+describe.only('Creación de usuarios', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('users');
+    cy.wait(1500);
+    cy.clickOnCreateButton();
   });
 
   it('Debe crear un usuario sin permisos ', () => {
-    cy.wait(3000);
-    cy.clickOnCreateButton();
     cy.getFormInput('first_name').type('UserName');
     cy.getFormInput('last_name').type('LastName');
     const randomNum = Math.floor(10 + Math.random() * 90);
@@ -191,8 +191,6 @@ describe('Creación de usuarios', () => {
   });
 
   it('Debe crear un usuario con todos los permisos ', () => {
-    cy.wait(3000);
-    cy.clickOnCreateButton();
     cy.getFormInput('first_name').type('UserName');
     cy.getFormInput('last_name').type('LastName');
     const randomNum = Math.floor(10 + Math.random() * 90);
@@ -245,9 +243,54 @@ describe('Creación de usuarios', () => {
     // });
     // cy.wait(2000)
   });
+
+  it('Debe mostrar mensajes de error al intentar enviar el formulario vacio', () => {
+    cy.clickOnSubmitButton();
+    cy.contains('El nombre debe tener al menos 2 caracteres');
+    cy.contains('El apellido debe tener al menos 2 caracteres');
+    cy.contains('El correo electrónico es incorrecto');
+    cy.contains('El número de celular es requerido');
+    cy.contains('La contraseña debe tener mínimo 6 caracteres');
+    cy.checkMessageFieldsMissing();
+  });
+
+  it.only('Debe mostrar error si las contraseñas no coinciden', () => {
+    cy.getFormInput('first_name').type('UserName');
+    cy.getFormInput('last_name').type('LastName');
+    cy.getFormInput('email').type('testuser@example.com');
+    cy.getFormInput('cell_phone_number').type('3123456789');
+    cy.getFormInput('passwords.password1').type('Password123');
+    cy.getFormInput('passwords.password2').type('Password456');
+    cy.clickOnSubmitButton();
+    cy.contains('Las contraseñas no coinciden');
+  });
+
+  it('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
+    cy.getFormInput('first_name').type('UserName');
+    cy.navigateToModuleWithSideBar('users');
+    cy.checkMessageLostFormData();
+  });
+
+  it('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
+    cy.getFormInput('first_name').type('UserName');
+    cy.navigateToModuleWithSideBar('users');
+    cy.checkMessageLostFormData();
+    cy.contains('button', 'Ignorar').click();
+    cy.url().then((currentUrl) => {
+      expect(currentUrl).to.not.include('/app/home/users/create');
+    });
+  });
+
+  it('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
+    cy.getFormInput('first_name').type('UserName');
+    cy.navigateToModuleWithSideBar('users');
+    cy.checkMessageLostFormData();
+    cy.get('button[aria-label="Close toast"]').click({ multiple: true });
+    cy.url().should('include', '/app/home/users/create');
+  });
 });
 
-describe.only('Modificación de usuarios', () => {
+describe('Modificación de usuarios', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('users');

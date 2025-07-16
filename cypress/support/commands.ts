@@ -240,6 +240,21 @@ Cypress.Commands.add('clickOnSubmitButton', () => {
 });
 
 /**
+ * Verifica que se muestre el mensaje de campos faltantes en el formulario.
+ * @example
+ * cy.checkMessageFieldsMissing();
+ */
+Cypress.Commands.add('checkMessageFieldsMissing', () => {
+  cy.contains('Faltan campos por rellenar en el formulario');
+});
+
+Cypress.Commands.add('checkMessageLostFormData', () => {
+  cy.contains('¡Atención! Cambios sin guardar.');
+  cy.contains('Tienes modificaciones pendientes en el formulario.');
+  cy.contains('Ignorar');
+});
+
+/**
  * Verifica que el botón de submit está deshabilitado.
  * @example
  * cy.checkDisabledSubmitButton();
@@ -435,6 +450,10 @@ declare namespace Cypress {
 
     clickOnCreateButton(): Chainable<void>;
     clickOnSubmitButton(): Chainable<void>;
+    checkMessageFieldsMissing(): Chainable<void>;
+
+    checkMessageLostFormData(): Chainable<void>;
+
     checkDisabledSubmitButton(): Chainable<void>;
     clickOnSubmitBasicSearchBar(): Chainable<void>;
     typeOnInputBasicSearchBar(value: string): Chainable<void>;
