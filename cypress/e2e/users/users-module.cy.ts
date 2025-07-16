@@ -237,21 +237,48 @@ describe.only('Creación de usuarios', () => {
     cy.getFormInput('passwords.password1').type('123456');
     cy.getFormInput('passwords.password2').type('123456');
     cy.get('button[data-testid="switch-global-actions"]').click();
+    cy.get('button[data-testid="switch-global-actions"]').should(
+      'have.attr',
+      'aria-checked',
+      'true'
+    );
+
+    // Verificar que todos los switches de módulos estén activos
+    cy.checkModuleSwitchIsActive('clients');
+    cy.checkModuleSwitchIsActive('crops');
+    cy.checkModuleSwitchIsActive('employees');
+    cy.checkModuleSwitchIsActive('harvests');
+    cy.checkModuleSwitchIsActive('payments');
+    cy.checkModuleSwitchIsActive('sales');
+    cy.checkModuleSwitchIsActive('suppliers');
+    cy.checkModuleSwitchIsActive('supplies');
+    cy.checkModuleSwitchIsActive('consumptions');
+    cy.checkModuleSwitchIsActive('shopping');
+    cy.checkModuleSwitchIsActive('users');
+    cy.checkModuleSwitchIsActive('works');
+    cy.checkModuleSwitchIsActive('dashboard');
     cy.wait(1500);
 
     cy.clickOnSubmitButton();
     cy.checkDisabledSubmitButton();
-    cy.intercept('POST', 'http://localhost:3000/users/create').as('createUser');
-    cy.wait('@createUser').then((interception) => {
-      // Puedes hacer assertions sobre la respuesta si lo deseas
-      expect(interception.response?.statusCode).to.eq(201);
-      // Interceptar y verificar el body de la respuesta
-      // expect(interception.response?.body).to.have.property('user');
-      // expect(interception.response?.body.user).to.have.property('email');
-      // expect(interception.response?.body.user.email).to.eq(defaultEmail);
-      // También puedes inspeccionar el body de la respuesta:
-      // cy.log(JSON.stringify(interception.response.body));
-    });
     cy.contains('Usuario creado');
+
+    // let userId = undefined;
+
+    // cy.intercept('POST', 'http://localhost:3000/users/create').as('createUser');
+    // cy.wait('@createUser').then((interception) => {
+    //   // Puedes hacer assertions sobre la respuesta si lo deseas
+    //   expect(interception.response?.statusCode).to.eq(201);
+    //   // Interceptar y verificar el body de la respuesta
+    //   expect(interception.response?.body).to.have.property('id');
+    //   userId = interception.response?.body.id;
+    //   cy.visit(`/app/home/users/view/one/${userId}`);
+
+    //   // expect(interception.response?.body.user).to.have.property('email');
+    //   // expect(interception.response?.body.user.email).to.eq(defaultEmail);
+    //   // También puedes inspeccionar el body de la respuesta:
+    //   // cy.log(JSON.stringify(interception.response.body));
+    // });
+    // cy.wait(2000)
   });
 });

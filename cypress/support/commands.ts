@@ -154,6 +154,18 @@ Cypress.Commands.add('clearInputBasicSearchBar', () => {
   cy.get('button[data-testid="btn-clear-basic-searchbar"]').click();
 });
 
+/**
+ * Comando para verificar si el switch de un módulo está activo
+ * @param moduleName - Nombre del módulo (ej: 'clients', 'crops', 'employees', etc.)
+ */
+Cypress.Commands.add('checkModuleSwitchIsActive', (moduleName: string) => {
+  cy.get(`button[data-testid="switch-actions-module-${moduleName}"]`).should(
+    'have.attr',
+    'aria-checked',
+    'true'
+  );
+});
+
 // Users module
 Cypress.Commands.add(
   'createUser',
@@ -264,6 +276,12 @@ declare namespace Cypress {
     clickOnSubmitBasicSearchBar(): Chainable<void>;
     typeOnInputBasicSearchBar(value: string): Chainable<void>;
     clearInputBasicSearchBar(): Chainable<void>;
+
+    /**
+     * Comando para verificar si el switch de un módulo está activo
+     * @param moduleName Nombre del módulo a verificar
+     */
+    checkModuleSwitchIsActive(moduleName: string): Chainable<void>;
 
     // Users module
     createUser(data: {
