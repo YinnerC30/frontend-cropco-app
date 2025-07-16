@@ -102,7 +102,6 @@ describe('Modulo de usuarios', () => {
     });
   });
 
-  // //Otras pruebas
   it('Intentar ingresar al sistema con un usuario desactivado', () => {
     cy.createUser({}).then(({ id, email }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
@@ -125,8 +124,6 @@ describe('Modulo de usuarios', () => {
   //TODO: Probar selección
   //TODO: Probar orden de datos en las tablas
   //TODO: Probar ingreso al modulo mediante comando de teclado
-  //TODO: Probar mensaje de alerta al salir sin guardar cambios
-  //TODO: Probar mensajes de error con formulario vacio
 });
 
 describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
@@ -168,8 +165,6 @@ describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
 });
 
 describe('Creación de usuarios', () => {
-  // let creationUserEndpoint = 'http://localhost:3000/users/create';
-
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('users');
