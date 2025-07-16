@@ -68,7 +68,7 @@ export const DataTable = () => {
                 data-testid={`table-row-id-${row.original.id}`}
               >
                 {row.getVisibleCells().map((cell: any) => (
-                  <TableCell key={cell.id} className="max-w-[250px] truncate">
+                  <TableCell key={cell.id} className="max-w-[250px] truncate" data-testid={`table-cell-id-${row.original.id}`}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

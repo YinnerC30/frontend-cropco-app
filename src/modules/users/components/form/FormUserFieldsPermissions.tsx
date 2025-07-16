@@ -25,7 +25,6 @@ interface ModuleCardProps {
 
 export const ModuleCard: React.FC<ModuleCardProps> = memo<ModuleCardProps>(
   ({ label, actions, name }) => {
-    console.log("🚀 ~ actions:", actions)
     const {
       handleSelectAllActionInModule,
       handleInselectAllActionsInModule,

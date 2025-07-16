@@ -351,7 +351,9 @@ Cypress.Commands.add(
     cellPhoneNumber?: string;
     password1?: string;
     password2?: string;
-  } = {}): Cypress.Chainable<string> {
+  } = {}): Cypress.Chainable<any> {
+    const creationUserEndpoint = 'http://localhost:3000/users/create';
+
     cy.navigateToModuleWithSideBar('users');
     cy.wait(3000);
     cy.clickOnCreateButton();
@@ -374,9 +376,11 @@ Cypress.Commands.add(
     cy.getFormInput('passwords.password1').type(usedPassword1);
     cy.getFormInput('passwords.password2').type(usedPassword2);
     cy.clickOnSubmitButton();
-    cy.checkDisabledSubmitButton();
-    cy.wait(3000);
-    return cy.wrap(usedEmail) as Cypress.Chainable<string>;
+    // cy.wait(300)
+
+    return cy
+      .interceptApiRequest(creationUserEndpoint, 'POST', { get: 'body' })
+      .then((data) => cy.wrap(data));
   }
 );
 
@@ -596,7 +600,7 @@ declare global {
         cellPhoneNumber?: string;
         password1?: string;
         password2?: string;
-      }): Chainable<string>;
+      }): Chainable<any>;
 
       /**
        * Intercepta una solicitud a una API REST y obtiene el body de la respuesta o el error.
