@@ -164,7 +164,7 @@ describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
   });
 });
 
-describe.only('Creación de usuarios', () => {
+describe('Creación de usuarios', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('users');
@@ -254,7 +254,7 @@ describe.only('Creación de usuarios', () => {
     cy.checkMessageFieldsMissing();
   });
 
-  it.only('Debe mostrar error si las contraseñas no coinciden', () => {
+  it('Debe mostrar error si las contraseñas no coinciden', () => {
     cy.getFormInput('first_name').type('UserName');
     cy.getFormInput('last_name').type('LastName');
     cy.getFormInput('email').type('testuser@example.com');
@@ -290,13 +290,13 @@ describe.only('Creación de usuarios', () => {
   });
 });
 
-describe('Modificación de usuarios', () => {
+describe.only('Modificación de usuarios', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('users');
   });
 
-  it('Modificar usuario existente', () => {
+  it.only('Modificar usuario existente', () => {
     cy.createUser({}).then((email) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.get('button[data-testid="btn-actions-table"]').click();
@@ -304,13 +304,56 @@ describe('Modificación de usuarios', () => {
       cy.getFormInput('first_name').clear().type('UserNameChanged');
       cy.getFormInput('last_name').clear().type('LastNameChanged');
       const randomNum = Math.floor(10 + Math.random() * 90);
-      cy.getFormInput('email').clear().type(`emailtest${randomNum}@gmail.com`);
+      const randomLetter = String.fromCharCode(
+        97 + Math.floor(Math.random() * 26)
+      ); // letra aleatoria a-z
+      const defaultEmail = `emailtest${randomNum}${randomLetter}@gmail.com`;
+      cy.getFormInput('email').clear().type(defaultEmail);
       cy.getFormInput('cell_phone_number').clear().type('3123451111');
       cy.checkGlobalActionsSwitchState(false); // Verifica que está activo
       cy.clickGlobalActionsSwitch();
       cy.clickOnSubmitButton();
       cy.checkDisabledSubmitButton();
       cy.contains('Usuario actualizado');
+    });
+  });
+
+  it('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
+    cy.createUser({}).then((email) => {
+      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.get('button[data-testid="btn-actions-table"]').click();
+      cy.get('a[data-testid="link-update-record"]').click();
+      cy.getFormInput('first_name').type('UserName');
+      cy.navigateToModuleWithSideBar('users');
+      cy.checkMessageLostFormData();
+    });
+  });
+
+  it('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
+    cy.createUser({}).then((email) => {
+      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.get('button[data-testid="btn-actions-table"]').click();
+      cy.get('a[data-testid="link-update-record"]').click();
+      cy.getFormInput('first_name').type('UserName');
+      cy.navigateToModuleWithSideBar('users');
+      cy.checkMessageLostFormData();
+      cy.contains('button', 'Ignorar').click();
+      cy.url().then((currentUrl) => {
+        expect(currentUrl).to.not.include('/app/home/users/update');
+      });
+    });
+  });
+
+  it('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
+    cy.createUser({}).then((email) => {
+      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.get('button[data-testid="btn-actions-table"]').click();
+      cy.get('a[data-testid="link-update-record"]').click();
+      cy.getFormInput('first_name').type('UserName');
+      cy.navigateToModuleWithSideBar('users');
+      cy.checkMessageLostFormData();
+      cy.get('button[aria-label="Close toast"]').click({ multiple: true });
+      cy.url().should('include', '/app/home/users/update');
     });
   });
 });
