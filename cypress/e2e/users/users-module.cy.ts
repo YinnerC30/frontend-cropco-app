@@ -407,28 +407,21 @@ describe.only('Paginado y selectores', () => {
   before(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('users');
+    cy.wait(2000);
     cy.get('span[data-testid="data-table-row-total"]')
       .invoke('text')
       .then((text) => {
         const total = parseInt(text, 10);
-        if (total >= 15) {
+        if (total <= 15) {
           for (let index = 0; index < 15; index++) {
             cy.createUserFast();
           }
         }
       });
   });
-  it('Navegar entre paginas disponibles', () => {
+  it('Navegar entre paginas disponibles (10 registro por página - default)', () => {
     cy.wait(2000);
-    cy.get('span[data-testid="data-table-row-total"]')
-      .invoke('text')
-      .then((text) => {
-        const total = parseInt(text, 10);
-        expect(total).to.be.greaterThan(10);
-      });
-    cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 1 de'
-    );
+    cy.checkPaginationValues();
     cy.get('button[data-testid="btn-go-next-page"]').click();
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
       'Página 2 de'
@@ -437,8 +430,33 @@ describe.only('Paginado y selectores', () => {
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
       'Página 1 de'
     );
-    // cy.get('button[data-testid="btn-go-previous-page"]').should('exist');
-    // cy.get('button[data-testid="btn-go-next-page"]').should('exist');
-    // cy.get('button[data-testid="btn-go-last-page"]').should('exist');
+  });
+
+  it.only('Navegar entre paginas disponibles (20 registro por página)', () => {
+    cy.wait(2000);
+    cy.get('button[data-testid="btn-page-size-selector"]').click();
+    cy.get(`div[data-testid="select-item-page-size-${20}"]`).click();
+    cy.wait(2000);
+    cy.checkPaginationValues();
+    cy.get('button[data-testid="btn-go-next-page"]').click();
+    cy.wait(2000);
+    cy.get('p[data-testid="data-table-page-info-number"]').contains(
+      'Página 2 de'
+    );
+    cy.get('button[data-testid="btn-go-previous-page"]').click();
+    cy.wait(2000);
+    cy.get('p[data-testid="data-table-page-info-number"]').contains(
+      'Página 1 de'
+    );
+    // cy.contains('20');
+    // cy.checkPaginationValues();
+    // cy.get('button[data-testid="btn-go-next-page"]').click();
+    // cy.get('p[data-testid="data-table-page-info-number"]').contains(
+    //   'Página 2 de'
+    // );
+    // cy.get('button[data-testid="btn-go-previous-page"]').click();
+    // cy.get('p[data-testid="data-table-page-info-number"]').contains(
+    //   'Página 1 de'
+    // );
   });
 });

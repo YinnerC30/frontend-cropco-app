@@ -19,16 +19,26 @@ export const DataTableSelectPageSize = memo(() => {
           table.setPageSize(Number(value));
         }}
       >
-        <SelectTrigger className="h-8 w-[70px]" data-testid='btn-page-size-selector'>
+        <SelectTrigger
+          className="h-8 w-[70px]"
+          data-testid="btn-page-size-selector"
+        >
           <SelectValue
             className="font-medium text-muted-foreground"
             placeholder={table.getState().pagination.pageSize}
-            
+            data-testid="page-size-value"
           />
         </SelectTrigger>
-        <SelectContent side="top">
+        <SelectContent
+          side="top"
+          onPointerDownOutside={(e) => e.preventDefault()}
+        >
           {[10, 20, 30, 40, 50].map((pageSize) => (
-            <SelectItem key={pageSize} value={`${pageSize}`}>
+            <SelectItem
+              key={pageSize}
+              value={`${pageSize}`}
+              data-testid={`select-item-page-size-${pageSize}`}
+            >
               {pageSize}
             </SelectItem>
           ))}

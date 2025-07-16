@@ -491,6 +491,32 @@ Cypress.Commands.add('checkRefetchButtonState', (shouldBeEnabled: boolean) => {
   cy.get('button[data-testid="btn-refetch-data"]').should(assertion);
 });
 
+Cypress.Commands.add('checkPaginationValues', () => {
+  // Obtener el total de registros
+  cy.get('span[data-testid="data-table-row-total"]')
+    .invoke('text')
+    .then((text) => {
+      const rowTotal = parseInt(text, 10);
+      cy.get('span[data-testid="page-size-value"]')
+        .invoke('text')
+        .then((text) => {
+          const pageSizeValue = parseInt(text, 10);
+          const pagesCount = Math.ceil(rowTotal / pageSizeValue);
+          cy.get('p[data-testid="data-table-page-info-number"]').contains(
+            `Página 1 de ${pagesCount}`
+          );
+          // expect(total).to.be.greaterThan(10);
+        });
+      // expect(total).to.be.greaterThan(10);
+    });
+  // Obtener el n de registros por ver en la tabla
+  // Dividir el primer valor sobre el segundo
+  // Usar función math para calcular el valor aproximado
+  // Añadir valar a un string a comparar
+  // Buscar string con valor en pantalla
+  // Comparar con valor calculado manualmente
+});
+
 // =================================================
 // 7. Declaraciones de Tipos para TypeScript
 // =================================================
@@ -551,6 +577,8 @@ declare global {
        * Verifica la existencia de la información de paginación.
        */
       existPaginationInfo(): Chainable<void>;
+
+      checkPaginationValues(): Chainable<void>;
 
       /**
        * Verifica la existencia del botón de refetch.
