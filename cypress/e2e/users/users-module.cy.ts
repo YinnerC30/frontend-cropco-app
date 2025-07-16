@@ -240,19 +240,19 @@ describe.only('Creación de usuarios', () => {
     cy.checkGlobalActionsSwitchState(true); // Verifica que está activo
 
     // Verificar que todos los switches de módulos estén activos
-    cy.checkModuleSwitchIsActive('clients');
-    cy.checkModuleSwitchIsActive('crops');
-    cy.checkModuleSwitchIsActive('employees');
-    cy.checkModuleSwitchIsActive('harvests');
-    cy.checkModuleSwitchIsActive('payments');
-    cy.checkModuleSwitchIsActive('sales');
-    cy.checkModuleSwitchIsActive('suppliers');
-    cy.checkModuleSwitchIsActive('supplies');
-    cy.checkModuleSwitchIsActive('consumptions');
-    cy.checkModuleSwitchIsActive('shopping');
-    cy.checkModuleSwitchIsActive('users');
-    cy.checkModuleSwitchIsActive('works');
-    cy.checkModuleSwitchIsActive('dashboard');
+    cy.checkModuleSwitchState('clients');
+    cy.checkModuleSwitchState('crops');
+    cy.checkModuleSwitchState('employees');
+    cy.checkModuleSwitchState('harvests');
+    cy.checkModuleSwitchState('payments');
+    cy.checkModuleSwitchState('sales');
+    cy.checkModuleSwitchState('suppliers');
+    cy.checkModuleSwitchState('supplies');
+    cy.checkModuleSwitchState('consumptions');
+    cy.checkModuleSwitchState('shopping');
+    cy.checkModuleSwitchState('users');
+    cy.checkModuleSwitchState('works');
+    cy.checkModuleSwitchState('dashboard');
     cy.wait(1500);
 
     cy.clickOnSubmitButton();
