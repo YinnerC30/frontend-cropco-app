@@ -30,7 +30,7 @@ describe('Modulo de usuarios', () => {
   it('Eliminar usuario', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
-      cy.get(`button[data-testid="btn-actions-table-row-id-${id}"]`).click();
+      cy.clickActionsButtonTableRow(id);
       cy.get('button[data-testid="btn-delete-one-record"]').click();
       cy.get('button[data-testid="btn-continue-delete-one-record"]').click();
 
@@ -42,7 +42,7 @@ describe('Modulo de usuarios', () => {
   it('Copiar Id del usuario', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
-      cy.get(`button[data-testid="btn-actions-table-row-id-${id}"]`).click();
+      cy.clickActionsButtonTableRow(id);
       cy.get('button[data-testid="btn-copy-id"]').click();
 
       cy.contains('Id copiado al portapapeles');
@@ -52,7 +52,7 @@ describe('Modulo de usuarios', () => {
   it('Ver registro de usuario', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
-      cy.get(`button[data-testid="btn-actions-table-row-id-${id}"]`).click();
+      cy.clickActionsButtonTableRow(id);
       cy.get('a[data-testid="link-view-record"]').click();
       cy.contains('Información');
       cy.getFormInput('first_name').should('have.value', 'UserName');
@@ -66,14 +66,14 @@ describe('Modulo de usuarios', () => {
   it('Cambiar estado de usuario', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
-      cy.get(`button[data-testid="btn-actions-table-row-id-${id}"]`).click();
+      cy.clickActionsButtonTableRow(id);
       cy.contains('Desactivar');
       cy.get('button[data-testid="btn-toggle-status-user"]').click();
       cy.get('button[data-testid="btn-toggle-status-user"]').should(
         'be.disabled'
       );
       cy.contains('El estado del usuario ha sido actualizado con éxito.');
-      cy.get(`button[data-testid="btn-actions-table-row-id-${id}"]`).click();
+      cy.clickActionsButtonTableRow(id);
       cy.contains('Activar');
       cy.get('button[data-testid="btn-toggle-status-user"]').click();
       cy.get('button[data-testid="btn-toggle-status-user"]').should(

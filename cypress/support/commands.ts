@@ -433,6 +433,16 @@ Cypress.Commands.add('createRandomUser', function () {
   });
 });
 
+/**
+ * Hace clic en el botón de acciones de una fila de la tabla por id.
+ * @param id Identificador de la fila
+ * @example
+ * cy.clickActionsButtonTableRow(5);
+ */
+Cypress.Commands.add('clickActionsButtonTableRow', (id: string | number) => {
+  cy.get(`button[data-testid="btn-actions-table-row-id-${id}"]`).click();
+});
+
 // =================================================
 // 7. Declaraciones de Tipos para TypeScript
 // =================================================
@@ -602,6 +612,12 @@ declare global {
         password1?: string;
         password2?: string;
       }): Chainable<any>;
+
+      /**
+       * Hace clic en el botón de acciones de una fila de la tabla por id.
+       * @param id Identificador de la fila
+       */
+      clickActionsButtonTableRow(id: string | number): Chainable<void>;
 
       // /**
       //  * Intercepta una solicitud a una API REST y obtiene el body de la respuesta o el error.
