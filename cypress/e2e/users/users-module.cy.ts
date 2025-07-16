@@ -1,3 +1,5 @@
+import { InformationGenerator } from '../helpers/InformationGenerator';
+
 describe('Modulo de usuarios', () => {
   beforeEach(() => {
     cy.loginUser();
@@ -174,14 +176,11 @@ describe('Creación de usuarios', () => {
     cy.clickOnCreateButton();
   });
 
-  it.only('Debe crear un usuario sin permisos ', () => {
+  it('Debe crear un usuario sin permisos ', () => {
     cy.getFormInput('first_name').type('UserName');
     cy.getFormInput('last_name').type('LastName');
-    const randomNum = Math.floor(10 + Math.random() * 90);
-    const randomLetter = String.fromCharCode(
-      97 + Math.floor(Math.random() * 26)
-    ); // letra aleatoria a-z
-    const defaultEmail = `emailtest${randomNum}${randomLetter}@gmail.com`;
+
+    const defaultEmail = InformationGenerator.generateEmail();
     cy.getFormInput('email').type(defaultEmail);
     cy.getFormInput('cell_phone_number').type('3123456547');
     cy.getFormInput('passwords.password1').type('123456');
@@ -198,11 +197,7 @@ describe('Creación de usuarios', () => {
   it('Debe crear un usuario con todos los permisos ', () => {
     cy.getFormInput('first_name').type('UserName');
     cy.getFormInput('last_name').type('LastName');
-    const randomNum = Math.floor(10 + Math.random() * 90);
-    const randomLetter = String.fromCharCode(
-      97 + Math.floor(Math.random() * 26)
-    ); // letra aleatoria a-z
-    const defaultEmail = `emailtest${randomNum}${randomLetter}@gmail.com`;
+    const defaultEmail = InformationGenerator.generateEmail();
     cy.getFormInput('email').type(defaultEmail);
     cy.getFormInput('cell_phone_number').type('3123456547');
     cy.getFormInput('passwords.password1').type('123456');
@@ -229,24 +224,6 @@ describe('Creación de usuarios', () => {
     cy.clickOnSubmitButton();
     cy.checkDisabledSubmitButton();
     cy.contains('Usuario creado');
-
-    // let userId = undefined;
-
-    // cy.intercept('POST', 'http://localhost:3000/users/create').as('createUser');
-    // cy.wait('@createUser').then((interception) => {
-    //   // Puedes hacer assertions sobre la respuesta si lo deseas
-    //   expect(interception.response?.statusCode).to.eq(201);
-    //   // Interceptar y verificar el body de la respuesta
-    //   expect(interception.response?.body).to.have.property('id');
-    //   userId = interception.response?.body.id;
-    //   cy.visit(`/app/home/users/view/one/${userId}`);
-
-    //   // expect(interception.response?.body.user).to.have.property('email');
-    //   // expect(interception.response?.body.user.email).to.eq(defaultEmail);
-    //   // También puedes inspeccionar el body de la respuesta:
-    //   // cy.log(JSON.stringify(interception.response.body));
-    // });
-    // cy.wait(2000)
   });
 
   it('Debe mostrar mensajes de error al intentar enviar el formulario vacio', () => {
@@ -295,24 +272,20 @@ describe('Creación de usuarios', () => {
   });
 });
 
-describe.only('Modificación de usuarios', () => {
+describe('Modificación de usuarios', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('users');
   });
 
-  it.only('Modificar usuario existente', () => {
+  it('Modificar usuario existente', () => {
     cy.createUser({}).then((email) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.get('button[data-testid="btn-actions-table"]').click();
       cy.get('a[data-testid="link-update-record"]').click();
       cy.getFormInput('first_name').clear().type('UserNameChanged');
       cy.getFormInput('last_name').clear().type('LastNameChanged');
-      const randomNum = Math.floor(10 + Math.random() * 90);
-      const randomLetter = String.fromCharCode(
-        97 + Math.floor(Math.random() * 26)
-      ); // letra aleatoria a-z
-      const defaultEmail = `emailtest${randomNum}${randomLetter}@gmail.com`;
+      const defaultEmail = InformationGenerator.generateEmail();
       cy.getFormInput('email').clear().type(defaultEmail);
       cy.getFormInput('cell_phone_number').clear().type('3123451111');
       cy.checkGlobalActionsSwitchState(false); // Verifica que está activo

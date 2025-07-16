@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { InformationGenerator } from '../e2e/helpers/InformationGenerator';
+
 // ***********************************************
 // Comandos personalizados para CropCo App
 // ***********************************************
@@ -355,11 +357,8 @@ Cypress.Commands.add(
     cy.clickOnCreateButton();
     const defaultFirstName = 'UserName';
     const defaultLastName = 'LastName';
-    const randomNum = Math.floor(10 + Math.random() * 90);
-    const randomLetter = String.fromCharCode(
-      97 + Math.floor(Math.random() * 26)
-    );
-    const defaultEmail = `emailtest${randomNum}${randomLetter}@gmail.com`;
+
+    const defaultEmail = InformationGenerator.generateEmail();
     const defaultCellPhoneNumber = '3123456547';
     const defaultPassword = '123456';
     const usedFirstName = firstName ?? defaultFirstName;
@@ -408,134 +407,213 @@ Cypress.Commands.add(
   }
 );
 
+/**
+ * Crea un usuario con datos aleatorios usando InformationGenerator.
+ * @example
+ * cy.createRandomUser();
+ */
+Cypress.Commands.add('createRandomUser', function () {
+  const firstName = InformationGenerator.generateFirstName();
+  const lastName = InformationGenerator.generateLastName();
+  const email = InformationGenerator.generateEmail();
+  const cellPhoneNumber = InformationGenerator.generateCellPhoneNumber();
+  const password = '123456';
+  cy.createUser({
+    firstName,
+    lastName,
+    email,
+    cellPhoneNumber,
+    password1: password,
+    password2: password,
+  });
+});
+
 // =================================================
 // 7. Declaraciones de Tipos para TypeScript
 // =================================================
 
 // Extiende la interfaz Chainable de Cypress para incluir los comandos personalizados documentados arriba
 
-declare namespace Cypress {
-  interface Chainable<Subject = any> {
-    /**
-     * Realiza login de usuario en la aplicación.
-     * @param email Email del usuario (opcional)
-     * @param password Contraseña del usuario (opcional)
-     */
-    loginUser(email?: string, password?: string): Chainable<void>;
+// Solución temporal para los errores de tipo de Cypress.Commands.add
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Cypress {
+    interface Chainable<Subject = any> {
+      /**
+       * Realiza login de usuario en la aplicación.
+       * @param email Email del usuario (opcional)
+       * @param password Contraseña del usuario (opcional)
+       */
+      loginUser(email?: string, password?: string): Chainable<void>;
 
-    /**
-     * Realiza logout del usuario actual.
-     */
-    logoutUser(): Chainable<void>;
+      /**
+       * Realiza logout del usuario actual.
+       */
+      logoutUser(): Chainable<void>;
 
-    /**
-     * Limpia toda la sesión del usuario (cookies, localStorage, sessionStorage).
-     */
-    clearSession(): Chainable<void>;
+      /**
+       * Limpia toda la sesión del usuario (cookies, localStorage, sessionStorage).
+       */
+      clearSession(): Chainable<void>;
 
-    /**
-     * Verifica que el usuario está autenticado correctamente.
-     */
-    shouldBeAuthenticated(): Chainable<void>;
+      /**
+       * Verifica que el usuario está autenticado correctamente.
+       */
+      shouldBeAuthenticated(): Chainable<void>;
 
-    /**
-     * Verifica que el usuario NO está autenticado.
-     */
-    shouldNotBeAuthenticated(): Chainable<void>;
+      /**
+       * Verifica que el usuario NO está autenticado.
+       */
+      shouldNotBeAuthenticated(): Chainable<void>;
 
-    /**
-     * Intenta hacer login con credenciales inválidas.
-     * @param email Email inválido
-     * @param password Contraseña inválida
-     */
-    attemptInvalidLogin(email: string, password: string): Chainable<void>;
+      /**
+       * Intenta hacer login con credenciales inválidas.
+       * @param email Email inválido
+       * @param password Contraseña inválida
+       */
+      attemptInvalidLogin(email: string, password: string): Chainable<void>;
 
-    // Elementos comunes de los módulos
-    existBasicSearchBar(): Chainable<void>;
-    existPaginationButtons(): Chainable<void>;
-    existPaginationInfo(): Chainable<void>;
-    existRefetchButton(): Chainable<void>;
-    existCreateButton(): Chainable<void>;
+      /**
+       * Verifica la existencia de la barra de búsqueda básica y sus botones.
+       */
+      existBasicSearchBar(): Chainable<void>;
 
-    /**
-     * Navega a un módulo usando el sidebar por nombre de módulo.
-     * @param nameModule Nombre del módulo
-     */
-    navigateToModuleWithSideBar(nameModule: string): Chainable<void>;
+      /**
+       * Verifica la existencia de los botones de paginación.
+       */
+      existPaginationButtons(): Chainable<void>;
 
-    /**
-     * Verifica que la URL actual contiene un fragmento específico.
-     * @param partialUrl Fragmento esperado en la URL
-     */
-    checkCurrentUrl(partialUrl: string): Chainable<void>;
+      /**
+       * Verifica la existencia de la información de paginación.
+       */
+      existPaginationInfo(): Chainable<void>;
 
-    /**
-     * Obtiene un input de formulario por su atributo name.
-     * @param name Nombre del input
-     */
-    getFormInput(name: string): Chainable<HTMLElement>;
+      /**
+       * Verifica la existencia del botón de refetch.
+       */
+      existRefetchButton(): Chainable<void>;
 
-    clickOnCreateButton(): Chainable<void>;
-    clickOnSubmitButton(): Chainable<void>;
-    checkMessageFieldsMissing(): Chainable<void>;
+      /**
+       * Verifica la existencia del botón para crear un registro.
+       */
+      existCreateButton(): Chainable<void>;
 
-    checkMessageLostFormData(): Chainable<void>;
+      /**
+       * Navega a un módulo usando el sidebar por nombre de módulo.
+       * @param nameModule Nombre del módulo
+       */
+      navigateToModuleWithSideBar(nameModule: string): Chainable<void>;
 
-    checkDisabledSubmitButton(): Chainable<void>;
-    clickOnSubmitBasicSearchBar(): Chainable<void>;
-    typeOnInputBasicSearchBar(value: string): Chainable<void>;
-    clearInputBasicSearchBar(): Chainable<void>;
+      /**
+       * Verifica que la URL actual contiene un fragmento específico.
+       * @param partialUrl Fragmento esperado en la URL
+       */
+      checkCurrentUrl(partialUrl: string): Chainable<void>;
 
-    /**
-     * Verifica el estado (activo/inactivo) del switch de un módulo.
-     * @param moduleName Nombre del módulo
-     * @param shouldBeActive true si debe estar activo, false si no (por defecto: true)
-     */
-    checkModuleSwitchState(
-      moduleName: string,
-      shouldBeActive?: boolean
-    ): Chainable<void>;
+      /**
+       * Obtiene un input de formulario por su atributo name.
+       * @param name Nombre del input
+       */
+      getFormInput(name: string): Chainable<HTMLElement>;
 
-    /**
-     * Hace clic en el switch global de acciones.
-     */
-    clickGlobalActionsSwitch(): Chainable<void>;
+      /**
+       * Hace clic en el botón para crear un registro.
+       */
+      clickOnCreateButton(): Chainable<void>;
 
-    /**
-     * Hace clic en el switch de acciones de un módulo específico.
-     * @param moduleName Nombre del módulo
-     */
-    clickModuleActionsSwitch(moduleName: string): Chainable<void>;
+      /**
+       * Hace clic en el botón de submit de un formulario.
+       */
+      clickOnSubmitButton(): Chainable<void>;
 
-    /**
-     * Verifica el estado del switch global de acciones.
-     * @param shouldBeActive true si debe estar activo, false si no
-     */
-    checkGlobalActionsSwitchState(shouldBeActive: boolean): Chainable<void>;
+      /**
+       * Verifica que se muestre el mensaje de campos faltantes en el formulario.
+       */
+      checkMessageFieldsMissing(): Chainable<void>;
 
-    /**
-     * Crea un usuario en el módulo de usuarios.
-     * @param data Objeto con los datos del usuario
-     */
-    createUser(data: {
-      firstName?: string;
-      lastName?: string;
-      email?: string;
-      cellPhoneNumber?: string;
-      password1?: string;
-      password2?: string;
-    }): Chainable<string>;
+      /**
+       * Verifica que se muestre el mensaje de datos de formulario perdidos.
+       */
+      checkMessageLostFormData(): Chainable<void>;
 
-    /**
-     * Intercepta una solicitud a una API REST y obtiene el body de la respuesta o el error.
-     * @param endpoint Endpoint de la API
-     * @param method Método HTTP
-     * @param options { get: 'body' | 'error' }
-     */
-    interceptApiRequest(
-      endpoint: string,
-      method: string,
-      options?: { get?: 'body' | 'error' }
-    ): Chainable<any>;
+      /**
+       * Verifica que el botón de submit está deshabilitado.
+       */
+      checkDisabledSubmitButton(): Chainable<void>;
+
+      /**
+       * Hace clic en el botón de submit de la barra de búsqueda básica.
+       */
+      clickOnSubmitBasicSearchBar(): Chainable<void>;
+
+      /**
+       * Escribe un valor en la barra de búsqueda básica.
+       * @param value Texto a escribir
+       */
+      typeOnInputBasicSearchBar(value: string): Chainable<void>;
+
+      /**
+       * Limpia el input de la barra de búsqueda básica.
+       */
+      clearInputBasicSearchBar(): Chainable<void>;
+
+      /**
+       * Verifica el estado (activo/inactivo) del switch de un módulo.
+       * @param moduleName Nombre del módulo
+       * @param shouldBeActive true si debe estar activo, false si no (por defecto: true)
+       */
+      checkModuleSwitchState(
+        moduleName: string,
+        shouldBeActive?: boolean
+      ): Chainable<void>;
+
+      /**
+       * Hace clic en el switch global de acciones.
+       */
+      clickGlobalActionsSwitch(): Chainable<void>;
+
+      /**
+       * Hace clic en el switch de acciones de un módulo específico.
+       * @param moduleName Nombre del módulo
+       */
+      clickModuleActionsSwitch(moduleName: string): Chainable<void>;
+
+      /**
+       * Verifica el estado del switch global de acciones.
+       * @param shouldBeActive true si debe estar activo, false si no
+       */
+      checkGlobalActionsSwitchState(shouldBeActive: boolean): Chainable<void>;
+
+      /**
+       * Crea un usuario en el módulo de usuarios.
+       * @param data Objeto con los datos del usuario
+       */
+      createUser(data: {
+        firstName?: string;
+        lastName?: string;
+        email?: string;
+        cellPhoneNumber?: string;
+        password1?: string;
+        password2?: string;
+      }): Chainable<string>;
+
+      /**
+       * Intercepta una solicitud a una API REST y obtiene el body de la respuesta o el error.
+       * @param endpoint Endpoint de la API
+       * @param method Método HTTP
+       * @param options { get: 'body' | 'error' }
+       */
+      interceptApiRequest(
+        endpoint: string,
+        method: string,
+        options?: { get?: 'body' | 'error' }
+      ): Chainable<any>;
+
+      /**
+       * Crea un usuario con datos aleatorios usando InformationGenerator.
+       */
+      createRandomUser(): Chainable<void>;
+    }
   }
 }
