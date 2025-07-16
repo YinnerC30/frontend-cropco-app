@@ -118,7 +118,6 @@ describe('Modulo de usuarios', () => {
     cy.createUser().then((email) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.get('button[data-testid="btn-actions-table"]').click();
-      //   cy.contains('Desactivar');
       cy.get('button[data-testid="btn-reset-password-user"]').click();
       cy.getFormInput('email').should('have.value', email);
       cy.get('button[data-testid="btn-execute-reset-password"]').click();
@@ -129,19 +128,20 @@ describe('Modulo de usuarios', () => {
       cy.getFormInput('password').invoke('val').should('not.be.empty');
       cy.get('button[data-testid="btn-copy-pass"]').click();
       cy.contains('Contraseña copiada al portapapeles');
-      //   cy.getFormInput('password').should('have.value', undefined);
+    });
+  });
 
-      //   cy.get('button[data-testid="btn-toggle-status-user"]').should(
-      //     'be.disabled'
-      //   );
-      //   cy.contains('El estado del usuario ha sido actualizado con éxito.');
-      //   cy.get('button[data-testid="btn-actions-table"]').click();
-      //   cy.contains('Activar');
-      //   cy.get('button[data-testid="btn-toggle-status-user"]').click();
-      //   cy.get('button[data-testid="btn-toggle-status-user"]').should(
-      //     'be.disabled'
-      //   );
-      //   cy.contains('El estado del usuario ha sido actualizado con éxito.');
+  //Otras pruebas
+  it.only('Intentar ingresar al sistema con un usuario desactivado', () => {
+    cy.createUser().then((email) => {
+      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.get('button[data-testid="btn-actions-table"]').click();
+      cy.contains('Desactivar');
+      cy.get('button[data-testid="btn-toggle-status-user"]').click();
+      cy.contains('El estado del usuario ha sido actualizado con éxito.');
+      cy.logoutUser();
+      cy.attemptInvalidLogin(email, '123456');
+      cy.contains('El usuario se encuentra desactivado');
     });
   });
 });

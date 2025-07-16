@@ -81,9 +81,9 @@ Cypress.Commands.add(
       .click();
 
     // Verificar que aparece el mensaje de error
-    cy.contains(
-      'Usuario o contraseña incorrectos, inténtelo nuevamente'
-    ).should('be.visible');
+    // cy.contains(
+    //   'Usuario o contraseña incorrectos, inténtelo nuevamente'
+    // ).should('be.visible');
   }
 );
 

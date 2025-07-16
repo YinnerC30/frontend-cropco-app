@@ -35,12 +35,16 @@ export const useLoginUser = (): UseMutationReturn<User, LoginUserData> => {
       saveUser({ ...data, is_login: true });
       toast.success(`Bienvenido, ${CapitalizeFirstWord(data.first_name)}`, {});
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      const messageResponse: any = error.response?.data?.message! || '';
+      const unauthorizedMessage = messageResponse.includes('is inactive')
+        ? 'El usuario se encuentra desactivado'
+        : 'Usuario o contraseña incorrectos, inténtelo nuevamente';
       handleErrorByStatus({
         error,
         handlers: {
           unauthorized: {
-            message: 'Usuario o contraseña incorrectos, inténtelo nuevamente',
+            message: unauthorizedMessage,
           },
           forbidden: {
             message:
