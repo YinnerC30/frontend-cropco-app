@@ -76,7 +76,7 @@ describe('Modulo de usuarios', () => {
       });
   });
 
-  it.only('Ingresar al modulo usando el command', () => {
+  it('Ingresar al modulo usando el command', () => {
     cy.visit('/app/home/page');
     cy.wait(3000);
     cy.get('body').type('{ctrl}j');
@@ -87,11 +87,9 @@ describe('Modulo de usuarios', () => {
 
   //TODO: Ingresar usuario con permisos y verificar que esten visibles y disponibles
   //TODO: Cambiar contraseña
-  //TODO: Probar paginado
   //TODO: Probar elminiación por lotes
   //TODO: Probar selección
   //TODO: Probar orden de datos en las tablas
-  //TODO: Probar ingreso al modulo mediante comando de teclado
 });
 
 describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
@@ -479,5 +477,34 @@ describe('Paginado y selectores', () => {
     // cy.get('p[data-testid="data-table-page-info-number"]').contains(
     //   'Página 1 de'
     // );
+  });
+});
+
+describe('Cambio de contraseña', () => {
+  beforeEach(() => {
+    cy.loginUser();
+    cy.createUser({ withAllActions: true }).then(({ email, password }) => {
+      cy.logoutUser();
+      cy.loginUser(email, password);
+    });
+  });
+  it('El usuario puede cambiar su contraseña', () => {
+    cy.get('button[data-testid="btn-user-account"]').click();
+    cy.get('div[data-testid="btn-open-form-change-password"]').click();
+    cy.wait(1000);
+    cy.getFormInput('old_password').type('123456');
+    cy.getFormInput('new_password').type('1234567');
+    cy.get('button[data-testid="btn-form-submit-change-password"]').click();
+    cy.contains('Contraseña cambiada');
+  });
+
+  it('El usuario no puede cambiar su contraseña al enviar la antigua contraseña incorrecta', () => {
+    cy.get('button[data-testid="btn-user-account"]').click();
+    cy.get('div[data-testid="btn-open-form-change-password"]').click();
+    cy.wait(1000);
+    cy.getFormInput('old_password').type('123456y');
+    cy.getFormInput('new_password').type('1234567');
+    cy.get('button[data-testid="btn-form-submit-change-password"]').click();
+    cy.contains('La contraseña antigua es incorrecta');
   });
 });

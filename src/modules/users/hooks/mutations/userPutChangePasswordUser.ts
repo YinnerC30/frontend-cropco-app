@@ -29,10 +29,20 @@ export function userPutChangePasswordUser(): UseMutationReturn<
     onSuccess: () => {
       toast.success(`Contraseña cambiada`);
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      const messageResponse: any = error.response?.data?.message! || '';
+      const badRequestMessage = messageResponse.includes(
+        'Old password incorrect, retry'
+      )
+        ? 'La contraseña antigua es incorrecta'
+        : 'La solicitud contiene información incorrecta';
       handleError({
         error,
-        handlers: {},
+        handlers: {
+          badRequest: {
+            message: badRequestMessage
+          }
+        },
       });
     },
     retry: false,

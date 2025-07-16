@@ -122,7 +122,7 @@ export const DialogChangePassword: React.FC<Props> = (props) => {
         </Form>
       </div>
       <DialogFooter>
-        <Button type="submit" form={'formChangePassword'} disabled={isPending}>
+        <Button type="submit" form={'formChangePassword'} disabled={isPending} data-testid="btn-form-submit-change-password">
           {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
           Guardar
         </Button>

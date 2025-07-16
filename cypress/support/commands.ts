@@ -345,6 +345,7 @@ Cypress.Commands.add(
     cellPhoneNumber,
     password1,
     password2,
+    withAllActions = false,
   }: {
     firstName?: string;
     lastName?: string;
@@ -352,6 +353,7 @@ Cypress.Commands.add(
     cellPhoneNumber?: string;
     password1?: string;
     password2?: string;
+    withAllActions?: boolean;
   } = {}): Cypress.Chainable<any> {
     const creationUserEndpoint = 'http://localhost:3000/users/create';
 
@@ -377,11 +379,16 @@ Cypress.Commands.add(
     cy.getFormInput('passwords.password1').type(usedPassword1);
     cy.getFormInput('passwords.password2').type(usedPassword2);
 
+    if (withAllActions) {
+      cy.clickGlobalActionsSwitch();
+      cy.wait(1000);
+    }
+
     // Define el intercept antes de disparar la acción para capturar el response original
     cy.intercept('POST', creationUserEndpoint).as('createUserRequest');
     cy.clickOnSubmitButton();
     return cy.wait('@createUserRequest').then((interception) => {
-      return cy.wrap(interception.response?.body);
+      return cy.wrap({...interception.response?.body, password: defaultPassword });
     });
   }
 );
@@ -687,6 +694,7 @@ declare global {
         cellPhoneNumber?: string;
         password1?: string;
         password2?: string;
+        withAllActions?: boolean;
       }): Chainable<any>;
 
       createUserFast(): Chainable<any>;
