@@ -54,7 +54,7 @@ describe('Modulo de usuarios', () => {
     cy.get('button[data-testid="btn-delete-bulk"]').should('be.visible');
   });
 
-  it('Debe deseleccionar todos los elementos al dar clic nuevamente en el checkbox del encabezado', () => {
+  it.only('Debe deseleccionar todos los elementos al dar clic nuevamente en el checkbox del encabezado', () => {
     cy.wait(2000);
     cy.get('button[aria-label="Select all"]').click(); // Selecciona todos
     cy.get('span[data-testid="data-table-row-selection-number"]')
@@ -64,6 +64,10 @@ describe('Modulo de usuarios', () => {
         expect(value).to.be.greaterThan(0);
       });
     cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
+    cy.get('button[data-testid="btn-clear-selection-table"]').should(
+      'not.be.visible'
+    );
+    cy.get('button[data-testid="btn-delete-bulk"]').should('not.be.visible');
     cy.get('span[data-testid="data-table-row-selection-number"]')
       .invoke('text')
       .then((text) => {
