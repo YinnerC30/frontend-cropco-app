@@ -71,13 +71,27 @@ describe('Modulo de usuarios', () => {
     });
   });
 
-  it.only('Copiar Id del usuario', () => {
+  it('Copiar Id del usuario', () => {
     cy.createUser().then((email) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.get('button[data-testid="btn-actions-table"]').click();
       cy.get('button[data-testid="btn-copy-id"]').click();
 
       cy.contains('Id copiado al portapapeles');
+    });
+  });
+
+  it.only('Ver registro de usuario', () => {
+    cy.createUser().then((email) => {
+      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.get('button[data-testid="btn-actions-table"]').click();
+      cy.get('a[data-testid="link-view-record"]').click();
+      cy.contains('Información');
+      cy.getFormInput('first_name').should('have.value', 'UserName');
+      cy.getFormInput('last_name').should('have.value', 'LastName');
+      cy.getFormInput('email').should('have.value', email);
+      cy.getFormInput('cell_phone_number').should('have.value', '3123456547');
+      cy.contains('Volver');
     });
   });
 });
