@@ -50,7 +50,7 @@ export const CommandDialogApp = () => {
       <DialogTitle>
         <VisuallyHidden.Root>Menu</VisuallyHidden.Root>
       </DialogTitle>
-      <CommandInput placeholder="Escribe el nombre de un módulo..." />
+      <CommandInput placeholder="Escribe el nombre de un módulo..." data-testid="input-command-search"/>
 
       <CommandList className="">
         <CommandEmpty>No se encontraron resultados</CommandEmpty>
@@ -64,6 +64,7 @@ export const CommandDialogApp = () => {
                     navigate(route.path);
                     setOpen(false);
                   }}
+                  data-testid={`command-item-${route.name_module}`}
                 >
                   {route.Icon}
                   <span className="ml-2 font-medium">{route.label}</span>

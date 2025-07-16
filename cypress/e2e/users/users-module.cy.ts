@@ -35,7 +35,7 @@ describe('Modulo de usuarios', () => {
     cy.contains('Cargando información');
   });
 
-  it.only('Se puede seleccionar todos los elementos al dar clic sobre el checkbox del encabezado', () => {
+  it('Se puede seleccionar todos los elementos al dar clic sobre el checkbox del encabezado', () => {
     cy.wait(2000);
     cy.get('button[data-testid="btn-clear-selection-table"]').should(
       'not.be.visible'
@@ -54,7 +54,7 @@ describe('Modulo de usuarios', () => {
     cy.get('button[data-testid="btn-delete-bulk"]').should('be.visible');
   });
 
-  it.only('Debe deseleccionar todos los elementos al dar clic nuevamente en el checkbox del encabezado', () => {
+  it('Debe deseleccionar todos los elementos al dar clic nuevamente en el checkbox del encabezado', () => {
     cy.wait(2000);
     cy.get('button[aria-label="Select all"]').click(); // Selecciona todos
     cy.get('span[data-testid="data-table-row-selection-number"]')
@@ -74,6 +74,15 @@ describe('Modulo de usuarios', () => {
         const value = Number(text.trim());
         expect(value).to.equal(0);
       });
+  });
+
+  it.only('Ingresar al modulo usando el command', () => {
+    cy.visit('/app/home/page');
+    cy.wait(3000);
+    cy.get('body').type('{ctrl}j');
+    cy.get('input[data-testid="input-command-search"]').type('usuarios');
+    cy.get('div[data-testid="command-item-users"]').click();
+    cy.checkCurrentUrl('users/view/all');
   });
 
   //TODO: Ingresar usuario con permisos y verificar que esten visibles y disponibles
