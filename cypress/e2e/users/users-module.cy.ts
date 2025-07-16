@@ -35,8 +35,12 @@ describe('Modulo de usuarios', () => {
     cy.contains('Cargando información');
   });
 
-  it('Se puede seleccionar todos los elementos al dar clic sobre el checkbox del encabezado', () => {
+  it.only('Se puede seleccionar todos los elementos al dar clic sobre el checkbox del encabezado', () => {
     cy.wait(2000);
+    cy.get('button[data-testid="btn-clear-selection-table"]').should(
+      'not.be.visible'
+    );
+    cy.get('button[data-testid="btn-delete-bulk"]').should('not.be.visible');
     cy.get('button[aria-label="Select all"]').click();
     cy.get('span[data-testid="data-table-row-selection-number"]')
       .invoke('text')
@@ -44,6 +48,10 @@ describe('Modulo de usuarios', () => {
         const value = Number(text.trim());
         expect(value).to.be.greaterThan(0);
       });
+    cy.get('button[data-testid="btn-clear-selection-table"]').should(
+      'be.visible'
+    );
+    cy.get('button[data-testid="btn-delete-bulk"]').should('be.visible');
   });
 
   it('Debe deseleccionar todos los elementos al dar clic nuevamente en el checkbox del encabezado', () => {
@@ -403,7 +411,7 @@ describe('Auth modulo de usuarios', () => {
   });
 });
 
-describe.only('Paginado y selectores', () => {
+describe('Paginado y selectores', () => {
   before(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('users');
@@ -432,7 +440,7 @@ describe.only('Paginado y selectores', () => {
     );
   });
 
-  it.only('Navegar entre paginas disponibles (20 registro por página)', () => {
+  it('Navegar entre paginas disponibles (20 registro por página)', () => {
     cy.wait(2000);
     cy.get('button[data-testid="btn-page-size-selector"]').click();
     cy.get(`div[data-testid="select-item-page-size-${20}"]`).click();
