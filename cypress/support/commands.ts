@@ -375,12 +375,15 @@ Cypress.Commands.add(
     cy.getFormInput('cell_phone_number').type(usedCellPhoneNumber);
     cy.getFormInput('passwords.password1').type(usedPassword1);
     cy.getFormInput('passwords.password2').type(usedPassword2);
-    cy.clickOnSubmitButton();
+    // cy.clickOnSubmitButton();
     // cy.wait(300)
 
-    return cy
-      .interceptApiRequest(creationUserEndpoint, 'POST', { get: 'body' })
-      .then((data) => cy.wrap(data));
+    // Define el intercept antes de disparar la acción para capturar el response original
+    cy.intercept('POST', creationUserEndpoint).as('createUserRequest');
+    cy.clickOnSubmitButton();
+    return cy.wait('@createUserRequest').then((interception) => {
+      return cy.wrap(interception.response?.body);
+    });
   }
 );
 
