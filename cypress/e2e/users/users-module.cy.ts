@@ -236,12 +236,8 @@ describe.only('Creación de usuarios', () => {
     cy.getFormInput('cell_phone_number').type('3123456547');
     cy.getFormInput('passwords.password1').type('123456');
     cy.getFormInput('passwords.password2').type('123456');
-    cy.get('button[data-testid="switch-global-actions"]').click();
-    cy.get('button[data-testid="switch-global-actions"]').should(
-      'have.attr',
-      'aria-checked',
-      'true'
-    );
+    cy.clickGlobalActionsSwitch();
+    cy.checkGlobalActionsSwitchState(true); // Verifica que está activo
 
     // Verificar que todos los switches de módulos estén activos
     cy.checkModuleSwitchIsActive('clients');

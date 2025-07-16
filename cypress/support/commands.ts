@@ -155,6 +155,25 @@ Cypress.Commands.add('clearInputBasicSearchBar', () => {
 });
 
 /**
+ * Comando para hacer clic en el switch global de acciones
+ */
+Cypress.Commands.add('clickGlobalActionsSwitch', () => {
+  cy.get('button[data-testid="switch-global-actions"]').click();
+});
+
+/**
+ * Comando para verificar el estado del switch global de acciones
+ * @param shouldBeActive - true si debe estar activo, false si no
+ */
+Cypress.Commands.add('checkGlobalActionsSwitchState', (shouldBeActive: boolean) => {
+  cy.get('button[data-testid="switch-global-actions"]').should(
+    'have.attr',
+    'aria-checked',
+    shouldBeActive ? 'true' : 'false'
+  );
+});
+
+/**
  * Comando para verificar si el switch de un módulo está activo
  * @param moduleName - Nombre del módulo (ej: 'clients', 'crops', 'employees', etc.)
  */
@@ -282,6 +301,17 @@ declare namespace Cypress {
      * @param moduleName Nombre del módulo a verificar
      */
     checkModuleSwitchIsActive(moduleName: string): Chainable<void>;
+
+    /**
+     * Comando para hacer clic en el switch global de acciones
+     */
+    clickGlobalActionsSwitch(): Chainable<void>;
+
+    /**
+     * Comando para verificar el estado del switch global de acciones
+     * @param shouldBeActive true si debe estar activo, false si no
+     */
+    checkGlobalActionsSwitchState(shouldBeActive: boolean): Chainable<void>;
 
     // Users module
     createUser(data: {
