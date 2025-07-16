@@ -34,7 +34,7 @@ export const FormUserPermissionAction: React.FC<Props> = ({
         checked={isChecked}
         defaultChecked={isChecked}
         onCheckedChange={handleOnChange}
-        data-testid={'switch-unique-action'}
+        data-testid={`switch-action-${action.name}`}
       />
     </div>
   );

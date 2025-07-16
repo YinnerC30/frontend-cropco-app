@@ -158,8 +158,7 @@ describe('Modulo de usuarios', () => {
   //TODO: Probar mensajes de error con formulario vacio
 });
 
-//TODO: Realizar busqueda de usuario
-describe.only('Encuentra registros de acuerdo a la cadena de busqueda', () => {
+describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
   const userData = {
     firstName: 'usertosearch',
     lastName: 'lasttosearch',
@@ -188,11 +187,60 @@ describe.only('Encuentra registros de acuerdo a la cadena de busqueda', () => {
       .filter(`:contains(${userData.lastName})`)
       .should('have.length.greaterThan', 1);
   });
-  it.only('Busqueda por correo del usuario', () => {
+  it('Busqueda por correo del usuario', () => {
     cy.typeOnInputBasicSearchBar(userData.email.split('@')[0]);
     cy.clickOnSubmitBasicSearchBar();
     cy.get('tbody tr')
       .filter(`:contains(${userData.email})`)
       .should('have.length', 1);
+  });
+});
+
+describe.only('Creación de usuarios', () => {
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('users');
+  });
+
+  it('Debe crear un usuario sin permisos ', () => {
+    cy.wait(3000);
+    cy.clickOnCreateButton();
+    cy.getFormInput('first_name').type('UserName');
+    cy.getFormInput('last_name').type('LastName');
+    const randomNum = Math.floor(10 + Math.random() * 90);
+    const randomLetter = String.fromCharCode(
+      97 + Math.floor(Math.random() * 26)
+    ); // letra aleatoria a-z
+    const defaultEmail = `emailtest${randomNum}${randomLetter}@gmail.com`;
+    cy.getFormInput('email').type(defaultEmail);
+    cy.getFormInput('cell_phone_number').type('3123456547');
+    cy.getFormInput('passwords.password1').type('123456');
+    cy.getFormInput('passwords.password2').type('123456');
+
+    cy.clickOnSubmitButton();
+    cy.checkDisabledSubmitButton();
+    cy.contains('Usuario creado');
+  });
+
+  it.only('Debe crear un usuario con todos los permisos ', () => {
+    cy.wait(3000);
+    cy.clickOnCreateButton();
+    cy.getFormInput('first_name').type('UserName');
+    cy.getFormInput('last_name').type('LastName');
+    const randomNum = Math.floor(10 + Math.random() * 90);
+    const randomLetter = String.fromCharCode(
+      97 + Math.floor(Math.random() * 26)
+    ); // letra aleatoria a-z
+    const defaultEmail = `emailtest${randomNum}${randomLetter}@gmail.com`;
+    cy.getFormInput('email').type(defaultEmail);
+    cy.getFormInput('cell_phone_number').type('3123456547');
+    cy.getFormInput('passwords.password1').type('123456');
+    cy.getFormInput('passwords.password2').type('123456');
+    cy.get('button[data-testid="switch-global-actions"]').click();
+    cy.wait(1500);
+
+    cy.clickOnSubmitButton();
+    cy.checkDisabledSubmitButton();
+    cy.contains('Usuario creado');
   });
 });
