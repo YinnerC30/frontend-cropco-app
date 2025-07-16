@@ -81,7 +81,7 @@ describe('Modulo de usuarios', () => {
     });
   });
 
-  it.only('Ver registro de usuario', () => {
+  it('Ver registro de usuario', () => {
     cy.createUser().then((email) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.get('button[data-testid="btn-actions-table"]').click();
@@ -92,6 +92,25 @@ describe('Modulo de usuarios', () => {
       cy.getFormInput('email').should('have.value', email);
       cy.getFormInput('cell_phone_number').should('have.value', '3123456547');
       cy.contains('Volver');
+    });
+  });
+  it.only('Cambiar estado de usuario', () => {
+    cy.createUser().then((email) => {
+      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.get('button[data-testid="btn-actions-table"]').click();
+      cy.contains('Desactivar');
+      cy.get('button[data-testid="btn-toggle-status-user"]').click();
+      cy.get('button[data-testid="btn-toggle-status-user"]').should(
+        'be.disabled'
+      );
+      cy.contains('El estado del usuario ha sido actualizado con éxito.');
+      cy.get('button[data-testid="btn-actions-table"]').click();
+      cy.contains('Activar');
+      cy.get('button[data-testid="btn-toggle-status-user"]').click();
+      cy.get('button[data-testid="btn-toggle-status-user"]').should(
+        'be.disabled'
+      );
+      cy.contains('El estado del usuario ha sido actualizado con éxito.');
     });
   });
 });
