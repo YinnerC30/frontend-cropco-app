@@ -419,6 +419,13 @@ describe.only('Paginado y selectores', () => {
       });
   });
   it('Navegar entre paginas disponibles', () => {
+    cy.wait(2000);
+    cy.get('span[data-testid="data-table-row-total"]')
+      .invoke('text')
+      .then((text) => {
+        const total = parseInt(text, 10);
+        expect(total).to.be.greaterThan(10);
+      });
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
       'Página 1 de'
     );
