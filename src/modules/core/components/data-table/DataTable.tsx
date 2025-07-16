@@ -65,6 +65,7 @@ export const DataTable = () => {
                   handleDoubleClickRow(row);
                 }}
                 data-state={row.getIsSelected() && 'selected'}
+                data-testid={`table-row-id-${row.original.id}`}
               >
                 {row.getVisibleCells().map((cell: any) => (
                   <TableCell key={cell.id} className="max-w-[250px] truncate">
