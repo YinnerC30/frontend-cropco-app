@@ -95,6 +95,14 @@ Cypress.Commands.add('existBasicSearchBar', () => {
   cy.get('button[data-testid="btn-clear-basic-searchbar"]').should('exist');
 });
 
+Cypress.Commands.add('clickOnSubmitBasicSearchBar', () => {
+  cy.get('button[data-testid="btn-submit-basic-searchbar"]').click();
+});
+
+Cypress.Commands.add('typeOnInputBasicSearchBar', (value: string) => {
+  cy.get('input[data-testid="input-basic-search-bar"]').type(value);
+});
+
 Cypress.Commands.add('existPaginationButtons', () => {
   cy.get('button[data-testid="btn-go-first-page"]').should('exist');
   cy.get('button[data-testid="btn-go-previous-page"]').should('exist');
@@ -142,26 +150,62 @@ Cypress.Commands.add('checkDisabledSubmitButton', () => {
   cy.get('button[data-testid="form-submit-button"]').should('be.disabled');
 });
 
-// Users module
-Cypress.Commands.add('createUser', function (): Cypress.Chainable<string> {
-  cy.navigateToModuleWithSideBar('users');
-  cy.wait(3000);
-  cy.clickOnCreateButton();
-  cy.getFormInput('first_name').type('UserName');
-  cy.getFormInput('last_name').type('LastName');
-  const randomNum = Math.floor(10 + Math.random() * 90);
-  const randomLetter = String.fromCharCode(97 + Math.floor(Math.random() * 26)); // letra aleatoria a-z
-  const email = `emailtest${randomNum}${randomLetter}@gmail.com`;
-  cy.getFormInput('email').type(email);
-  cy.getFormInput('cell_phone_number').type('3123456547');
-  cy.getFormInput('passwords.password1').type('123456');
-  cy.getFormInput('passwords.password2').type('123456');
-
-  cy.clickOnSubmitButton();
-  cy.checkDisabledSubmitButton();
-  cy.wait(3000);
-  return cy.wrap(email) as Cypress.Chainable<string>;
+Cypress.Commands.add('clearInputBasicSearchBar', () => {
+  cy.get('button[data-testid="btn-clear-basic-searchbar"]').click();
 });
+
+// Users module
+Cypress.Commands.add(
+  'createUser',
+  function ({
+    firstName,
+    lastName,
+    email,
+    cellPhoneNumber,
+    password1,
+    password2,
+  }: {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    cellPhoneNumber?: string;
+    password1?: string;
+    password2?: string;
+  } = {}): Cypress.Chainable<string> {
+    cy.navigateToModuleWithSideBar('users');
+    cy.wait(3000);
+    cy.clickOnCreateButton();
+
+    const defaultFirstName = 'UserName';
+    const defaultLastName = 'LastName';
+    const randomNum = Math.floor(10 + Math.random() * 90);
+    const randomLetter = String.fromCharCode(
+      97 + Math.floor(Math.random() * 26)
+    ); // letra aleatoria a-z
+    const defaultEmail = `emailtest${randomNum}${randomLetter}@gmail.com`;
+    const defaultCellPhoneNumber = '3123456547';
+    const defaultPassword = '123456';
+
+    const usedFirstName = firstName ?? defaultFirstName;
+    const usedLastName = lastName ?? defaultLastName;
+    const usedEmail = email ?? defaultEmail;
+    const usedCellPhoneNumber = cellPhoneNumber ?? defaultCellPhoneNumber;
+    const usedPassword1 = password1 ?? defaultPassword;
+    const usedPassword2 = password2 ?? defaultPassword;
+
+    cy.getFormInput('first_name').type(usedFirstName);
+    cy.getFormInput('last_name').type(usedLastName);
+    cy.getFormInput('email').type(usedEmail);
+    cy.getFormInput('cell_phone_number').type(usedCellPhoneNumber);
+    cy.getFormInput('passwords.password1').type(usedPassword1);
+    cy.getFormInput('passwords.password2').type(usedPassword2);
+
+    cy.clickOnSubmitButton();
+    cy.checkDisabledSubmitButton();
+    cy.wait(3000);
+    return cy.wrap(usedEmail) as Cypress.Chainable<string>;
+  }
+);
 
 // Declaraciones de tipos para TypeScript
 declare namespace Cypress {
@@ -217,7 +261,18 @@ declare namespace Cypress {
     clickOnSubmitButton(): Chainable<void>;
     checkDisabledSubmitButton(): Chainable<void>;
 
+    clickOnSubmitBasicSearchBar(): Chainable<void>;
+    typeOnInputBasicSearchBar(value: string): Chainable<void>;
+    clearInputBasicSearchBar(): Chainable<void>;
+
     // Users module
-    createUser(): Chainable<string>;
+    createUser(data: {
+      firstName?: string;
+      lastName?: string;
+      email?: string;
+      cellPhoneNumber?: string;
+      password1?: string;
+      password2?: string;
+    }): Chainable<string>;
   }
 }

@@ -44,7 +44,7 @@ describe('Modulo de usuarios', () => {
   });
 
   it('Modificar usuario existente', () => {
-    cy.createUser().then((email) => {
+    cy.createUser({}).then((email) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.get('button[data-testid="btn-actions-table"]').click();
       cy.get('a[data-testid="link-update-record"]').click();
@@ -60,7 +60,7 @@ describe('Modulo de usuarios', () => {
   });
 
   it('Eliminar usuario', () => {
-    cy.createUser().then((email) => {
+    cy.createUser({}).then((email) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.get('button[data-testid="btn-actions-table"]').click();
       cy.get('button[data-testid="btn-delete-one-record"]').click();
@@ -72,7 +72,7 @@ describe('Modulo de usuarios', () => {
   });
 
   it('Copiar Id del usuario', () => {
-    cy.createUser().then((email) => {
+    cy.createUser({}).then((email) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.get('button[data-testid="btn-actions-table"]').click();
       cy.get('button[data-testid="btn-copy-id"]').click();
@@ -82,7 +82,7 @@ describe('Modulo de usuarios', () => {
   });
 
   it('Ver registro de usuario', () => {
-    cy.createUser().then((email) => {
+    cy.createUser({}).then((email) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.get('button[data-testid="btn-actions-table"]').click();
       cy.get('a[data-testid="link-view-record"]').click();
@@ -95,7 +95,7 @@ describe('Modulo de usuarios', () => {
     });
   });
   it('Cambiar estado de usuario', () => {
-    cy.createUser().then((email) => {
+    cy.createUser({}).then((email) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.get('button[data-testid="btn-actions-table"]').click();
       cy.contains('Desactivar');
@@ -115,7 +115,7 @@ describe('Modulo de usuarios', () => {
   });
 
   it('Restablecer contraseña de usuario', () => {
-    cy.createUser().then((email) => {
+    cy.createUser({}).then((email) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.get('button[data-testid="btn-actions-table"]').click();
       cy.get('button[data-testid="btn-reset-password-user"]').click();
@@ -132,8 +132,8 @@ describe('Modulo de usuarios', () => {
   });
 
   //Otras pruebas
-  it.only('Intentar ingresar al sistema con un usuario desactivado', () => {
-    cy.createUser().then((email) => {
+  it('Intentar ingresar al sistema con un usuario desactivado', () => {
+    cy.createUser({}).then((email) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.get('button[data-testid="btn-actions-table"]').click();
       cy.contains('Desactivar');
@@ -145,7 +145,6 @@ describe('Modulo de usuarios', () => {
     });
   });
 
-  //TODO: Realizar busqueda de usuario
   //TODO: Crear usuario con permisos
   //TODO: Ingresar usuario con permisos y verificar que esten visibles y disponibles
   //TODO: Cambiar contraseña
@@ -157,4 +156,43 @@ describe('Modulo de usuarios', () => {
   //TODO: Probar ingreso al modulo mediante comando de teclado
   //TODO: Probar mensaje de alerta al salir sin guardar cambios
   //TODO: Probar mensajes de error con formulario vacio
+});
+
+//TODO: Realizar busqueda de usuario
+describe.only('Encuentra registros de acuerdo a la cadena de busqueda', () => {
+  const userData = {
+    firstName: 'usertosearch',
+    lastName: 'lasttosearch',
+    email: '',
+  };
+
+  beforeEach(() => {
+    userData.email = `testuser${Math.floor(
+      Math.random() * 10000
+    )}@fakeemail.com`;
+    cy.loginUser();
+    cy.createUser(userData);
+  });
+
+  it('Busqueda por nombre(s) del usuario', () => {
+    cy.typeOnInputBasicSearchBar(userData.firstName);
+    cy.clickOnSubmitBasicSearchBar();
+    cy.get('tbody tr')
+      .filter(`:contains(${userData.firstName})`)
+      .should('have.length.greaterThan', 1);
+  });
+  it('Busqueda por apellido(s) del usuario', () => {
+    cy.typeOnInputBasicSearchBar(userData.lastName);
+    cy.clickOnSubmitBasicSearchBar();
+    cy.get('tbody tr')
+      .filter(`:contains(${userData.lastName})`)
+      .should('have.length.greaterThan', 1);
+  });
+  it.only('Busqueda por correo del usuario', () => {
+    cy.typeOnInputBasicSearchBar(userData.email.split('@')[0]);
+    cy.clickOnSubmitBasicSearchBar();
+    cy.get('tbody tr')
+      .filter(`:contains(${userData.email})`)
+      .should('have.length', 1);
+  });
 });
