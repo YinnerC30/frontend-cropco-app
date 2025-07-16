@@ -46,7 +46,7 @@ describe('Modulo de usuarios', () => {
       });
   });
 
-  it.only('Debe deseleccionar todos los elementos al dar clic nuevamente en el checkbox del encabezado', () => {
+  it('Debe deseleccionar todos los elementos al dar clic nuevamente en el checkbox del encabezado', () => {
     cy.wait(2000);
     cy.get('button[aria-label="Select all"]').click(); // Selecciona todos
     cy.get('span[data-testid="data-table-row-selection-number"]')
@@ -403,5 +403,35 @@ describe('Auth modulo de usuarios', () => {
   });
 });
 
-// TODO: Por implementar
-describe('Paginado y selectores', () => {});
+describe.only('Paginado y selectores', () => {
+  before(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('users');
+    cy.get('span[data-testid="data-table-row-total"]')
+      .invoke('text')
+      .then((text) => {
+        const total = parseInt(text, 10);
+        if (total >= 15) {
+          for (let index = 0; index < 15; index++) {
+            cy.createUserFast();
+          }
+        }
+      });
+  });
+  it('Navegar entre paginas disponibles', () => {
+    cy.get('p[data-testid="data-table-page-info-number"]').contains(
+      'Página 1 de'
+    );
+    cy.get('button[data-testid="btn-go-next-page"]').click();
+    cy.get('p[data-testid="data-table-page-info-number"]').contains(
+      'Página 2 de'
+    );
+    cy.get('button[data-testid="btn-go-previous-page"]').click();
+    cy.get('p[data-testid="data-table-page-info-number"]').contains(
+      'Página 1 de'
+    );
+    // cy.get('button[data-testid="btn-go-previous-page"]').should('exist');
+    // cy.get('button[data-testid="btn-go-next-page"]').should('exist');
+    // cy.get('button[data-testid="btn-go-last-page"]').should('exist');
+  });
+});

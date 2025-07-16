@@ -386,6 +386,32 @@ Cypress.Commands.add(
   }
 );
 
+Cypress.Commands.add('createUserFast', function (): void {
+  cy.visit('/app/home/users/create/one');
+  const defaultFirstName = InformationGenerator.generateFirstName();
+  const defaultLastName = InformationGenerator.generateLastName();
+
+  const defaultEmail = InformationGenerator.generateEmail();
+  const defaultCellPhoneNumber = InformationGenerator.generateCellPhoneNumber();
+
+  const defaultPassword = '123456';
+
+  const usedFirstName = defaultFirstName;
+  const usedLastName = defaultLastName;
+
+  const usedEmail = defaultEmail;
+  const usedCellPhoneNumber = defaultCellPhoneNumber;
+  const usedPassword1 = defaultPassword;
+  const usedPassword2 = defaultPassword;
+  cy.getFormInput('first_name').type(usedFirstName);
+  cy.getFormInput('last_name').type(usedLastName);
+  cy.getFormInput('email').type(usedEmail);
+  cy.getFormInput('cell_phone_number').type(usedCellPhoneNumber);
+  cy.getFormInput('passwords.password1').type(usedPassword1);
+  cy.getFormInput('passwords.password2').type(usedPassword2);
+  cy.clickOnSubmitButton();
+});
+
 // /**
 //  * Intercepta una solicitud a una API REST y obtiene el body de la respuesta o el error.
 //  * @param endpoint Endpoint de la API (ej: '/api/users')
@@ -634,6 +660,8 @@ declare global {
         password1?: string;
         password2?: string;
       }): Chainable<any>;
+
+      createUserFast(): Chainable<any>;
 
       /**
        * Hace clic en el botón de acciones de una fila de la tabla por id.
