@@ -241,6 +241,17 @@ describe.only('Creación de usuarios', () => {
 
     cy.clickOnSubmitButton();
     cy.checkDisabledSubmitButton();
+    cy.intercept('POST', 'http://localhost:3000/users/create').as('createUser');
+    cy.wait('@createUser').then((interception) => {
+      // Puedes hacer assertions sobre la respuesta si lo deseas
+      expect(interception.response?.statusCode).to.eq(201);
+      // Interceptar y verificar el body de la respuesta
+      // expect(interception.response?.body).to.have.property('user');
+      // expect(interception.response?.body.user).to.have.property('email');
+      // expect(interception.response?.body.user.email).to.eq(defaultEmail);
+      // También puedes inspeccionar el body de la respuesta:
+      // cy.log(JSON.stringify(interception.response.body));
+    });
     cy.contains('Usuario creado');
   });
 });
