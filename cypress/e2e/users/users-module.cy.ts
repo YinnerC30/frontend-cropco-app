@@ -265,7 +265,7 @@ describe('Creación de usuarios', () => {
     cy.getFormInput('first_name').type('UserName');
     cy.navigateToModuleWithSideBar('users');
     cy.checkMessageLostFormData();
-    cy.get('button[aria-label="Close toast"]').click({ multiple: true });
+    cy.get('button[aria-label="Close toast"]').click();
     cy.url().should('include', '/app/home/users/create');
   });
 });
@@ -328,7 +328,7 @@ describe('Modificación de usuarios', () => {
       cy.getFormInput('first_name').type('UserName');
       cy.navigateToModuleWithSideBar('users');
       cy.checkMessageLostFormData();
-      cy.get('button[aria-label="Close toast"]').click({ multiple: true });
+      cy.get('button[aria-label="Close toast"]').click();
       cy.url().should('include', '/app/home/users/update');
     });
   });

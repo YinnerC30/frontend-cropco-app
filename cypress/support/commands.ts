@@ -28,6 +28,7 @@ Cypress.Commands.add(
       .click();
     cy.contains('Bienvenid@ a CropCo').should('be.visible');
     cy.url().should('include', '/app/home/page');
+    cy.get('button[aria-label="Close toast"]').click();
   }
 );
 
