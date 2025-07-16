@@ -59,9 +59,8 @@ describe('Modulo de usuarios', () => {
     });
   });
 
-  it.only('Eliminar usuario', () => {
+  it('Eliminar usuario', () => {
     cy.createUser().then((email) => {
-      cy.wait(3000);
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.get('button[data-testid="btn-actions-table"]').click();
       cy.get('button[data-testid="btn-delete-one-record"]').click();
@@ -69,6 +68,16 @@ describe('Modulo de usuarios', () => {
 
       cy.contains('Usuario eliminado');
       cy.contains('No hay registros');
+    });
+  });
+
+  it.only('Copiar Id del usuario', () => {
+    cy.createUser().then((email) => {
+      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.get('button[data-testid="btn-actions-table"]').click();
+      cy.get('button[data-testid="btn-copy-id"]').click();
+
+      cy.contains('Id copiado al portapapeles');
     });
   });
 });

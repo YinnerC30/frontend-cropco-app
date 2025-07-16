@@ -150,7 +150,8 @@ Cypress.Commands.add('createUser', function (): Cypress.Chainable<string> {
   cy.getFormInput('first_name').type('UserName');
   cy.getFormInput('last_name').type('LastName');
   const randomNum = Math.floor(10 + Math.random() * 90);
-  const email = `emailtest${randomNum}@gmail.com`;
+  const randomLetter = String.fromCharCode(97 + Math.floor(Math.random() * 26)); // letra aleatoria a-z
+  const email = `emailtest${randomNum}${randomLetter}@gmail.com`;
   cy.getFormInput('email').type(email);
   cy.getFormInput('cell_phone_number').type('3123456547');
   cy.getFormInput('passwords.password1').type('123456');
@@ -158,6 +159,7 @@ Cypress.Commands.add('createUser', function (): Cypress.Chainable<string> {
 
   cy.clickOnSubmitButton();
   cy.checkDisabledSubmitButton();
+  cy.wait(3000);
   return cy.wrap(email) as Cypress.Chainable<string>;
 });
 

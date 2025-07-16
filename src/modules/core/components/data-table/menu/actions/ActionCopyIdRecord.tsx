@@ -21,6 +21,7 @@ export const ActionCopyIdRecord = ({ id }: Props) => {
         }}
         variant={'ghost'}
         className="cursor-pointer"
+        data-testid="btn-copy-id"
       >
         <Clipboard className="w-4 h-4 mr-2" /> Copiar Id
       </Button>
