@@ -375,8 +375,6 @@ Cypress.Commands.add(
     cy.getFormInput('cell_phone_number').type(usedCellPhoneNumber);
     cy.getFormInput('passwords.password1').type(usedPassword1);
     cy.getFormInput('passwords.password2').type(usedPassword2);
-    // cy.clickOnSubmitButton();
-    // cy.wait(300)
 
     // Define el intercept antes de disparar la acción para capturar el response original
     cy.intercept('POST', creationUserEndpoint).as('createUserRequest');
@@ -387,32 +385,32 @@ Cypress.Commands.add(
   }
 );
 
-/**
- * Intercepta una solicitud a una API REST y obtiene el body de la respuesta o el error.
- * @param endpoint Endpoint de la API (ej: '/api/users')
- * @param method Método HTTP (ej: 'GET', 'POST', etc.)
- * @param options { get: 'body' | 'error' } (por defecto: 'body')
- * @example
- * cy.interceptApiRequest('/api/users', 'GET').then((body) => { ... });
- * cy.interceptApiRequest('/api/users', 'POST', { get: 'error' }).then((error) => { ... });
- */
-Cypress.Commands.add(
-  'interceptApiRequest',
-  (
-    endpoint: string,
-    method: string,
-    options: { get?: 'body' | 'error' } = { get: 'body' }
-  ) => {
-    cy.intercept({ method, url: endpoint }).as('apiRequest');
-    // Espera la solicitud y retorna el body o el error
-    return cy.wait('@apiRequest').then((interception) => {
-      if (options.get === 'error') {
-        return interception.error;
-      }
-      return interception.response?.body;
-    });
-  }
-);
+// /**
+//  * Intercepta una solicitud a una API REST y obtiene el body de la respuesta o el error.
+//  * @param endpoint Endpoint de la API (ej: '/api/users')
+//  * @param method Método HTTP (ej: 'GET', 'POST', etc.)
+//  * @param options { get: 'body' | 'error' } (por defecto: 'body')
+//  * @example
+//  * cy.interceptApiRequest('/api/users', 'GET').then((body) => { ... });
+//  * cy.interceptApiRequest('/api/users', 'POST', { get: 'error' }).then((error) => { ... });
+//  */
+// Cypress.Commands.add(
+//   'interceptApiRequest',
+//   (
+//     endpoint: string,
+//     method: string,
+//     options: { get?: 'body' | 'error' } = { get: 'body' }
+//   ) => {
+//     cy.intercept({ method, url: endpoint }).as('apiRequest');
+//     // Espera la solicitud y retorna el body o el error
+//     return cy.wait('@apiRequest').then((interception) => {
+//       if (options.get === 'error') {
+//         return interception.error;
+//       }
+//       return interception.response?.body;
+//     });
+//   }
+// );
 
 /**
  * Crea un usuario con datos aleatorios usando InformationGenerator.
@@ -605,17 +603,17 @@ declare global {
         password2?: string;
       }): Chainable<any>;
 
-      /**
-       * Intercepta una solicitud a una API REST y obtiene el body de la respuesta o el error.
-       * @param endpoint Endpoint de la API
-       * @param method Método HTTP
-       * @param options { get: 'body' | 'error' }
-       */
-      interceptApiRequest(
-        endpoint: string,
-        method: string,
-        options?: { get?: 'body' | 'error' }
-      ): Chainable<any>;
+      // /**
+      //  * Intercepta una solicitud a una API REST y obtiene el body de la respuesta o el error.
+      //  * @param endpoint Endpoint de la API
+      //  * @param method Método HTTP
+      //  * @param options { get: 'body' | 'error' }
+      //  */
+      // interceptApiRequest(
+      //   endpoint: string,
+      //   method: string,
+      //   options?: { get?: 'body' | 'error' }
+      // ): Chainable<any>;
 
       /**
        * Crea un usuario con datos aleatorios usando InformationGenerator.
