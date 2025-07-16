@@ -24,6 +24,7 @@ export const ActionsTable = ({ open, onChange, children }: Props) => {
           variant="ghost"
           className="w-8 h-8 p-0 "
           onClick={() => onChange(!open)}
+          data-testid='btn-actions-table'
         >
           <span className="sr-only">Abrir menu</span>
           <MoreHorizontal className="w-4 h-4" />

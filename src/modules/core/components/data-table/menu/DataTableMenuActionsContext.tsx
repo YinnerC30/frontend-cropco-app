@@ -42,6 +42,7 @@ export const DataTableMenuActionsProvider = ({
             variant="ghost"
             className="w-8 h-8 p-0 "
             onClick={() => toggleOpen(!open)}
+            data-testid="btn-actions-table"
           >
             <span className="sr-only">Abrir menu</span>
             <MoreHorizontal className="w-4 h-4" />

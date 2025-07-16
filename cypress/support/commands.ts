@@ -142,6 +142,25 @@ Cypress.Commands.add('checkDisabledSubmitButton', () => {
   cy.get('button[data-testid="form-submit-button"]').should('be.disabled');
 });
 
+// Users module
+Cypress.Commands.add('createUser', function (): Cypress.Chainable<string> {
+  cy.navigateToModuleWithSideBar('users');
+  cy.wait(3000);
+  cy.clickOnCreateButton();
+  cy.getFormInput('first_name').type('UserName');
+  cy.getFormInput('last_name').type('LastName');
+  const randomNum = Math.floor(10 + Math.random() * 90);
+  const email = `emailtest${randomNum}@gmail.com`;
+  cy.getFormInput('email').type(email);
+  cy.getFormInput('cell_phone_number').type('3123456547');
+  cy.getFormInput('passwords.password1').type('123456');
+  cy.getFormInput('passwords.password2').type('123456');
+
+  cy.clickOnSubmitButton();
+  cy.checkDisabledSubmitButton();
+  return cy.wrap(email) as Cypress.Chainable<string>;
+});
+
 // Declaraciones de tipos para TypeScript
 declare namespace Cypress {
   interface Chainable<Subject = any> {
@@ -195,5 +214,8 @@ declare namespace Cypress {
     clickOnCreateButton(): Chainable<void>;
     clickOnSubmitButton(): Chainable<void>;
     checkDisabledSubmitButton(): Chainable<void>;
+
+    // Users module
+    createUser(): Chainable<string>;
   }
 }

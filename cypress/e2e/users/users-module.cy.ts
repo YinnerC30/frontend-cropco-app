@@ -42,4 +42,33 @@ describe('Modulo de usuarios', () => {
     cy.checkDisabledSubmitButton();
     cy.contains('Usuario creado');
   });
+
+  it('Modificar usuario existente', () => {
+    cy.createUser().then((email) => {
+      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.get('button[data-testid="btn-actions-table"]').click();
+      cy.get('a[data-testid="link-update-record"]').click();
+      cy.getFormInput('first_name').clear().type('UserNameChanged');
+      cy.getFormInput('last_name').clear().type('LastNameChanged');
+      const randomNum = Math.floor(10 + Math.random() * 90);
+      cy.getFormInput('email').clear().type(`emailtest${randomNum}@gmail.com`);
+      cy.getFormInput('cell_phone_number').clear().type('3123451111');
+      cy.clickOnSubmitButton();
+      cy.checkDisabledSubmitButton();
+      cy.contains('Usuario actualizado');
+    });
+  });
+
+  it.only('Eliminar usuario', () => {
+    cy.createUser().then((email) => {
+      cy.wait(3000);
+      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.get('button[data-testid="btn-actions-table"]').click();
+      cy.get('button[data-testid="btn-delete-one-record"]').click();
+      cy.get('button[data-testid="btn-continue-delete-one-record"]').click();
+
+      cy.contains('Usuario eliminado');
+      cy.contains('No hay registros');
+    });
+  });
 });

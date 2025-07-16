@@ -10,6 +10,7 @@ interface Props {
   name: string;
   disabled?: boolean;
   target?: string;
+  dataTestId?: string;
 }
 
 export const ActionNavigate = ({
@@ -18,10 +19,12 @@ export const ActionNavigate = ({
   name,
   disabled = false,
   target = '_self',
+  dataTestId = 'link-navigate-template',
 }: Props) => {
   return (
     <DropdownMenuItem asChild disabled={disabled}>
       <Link
+        data-testid={dataTestId}
         to={`${!disabled ? path : ''}`}
         target={target}
         className={`${disabled && 'opacity-50'}  ${
