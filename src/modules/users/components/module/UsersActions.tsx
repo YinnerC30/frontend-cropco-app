@@ -31,7 +31,7 @@ export const UsersActions: React.FC = () => {
         onClick={async () => {
           await queryUsers.refetch();
         }}
-        disabled={!actionsUsersModule['find_all_users']}
+        disabled={!actionsUsersModule['find_all_users'] || queryUsers.isFetching}
         // disabled={false}
         className=""
       />

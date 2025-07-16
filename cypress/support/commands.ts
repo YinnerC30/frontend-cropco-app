@@ -444,6 +444,27 @@ Cypress.Commands.add('clickActionsButtonTableRow', (id: string | number) => {
   cy.get(`button[data-testid="btn-actions-table-row-id-${id}"]`).click();
 });
 
+/**
+ * Hace clic en el botón de refetch.
+ * @example
+ * cy.clickRefetchButton();
+ */
+Cypress.Commands.add('clickRefetchButton', () => {
+  cy.get('button[data-testid="btn-refetch-data"]').click();
+});
+
+/**
+ * Verifica si el botón de refetch está habilitado o deshabilitado.
+ * @param shouldBeEnabled true si debe estar habilitado, false si debe estar deshabilitado
+ * @example
+ * cy.checkRefetchButtonState(true); // Verifica que está habilitado
+ * cy.checkRefetchButtonState(false); // Verifica que está deshabilitado
+ */
+Cypress.Commands.add('checkRefetchButtonState', (shouldBeEnabled: boolean) => {
+  const assertion = shouldBeEnabled ? 'not.be.disabled' : 'be.disabled';
+  cy.get('button[data-testid="btn-refetch-data"]').should(assertion);
+});
+
 // =================================================
 // 7. Declaraciones de Tipos para TypeScript
 // =================================================
@@ -619,6 +640,17 @@ declare global {
        * @param id Identificador de la fila
        */
       clickActionsButtonTableRow(id: string | number): Chainable<void>;
+
+      /**
+       * Hace clic en el botón de refetch.
+       */
+      clickRefetchButton(): Chainable<void>;
+
+      /**
+       * Verifica si el botón de refetch está habilitado o deshabilitado.
+       * @param shouldBeEnabled true si debe estar habilitado, false si debe estar deshabilitado
+       */
+      checkRefetchButtonState(shouldBeEnabled: boolean): Chainable<void>;
 
       // /**
       //  * Intercepta una solicitud a una API REST y obtiene el body de la respuesta o el error.

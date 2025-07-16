@@ -29,97 +29,15 @@ describe('Modulo de usuarios', () => {
     cy.existPaginationButtons();
   });
 
-  it('Eliminar usuario', () => {
-    cy.createUser({}).then(({ email, id }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
-      cy.clickActionsButtonTableRow(id);
-      cy.get('button[data-testid="btn-delete-one-record"]').click();
-      cy.get('button[data-testid="btn-continue-delete-one-record"]').click();
-
-      cy.contains('Usuario eliminado');
-      cy.contains('No hay registros');
-    });
+  it.only('Debe mostrar el loading cuando se intenta forzar la recarga de datos', () => {
+    cy.clickRefetchButton();
+    cy.checkRefetchButtonState(false);
+    cy.contains('Cargando información');
   });
 
-  it('Copiar Id del usuario', () => {
-    cy.createUser({}).then(({ email, id }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
-      cy.clickActionsButtonTableRow(id);
-      cy.get('button[data-testid="btn-copy-id"]').click();
-
-      cy.contains('Id copiado al portapapeles');
-    });
-  });
-
-  it('Ver registro de usuario', () => {
-    cy.createUser({}).then(({ email, id }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
-      cy.clickActionsButtonTableRow(id);
-      cy.get('a[data-testid="link-view-record"]').click();
-      cy.contains('Información');
-      cy.getFormInput('first_name').should('have.value', 'UserName');
-      cy.getFormInput('last_name').should('have.value', 'LastName');
-      cy.getFormInput('email').should('have.value', email);
-      cy.getFormInput('cell_phone_number').should('have.value', '3123456547');
-      cy.contains('Volver');
-    });
-  });
-
-  it('Cambiar estado de usuario', () => {
-    cy.createUser({}).then(({ email, id }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
-      cy.clickActionsButtonTableRow(id);
-      cy.contains('Desactivar');
-      cy.get('button[data-testid="btn-toggle-status-user"]').click();
-      cy.get('button[data-testid="btn-toggle-status-user"]').should(
-        'be.disabled'
-      );
-      cy.contains('El estado del usuario ha sido actualizado con éxito.');
-      cy.clickActionsButtonTableRow(id);
-      cy.contains('Activar');
-      cy.get('button[data-testid="btn-toggle-status-user"]').click();
-      cy.get('button[data-testid="btn-toggle-status-user"]').should(
-        'be.disabled'
-      );
-      cy.contains('El estado del usuario ha sido actualizado con éxito.');
-    });
-  });
-
-  it('Restablecer contraseña de usuario', () => {
-    cy.createUser({}).then(({ email, id }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
-      cy.get(`button[data-testid="btn-actions-table-row-id-${id}"]`).click();
-      cy.get('button[data-testid="btn-reset-password-user"]').click();
-      cy.getFormInput('email').should('have.value', email);
-      cy.get('button[data-testid="btn-execute-reset-password"]').click();
-      cy.get('button[data-testid="btn-execute-reset-password"]').should(
-        'be.disabled'
-      );
-      cy.contains('Contraseña restablecida');
-      cy.getFormInput('password').invoke('val').should('not.be.empty');
-      cy.get('button[data-testid="btn-copy-pass"]').click();
-      cy.contains('Contraseña copiada al portapapeles');
-    });
-  });
-
-  it('Intentar ingresar al sistema con un usuario desactivado', () => {
-    cy.createUser({}).then(({ id, email }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
-      cy.get(`button[data-testid="btn-actions-table-row-id-${id}"]`).click();
-      cy.contains('Desactivar');
-      cy.get('button[data-testid="btn-toggle-status-user"]').click();
-      cy.contains('El estado del usuario ha sido actualizado con éxito.');
-      cy.logoutUser();
-      cy.attemptInvalidLogin(email, '123456');
-      cy.contains('El usuario se encuentra desactivado');
-    });
-  });
-
-  //TODO: Crear usuario con permisos
   //TODO: Ingresar usuario con permisos y verificar que esten visibles y disponibles
   //TODO: Cambiar contraseña
   //TODO: Probar paginado
-  //TODO: Probar refetch data
   //TODO: Probar elminiación por lotes
   //TODO: Probar selección
   //TODO: Probar orden de datos en las tablas
@@ -328,3 +246,133 @@ describe('Modificación de usuarios', () => {
     });
   });
 });
+
+describe('Eliminación de usuario', () => {
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('users');
+  });
+
+  it('Eliminar usuario', () => {
+    cy.createUser({}).then(({ email, id }) => {
+      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.clickActionsButtonTableRow(id);
+      cy.get('button[data-testid="btn-delete-one-record"]').click();
+      cy.get('button[data-testid="btn-continue-delete-one-record"]').click();
+
+      cy.contains('Usuario eliminado');
+      cy.contains('No hay registros');
+    });
+  });
+});
+
+describe('Copiar Id de registro', () => {
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('users');
+  });
+
+  it('Copiar Id del usuario', () => {
+    cy.createUser({}).then(({ email, id }) => {
+      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.clickActionsButtonTableRow(id);
+      cy.get('button[data-testid="btn-copy-id"]').click();
+
+      cy.contains('Id copiado al portapapeles');
+    });
+  });
+});
+
+describe('Ver registro de usuario', () => {
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('users');
+  });
+
+  it('Ver registro de usuario', () => {
+    cy.createUser({}).then(({ email, id }) => {
+      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.clickActionsButtonTableRow(id);
+      cy.get('a[data-testid="link-view-record"]').click();
+      cy.contains('Información');
+      cy.getFormInput('first_name').should('have.value', 'UserName');
+      cy.getFormInput('last_name').should('have.value', 'LastName');
+      cy.getFormInput('email').should('have.value', email);
+      cy.getFormInput('cell_phone_number').should('have.value', '3123456547');
+      cy.contains('Volver');
+    });
+  });
+});
+
+describe('Cambiar estado de usuario', () => {
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('users');
+  });
+
+  it('Cambiar estado de usuario', () => {
+    cy.createUser({}).then(({ email, id }) => {
+      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.clickActionsButtonTableRow(id);
+      cy.contains('Desactivar');
+      cy.get('button[data-testid="btn-toggle-status-user"]').click();
+      cy.get('button[data-testid="btn-toggle-status-user"]').should(
+        'be.disabled'
+      );
+      cy.contains('El estado del usuario ha sido actualizado con éxito.');
+      cy.clickActionsButtonTableRow(id);
+      cy.contains('Activar');
+      cy.get('button[data-testid="btn-toggle-status-user"]').click();
+      cy.get('button[data-testid="btn-toggle-status-user"]').should(
+        'be.disabled'
+      );
+      cy.contains('El estado del usuario ha sido actualizado con éxito.');
+    });
+  });
+});
+
+describe('Reset password user', () => {
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('users');
+  });
+  it('Restablecer contraseña de usuario', () => {
+    cy.createUser({}).then(({ email, id }) => {
+      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.get(`button[data-testid="btn-actions-table-row-id-${id}"]`).click();
+      cy.get('button[data-testid="btn-reset-password-user"]').click();
+      cy.getFormInput('email').should('have.value', email);
+      cy.get('button[data-testid="btn-execute-reset-password"]').click();
+      cy.get('button[data-testid="btn-execute-reset-password"]').should(
+        'be.disabled'
+      );
+      cy.contains('Contraseña restablecida');
+      cy.getFormInput('password').invoke('val').should('not.be.empty');
+      cy.get('button[data-testid="btn-copy-pass"]').click();
+      cy.contains('Contraseña copiada al portapapeles');
+    });
+  });
+});
+
+describe('Auth modulo de usuarios', () => {
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('users');
+  });
+
+  it('Intentar ingresar al sistema con un usuario desactivado', () => {
+    cy.createUser({}).then(({ id, email }) => {
+      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.get(`button[data-testid="btn-actions-table-row-id-${id}"]`).click();
+      cy.contains('Desactivar');
+      cy.get('button[data-testid="btn-toggle-status-user"]').click();
+      cy.contains('El estado del usuario ha sido actualizado con éxito.');
+      cy.logoutUser();
+      cy.attemptInvalidLogin(email, '123456');
+      cy.contains('El usuario se encuentra desactivado');
+    });
+  });
+});
+
+// TODO: Por implementar
+describe('Paginado y selectores', () => {});
