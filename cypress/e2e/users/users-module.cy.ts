@@ -144,4 +144,17 @@ describe('Modulo de usuarios', () => {
       cy.contains('El usuario se encuentra desactivado');
     });
   });
+
+  //TODO: Realizar busqueda de usuario
+  //TODO: Crear usuario con permisos
+  //TODO: Ingresar usuario con permisos y verificar que esten visibles y disponibles
+  //TODO: Cambiar contraseña
+  //TODO: Probar paginado
+  //TODO: Probar refetch data
+  //TODO: Probar elminiación por lotes
+  //TODO: Probar selección
+  //TODO: Probar orden de datos en las tablas
+  //TODO: Probar ingreso al modulo mediante comando de teclado
+  //TODO: Probar mensaje de alerta al salir sin guardar cambios
+  //TODO: Probar mensajes de error con formulario vacio
 });
