@@ -29,10 +29,39 @@ describe('Modulo de usuarios', () => {
     cy.existPaginationButtons();
   });
 
-  it.only('Debe mostrar el loading cuando se intenta forzar la recarga de datos', () => {
+  it('Debe mostrar el loading cuando se intenta forzar la recarga de datos', () => {
     cy.clickRefetchButton();
     cy.checkRefetchButtonState(false);
     cy.contains('Cargando información');
+  });
+
+  it('Se puede seleccionar todos los elementos al dar clic sobre el checkbox del encabezado', () => {
+    cy.wait(2000);
+    cy.get('button[aria-label="Select all"]').click();
+    cy.get('span[data-testid="data-table-row-selection-number"]')
+      .invoke('text')
+      .then((text) => {
+        const value = Number(text.trim());
+        expect(value).to.be.greaterThan(0);
+      });
+  });
+
+  it.only('Debe deseleccionar todos los elementos al dar clic nuevamente en el checkbox del encabezado', () => {
+    cy.wait(2000);
+    cy.get('button[aria-label="Select all"]').click(); // Selecciona todos
+    cy.get('span[data-testid="data-table-row-selection-number"]')
+      .invoke('text')
+      .then((text) => {
+        const value = Number(text.trim());
+        expect(value).to.be.greaterThan(0);
+      });
+    cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
+    cy.get('span[data-testid="data-table-row-selection-number"]')
+      .invoke('text')
+      .then((text) => {
+        const value = Number(text.trim());
+        expect(value).to.equal(0);
+      });
   });
 
   //TODO: Ingresar usuario con permisos y verificar que esten visibles y disponibles
