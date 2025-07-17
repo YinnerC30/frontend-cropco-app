@@ -299,7 +299,7 @@ describe('Modificación de usuarios', () => {
     });
   });
 
-  it.only('Al modificar los permisos del usuario activo en la sesión se actualizan sus permisos al instante', () => {
+  it('Al modificar los permisos del usuario activo en la sesión se actualizan sus permisos al instante', () => {
     cy.createUserAnd({ selectedModules: ['users', 'clients'] }, (data) => {
       cy.logoutUser();
       cy.loginUser(data.email, data.password);
@@ -455,6 +455,37 @@ describe('Cambiar estado de usuario', () => {
       );
       cy.contains('El estado del usuario ha sido actualizado con éxito.');
     });
+  });
+
+  it.only('Se actualizara el estado y se cerrara la sesión del usuario que intente desactivarse', () => {
+    cy.createUserAnd(
+      { selectedModules: ['users'] },
+      ({ email, id, password }) => {
+        cy.logoutUser();
+        cy.loginUser(email, password);
+        cy.visit(`/app/home/users/view/all?query=${email}`);
+        cy.clickActionsButtonTableRow(id);
+        cy.contains('Desactivar');
+        cy.get('button[data-testid="btn-toggle-status-user"]').click();
+        cy.contains('Se cerrara la sesión');
+        cy.contains(
+          'Esta por desactivar su usuario, si desea continuar por favor presione "Desactivar"'
+        );
+        cy.get('button[data-button]').contains('Desactivar');
+        cy.get('button[data-button]').click();
+        // cy.contains('El estado del usuario ha sido actualizado con éxito.');
+        // cy.clickActionsButtonTableRow(id);
+        // cy.contains('Activar');
+        // cy.get('button[data-testid="btn-toggle-status-user"]').click();
+        // cy.get('button[data-testid="btn-toggle-status-user"]').should(
+        //   'be.disabled'
+        // );
+        cy.contains('El estado del usuario ha sido actualizado con éxito.');
+        cy.contains('Tu sesión ha terminado, seras redirigido al login');
+        cy.wait(2000);
+        cy.shouldNotBeAuthenticated();
+      }
+    );
   });
 });
 
