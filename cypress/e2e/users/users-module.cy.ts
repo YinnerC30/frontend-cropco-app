@@ -336,6 +336,7 @@ describe('Eliminación de usuarios por lote', () => {
     for (let index = 0; index < 2; index++) {
       cy.createUserFast({ firstName: 'UserToRemoveBulk' });
     }
+    cy.logoutUser();
   });
 
   it('Eliminar usuarios seleccionados', () => {
@@ -487,9 +488,11 @@ describe('Paginado y selectores', () => {
             cy.createUserFast({});
           }
         }
+        cy.logoutUser();
       });
   });
   it('Navegar entre paginas disponibles (10 registro por página - default)', () => {
+    cy.loginUser();
     cy.navigateToModuleWithSideBar('users');
     cy.wait(2000);
     cy.checkPaginationValues();
@@ -504,6 +507,7 @@ describe('Paginado y selectores', () => {
   });
 
   it('Navegar entre paginas disponibles (20 registro por página)', () => {
+    cy.loginUser();
     cy.navigateToModuleWithSideBar('users');
     cy.wait(2000);
     cy.get('button[data-testid="btn-page-size-selector"]').click();
