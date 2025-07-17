@@ -483,8 +483,8 @@ describe('Paginado y selectores', () => {
       .invoke('text')
       .then((text) => {
         const total = parseInt(text, 10);
-        if (total <= 15) {
-          for (let index = 0; index < 15; index++) {
+        if (total <= 11) {
+          for (let index = 0; index < 11; index++) {
             cy.createUserFast({});
           }
         }

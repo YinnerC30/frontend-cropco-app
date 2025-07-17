@@ -22,9 +22,11 @@ Cypress.Commands.add(
   (email: string = 'usermant@mail.com', password: string = '123456') => {
     cy.visit('/app/authentication/login');
     cy.wait(500);
-    cy.get('input[name="email"]').type(email,{ timeout: 2000 });
-    cy.get('input[name="password"]').type(password);
-    cy.get('button[type="submit"]', { timeout: 5000 })
+    cy.get('input[name="email"]', { /* timeout: 2000 */ }).type(email, {
+      // timeout: 2000,
+    });
+    cy.get('input[name="password"]', { /* timeout: 2000 */ }).type(password);
+    cy.get('button[type="submit"]', { /* timeout: 5000 */ })
       .should('be.visible')
       .click();
     cy.contains('Bienvenid@ a CropCo').should('be.visible');
@@ -222,7 +224,7 @@ Cypress.Commands.add('existCreateButton', () => {
  * cy.getFormInput('email');
  */
 Cypress.Commands.add('getFormInput', (name: string) => {
-  cy.get(`input[name="${name}"]`,{ timeout: 3000 });
+  cy.get(`input[name="${name}"]`, { timeout: 3000 });
 });
 
 /**
