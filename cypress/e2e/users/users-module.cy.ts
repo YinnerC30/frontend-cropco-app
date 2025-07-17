@@ -478,7 +478,17 @@ describe('Auth modulo de usuarios', () => {
     });
   });
 
-  it('Crear usuario con acceso unicamente al moduleo de usuarios', () => {
+  it.only('Intentar ingresar al sistema con un usuario sin permisos', () => {
+    cy.createUserAnd({}, ({ email, password }) => {
+      cy.logoutUser();
+      cy.loginUser(email, password);
+      cy.get('ul[data-sidebar="menu"]').within(() => {
+        cy.get('li[data-sidebar="menu-item"]').should('have.length', 0);
+      });
+    });
+  });
+
+  it('Crear usuario con acceso unicamente al modulo de usuarios', () => {
     cy.createUser({ selectedModules: ['users'] }).then((data: any) => {
       cy.log(JSON.stringify(data, null, 2));
       cy.logoutUser();
@@ -602,7 +612,7 @@ describe('Auth modulo de usuarios', () => {
     });
   });
 
-  it.only('No tiene permisos para ver el listado de usuarios', () => {
+  it('No tiene permisos para ver el listado de usuarios', () => {
     cy.createUserAnd({ selectedActions: ['create_user'] }, (data) => {
       cy.logoutUser();
       cy.wait(2000);
