@@ -314,6 +314,34 @@ describe('Eliminación de usuario', () => {
   });
 });
 
+describe.only('Eliminación de usuarios por lote', () => {
+  before(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('users');
+    for (let index = 0; index < 5; index++) {
+      cy.createUserFast({ firstName: 'UserToRemoveBulk' });
+    }
+  });
+
+  it('Eliminar usuarios seleccionados', () => {
+    cy.visit(`/app/home/users/view/all?query=UserToRemoveBulk`);
+    cy.wait(2000)
+    cy.get('button[aria-label="Select all"]').click();
+    cy.get('button[data-testid="btn-delete-bulk"]').click();
+    cy.get('button[data-testid="btn-continue-delete"]').click();
+    cy.contains('Cargando información')
+    cy.contains('Los registros seleccionados fueron eliminados')
+    cy.contains('No hay registros')
+
+    // cy.clickActionsButtonTableRow(id);
+    // cy.get('button[data-testid="btn-delete-one-record"]').click();
+    // cy.get('button[data-testid="btn-continue-delete-one-record"]').click();
+
+    // cy.contains('Usuario eliminado');
+    // cy.contains('No hay registros');
+  });
+});
+
 describe('Copiar Id de registro', () => {
   beforeEach(() => {
     cy.loginUser();
@@ -433,7 +461,7 @@ describe('Paginado y selectores', () => {
         const total = parseInt(text, 10);
         if (total <= 15) {
           for (let index = 0; index < 15; index++) {
-            cy.createUserFast();
+            cy.createUserFast({});
           }
         }
       });

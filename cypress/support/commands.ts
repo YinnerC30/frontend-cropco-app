@@ -388,36 +388,59 @@ Cypress.Commands.add(
     cy.intercept('POST', creationUserEndpoint).as('createUserRequest');
     cy.clickOnSubmitButton();
     return cy.wait('@createUserRequest').then((interception) => {
-      return cy.wrap({...interception.response?.body, password: defaultPassword });
+      return cy.wrap({
+        ...interception.response?.body,
+        password: defaultPassword,
+      });
     });
   }
 );
 
-Cypress.Commands.add('createUserFast', function (): void {
-  cy.visit('/app/home/users/create/one');
-  const defaultFirstName = InformationGenerator.generateFirstName();
-  const defaultLastName = InformationGenerator.generateLastName();
+Cypress.Commands.add(
+  'createUserFast',
+  function ({
+    firstName,
+    // lastName,
+    // email,
+    // cellPhoneNumber,
+    // password1,
+    // password2,
+    withAllActions = false,
+  }: {
+    firstName?: string;
+    // lastName?: string;
+    // email?: string;
+    // cellPhoneNumber?: string;
+    // password1?: string;
+    // password2?: string;
+    withAllActions?: boolean;
+  }): void {
+    cy.visit('/app/home/users/create/one');
+    const defaultFirstName = InformationGenerator.generateFirstName();
+    const defaultLastName = InformationGenerator.generateLastName();
 
-  const defaultEmail = InformationGenerator.generateEmail();
-  const defaultCellPhoneNumber = InformationGenerator.generateCellPhoneNumber();
+    const defaultEmail = InformationGenerator.generateEmail();
+    const defaultCellPhoneNumber =
+      InformationGenerator.generateCellPhoneNumber();
 
-  const defaultPassword = '123456';
+    const defaultPassword = '123456';
 
-  const usedFirstName = defaultFirstName;
-  const usedLastName = defaultLastName;
+    const usedFirstName = firstName || defaultFirstName;
+    const usedLastName = defaultLastName;
 
-  const usedEmail = defaultEmail;
-  const usedCellPhoneNumber = defaultCellPhoneNumber;
-  const usedPassword1 = defaultPassword;
-  const usedPassword2 = defaultPassword;
-  cy.getFormInput('first_name').type(usedFirstName);
-  cy.getFormInput('last_name').type(usedLastName);
-  cy.getFormInput('email').type(usedEmail);
-  cy.getFormInput('cell_phone_number').type(usedCellPhoneNumber);
-  cy.getFormInput('passwords.password1').type(usedPassword1);
-  cy.getFormInput('passwords.password2').type(usedPassword2);
-  cy.clickOnSubmitButton();
-});
+    const usedEmail = defaultEmail;
+    const usedCellPhoneNumber = defaultCellPhoneNumber;
+    const usedPassword1 = defaultPassword;
+    const usedPassword2 = defaultPassword;
+    cy.getFormInput('first_name').type(usedFirstName);
+    cy.getFormInput('last_name').type(usedLastName);
+    cy.getFormInput('email').type(usedEmail);
+    cy.getFormInput('cell_phone_number').type(usedCellPhoneNumber);
+    cy.getFormInput('passwords.password1').type(usedPassword1);
+    cy.getFormInput('passwords.password2').type(usedPassword2);
+    cy.clickOnSubmitButton();
+  }
+);
 
 // /**
 //  * Intercepta una solicitud a una API REST y obtiene el body de la respuesta o el error.
@@ -697,7 +720,15 @@ declare global {
         withAllActions?: boolean;
       }): Chainable<any>;
 
-      createUserFast(): Chainable<any>;
+      createUserFast(data: {
+        firstName?: string;
+        // lastName?: string;
+        // email?: string;
+        // cellPhoneNumber?: string;
+        // password1?: string;
+        // password2?: string;
+        withAllActions?: boolean;
+      }): Chainable<any>;
 
       /**
        * Hace clic en el botón de acciones de una fila de la tabla por id.
