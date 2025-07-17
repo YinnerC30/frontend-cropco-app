@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@/test-utils';
+import { cleanup, fireEvent, render } from '@/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { UsersActions } from '../UsersActions';
 import { UsersModuleProvider } from '../UsersModuleContext';

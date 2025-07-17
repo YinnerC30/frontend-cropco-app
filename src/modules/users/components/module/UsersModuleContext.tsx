@@ -2,7 +2,7 @@ import { useAuthContext } from "@/auth/hooks";
 import { useDataTableManual } from "@/modules/core/hooks";
 import { useBasicQueryData } from "@/modules/core/hooks/";
 import { useCreateColumnsTable } from "@/modules/core/hooks/data-table/useCreateColumnsTable";
-import React, { createContext, useEffect, useMemo } from "react";
+import React, { createContext, useEffect } from "react";
 import { useDeleteBulkUsers, useDeleteUser, useGetAllUsers } from "../../hooks";
 import { User, UsersModuleContextProps } from "../../interfaces/";
 import { columnsTableUsers } from "./columnsTableUsers";
