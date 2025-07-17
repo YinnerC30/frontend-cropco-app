@@ -471,7 +471,7 @@ describe('Auth modulo de usuarios', () => {
     });
   });
 
-  it.only('Crear usuario con acceso unicamente a usuarios', () => {
+  it.only('Crear usuario con acceso unicamente a usuarios (sidebar)', () => {
     cy.createUser({ selectedModules: ['users'] }).then((data: any) => {
       cy.log(JSON.stringify(data, null, 2));
       cy.logoutUser();
@@ -484,12 +484,7 @@ describe('Auth modulo de usuarios', () => {
           .contains('Usuarios');
       });
       cy.get('body').type('{ctrl}j');
-      cy.get('div[data-testid="command-group"]')
-        .find('div[role="group"]')
-        .find('div')
-        .then(($divs) => {
-          expect($divs.length).to.equal(1);
-        });
+      cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
     });
   });
 });
