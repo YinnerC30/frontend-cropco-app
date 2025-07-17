@@ -485,6 +485,42 @@ describe('Auth modulo de usuarios', () => {
       });
       cy.get('body').type('{ctrl}j');
       cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+      cy.get('div[cmdk-item][role="option"]').click();
+
+      cy.visit(`/app/home/users/view/all?query=${data.email}`);
+      cy.wait(2000);
+
+      // Comprobar que haya registro en las tablas
+      cy.get('table tbody tr').should('exist');
+
+      // Comprobar habitiación de botones
+      // Recarga de datos
+      cy.get('button[data-testid="btn-refetch-data"]').should('be.enabled');
+
+      // Crear registro
+      cy.get('button[data-testid="btn-create-record"]').should('be.enabled');
+
+      cy.clickActionsButtonTableRow(data.id);
+
+      // Modificar
+      // cy.get('a[data-testid="link-update-record"]').should('be.enabled');
+
+      // Ver
+      cy.get('button[data-testid="btn-delete-one-record"]').should(
+        'be.enabled'
+      );
+      // Eliminar
+      // cy.get('a[data-testid="link-view-record"]').should('be.enabled');
+      // Eliminar bulk
+      // Contraseña
+      cy.get('button[data-testid="btn-reset-password-user"]').should(
+        'be.enabled'
+      );
+
+      // Estado user
+      cy.get('button[data-testid="btn-toggle-status-user"]').should(
+        'be.enabled'
+      );
     });
   });
 });
