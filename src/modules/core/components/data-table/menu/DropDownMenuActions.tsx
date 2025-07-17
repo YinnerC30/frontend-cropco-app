@@ -11,7 +11,12 @@ export const DropDownMenuActions: React.FC<Props> = ({
 }) => {
   return (
     <DataTableMenuActionsProvider idRow={idRecord}>
-      <div data-testid={`actions-row-id-${idRecord}`}>{children}</div>
+      <div
+        className="flex flex-col items-center"
+        data-testid={`actions-row-id-${idRecord}`}
+      >
+        {children}
+      </div>
     </DataTableMenuActionsProvider>
   );
 };
