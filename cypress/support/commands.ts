@@ -578,6 +578,92 @@ Cypress.Commands.add('checkPaginationValues', () => {
   // Comparar con valor calculado manualmente
 });
 
+/**
+ * Cambia el tamaño de página en una tabla genérica.
+ * @param size Número de registros por página
+ */
+Cypress.Commands.add('changeTablePageSize', (size: number) => {
+  cy.get('button[data-testid="btn-page-size-selector"]').click();
+  cy.get(`div[data-testid="select-item-page-size-${size}"]`).click();
+  cy.wait(1000);
+});
+
+/**
+ * Selecciona o deselecciona todos los elementos en una tabla genérica.
+ * @param select true para seleccionar, false para deseleccionar
+ */
+Cypress.Commands.add('toggleSelectAllTableRows', (select: boolean = true) => {
+  cy.get('button[aria-label="Select all"]').click();
+  cy.wait(500);
+  if (select) {
+    cy.get('button[data-testid="btn-clear-selection-table"]').should('be.visible');
+    cy.get('button[data-testid="btn-delete-bulk"]').should('be.visible');
+  } else {
+    cy.get('button[data-testid="btn-clear-selection-table"]').should('not.be.visible');
+    cy.get('button[data-testid="btn-delete-bulk"]').should('not.be.visible');
+  }
+});
+
+/**
+ * Verifica que se muestre el mensaje de redirección por falta de permisos.
+ */
+Cypress.Commands.add('shouldBeRedirectedForNoPermission', () => {
+  cy.contains('No tienes permiso para esta acción, seras redirigido');
+});
+
+/**
+ * Verifica el estado (enabled/disabled) de los botones de acción de un registro genérico.
+ * @param expected Object con los estados esperados de los botones
+ */
+Cypress.Commands.add('checkActionButtonsState', (expected: {
+  update?: boolean,
+  view?: boolean,
+  delete?: boolean
+}) => {
+  if (expected.update !== undefined)
+    cy.get('button[data-testid="btn-update-record"]').should(expected.update ? 'be.enabled' : 'be.disabled');
+  if (expected.view !== undefined)
+    cy.get('button[data-testid="btn-view-record"]').should(expected.view ? 'be.enabled' : 'be.disabled');
+  if (expected.delete !== undefined)
+    cy.get('button[data-testid="btn-delete-one-record"]').should(expected.delete ? 'be.enabled' : 'be.disabled');
+});
+
+/**
+ * Crea un usuario y ejecuta una función callback con el email y id.
+ * @param userData Datos del usuario
+ * @param callback Función a ejecutar tras crear el usuario
+ */
+Cypress.Commands.add('createUserAnd', (userData, callback) => {
+  cy.createUser(userData).then(({ email, id }) => {
+    callback(email, id);
+  });
+});
+
+/**
+ * Abre el menú de acciones de un registro buscándolo por un campo y valor.
+ * @param field Campo a buscar (ej: 'email', 'firstName', etc.)
+ * @param value Valor a buscar
+ */
+Cypress.Commands.add('openActionsMenuByField', (field: string, value: string) => {
+  cy.visit(`/app/home/users/view/all?query=${value}`);
+  cy.wait(1000);
+  cy.get('tbody tr').filter(`:contains(${value})`).first().within(() => {
+    cy.get('button[data-testid^="btn-actions-table-row-id-"]').click();
+  });
+});
+
+/**
+ * Busca y selecciona un registro en la tabla por campo y valor.
+ * @param field Campo a buscar (ej: 'email', 'firstName', etc.)
+ * @param value Valor a buscar
+ */
+Cypress.Commands.add('searchAndSelectTableRow', (field: string, value: string) => {
+  cy.typeOnInputBasicSearchBar(value);
+  cy.clickOnSubmitBasicSearchBar();
+  cy.get('tbody tr').filter(`:contains(${value})`).should('have.length.greaterThan', 0);
+  cy.contains(value);
+});
+
 // =================================================
 // 7. Declaraciones de Tipos para TypeScript
 // =================================================
@@ -798,6 +884,64 @@ declare global {
        * Crea un usuario con datos aleatorios usando InformationGenerator.
        */
       createRandomUser(): Chainable<void>;
+
+      /**
+       * Cambia el tamaño de página en una tabla genérica.
+       * @param size Número de registros por página
+       */
+      changeTablePageSize(size: number): Chainable<void>;
+
+      /**
+       * Selecciona o deselecciona todos los elementos en una tabla genérica.
+       * @param select true para seleccionar, false para deseleccionar
+       */
+      toggleSelectAllTableRows(select?: boolean): Chainable<void>;
+
+      /**
+       * Verifica que se muestre el mensaje de redirección por falta de permisos.
+       */
+      shouldBeRedirectedForNoPermission(): Chainable<void>;
+
+      /**
+       * Verifica el estado (enabled/disabled) de los botones de acción de un registro genérico.
+       * @param expected Object con los estados esperados de los botones
+       */
+      checkActionButtonsState(expected: {
+        update?: boolean,
+        view?: boolean,
+        delete?: boolean
+      }): Chainable<void>;
+
+      /**
+       * Crea un usuario y ejecuta una función callback con el email y id.
+       * @param userData Datos del usuario
+       * @param callback Función a ejecutar tras crear el usuario
+       */
+      createUserAnd(userData: {
+        firstName?: string;
+        lastName?: string;
+        email?: string;
+        cellPhoneNumber?: string;
+        password1?: string;
+        password2?: string;
+        withAllActions?: boolean;
+        selectedModules?: string[];
+        selectedActions?: string[];
+      }, callback: (email: string, id: string | number) => void): Chainable<void>;
+
+      /**
+       * Abre el menú de acciones de un registro buscándolo por un campo y valor.
+       * @param field Campo a buscar (ej: 'email', 'firstName', etc.)
+       * @param value Valor a buscar
+       */
+      openActionsMenuByField(field: string, value: string): Chainable<void>;
+
+      /**
+       * Busca y selecciona un registro en la tabla por campo y valor.
+       * @param field Campo a buscar (ej: 'email', 'firstName', etc.)
+       * @param value Valor a buscar
+       */
+      searchAndSelectTableRow(field: string, value: string): Chainable<void>;
     }
   }
 }
