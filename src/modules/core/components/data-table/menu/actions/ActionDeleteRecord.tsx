@@ -32,6 +32,7 @@ export const ActionDeleteRecord = ({ action, disabled }: Props) => {
             variant={'ghost'}
             onClick={() => setOpenDialog(!openDialog)}
             data-testid="btn-delete-one-record"
+            disabled={disabled}
           >
             <TrashIcon className="w-4 h-4 mr-2" /> Eliminar
           </Button>
@@ -58,7 +59,7 @@ export const ActionDeleteRecord = ({ action, disabled }: Props) => {
                 toggleOpen(false);
               }}
               variant="secondary"
-              data-testid='btn-cancel-delete-one-record'
+              data-testid="btn-cancel-delete-one-record"
             >
               Cancelar
             </Button>
@@ -71,7 +72,7 @@ export const ActionDeleteRecord = ({ action, disabled }: Props) => {
                 setOpenDialog(false);
                 toggleOpen(false);
               }}
-              data-testid='btn-continue-delete-one-record'
+              data-testid="btn-continue-delete-one-record"
             >
               Continuar
             </Button>

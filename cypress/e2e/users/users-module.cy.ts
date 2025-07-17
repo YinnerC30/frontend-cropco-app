@@ -312,33 +312,56 @@ describe('Eliminación de usuario', () => {
       cy.contains('No hay registros');
     });
   });
+
+  it('Intentar eliminar usuario con rol administrator', () => {
+    cy.visit(`/app/home/users/view/all?query=Mantenimiento`);
+    cy.wait(2000);
+    cy.get('tbody tr').first().dblclick();
+    cy.url().then((url) => {
+      const partes = url.split('/');
+      const ultimoElemento = partes[partes.length - 1].split('?')[0];
+      cy.visit(`/app/home/users/view/all?query=Mantenimiento`);
+      cy.clickActionsButtonTableRow(ultimoElemento);
+      cy.get('button[data-testid="btn-delete-one-record"]').should(
+        'be.disabled'
+      );
+    });
+  });
 });
 
-describe.only('Eliminación de usuarios por lote', () => {
+describe('Eliminación de usuarios por lote', () => {
   before(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('users');
-    for (let index = 0; index < 5; index++) {
+    for (let index = 0; index < 2; index++) {
       cy.createUserFast({ firstName: 'UserToRemoveBulk' });
     }
   });
 
   it('Eliminar usuarios seleccionados', () => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('users');
     cy.visit(`/app/home/users/view/all?query=UserToRemoveBulk`);
-    cy.wait(2000)
+    cy.wait(2000);
+    cy.get('button[aria-label="Select all"]').click({ timeout: 3000 });
+    cy.get('button[data-testid="btn-delete-bulk"]').click();
+    cy.get('button[data-testid="btn-continue-delete"]').click();
+    cy.contains('Cargando información');
+    cy.contains('Los registros seleccionados fueron eliminados');
+    cy.contains('No hay registros');
+  });
+
+  it('Intentar eliminar usuario con rol administrator en lote', () => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('users');
+    cy.visit(`/app/home/users/view/all?query=Mantenimiento`);
+    cy.wait(2000);
     cy.get('button[aria-label="Select all"]').click();
     cy.get('button[data-testid="btn-delete-bulk"]').click();
     cy.get('button[data-testid="btn-continue-delete"]').click();
-    cy.contains('Cargando información')
-    cy.contains('Los registros seleccionados fueron eliminados')
-    cy.contains('No hay registros')
-
-    // cy.clickActionsButtonTableRow(id);
-    // cy.get('button[data-testid="btn-delete-one-record"]').click();
-    // cy.get('button[data-testid="btn-continue-delete-one-record"]').click();
-
-    // cy.contains('Usuario eliminado');
-    // cy.contains('No hay registros');
+    cy.contains(
+      'No se pudieron eliminar los usuarios seleccionados, revisa que no tengan rol "Administrador"'
+    );
   });
 });
 
@@ -467,6 +490,7 @@ describe('Paginado y selectores', () => {
       });
   });
   it('Navegar entre paginas disponibles (10 registro por página - default)', () => {
+    cy.navigateToModuleWithSideBar('users');
     cy.wait(2000);
     cy.checkPaginationValues();
     cy.get('button[data-testid="btn-go-next-page"]').click();
@@ -480,6 +504,7 @@ describe('Paginado y selectores', () => {
   });
 
   it('Navegar entre paginas disponibles (20 registro por página)', () => {
+    cy.navigateToModuleWithSideBar('users');
     cy.wait(2000);
     cy.get('button[data-testid="btn-page-size-selector"]').click();
     cy.get(`div[data-testid="select-item-page-size-${20}"]`).click();

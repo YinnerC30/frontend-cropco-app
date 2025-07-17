@@ -21,7 +21,8 @@ Cypress.Commands.add(
   'loginUser',
   (email: string = 'usermant@mail.com', password: string = '123456') => {
     cy.visit('/app/authentication/login');
-    cy.get('input[name="email"]').type(email);
+    cy.wait(500);
+    cy.get('input[name="email"]').type(email,{ timeout: 2000 });
     cy.get('input[name="password"]').type(password);
     cy.get('button[type="submit"]', { timeout: 5000 })
       .should('be.visible')
@@ -221,7 +222,7 @@ Cypress.Commands.add('existCreateButton', () => {
  * cy.getFormInput('email');
  */
 Cypress.Commands.add('getFormInput', (name: string) => {
-  cy.get(`input[name="${name}"]`);
+  cy.get(`input[name="${name}"]`,{ timeout: 3000 });
 });
 
 /**
@@ -360,6 +361,7 @@ Cypress.Commands.add(
     cy.navigateToModuleWithSideBar('users');
     cy.wait(3000);
     cy.clickOnCreateButton();
+    cy.wait(1000);
     const defaultFirstName = 'UserName';
     const defaultLastName = 'LastName';
 
@@ -416,6 +418,7 @@ Cypress.Commands.add(
     withAllActions?: boolean;
   }): void {
     cy.visit('/app/home/users/create/one');
+    cy.wait(1000);
     const defaultFirstName = InformationGenerator.generateFirstName();
     const defaultLastName = InformationGenerator.generateLastName();
 
