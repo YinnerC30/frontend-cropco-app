@@ -98,9 +98,7 @@ describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
   };
 
   beforeEach(() => {
-    userData.email = `testuser${Math.floor(
-      Math.random() * 10000
-    )}@fakeemail.com`;
+    userData.email = InformationGenerator.generateEmail();
     cy.loginUser();
     cy.createUser(userData);
   });
@@ -111,6 +109,9 @@ describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
     cy.get('tbody tr')
       .filter(`:contains(${userData.firstName})`)
       .should('have.length.greaterThan', 0);
+    cy.contains(userData.firstName);
+    cy.contains(userData.lastName);
+    cy.contains(userData.email);
   });
   it('Busqueda por apellido(s) del usuario', () => {
     cy.typeOnInputBasicSearchBar(userData.lastName);
@@ -118,6 +119,9 @@ describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
     cy.get('tbody tr')
       .filter(`:contains(${userData.lastName})`)
       .should('have.length.greaterThan', 0);
+    cy.contains(userData.firstName);
+    cy.contains(userData.lastName);
+    cy.contains(userData.email);
   });
   it('Busqueda por correo del usuario', () => {
     cy.typeOnInputBasicSearchBar(userData.email.split('@')[0]);
@@ -125,6 +129,9 @@ describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
     cy.get('tbody tr')
       .filter(`:contains(${userData.email})`)
       .should('have.length', 1);
+    cy.contains(userData.firstName);
+    cy.contains(userData.lastName);
+    cy.contains(userData.email);
   });
 });
 
@@ -529,7 +536,7 @@ describe('Auth modulo de usuarios', () => {
     });
   });
 
-  it.only('Crear usuario con acceso unicamente a ver tabla de usuarios', () => {
+  it('Crear usuario con acceso unicamente a ver tabla de usuarios', () => {
     cy.createUser({ selectedActions: ['find_all_users'] }).then((data: any) => {
       cy.log(JSON.stringify(data, null, 2));
       cy.logoutUser();
