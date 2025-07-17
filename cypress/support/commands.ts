@@ -330,7 +330,9 @@ Cypress.Commands.add(
  * cy.clickModuleActionsSwitch('clients');
  */
 Cypress.Commands.add('clickModuleActionsSwitch', (moduleName: string) => {
-  cy.get(`button[data-testid="switch-actions-module-${moduleName}"]`).click();
+  cy.get(`button[data-testid="switch-actions-module-${moduleName}"]`, {
+    timeout: 5000,
+  }).click({ timeout: 5000 });
 });
 
 Cypress.Commands.add('clickActionSwitch', (actionName: string) => {
@@ -596,10 +598,14 @@ Cypress.Commands.add('toggleSelectAllTableRows', (select: boolean = true) => {
   cy.get('button[aria-label="Select all"]').click();
   cy.wait(500);
   if (select) {
-    cy.get('button[data-testid="btn-clear-selection-table"]').should('be.visible');
+    cy.get('button[data-testid="btn-clear-selection-table"]').should(
+      'be.visible'
+    );
     cy.get('button[data-testid="btn-delete-bulk"]').should('be.visible');
   } else {
-    cy.get('button[data-testid="btn-clear-selection-table"]').should('not.be.visible');
+    cy.get('button[data-testid="btn-clear-selection-table"]').should(
+      'not.be.visible'
+    );
     cy.get('button[data-testid="btn-delete-bulk"]').should('not.be.visible');
   }
 });
@@ -615,18 +621,23 @@ Cypress.Commands.add('shouldBeRedirectedForNoPermission', () => {
  * Verifica el estado (enabled/disabled) de los botones de acción de un registro genérico.
  * @param expected Object con los estados esperados de los botones
  */
-Cypress.Commands.add('checkActionButtonsState', (expected: {
-  update?: boolean,
-  view?: boolean,
-  delete?: boolean
-}) => {
-  if (expected.update !== undefined)
-    cy.get('button[data-testid="btn-update-record"]').should(expected.update ? 'be.enabled' : 'be.disabled');
-  if (expected.view !== undefined)
-    cy.get('button[data-testid="btn-view-record"]').should(expected.view ? 'be.enabled' : 'be.disabled');
-  if (expected.delete !== undefined)
-    cy.get('button[data-testid="btn-delete-one-record"]').should(expected.delete ? 'be.enabled' : 'be.disabled');
-});
+Cypress.Commands.add(
+  'checkActionButtonsState',
+  (expected: { update?: boolean; view?: boolean; delete?: boolean }) => {
+    if (expected.update !== undefined)
+      cy.get('button[data-testid="btn-update-record"]').should(
+        expected.update ? 'be.enabled' : 'be.disabled'
+      );
+    if (expected.view !== undefined)
+      cy.get('button[data-testid="btn-view-record"]').should(
+        expected.view ? 'be.enabled' : 'be.disabled'
+      );
+    if (expected.delete !== undefined)
+      cy.get('button[data-testid="btn-delete-one-record"]').should(
+        expected.delete ? 'be.enabled' : 'be.disabled'
+      );
+  }
+);
 
 /**
  * Crea un usuario y ejecuta una función callback con el email y id.
@@ -644,25 +655,36 @@ Cypress.Commands.add('createUserAnd', (userData, callback) => {
  * @param field Campo a buscar (ej: 'email', 'firstName', etc.)
  * @param value Valor a buscar
  */
-Cypress.Commands.add('openActionsMenuByField', (field: string, value: string) => {
-  cy.visit(`/app/home/users/view/all?query=${value}`);
-  cy.wait(1000);
-  cy.get('tbody tr').filter(`:contains(${value})`).first().within(() => {
-    cy.get('button[data-testid^="btn-actions-table-row-id-"]').click();
-  });
-});
+Cypress.Commands.add(
+  'openActionsMenuByField',
+  (field: string, value: string) => {
+    cy.visit(`/app/home/users/view/all?query=${value}`);
+    cy.wait(1000);
+    cy.get('tbody tr')
+      .filter(`:contains(${value})`)
+      .first()
+      .within(() => {
+        cy.get('button[data-testid^="btn-actions-table-row-id-"]').click();
+      });
+  }
+);
 
 /**
  * Busca y selecciona un registro en la tabla por campo y valor.
  * @param field Campo a buscar (ej: 'email', 'firstName', etc.)
  * @param value Valor a buscar
  */
-Cypress.Commands.add('searchAndSelectTableRow', (field: string, value: string) => {
-  cy.typeOnInputBasicSearchBar(value);
-  cy.clickOnSubmitBasicSearchBar();
-  cy.get('tbody tr').filter(`:contains(${value})`).should('have.length.greaterThan', 0);
-  cy.contains(value);
-});
+Cypress.Commands.add(
+  'searchAndSelectTableRow',
+  (field: string, value: string) => {
+    cy.typeOnInputBasicSearchBar(value);
+    cy.clickOnSubmitBasicSearchBar();
+    cy.get('tbody tr')
+      .filter(`:contains(${value})`)
+      .should('have.length.greaterThan', 0);
+    cy.contains(value);
+  }
+);
 
 // =================================================
 // 7. Declaraciones de Tipos para TypeScript
@@ -907,9 +929,9 @@ declare global {
        * @param expected Object con los estados esperados de los botones
        */
       checkActionButtonsState(expected: {
-        update?: boolean,
-        view?: boolean,
-        delete?: boolean
+        update?: boolean;
+        view?: boolean;
+        delete?: boolean;
       }): Chainable<void>;
 
       /**
@@ -917,17 +939,20 @@ declare global {
        * @param userData Datos del usuario
        * @param callback Función a ejecutar tras crear el usuario
        */
-      createUserAnd(userData: {
-        firstName?: string;
-        lastName?: string;
-        email?: string;
-        cellPhoneNumber?: string;
-        password1?: string;
-        password2?: string;
-        withAllActions?: boolean;
-        selectedModules?: string[];
-        selectedActions?: string[];
-      }, callback: (data:any) => void): Chainable<void>;
+      createUserAnd(
+        userData: {
+          firstName?: string;
+          lastName?: string;
+          email?: string;
+          cellPhoneNumber?: string;
+          password1?: string;
+          password2?: string;
+          withAllActions?: boolean;
+          selectedModules?: string[];
+          selectedActions?: string[];
+        },
+        callback: (data: any) => void
+      ): Chainable<void>;
 
       /**
        * Abre el menú de acciones de un registro buscándolo por un campo y valor.

@@ -298,6 +298,29 @@ describe('Modificación de usuarios', () => {
       cy.url().should('include', '/app/home/users/update');
     });
   });
+
+  it.only('Al modificar los permisos del usuario activo en la sesión se actualizan sus permisos al instante', () => {
+    cy.createUserAnd({ selectedModules: ['users', 'clients'] }, (data) => {
+      cy.logoutUser();
+      cy.loginUser(data.email, data.password);
+      cy.get('ul[data-sidebar="menu"]').within(() => {
+        cy.get('li[data-sidebar="menu-item"]').should('have.length', 2);
+        cy.get('button[data-testid="btn-module-users"]').should('exist');
+        cy.get('button[data-testid="btn-module-clients"]').should('exist');
+      });
+      cy.visit(`/app/home/users/update/one/${data.id}`);
+      cy.wait(2000);
+      cy.clickModuleActionsSwitch('clients');
+      cy.clickOnSubmitButton();
+      cy.logoutUser();
+      cy.loginUser(data.email, data.password);
+      cy.get('ul[data-sidebar="menu"]').within(() => {
+        cy.get('li[data-sidebar="menu-item"]')
+          .should('have.length', 1)
+          .contains('Usuarios');
+      });
+    });
+  });
 });
 
 describe('Eliminación de usuario', () => {
@@ -478,7 +501,7 @@ describe('Auth modulo de usuarios', () => {
     });
   });
 
-  it.only('Intentar ingresar al sistema con un usuario sin permisos', () => {
+  it('Intentar ingresar al sistema con un usuario sin permisos', () => {
     cy.createUserAnd({}, ({ email, password }) => {
       cy.logoutUser();
       cy.loginUser(email, password);
