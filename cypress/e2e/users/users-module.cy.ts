@@ -312,8 +312,7 @@ describe('Modificación de usuarios', () => {
       cy.wait(2000);
       cy.clickModuleActionsSwitch('clients');
       cy.clickOnSubmitButton();
-      cy.logoutUser();
-      cy.loginUser(data.email, data.password);
+      cy.contains('Tu información y permisos han sido actualizados');
       cy.get('ul[data-sidebar="menu"]').within(() => {
         cy.get('li[data-sidebar="menu-item"]')
           .should('have.length', 1)

@@ -32,7 +32,7 @@ export function usePutUser(): UseMutationReturn<User, Partial<User>> {
       if (variables.id === user.id) {
         saveUser({ ...data, token: user.token, is_login: true });
         await queryClient.invalidateQueries();
-        toast.success(`Tu información han sido actualizada`);
+        toast.success(`Tu información y permisos han sido actualizados`);
       } else {
         toast.success(`Usuario actualizado`);
       }
