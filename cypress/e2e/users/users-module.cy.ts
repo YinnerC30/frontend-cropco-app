@@ -529,7 +529,7 @@ describe('Auth modulo de usuarios', () => {
     });
   });
 
-  it.only('Crear usuario con acceso unicamente a ver tabla de usuarios', () => {
+  it('Crear usuario con acceso unicamente a ver tabla de usuarios', () => {
     cy.createUser({ selectedActions: ['find_all_users'] }).then((data: any) => {
       cy.log(JSON.stringify(data, null, 2));
       cy.logoutUser();
@@ -584,6 +584,30 @@ describe('Auth modulo de usuarios', () => {
       cy.get('button[data-testid="btn-toggle-status-user"]').should(
         'be.disabled'
       );
+    });
+  });
+
+  it.only('Debe sacar al usuario si intenta acceder al formulario y no tiene permisos', () => {
+    cy.createUser({ selectedActions: ['find_all_users'] }).then((data: any) => {
+      cy.log(JSON.stringify(data, null, 2));
+      cy.logoutUser();
+      cy.wait(2000);
+      cy.loginUser(data.email, data.password);
+      cy.wait(1500);
+      cy.get('ul[data-sidebar="menu"]').within(() => {
+        cy.get('li[data-sidebar="menu-item"]')
+          .should('have.length', 1)
+          .contains('Usuarios');
+      });
+      cy.get('body').type('{ctrl}j');
+      cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+      cy.get('div[cmdk-item][role="option"]').click();
+
+      cy.visit(`/app/home/users/view/all?query=${data.email}`);
+      cy.wait(2000);
+
+      cy.visit('/app/home/users/create/one');
+      cy.contains('No tienes permiso para esta acción, seras redirigido');
     });
   });
 });
