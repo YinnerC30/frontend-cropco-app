@@ -473,16 +473,12 @@ describe('Cambiar estado de usuario', () => {
         );
         cy.get('button[data-button]').contains('Desactivar');
         cy.get('button[data-button]').click();
-        // cy.contains('El estado del usuario ha sido actualizado con éxito.');
-        // cy.clickActionsButtonTableRow(id);
-        // cy.contains('Activar');
-        // cy.get('button[data-testid="btn-toggle-status-user"]').click();
-        // cy.get('button[data-testid="btn-toggle-status-user"]').should(
-        //   'be.disabled'
-        // );
         cy.contains('El estado del usuario ha sido actualizado con éxito.');
         cy.contains('Tu sesión ha terminado, seras redirigido al login');
         cy.wait(2000);
+        cy.shouldNotBeAuthenticated();
+        cy.attemptInvalidLogin(email, password);
+        cy.contains('El usuario se encuentra desactivado');
         cy.shouldNotBeAuthenticated();
       }
     );
