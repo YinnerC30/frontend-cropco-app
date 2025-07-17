@@ -18,7 +18,7 @@ export const ActionModifyRecord = ({
       Icon={Pencil2Icon}
       name={'Modificar'}
       disabled={disabled}
-      dataTestId="link-update-record"
+      dataTestId="btn-update-record"
     />
   );
 };

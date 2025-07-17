@@ -239,7 +239,7 @@ describe('Modificación de usuarios', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
-      cy.get('a[data-testid="link-update-record"]').click();
+      cy.get('button[data-testid="btn-update-record"]').click();
       cy.getFormInput('first_name').clear().type('UserNameChanged');
       cy.getFormInput('last_name').clear().type('LastNameChanged');
       const defaultEmail = InformationGenerator.generateEmail();
@@ -257,7 +257,7 @@ describe('Modificación de usuarios', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
-      cy.get('a[data-testid="link-update-record"]').click();
+      cy.get('button[data-testid="btn-update-record"]').click();
       cy.getFormInput('first_name').type('UserName');
       cy.navigateToModuleWithSideBar('users');
       cy.checkMessageLostFormData();
@@ -268,7 +268,7 @@ describe('Modificación de usuarios', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
-      cy.get('a[data-testid="link-update-record"]').click();
+      cy.get('button[data-testid="btn-update-record"]').click();
       cy.getFormInput('first_name').type('UserName');
       cy.navigateToModuleWithSideBar('users');
       cy.checkMessageLostFormData();
@@ -283,7 +283,7 @@ describe('Modificación de usuarios', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
-      cy.get('a[data-testid="link-update-record"]').click();
+      cy.get('button[data-testid="btn-update-record"]').click();
       cy.getFormInput('first_name').type('UserName');
       cy.navigateToModuleWithSideBar('users');
       cy.checkMessageLostFormData();
@@ -391,7 +391,7 @@ describe('Ver registro de usuario', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
-      cy.get('a[data-testid="link-view-record"]').click();
+      cy.get('button[data-testid="btn-view-record"]').click();
       cy.contains('Información');
       cy.getFormInput('first_name').should('have.value', 'UserName');
       cy.getFormInput('last_name').should('have.value', 'LastName');
@@ -500,18 +500,23 @@ describe('Auth modulo de usuarios', () => {
       // Crear registro
       cy.get('button[data-testid="btn-create-record"]').should('be.enabled');
 
+      cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
+      cy.wait(700);
+      // Eliminar bulk
+      cy.get('button[data-testid="btn-delete-bulk"]').should('be.enabled');
+
       cy.clickActionsButtonTableRow(data.id);
 
       // Modificar
-      // cy.get('a[data-testid="link-update-record"]').should('be.enabled');
+      cy.get('button[data-testid="btn-update-record"]').should('be.enabled');
 
       // Ver
       cy.get('button[data-testid="btn-delete-one-record"]').should(
         'be.enabled'
       );
       // Eliminar
-      // cy.get('a[data-testid="link-view-record"]').should('be.enabled');
-      // Eliminar bulk
+      cy.get('button[data-testid="btn-view-record"]').should('be.enabled');
+
       // Contraseña
       cy.get('button[data-testid="btn-reset-password-user"]').should(
         'be.enabled'
