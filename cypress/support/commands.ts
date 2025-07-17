@@ -634,8 +634,8 @@ Cypress.Commands.add('checkActionButtonsState', (expected: {
  * @param callback Función a ejecutar tras crear el usuario
  */
 Cypress.Commands.add('createUserAnd', (userData, callback) => {
-  cy.createUser(userData).then(({ email, id }) => {
-    callback(email, id);
+  cy.createUser(userData).then((data) => {
+    callback(data);
   });
 });
 
@@ -927,7 +927,7 @@ declare global {
         withAllActions?: boolean;
         selectedModules?: string[];
         selectedActions?: string[];
-      }, callback: (email: string, id: string | number) => void): Chainable<void>;
+      }, callback: (data:any) => void): Chainable<void>;
 
       /**
        * Abre el menú de acciones de un registro buscándolo por un campo y valor.

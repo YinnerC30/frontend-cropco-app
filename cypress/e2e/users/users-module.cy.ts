@@ -602,6 +602,35 @@ describe('Auth modulo de usuarios', () => {
     });
   });
 
+  it.only('No tiene permisos para ver el listado de usuarios', () => {
+    cy.createUserAnd({ selectedActions: ['create_user'] }, (data) => {
+      cy.logoutUser();
+      cy.wait(2000);
+      cy.loginUser(data.email, data.password);
+      cy.wait(1500);
+      cy.get('ul[data-sidebar="menu"]').within(() => {
+        cy.get('li[data-sidebar="menu-item"]')
+          .should('have.length', 1)
+          .contains('Usuarios');
+      });
+      cy.get('body').type('{ctrl}j');
+      cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+      cy.get('div[cmdk-item][role="option"]').click();
+
+      cy.visit(`/app/home/users/view/all`);
+      cy.wait(2000);
+      cy.contains('No tienes permiso para ver el listado de usuarios');
+      cy.checkRefetchButtonState(false);
+      cy.get('input[placeholder="Escribe algo..."]').should('be.disabled');
+      cy.get('button[data-testid="btn-submit-basic-searchbar"]').should(
+        'be.disabled'
+      );
+      cy.get('button[data-testid="btn-clear-basic-searchbar"]').should(
+        'be.disabled'
+      );
+    });
+  });
+
   it('Debe sacar al usuario si intenta crear un usuario y no tiene permisos ', () => {
     cy.createUser({ selectedActions: ['find_all_users'] }).then((data: any) => {
       cy.log(JSON.stringify(data, null, 2));
