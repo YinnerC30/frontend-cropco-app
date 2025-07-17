@@ -483,6 +483,13 @@ describe('Auth modulo de usuarios', () => {
           .should('have.length', 1)
           .contains('Usuarios');
       });
+      cy.get('body').type('{ctrl}j');
+      cy.get('div[data-testid="command-group"]')
+        .find('div[role="group"]')
+        .find('div')
+        .then(($divs) => {
+          expect($divs.length).to.equal(1);
+        });
     });
   });
 });

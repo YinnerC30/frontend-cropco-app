@@ -52,9 +52,9 @@ export const CommandDialogApp = () => {
       </DialogTitle>
       <CommandInput placeholder="Escribe el nombre de un módulo..." data-testid="input-command-search"/>
 
-      <CommandList className="">
+      <CommandList className="" data-testid={`command-list`}>
         <CommandEmpty>No se encontraron resultados</CommandEmpty>
-        <CommandGroup heading="Módulos">
+        <CommandGroup heading="Módulos" data-testid={`command-group`}>
           {routes.map((route: Route) => {
             if (nameModulesUser.includes(route.name_module)) {
               return (
