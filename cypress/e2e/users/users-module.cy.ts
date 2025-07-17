@@ -529,7 +529,7 @@ describe('Auth modulo de usuarios', () => {
     });
   });
 
-  it('Crear usuario con acceso unicamente a ver tabla de usuarios', () => {
+  it.only('Crear usuario con acceso unicamente a ver tabla de usuarios', () => {
     cy.createUser({ selectedActions: ['find_all_users'] }).then((data: any) => {
       cy.log(JSON.stringify(data, null, 2));
       cy.logoutUser();
@@ -547,6 +547,14 @@ describe('Auth modulo de usuarios', () => {
 
       cy.visit(`/app/home/users/view/all?query=${data.email}`);
       cy.wait(2000);
+
+      cy.get('button[data-testid="btn-user-account"]').click();
+      cy.get('div[data-testid="btn-open-form-change-password"]').should(
+        'have.attr',
+        'aria-disabled',
+        'true'
+      );
+      cy.get('body').type('{esc}');
 
       // Comprobar que haya registro en las tablas
       cy.get('table tbody tr').should('exist');
@@ -635,7 +643,7 @@ describe('Auth modulo de usuarios', () => {
     });
   });
 
-  it.only('Debe sacar al usuario si intenta consultar a un usuario y no tiene permisos', () => {
+  it('Debe sacar al usuario si intenta consultar a un usuario y no tiene permisos', () => {
     cy.createUser({ selectedActions: ['find_all_users'] }).then((data: any) => {
       cy.log(JSON.stringify(data, null, 2));
       cy.logoutUser();
