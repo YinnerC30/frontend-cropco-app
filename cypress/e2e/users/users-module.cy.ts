@@ -86,8 +86,6 @@ describe('Modulo de usuarios', () => {
   });
 
   //TODO: Ingresar usuario con permisos y verificar que esten visibles y disponibles
-  //TODO: Cambiar contraseña
-  //TODO: Probar elminiación por lotes
   //TODO: Probar selección
   //TODO: Probar orden de datos en las tablas
 });
@@ -470,6 +468,21 @@ describe('Auth modulo de usuarios', () => {
       cy.logoutUser();
       cy.attemptInvalidLogin(email, '123456');
       cy.contains('El usuario se encuentra desactivado');
+    });
+  });
+
+  it.only('Crear usuario con acceso unicamente a usuarios', () => {
+    cy.createUser({ selectedModules: ['users'] }).then((data: any) => {
+      cy.log(JSON.stringify(data, null, 2));
+      cy.logoutUser();
+      cy.wait(2000);
+      cy.loginUser(data.email, data.password);
+      cy.wait(1500);
+      cy.get('ul[data-sidebar="menu"]').within(() => {
+        cy.get('li[data-sidebar="menu-item"]')
+          .should('have.length', 1)
+          .contains('Usuarios');
+      });
     });
   });
 });

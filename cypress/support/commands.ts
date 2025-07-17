@@ -22,11 +22,17 @@ Cypress.Commands.add(
   (email: string = 'usermant@mail.com', password: string = '123456') => {
     cy.visit('/app/authentication/login');
     cy.wait(500);
-    cy.get('input[name="email"]', { /* timeout: 2000 */ }).type(email, {
+    cy.get('input[name="email"]', {
+      /* timeout: 2000 */
+    }).type(email, {
       // timeout: 2000,
     });
-    cy.get('input[name="password"]', { /* timeout: 2000 */ }).type(password);
-    cy.get('button[type="submit"]', { /* timeout: 5000 */ })
+    cy.get('input[name="password"]', {
+      /* timeout: 2000 */
+    }).type(password);
+    cy.get('button[type="submit"]', {
+      /* timeout: 5000 */
+    })
       .should('be.visible')
       .click();
     cy.contains('Bienvenid@ a CropCo').should('be.visible');
@@ -349,6 +355,7 @@ Cypress.Commands.add(
     password1,
     password2,
     withAllActions = false,
+    selectedModules = [],
   }: {
     firstName?: string;
     lastName?: string;
@@ -357,6 +364,7 @@ Cypress.Commands.add(
     password1?: string;
     password2?: string;
     withAllActions?: boolean;
+    selectedModules?: string[];
   } = {}): Cypress.Chainable<any> {
     const creationUserEndpoint = 'http://localhost:3000/users/create';
 
@@ -386,6 +394,12 @@ Cypress.Commands.add(
     if (withAllActions) {
       cy.clickGlobalActionsSwitch();
       cy.wait(1000);
+    }
+
+    if (selectedModules.length > 0) {
+      for (const module of selectedModules) {
+        cy.clickModuleActionsSwitch(module);
+      }
     }
 
     // Define el intercept antes de disparar la acción para capturar el response original
@@ -723,6 +737,7 @@ declare global {
         password1?: string;
         password2?: string;
         withAllActions?: boolean;
+        selectedModules?: string[];
       }): Chainable<any>;
 
       createUserFast(data: {
