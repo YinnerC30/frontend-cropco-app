@@ -471,7 +471,7 @@ describe('Auth modulo de usuarios', () => {
     });
   });
 
-  it.only('Crear usuario con acceso unicamente a usuarios (sidebar)', () => {
+  it('Crear usuario con acceso unicamente al moduleo de usuarios', () => {
     cy.createUser({ selectedModules: ['users'] }).then((data: any) => {
       cy.log(JSON.stringify(data, null, 2));
       cy.logoutUser();
@@ -525,6 +525,64 @@ describe('Auth modulo de usuarios', () => {
       // Estado user
       cy.get('button[data-testid="btn-toggle-status-user"]').should(
         'be.enabled'
+      );
+    });
+  });
+
+  it.only('Crear usuario con acceso unicamente a ver tabla de usuarios', () => {
+    cy.createUser({ selectedActions: ['find_all_users'] }).then((data: any) => {
+      cy.log(JSON.stringify(data, null, 2));
+      cy.logoutUser();
+      cy.wait(2000);
+      cy.loginUser(data.email, data.password);
+      cy.wait(1500);
+      cy.get('ul[data-sidebar="menu"]').within(() => {
+        cy.get('li[data-sidebar="menu-item"]')
+          .should('have.length', 1)
+          .contains('Usuarios');
+      });
+      cy.get('body').type('{ctrl}j');
+      cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+      cy.get('div[cmdk-item][role="option"]').click();
+
+      cy.visit(`/app/home/users/view/all?query=${data.email}`);
+      cy.wait(2000);
+
+      // Comprobar que haya registro en las tablas
+      cy.get('table tbody tr').should('exist');
+
+      // Comprobar habitiación de botones
+      // Recarga de datos
+      cy.get('button[data-testid="btn-refetch-data"]').should('be.enabled');
+
+      // Crear registro
+      cy.get('button[data-testid="btn-create-record"]').should('be.disabled');
+
+      cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
+      cy.wait(700);
+      // Eliminar bulk
+      cy.get('button[data-testid="btn-delete-bulk"]').should('be.disabled');
+
+      cy.clickActionsButtonTableRow(data.id);
+
+      // Modificar
+      cy.get('button[data-testid="btn-update-record"]').should('be.disabled');
+
+      // Ver
+      cy.get('button[data-testid="btn-delete-one-record"]').should(
+        'be.disabled'
+      );
+      // Eliminar
+      cy.get('button[data-testid="btn-view-record"]').should('be.disabled');
+
+      // Contraseña
+      cy.get('button[data-testid="btn-reset-password-user"]').should(
+        'be.disabled'
+      );
+
+      // Estado user
+      cy.get('button[data-testid="btn-toggle-status-user"]').should(
+        'be.disabled'
       );
     });
   });

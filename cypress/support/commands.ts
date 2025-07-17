@@ -333,6 +333,10 @@ Cypress.Commands.add('clickModuleActionsSwitch', (moduleName: string) => {
   cy.get(`button[data-testid="switch-actions-module-${moduleName}"]`).click();
 });
 
+Cypress.Commands.add('clickActionSwitch', (actionName: string) => {
+  cy.get(`button[data-testid="switch-action-${actionName}"]`).click();
+});
+
 // =================================================
 // 6. Comandos Específicos de Módulos
 // =================================================
@@ -356,6 +360,7 @@ Cypress.Commands.add(
     password2,
     withAllActions = false,
     selectedModules = [],
+    selectedActions = [],
   }: {
     firstName?: string;
     lastName?: string;
@@ -365,6 +370,7 @@ Cypress.Commands.add(
     password2?: string;
     withAllActions?: boolean;
     selectedModules?: string[];
+    selectedActions?: string[];
   } = {}): Cypress.Chainable<any> {
     const creationUserEndpoint = 'http://localhost:3000/users/create';
 
@@ -399,6 +405,12 @@ Cypress.Commands.add(
     if (selectedModules.length > 0) {
       for (const module of selectedModules) {
         cy.clickModuleActionsSwitch(module);
+      }
+    }
+
+    if (selectedActions.length > 0) {
+      for (const action of selectedActions) {
+        cy.clickActionSwitch(action);
       }
     }
 
@@ -719,6 +731,8 @@ declare global {
        */
       clickModuleActionsSwitch(moduleName: string): Chainable<void>;
 
+      clickActionSwitch(actionName: string): Chainable<void>;
+
       /**
        * Verifica el estado del switch global de acciones.
        * @param shouldBeActive true si debe estar activo, false si no
@@ -738,6 +752,7 @@ declare global {
         password2?: string;
         withAllActions?: boolean;
         selectedModules?: string[];
+        selectedActions?: string[];
       }): Chainable<any>;
 
       createUserFast(data: {

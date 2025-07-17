@@ -71,6 +71,7 @@ export function ActionResetPassword({ id, mutation, disabled, email }: Props) {
             onClick={() => handleOpenDialog()}
             variant="ghost"
             data-testid="btn-reset-password-user"
+            disabled={disabled}
           >
             <KeyRound className="w-4 h-4 mr-2" /> Contraseña
           </Button>

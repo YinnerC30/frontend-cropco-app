@@ -1,7 +1,7 @@
 import { Button } from '@/components';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { IconProps } from '@radix-ui/react-icons/dist/types';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   path: string;

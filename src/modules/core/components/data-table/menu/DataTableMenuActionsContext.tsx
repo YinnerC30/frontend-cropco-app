@@ -9,12 +9,11 @@ import {
 import { MoreHorizontal } from 'lucide-react';
 import {
   createContext,
-  useContext,
-  useState,
-  ReactNode,
   Dispatch,
-  SetStateAction,
   PropsWithChildren,
+  SetStateAction,
+  useContext,
+  useState
 } from 'react';
 
 // Definición del tipo para el contexto
