@@ -57,7 +57,7 @@ describe('FormUserPermissionAction', () => {
         isChecked={false}
       />
     );
-    const switchInput = getByTestId('switch-unique-action');
+    const switchInput = getByTestId('switch-action-view_user');
     expect(switchInput).toBeDisabled();
   });
 
@@ -69,7 +69,7 @@ describe('FormUserPermissionAction', () => {
         isChecked={false}
       />
     );
-    const switchInput = getByTestId('switch-unique-action');
+    const switchInput = getByTestId('switch-action-view_user');
     expect(switchInput).not.toBeDisabled();
   });
 
@@ -81,7 +81,7 @@ describe('FormUserPermissionAction', () => {
         isChecked={true}
       />
     );
-    const switchInput = getByTestId('switch-unique-action');
+    const switchInput = getByTestId('switch-action-view_user');
     expect(switchInput).toBeChecked();
   });
 
@@ -93,7 +93,7 @@ describe('FormUserPermissionAction', () => {
         isChecked={false}
       />
     );
-    const switchInput = getByTestId('switch-unique-action');
+    const switchInput = getByTestId('switch-action-view_user');
     expect(switchInput).not.toBeChecked();
   });
 
@@ -105,7 +105,7 @@ describe('FormUserPermissionAction', () => {
         isChecked={false}
       />
     );
-    const switchInput = getByTestId('switch-unique-action');
+    const switchInput = getByTestId('switch-action-view_user');
     fireEvent.click(switchInput);
     expect(mockUpdateActionsUserForm).toHaveBeenCalledWith([
       { id: action.id, isActive: true },
@@ -121,7 +121,7 @@ describe('FormUserPermissionAction', () => {
         isChecked={true}
       />
     );
-    const switchInput = getByTestId('switch-unique-action');
+    const switchInput = getByTestId('switch-action-view_user');
     fireEvent.click(switchInput);
     expect(mockUpdateActionsUserForm).toHaveBeenCalledWith([
       { id: action.id, isActive: false },
