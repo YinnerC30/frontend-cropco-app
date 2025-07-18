@@ -17,6 +17,7 @@ export const ActionViewRecord = ({
       Icon={EyeOpenIcon}
       name={'Ver'}
       disabled={disabled}
+      dataTestId='btn-view-record'
     />
   );
 };

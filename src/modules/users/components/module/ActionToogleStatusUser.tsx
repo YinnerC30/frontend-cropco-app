@@ -53,6 +53,7 @@ export const ActionToogleStatusUser: React.FC<Props> = ({
         variant={'ghost'}
         className="cursor-pointer"
         disabled={disabled || isPending}
+        data-testid='btn-toggle-status-user'
       >
         {status ? (
           <>

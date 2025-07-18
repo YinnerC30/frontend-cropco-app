@@ -25,6 +25,8 @@ export const FormPaymentFields: React.FC = () => {
     getWorksToPay,
     readOnly,
     defaultValues,
+    queryEmployeePayments,
+    employeeId,
   } = useFormPaymentContext();
 
   const queryEmployees = useGetAllEmployeesWithPendingPayments();
@@ -75,6 +77,9 @@ export const FormPaymentFields: React.FC = () => {
             className="w-52"
             reloadData={async () => {
               await queryEmployees.refetch();
+              if (employeeId.length > 0) {
+                await queryEmployeePayments.refetch();
+              }
             }}
           />
 

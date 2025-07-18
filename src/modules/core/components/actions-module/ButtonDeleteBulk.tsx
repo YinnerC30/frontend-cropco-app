@@ -40,8 +40,9 @@ export const ButtonDeleteBulk = memo(
             className={`${className} ${!visible ? 'hidden' : ''} `}
             variant="outline"
             size="icon"
-            disabled={disabled}
+            disabled={disabled || !visible}
             onClick={handleOpenAlertDialog}
+            data-testid='btn-delete-bulk'
           >
             <Trash className="w-4 h-4" />
             <span className="sr-only">Eliminar registros</span>
@@ -60,10 +61,10 @@ export const ButtonDeleteBulk = memo(
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel asChild>
-                <Button variant="secondary">Cancelar</Button>
+                <Button variant="secondary" data-testid='btn-cancel-delete'>Cancelar</Button>
               </AlertDialogCancel>
               <AlertDialogAction asChild>
-                <Button onClick={onClick}>Continuar</Button>
+                <Button onClick={onClick} data-testid='btn-continue-delete'>Continuar</Button>
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

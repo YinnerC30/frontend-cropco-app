@@ -154,7 +154,7 @@ export const ViewCrop: React.FC = () => {
         <h3 className="my-5 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
           Vinculo en otros registros:
         </h3>
-        <Tabs defaultValue="harvests" className="w-10/12 lg:w-auto">
+        <Tabs defaultValue="harvests" className="w-10/12 p-4 border rounded-sm lg:w-auto">
           <TabsList className="flex flex-wrap w-auto h-32 lg:h-10">
             <TabsTrigger value="harvests">
               <span className="flex items-center gap-2">

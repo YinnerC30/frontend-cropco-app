@@ -26,7 +26,7 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
     label,
     name,
     placeholder,
-    disabled: readOnly = false,
+    disabled = false,
     type: typeInput = 'text',
     className = '',
     children,
@@ -66,7 +66,7 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
                   } overflow-hidden text-ellipsis`}
                   placeholder={placeholder}
                   {...field}
-                  readOnly={readOnly}
+                  readOnly={disabled}
                   type={typeInput}
                   step={allowDecimals ? 'any' : step}
                   min={min}

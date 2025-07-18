@@ -71,60 +71,68 @@ export const FormUserFields: React.FC = () => {
             disabled={readOnly}
           />
 
-          <div className={`${hiddenPassword && 'hidden'}`}>
-            <FormField
-              control={form.control}
-              name={'passwords.password1'}
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>{formFieldsUser.password1.label}</FormLabel>
-                  <div className="flex gap-2">
-                    <FormControl>
-                      <Input
-                        className="w-56"
-                        {...field}
-                        type={showPassword ? 'text' : 'password'}
-                        readOnly={readOnly}
-                      />
-                    </FormControl>
-                    <Button onClick={togglePasswordVisibility}>
-                      {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
-                    </Button>
-                  </div>
-                  <FormDescription>
-                    {formFieldsUser.password1.description}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name={'passwords.password2'}
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>{formFieldsUser.password2.label}</FormLabel>
-                  <div className="flex gap-2">
-                    <FormControl>
-                      <Input
-                        className="w-56"
-                        {...field}
-                        type={showPassword ? 'text' : 'password'}
-                        readOnly={readOnly}
-                      />
-                    </FormControl>
-                    <Button onClick={togglePasswordVisibility}>
-                      {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
-                    </Button>
-                  </div>
-                  <FormDescription>
-                    {formFieldsUser.password2.description}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          {!hiddenPassword && (
+            <div>
+              <FormField
+                control={form.control}
+                name={'passwords.password1'}
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>{formFieldsUser.password1.label}</FormLabel>
+                    <div className="flex gap-2">
+                      <FormControl>
+                        <Input
+                          className="w-56"
+                          {...field}
+                          type={showPassword ? 'text' : 'password'}
+                          readOnly={readOnly}
+                        />
+                      </FormControl>
+                      <Button
+                        onClick={togglePasswordVisibility}
+                        data-testid="btn-toggle-pass-1"
+                      >
+                        {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                      </Button>
+                    </div>
+                    <FormDescription>
+                      {formFieldsUser.password1.description}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={'passwords.password2'}
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>{formFieldsUser.password2.label}</FormLabel>
+                    <div className="flex gap-2">
+                      <FormControl>
+                        <Input
+                          className="w-56"
+                          {...field}
+                          type={showPassword ? 'text' : 'password'}
+                          readOnly={readOnly}
+                        />
+                      </FormControl>
+                      <Button
+                        onClick={togglePasswordVisibility}
+                        data-testid="btn-toggle-pass-2"
+                      >
+                        {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                      </Button>
+                    </div>
+                    <FormDescription>
+                      {formFieldsUser.password2.description}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
         </form>
       </Form>
     </div>

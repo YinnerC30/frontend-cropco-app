@@ -67,7 +67,12 @@ export function ActionResetPassword({ id, mutation, disabled, email }: Props) {
     <Dialog defaultOpen={false} open={open} onOpenChange={setOpen} modal={open}>
       <DialogTrigger asChild>
         <DropdownMenuItem disabled={disabled} asChild>
-          <Button onClick={() => handleOpenDialog()} variant="ghost">
+          <Button
+            onClick={() => handleOpenDialog()}
+            variant="ghost"
+            data-testid="btn-reset-password-user"
+            disabled={disabled}
+          >
             <KeyRound className="w-4 h-4 mr-2" /> Contraseña
           </Button>
         </DropdownMenuItem>
@@ -105,6 +110,7 @@ export function ActionResetPassword({ id, mutation, disabled, email }: Props) {
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
+                  name="email"
                   value={email}
                   readOnly
                   className="w-64"
@@ -118,6 +124,7 @@ export function ActionResetPassword({ id, mutation, disabled, email }: Props) {
                 <div className="flex gap-2">
                   <Input
                     id="password"
+                    name="password"
                     value={newPassword || ''}
                     readOnly
                     className="w-40"
@@ -125,6 +132,7 @@ export function ActionResetPassword({ id, mutation, disabled, email }: Props) {
                   />
                   <ToolTipTemplate content="Copiar nueva contraseña">
                     <Button
+                      data-testid="btn-copy-pass"
                       variant={'outline'}
                       size={'icon'}
                       onClick={handleCopyToClipboard}
@@ -139,7 +147,7 @@ export function ActionResetPassword({ id, mutation, disabled, email }: Props) {
           )}
         </div>
         <DialogFooter>
-          <Button onClick={handleResetPassword} disabled={isPending}>
+          <Button onClick={handleResetPassword} disabled={isPending} data-testid='btn-execute-reset-password'>
             Restablecer
           </Button>
         </DialogFooter>

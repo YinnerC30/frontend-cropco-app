@@ -21,7 +21,7 @@ export function usePutConfigTenantDB(): UseMutationReturn<void, string> {
         loading:
           'Actualizando configuración de la base de datos del inquilino...',
         success:
-          'El configuración de la base de datos del inquilino ha sido actualizado con éxito.',
+          'La configuración de la base de datos del inquilino ha sido actualizada con éxito.',
         error:
           'Hubo un error al actualizar la configuración de la base de datos del inquilino.',
       });

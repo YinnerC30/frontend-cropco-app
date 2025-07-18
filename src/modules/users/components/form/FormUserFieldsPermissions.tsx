@@ -56,6 +56,7 @@ export const ModuleCard: React.FC<ModuleCardProps> = memo<ModuleCardProps>(
               onCheckedChange={handleOnCheckedChangeSwitch}
               checked={isCheckedSwitch}
               disabled={readOnly}
+              data-testid={`switch-actions-module-${name}`}
             />
           </div>
 

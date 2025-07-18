@@ -7,6 +7,7 @@ import {
   UnitSymbols,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { Badge } from '@/components';
+import { FormatNumber } from '@/modules/core/helpers';
 
 export const CellCropAmount = ({ row }: { row: Row<Crop> }) => {
   const { unitTypeToShowAmount } = useCropsModuleContext();
@@ -25,7 +26,7 @@ export const CellCropAmount = ({ row }: { row: Row<Crop> }) => {
 
   return (
     <div className="flex items-center gap-2">
-      <span>{convertedValue}</span>
+      <span>{FormatNumber(convertedValue)}</span>
       <Badge variant={'zinc'}>{symbolToShow}</Badge>
     </div>
   );

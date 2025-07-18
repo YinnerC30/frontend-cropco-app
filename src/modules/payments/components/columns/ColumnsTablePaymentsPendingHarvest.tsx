@@ -32,7 +32,7 @@ export const columnsPaymentsPendingHarvest: ColumnDef<HarvestDetail>[] = [
   {
     accessorKey: 'unit_of_measure',
     cell: ({ row }) => {
-      return row.getValue('unit_of_measure');
+      return <Badge variant={'zinc'}>{row.getValue('unit_of_measure')}</Badge>;
     },
     header: ({ column }: any) => {
       return <ButtonHeaderTable column={column} label={'Unidad de medida'} />;

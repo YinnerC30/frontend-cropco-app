@@ -1,6 +1,7 @@
+import { Button } from '@/components';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { IconProps } from '@radix-ui/react-icons/dist/types';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   path: string;
@@ -10,6 +11,7 @@ interface Props {
   name: string;
   disabled?: boolean;
   target?: string;
+  dataTestId?: string;
 }
 
 export const ActionNavigate = ({
@@ -18,10 +20,24 @@ export const ActionNavigate = ({
   name,
   disabled = false,
   target = '_self',
+  dataTestId = 'link-navigate-template',
 }: Props) => {
+  const navigate = useNavigate();
   return (
-    <DropdownMenuItem asChild disabled={disabled}>
-      <Link
+    <DropdownMenuItem disabled={disabled} asChild>
+      <Button
+        type="button"
+        variant={'ghost'}
+        onClick={() => {
+          navigate(path);
+        }}
+        data-testid={dataTestId}
+        disabled={disabled}
+      >
+        <Icon className="w-4 h-4 mr-2" /> {name}
+      </Button>
+      {/* <Link
+        data-testid={dataTestId}
         to={`${!disabled ? path : ''}`}
         target={target}
         className={`${disabled && 'opacity-50'}  ${
@@ -29,7 +45,7 @@ export const ActionNavigate = ({
         } text-foreground font-medium`}
       >
         <Icon className="w-full h-4 mr-2 " /> {name}
-      </Link>
+      </Link> */}
     </DropdownMenuItem>
   );
 };

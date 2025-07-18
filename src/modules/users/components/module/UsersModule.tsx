@@ -7,7 +7,7 @@ import { UsersTable } from './UsersTable';
 export const UsersModule = () => {
   return (
     <UsersModuleProvider>
-      <div className="select-none">
+      <div className="select-none" data-testid="module-user">
         <BreadCrumb finalItem="Usuarios" hiddenSeparator />
         <UsersSearchBar />
         <UsersActions />

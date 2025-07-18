@@ -54,7 +54,7 @@ export const MyAccount = () => {
       >
         {/* Trigger */}
         <DropdownMenuTrigger asChild>
-          <Button variant={'ghost'} className="hover:bg-sidebar-accent">
+          <Button variant={'ghost'} className="hover:bg-sidebar-accent" data-testid="btn-user-account">
             <span className="overflow-hidden capitalize text-ellipsis">
               {user?.first_name! + ' ' + user?.last_name!}
             </span>
@@ -70,6 +70,7 @@ export const MyAccount = () => {
             onClick={handleTrigger}
             disabled={!userCanChangePassword}
             className=""
+            data-testid="btn-open-form-change-password"
           >
             Cambiar contraseña
           </DropdownMenuItem>

@@ -21,6 +21,8 @@ export const ButtonClearSelection = memo(
           onClick={handleClick}
           className={`${className} ${!visible && 'hidden'}`}
           variant={'outline'}
+          data-testid='btn-clear-selection-table'
+          disabled={!visible}
         >
           <XCircle className="w-4 h-4" />
           <span className="sr-only">Limpiar selección</span>
