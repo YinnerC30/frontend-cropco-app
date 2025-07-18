@@ -79,8 +79,8 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
             />
             <ActionConfigTenantDB
               id={id}
-              status={is_migrated_db}
-              disabled={false}
+              status={is_migrated_db || !is_created_db}
+              disabled={!is_created_db || is_migrated_db}
             />
           </DropdownMenuSubContent>
         </DropdownMenuPortal>
