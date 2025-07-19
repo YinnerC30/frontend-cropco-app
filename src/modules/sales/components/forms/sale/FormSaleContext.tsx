@@ -102,6 +102,8 @@ export interface FormSaleContextValues {
   >;
   isSubmittingSaleDetail: boolean;
   setIsSubmittingSaleDetail: React.Dispatch<React.SetStateAction<boolean>>;
+  isToggleStatusRecord: boolean;
+  setIsToggleStatusRecord: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type SaleAction =
@@ -217,8 +219,9 @@ export const FormSaleProvider: React.FC<
     detailsDefaultValues
   );
 
-  const [isSubmittingSaleDetail, setIsSubmittingSaleDetail] =
-    useState(false);
+  const [isSubmittingSaleDetail, setIsSubmittingSaleDetail] = useState(false);
+
+  const [isToggleStatusRecord, setIsToggleStatusRecord] = useState(false);
 
   const addSaleDetail = (saleDetail: SaleDetail): void => {
     if (isSubmittingSaleDetail) return;
@@ -241,6 +244,8 @@ export const FormSaleProvider: React.FC<
   };
 
   const toggleStatusPayment = (id: string): void => {
+    if (isToggleStatusRecord) return;
+    setIsToggleStatusRecord(true);
     dispatchSaleDetails({ type: 'TOGGLE_STATUS_PAYMENT', payload: id });
   };
 
@@ -505,6 +510,8 @@ export const FormSaleProvider: React.FC<
         setUnitTypeToShowAmount,
         isSubmittingSaleDetail,
         setIsSubmittingSaleDetail,
+        isToggleStatusRecord,
+        setIsToggleStatusRecord,
       }}
     >
       {children}
