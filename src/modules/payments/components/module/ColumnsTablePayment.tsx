@@ -2,6 +2,7 @@ import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
 import { Badge } from '@/components';
 import { ButtonHeaderTable } from '@/modules/core/components';
+import { PersonHoverCard } from '@/modules/core/components/card/PersonHoverCard';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { Payment } from '../../interfaces/Payment';
@@ -26,7 +27,13 @@ export const columnsPayment: ColumnDef<Payment>[] = [
     accessorKey: formFieldsPayments.employee.name,
     cell: ({ row }) => {
       const employee: any = row.getValue('employee');
-      return employee.full_name;
+      return (
+        <PersonHoverCard data={employee}>
+          <Badge className="mb-1 mr-1" variant={'orange'}>
+            {employee.full_name}
+          </Badge>
+        </PersonHoverCard>
+      );
     },
     header: ({ column }: HeaderContext<Payment, unknown>) => {
       return (
