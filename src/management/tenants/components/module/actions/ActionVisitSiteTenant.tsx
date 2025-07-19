@@ -1,5 +1,6 @@
-import { ActionNavigate } from '@/modules/core/components';
+import { DropdownMenuItem } from '@/components';
 import { GlobeIcon } from '@radix-ui/react-icons';
+import { Link } from 'react-router-dom';
 
 interface Props {
   subdomain: string;
@@ -14,12 +15,17 @@ export const ActionVisitSiteTenant = ({
   }/app/authentication/login`,
 }: Props) => {
   return (
-    <ActionNavigate
-      path={path}
-      Icon={GlobeIcon}
-      name={'Visitar'}
-      disabled={disabled}
-      target="_blank"
-    />
+    <DropdownMenuItem disabled={disabled} asChild>
+      <Link
+        // data-testid={dataTestId}
+        to={`${!disabled ? path : ''}`}
+        target={'_blank'}
+        className={`${disabled && 'opacity-50'}  ${
+          disabled ? 'cursor-default' : 'cursor-pointer'
+        } text-foreground font-medium`}
+      >
+        <GlobeIcon className="w-full h-4 mr-2 " /> Visitar
+      </Link>
+    </DropdownMenuItem>
   );
 };
