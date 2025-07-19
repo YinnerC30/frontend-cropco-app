@@ -65,7 +65,11 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
 
       <DropdownMenuSub>
         <DropdownMenuSubTrigger className={'h-8'}>
-          <Button type="button" variant={'ghost'} className="cursor-pointer">
+          <Button
+            type="button"
+            variant={'ghost'}
+            className="h-5 cursor-pointer"
+          >
             <Database className="w-4 h-4 mr-2" />
             {'DB'}
           </Button>
