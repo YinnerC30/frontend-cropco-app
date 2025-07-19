@@ -34,6 +34,8 @@ import { useGetAllCrops } from '@/modules/crops/hooks';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
 import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import {
+  getUnitOfMeasureOptions,
+  LengthUnitOfMeasure,
   MassUnitOfMeasure,
   UnitOfMeasure,
   UnitsType,
@@ -45,6 +47,7 @@ import { ControllerRenderProps } from 'react-hook-form';
 import { defaultValuesConsumptionDetail } from '../FormConsumptionContext';
 import { BadgeSupplyStock } from './BadgeSupplyStock';
 import { CommandItemSupplyStock } from './CommandItemSupplyStock';
+import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 
 export const FormConsumptionDetailsFields: React.FC = () => {
   const {
@@ -55,6 +58,8 @@ export const FormConsumptionDetailsFields: React.FC = () => {
     suppliesStock,
     addSupplyStock,
   } = useFormConsumptionContext();
+
+  const { getUnitType } = useUnitConverter();
 
   const { query: queryCrops } = useGetAllCrops({
     all_records: true,
@@ -97,8 +102,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
     ) {
       formConsumptionDetail.setValue(
         'unit_of_measure',
-        UnitsType[currentSupply.unit_of_measure as keyof typeof UnitsType][0]
-          .key,
+        getUnitOfMeasureOptions(currentSupply.unit_of_measure as any)[0].key,
         { shouldValidate: true }
       );
     } else if (
@@ -291,7 +295,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
         )}
 
         {!!currentSupply.id &&
-          currentSupply.unit_of_measure === MassUnitOfMeasure.GRAMOS && (
+          getUnitType(currentSupply.unit_of_measure as any) === 'mass' && (
             <FormFieldSelect
               items={UnitsType[MassUnitOfMeasure.GRAMOS]}
               control={formConsumptionDetail.control}
@@ -310,9 +314,28 @@ export const FormConsumptionDetailsFields: React.FC = () => {
           )}
 
         {!!currentSupply.id &&
-          currentSupply.unit_of_measure === VolumeUnitOfMeasure.MILILITROS && (
+          getUnitType(currentSupply.unit_of_measure as any) === 'volume' && (
             <FormFieldSelect
               items={UnitsType[VolumeUnitOfMeasure.MILILITROS]}
+              control={formConsumptionDetail.control}
+              description={
+                formFieldsConsumptionDetail.unit_of_measure.description
+              }
+              label={formFieldsConsumptionDetail.unit_of_measure.label}
+              name={'unit_of_measure'}
+              placeholder={
+                formFieldsConsumptionDetail.unit_of_measure.placeholder
+              }
+              disabled={readOnly}
+              currentValue={currentUnitType!}
+              manualValidationValue
+            />
+          )}
+
+        {!!currentSupply.id &&
+          getUnitType(currentSupply.unit_of_measure as any) === 'length' && (
+            <FormFieldSelect
+              items={UnitsType[LengthUnitOfMeasure.MILIMETROS]}
               control={formConsumptionDetail.control}
               description={
                 formFieldsConsumptionDetail.unit_of_measure.description

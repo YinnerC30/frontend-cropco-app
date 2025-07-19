@@ -43,25 +43,27 @@ export enum AllUnitsOfMeasure {
   METROS = 'METROS',
 }
 
-export type UnitOfMeasure = VolumeUnitOfMeasure | MassUnitOfMeasure | LengthUnitOfMeasure;
+export type UnitOfMeasure =
+  | VolumeUnitOfMeasure
+  | MassUnitOfMeasure
+  | LengthUnitOfMeasure;
 
-export const UnitsType: {
-  GRAMOS: {
-    key: MassUnitOfMeasure;
-    value: MassUnitOfMeasure;
-    label: string;
-  }[];
-  MILILITROS: {
-    key: VolumeUnitOfMeasure;
-    value: VolumeUnitOfMeasure;
-    label: string;
-  }[];
-  MILIMETROS: {
-    key: LengthUnitOfMeasure;
-    value: LengthUnitOfMeasure;
-    label: string;
-  }[];
-} = {
+/**
+ * Interface for unit of measure option.
+ */
+export interface UnitOfMeasureOption<T extends UnitOfMeasure> {
+  key: T;
+  value: T;
+  label: string;
+}
+
+/**
+ * Diccionario de agrupaciones de unidades de medida por tipo base.
+ */
+export const UnitsType: Record<
+  'GRAMOS' | 'MILILITROS' | 'MILIMETROS',
+  UnitOfMeasureOption<any>[]
+> = {
   GRAMOS: [
     {
       key: MassUnitOfMeasure.GRAMOS,
@@ -124,6 +126,30 @@ export const UnitsType: {
     },
   ],
 };
+
+/**
+ * Obtiene el array de opciones de unidades de medida relacionadas a la unidad base proporcionada.
+ * @param unit Unidad de medida base (por ejemplo: 'GRAMOS', 'KILOGRAMOS', 'LIBRAS', 'MILILITROS', etc.)
+ * @returns Array de opciones de unidades de medida relacionadas.
+ */
+export function getUnitOfMeasureOptions(
+  unit: UnitOfMeasure
+): UnitOfMeasureOption<UnitOfMeasure>[] {
+  if (Object.values(MassUnitOfMeasure).includes(unit as MassUnitOfMeasure)) {
+    return UnitsType.GRAMOS as UnitOfMeasureOption<UnitOfMeasure>[];
+  }
+  if (
+    Object.values(VolumeUnitOfMeasure).includes(unit as VolumeUnitOfMeasure)
+  ) {
+    return UnitsType.MILILITROS as UnitOfMeasureOption<UnitOfMeasure>[];
+  }
+  if (
+    Object.values(LengthUnitOfMeasure).includes(unit as LengthUnitOfMeasure)
+  ) {
+    return UnitsType.MILIMETROS as UnitOfMeasureOption<UnitOfMeasure>[];
+  }
+  return [];
+}
 
 export const UnitSymbols: Record<UnitOfMeasure, string> = {
   GRAMOS: 'g',
