@@ -98,7 +98,7 @@ export const TenantsModuleActionsTable: React.FC<Props> = ({ row }) => {
 
       <ActionAdminUsers
         id={id}
-        disabled={!is_active_tenant || !is_created_db}
+        disabled={!is_active_tenant || !is_created_db || !is_migrated_db}
       />
     </DropDownMenuActions>
   );

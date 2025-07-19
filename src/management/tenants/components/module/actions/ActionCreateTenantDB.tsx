@@ -15,7 +15,7 @@ export const ActionCreateTenantDB: React.FC<Props> = ({
   disabled = false,
 }) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
-  const { mutate } = useCreateTenantDB();
+  const { mutate, isPending } = useCreateTenantDB();
 
   const handleCreateTenantDB = () => {
     mutate(id, { onSuccess: () => toggleOpen(false) });
@@ -28,7 +28,7 @@ export const ActionCreateTenantDB: React.FC<Props> = ({
         onClick={handleCreateTenantDB}
         variant={'ghost'}
         className="cursor-pointer"
-        disabled={disabled}
+        disabled={disabled || status || isPending}
       >
         {status ? 'Ya se creo' : 'Crear'}
       </Button>

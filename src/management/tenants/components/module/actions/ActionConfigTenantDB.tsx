@@ -15,7 +15,7 @@ export const ActionConfigTenantDB: React.FC<Props> = ({
   disabled = false,
 }) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
-  const { mutate } = usePutConfigTenantDB();
+  const { mutate, isPending } = usePutConfigTenantDB();
 
   const handleToggleTenantDB = () => {
     mutate(id, { onSuccess: () => toggleOpen(false) });
@@ -28,7 +28,7 @@ export const ActionConfigTenantDB: React.FC<Props> = ({
         onClick={handleToggleTenantDB}
         variant={'ghost'}
         className="cursor-pointer"
-        disabled={status}
+        disabled={status || isPending}
       >
         {status ? 'Ya se migró' : 'Migrar'}
       </Button>
