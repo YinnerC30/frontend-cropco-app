@@ -8,6 +8,7 @@ export interface Crop {
   name: string;
   description: string;
   units: number;
+  number_hectares: number;
   location: string;
   date_of_creation: string;
   date_of_termination: string;

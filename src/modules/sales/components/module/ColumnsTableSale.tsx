@@ -7,6 +7,9 @@ import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyV
 import { Sale, SaleDetail } from '../../interfaces';
 import { formFieldsSale } from '../../utils/formFieldsSale';
 import { CellSaleAmount } from './CellSaleAmount';
+import { CropHoverCard } from '@/modules/crops/components/card/CropHoverCard';
+import { Crop } from '@/modules/crops/interfaces/Crop';
+import { PersonHoverCard } from '@/modules/core/components/card/PersonHoverCard';
 
 export const columnsSale: ColumnDef<Sale>[] = [
   {
@@ -22,13 +25,16 @@ export const columnsSale: ColumnDef<Sale>[] = [
   },
 
   {
-    accessorKey: 'clients',
+    accessorKey: 'details',
     header: ({ column }) => (
       <ButtonHeaderTable column={column} label="Clientes:" />
     ),
     cell: ({ row: { original } }) => {
       const setClients = new Set(
-        original.details.map((item) => item.client.full_name)
+        original.details.map((item) => ({
+          ...item.client,
+          full_name: item.client.first_name + ' ' + item.client.last_name,
+        }))
       );
       const clients = Array.from(setClients);
       const maxVisible = 2;
@@ -37,15 +43,19 @@ export const columnsSale: ColumnDef<Sale>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {clients.slice(0, maxVisible).map((client, index) => (
-            <Badge key={`${client}-${index}`} className="mb-1 mr-1" variant={'orange'}>
-              {client}
-            </Badge>
+            <PersonHoverCard data={client as any}>
+              <Badge
+                key={`${client.id}-${index}`}
+                className="mb-1 mr-1"
+                variant={'orange'}
+              >
+                {client.full_name}
+              </Badge>
+            </PersonHoverCard>
           ))}
 
           {hiddenCount > 0 && (
-            // <ToolTipTemplate content={clients.slice(maxVisible).join(',\n')}>
             <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
-            // </ToolTipTemplate>
           )}
         </div>
       );
@@ -57,7 +67,7 @@ export const columnsSale: ColumnDef<Sale>[] = [
       <ButtonHeaderTable column={column} label="Cultivos:" />
     ),
     cell: ({ row: { original } }) => {
-      const setCrops = new Set(original.details.map((item) => item.crop.name));
+      const setCrops = new Set(original.details.map((item) => item.crop));
       const crops = Array.from(setCrops);
       const maxVisible = 2;
       const hiddenCount = crops.length - maxVisible;
@@ -65,9 +75,15 @@ export const columnsSale: ColumnDef<Sale>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {crops.slice(0, maxVisible).map((crop, index) => (
-            <Badge key={`${crop}-${index}`} className="mb-1 mr-1" variant={'purple'}>
-              {crop}
-            </Badge>
+            <CropHoverCard data={crop as Crop}>
+              <Badge className="mb-1 mr-1" variant={'purple'}>
+                {crop.name}
+              </Badge>
+            </CropHoverCard>
+
+            // <Badge key={`${crop}-${index}`} className="mb-1 mr-1" variant={'purple'}>
+            //   {crop}
+            // </Badge>
           ))}
 
           {hiddenCount > 0 && (

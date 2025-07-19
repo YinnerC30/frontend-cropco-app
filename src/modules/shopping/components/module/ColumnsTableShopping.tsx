@@ -6,6 +6,8 @@ import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyV
 import { ShoppingSupplies } from '../../interfaces';
 import { formFieldsShopping } from '../../utils/formFieldsShopping';
 import { Badge, Button } from '@/components';
+import { PersonHoverCard } from '@/modules/core/components/card/PersonHoverCard';
+import { SupplyHoverCard } from '@/modules/supplies/components/card/SupplyHoverCard';
 
 export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
   {
@@ -29,9 +31,7 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
       return <ButtonHeaderTable column={column} label={'Insumos:'} />;
     },
     cell: ({ row: { original } }) => {
-      const setSupplies = new Set(
-        original.details.map((item) => item.supply.name)
-      );
+      const setSupplies = new Set(original.details.map((item) => item.supply));
 
       const supplies = Array.from(setSupplies);
 
@@ -41,9 +41,15 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {supplies.slice(0, maxVisible).map((supply, index) => (
-            <Badge key={`${supply}-${index}`} className="mb-1 mr-1" variant={'cyan'}>
-              {supply}
-            </Badge>
+            <SupplyHoverCard data={supply as any}>
+              <Badge
+                key={`${supply}-${index}`}
+                className="mb-1 mr-1"
+                variant={'cyan'}
+              >
+                {supply.name}
+              </Badge>
+            </SupplyHoverCard>
           ))}
 
           {hiddenCount > 0 && (
@@ -62,7 +68,7 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
     },
     cell: ({ row: { original } }) => {
       const setSuppliers = new Set(
-        original.details.map((item) => item.supplier.full_name)
+        original.details.map((item) => item.supplier)
       );
 
       const suppliers = Array.from(setSuppliers);
@@ -73,9 +79,15 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {suppliers.slice(0, maxVisible).map((supplier, index) => (
-            <Badge key={`${supplier}-${index}`} className="mb-1 mr-1" variant={'orange'}>
-              {supplier}
-            </Badge>
+            <PersonHoverCard data={supplier as any}>
+              <Badge
+                key={`${supplier}-${index}`}
+                className="mb-1 mr-1"
+                variant={'orange'}
+              >
+                {supplier.full_name}
+              </Badge>
+            </PersonHoverCard>
           ))}
 
           {hiddenCount > 0 && (

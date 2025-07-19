@@ -5,6 +5,8 @@ import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { ConsumptionSupplies } from '../../interfaces';
 import { formFieldsConsumption } from '../../utils/formFieldsConsumption';
 import { Badge, Button } from '@/components';
+import { SupplyHoverCard } from '@/modules/supplies/components/card/SupplyHoverCard';
+import { CropHoverCard } from '@/modules/crops/components/card/CropHoverCard';
 
 export const columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
   {
@@ -27,9 +29,7 @@ export const columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
       return <ButtonHeaderTable column={column} label={'Insumos:'} />;
     },
     cell: ({ row: { original } }) => {
-      const setSupplies = new Set(
-        original.details.map((item) => item.supply.name)
-      );
+      const setSupplies = new Set(original.details.map((item) => item.supply));
 
       const supplies = Array.from(setSupplies);
 
@@ -39,9 +39,15 @@ export const columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {supplies.slice(0, maxVisible).map((supply, index) => (
-            <Badge key={`${supply}-${index}`} className="mb-1 mr-1" variant={'cyan'}>
-              {supply}
-            </Badge>
+            <SupplyHoverCard data={supply as any}>
+              <Badge
+                key={`${supply}-${index}`}
+                className="mb-1 mr-1"
+                variant={'cyan'}
+              >
+                {supply.name}
+              </Badge>
+            </SupplyHoverCard>
           ))}
 
           {hiddenCount > 0 && (
@@ -59,7 +65,7 @@ export const columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
       return <ButtonHeaderTable column={column} label={'Cultivos:'} />;
     },
     cell: ({ row: { original } }) => {
-      const setCrops = new Set(original.details.map((item) => item.crop.name));
+      const setCrops = new Set(original.details.map((item) => item.crop));
 
       const crops = Array.from(setCrops);
 
@@ -69,9 +75,15 @@ export const columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {crops.slice(0, maxVisible).map((crop, index) => (
-            <Badge key={`${crop}-${index}`} className="mb-1 mr-1" variant={'purple'}>
-              {crop}
-            </Badge>
+            <CropHoverCard data={crop as any}>
+              <Badge
+                key={`${crop}-${index}`}
+                className="mb-1 mr-1"
+                variant={'purple'}
+              >
+                {crop.name}
+              </Badge>
+            </CropHoverCard>
           ))}
 
           {hiddenCount > 0 && (
