@@ -20,6 +20,7 @@ import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDe
 import {
   MassUnitOfMeasure,
   VolumeUnitOfMeasure,
+  LengthUnitOfMeasure,
 } from '../../interfaces/UnitOfMeasure';
 
 export interface SuppliesModuleContextProps {
@@ -36,6 +37,10 @@ export interface SuppliesModuleContextProps {
   unitVolumeTypeToShowAmount: VolumeUnitOfMeasure;
   setUnitVolumeTypeToShowAmount: React.Dispatch<
     React.SetStateAction<VolumeUnitOfMeasure>
+  >;
+  unitLengthTypeToShowAmount: LengthUnitOfMeasure;
+  setUnitLengthTypeToShowAmount: React.Dispatch<
+    React.SetStateAction<LengthUnitOfMeasure>
   >;
 }
 
@@ -63,6 +68,8 @@ export const SuppliesModuleProvider = ({ children }: any) => {
     useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
   const [unitVolumeTypeToShowAmount, setUnitVolumeTypeToShowAmount] =
     useState<VolumeUnitOfMeasure>(VolumeUnitOfMeasure.LITROS);
+  const [unitLengthTypeToShowAmount, setUnitLengthTypeToShowAmount] =
+    useState<LengthUnitOfMeasure>(LengthUnitOfMeasure.METROS);
 
   const columnsTable = useCreateColumnsTable<Supply>({
     columns: columnsTableSupplies,
@@ -102,6 +109,8 @@ export const SuppliesModuleProvider = ({ children }: any) => {
     setMassUnitTypeToShowAmount,
     unitVolumeTypeToShowAmount,
     setUnitVolumeTypeToShowAmount,
+    unitLengthTypeToShowAmount,
+    setUnitLengthTypeToShowAmount,
   };
 
   return (

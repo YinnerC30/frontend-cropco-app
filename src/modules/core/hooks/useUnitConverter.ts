@@ -1,7 +1,7 @@
 import { UnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { useCallback } from 'react';
 
-// Factores de conversión a unidades base (gramos y mililitros)
+// Factores de conversión a unidades base (gramos, mililitros y milímetros)
 const conversionFactors = {
   // Masa (base: gramos)
   KILOGRAMOS: 1000, // 1 kg = 1000 g
@@ -12,10 +12,14 @@ const conversionFactors = {
   // Volumen (base: mililitros)
   LITROS: 1000, // 1 L = 1000 ml
   GALONES: 3785.41, // 1 gal = 3785.41 ml
+
+  // Longitud (base: milímetros)
+  CENTIMETROS: 10, // 1 cm = 10 mm
+  METROS: 1000, // 1 m = 1000 mm
 };
 
-// Mapeo de unidades a su tipo (masa o volumen)
-export const unitTypeMap: Record<UnitOfMeasure, 'mass' | 'volume'> = {
+// Mapeo de unidades a su tipo (masa, volumen o longitud)
+export const unitTypeMap: Record<UnitOfMeasure, 'mass' | 'volume' | 'length'> = {
   // Masa
   GRAMOS: 'mass',
   KILOGRAMOS: 'mass',
@@ -26,6 +30,10 @@ export const unitTypeMap: Record<UnitOfMeasure, 'mass' | 'volume'> = {
   MILILITROS: 'volume',
   LITROS: 'volume',
   GALONES: 'volume',
+  // Longitud
+  MILIMETROS: 'length',
+  CENTIMETROS: 'length',
+  METROS: 'length',
 };
 
 export const useUnitConverter = () => {
@@ -40,7 +48,7 @@ export const useUnitConverter = () => {
         return amount;
       }
 
-      // Verificar que las unidades sean del mismo tipo (masa o volumen)
+      // Verificar que las unidades sean del mismo tipo (masa, volumen o longitud)
       if (unitTypeMap[fromUnit] !== unitTypeMap[toUnit]) {
         throw new Error(
           `No se puede convertir entre unidades de ${unitTypeMap[fromUnit]} y ${unitTypeMap[toUnit]}`
@@ -49,7 +57,7 @@ export const useUnitConverter = () => {
 
       // Convertir a la unidad base
       let baseAmount: number;
-      if (fromUnit === 'GRAMOS' || fromUnit === 'MILILITROS') {
+      if (fromUnit === 'GRAMOS' || fromUnit === 'MILILITROS' || fromUnit === 'MILIMETROS') {
         baseAmount = amount;
       } else {
         baseAmount = amount * conversionFactors[fromUnit];
@@ -57,7 +65,7 @@ export const useUnitConverter = () => {
 
       // Convertir de la unidad base a la unidad destino
       let finalAmount: number;
-      if (toUnit === 'GRAMOS' || toUnit === 'MILILITROS') {
+      if (toUnit === 'GRAMOS' || toUnit === 'MILILITROS' || toUnit === 'MILIMETROS') {
         finalAmount = baseAmount;
       } else {
         finalAmount = baseAmount / conversionFactors[toUnit];
@@ -65,9 +73,10 @@ export const useUnitConverter = () => {
 
       // Asegurarse de que la conversión sea correcta cuando la unidad de origen es la base
       if (
-        (fromUnit === 'GRAMOS' || fromUnit === 'MILILITROS') &&
+        (fromUnit === 'GRAMOS' || fromUnit === 'MILILITROS' || fromUnit === 'MILIMETROS') &&
         toUnit !== 'GRAMOS' &&
-        toUnit !== 'MILILITROS'
+        toUnit !== 'MILILITROS' &&
+        toUnit !== 'MILIMETROS'
       ) {
         finalAmount = amount / conversionFactors[toUnit];
       }
@@ -77,7 +86,7 @@ export const useUnitConverter = () => {
     []
   );
 
-  const getUnitType = useCallback((unit: UnitOfMeasure): 'mass' | 'volume' => {
+  const getUnitType = useCallback((unit: UnitOfMeasure): 'mass' | 'volume' | 'length' => {
     return unitTypeMap[unit];
   }, []);
 

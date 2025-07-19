@@ -12,6 +12,20 @@ export enum MassUnitOfMeasure {
   TONELADAS = 'TONELADAS',
 }
 
+/**
+ * Enum for length units of measure.
+ */
+export enum LengthUnitOfMeasure {
+  MILIMETROS = 'MILIMETROS',
+  CENTIMETROS = 'CENTIMETROS',
+  METROS = 'METROS',
+  // KILOMETROS = 'KILOMETROS',
+  // PULGADAS = 'PULGADAS',
+  // PIES = 'PIES',
+  // YARDAS = 'YARDAS',
+  // MILLAS = 'MILLAS',
+}
+
 export enum AllUnitsOfMeasure {
   //MASS
   GRAMOS = 'GRAMOS',
@@ -23,9 +37,13 @@ export enum AllUnitsOfMeasure {
   MILILITROS = 'MILILITROS',
   LITROS = 'LITROS',
   GALONES = 'GALONES',
+  // Lenght
+  MILIMETROS = 'MILIMETROS',
+  CENTIMETROS = 'CENTIMETROS',
+  METROS = 'METROS',
 }
 
-export type UnitOfMeasure = VolumeUnitOfMeasure | MassUnitOfMeasure;
+export type UnitOfMeasure = VolumeUnitOfMeasure | MassUnitOfMeasure | LengthUnitOfMeasure;
 
 export const UnitsType: {
   GRAMOS: {
@@ -36,6 +54,11 @@ export const UnitsType: {
   MILILITROS: {
     key: VolumeUnitOfMeasure;
     value: VolumeUnitOfMeasure;
+    label: string;
+  }[];
+  MILIMETROS: {
+    key: LengthUnitOfMeasure;
+    value: LengthUnitOfMeasure;
     label: string;
   }[];
 } = {
@@ -83,6 +106,23 @@ export const UnitsType: {
       label: 'Galones',
     },
   ],
+  MILIMETROS: [
+    {
+      key: LengthUnitOfMeasure.MILIMETROS,
+      value: LengthUnitOfMeasure.MILIMETROS,
+      label: 'Milímetros',
+    },
+    {
+      key: LengthUnitOfMeasure.CENTIMETROS,
+      value: LengthUnitOfMeasure.CENTIMETROS,
+      label: 'Centímetros',
+    },
+    {
+      key: LengthUnitOfMeasure.METROS,
+      value: LengthUnitOfMeasure.METROS,
+      label: 'Metros',
+    },
+  ],
 };
 
 export const UnitSymbols: Record<UnitOfMeasure, string> = {
@@ -94,4 +134,7 @@ export const UnitSymbols: Record<UnitOfMeasure, string> = {
   MILILITROS: 'ml',
   LITROS: 'L',
   GALONES: 'gal',
+  MILIMETROS: 'mm',
+  CENTIMETROS: 'cm',
+  METROS: 'm',
 };

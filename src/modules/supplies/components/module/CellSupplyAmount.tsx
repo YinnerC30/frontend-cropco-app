@@ -6,13 +6,17 @@ import {
   MassUnitOfMeasure,
   UnitOfMeasure,
   VolumeUnitOfMeasure,
+  LengthUnitOfMeasure,
 } from '../../interfaces/UnitOfMeasure';
 import { FormatNumber } from '@/modules/core/helpers';
 
 export const CellSupplyAmount = ({ row }: { row: Row<Supply> }) => {
   const { getUnitType } = useUnitConverter();
-  const { unitMassTypeToShowAmount, unitVolumeTypeToShowAmount } =
-    useSuppliesModuleContext();
+  const { 
+    unitMassTypeToShowAmount, 
+    unitVolumeTypeToShowAmount,
+    unitLengthTypeToShowAmount 
+  } = useSuppliesModuleContext();
 
   const rawValue = row.original.stock?.amount ?? 0;
 
@@ -32,6 +36,12 @@ export const CellSupplyAmount = ({ row }: { row: Row<Supply> }) => {
       rawValue,
       VolumeUnitOfMeasure.MILILITROS,
       unitVolumeTypeToShowAmount
+    );
+  } else if (group === 'length') {
+    convertedValue = convert(
+      rawValue,
+      LengthUnitOfMeasure.MILIMETROS,
+      unitLengthTypeToShowAmount
     );
   }
 

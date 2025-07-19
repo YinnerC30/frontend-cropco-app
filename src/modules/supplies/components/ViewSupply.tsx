@@ -15,6 +15,7 @@ import {
   UnitOfMeasure,
   UnitSymbols,
   VolumeUnitOfMeasure,
+  LengthUnitOfMeasure,
 } from '../interfaces/UnitOfMeasure';
 import { MODULE_SUPPLIES_PATHS } from '../routes/pathRoutes';
 import { FormSupply } from './form/FormSupply';
@@ -45,7 +46,7 @@ export const ViewSupply = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetSupply(id!);
 
-  const { convert } = useUnitConverter();
+  const { convert, getUnitType } = useUnitConverter();
 
   if (isLoading) {
     return <Loading />;
@@ -73,14 +74,46 @@ export const ViewSupply = () => {
 
   const currentStock = data?.stock?.amount || 0;
   const currentUnitType = data.unit_of_measure;
+  const unitType = getUnitType(currentUnitType as UnitOfMeasure);
 
-  const convertedAmount = convert(
-    currentStock,
-    currentUnitType as UnitOfMeasure,
-    currentUnitType === 'GRAMOS'
-      ? MassUnitOfMeasure.KILOGRAMOS
-      : VolumeUnitOfMeasure.LITROS
-  );
+  let convertedAmount = 0;
+  let displayUnit = currentUnitType;
+
+  if (unitType === 'mass') {
+    convertedAmount = convert(
+      currentStock,
+      currentUnitType as UnitOfMeasure,
+      MassUnitOfMeasure.KILOGRAMOS
+    );
+    displayUnit = MassUnitOfMeasure.KILOGRAMOS;
+  } else if (unitType === 'volume') {
+    convertedAmount = convert(
+      currentStock,
+      currentUnitType as UnitOfMeasure,
+      VolumeUnitOfMeasure.LITROS
+    );
+    displayUnit = VolumeUnitOfMeasure.LITROS;
+  } else if (unitType === 'length') {
+    convertedAmount = convert(
+      currentStock,
+      currentUnitType as UnitOfMeasure,
+      LengthUnitOfMeasure.METROS
+    );
+    displayUnit = LengthUnitOfMeasure.METROS;
+  }
+
+  const getBadgeVariant = (unitType: string) => {
+    switch (unitType) {
+      case 'mass':
+        return 'zinc';
+      case 'volume':
+        return 'blue';
+      case 'length':
+        return 'success';
+      default:
+        return 'zinc';
+    }
+  };
 
   return (
     <>
@@ -97,15 +130,9 @@ export const ViewSupply = () => {
           <span>{FormatNumber(convertedAmount)}</span>
           <Badge
             className="w-auto"
-            variant={currentUnitType === 'GRAMOS' ? 'zinc' : 'blue'}
+            variant={getBadgeVariant(unitType)}
           >
-            {
-              UnitSymbols[
-                currentUnitType === 'GRAMOS'
-                  ? MassUnitOfMeasure.KILOGRAMOS
-                  : VolumeUnitOfMeasure.LITROS
-              ]
-            }
+            {UnitSymbols[displayUnit as UnitOfMeasure]}
           </Badge>
         </div>
 

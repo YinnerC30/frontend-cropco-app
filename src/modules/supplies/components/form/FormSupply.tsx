@@ -4,9 +4,11 @@ import { FormSupplyButtons } from './FormSupplyButtons';
 import { FormSupplyProps, FormSupplyProvider } from './FormSupplyContext';
 import { FormSupplyFields } from './FormSupplyFields';
 
-interface Props extends FormSupplyProps, PropsWithChildren {}
+interface Props extends FormSupplyProps, PropsWithChildren {
+  statusForm?: 'creation' | 'update';
+}
 
-export const FormSupply: React.FC<Props> = ({ children, ...props }) => {
+export const FormSupply: React.FC<Props> = ({ children, ...props}) => {
   return (
     <FormSupplyProvider {...props}>
       <div className="flex flex-col items-center">

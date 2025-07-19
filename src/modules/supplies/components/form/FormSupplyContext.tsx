@@ -24,6 +24,7 @@ export type FormSupplyProps = FormProps<
 
 export interface FormSupplyContextProps extends FormContextProps {
   onSubmit: (values: z.infer<typeof formSchemaSupply>) => void;
+  statusForm?: 'creation' | 'update';
 }
 
 export const FormSupplyContext = createContext<
@@ -33,6 +34,7 @@ export const FormSupplyContext = createContext<
 export const FormSupplyProvider: React.FC<
   FormSupplyProps & {
     children: React.ReactNode;
+    statusForm?: 'creation' | 'update';
   }
 > = ({
   children,
@@ -40,11 +42,15 @@ export const FormSupplyProvider: React.FC<
   isSubmitting = false,
   onSubmit = (values) => {},
   readOnly = false,
+  statusForm = 'creation',
 }) => {
-  const combinedDefaultValues = useMemo(() => ({
-    ...moduleDefaultValues, // Usar los defaultValues del módulo como base
-    ...(propsDefaultValues || {}), // Sobrescribir con los de las props si existen
-  }), [propsDefaultValues]);
+  const combinedDefaultValues = useMemo(
+    () => ({
+      ...moduleDefaultValues, // Usar los defaultValues del módulo como base
+      ...(propsDefaultValues || {}), // Sobrescribir con los de las props si existen
+    }),
+    [propsDefaultValues]
+  );
 
   const form = useCreateForm({
     schema: formSchemaSupply,
@@ -58,6 +64,7 @@ export const FormSupplyProvider: React.FC<
         isSubmitting,
         onSubmit,
         readOnly,
+        statusForm,
       }}
     >
       {children}
