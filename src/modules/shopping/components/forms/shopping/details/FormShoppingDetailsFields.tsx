@@ -80,7 +80,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
     if (!!currentSupply.id && currentSupply.id !== shoppingDetail.supply.id) {
       formShoppingDetail.setValue(
         'unit_of_measure',
-        getUnitOfMeasureOptions(currentSupply.unit_of_measure as any)[0].key,
+        currentSupply.unit_of_measure as UnitOfMeasure,
         { shouldValidate: true }
       );
     } else if (
@@ -335,6 +335,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
           placeholder={formFieldsShoppingDetail.amount.placeholder}
           disabled={false}
           type="number"
+          allowDecimals
         />
         <FormFieldInput
           control={formShoppingDetail.control}
