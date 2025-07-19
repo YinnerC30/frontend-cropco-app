@@ -32,7 +32,6 @@ import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import { z } from 'zod';
 import { ActionsTableConsumptionDetail } from '../consumption/details/ActionsTableConsumptionDetail';
 import { columnsConsumptionDetail } from '../consumption/details/ColumnsTableConsumptionDetail';
-import { UnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 export const defaultValuesConsumptionDetail: ConsumptionDetails = {
   id: undefined,
@@ -237,13 +236,13 @@ export const FormConsumptionProvider: React.FC<
 
     let convertionValue: number = -1;
 
-    const initalUnit: any = getUnitBase(record.supply.unit_of_measure);
+    const unitBase: any = getUnitBase(record.supply.unit_of_measure);
 
     try {
       convertionValue = convert(
         supply.amount,
         // record.supply.unit_of_measure,
-        initalUnit,
+        unitBase,
         record.unit_of_measure
       );
     } catch (error) {
@@ -261,13 +260,11 @@ export const FormConsumptionProvider: React.FC<
   };
 
   const addSupplyStock = (suppliesStock: any): void => {
-
     const baseUnit: any = getUnitBase(suppliesStock.supply.unit_of_measure);
 
     const result = convert(
       suppliesStock.amount,
       suppliesStock.unit_of_measure,
-      // suppliesStock.supply.unit_of_measure
       baseUnit
     );
 
@@ -282,7 +279,6 @@ export const FormConsumptionProvider: React.FC<
     const result = convert(
       suppliesStock.amount,
       suppliesStock.unit_of_measure,
-      // suppliesStock.supply.unit_of_measure
       baseUnit
     );
 
