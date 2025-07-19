@@ -815,7 +815,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                     />
                     <FormFieldSelect
                       disabled={false}
-                      items={UnitsType[MassUnitOfMeasure.GRAMOS]}
+                      items={UnitsType.MASS}
                       {...formFieldsSearchBarSale.type_unit_of_measure}
                       control={form.control}
                       name="filter_by_amount.type_unit_of_measure"

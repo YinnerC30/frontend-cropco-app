@@ -232,7 +232,7 @@ export const FormSaleDetailsFields: React.FC = () => {
         />
 
         <FormFieldSelect
-          items={UnitsType[MassUnitOfMeasure.GRAMOS]}
+          items={UnitsType.MASS}
           control={formSaleDetail.control}
           description={formFieldsSaleDetail.unit_of_measure.description}
           label={formFieldsSaleDetail.unit_of_measure.label}

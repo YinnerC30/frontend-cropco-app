@@ -35,7 +35,7 @@ export const SelectedLengthUnitOfMeasure = ({
       </SelectTrigger>
 
       <SelectContent>
-        {[...UnitsType['MILIMETROS']].map((item: any) => (
+        {UnitsType.LENGTH.map((item: any) => (
           <SelectItem key={item.key} value={item.value}>
             {item.label}
           </SelectItem>
@@ -43,4 +43,4 @@ export const SelectedLengthUnitOfMeasure = ({
       </SelectContent>
     </Select>
   );
-}; 
+};

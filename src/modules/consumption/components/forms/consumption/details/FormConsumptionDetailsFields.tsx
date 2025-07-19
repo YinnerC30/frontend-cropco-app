@@ -35,11 +35,8 @@ import { useGetAllCrops } from '@/modules/crops/hooks';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
 import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import {
-  LengthUnitOfMeasure,
-  MassUnitOfMeasure,
   UnitOfMeasure,
-  UnitsType,
-  VolumeUnitOfMeasure,
+  UnitsType
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { useEffect, useRef, useState } from 'react';
@@ -58,7 +55,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
     addSupplyStock,
   } = useFormConsumptionContext();
 
-  const { getUnitType, } = useUnitConverter();
+  const { getUnitType } = useUnitConverter();
 
   const { query: queryCrops } = useGetAllCrops({
     all_records: true,
@@ -296,7 +293,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
         {!!currentSupply.id &&
           getUnitType(currentSupply.unit_of_measure as any) === 'mass' && (
             <FormFieldSelect
-              items={UnitsType[MassUnitOfMeasure.GRAMOS]}
+              items={UnitsType.MASS}
               control={formConsumptionDetail.control}
               description={
                 formFieldsConsumptionDetail.unit_of_measure.description
@@ -315,7 +312,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
         {!!currentSupply.id &&
           getUnitType(currentSupply.unit_of_measure as any) === 'volume' && (
             <FormFieldSelect
-              items={UnitsType[VolumeUnitOfMeasure.MILILITROS]}
+              items={UnitsType.VOLUME}
               control={formConsumptionDetail.control}
               description={
                 formFieldsConsumptionDetail.unit_of_measure.description
@@ -334,7 +331,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
         {!!currentSupply.id &&
           getUnitType(currentSupply.unit_of_measure as any) === 'length' && (
             <FormFieldSelect
-              items={UnitsType[LengthUnitOfMeasure.MILIMETROS]}
+              items={UnitsType.LENGTH}
               control={formConsumptionDetail.control}
               description={
                 formFieldsConsumptionDetail.unit_of_measure.description

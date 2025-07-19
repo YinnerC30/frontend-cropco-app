@@ -91,15 +91,15 @@ export const FormSupplyFields = () => {
     let groupUnitOfMeasure = getUnitType(prevUnitOfMeasure);
     switch (groupUnitOfMeasure) {
       case 'mass':
-        elementsToShow = UnitsType.GRAMOS;
+        elementsToShow = UnitsType.MASS;
         groupNameToShow = 'Masa';
         break;
       case 'volume':
-        elementsToShow = UnitsType.MILILITROS;
+        elementsToShow = UnitsType.VOLUME;
         groupNameToShow = 'Volumen';
         break;
       case 'length':
-        elementsToShow = UnitsType.MILIMETROS;
+        elementsToShow = UnitsType.LENGTH;
         groupNameToShow = 'Longitud';
         break;
 

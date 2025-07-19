@@ -36,21 +36,18 @@ import {
 import { cn } from '@/lib/utils';
 import { Loading } from '@/modules/core/components';
 
+import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 import { formFieldsSaleDetail } from '@/modules/sales/utils';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
 import {
   getUnitOfMeasureOptions,
-  LengthUnitOfMeasure,
-  MassUnitOfMeasure,
   UnitOfMeasure,
-  UnitsType,
-  VolumeUnitOfMeasure,
+  UnitsType
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { CheckIcon } from 'lucide-react';
 import { ControllerRenderProps } from 'react-hook-form';
 import { defaultValuesShoppingDetail } from '../FormShoppingContext';
-import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 
 export const FormShoppingDetailsFields: React.FC = () => {
   const { formShoppingDetail, shoppingDetail, readOnly } =
@@ -288,7 +285,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
         {!!currentSupply.id &&
           getUnitType(currentSupply.unit_of_measure as any) === 'mass' && (
             <FormFieldSelect
-              items={UnitsType[MassUnitOfMeasure.GRAMOS]}
+              items={UnitsType.MASS}
               control={formShoppingDetail.control}
               description={formFieldsShoppingDetail.unit_of_measure.description}
               label={formFieldsShoppingDetail.unit_of_measure.label}
@@ -303,7 +300,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
         {!!currentSupply.id &&
           getUnitType(currentSupply.unit_of_measure as any) === 'volume' && (
             <FormFieldSelect
-              items={UnitsType[VolumeUnitOfMeasure.MILILITROS]}
+              items={UnitsType.VOLUME}
               control={formShoppingDetail.control}
               description={formFieldsShoppingDetail.unit_of_measure.description}
               label={formFieldsShoppingDetail.unit_of_measure.label}
@@ -318,7 +315,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
         {!!currentSupply.id &&
           getUnitType(currentSupply.unit_of_measure as any) === 'length' && (
             <FormFieldSelect
-              items={UnitsType[LengthUnitOfMeasure.MILIMETROS]}
+              items={UnitsType.LENGTH}
               control={formShoppingDetail.control}
               description={formFieldsShoppingDetail.unit_of_measure.description}
               label={formFieldsShoppingDetail.unit_of_measure.label}

@@ -61,10 +61,10 @@ export interface UnitOfMeasureOption<T extends UnitOfMeasure> {
  * Diccionario de agrupaciones de unidades de medida por tipo base.
  */
 export const UnitsType: Record<
-  'GRAMOS' | 'MILILITROS' | 'MILIMETROS',
+  'MASS' | 'VOLUME' | 'LENGTH',
   UnitOfMeasureOption<any>[]
 > = {
-  GRAMOS: [
+  MASS: [
     {
       key: MassUnitOfMeasure.GRAMOS,
       value: MassUnitOfMeasure.GRAMOS,
@@ -91,7 +91,7 @@ export const UnitsType: Record<
       label: 'Toneladas',
     },
   ],
-  MILILITROS: [
+  VOLUME: [
     {
       key: VolumeUnitOfMeasure.MILILITROS,
       value: VolumeUnitOfMeasure.MILILITROS,
@@ -108,7 +108,7 @@ export const UnitsType: Record<
       label: 'Galones',
     },
   ],
-  MILIMETROS: [
+  LENGTH: [
     {
       key: LengthUnitOfMeasure.MILIMETROS,
       value: LengthUnitOfMeasure.MILIMETROS,
@@ -136,17 +136,17 @@ export function getUnitOfMeasureOptions(
   unit: UnitOfMeasure
 ): UnitOfMeasureOption<UnitOfMeasure>[] {
   if (Object.values(MassUnitOfMeasure).includes(unit as MassUnitOfMeasure)) {
-    return UnitsType.GRAMOS as UnitOfMeasureOption<UnitOfMeasure>[];
+    return UnitsType.MASS as UnitOfMeasureOption<UnitOfMeasure>[];
   }
   if (
     Object.values(VolumeUnitOfMeasure).includes(unit as VolumeUnitOfMeasure)
   ) {
-    return UnitsType.MILILITROS as UnitOfMeasureOption<UnitOfMeasure>[];
+    return UnitsType.VOLUME as UnitOfMeasureOption<UnitOfMeasure>[];
   }
   if (
     Object.values(LengthUnitOfMeasure).includes(unit as LengthUnitOfMeasure)
   ) {
-    return UnitsType.MILIMETROS as UnitOfMeasureOption<UnitOfMeasure>[];
+    return UnitsType.LENGTH as UnitOfMeasureOption<UnitOfMeasure>[];
   }
   return [];
 }

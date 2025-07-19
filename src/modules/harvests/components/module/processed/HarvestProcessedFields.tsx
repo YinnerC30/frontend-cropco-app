@@ -142,7 +142,7 @@ export const HarvestProcessedFields: React.FC = () => {
               </SelectTrigger>
 
               <SelectContent>
-                {[...UnitsType['GRAMOS']].map((item: any) => (
+                {UnitsType.MASS.map((item: any) => (
                   <SelectItem key={item.key} value={item.value}>
                     {item.label}
                   </SelectItem>

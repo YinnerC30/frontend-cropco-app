@@ -18,8 +18,8 @@ import {
 } from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks';
 import {
-  usePutHarvestProcessed,
   usePostHarvestProcessed,
+  usePutHarvestProcessed,
 } from '@/modules/harvests/hooks';
 import { formFieldsHarvestProcessed } from '@/modules/harvests/utils/formFieldsHarvestProcessed';
 
@@ -30,8 +30,7 @@ import { memo, useEffect } from 'react';
 
 import { ConvertStringToDate } from '@/modules/core/helpers';
 import {
-  MassUnitOfMeasure,
-  UnitsType,
+  UnitsType
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { z } from 'zod';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
@@ -198,7 +197,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
                 />
 
                 <FormFieldSelect
-                  items={UnitsType[MassUnitOfMeasure.GRAMOS]}
+                  items={UnitsType.MASS}
                   control={formProcessed.control}
                   description={
                     formFieldsHarvestProcessed.unit_of_measure.description

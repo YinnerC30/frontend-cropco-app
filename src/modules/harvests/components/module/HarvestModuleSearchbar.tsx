@@ -48,7 +48,7 @@ import {
 import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
 import {
   MassUnitOfMeasure,
-  UnitsType
+  UnitsType,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
@@ -586,7 +586,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                     />
 
                     <FormFieldSelect
-                      items={UnitsType[MassUnitOfMeasure.GRAMOS]}
+                      items={UnitsType.MASS}
                       control={form.control}
                       description={
                         formFieldsSearchBarHarvest.type_unit_of_measure
