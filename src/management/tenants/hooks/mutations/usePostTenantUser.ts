@@ -20,7 +20,6 @@ async function createTenantUser(
 export function usePostTenantUser(
   tenantId: string
 ): UseMutationReturn<User, Partial<User>> {
-  // const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const { handleError } = useAuthTenantContext();
@@ -30,13 +29,30 @@ export function usePostTenantUser(
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['tenant-users'] });
-      // navigate('../view/all');
       toast.success(`Usuario creado`);
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      const messageResponse: any = error.response?.data?.message! || '';
+
+      let badRequestMessage = '';
+
+      if (messageResponse.includes('Only one admin user is allowed')) {
+        badRequestMessage =
+          'Solo se permite un usuario con rol "Administrador", selecciona otro.';
+      } else if (
+        messageResponse.includes('Unique constraint violation, Key (email)')
+      ) {
+        badRequestMessage =
+          'El correo seleccionado esta ocupado, registra otro';
+      }
+
       handleError({
         error,
-        handlers: {},
+        handlers: {
+          badRequest: {
+            message: badRequestMessage,
+          },
+        },
       });
     },
     retry: false,
