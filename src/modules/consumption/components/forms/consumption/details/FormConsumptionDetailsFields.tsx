@@ -30,11 +30,11 @@ import {
   Loading,
 } from '@/modules/core/components';
 
+import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 import { useGetAllCrops } from '@/modules/crops/hooks';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
 import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import {
-  getUnitOfMeasureOptions,
   LengthUnitOfMeasure,
   MassUnitOfMeasure,
   UnitOfMeasure,
@@ -47,7 +47,6 @@ import { ControllerRenderProps } from 'react-hook-form';
 import { defaultValuesConsumptionDetail } from '../FormConsumptionContext';
 import { BadgeSupplyStock } from './BadgeSupplyStock';
 import { CommandItemSupplyStock } from './CommandItemSupplyStock';
-import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 
 export const FormConsumptionDetailsFields: React.FC = () => {
   const {
@@ -59,7 +58,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
     addSupplyStock,
   } = useFormConsumptionContext();
 
-  const { getUnitType } = useUnitConverter();
+  const { getUnitType, } = useUnitConverter();
 
   const { query: queryCrops } = useGetAllCrops({
     all_records: true,
@@ -102,7 +101,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
     ) {
       formConsumptionDetail.setValue(
         'unit_of_measure',
-        getUnitOfMeasureOptions(currentSupply.unit_of_measure as any)[0].key,
+        currentSupply.unit_of_measure as UnitOfMeasure,
         { shouldValidate: true }
       );
     } else if (
@@ -359,6 +358,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
           placeholder={formFieldsConsumptionDetail.amount.placeholder}
           disabled={false}
           type="number"
+          allowDecimals
         />
       </form>
     </Form>
