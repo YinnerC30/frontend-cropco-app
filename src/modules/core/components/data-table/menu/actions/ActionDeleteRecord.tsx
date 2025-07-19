@@ -14,13 +14,20 @@ import {
 
 import { Button } from '@/components';
 import { TrashIcon } from '@radix-ui/react-icons';
-import { useDataTableMenuActionsContext } from '../DataTableMenuActionsContext';
 import { useState } from 'react';
+import { useDataTableMenuActionsContext } from '../DataTableMenuActionsContext';
 interface Props {
   action: () => void;
   disabled?: boolean;
+  alertDialogTitle?: string;
+  alertDialogDescription?: string;
 }
-export const ActionDeleteRecord = ({ action, disabled }: Props) => {
+export const ActionDeleteRecord = ({
+  action,
+  disabled,
+  alertDialogTitle = '¿Estas seguro de eliminar el registro?',
+  alertDialogDescription = 'Esta acción es irreversible y no podrá recuperar su registro',
+}: Props) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
   const [openDialog, setOpenDialog] = useState(false);
   return (
@@ -44,11 +51,9 @@ export const ActionDeleteRecord = ({ action, disabled }: Props) => {
         className="sm:max-w-[425px] max-w-[90vw]"
       >
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            ¿Estas seguro de eliminar el registro?
-          </AlertDialogTitle>
+          <AlertDialogTitle>{alertDialogTitle}</AlertDialogTitle>
           <AlertDialogDescription>
-            Esta acción es irreversible y no podrá recuperar su registro
+            {alertDialogDescription}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
