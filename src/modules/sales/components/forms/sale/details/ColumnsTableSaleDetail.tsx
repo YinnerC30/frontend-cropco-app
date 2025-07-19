@@ -45,7 +45,9 @@ export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
       return FormatMoneyValue(row.getValue('value_pay'));
     },
     header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
-      return <ButtonHeaderTable column={column} label={'Total:'} />;
+      return (
+        <ButtonHeaderTable column={column} label={'Total:'} className="mr-4" />
+      );
     },
   },
 
@@ -53,10 +55,14 @@ export const columnsSaleDetail: ColumnDef<SaleDetail>[] = [
     accessorKey: 'is_receivable',
     cell: ({ row }) => {
       const value = row.getValue('is_receivable');
-      return value ? (
-        <Badge variant={'destructive'}>SI</Badge>
-      ) : (
-        <Badge variant={'success'}>NO</Badge>
+      return (
+        <div className="flex justify-center ">
+          {value ? (
+            <Badge variant={'destructive'}>SI</Badge>
+          ) : (
+            <Badge variant={'success'}>NO</Badge>
+          )}
+        </div>
       );
     },
     header: ({ column }: HeaderContext<SaleDetail, unknown>) => {
