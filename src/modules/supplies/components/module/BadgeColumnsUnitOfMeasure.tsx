@@ -1,9 +1,13 @@
 import { Badge } from '@/components/ui/badge';
+import { unitTypeMap } from '@/modules/core/hooks/useUnitConverter';
+import { Row } from '@tanstack/react-table';
 import { useSuppliesModuleContext } from '../../hooks';
 import { Supply } from '../../interfaces/Supply';
-import { Row } from '@tanstack/react-table';
-import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
-import { UnitOfMeasure } from '../../interfaces/UnitOfMeasure';
+import {
+  CategoriesUnitOfMeasure,
+  UnitOfMeasure,
+} from '../../interfaces/UnitOfMeasure';
+import { getBadgeColor } from '../../utils/getBadgeColor';
 
 export const BadgeColumnsUnitOfMeasure = ({ row }: { row: Row<Supply> }) => {
   const {
@@ -12,35 +16,22 @@ export const BadgeColumnsUnitOfMeasure = ({ row }: { row: Row<Supply> }) => {
     unitLengthTypeToShowAmount,
   } = useSuppliesModuleContext();
 
-  const { getUnitType } = useUnitConverter();
+  const group = unitTypeMap[row.original.unit_of_measure as UnitOfMeasure];
 
-  const group = getUnitType(row.original.unit_of_measure as UnitOfMeasure);
+  const badgeVariant = getBadgeColor(group);
 
-  const getBadgeVariant = (unitType: string) => {
+  const getUnitToShow = (unitType: CategoriesUnitOfMeasure) => {
     switch (unitType) {
-      case 'mass':
-        return 'zinc';
-      case 'volume':
-        return 'blue';
-      case 'length':
-        return 'success';
-      default:
-        return 'zinc';
-    }
-  };
-
-  const getUnitToShow = (unitType: string) => {
-    switch (unitType) {
-      case 'mass':
+      case 'MASS':
         return unitMassTypeToShowAmount;
-      case 'volume':
+      case 'VOLUME':
         return unitVolumeTypeToShowAmount;
-      case 'length':
+      case 'LENGTH':
         return unitLengthTypeToShowAmount;
       default:
         return unitMassTypeToShowAmount;
     }
   };
 
-  return <Badge variant={getBadgeVariant(group)}>{getUnitToShow(group)}</Badge>;
+  return <Badge variant={badgeVariant as any}>{getUnitToShow(group)}</Badge>;
 };

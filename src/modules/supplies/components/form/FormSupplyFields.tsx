@@ -6,99 +6,45 @@ import {
   FormFieldSelectWithGroups,
   SelectElement,
 } from '@/modules/core/components/form/fields/FormFieldSelectWithGroups';
-import {
-  LengthUnitOfMeasure,
-  MassUnitOfMeasure,
-  UnitsType,
-  VolumeUnitOfMeasure,
-} from '../../interfaces/UnitOfMeasure';
+import { unitTypeMap } from '@/modules/core/hooks/useUnitConverter';
+import { UnitOfMeasure, UnitsType } from '../../interfaces/UnitOfMeasure';
 import { formFieldsSupply } from '../../utils';
-import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 
 export const FormSupplyFields = () => {
   const { form, onSubmit, readOnly, statusForm } = useFormSupplyContext();
 
-  const { getUnitType } = useUnitConverter();
-
   const getElementsToSelectUnitOfMeasure = () => {
+    // TODO: Refactorizar para mayor eficiencia
     if (statusForm !== 'update') {
       return [
         {
           groupName: 'Masa',
-          elements: [
-            {
-              key: MassUnitOfMeasure.GRAMOS,
-              value: MassUnitOfMeasure.GRAMOS,
-              label: 'Gramos',
-            },
-            {
-              key: MassUnitOfMeasure.LIBRAS,
-              value: MassUnitOfMeasure.LIBRAS,
-              label: 'Libras',
-            },
-            {
-              key: MassUnitOfMeasure.KILOGRAMOS,
-              value: MassUnitOfMeasure.KILOGRAMOS,
-              label: 'Kilogramos',
-            },
-          ],
+          elements: UnitsType.MASS,
         },
         {
           groupName: 'Volumen',
-          elements: [
-            {
-              key: VolumeUnitOfMeasure.MILILITROS,
-              value: VolumeUnitOfMeasure.MILILITROS,
-              label: 'Mililitros',
-            },
-            {
-              key: VolumeUnitOfMeasure.LITROS,
-              value: VolumeUnitOfMeasure.LITROS,
-              label: 'Litros',
-            },
-            {
-              key: VolumeUnitOfMeasure.GALONES,
-              value: VolumeUnitOfMeasure.GALONES,
-              label: 'Galones',
-            },
-          ],
+          elements: UnitsType.VOLUME,
         },
         {
           groupName: 'Longitud',
-          elements: [
-            {
-              key: LengthUnitOfMeasure.MILIMETROS,
-              value: LengthUnitOfMeasure.MILIMETROS,
-              label: 'Milimetros',
-            },
-            {
-              key: LengthUnitOfMeasure.CENTIMETROS,
-              value: LengthUnitOfMeasure.CENTIMETROS,
-              label: 'Centimetros',
-            },
-            {
-              key: LengthUnitOfMeasure.METROS,
-              value: LengthUnitOfMeasure.METROS,
-              label: 'Metros',
-            },
-          ],
+          elements: UnitsType.LENGTH,
         },
       ];
     }
     const prevUnitOfMeasure = form.getValues('unit_of_measure');
     let elementsToShow: SelectElement[] = [];
     let groupNameToShow = '';
-    let groupUnitOfMeasure = getUnitType(prevUnitOfMeasure);
+    let groupUnitOfMeasure = unitTypeMap[prevUnitOfMeasure as UnitOfMeasure];
     switch (groupUnitOfMeasure) {
-      case 'mass':
+      case 'MASS':
         elementsToShow = UnitsType.MASS;
         groupNameToShow = 'Masa';
         break;
-      case 'volume':
+      case 'VOLUME':
         elementsToShow = UnitsType.VOLUME;
         groupNameToShow = 'Volumen';
         break;
-      case 'length':
+      case 'LENGTH':
         elementsToShow = UnitsType.LENGTH;
         groupNameToShow = 'Longitud';
         break;

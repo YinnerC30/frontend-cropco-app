@@ -1,10 +1,17 @@
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
+import { Badge } from '@/components';
 import { ConsumptionDetails } from '@/modules/consumption/interfaces';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatNumber } from '@/modules/core/helpers';
-import { Badge } from '@/components';
-import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
+import {
+  unitTypeMap
+} from '@/modules/core/hooks/useUnitConverter';
+import {
+  CategoriesUnitOfMeasure,
+  UnitOfMeasure,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { getBadgeColor } from '@/modules/supplies/utils/getBadgeColor';
 
 export const columnsConsumptionDetail: ColumnDef<ConsumptionDetails>[] = [
   {
@@ -34,14 +41,12 @@ export const columnsConsumptionDetail: ColumnDef<ConsumptionDetails>[] = [
       return <ButtonHeaderTable column={column} label={'Unidad de medida:'} />;
     },
     cell: ({ row }) => {
-      const { getUnitType } = useUnitConverter();
       const unitOfMeasure: any = row.original.unit_of_measure;
-      const unit = getUnitType(unitOfMeasure);
-      return (
-        <Badge variant={unit === 'mass' ? 'zinc' : 'blue'}>
-          {unitOfMeasure}
-        </Badge>
-      );
+      const unit = unitTypeMap[
+        unitOfMeasure as UnitOfMeasure
+      ].toUpperCase() as CategoriesUnitOfMeasure;
+      const variantColor = getBadgeColor(unit) as any;
+      return <Badge variant={variantColor}>{unitOfMeasure}</Badge>;
     },
   },
 ];

@@ -40,13 +40,13 @@ export const BadgeSupplyStock = ({
   let coreUnit: UnitOfMeasure = MassUnitOfMeasure.GRAMOS;
 
   switch (grupUnit) {
-    case 'mass':
+    case 'MASS':
       coreUnit = MassUnitOfMeasure.GRAMOS;
       break;
-    case 'volume':
+    case 'VOLUME':
       coreUnit = VolumeUnitOfMeasure.MILILITROS;
       break;
-    case 'length':
+    case 'LENGTH':
       coreUnit = LengthUnitOfMeasure.MILIMETROS;
       break;
 

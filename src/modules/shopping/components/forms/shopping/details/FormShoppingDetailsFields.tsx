@@ -36,13 +36,15 @@ import {
 import { cn } from '@/lib/utils';
 import { Loading } from '@/modules/core/components';
 
-import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
+import {
+  unitTypeMap
+} from '@/modules/core/hooks/useUnitConverter';
 import { formFieldsSaleDetail } from '@/modules/sales/utils';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
 import {
   getUnitOfMeasureOptions,
   UnitOfMeasure,
-  UnitsType
+  UnitsType,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { CheckIcon } from 'lucide-react';
@@ -52,8 +54,6 @@ import { defaultValuesShoppingDetail } from '../FormShoppingContext';
 export const FormShoppingDetailsFields: React.FC = () => {
   const { formShoppingDetail, shoppingDetail, readOnly } =
     useFormShoppingContext();
-
-  const { getUnitType } = useUnitConverter();
 
   const { query: querySuppliers } = useGetAllSuppliers({ queryValue: '' });
 
@@ -68,6 +68,9 @@ export const FormShoppingDetailsFields: React.FC = () => {
   const currentUnitType = formShoppingDetail.watch(
     'unit_of_measure'
   ) as UnitOfMeasure;
+
+  const categorySupply =
+    unitTypeMap[currentSupply.unit_of_measure as UnitOfMeasure];
 
   useEffect(() => {
     formShoppingDetail.reset(shoppingDetail);
@@ -282,50 +285,47 @@ export const FormShoppingDetailsFields: React.FC = () => {
           />
         )}
 
-        {!!currentSupply.id &&
-          getUnitType(currentSupply.unit_of_measure as any) === 'mass' && (
-            <FormFieldSelect
-              items={UnitsType.MASS}
-              control={formShoppingDetail.control}
-              description={formFieldsShoppingDetail.unit_of_measure.description}
-              label={formFieldsShoppingDetail.unit_of_measure.label}
-              name={'unit_of_measure'}
-              placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
-              disabled={readOnly}
-              currentValue={currentUnitType}
-              manualValidationValue
-            />
-          )}
+        {!!currentSupply.id && categorySupply === 'MASS' && (
+          <FormFieldSelect
+            items={UnitsType.MASS}
+            control={formShoppingDetail.control}
+            description={formFieldsShoppingDetail.unit_of_measure.description}
+            label={formFieldsShoppingDetail.unit_of_measure.label}
+            name={'unit_of_measure'}
+            placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
+            disabled={readOnly}
+            currentValue={currentUnitType}
+            manualValidationValue
+          />
+        )}
 
-        {!!currentSupply.id &&
-          getUnitType(currentSupply.unit_of_measure as any) === 'volume' && (
-            <FormFieldSelect
-              items={UnitsType.VOLUME}
-              control={formShoppingDetail.control}
-              description={formFieldsShoppingDetail.unit_of_measure.description}
-              label={formFieldsShoppingDetail.unit_of_measure.label}
-              name={'unit_of_measure'}
-              placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
-              disabled={readOnly}
-              currentValue={currentUnitType}
-              manualValidationValue
-            />
-          )}
+        {!!currentSupply.id && categorySupply === 'VOLUME' && (
+          <FormFieldSelect
+            items={UnitsType.VOLUME}
+            control={formShoppingDetail.control}
+            description={formFieldsShoppingDetail.unit_of_measure.description}
+            label={formFieldsShoppingDetail.unit_of_measure.label}
+            name={'unit_of_measure'}
+            placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
+            disabled={readOnly}
+            currentValue={currentUnitType}
+            manualValidationValue
+          />
+        )}
 
-        {!!currentSupply.id &&
-          getUnitType(currentSupply.unit_of_measure as any) === 'length' && (
-            <FormFieldSelect
-              items={UnitsType.LENGTH}
-              control={formShoppingDetail.control}
-              description={formFieldsShoppingDetail.unit_of_measure.description}
-              label={formFieldsShoppingDetail.unit_of_measure.label}
-              name={'unit_of_measure'}
-              placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
-              disabled={readOnly}
-              currentValue={currentUnitType!}
-              manualValidationValue
-            />
-          )}
+        {!!currentSupply.id && categorySupply === 'LENGTH' && (
+          <FormFieldSelect
+            items={UnitsType.LENGTH}
+            control={formShoppingDetail.control}
+            description={formFieldsShoppingDetail.unit_of_measure.description}
+            label={formFieldsShoppingDetail.unit_of_measure.label}
+            name={'unit_of_measure'}
+            placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
+            disabled={readOnly}
+            currentValue={currentUnitType!}
+            manualValidationValue
+          />
+        )}
 
         <FormFieldInput
           control={formShoppingDetail.control}

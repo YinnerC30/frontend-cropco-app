@@ -24,22 +24,22 @@ const conversionFactors = {
 };
 
 // Mapeo de unidades a su tipo (masa, volumen o longitud)
-export const unitTypeMap: Record<UnitOfMeasure, 'mass' | 'volume' | 'length'> =
+export const unitTypeMap: Record<UnitOfMeasure, 'MASS' | 'VOLUME' | 'LENGTH'> =
   {
     // Masa
-    GRAMOS: 'mass',
-    KILOGRAMOS: 'mass',
-    LIBRAS: 'mass',
-    ONZAS: 'mass',
-    TONELADAS: 'mass',
+    GRAMOS: 'MASS',
+    KILOGRAMOS: 'MASS',
+    LIBRAS: 'MASS',
+    ONZAS: 'MASS',
+    TONELADAS: 'MASS',
     // Volumen
-    MILILITROS: 'volume',
-    LITROS: 'volume',
-    GALONES: 'volume',
+    MILILITROS: 'VOLUME',
+    LITROS: 'VOLUME',
+    GALONES: 'VOLUME',
     // Longitud
-    MILIMETROS: 'length',
-    CENTIMETROS: 'length',
-    METROS: 'length',
+    MILIMETROS: 'LENGTH',
+    CENTIMETROS: 'LENGTH',
+    METROS: 'LENGTH',
   };
 
 type GetUnitBaseReturn =
@@ -112,13 +112,13 @@ export const useUnitConverter = () => {
     const grupUnit = unitTypeMap[unit];
 
     switch (grupUnit) {
-      case 'mass':
+      case 'MASS':
         return MassUnitOfMeasure.GRAMOS;
 
-      case 'volume':
+      case 'VOLUME':
         return VolumeUnitOfMeasure.MILILITROS;
 
-      case 'length':
+      case 'LENGTH':
         return LengthUnitOfMeasure.MILIMETROS;
 
       default:
@@ -126,16 +126,16 @@ export const useUnitConverter = () => {
     }
   };
 
-  const getUnitType = useCallback(
-    (unit: UnitOfMeasure): 'mass' | 'volume' | 'length' => {
-      return unitTypeMap[unit];
-    },
-    []
-  );
+  // const unitTypeMap = useCallback(
+  //   (unit: UnitOfMeasure): 'MASS' | 'VOLUME' | 'length' => {
+  //     return unitTypeMap[unit];
+  //   },
+  //   []
+  // );
 
   return {
     convert,
-    getUnitType,
+    // unitTypeMap,
     getUnitBase,
   };
 };

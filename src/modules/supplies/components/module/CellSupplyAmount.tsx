@@ -1,43 +1,45 @@
+import { FormatNumber } from '@/modules/core/helpers';
+import {
+  unitTypeMap,
+  useUnitConverter,
+} from '@/modules/core/hooks/useUnitConverter';
 import { Row } from '@tanstack/react-table';
 import { useSuppliesModuleContext } from '../../hooks';
 import { Supply } from '../../interfaces/Supply';
-import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 import {
+  LengthUnitOfMeasure,
   MassUnitOfMeasure,
   UnitOfMeasure,
   VolumeUnitOfMeasure,
-  LengthUnitOfMeasure,
 } from '../../interfaces/UnitOfMeasure';
-import { FormatNumber } from '@/modules/core/helpers';
 
 export const CellSupplyAmount = ({ row }: { row: Row<Supply> }) => {
-  const { getUnitType } = useUnitConverter();
-  const { 
-    unitMassTypeToShowAmount, 
+  const {
+    unitMassTypeToShowAmount,
     unitVolumeTypeToShowAmount,
-    unitLengthTypeToShowAmount 
+    unitLengthTypeToShowAmount,
   } = useSuppliesModuleContext();
 
   const rawValue = row.original.stock?.amount ?? 0;
 
   const { convert } = useUnitConverter();
 
-  const group = getUnitType(row.original.unit_of_measure as UnitOfMeasure);
+  const group = unitTypeMap[row.original.unit_of_measure as UnitOfMeasure];
 
   let convertedValue = 0;
-  if (group === 'mass') {
+  if (group === 'MASS') {
     convertedValue = convert(
       rawValue,
       MassUnitOfMeasure.GRAMOS,
       unitMassTypeToShowAmount
     );
-  } else if (group === 'volume') {
+  } else if (group === 'VOLUME') {
     convertedValue = convert(
       rawValue,
       VolumeUnitOfMeasure.MILILITROS,
       unitVolumeTypeToShowAmount
     );
-  } else if (group === 'length') {
+  } else if (group === 'LENGTH') {
     convertedValue = convert(
       rawValue,
       LengthUnitOfMeasure.MILIMETROS,

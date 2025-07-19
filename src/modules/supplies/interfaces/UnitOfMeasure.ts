@@ -48,6 +48,8 @@ export type UnitOfMeasure =
   | MassUnitOfMeasure
   | LengthUnitOfMeasure;
 
+export type CategoriesUnitOfMeasure = 'MASS' | 'VOLUME' | 'LENGTH';
+
 /**
  * Interface for unit of measure option.
  */
@@ -61,7 +63,7 @@ export interface UnitOfMeasureOption<T extends UnitOfMeasure> {
  * Diccionario de agrupaciones de unidades de medida por tipo base.
  */
 export const UnitsType: Record<
-  'MASS' | 'VOLUME' | 'LENGTH',
+  CategoriesUnitOfMeasure,
   UnitOfMeasureOption<any>[]
 > = {
   MASS: [

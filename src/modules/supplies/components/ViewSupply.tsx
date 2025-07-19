@@ -4,20 +4,24 @@ import { ErrorLoading, Loading } from '@/modules/core/components';
 import { BreadCrumb } from '@/modules/core/components/';
 import { BasicDataTable } from '@/modules/core/components/form/basic/BasicDataTable';
 import { FormatNumber } from '@/modules/core/helpers';
-import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
+import {
+  unitTypeMap,
+  useUnitConverter,
+} from '@/modules/core/hooks/useUnitConverter';
 import { ActionsTableShoppingDetailSupplier } from '@/modules/suppliers/components/form/actions/ActionsTableShoppingDetailSupplier';
 import { columnsShoppingDetailSupplier } from '@/modules/suppliers/components/form/columns/ColumnsTableShoppingDetailSupplier';
 import { Cable, ShoppingBagIcon } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { useGetSupply } from '../hooks/';
 import {
+  LengthUnitOfMeasure,
   MassUnitOfMeasure,
   UnitOfMeasure,
   UnitSymbols,
   VolumeUnitOfMeasure,
-  LengthUnitOfMeasure,
 } from '../interfaces/UnitOfMeasure';
 import { MODULE_SUPPLIES_PATHS } from '../routes/pathRoutes';
+import { getBadgeColor } from '../utils/getBadgeColor';
 import { FormSupply } from './form/FormSupply';
 import { ActionsTableConsumptionSupply } from './form/actions/ActionsTableConsumptionSupply';
 import { columnsConsumptionDetailSupply } from './form/columns/ColumnsTableConsumptionDetailSupply';
@@ -46,7 +50,7 @@ export const ViewSupply = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetSupply(id!);
 
-  const { convert, getUnitType } = useUnitConverter();
+  const { convert, getUnitBase } = useUnitConverter();
 
   if (isLoading) {
     return <Loading />;
@@ -73,47 +77,36 @@ export const ViewSupply = () => {
     : [];
 
   const currentStock = data?.stock?.amount || 0;
-  const currentUnitType = data.unit_of_measure;
-  const unitType = getUnitType(currentUnitType as UnitOfMeasure);
+  const baseSupplyUnitType = getUnitBase(data.unit_of_measure as UnitOfMeasure);
+  const unitType = unitTypeMap[baseSupplyUnitType as UnitOfMeasure];
 
   let convertedAmount = 0;
-  let displayUnit = currentUnitType;
+  let displayUnit;
 
-  if (unitType === 'mass') {
+  if (unitType === 'MASS') {
     convertedAmount = convert(
       currentStock,
-      currentUnitType as UnitOfMeasure,
+      baseSupplyUnitType as UnitOfMeasure,
       MassUnitOfMeasure.KILOGRAMOS
     );
     displayUnit = MassUnitOfMeasure.KILOGRAMOS;
-  } else if (unitType === 'volume') {
+  } else if (unitType === 'VOLUME') {
     convertedAmount = convert(
       currentStock,
-      currentUnitType as UnitOfMeasure,
+      baseSupplyUnitType as UnitOfMeasure,
       VolumeUnitOfMeasure.LITROS
     );
     displayUnit = VolumeUnitOfMeasure.LITROS;
-  } else if (unitType === 'length') {
+  } else if (unitType === 'LENGTH') {
     convertedAmount = convert(
       currentStock,
-      currentUnitType as UnitOfMeasure,
+      baseSupplyUnitType as UnitOfMeasure,
       LengthUnitOfMeasure.METROS
     );
     displayUnit = LengthUnitOfMeasure.METROS;
   }
 
-  const getBadgeVariant = (unitType: string) => {
-    switch (unitType) {
-      case 'mass':
-        return 'zinc';
-      case 'volume':
-        return 'blue';
-      case 'length':
-        return 'success';
-      default:
-        return 'zinc';
-    }
-  };
+  const badgeVariant = getBadgeColor(unitType);
 
   return (
     <>
@@ -128,10 +121,7 @@ export const ViewSupply = () => {
         </h3>
         <div className="flex gap-2">
           <span>{FormatNumber(convertedAmount)}</span>
-          <Badge
-            className="w-auto"
-            variant={getBadgeVariant(unitType)}
-          >
+          <Badge className="w-auto" variant={badgeVariant as any}>
             {UnitSymbols[displayUnit as UnitOfMeasure]}
           </Badge>
         </div>

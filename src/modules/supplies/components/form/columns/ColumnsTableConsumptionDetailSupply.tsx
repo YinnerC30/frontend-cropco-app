@@ -1,11 +1,18 @@
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
 import { Badge } from '@/components';
-import { ConsumptionDetails, ConsumptionSupplies } from '@/modules/consumption/interfaces';
+import {
+  ConsumptionDetails,
+  ConsumptionSupplies,
+} from '@/modules/consumption/interfaces';
 import { formFieldsConsumption } from '@/modules/consumption/utils';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatDate, FormatNumber } from '@/modules/core/helpers';
-import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
+import {
+  unitTypeMap
+} from '@/modules/core/hooks/useUnitConverter';
+import { UnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { getBadgeColor } from '@/modules/supplies/utils/getBadgeColor';
 
 export const columnsConsumptionDetailSupply: ColumnDef<any>[] = [
   {
@@ -49,14 +56,10 @@ export const columnsConsumptionDetailSupply: ColumnDef<any>[] = [
       return <ButtonHeaderTable column={column} label={'Unidad de medida:'} />;
     },
     cell: ({ row }) => {
-      const { getUnitType } = useUnitConverter();
       const unitOfMeasure: any = row.original.unit_of_measure;
-      const unit = getUnitType(unitOfMeasure);
-      return (
-        <Badge variant={unit === 'mass' ? 'zinc' : 'blue'}>
-          {unitOfMeasure}
-        </Badge>
-      );
+      const unit = unitTypeMap[unitOfMeasure as UnitOfMeasure];
+      const badgeVariant = getBadgeColor(unit);
+      return <Badge variant={badgeVariant as any}>{unitOfMeasure}</Badge>;
     },
   },
 ];

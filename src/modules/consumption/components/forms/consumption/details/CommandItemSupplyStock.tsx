@@ -6,11 +6,8 @@ import {
 } from '@/modules/core/hooks/useUnitConverter';
 import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import {
-  LengthUnitOfMeasure,
-  MassUnitOfMeasure,
   UnitOfMeasure,
-  UnitSymbols,
-  VolumeUnitOfMeasure,
+  UnitSymbols
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CheckIcon } from '@radix-ui/react-icons';
 import { ControllerRenderProps } from 'react-hook-form';
@@ -28,34 +25,19 @@ export const CommandItemSupplyStock = ({ field, item, converTo }: Props) => {
     item,
     converTo
   );
-  const { convert } = useUnitConverter();
+  const { convert, getUnitBase } = useUnitConverter();
 
   const isInSameGroup =
     unitTypeMap[converTo] ===
     unitTypeMap[item.unit_of_measure as UnitOfMeasure];
   const alternativeConverTo = item.unit_of_measure as UnitOfMeasure;
 
-  const grupUnit = unitTypeMap[item.unit_of_measure as UnitOfMeasure];
-  let coreUnit: UnitOfMeasure = MassUnitOfMeasure.GRAMOS;
+  // const grupUnit = unitTypeMap[item.unit_of_measure as UnitOfMeasure];
+  const coreUnit: any = getUnitBase(item.unit_of_measure as UnitOfMeasure);
 
   const finalConverTo: UnitOfMeasure = isInSameGroup
     ? converTo
     : alternativeConverTo;
-
-  switch (grupUnit) {
-    case 'mass':
-      coreUnit = MassUnitOfMeasure.GRAMOS;
-      break;
-    case 'volume':
-      coreUnit = VolumeUnitOfMeasure.MILILITROS;
-      break;
-    case 'length':
-      coreUnit = LengthUnitOfMeasure.MILIMETROS;
-      break;
-
-    default:
-      break;
-  }
 
   let result: string = '';
 
@@ -63,7 +45,9 @@ export const CommandItemSupplyStock = ({ field, item, converTo }: Props) => {
     const convertionValue = convert(item.amount, coreUnit, finalConverTo);
     result = `${convertionValue} ${UnitSymbols[finalConverTo]}`;
   } catch (error) {
-    result = `${FormatNumber(item?.['amount'])}  ${UnitSymbols[coreUnit]}`;
+    result = `${FormatNumber(item?.['amount'])}  ${
+      UnitSymbols[coreUnit as UnitOfMeasure]
+    }`;
   }
 
   return (
