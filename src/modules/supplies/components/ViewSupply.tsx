@@ -80,30 +80,29 @@ export const ViewSupply = () => {
   const baseSupplyUnitType = getUnitBase(data.unit_of_measure as UnitOfMeasure);
   const unitType = unitTypeMap[baseSupplyUnitType as UnitOfMeasure];
 
-  let convertedAmount = 0;
+  const convertedAmount = convert(
+    currentStock,
+    baseSupplyUnitType as UnitOfMeasure,
+    data.unit_of_measure as UnitOfMeasure
+  );
   let displayUnit;
 
-  if (unitType === 'MASS') {
-    convertedAmount = convert(
-      currentStock,
-      baseSupplyUnitType as UnitOfMeasure,
-      MassUnitOfMeasure.KILOGRAMOS
-    );
-    displayUnit = MassUnitOfMeasure.KILOGRAMOS;
-  } else if (unitType === 'VOLUME') {
-    convertedAmount = convert(
-      currentStock,
-      baseSupplyUnitType as UnitOfMeasure,
-      VolumeUnitOfMeasure.LITROS
-    );
-    displayUnit = VolumeUnitOfMeasure.LITROS;
-  } else if (unitType === 'LENGTH') {
-    convertedAmount = convert(
-      currentStock,
-      baseSupplyUnitType as UnitOfMeasure,
-      LengthUnitOfMeasure.METROS
-    );
-    displayUnit = LengthUnitOfMeasure.METROS;
+  switch (unitType) {
+    case 'MASS':
+      displayUnit =
+        MassUnitOfMeasure[data.unit_of_measure as MassUnitOfMeasure];
+      break;
+    case 'VOLUME':
+      displayUnit =
+        VolumeUnitOfMeasure[data.unit_of_measure as VolumeUnitOfMeasure];
+      break;
+    case 'LENGTH':
+      displayUnit =
+        LengthUnitOfMeasure[data.unit_of_measure as LengthUnitOfMeasure];
+      break;
+    default:
+      displayUnit = data.unit_of_measure;
+      break;
   }
 
   const badgeVariant = getBadgeColor(unitType);
