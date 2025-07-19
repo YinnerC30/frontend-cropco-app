@@ -9,8 +9,13 @@ export const useActiveDialog = () => {
       const hasRadixAlertDialog = document.querySelector(
         '[role="alertdialog"]'
       );
+      const hasDropDownMenu = document.querySelector(
+        'div[data-radix-popper-content-wrapper]'
+      );
 
-      setIsActiveDialog(!!hasRoleDialog || !!hasRadixAlertDialog);
+      setIsActiveDialog(
+        !!hasRoleDialog || !!hasRadixAlertDialog || !!hasDropDownMenu
+      );
     };
 
     // Verificar inmediatamente
