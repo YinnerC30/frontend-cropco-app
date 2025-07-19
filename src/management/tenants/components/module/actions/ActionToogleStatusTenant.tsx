@@ -16,7 +16,7 @@ export const ActionToogleStatusTenant: React.FC<Props> = ({
   disabled = false,
 }) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
-  const { mutate } = usePatchTenantStatus();
+  const { mutate, isPending } = usePatchTenantStatus();
 
   const handleToggleTenant = () => {
     mutate(id, { onSuccess: () => toggleOpen(false) });
@@ -29,7 +29,7 @@ export const ActionToogleStatusTenant: React.FC<Props> = ({
         onClick={handleToggleTenant}
         variant={'ghost'}
         className="cursor-pointer"
-        disabled={disabled}
+        disabled={isPending}
       >
         {status ? (
           <>
