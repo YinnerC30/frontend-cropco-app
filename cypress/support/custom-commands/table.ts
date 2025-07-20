@@ -21,10 +21,14 @@ Cypress.Commands.add('toggleSelectAllTableRows', (select: boolean = true) => {
   cy.get('button[aria-label="Select all"]').click();
   cy.wait(500);
   if (select) {
-    cy.get('button[data-testid="btn-clear-selection-table"]').should('be.visible');
+    cy.get('button[data-testid="btn-clear-selection-table"]').should(
+      'be.visible'
+    );
     cy.get('button[data-testid="btn-delete-bulk"]').should('be.visible');
   } else {
-    cy.get('button[data-testid="btn-clear-selection-table"]').should('not.be.visible');
+    cy.get('button[data-testid="btn-clear-selection-table"]').should(
+      'not.be.visible'
+    );
     cy.get('button[data-testid="btn-delete-bulk"]').should('not.be.visible');
   }
 });
@@ -49,4 +53,15 @@ Cypress.Commands.add(
         expected.delete ? 'be.enabled' : 'be.disabled'
       );
   }
-); 
+);
+
+Cypress.Commands.add('openActionsMenuByField', (value: string, url: string) => {
+  cy.visit(url);
+  cy.wait(1000);
+  cy.get('tbody tr')
+    .filter(`:contains(${value})`)
+    .first()
+    .within(() => {
+      cy.get('button[data-testid^="btn-actions-table-row-id-"]').click();
+    });
+});

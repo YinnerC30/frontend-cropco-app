@@ -68,17 +68,15 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   'createUserFast',
-  function ({
-    firstName,
-    withAllActions = false,
-  }): void {
+  function ({ firstName, withAllActions = false }): void {
     cy.visit('/app/home/users/create/one');
     cy.wait(1000);
     const defaultFirstName = InformationGenerator.generateFirstName();
     const defaultLastName = InformationGenerator.generateLastName();
 
     const defaultEmail = InformationGenerator.generateEmail();
-    const defaultCellPhoneNumber = InformationGenerator.generateCellPhoneNumber();
+    const defaultCellPhoneNumber =
+      InformationGenerator.generateCellPhoneNumber();
 
     const defaultPassword = '123456';
 
@@ -122,20 +120,6 @@ Cypress.Commands.add('createUserAnd', (userData, callback) => {
 });
 
 Cypress.Commands.add(
-  'openActionsMenuByField',
-  (field: string, value: string) => {
-    cy.visit(`/app/home/users/view/all?query=${value}`);
-    cy.wait(1000);
-    cy.get('tbody tr')
-      .filter(`:contains(${value})`)
-      .first()
-      .within(() => {
-        cy.get('button[data-testid^="btn-actions-table-row-id-"]').click();
-      });
-  }
-);
-
-Cypress.Commands.add(
   'searchAndSelectTableRow',
   (field: string, value: string) => {
     cy.typeOnInputBasicSearchBar(value);
@@ -145,4 +129,40 @@ Cypress.Commands.add(
       .should('have.length.greaterThan', 0);
     cy.contains(value);
   }
-); 
+);
+
+Cypress.Commands.add(
+  'checkModuleSwitchState',
+  (moduleName: string, shouldBeActive: boolean = true) => {
+    cy.get(`button[data-testid="switch-actions-module-${moduleName}"]`).should(
+      'have.attr',
+      'aria-checked',
+      shouldBeActive ? 'true' : 'false'
+    );
+  }
+);
+
+Cypress.Commands.add('clickGlobalActionsSwitch', () => {
+  cy.get('button[data-testid="switch-global-actions"]').click();
+});
+
+Cypress.Commands.add('clickModuleActionsSwitch', (moduleName: string) => {
+  cy.get(`button[data-testid="switch-actions-module-${moduleName}"]`, {
+    timeout: 5000,
+  }).click({ timeout: 5000 });
+});
+
+Cypress.Commands.add('clickActionSwitch', (actionName: string) => {
+  cy.get(`button[data-testid="switch-action-${actionName}"]`).click();
+});
+
+Cypress.Commands.add(
+  'checkGlobalActionsSwitchState',
+  (shouldBeActive: boolean) => {
+    cy.get('button[data-testid="switch-global-actions"]').should(
+      'have.attr',
+      'aria-checked',
+      shouldBeActive ? 'true' : 'false'
+    );
+  }
+);

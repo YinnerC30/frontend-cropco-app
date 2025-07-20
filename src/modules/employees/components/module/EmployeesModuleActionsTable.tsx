@@ -61,7 +61,7 @@ export const EmployeesModuleActionsTable: React.FC<Props> = ({
       onOpenChange={setOpen}
       modal={false}
     >
-      <DropDownMenuActions>
+      <DropDownMenuActions idRecord={id}>
         <ActionCopyIdRecord id={id!} />
 
         <ActionDeleteRecord

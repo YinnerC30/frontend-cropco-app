@@ -24,6 +24,7 @@ export const FormFieldTextArea: React.FC<FormFieldTextAreaProps> = memo(
     disabled: readOnly = false,
     className,
     rowsTextArea = 8,
+    dataTestiId
   }) => {
     return (
       <FormField
@@ -41,6 +42,7 @@ export const FormFieldTextArea: React.FC<FormFieldTextAreaProps> = memo(
                 placeholder={placeholder}
                 {...field}
                 readOnly={readOnly}
+                data-testid={dataTestiId}
               />
             </FormControl>
             <FormDescription>{description}</FormDescription>

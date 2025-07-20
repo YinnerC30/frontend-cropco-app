@@ -1,6 +1,9 @@
 Cypress.Commands.add('getFormInput', (name: string) => {
   cy.get(`input[name="${name}"]`, { timeout: 3000 });
 });
+Cypress.Commands.add('getFormTextArea', (name: string) => {
+  cy.get(`textarea[name="${name}"]`, { timeout: 3000 });
+});
 
 Cypress.Commands.add('clickOnCreateButton', () => {
   cy.get('button[data-testid="btn-create-record"]').click();

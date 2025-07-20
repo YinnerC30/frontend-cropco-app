@@ -36,10 +36,7 @@ export const EmployeesModuleProvider = ({
 
   const { getActionsModule } = useAuthContext();
 
-  const actionsEmployeesModule = useMemo(
-    () => getActionsModule('employees'),
-    []
-  );
+  const actionsEmployeesModule = getActionsModule('employees');
 
   const columnsTable = useCreateColumnsTable<Employee>({
     columns: columnsTableEmployees,
