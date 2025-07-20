@@ -33,3 +33,6 @@ coverage/
 junit.xml
 test-results/
 test-results.xml
+
+# Cypress
+cypress/downloads/

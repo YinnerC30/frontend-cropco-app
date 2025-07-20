@@ -99,7 +99,7 @@ describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
   beforeEach(() => {
     employeeData.email = InformationGenerator.generateEmail();
     cy.loginUser();
-    cy.createEmployee(employeeData, {  });
+    cy.createEmployee(employeeData);
   });
 
   it('Busqueda por nombre(s) del empleado', () => {
@@ -282,7 +282,7 @@ describe('Eliminación de usuario', () => {
   // it('Intentar eliminar empleado con trabajo pendiente de pago', () => {});
 });
 
-describe.only('Eliminación de empleados por lote', () => {
+describe('Eliminación de empleados por lote', () => {
   before(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('employees');
@@ -318,6 +318,109 @@ describe.only('Eliminación de empleados por lote', () => {
   //   cy.get('button[data-testid="btn-continue-delete"]').click();
   //   cy.contains(
   //     'No se pudieron eliminar los empleados seleccionados, revisa que no tengan rol "Administrador"'
+  //   );
+  // });
+});
+
+describe('Copiar Id de registro', () => {
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('employees');
+  });
+
+  it('Copiar Id del usuario', () => {
+    cy.createEmployeeAnd({}, ({ email, id }) => {
+      cy.openActionsMenuByField(
+        email,
+        `/app/home/employees/view/all?query=${email}`
+      );
+      cy.get('button[data-testid="btn-copy-id"]').click();
+
+      cy.contains('Id copiado al portapapeles');
+    });
+  });
+});
+
+describe('Ver registro de empleado', () => {
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('employees');
+  });
+
+  it('Ver registro de empleado', () => {
+    cy.createEmployeeAnd({}, ({ email, id }) => {
+      cy.openActionsMenuByField(
+        email,
+        `/app/home/employees/view/all?query=${email}`
+      );
+      cy.get('button[data-testid="btn-view-record"]').click();
+      cy.contains('Información');
+      cy.getFormInput('first_name').should('have.value', 'EmployeeName');
+      cy.getFormInput('last_name').should('have.value', 'LastName');
+      cy.getFormInput('email').should('have.value', email);
+      cy.getFormInput('cell_phone_number').should('have.value', '3123456547');
+      cy.getFormTextArea('address').should('have.length.at.most', 14);
+      cy.contains('Volver');
+    });
+  });
+});
+
+describe('Certificar empleado', () => {
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('employees');
+  });
+
+  it.only('Generar certificado de empleado', () => {
+    cy.createEmployeeAnd({}, ({ email, id }) => {
+      cy.visit(`/app/home/employees/view/all?query=${email}`);
+      cy.clickActionsButtonTableRow(id);
+      cy.contains('Certificar');
+      cy.get('button[data-testid="btn-certificate-employee"]').click();
+
+      cy.wait(1500);
+      cy.getFormInput('company_name').type('Empresa de Prueba S.A.S');
+      cy.getFormInput('generator_name').type('Julian Perez');
+      cy.getFormInput('generator_position').type('Gerente de recursos humanos');
+      cy.getFormInput('employee_position').type('Manipulador de fruta');
+      cy.getFormInput('id_number').type('110508765');
+      cy.getFormInput('weekly_working_hours').type('45');
+      cy.get('button[data-testid="btn-generate-certificate"]').click();
+      cy.contains('La constancia ha sido generada con éxito.');
+      const expectedFileName = `constancia-empleado-${id}.pdf`;
+      const downloadsFolder =
+        Cypress.config('downloadsFolder') || 'cypress/downloads';
+
+      cy.readFile(`${downloadsFolder}/${expectedFileName}`, {
+        timeout: 10000,
+      }).should('exist');
+    });
+  });
+
+  // it('Se actualizara el estado y se cerrara la sesión del usuario que intente desactivarse', () => {
+  //   cy.createUserAnd(
+  //     { selectedModules: ['users'] },
+  //     ({ email, id, password }) => {
+  //       cy.logoutUser();
+  //       cy.loginUser(email, password);
+  //       cy.visit(`/app/home/users/view/all?query=${email}`);
+  //       cy.clickActionsButtonTableRow(id);
+  //       cy.contains('Desactivar');
+  //       cy.get('button[data-testid="btn-toggle-status-user"]').click();
+  //       cy.contains('Se cerrara la sesión');
+  //       cy.contains(
+  //         'Esta por desactivar su usuario, si desea continuar por favor presione "Desactivar"'
+  //       );
+  //       cy.get('button[data-button]').contains('Desactivar');
+  //       cy.get('button[data-button]').click();
+  //       cy.contains('El estado del usuario ha sido actualizado con éxito.');
+  //       cy.contains('Tu sesión ha terminado, seras redirigido al login');
+  //       cy.wait(2000);
+  //       cy.shouldNotBeAuthenticated();
+  //       cy.attemptInvalidLogin(email, password);
+  //       cy.contains('El usuario se encuentra desactivado');
+  //       cy.shouldNotBeAuthenticated();
+  //     }
   //   );
   // });
 });

@@ -4,11 +4,11 @@ Cypress.Commands.add(
   'createEmployee',
   function (
     { firstName, lastName, email, cellPhoneNumber, address } = {},
-    opt
+    { fastCreation = false } = {}
   ): Cypress.Chainable<any> {
     const creationEmployeeEndpoint = 'http://localhost:3000/employees/create';
 
-    if (opt.fastCreation) {
+    if (fastCreation) {
       cy.visit('/app/home/employees/create/one');
     } else {
       cy.navigateToModuleWithSideBar('employees');
@@ -85,7 +85,7 @@ Cypress.Commands.add(
 // });
 
 Cypress.Commands.add('createEmployeeAnd', (data, callback) => {
-  cy.createEmployee(data, {}).then((data) => {
+  cy.createEmployee(data, { fastCreation: true }).then((data) => {
     callback(data);
   });
 });

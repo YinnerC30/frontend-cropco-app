@@ -56,6 +56,7 @@ export const FormFieldCalendar: React.FC<FieldCalendarProps> = memo(
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
+                      data-testid={'btn-calendar-selector'}
                       ref={field.ref}
                       disabled={readOnly}
                       variant={'outline'}

@@ -34,7 +34,7 @@ const defaultValuesCertification: EmployeeCertification = {
   start_date: new Date(),
   employee_position: '',
   weekly_working_hours: 0,
-  id_number: ''
+  id_number: '',
 };
 
 export function ActionGenerateCertification({
@@ -123,6 +123,8 @@ export function ActionGenerateCertification({
           <Button
             onClick={form.handleSubmit(handleSubmitCertification)}
             disabled={isPending}
+            data-testid={'btn-generate-certificate'}
+            type='submit'
           >
             {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
             Generar

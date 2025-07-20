@@ -82,14 +82,14 @@ declare global {
       searchAndSelectTableRow(field: string, value: string): Chainable<void>;
       // Employees
       createEmployee(
-        data: {
+        data?: {
           firstName?: string;
           lastName?: string;
           email?: string;
           cellPhoneNumber?: string;
           address?: string;
         },
-        opt: { fastCreation?: boolean }
+        opt?: { fastCreation?: boolean }
       ): Chainable<any>;
       createEmployeeAnd(
         data: {
