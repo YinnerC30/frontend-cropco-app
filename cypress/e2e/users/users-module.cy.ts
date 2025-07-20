@@ -457,7 +457,7 @@ describe('Cambiar estado de usuario', () => {
     });
   });
 
-  it.only('Se actualizara el estado y se cerrara la sesión del usuario que intente desactivarse', () => {
+  it('Se actualizara el estado y se cerrara la sesión del usuario que intente desactivarse', () => {
     cy.createUserAnd(
       { selectedModules: ['users'] },
       ({ email, id, password }) => {
