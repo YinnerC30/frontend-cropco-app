@@ -42,9 +42,8 @@ import {
 import { formFieldsSaleDetail } from '@/modules/sales/utils';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
 import {
-  getUnitOfMeasureOptions,
   UnitOfMeasure,
-  UnitsType,
+  UnitsType
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { CheckIcon } from 'lucide-react';
