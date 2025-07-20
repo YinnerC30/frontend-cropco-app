@@ -67,11 +67,11 @@ describe('useUnitConverter', () => {
     
     expect(() => {
       result.current.convert(100, VolumeUnitOfMeasure.LITROS, LengthUnitOfMeasure.METROS);
-    }).toThrow('No se puede convertir entre unidades de VOLUME y length');
+    }).toThrow('No se puede convertir entre unidades de VOLUME y LENGTH');
     
     expect(() => {
       result.current.convert(100, LengthUnitOfMeasure.METROS, MassUnitOfMeasure.KILOGRAMOS);
-    }).toThrow('No se puede convertir entre unidades de length y MASS');
+    }).toThrow('No se puede convertir entre unidades de LENGTH y MASS');
   });
 
   // it('should return correct unit types', () => {
