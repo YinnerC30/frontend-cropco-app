@@ -257,7 +257,7 @@ describe('Modificación de empleados', () => {
   });
 });
 
-describe('Eliminación de usuario', () => {
+describe('Eliminación de empleado', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('employees');
@@ -371,73 +371,335 @@ describe('Certificar empleado', () => {
     cy.navigateToModuleWithSideBar('employees');
   });
 
-  it.only('Generar certificado de empleado', () => {
-    // cy.createEmployeeAnd({}, ({ email, id }) => {
+  it('Generar certificado de empleado', () => {
+    cy.createEmployeeAnd({}, ({ email, id }) => {
+      // const email = 'stivenchilito@mail.com';
+      // const id = '0044d935-a236-40de-847a-ea09f02c7ab7';
+      cy.visit(`/app/home/employees/view/all?query=${email}`);
+      cy.clickActionsButtonTableRow(id);
+      cy.contains('Certificar');
+      cy.get('button[data-testid="btn-certificate-employee"]').click();
 
-    // });
+      cy.wait(1500);
+      cy.getFormInput('company_name').type('Empresa de Prueba S.A.S');
+      cy.getFormInput('generator_name').type('Julian Perez');
+      cy.getFormInput('generator_position').type('Gerente de recursos humanos');
 
-    const email = 'stivenchilito@mail.com';
-    const id = '0044d935-a236-40de-847a-ea09f02c7ab7';
-    cy.visit(`/app/home/employees/view/all?query=${email}`);
-    cy.clickActionsButtonTableRow(id);
-    cy.contains('Certificar');
-    cy.get('button[data-testid="btn-certificate-employee"]').click();
+      cy.get('button[data-testid="btn-calendar-selector"]').click();
 
-    cy.wait(1500);
-    cy.getFormInput('company_name').type('Empresa de Prueba S.A.S');
-    cy.getFormInput('generator_name').type('Julian Perez');
-    cy.getFormInput('generator_position').type('Gerente de recursos humanos');
+      cy.get('button[data-testid="btn-month-calendar-selector"]').click();
+      cy.get('div[role="option"][data-testid="item-month-4"]').click();
+      cy.get('button[data-testid="btn-year-calendar-selector"]').click();
+      cy.get('div[role="option"][data-testid="item-year-2023"]').click();
 
-    cy.get('button[data-testid="btn-calendar-selector"]').click();
+      cy.get('button[name="day"]').contains('19').click();
 
-    cy.get('button[data-testid="btn-month-calendar-selector"]').click();
-    cy.get('div[role="option"][data-testid="item-month-4"]').click();
-    cy.get('button[data-testid="btn-year-calendar-selector"]').click();
-    cy.get('div[role="option"][data-testid="item-year-2023"]').click();
+      cy.wait(1000);
 
-    cy.get('button[name="day"]').contains('19').click();
+      cy.getFormInput('employee_position').type('Manipulador de fruta');
+      cy.getFormInput('id_number').type('110508765');
+      cy.getFormInput('weekly_working_hours').type('45');
 
-    cy.wait(1000);
+      cy.get('button[data-testid="btn-generate-certificate"]').click();
+      cy.contains('La constancia ha sido generada con éxito.');
+      const expectedFileName = `constancia-empleado-${id}.pdf`;
+      const downloadsFolder =
+        Cypress.config('downloadsFolder') || 'cypress/downloads';
 
-    cy.getFormInput('employee_position').type('Manipulador de fruta');
-    cy.getFormInput('id_number').type('110508765');
-    cy.getFormInput('weekly_working_hours').type('45');
+      cy.readFile(`${downloadsFolder}/${expectedFileName}`, {
+        timeout: 10000,
+      }).should('exist');
+    });
+  });
+});
 
-    // cy.get('button[data-testid="btn-generate-certificate"]').click();
-    // cy.contains('La constancia ha sido generada con éxito.');
-    // const expectedFileName = `constancia-empleado-${id}.pdf`;
-    // const downloadsFolder =
-    //   Cypress.config('downloadsFolder') || 'cypress/downloads';
-
-    // cy.readFile(`${downloadsFolder}/${expectedFileName}`, {
-    //   timeout: 10000,
-    // }).should('exist');
+describe('Paginado y selectores', () => {
+  before(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('employees');
+    cy.wait(2000);
+    cy.get('span[data-testid="data-table-row-total"]')
+      .invoke('text')
+      .then((text) => {
+        const total = parseInt(text, 10);
+        if (total <= 11) {
+          for (let index = 0; index < 11; index++) {
+            cy.createEmployee({}, { fastCreation: true });
+          }
+        }
+        cy.logoutUser();
+      });
+  });
+  it('Navegar entre paginas disponibles (10 registro por página - default)', () => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('employees');
+    cy.wait(2000);
+    cy.checkPaginationValues();
+    cy.get('button[data-testid="btn-go-next-page"]').click();
+    cy.get('p[data-testid="data-table-page-info-number"]').contains(
+      'Página 2 de'
+    );
+    cy.get('button[data-testid="btn-go-previous-page"]').click();
+    cy.get('p[data-testid="data-table-page-info-number"]').contains(
+      'Página 1 de'
+    );
   });
 
-  // it('Se actualizara el estado y se cerrara la sesión del usuario que intente desactivarse', () => {
-  //   cy.createUserAnd(
-  //     { selectedModules: ['users'] },
-  //     ({ email, id, password }) => {
-  //       cy.logoutUser();
-  //       cy.loginUser(email, password);
-  //       cy.visit(`/app/home/users/view/all?query=${email}`);
-  //       cy.clickActionsButtonTableRow(id);
-  //       cy.contains('Desactivar');
-  //       cy.get('button[data-testid="btn-toggle-status-user"]').click();
-  //       cy.contains('Se cerrara la sesión');
-  //       cy.contains(
-  //         'Esta por desactivar su usuario, si desea continuar por favor presione "Desactivar"'
-  //       );
-  //       cy.get('button[data-button]').contains('Desactivar');
-  //       cy.get('button[data-button]').click();
-  //       cy.contains('El estado del usuario ha sido actualizado con éxito.');
-  //       cy.contains('Tu sesión ha terminado, seras redirigido al login');
-  //       cy.wait(2000);
-  //       cy.shouldNotBeAuthenticated();
-  //       cy.attemptInvalidLogin(email, password);
-  //       cy.contains('El usuario se encuentra desactivado');
-  //       cy.shouldNotBeAuthenticated();
-  //     }
-  //   );
-  // });
+  it('Navegar entre paginas disponibles (20 registro por página)', () => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('employees');
+    cy.wait(2000);
+    cy.get('button[data-testid="btn-page-size-selector"]').click();
+    cy.get(`div[data-testid="select-item-page-size-${20}"]`).click();
+    cy.wait(2000);
+    cy.checkPaginationValues();
+    cy.get('button[data-testid="btn-go-next-page"]').click();
+    cy.wait(2000);
+    cy.get('p[data-testid="data-table-page-info-number"]').contains(
+      'Página 2 de'
+    );
+    cy.get('button[data-testid="btn-go-previous-page"]').click();
+    cy.wait(2000);
+    cy.get('p[data-testid="data-table-page-info-number"]').contains(
+      'Página 1 de'
+    );
+    // cy.contains('20');
+    // cy.checkPaginationValues();
+    // cy.get('button[data-testid="btn-go-next-page"]').click();
+    // cy.get('p[data-testid="data-table-page-info-number"]').contains(
+    //   'Página 2 de'
+    // );
+    // cy.get('button[data-testid="btn-go-previous-page"]').click();
+    // cy.get('p[data-testid="data-table-page-info-number"]').contains(
+    //   'Página 1 de'
+    // );
+  });
+});
+
+describe('Auth modulo de empleados', () => {
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('employees');
+  });
+
+  it('Crear usuario con acceso unicamente al modulo de empleados', () => {
+    cy.createUser({ selectedModules: ['employees'] }).then((userData) => {
+      cy.createEmployeeAnd({}, (employeeData) => {
+        cy.logoutUser();
+        cy.wait(2000);
+        cy.log(userData);
+        cy.loginUser(userData.email, userData.password);
+        cy.wait(1500);
+        cy.get('ul[data-sidebar="menu"]').within(() => {
+          cy.get('li[data-sidebar="menu-item"]')
+            .should('have.length', 1)
+            .contains('Empleados');
+        });
+        cy.get('body').type('{ctrl}j');
+        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+
+        cy.get('div[cmdk-item][role="option"]').click();
+
+        cy.visit(`/app/home/employees/view/all?query=${employeeData.email}`);
+        cy.wait(2000);
+
+        // Comprobar que haya registro en las tablas
+        cy.get('table tbody tr').should('exist');
+
+        // Comprobar habitiación de botones
+        // Recarga de datos
+        cy.get('button[data-testid="btn-refetch-data"]').should('be.enabled');
+
+        // Crear registro
+        cy.get('button[data-testid="btn-create-record"]').should('be.enabled');
+
+        cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
+        cy.wait(700);
+        // Eliminar bulk
+        cy.get('button[data-testid="btn-delete-bulk"]').should('be.enabled');
+
+        cy.clickActionsButtonTableRow(employeeData.id);
+
+        cy.checkActionButtonsState({ update: true, view: true, delete: true });
+
+        // Certificar
+        cy.get('button[data-testid="btn-certificate-employee"]').should(
+          'be.enabled'
+        );
+      });
+    });
+  });
+
+  it('Crear usuario con acceso unicamente a ver tabla de empleados', () => {
+    cy.createUser({ selectedActions: ['find_all_employees'] }).then(
+      (userData) => {
+        cy.createEmployeeAnd({}, (employeeData) => {
+          cy.logoutUser();
+          cy.wait(2000);
+          cy.log(userData);
+          cy.loginUser(userData.email, userData.password);
+          cy.wait(1500);
+          cy.get('ul[data-sidebar="menu"]').within(() => {
+            cy.get('li[data-sidebar="menu-item"]')
+              .should('have.length', 1)
+              .contains('Empleados');
+          });
+          cy.get('body').type('{ctrl}j');
+          cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+
+          cy.get('div[cmdk-item][role="option"]').click();
+
+          cy.visit(`/app/home/employees/view/all?query=${employeeData.email}`);
+          cy.wait(2000);
+
+          // Comprobar que haya registro en las tablas
+          cy.get('table tbody tr').should('exist');
+
+          // Comprobar habitiación de botones
+          // Recarga de datos
+          cy.get('button[data-testid="btn-refetch-data"]').should('be.enabled');
+
+          // Crear registro
+          cy.get('button[data-testid="btn-create-record"]').should(
+            'be.disabled'
+          );
+
+          cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
+          cy.wait(700);
+          // Eliminar bulk
+          cy.get('button[data-testid="btn-delete-bulk"]').should('be.disabled');
+
+          cy.clickActionsButtonTableRow(employeeData.id);
+
+          // Certificar
+          cy.get('button[data-testid="btn-certificate-employee"]').should(
+            'be.disabled'
+          );
+
+          cy.checkActionButtonsState({
+            update: false,
+            view: false,
+            delete: false,
+          });
+          // // Modificar
+          // cy.get('button[data-testid="btn-update-record"]').should(
+          //   'be.disabled'
+          // );
+
+          // // Ver
+          // cy.get('button[data-testid="btn-delete-one-record"]').should(
+          //   'be.disabled'
+          // );
+          // // Eliminar
+          // cy.get('button[data-testid="btn-view-record"]').should('be.disabled');
+        });
+      }
+    );
+  });
+
+  it('No tiene permisos para ver el listado de empleados', () => {
+    cy.createUserAnd({ selectedActions: ['create_employee'] }, (userData) => {
+      cy.createEmployeeAnd({}, () => {
+        cy.logoutUser();
+        cy.wait(2000);
+        cy.log(userData);
+        cy.loginUser(userData.email, userData.password);
+        cy.wait(1500);
+        cy.get('ul[data-sidebar="menu"]').within(() => {
+          cy.get('li[data-sidebar="menu-item"]')
+            .should('have.length', 1)
+            .contains('Empleados');
+        });
+        cy.get('body').type('{ctrl}j');
+        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+        cy.get('div[cmdk-item][role="option"]').click();
+
+        cy.visit(`/app/home/employees/view/all`);
+        cy.wait(2000);
+        cy.contains('No tienes permiso para ver el listado de empleados');
+        cy.checkRefetchButtonState(false);
+        cy.get('input[placeholder="Escribe algo..."]').should('be.disabled');
+        cy.get('button[data-testid="btn-submit-basic-searchbar"]').should(
+          'be.disabled'
+        );
+        cy.get('button[data-testid="btn-clear-basic-searchbar"]').should(
+          'be.disabled'
+        );
+      });
+    });
+  });
+
+  it('Debe sacar al usuario si intenta crear un empleado y no tiene permisos ', () => {
+    cy.createUser({ selectedActions: ['find_all_employees'] }).then(
+      (data: any) => {
+        cy.logoutUser();
+        cy.wait(2000);
+        cy.loginUser(data.email, data.password);
+        cy.wait(1500);
+        cy.get('ul[data-sidebar="menu"]').within(() => {
+          cy.get('li[data-sidebar="menu-item"]')
+            .should('have.length', 1)
+            .contains('Empleados');
+        });
+        cy.get('body').type('{ctrl}j');
+        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+        cy.get('div[cmdk-item][role="option"]').click();
+
+        cy.visit(`/app/home/employees/view/all`);
+        cy.wait(2000);
+
+        cy.visit('/app/home/employees/create/one');
+        cy.contains('No tienes permiso para esta acción, seras redirigido');
+      }
+    );
+  });
+
+  it('Debe sacar al usuario si intenta modificar a un empleado y no tiene permisos', () => {
+    cy.createUser({ selectedActions: ['find_all_employees'] }).then(
+      (userData: any) => {
+        cy.createEmployeeAnd({}, (employeeData) => {
+          cy.logoutUser();
+          cy.wait(2000);
+          cy.loginUser(userData.email, userData.password);
+          cy.wait(1500);
+          cy.get('ul[data-sidebar="menu"]').within(() => {
+            cy.get('li[data-sidebar="menu-item"]')
+              .should('have.length', 1)
+              .contains('Empleados');
+          });
+          cy.get('body').type('{ctrl}j');
+          cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+          cy.get('div[cmdk-item][role="option"]').click();
+
+          cy.visit(`/app/home/employees/update/one/${employeeData.id}`);
+          cy.contains('No tienes permiso para esta acción, seras redirigido');
+        });
+      }
+    );
+  });
+
+  it('Debe sacar al usuario si intenta consultar a un empleado y no tiene permisos', () => {
+    cy.createUser({ selectedActions: ['find_all_employees'] }).then(
+      (data: any) => {
+        cy.createEmployeeAnd({}, (employeeData) => {
+          cy.log(JSON.stringify(data, null, 2));
+          cy.logoutUser();
+          cy.wait(2000);
+          cy.loginUser(data.email, data.password);
+          cy.wait(1500);
+          cy.get('ul[data-sidebar="menu"]').within(() => {
+            cy.get('li[data-sidebar="menu-item"]')
+              .should('have.length', 1)
+              .contains('Empleados');
+          });
+          cy.get('body').type('{ctrl}j');
+          cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+          cy.get('div[cmdk-item][role="option"]').click();
+
+          cy.visit(`/app/home/employees/view/one/${employeeData.id}`);
+          cy.contains('No tienes permiso para esta acción, seras redirigido');
+        });
+      }
+    );
+  });
 });

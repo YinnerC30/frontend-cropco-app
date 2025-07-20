@@ -82,7 +82,14 @@ export const EmployeesModuleActionsTable: React.FC<Props> = ({
             }
             asChild
           >
-            <Button onClick={() => handleOpenDialog()} variant="ghost" data-testid={'btn-certificate-employee'}>
+            <Button
+              onClick={() => handleOpenDialog()}
+              variant="ghost"
+              data-testid={'btn-certificate-employee'}
+              disabled={
+                !actionsEmployeesModule['generate_certification_employee']
+              }
+            >
               <ShieldPlus className="w-4 h-4 mr-2" /> Certificar
             </Button>
           </DropdownMenuItem>
