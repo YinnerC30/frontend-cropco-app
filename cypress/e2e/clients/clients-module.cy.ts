@@ -16,7 +16,9 @@ describe('Modulo de clientes', () => {
 
     cy.existRefetchButton();
     cy.existCreateButton();
-    cy.get('button[data-testid="btn-export-all-clients"]').should('exist').should('be.visible');
+    cy.get('button[data-testid="btn-export-all-clients"]')
+      .should('exist')
+      .should('be.visible');
 
     cy.existPaginationInfo();
 
@@ -90,7 +92,7 @@ describe('Modulo de clientes', () => {
   //TODO: Probar orden de datos en las tablas
 });
 
-describe.only('Encuentra registros de acuerdo a la cadena de busqueda', () => {
+describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
   const clientData = {
     firstName: 'clienttosearch',
     lastName: 'lasttosearch',
@@ -135,7 +137,7 @@ describe.only('Encuentra registros de acuerdo a la cadena de busqueda', () => {
   });
 });
 
-describe('Creación de clientes', () => {
+describe.only('Creación de clientes', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
@@ -155,7 +157,7 @@ describe('Creación de clientes', () => {
 
     cy.clickOnSubmitButton();
     cy.checkDisabledSubmitButton();
-    cy.contains('Empleado creado');
+    cy.contains('Cliente creado');
   });
 
   it('Debe mostrar mensajes de error al intentar enviar el formulario vacio', () => {
@@ -214,7 +216,7 @@ describe('Modificación de clientes', () => {
         .type(InformationGenerator.generateAddress());
       cy.clickOnSubmitButton();
       cy.checkDisabledSubmitButton();
-      cy.contains('Empleado actualizado');
+      cy.contains('Cliente actualizado');
     });
   });
 
@@ -273,7 +275,7 @@ describe('Eliminación de cliente', () => {
       cy.get('button[data-testid="btn-delete-one-record"]').click();
       cy.get('button[data-testid="btn-continue-delete-one-record"]').click();
 
-      cy.contains('Empleado eliminado');
+      cy.contains('Cliente eliminado');
       cy.contains('No hay registros');
     });
   });
@@ -494,7 +496,7 @@ describe('Auth modulo de clientes', () => {
         cy.get('ul[data-sidebar="menu"]').within(() => {
           cy.get('li[data-sidebar="menu-item"]')
             .should('have.length', 1)
-            .contains('Empleados');
+            .contains('Clientes');
         });
         cy.get('body').type('{ctrl}j');
         cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
@@ -543,7 +545,7 @@ describe('Auth modulo de clientes', () => {
           cy.get('ul[data-sidebar="menu"]').within(() => {
             cy.get('li[data-sidebar="menu-item"]')
               .should('have.length', 1)
-              .contains('Empleados');
+              .contains('Clientes');
           });
           cy.get('body').type('{ctrl}j');
           cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
@@ -609,7 +611,7 @@ describe('Auth modulo de clientes', () => {
         cy.get('ul[data-sidebar="menu"]').within(() => {
           cy.get('li[data-sidebar="menu-item"]')
             .should('have.length', 1)
-            .contains('Empleados');
+            .contains('Clientes');
         });
         cy.get('body').type('{ctrl}j');
         cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
@@ -640,7 +642,7 @@ describe('Auth modulo de clientes', () => {
         cy.get('ul[data-sidebar="menu"]').within(() => {
           cy.get('li[data-sidebar="menu-item"]')
             .should('have.length', 1)
-            .contains('Empleados');
+            .contains('Clientes');
         });
         cy.get('body').type('{ctrl}j');
         cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
@@ -666,7 +668,7 @@ describe('Auth modulo de clientes', () => {
           cy.get('ul[data-sidebar="menu"]').within(() => {
             cy.get('li[data-sidebar="menu-item"]')
               .should('have.length', 1)
-              .contains('Empleados');
+              .contains('Clientes');
           });
           cy.get('body').type('{ctrl}j');
           cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
@@ -691,7 +693,7 @@ describe('Auth modulo de clientes', () => {
           cy.get('ul[data-sidebar="menu"]').within(() => {
             cy.get('li[data-sidebar="menu-item"]')
               .should('have.length', 1)
-              .contains('Empleados');
+              .contains('Clientes');
           });
           cy.get('body').type('{ctrl}j');
           cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
