@@ -368,7 +368,7 @@ describe('Ver registro de cliente', () => {
   });
 });
 
-describe.only('Exportar clientes a PDF', () => {
+describe('Exportar clientes a PDF', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
@@ -497,6 +497,11 @@ describe('Auth modulo de clientes', () => {
         // Recarga de datos
         cy.get('button[data-testid="btn-refetch-data"]').should('be.enabled');
 
+        // Exportar clientes
+        cy.get('button[data-testid="btn-export-all-clients"]').should(
+          'be.enabled'
+        );
+
         // Crear registro
         cy.get('button[data-testid="btn-create-record"]').should('be.enabled');
 
@@ -540,6 +545,11 @@ describe('Auth modulo de clientes', () => {
           // Comprobar habitiación de botones
           // Recarga de datos
           cy.get('button[data-testid="btn-refetch-data"]').should('be.enabled');
+
+          // Exportar clientes
+          cy.get('button[data-testid="btn-export-all-clients"]').should(
+            'be.disabled'
+          );
 
           // Crear registro
           cy.get('button[data-testid="btn-create-record"]').should(
