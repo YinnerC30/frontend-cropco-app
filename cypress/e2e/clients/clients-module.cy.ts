@@ -195,7 +195,7 @@ describe('Creación de clientes', () => {
   });
 });
 
-describe.only('Modificación de clientes', () => {
+describe('Modificación de clientes', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
@@ -260,7 +260,7 @@ describe.only('Modificación de clientes', () => {
   });
 });
 
-describe('Eliminación de cliente', () => {
+describe.only('Eliminación de cliente', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
