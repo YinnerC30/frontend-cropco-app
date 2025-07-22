@@ -29,7 +29,7 @@ export const ClientsActions: React.FC = () => {
         onClick={async () => {
           await queryClients.refetch();
         }}
-        disabled={!actionsClientsModule['find_all_clients']}
+        disabled={!actionsClientsModule['find_all_clients'] || queryClients.isFetching}
         className=""
       />
 

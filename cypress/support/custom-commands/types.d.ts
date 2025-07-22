@@ -101,6 +101,27 @@ declare global {
         },
         callback: (data: any) => void
       ): Chainable<void>;
+      // Clients
+      createClient(
+        data?: {
+          firstName?: string;
+          lastName?: string;
+          email?: string;
+          cellPhoneNumber?: string;
+          address?: string;
+        },
+        opt?: { fastCreation?: boolean }
+      ): Chainable<any>;
+      createClientAnd(
+        data: {
+          firstName?: string;
+          lastName?: string;
+          email?: string;
+          cellPhoneNumber?: string;
+          address?: string;
+        },
+        callback: (data: any) => void
+      ): Chainable<void>;
     }
   }
 }
