@@ -281,8 +281,7 @@ describe('Eliminación de cliente', () => {
   });
 
   // TODO: Implementar pruebas
-  // it('Intentar eliminar cliente con cosechas pendiente de pago', () => {});
-  // it('Intentar eliminar cliente con trabajo pendiente de pago', () => {});
+  // it('Intentar eliminar cliente con ventas pendiente de pago', () => {});
 });
 
 describe('Eliminación de clientes por lote', () => {
@@ -310,6 +309,9 @@ describe('Eliminación de clientes por lote', () => {
     cy.contains('Los registros seleccionados fueron eliminados');
     cy.contains('No hay registros');
   });
+
+  // TODO: Implementar pruebas
+  // it('Intentar eliminar clientes con ventas pendiente de pago', () => {});
 
   // it('Intentar eliminar usuario con rol administrator en lote', () => {
   //   cy.loginUser();
