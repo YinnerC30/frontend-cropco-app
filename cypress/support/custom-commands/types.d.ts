@@ -143,6 +143,31 @@ declare global {
         },
         callback: (data: any) => void
       ): Chainable<void>;
+      // Crops
+      createCrop(
+        data?: {
+          name?: string;
+          description?: string;
+          units?: number;
+          number_hectares?: number;
+          location?: string;
+          date_of_creation?: string;
+          date_of_termination?: string;
+        },
+        opt?: { fastCreation?: boolean }
+      ): Chainable<any>;
+      createCropAnd(
+        data: {
+          name?: string;
+          description?: string;
+          units?: number;
+          number_hectares?: number;
+          location?: string;
+          date_of_creation?: string;
+          date_of_termination?: string;
+        },
+        callback: (data: any) => void
+      ): Chainable<void>;
     }
   }
 }

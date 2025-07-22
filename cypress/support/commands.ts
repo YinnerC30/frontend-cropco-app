@@ -8,6 +8,7 @@ import './custom-commands/users';
 import './custom-commands/employees';
 import './custom-commands/clients';
 import './custom-commands/suppliers';
+import './custom-commands/crops';
 import './custom-commands/table';
 
 // Declaraciones de tipos y cualquier configuración global pueden ir aquí si es necesario.

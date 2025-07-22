@@ -29,7 +29,7 @@ export const CropsActions: React.FC = () => {
         onClick={async () => {
           await queryCrops.refetch();
         }}
-        disabled={!actionsCropsModule['find_all_crops']}
+        disabled={!actionsCropsModule['find_all_crops'] || queryCrops.isFetching}
         className=""
       />
 

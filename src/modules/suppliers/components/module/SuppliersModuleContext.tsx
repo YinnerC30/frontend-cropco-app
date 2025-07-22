@@ -16,12 +16,16 @@ import { useGetAllSuppliers } from '../../hooks/queries/useGetAllSuppliers';
 import { Supplier } from '../../interfaces/Supplier.ts';
 import { columnsTableSuppliers } from './columnsTableSuppliers.tsx';
 import { SuppliersModuleActionsTable } from './SuppliersModuleActionsTable.tsx';
+import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse.ts';
 
 export interface SuppliersModuleContextProps {
   paramQuery: string;
   querySuppliers: UseQueryGetAllRecordsReturn<Supplier>;
   dataTable: DataTableManualReturn<Supplier>;
-  mutationDeleteSuppliers: UseMutationReturn<void, BulkRecords>;
+  mutationDeleteSuppliers: UseMutationReturn<
+    UseDeleteBulkResponse,
+    BulkRecords
+  >;
   mutationDeleteSupplier: UseMutationReturn<void, string>;
   actionsSuppliersModule: Record<string, boolean>;
 }
@@ -44,7 +48,7 @@ export const SuppliersModuleProvider: React.FC<{
   });
 
   const { getActionsModule } = useAuthContext();
-  const actionsSuppliersModule = getActionsModule('suppliers')
+  const actionsSuppliersModule = getActionsModule('suppliers');
 
   const columnsTable = useCreateColumnsTable<Supplier>({
     columns: columnsTableSuppliers,

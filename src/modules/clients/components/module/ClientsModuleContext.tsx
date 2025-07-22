@@ -1,7 +1,7 @@
 import { useAuthContext } from '@/auth/hooks';
 import { useDataTableManual } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import React, { createContext, useEffect, useMemo } from 'react';
+import React, { createContext, useEffect } from 'react';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useDeleteBulkClients } from '../../hooks/mutations/useDeleteBulkClients';
