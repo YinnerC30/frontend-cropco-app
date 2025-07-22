@@ -260,7 +260,7 @@ describe('Modificación de clientes', () => {
   });
 });
 
-describe.only('Eliminación de cliente', () => {
+describe('Eliminación de cliente', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
