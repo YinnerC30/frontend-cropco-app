@@ -1,6 +1,6 @@
 import { InformationGenerator } from '../helpers/InformationGenerator';
 
-describe.only('Modulo de clientes', () => {
+describe('Modulo de clientes', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
@@ -90,7 +90,7 @@ describe.only('Modulo de clientes', () => {
   //TODO: Probar orden de datos en las tablas
 });
 
-describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
+describe.only('Encuentra registros de acuerdo a la cadena de busqueda', () => {
   const clientData = {
     firstName: 'clienttosearch',
     lastName: 'lasttosearch',
@@ -100,7 +100,7 @@ describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
   beforeEach(() => {
     clientData.email = InformationGenerator.generateEmail();
     cy.loginUser();
-    cy.createEmployee(clientData);
+    cy.createClient(clientData);
   });
 
   it('Busqueda por nombre(s) del cliente', () => {
@@ -144,7 +144,7 @@ describe('Creación de clientes', () => {
   });
 
   it('Debe crear un cliente', () => {
-    cy.getFormInput('first_name').type('EmployeeName');
+    cy.getFormInput('first_name').type('ClientName');
     cy.getFormInput('last_name').type('LastName');
     const defaultEmail = InformationGenerator.generateEmail();
     cy.getFormInput('email').type(defaultEmail);
@@ -169,13 +169,13 @@ describe('Creación de clientes', () => {
   });
 
   it('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
-    cy.getFormInput('first_name').type('EmployeeName');
+    cy.getFormInput('first_name').type('ClientName');
     cy.navigateToModuleWithSideBar('clients');
     cy.checkMessageLostFormData();
   });
 
   it('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
-    cy.getFormInput('first_name').type('EmployeeName');
+    cy.getFormInput('first_name').type('ClientName');
     cy.navigateToModuleWithSideBar('clients');
     cy.checkMessageLostFormData();
     cy.contains('button', 'Ignorar').click();
@@ -185,7 +185,7 @@ describe('Creación de clientes', () => {
   });
 
   it('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
-    cy.getFormInput('first_name').type('EmployeeName');
+    cy.getFormInput('first_name').type('ClientName');
     cy.navigateToModuleWithSideBar('clients');
     cy.checkMessageLostFormData();
     cy.get('button[aria-label="Close toast"]').click();
@@ -200,11 +200,11 @@ describe('Modificación de clientes', () => {
   });
 
   it('Modificar cliente existente', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createClientAnd({}, ({ email, id }) => {
       cy.visit(`/app/home/clients/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.get('button[data-testid="btn-update-record"]').click();
-      cy.getFormInput('first_name').clear().type('EmployeeNameChanged');
+      cy.getFormInput('first_name').clear().type('ClientNameChanged');
       cy.getFormInput('last_name').clear().type('LastNameChanged');
       const defaultEmail = InformationGenerator.generateEmail();
       cy.getFormInput('email').clear().type(defaultEmail);
@@ -219,7 +219,7 @@ describe('Modificación de clientes', () => {
   });
 
   it('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createClientAnd({}, ({ email, id }) => {
       cy.visit(`/app/home/clients/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.get('button[data-testid="btn-update-record"]').click();
@@ -230,7 +230,7 @@ describe('Modificación de clientes', () => {
   });
 
   it('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createClientAnd({}, ({ email, id }) => {
       cy.visit(`/app/home/clients/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.get('button[data-testid="btn-update-record"]').click();
@@ -245,7 +245,7 @@ describe('Modificación de clientes', () => {
   });
 
   it('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createClientAnd({}, ({ email, id }) => {
       cy.visit(`/app/home/clients/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.get('button[data-testid="btn-update-record"]').click();
@@ -265,7 +265,7 @@ describe('Eliminación de cliente', () => {
   });
 
   it('Eliminar cliente', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createClientAnd({}, ({ email, id }) => {
       cy.openActionsMenuByField(
         email,
         `/app/home/clients/view/all?query=${email}`
@@ -288,8 +288,8 @@ describe('Eliminación de clientes por lote', () => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
     for (let index = 0; index < 2; index++) {
-      cy.createEmployee(
-        { firstName: 'EmployeeToRemoveBulk' },
+      cy.createClient(
+        { firstName: 'ClientToRemoveBulk' },
         { fastCreation: true }
       );
     }
@@ -299,7 +299,7 @@ describe('Eliminación de clientes por lote', () => {
   it('Eliminar clientes seleccionados', () => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
-    cy.visit(`/app/home/clients/view/all?query=EmployeeToRemoveBulk`);
+    cy.visit(`/app/home/clients/view/all?query=ClientToRemoveBulk`);
     cy.wait(2000);
     cy.get('button[aria-label="Select all"]').click({ timeout: 3000 });
     cy.get('button[data-testid="btn-delete-bulk"]').click();
@@ -330,7 +330,7 @@ describe('Copiar Id de registro', () => {
   });
 
   it('Copiar Id del usuario', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createClientAnd({}, ({ email, id }) => {
       cy.openActionsMenuByField(
         email,
         `/app/home/clients/view/all?query=${email}`
@@ -349,14 +349,14 @@ describe('Ver registro de cliente', () => {
   });
 
   it('Ver registro de cliente', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createClientAnd({}, ({ email, id }) => {
       cy.openActionsMenuByField(
         email,
         `/app/home/clients/view/all?query=${email}`
       );
       cy.get('button[data-testid="btn-view-record"]').click();
       cy.contains('Información');
-      cy.getFormInput('first_name').should('have.value', 'EmployeeName');
+      cy.getFormInput('first_name').should('have.value', 'ClientName');
       cy.getFormInput('last_name').should('have.value', 'LastName');
       cy.getFormInput('email').should('have.value', email);
       cy.getFormInput('cell_phone_number').should('have.value', '3123456547');
@@ -373,7 +373,7 @@ describe('Certificar cliente', () => {
   });
 
   it('Generar certificado de cliente', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createClientAnd({}, ({ email, id }) => {
       // const email = 'stivenchilito@mail.com';
       // const id = '0044d935-a236-40de-847a-ea09f02c7ab7';
       cy.visit(`/app/home/clients/view/all?query=${email}`);
@@ -425,7 +425,7 @@ describe('Paginado y selectores', () => {
         const total = parseInt(text, 10);
         if (total <= 11) {
           for (let index = 0; index < 11; index++) {
-            cy.createEmployee({}, { fastCreation: true });
+            cy.createClient({}, { fastCreation: true });
           }
         }
         cy.logoutUser();
@@ -485,7 +485,7 @@ describe('Auth modulo de clientes', () => {
 
   it('Crear usuario con acceso unicamente al modulo de clientes', () => {
     cy.createUser({ selectedModules: ['clients'] }).then((userData) => {
-      cy.createEmployeeAnd({}, (clientData) => {
+      cy.createClientAnd({}, (clientData) => {
         cy.logoutUser();
         cy.wait(2000);
         cy.log(userData);
@@ -534,7 +534,7 @@ describe('Auth modulo de clientes', () => {
   it('Crear usuario con acceso unicamente a ver tabla de clientes', () => {
     cy.createUser({ selectedActions: ['find_all_clients'] }).then(
       (userData) => {
-        cy.createEmployeeAnd({}, (clientData) => {
+        cy.createClientAnd({}, (clientData) => {
           cy.logoutUser();
           cy.wait(2000);
           cy.log(userData);
@@ -600,7 +600,7 @@ describe('Auth modulo de clientes', () => {
 
   it('No tiene permisos para ver el listado de clientes', () => {
     cy.createUserAnd({ selectedActions: ['create_client'] }, (userData) => {
-      cy.createEmployeeAnd({}, () => {
+      cy.createClientAnd({}, () => {
         cy.logoutUser();
         cy.wait(2000);
         cy.log(userData);
@@ -658,7 +658,7 @@ describe('Auth modulo de clientes', () => {
   it('Debe sacar al usuario si intenta modificar a un cliente y no tiene permisos', () => {
     cy.createUser({ selectedActions: ['find_all_clients'] }).then(
       (userData: any) => {
-        cy.createEmployeeAnd({}, (clientData) => {
+        cy.createClientAnd({}, (clientData) => {
           cy.logoutUser();
           cy.wait(2000);
           cy.loginUser(userData.email, userData.password);
@@ -682,7 +682,7 @@ describe('Auth modulo de clientes', () => {
   it('Debe sacar al usuario si intenta consultar a un cliente y no tiene permisos', () => {
     cy.createUser({ selectedActions: ['find_all_clients'] }).then(
       (data: any) => {
-        cy.createEmployeeAnd({}, (clientData) => {
+        cy.createClientAnd({}, (clientData) => {
           cy.log(JSON.stringify(data, null, 2));
           cy.logoutUser();
           cy.wait(2000);
