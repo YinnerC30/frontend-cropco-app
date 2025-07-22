@@ -44,7 +44,7 @@ export const ClientsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const { getActionsModule } = useAuthContext();
 
-  const actionsClientsModule = useMemo(() => getActionsModule('clients'), []);
+  const actionsClientsModule = getActionsModule('clients');
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsTableClients,

@@ -137,7 +137,7 @@ describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
   });
 });
 
-describe.only('Creación de clientes', () => {
+describe('Creación de clientes', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
@@ -195,7 +195,7 @@ describe.only('Creación de clientes', () => {
   });
 });
 
-describe('Modificación de clientes', () => {
+describe.only('Modificación de clientes', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
