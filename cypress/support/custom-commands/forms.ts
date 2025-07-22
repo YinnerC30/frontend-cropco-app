@@ -38,3 +38,17 @@ Cypress.Commands.add('typeOnInputBasicSearchBar', (value: string) => {
 Cypress.Commands.add('clearInputBasicSearchBar', () => {
   cy.get('button[data-testid="btn-clear-basic-searchbar"]').click();
 });
+
+Cypress.Commands.add('selectCalendarMonth', (month: number) => {
+  cy.get('button[data-testid="btn-month-calendar-selector"]').click();
+  cy.get(`div[role="option"][data-testid="item-month-${month}"]`).click();
+});
+
+Cypress.Commands.add('selectCalendarYear', (year: number) => {
+  cy.get('button[data-testid="btn-year-calendar-selector"]').click();
+  cy.get(`div[role="option"][data-testid="item-year-${year}"]`).click();
+});
+
+Cypress.Commands.add('selectCalendarDay', (day: number) => {
+  cy.get('button[name="day"]').contains(day).click();
+});

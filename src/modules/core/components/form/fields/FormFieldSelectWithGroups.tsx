@@ -100,8 +100,9 @@ export const FormFieldSelectWithGroups: React.FC<FormFieldSelectWithGroupsProps>
                   defaultValue={isValueInArray ? field.value[0] : field.value}
                   value={isValueInArray ? field.value[0] : field.value || ''}
                   disabled={readOnly}
+                  // open
                 >
-                  <SelectTrigger ref={field.ref}>
+                  <SelectTrigger ref={field.ref} data-testid="btn-select-field">
                     {showSelectValue ? (
                       <SelectValue placeholder={placeholder} />
                     ) : (
@@ -115,7 +116,7 @@ export const FormFieldSelectWithGroups: React.FC<FormFieldSelectWithGroupsProps>
                         <SelectLabel>{item.groupName}</SelectLabel>
                         <Separator />
                         {item.elements.map((element) => (
-                          <SelectItem key={element.key} value={element.value}>
+                          <SelectItem key={element.key} value={element.value} data-value={element.value}>
                             {element.label}
                           </SelectItem>
                         ))}

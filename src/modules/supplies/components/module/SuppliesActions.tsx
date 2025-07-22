@@ -34,7 +34,7 @@ export const SuppliesActions: React.FC = () => {
         onClick={async () => {
           await querySupplies.refetch();
         }}
-        disabled={!actionsSuppliesModule['find_all_supplies']}
+        disabled={!actionsSuppliesModule['find_all_supplies'] || querySupplies.isFetching}
         className=""
       />
 

@@ -168,6 +168,28 @@ declare global {
         },
         callback: (data: any) => void
       ): Chainable<void>;
+      // Supplies
+      createSupply(
+        data?: {
+          name?: string;
+          brand?: string;
+          unit_of_measure?: string;
+          observation?: string;
+        },
+        opt?: { fastCreation?: boolean }
+      ): Chainable<any>;
+      createSupplyAnd(
+        data: {
+          name?: string;
+          brand?: string;
+          unit_of_measure?: string;
+          observation?: string;
+        },
+        callback: (data: any) => void
+      ): Chainable<void>;
+      selectCalendarMonth(month: number): Chainable<void>;
+      selectCalendarYear(year: number): Chainable<void>;
+      selectCalendarDay(day: number): Chainable<void>;
     }
   }
 }
