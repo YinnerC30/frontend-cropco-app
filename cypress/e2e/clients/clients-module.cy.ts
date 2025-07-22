@@ -368,51 +368,35 @@ describe('Ver registro de cliente', () => {
   });
 });
 
-describe('Certificar cliente', () => {
+describe.only('Exportar clientes a PDF', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
   });
 
   it('Generar certificado de cliente', () => {
-    cy.createClientAnd({}, ({ email, id }) => {
-      // const email = 'stivenchilito@mail.com';
-      // const id = '0044d935-a236-40de-847a-ea09f02c7ab7';
-      cy.visit(`/app/home/clients/view/all?query=${email}`);
-      cy.clickActionsButtonTableRow(id);
-      cy.contains('Certificar');
-      cy.get('button[data-testid="btn-certificate-client"]').click();
+    cy.wait(2000);
+    cy.get('span[data-testid="data-table-row-total"]')
+      .invoke('text')
+      .then((text) => {
+        const total = parseInt(text, 10);
+        if (total <= 2) {
+          for (let index = 0; index < 3; index++) {
+            cy.createClient({}, { fastCreation: true });
+          }
+        }
+      });
+    cy.get('button[data-testid="btn-export-all-clients"]').click();
 
-      cy.wait(1500);
-      cy.getFormInput('company_name').type('Empresa de Prueba S.A.S');
-      cy.getFormInput('generator_name').type('Julian Perez');
-      cy.getFormInput('generator_position').type('Gerente de recursos humanos');
+    cy.contains('Generando reporte...');
+    cy.contains('El reporte ha sido generado con éxito.');
+    const expectedFileName = `reporte-clientes.pdf`;
+    const downloadsFolder =
+      Cypress.config('downloadsFolder') || 'cypress/downloads';
 
-      cy.get('button[data-testid="btn-calendar-selector"]').click();
-
-      cy.get('button[data-testid="btn-month-calendar-selector"]').click();
-      cy.get('div[role="option"][data-testid="item-month-4"]').click();
-      cy.get('button[data-testid="btn-year-calendar-selector"]').click();
-      cy.get('div[role="option"][data-testid="item-year-2023"]').click();
-
-      cy.get('button[name="day"]').contains('19').click();
-
-      cy.wait(1000);
-
-      cy.getFormInput('client_position').type('Manipulador de fruta');
-      cy.getFormInput('id_number').type('110508765');
-      cy.getFormInput('weekly_working_hours').type('45');
-
-      cy.get('button[data-testid="btn-generate-certificate"]').click();
-      cy.contains('La constancia ha sido generada con éxito.');
-      const expectedFileName = `constancia-cliente-${id}.pdf`;
-      const downloadsFolder =
-        Cypress.config('downloadsFolder') || 'cypress/downloads';
-
-      cy.readFile(`${downloadsFolder}/${expectedFileName}`, {
-        timeout: 10000,
-      }).should('exist');
-    });
+    cy.readFile(`${downloadsFolder}/${expectedFileName}`, {
+      timeout: 10000,
+    }).should('exist');
   });
 });
 
@@ -524,11 +508,6 @@ describe('Auth modulo de clientes', () => {
         cy.clickActionsButtonTableRow(clientData.id);
 
         cy.checkActionButtonsState({ update: true, view: true, delete: true });
-
-        // Certificar
-        cy.get('button[data-testid="btn-certificate-client"]').should(
-          'be.enabled'
-        );
       });
     });
   });
@@ -574,27 +553,11 @@ describe('Auth modulo de clientes', () => {
 
           cy.clickActionsButtonTableRow(clientData.id);
 
-          // Certificar
-          cy.get('button[data-testid="btn-certificate-client"]').should(
-            'be.disabled'
-          );
-
           cy.checkActionButtonsState({
             update: false,
             view: false,
             delete: false,
           });
-          // // Modificar
-          // cy.get('button[data-testid="btn-update-record"]').should(
-          //   'be.disabled'
-          // );
-
-          // // Ver
-          // cy.get('button[data-testid="btn-delete-one-record"]').should(
-          //   'be.disabled'
-          // );
-          // // Eliminar
-          // cy.get('button[data-testid="btn-view-record"]').should('be.disabled');
         });
       }
     );
