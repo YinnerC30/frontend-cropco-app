@@ -21,7 +21,11 @@ export const ActionsTablePaymentsToPay = ({
 }) => {
   const record: RecordToPay = row.original;
 
-  const { removeRecordToPay, paymentsState, readOnly } = useFormPaymentContext();
+  const dialogDescription =
+    'El registro será removido de la tabla actual y regresará a su tabla original.';
+
+  const { removeRecordToPay, paymentsState, readOnly } =
+    useFormPaymentContext();
 
   const handleDelete = () => {
     removeRecordToPay(record);
@@ -55,9 +59,12 @@ export const ActionsTablePaymentsToPay = ({
         name={'Consultar'}
         target="_blank"
       />
-      {
-        !readOnly && (<ActionDeleteRecord action={handleDelete} />)
-      }
+      {!readOnly && (
+        <ActionDeleteRecord
+          action={handleDelete}
+          alertDialogDescription={dialogDescription}
+        />
+      )}
     </DropDownMenuActions>
   );
 };
