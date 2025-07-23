@@ -59,9 +59,9 @@ export const columnsSaleDetailClient: ColumnDef<SaleDetailClient>[] =
       },
     },
     {
-      accessorKey: 'payment_is_pending',
+      accessorKey: 'is_receivable',
       cell: ({ row }) => {
-        const value = row.getValue('payment_is_pending');
+        const value = row.getValue('is_receivable');
         return value ? (
           <Badge variant={'destructive'}>SI</Badge>
         ) : (
