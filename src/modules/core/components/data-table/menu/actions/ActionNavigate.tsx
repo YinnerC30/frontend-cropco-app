@@ -29,7 +29,11 @@ export const ActionNavigate = ({
         type="button"
         variant={'ghost'}
         onClick={() => {
-          navigate(path);
+          if (target === '_blank') {
+            window.open(path, '_blank');
+          } else {
+            navigate(path);
+          }
         }}
         data-testid={dataTestId}
         disabled={disabled}
