@@ -57,7 +57,6 @@ export const ViewEmployee: React.FC = () => {
   if (isLoading) {
     return <Loading />;
   }
-
   const harvestData = Array.isArray(data?.harvests_detail)
     ? data?.harvests_detail.map((item) => ({
         ...item,
@@ -74,7 +73,10 @@ export const ViewEmployee: React.FC = () => {
   const paymentData = Array.isArray(data?.payments)
     ? data?.payments.map((item) => ({
         ...item,
-        employee: { full_name: `${data.first_name} ${data.last_name}` },
+        employee: {
+          full_name: `${data.first_name} ${data.last_name}`,
+          ...item.employee,
+        },
       }))
     : [];
 
