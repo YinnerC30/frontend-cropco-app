@@ -1,13 +1,13 @@
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
-import { ButtonHeaderTable, ToolTipTemplate } from '@/modules/core/components';
+import { Badge, Button } from '@/components';
+import { ButtonHeaderTable } from '@/modules/core/components';
+import { PersonHoverCard } from '@/modules/core/components/card/PersonHoverCard';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
+import { SupplyHoverCard } from '@/modules/supplies/components/card/SupplyHoverCard';
 import { ShoppingSupplies } from '../../interfaces';
 import { formFieldsShopping } from '../../utils/formFieldsShopping';
-import { Badge, Button } from '@/components';
-import { PersonHoverCard } from '@/modules/core/components/card/PersonHoverCard';
-import { SupplyHoverCard } from '@/modules/supplies/components/card/SupplyHoverCard';
 
 export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
   {
@@ -53,9 +53,9 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
           ))}
 
           {hiddenCount > 0 && (
-            <ToolTipTemplate content={supplies.slice(maxVisible).join(',\n')}>
-              <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
-            </ToolTipTemplate>
+            // <ToolTipTemplate content={supplies.slice(maxVisible).join(',\n')}>
+            <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
+            // </ToolTipTemplate>
           )}
         </div>
       );

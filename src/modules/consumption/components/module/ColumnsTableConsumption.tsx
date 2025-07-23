@@ -1,12 +1,12 @@
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
-import { ButtonHeaderTable, ToolTipTemplate } from '@/modules/core/components';
+import { Badge, Button } from '@/components';
+import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
+import { CropHoverCard } from '@/modules/crops/components/card/CropHoverCard';
+import { SupplyHoverCard } from '@/modules/supplies/components/card/SupplyHoverCard';
 import { ConsumptionSupplies } from '../../interfaces';
 import { formFieldsConsumption } from '../../utils/formFieldsConsumption';
-import { Badge, Button } from '@/components';
-import { SupplyHoverCard } from '@/modules/supplies/components/card/SupplyHoverCard';
-import { CropHoverCard } from '@/modules/crops/components/card/CropHoverCard';
 
 export const columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
   {
@@ -51,9 +51,9 @@ export const columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
           ))}
 
           {hiddenCount > 0 && (
-            <ToolTipTemplate content={supplies.slice(maxVisible).join(',\n')}>
-              <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
-            </ToolTipTemplate>
+            // <ToolTipTemplate content={supplies.slice(maxVisible).join(',\n')}>
+            <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
+            // </ToolTipTemplate>
           )}
         </div>
       );
@@ -87,9 +87,9 @@ export const columnsConsumption: ColumnDef<ConsumptionSupplies>[] = [
           ))}
 
           {hiddenCount > 0 && (
-            <ToolTipTemplate content={crops.slice(maxVisible).join(',\n')}>
-              <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
-            </ToolTipTemplate>
+            // <ToolTipTemplate content={crops.slice(maxVisible).join(',\n')}>
+            <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
+            // </ToolTipTemplate>
           )}
         </div>
       );
