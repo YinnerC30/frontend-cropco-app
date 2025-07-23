@@ -73,6 +73,7 @@ export const FormFieldInput: React.FC<FormFieldInputProps> = memo(
                   autoFocus={autoFocus}
                   onChange={(e) => handleOnChageInput(e, field)}
                   data-testid={dataTestiId}
+                  spellCheck={true}
                 />
                 {children}
               </div>

@@ -43,6 +43,7 @@ export const FormFieldTextArea: React.FC<FormFieldTextAreaProps> = memo(
                 {...field}
                 readOnly={readOnly}
                 data-testid={dataTestiId}
+                spellCheck={true}
               />
             </FormControl>
             <FormDescription>{description}</FormDescription>
