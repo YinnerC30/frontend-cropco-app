@@ -113,7 +113,7 @@ describe('Creación de cosechas', () => {
     cy.clickOnCreateButton();
   });
 
-  it('Debe crear un cultivo', () => {
+  it.only('Debe crear un cultivo', () => {
     cy.get('button[data-testid="btn-calendar-selector"]').click();
     cy.wait(500);
 
@@ -157,6 +157,36 @@ describe('Creación de cosechas', () => {
     });
 
     cy.get('button[data-testid="form-detail-submit-button"]').click();
+    cy.wait(1000);
+
+    // Abrir boton de crear detalle
+    cy.get('button[data-testid="btn-open-harvest-detail-form"]').click();
+
+    // Seleccionar empleado
+    cy.get('button[data-testid="btn-open-command-employee"]').click();
+    cy.wait(1000);
+    cy.get(
+      'div[data-testid="form-field-command-item-0"][role="option"]'
+    ).click();
+    cy.wait(500);
+
+    // Unidad de medida
+    cy.get('button[data-testid="btn-select-field"]').click();
+    cy.get(`div[role="option"][data-value="KILOGRAMOS"]`).click();
+
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="amount"]').clear().type('45');
+    });
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="value_pay"]').clear().type('50000');
+    });
+
+    cy.get('button[data-testid="form-detail-submit-button"]').click();
+
+    // Validar totales
+    cy.get('div[data-testid="badge-amount"]').contains('100,00');
+    cy.get('div[data-testid="badge-value-pay"]').contains('$ 110.000');
+
     cy.clickOnSubmitButton();
     cy.checkDisabledSubmitButton();
     cy.contains('Cosecha creada');
