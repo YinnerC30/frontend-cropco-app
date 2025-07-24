@@ -85,7 +85,7 @@ describe('Modulo de cosechas', () => {
   });
 });
 
-describe.only('Creación de cosechas', () => {
+describe('Creación de cosechas', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('harvests');
@@ -159,7 +159,7 @@ describe.only('Creación de cosechas', () => {
     cy.checkMessageFieldsMissing();
   });
 
-  it.only('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
+  it.skip('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
     cy.getFormTextArea('observation').type('Simple observación...');
     cy.navigateToModuleWithSideBar('harvests');
     cy.checkMessageLostFormData();
@@ -174,21 +174,44 @@ describe.only('Creación de cosechas', () => {
     cy.checkMessageLostFormData();
   });
 
-  // it.skip('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
-  //   cy.getFormInput('name').type('CropName');
-  //   cy.navigateToModuleWithSideBar('crops');
-  //   cy.checkMessageLostFormData();
-  //   cy.contains('button', 'Ignorar').click();
-  //   cy.url().then((currentUrl) => {
-  //     expect(currentUrl).to.not.include('/app/home/crops/create');
-  //   });
-  // });
+  it('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
+    cy.getFormTextArea('observation').type('Simple observación...');
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.checkMessageLostFormData();
+    cy.contains('button', 'Ignorar').click();
+    cy.wait(500);
+    cy.url().then((currentUrl) => {
+      expect(currentUrl).to.not.include('/app/home/harvests/create');
+    });
+    cy.clickOnCreateButton();
+    cy.wait(500);
+    cy.get('button[data-testid="btn-open-harvest-detail-form"]').click();
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="amount"]').clear().type('55');
+    });
+    cy.get('button[data-testid="btn-close-form-dialog"]').click();
+    cy.checkMessageLostFormData();
+    cy.contains('button', 'Ignorar').click();
+    cy.checkCurrentUrl('/app/home/harvests/create/one');
+    cy.get('div[role="dialog"]').should('not.exist');
+  });
 
-  // it.skip('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
-  //   cy.getFormInput('name').type('CropName');
-  //   cy.navigateToModuleWithSideBar('crops');
-  //   cy.checkMessageLostFormData();
-  //   cy.get('button[aria-label="Close toast"]').click();
-  //   cy.url().should('include', '/app/home/crops/create');
-  // });
+  it('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
+    cy.getFormTextArea('observation').type('Simple observación...');
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.checkMessageLostFormData();
+    cy.get('button[aria-label="Close toast"]').click();
+    cy.wait(500);
+    cy.checkCurrentUrl('/app/home/harvests/create/one');
+
+    cy.get('button[data-testid="btn-open-harvest-detail-form"]').click();
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="amount"]').clear().type('55');
+    });
+    cy.get('button[data-testid="btn-close-form-dialog"]').click();
+    cy.checkMessageLostFormData();
+    cy.get('button[aria-label="Close toast"]').click();
+
+    cy.get('div[role="dialog"]').should('exist');
+  });
 });
