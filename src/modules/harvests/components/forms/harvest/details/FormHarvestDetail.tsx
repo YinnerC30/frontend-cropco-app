@@ -81,6 +81,7 @@ export const FormHarvestDetail: React.FC = () => {
           size="icon"
           onClick={handleOpenDialogExtended}
           disabled={readOnly}
+          data-testid="btn-open-harvest-detail-form"
         >
           <Plus className="w-4 h-4" />
           <span className="sr-only">Crear nuevo registro</span>
@@ -115,6 +116,7 @@ export const FormHarvestDetail: React.FC = () => {
               type="submit"
               disabled={isSubmittingHarvestDetail}
               onClick={formHarvestDetail.handleSubmit(onSubmitHarvestDetail)}
+              data-testid="form-detail-submit-button"
             >
               Guardar
             </Button>

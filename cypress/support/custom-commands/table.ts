@@ -3,7 +3,7 @@ Cypress.Commands.add('clickActionsButtonTableRow', (id: string | number) => {
 });
 
 Cypress.Commands.add('clickRefetchButton', () => {
-  cy.get('button[data-testid="btn-refetch-data"]').click();
+  cy.get('button[data-testid="btn-refetch-data"]').click({ multiple: true });
 });
 
 Cypress.Commands.add('checkRefetchButtonState', (shouldBeEnabled: boolean) => {

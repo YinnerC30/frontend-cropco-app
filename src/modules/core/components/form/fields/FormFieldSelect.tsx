@@ -93,7 +93,7 @@ export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
                 value={isValueInArray ? field.value[0] : field.value || ''}
                 disabled={readOnly}
               >
-                <SelectTrigger ref={field.ref}>
+                <SelectTrigger ref={field.ref} data-testid="btn-select-field">
                   {showSelectValue ? (
                     <SelectValue placeholder={placeholder} />
                   ) : (
@@ -103,7 +103,7 @@ export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
 
                 <SelectContent>
                   {[...items].map((item: SelectItemValues) => (
-                    <SelectItem key={item.key} value={item.value}>
+                    <SelectItem key={item.key} value={item.value}  data-value={item.value}>
                       {item.label}
                     </SelectItem>
                   ))}

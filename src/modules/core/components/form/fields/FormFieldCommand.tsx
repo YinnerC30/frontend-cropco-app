@@ -129,6 +129,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                         ref={field.ref}
                         onBlur={field.onBlur}
                         disabled={readOnly}
+                        data-testid={`btn-open-command-${name}`}
                       >
                         <span
                           className={cn(
@@ -166,7 +167,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                         nameEntity
                       )} no encontrado`}</CommandEmpty>
                       <CommandGroup>
-                        {data.map((item) => {
+                        {data.map((item, index) => {
                           return (
                             <CommandItem
                               disabled={item.disabled}
@@ -175,6 +176,8 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                               onSelect={() => {
                                 handleOnSelectCommandItem(field, item);
                               }}
+                              // data-testid={`command-item-${item?.[nameToShow]}`}
+                              data-testid={`form-field-command-item-${index}`}
                             >
                               <div className="">{item?.[nameToShow]}</div>
                               <CheckIcon

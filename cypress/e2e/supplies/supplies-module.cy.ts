@@ -125,7 +125,7 @@ describe('Creación de insumos', () => {
 
     cy.getFormInput('name').type(usedName);
     cy.getFormInput('brand').type(usedBrand);
-    cy.get('button[data-testid="btn-select-field"]').click();
+    cy.get('button[data-testid="btn-select-group-field"]').click();
     cy.get(`div[role="option"][data-value="${usedUnitOfMeasure}"]`).click();
     // cy.getFormInput('unit_of_measure').type(usedUnitOfMeasure);
     cy.getFormTextArea('observation').type(usedObservation);
