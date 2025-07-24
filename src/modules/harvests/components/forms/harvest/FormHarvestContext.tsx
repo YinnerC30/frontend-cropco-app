@@ -42,8 +42,8 @@ export const defaultValuesHarvestDetail: HarvestDetail = {
     first_name: '',
   },
   unit_of_measure: undefined,
-  amount: 10,
-  value_pay: 1000,
+  amount: 0,
+  value_pay: 0,
 };
 
 const defaultValuesHarvest = {

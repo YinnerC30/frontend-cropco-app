@@ -142,20 +142,37 @@ describe.only('Creación de cosechas', () => {
     cy.contains('Cosecha creada');
   });
 
-  // it.skip('Debe mostrar mensajes de error al intentar enviar el formulario vacio', () => {
-  //   cy.clickOnSubmitButton();
-  //   cy.contains('El nombre debe tener al menos 4 caracteres');
-  //   cy.contains('El número debe ser positivo');
-  //   cy.contains('La descripción debe tener mínimo 15 caracteres');
-  //   cy.contains('La ubicación debe tener al menos 15 caracteres');
-  //   cy.checkMessageFieldsMissing();
-  // });
+  it.skip('Debe mostrar mensajes de error al intentar enviar el formulario vacio', () => {
+    cy.clickOnSubmitButton();
+    cy.contains('La fecha es un campo obligatorio');
+    cy.contains('La opción seleccionada no es valida.');
+    cy.contains('Debes registrar la cosecha de al menos 1 empleado');
+    cy.checkMessageFieldsMissing();
 
-  // it.skip('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
-  //   cy.getFormInput('name').type('CropName');
-  //   cy.navigateToModuleWithSideBar('crops');
-  //   cy.checkMessageLostFormData();
-  // });
+    // Abrir boton de crear detalle
+    cy.get('button[data-testid="btn-open-harvest-detail-form"]').click();
+    cy.get('button[data-testid="form-detail-submit-button"]').click();
+    cy.contains('El empleado es un campo obligatorio');
+    cy.contains('Debe seleccionar una unidad de medida.');
+    cy.contains('El valor cosechado debe ser un número positivo.');
+    cy.contains('El valor a pagar debe ser un número positivo.');
+    cy.checkMessageFieldsMissing();
+  });
+
+  it.only('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
+    cy.getFormTextArea('observation').type('Simple observación...');
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.checkMessageLostFormData();
+    cy.get('button[aria-label="Close toast"]').click();
+    cy.wait(500);
+    // Abrir boton de crear detalle
+    cy.get('button[data-testid="btn-open-harvest-detail-form"]').click();
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="amount"]').clear().type('55');
+    });
+    cy.get('button[data-testid="btn-close-form-dialog"]').click();
+    cy.checkMessageLostFormData();
+  });
 
   // it.skip('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
   //   cy.getFormInput('name').type('CropName');
