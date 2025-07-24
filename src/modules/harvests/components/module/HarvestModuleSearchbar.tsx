@@ -348,6 +348,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                       size={'icon'}
                       disabled={readOnly}
                       className="bg-destructive hover:bg-destructive/80"
+                      data-testid="btn-clear-filters"
                     >
                       <X className="w-4 h-4" />
                     </Button>
@@ -365,6 +366,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                       }
                       size={'icon'}
                       disabled={readOnly}
+                      data-testid="btn-harvests-filters"
                     >
                       <Filter className="w-4 h-4" />
                     </Button>

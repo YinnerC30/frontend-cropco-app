@@ -5,17 +5,37 @@ describe('Modulo de cosechas', () => {
   });
 
   it('Debe ingresar a la ruta correcta ', () => {
-    cy.contains('Usuarios');
+    cy.contains('Cosechas');
     cy.checkCurrentUrl('harvests/view/all');
   });
 
   it('Debe contener los elementos necesarios', () => {
-    // cy.existBasicSearchBar();
+    // Barra de busqueda
+
+    cy.get('form[id="formSearch"]').within((form) => {
+      cy.get('button[data-testid="btn-open-command-crop"]')
+        .should('exist')
+        .should('be.enabled');
+      cy.get('button[data-testid="btn-refetch-data"]')
+        .should('exist')
+        .should('be.enabled');
+      cy.get('button[data-testid="btn-clear-filters"]')
+        .should('exist')
+        .should('be.enabled');
+      cy.get('button[data-testid="btn-harvests-filters"]')
+        .should('exist')
+        .should('be.enabled');
+    });
 
     cy.existRefetchButton();
     cy.existCreateButton();
 
     cy.existPaginationInfo();
+
+    cy.contains('Mostrar cantidad cosechada como:');
+    cy.get('button[data-testid="btn-select-mass-unit-of-measure"]')
+      .should('exist')
+      .should('be.enabled');
 
     cy.contains('Fecha:');
     cy.contains('Cultivo:');
@@ -142,7 +162,7 @@ describe('Creación de cosechas', () => {
     cy.contains('Cosecha creada');
   });
 
-  it.skip('Debe mostrar mensajes de error al intentar enviar el formulario vacio', () => {
+  it('Debe mostrar mensajes de error al intentar enviar el formulario vacio', () => {
     cy.clickOnSubmitButton();
     cy.contains('La fecha es un campo obligatorio');
     cy.contains('La opción seleccionada no es valida.');
@@ -159,7 +179,7 @@ describe('Creación de cosechas', () => {
     cy.checkMessageFieldsMissing();
   });
 
-  it.skip('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
+  it('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
     cy.getFormTextArea('observation').type('Simple observación...');
     cy.navigateToModuleWithSideBar('harvests');
     cy.checkMessageLostFormData();
