@@ -150,6 +150,7 @@ export const FormShoppingProvider: React.FC<
   };
 
   const modifyShoppingDetail = (shoppingDetail: ShoppingDetail): void => {
+    console.log("🚀 ~ modifyShoppingDetail ~ shoppingDetail:", shoppingDetail)
     if (isSubmittingShoppingDetail) return;
     setIsSubmittingShoppingDetail(true);
     dispatch({ type: 'MODIFY', payload: shoppingDetail });

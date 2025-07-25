@@ -36,14 +36,12 @@ import {
 import { cn } from '@/lib/utils';
 import { Loading } from '@/modules/core/components';
 
-import {
-  unitTypeMap
-} from '@/modules/core/hooks/useUnitConverter';
+import { unitTypeMap } from '@/modules/core/hooks/useUnitConverter';
 import { formFieldsSaleDetail } from '@/modules/sales/utils';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
 import {
   UnitOfMeasure,
-  UnitsType
+  UnitsType,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { CheckIcon } from 'lucide-react';
@@ -100,8 +98,6 @@ export const FormShoppingDetailsFields: React.FC = () => {
       formShoppingDetail.reset(defaultValuesShoppingDetail);
     };
   }, []);
-
-  console.log(formShoppingDetail.formState.errors);
 
   return (
     <Form {...formShoppingDetail}>

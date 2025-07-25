@@ -32,8 +32,9 @@ export const ActionsTableShoppingDetail = ({
     handleOpenDialog();
   };
 
-  const { deletedDate } = row.original;
-  const isDisabled = deletedDate !== null;
+  const { supply, supplier } = row.original;
+  const isDisabled =
+    supply.deletedDate !== null || supplier.deletedDate !== null;
 
   return (
     <DropDownMenuActions>

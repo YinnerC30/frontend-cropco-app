@@ -82,6 +82,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
       form.setValue(
         name,
         {
+          ...item,
           id: item?.id,
           [nameToShow]: item[nameToShow],
         },

@@ -36,7 +36,7 @@ export const FormShoppingDetail: React.FC = () => {
     resetShoppingDetail,
     formShoppingDetail,
     addShoppingDetail,
-    isSubmittingShoppingDetail, 
+    isSubmittingShoppingDetail,
     modifyShoppingDetail,
   } = useFormShoppingContext();
 
@@ -47,13 +47,23 @@ export const FormShoppingDetail: React.FC = () => {
       const record = {
         ...values,
         deletedDate: null,
+        supply: { ...values.supply, deletedDate: null },
+        supplier: { ...values.supplier, deletedDate: null },
         id: generateUUID(),
       };
       addShoppingDetail(record);
       toast.success('Registro añadido');
     } else {
-      const record = { ...values, id: shoppingDetail.id };
-      modifyShoppingDetail({ ...record, deletedDate: null });
+      const record = {
+        ...values,
+        id: shoppingDetail.id,
+        supply: { ...values.supply, deletedDate: null },
+        supplier: { ...values.supplier, deletedDate: null },
+      };
+      modifyShoppingDetail({
+        ...record,
+        deletedDate: null,
+      });
       toast.success('Registro actualizado');
     }
     setOpenDialog(false);
@@ -66,6 +76,9 @@ export const FormShoppingDetail: React.FC = () => {
     resetShoppingDetail();
     handleOpenDialog();
   };
+
+  console.log(formShoppingDetail.formState.errors);
+
   return (
     <>
       <ToolTipTemplate content={'Crear registro'}>
