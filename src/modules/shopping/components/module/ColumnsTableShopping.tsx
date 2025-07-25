@@ -32,9 +32,15 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
       return <ButtonHeaderTable column={column} label={'Insumos:'} />;
     },
     cell: ({ row: { original } }) => {
-      const setSupplies = new Set(original.details.map((item) => item.supply));
-
-      const supplies = Array.from(setSupplies);
+      // Usar un Map para filtrar insumos únicos por id y conservar el objeto completo
+      const supplyMap = new Map();
+      original.details.forEach((item) => {
+        const supply = item.supply;
+        if (supply && !supplyMap.has(supply.id)) {
+          supplyMap.set(supply.id, supply);
+        }
+      });
+      const supplies = Array.from(supplyMap.values());
 
       const maxVisible = 2;
       const hiddenCount = supplies.length - maxVisible;
@@ -42,21 +48,15 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {supplies.slice(0, maxVisible).map((supply, index) => (
-            <SupplyHoverCard data={supply as any}>
-              <Badge
-                key={`${supply}-${index}`}
-                className="mb-1 mr-1"
-                variant={'cyan'}
-              >
+            <SupplyHoverCard data={supply as any} key={`${supply.id}-${index}`}>
+              <Badge className="mb-1 mr-1" variant={'cyan'}>
                 {supply.name}
               </Badge>
             </SupplyHoverCard>
           ))}
 
           {hiddenCount > 0 && (
-            // <ToolTipTemplate content={supplies.slice(maxVisible).join(',\n')}>
             <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
-            // </ToolTipTemplate>
           )}
         </div>
       );
@@ -68,11 +68,15 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
       return <ButtonHeaderTable column={column} label={'Proveedores:'} />;
     },
     cell: ({ row: { original } }) => {
-      const setSuppliers = new Set(
-        original.details.map((item) => item.supplier)
-      );
-
-      const suppliers = Array.from(setSuppliers);
+      // Usar un Map para filtrar proveedores únicos por id y conservar el objeto completo
+      const supplierMap = new Map();
+      original.details.forEach((item) => {
+        const supplier = item.supplier;
+        if (supplier && !supplierMap.has(supplier.id)) {
+          supplierMap.set(supplier.id, supplier);
+        }
+      });
+      const suppliers = Array.from(supplierMap.values());
 
       const maxVisible = 2;
       const hiddenCount = suppliers.length - maxVisible;
@@ -81,23 +85,18 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
         <div className="flex flex-wrap items-center gap-1">
           {suppliers.slice(0, maxVisible).map((supplier, index) => (
             <PersonHoverCard
+              key={`${supplier.id}-${index}`}
               data={supplier as any}
               routeToNavigate={MODULE_SUPPLIER_PATHS.ViewOne + supplier.id}
             >
-              <Badge
-                key={`${supplier}-${index}`}
-                className="mb-1 mr-1"
-                variant={'orange'}
-              >
+              <Badge className="mb-1 mr-1" variant={'orange'}>
                 {supplier.full_name}
               </Badge>
             </PersonHoverCard>
           ))}
 
           {hiddenCount > 0 && (
-            // <ToolTipTemplate content={suppliers.slice(maxVisible).join(',\n')}>
             <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
-            // </ToolTipTemplate>
           )}
         </div>
       );

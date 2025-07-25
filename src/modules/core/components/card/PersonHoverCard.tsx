@@ -6,7 +6,6 @@ import {
 } from '@/components/ui/hover-card';
 import { Client } from '@/modules/clients/interfaces/Client';
 import { Employee } from '@/modules/employees/interfaces/Employee';
-import { MODULE_EMPLOYEE_PATHS } from '@/modules/employees/routes/pathRoutes';
 import { Supplier } from '@/modules/suppliers/interfaces/Supplier';
 import { PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
@@ -18,7 +17,7 @@ interface Props extends PropsWithChildren {
 
 export const PersonHoverCard: React.FC<Props> = (props: Props) => {
   const person = props.data;
-  const { full_name, email, cell_phone_number, id } = person;
+  const { full_name, email, cell_phone_number } = person;
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
