@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 
 interface Props extends PropsWithChildren {
   data: Employee | Client | Supplier;
+  routeToNavigate: string;
 }
 
 export const PersonHoverCard: React.FC<Props> = (props: Props) => {
@@ -29,7 +30,7 @@ export const PersonHoverCard: React.FC<Props> = (props: Props) => {
         <div className="flex justify-between space-x-4">
           <div className="space-y-1">
             <Link
-              to={MODULE_EMPLOYEE_PATHS.ViewOne + id}
+              to={props.routeToNavigate}
               className="text-sm font-semibold capitalize hover:underline underline-offset-2 text-muted-foreground text-ellipsis text-wrap"
               target="_blank"
             >

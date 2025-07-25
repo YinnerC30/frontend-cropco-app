@@ -11,6 +11,7 @@ import { formFieldsWork } from '../../utils/formFieldsWork';
 import { CropHoverCard } from '@/modules/crops/components/card/CropHoverCard';
 import { PersonHoverCard } from '@/modules/core/components/card/PersonHoverCard';
 import { Employee } from '@/modules/employees/interfaces/Employee';
+import { MODULE_EMPLOYEE_PATHS } from '@/modules/employees/routes/pathRoutes';
 
 export const columnsWork: ColumnDef<Work>[] = [
   {
@@ -60,7 +61,10 @@ export const columnsWork: ColumnDef<Work>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {employees.slice(0, maxVisible).map((employee, index) => (
-            <PersonHoverCard data={employee as Employee}>
+            <PersonHoverCard
+              data={employee as Employee}
+              routeToNavigate={MODULE_EMPLOYEE_PATHS.ViewOne + employee.id}
+            >
               <Badge
                 key={`${employee?.id}-${index}`}
                 className="mb-1 mr-1"

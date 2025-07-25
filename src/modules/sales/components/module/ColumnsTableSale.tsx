@@ -10,6 +10,7 @@ import { CellSaleAmount } from './CellSaleAmount';
 import { CropHoverCard } from '@/modules/crops/components/card/CropHoverCard';
 import { Crop } from '@/modules/crops/interfaces/Crop';
 import { PersonHoverCard } from '@/modules/core/components/card/PersonHoverCard';
+import { MODULE_CLIENTS_PATHS } from '@/modules/clients/routes/pathRoutes';
 
 export const columnsSale: ColumnDef<Sale>[] = [
   {
@@ -43,7 +44,10 @@ export const columnsSale: ColumnDef<Sale>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {clients.slice(0, maxVisible).map((client, index) => (
-            <PersonHoverCard data={client as any}>
+            <PersonHoverCard
+              data={client as any}
+              routeToNavigate={MODULE_CLIENTS_PATHS.ViewOne + client.id}
+            >
               <Badge
                 key={`${client.id}-${index}`}
                 className="mb-1 mr-1"

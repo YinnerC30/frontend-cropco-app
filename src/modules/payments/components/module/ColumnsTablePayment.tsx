@@ -7,6 +7,7 @@ import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { Payment } from '../../interfaces/Payment';
 import { formFieldsPayments } from '../../utils';
+import { MODULE_EMPLOYEE_PATHS } from '@/modules/employees/routes/pathRoutes';
 
 export const columnsPayment: ColumnDef<Payment>[] = [
   {
@@ -28,7 +29,7 @@ export const columnsPayment: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       const employee: any = row.getValue('employee');
       return (
-        <PersonHoverCard data={employee}>
+        <PersonHoverCard data={employee} routeToNavigate={MODULE_EMPLOYEE_PATHS.ViewOne + employee.id}>
           <Badge className="mb-1 mr-1" variant={'orange'}>
             {employee.full_name}
           </Badge>

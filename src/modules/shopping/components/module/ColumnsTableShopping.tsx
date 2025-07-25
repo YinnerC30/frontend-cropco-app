@@ -8,6 +8,7 @@ import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyV
 import { SupplyHoverCard } from '@/modules/supplies/components/card/SupplyHoverCard';
 import { ShoppingSupplies } from '../../interfaces';
 import { formFieldsShopping } from '../../utils/formFieldsShopping';
+import { MODULE_SUPPLIER_PATHS } from '@/modules/suppliers/routes/pathRoutes';
 
 export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
   {
@@ -79,7 +80,10 @@ export const columnsShopping: ColumnDef<ShoppingSupplies>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {suppliers.slice(0, maxVisible).map((supplier, index) => (
-            <PersonHoverCard data={supplier as any}>
+            <PersonHoverCard
+              data={supplier as any}
+              routeToNavigate={MODULE_SUPPLIER_PATHS.ViewOne + supplier.id}
+            >
               <Badge
                 key={`${supplier}-${index}`}
                 className="mb-1 mr-1"
