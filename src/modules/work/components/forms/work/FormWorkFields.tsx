@@ -16,8 +16,6 @@ import { FormWorkDataTable } from './FormWorkDataTable';
 export const FormWorkFields: React.FC = () => {
   const { formWork, onSubmit, readOnly, value_pay } = useFormWorkContext();
 
-  const disabledCropField = formWork.formState.defaultValues?.crop?.id !== '';
-
   const { query: queryCrops } = useGetAllCrops({
     queryValue: '',
     all_records: true,
@@ -56,7 +54,7 @@ export const FormWorkFields: React.FC = () => {
             label={formFieldsWork.crop.label}
             name={'crop'}
             placeholder={formFieldsWork.crop.placeholder}
-            disabled={readOnly || disabledCropField}
+            disabled={readOnly}
             isLoading={queryCrops.isLoading || queryCrops.isFetching}
             nameEntity="cultivo"
             className="w-52"
