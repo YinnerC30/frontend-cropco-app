@@ -1,6 +1,7 @@
-import { ShoppingDetail } from "@/modules/shopping/interfaces";
+import { LogicDeleteRecordProps } from '@/modules/core/interfaces/general/LogicDeleteRecordProps';
+import { ShoppingDetail } from '@/modules/shopping/interfaces';
 
-export interface Supplier {
+export interface Supplier extends LogicDeleteRecordProps {
   id?: string;
   address: string;
   cell_phone_number: string;

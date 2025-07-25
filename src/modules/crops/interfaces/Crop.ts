@@ -1,9 +1,10 @@
 import { ConsumptionDetails } from "@/modules/consumption/interfaces";
+import { LogicDeleteRecordProps } from "@/modules/core/interfaces/general/LogicDeleteRecordProps";
 import { Harvest, HarvestProcessed } from "@/modules/harvests/interfaces";
 import { SaleDetail } from "@/modules/sales/interfaces";
 import { Work } from "@/modules/work/interfaces/Work";
 
-export interface Crop {
+export interface Crop extends LogicDeleteRecordProps {
   id?: string | undefined;
   name: string;
   description: string;
