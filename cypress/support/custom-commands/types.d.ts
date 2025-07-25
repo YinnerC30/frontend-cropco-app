@@ -1,5 +1,7 @@
 // Extiende la interfaz Chainable de Cypress para incluir los comandos personalizados documentados arriba
 
+import { PersonalInformation } from 'cypress/interfaces/PersonalInformation';
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -80,67 +82,35 @@ declare global {
       ): Chainable<void>;
       openActionsMenuByField(value: string, url: string): Chainable<void>;
       searchAndSelectTableRow(field: string, value: string): Chainable<void>;
+
       // Employees
       createEmployee(
-        data?: {
-          firstName?: string;
-          lastName?: string;
-          email?: string;
-          cellPhoneNumber?: string;
-          address?: string;
-        },
+        data?: PersonalInformation,
         opt?: { fastCreation?: boolean }
       ): Chainable<any>;
       createEmployeeAnd(
-        data: {
-          firstName?: string;
-          lastName?: string;
-          email?: string;
-          cellPhoneNumber?: string;
-          address?: string;
-        },
+        data: PersonalInformation,
+
         callback: (data: any) => void
       ): Chainable<void>;
+
       // Clients
       createClient(
-        data?: {
-          firstName?: string;
-          lastName?: string;
-          email?: string;
-          cellPhoneNumber?: string;
-          address?: string;
-        },
+        data?: PersonalInformation,
         opt?: { fastCreation?: boolean }
       ): Chainable<any>;
       createClientAnd(
-        data: {
-          firstName?: string;
-          lastName?: string;
-          email?: string;
-          cellPhoneNumber?: string;
-          address?: string;
-        },
+        data: PersonalInformation,
         callback: (data: any) => void
       ): Chainable<void>;
+
       // Suppliers
       createSupplier(
-        data?: {
-          firstName?: string;
-          lastName?: string;
-          email?: string;
-          cellPhoneNumber?: string;
-          address?: string;
-        },
+        data?: PersonalInformation,
         opt?: { fastCreation?: boolean }
       ): Chainable<any>;
       createSupplierAnd(
-        data: {
-          firstName?: string;
-          lastName?: string;
-          email?: string;
-          cellPhoneNumber?: string;
-          address?: string;
-        },
+        data: PersonalInformation,
         callback: (data: any) => void
       ): Chainable<void>;
       // Crops
@@ -190,6 +160,10 @@ declare global {
       selectCalendarMonth(month: number): Chainable<void>;
       selectCalendarYear(year: number): Chainable<void>;
       selectCalendarDay(day: number): Chainable<void>;
+
+      // Harvests
+      createHarvest(opt?: { fastCreation?: boolean }): Chainable<any>;
+      createHarvestAnd(callback: (data: any) => void): Chainable<any>;
     }
   }
 }

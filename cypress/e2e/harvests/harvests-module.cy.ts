@@ -113,7 +113,7 @@ describe('Creación de cosechas', () => {
     cy.clickOnCreateButton();
   });
 
-  it.only('Debe crear un cultivo', () => {
+  it('Debe crear un cultivo', () => {
     cy.get('button[data-testid="btn-calendar-selector"]').click();
     cy.wait(500);
 
@@ -264,4 +264,64 @@ describe('Creación de cosechas', () => {
 
     cy.get('div[role="dialog"]').should('exist');
   });
+});
+
+describe.only('Modificación de cosechas', () => {
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('harvests');
+  });
+
+  it.only('Modificar cosecha existente', () => {
+    cy.createHarvestAnd((data: any) => {
+      cy.visit(`/app/home/harvests/update/one/${data.id}`);
+      // cy.visit(`/app/home/harvests/view/all?query=${name}`);
+      // cy.clickActionsButtonTableRow(id);
+      // cy.get('button[data-testid="btn-update-record"]').click();
+      // cy.getFormInput('name').clear().type('CropNameChanged');
+
+      // cy.clickOnSubmitButton();
+      // cy.checkDisabledSubmitButton();
+      // cy.contains('Cultivo actualizado');
+    });
+  });
+
+  // it('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
+  //   cy.createCropAnd({}, ({ name, id }) => {
+  //     cy.visit(`/app/home/harvests/view/all?query=${name}`);
+  //     cy.clickActionsButtonTableRow(id);
+  //     cy.get('button[data-testid="btn-update-record"]').click();
+  //     cy.getFormInput('name').type('CropName');
+  //     cy.navigateToModuleWithSideBar('harvests');
+  //     cy.checkMessageLostFormData();
+  //   });
+  // });
+
+  // it('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
+  //   cy.createCropAnd({}, ({ name, id }) => {
+  //     cy.visit(`/app/home/crops/view/all?query=${name}`);
+  //     cy.clickActionsButtonTableRow(id);
+  //     cy.get('button[data-testid="btn-update-record"]').click();
+  //     cy.getFormInput('name').type('CropName');
+  //     cy.navigateToModuleWithSideBar('crops');
+  //     cy.checkMessageLostFormData();
+  //     cy.contains('button', 'Ignorar').click();
+  //     cy.url().then((currentUrl) => {
+  //       expect(currentUrl).to.not.include('/app/home/crops/update');
+  //     });
+  //   });
+  // });
+
+  // it('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
+  //   cy.createCropAnd({}, ({ name, id }) => {
+  //     cy.visit(`/app/home/crops/view/all?query=${name}`);
+  //     cy.clickActionsButtonTableRow(id);
+  //     cy.get('button[data-testid="btn-update-record"]').click();
+  //     cy.getFormInput('name').type('CropName');
+  //     cy.navigateToModuleWithSideBar('crops');
+  //     cy.checkMessageLostFormData();
+  //     cy.get('button[aria-label="Close toast"]').click();
+  //     cy.url().should('include', '/app/home/crops/update');
+  //   });
+  // });
 });

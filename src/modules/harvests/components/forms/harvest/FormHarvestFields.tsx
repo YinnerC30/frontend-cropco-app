@@ -19,12 +19,12 @@ import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { formFieldsHarvest } from '@/modules/harvests/utils';
 
 import { useGetAllCrops } from '@/modules/crops/hooks';
+import { Crop } from '@/modules/crops/interfaces/Crop';
 import {
   MassUnitOfMeasure,
   UnitsType,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { FormHarvestDataTable } from './FormHarvestDataTable';
-import { Crop } from '@/modules/crops/interfaces/Crop';
 
 export const FormHarvestFields: React.FC = () => {
   const {
@@ -35,10 +35,17 @@ export const FormHarvestFields: React.FC = () => {
     value_pay,
     unitTypeToShowAmount,
     setUnitTypeToShowAmount,
+    defaultValues,
   } = useFormHarvestContext();
-
-  const disabledCropField =
-    formHarvest.formState.defaultValues?.crop?.id !== '';
+  /**
+   * Indicates if the crop field should be disabled.
+   * It is disabled if there are processed items or a total amount processed.
+   */
+  const disabledCropField: boolean =
+    (Array.isArray(defaultValues?.processed) &&
+      defaultValues.processed.length > 0) ||
+    (typeof defaultValues?.total_amount_processed === 'number' &&
+      defaultValues.total_amount_processed > 0);
 
   const { query: queryCrops } = useGetAllCrops({
     queryValue: '',
@@ -47,12 +54,18 @@ export const FormHarvestFields: React.FC = () => {
 
   const getCropDataToCommand = (): Crop[] => {
     let crops: Crop[] = [];
+    const defaultCrop = formHarvest.formState.defaultValues?.crop;
     if (queryCrops.isSuccess) {
       crops = [...queryCrops.data?.records];
-      const hasCropDefaultValue: boolean =
-        formHarvest.formState.defaultValues?.crop?.id === '';
+      const hasCropDefaultValue: boolean = defaultCrop.id !== '';
       if (hasCropDefaultValue) {
-        crops = [...crops, formHarvest.formState.defaultValues?.crop];
+        const existsDefaultCrop = crops.find(
+          (crop) => crop.id === defaultCrop.id
+        );
+        crops = [
+          ...crops,
+          !existsDefaultCrop && formHarvest.formState.defaultValues?.crop,
+        ];
       }
 
       return crops;

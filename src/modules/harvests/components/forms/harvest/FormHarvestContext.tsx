@@ -93,6 +93,7 @@ export interface FormHarvestContextProps {
   >;
   isSubmittingHarvestDetail: boolean;
   setIsSubmittingHarvestDetail: React.Dispatch<React.SetStateAction<boolean>>;
+  defaultValues: Harvest;
 }
 
 type HarvestAction =
@@ -330,6 +331,7 @@ export const FormHarvestProvider: React.FC<
         actionsHarvestsModule,
         unitTypeToShowAmount,
         setUnitTypeToShowAmount,
+        defaultValues: defaultValues as any,
       }}
     >
       {children}

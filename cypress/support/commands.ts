@@ -17,5 +17,6 @@ import './custom-commands/clients';
 import './custom-commands/suppliers';
 import './custom-commands/crops';
 import './custom-commands/supplies';
+import './custom-commands/harvests';
 
 // Declaraciones de tipos y cualquier configuración global pueden ir aquí si es necesario.
