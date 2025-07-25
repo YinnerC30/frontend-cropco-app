@@ -45,7 +45,9 @@ export const FormHarvestFields: React.FC = () => {
     (Array.isArray(defaultValues?.processed) &&
       defaultValues.processed.length > 0) ||
     (typeof defaultValues?.total_amount_processed === 'number' &&
-      defaultValues.total_amount_processed > 0);
+      defaultValues.total_amount_processed > 0) ||
+    (typeof defaultValues?.crop === 'object' &&
+      defaultValues.crop.deletedDate !== null);
 
   const { query: queryCrops } = useGetAllCrops({
     queryValue: '',

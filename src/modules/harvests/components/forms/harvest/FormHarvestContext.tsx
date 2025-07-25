@@ -48,7 +48,7 @@ export const defaultValuesHarvestDetail: HarvestDetail = {
 
 const defaultValuesHarvest = {
   date: undefined,
-  crop: { id: '', name: '' },
+  crop: { id: '', name: '', deletedDate: null },
   observation: '',
   details: [],
   amount: 0,
