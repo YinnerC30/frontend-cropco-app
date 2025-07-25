@@ -29,14 +29,24 @@ import { Plus } from 'lucide-react';
 import { memo, useEffect } from 'react';
 
 import { ConvertStringToDate } from '@/modules/core/helpers';
-import {
-  UnitsType
-} from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { MassUnitOfMeasure, UnitsType } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { z } from 'zod';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
 const formSchemaHarvestProcessed = z.object({
   date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
+  unit_of_measure: z.nativeEnum(MassUnitOfMeasure, {
+    errorMap: (issue, _ctx) => {
+      switch (issue.code) {
+        case 'invalid_type':
+          return { message: 'Debe seleccionar una unidad de medida.' };
+        case 'invalid_enum_value':
+          return { message: 'Debe seleccionar una unidad de medida válida.' };
+        default:
+          return { message: 'Error en la selección de unidad de medida.' };
+      }
+    },
+  }),
   amount: z.coerce
     .number({
       required_error: `El total es requerido`,
