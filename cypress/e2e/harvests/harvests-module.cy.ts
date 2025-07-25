@@ -247,7 +247,7 @@ describe('Creación de cosechas', () => {
   });
 });
 
-describe.only('Modificación de cosechas', () => {
+describe('Modificación de cosechas', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('harvests');
@@ -339,7 +339,7 @@ describe.only('Modificación de cosechas', () => {
     });
   });
 
-  it.only('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
+  it('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
     cy.createHarvestAnd((data: any) => {
       cy.visit(`/app/home/harvests/update/one/${data.id}`);
       cy.openCalendar();
@@ -358,6 +358,107 @@ describe.only('Modificación de cosechas', () => {
       cy.checkMessageLostFormData();
       cy.clickOnCloseToast();
       cy.checkDialogIsVisible();
+    });
+  });
+});
+
+describe('Eliminación de cosecha', () => {
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('harvests');
+  });
+
+  it('Eliminar cosecha', () => {
+    cy.createHarvestAnd((data: any) => {
+      cy.visit(
+        `/app/home/harvests/view/all?filter_by_value_pay=true&type_filter_value_pay=EQUAL&value_pay=${data.value_pay}`
+      );
+      cy.wait(500);
+      cy.get('button[data-testid="btn-page-size-selector"]').click();
+      cy.get(`div[data-testid="select-item-page-size-${50}"]`).click();
+      cy.clickActionsButtonTableRow(data.id);
+      cy.clickOnDeleteRecord();
+      cy.clickOnContinueDeleteRecord();
+
+      cy.contains('Cosecha eliminada');
+    });
+  });
+
+  // TODO: Implementar pruebas
+  // it('Intentar eliminar cosecha con pagos pendientes', () => {});
+});
+
+describe('Eliminación de cosechas por lote', () => {
+  before(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('harvests');
+    for (let index = 0; index < 2; index++) {
+      cy.createHarvest({ fastCreation: true });
+    }
+  });
+
+  it('Eliminar cosechas seleccionadas', () => {
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.visit(
+      `/app/home/harvests/view/all?filter_by_value_pay=true&type_filter_value_pay=EQUAL&value_pay=110000`
+    );
+    cy.wait(5000);
+    cy.get('button[aria-label="Select all"]').click({ timeout: 3000 });
+    cy.get('button[data-testid="btn-delete-bulk"]').click();
+    cy.get('button[data-testid="btn-continue-delete"]').click();
+    cy.contains('Cargando información');
+    cy.contains('Los registros seleccionados fueron eliminados');
+    cy.contains('No hay registros');
+  });
+
+  // TODO: Implementar pruebas
+  // it('Intentar eliminar cultivos con stock disponible', () => {});
+
+  // it('Intentar eliminar usuario con rol administrator en lote', () => {
+  //   cy.loginUser();
+  //   cy.navigateToModuleWithSideBar('crops');
+  //   cy.visit(`/app/home/crops/view/all?query=Mantenimiento`);
+  //   cy.wait(2000);
+  //   cy.get('button[aria-label="Select all"]').click();
+  //   cy.get('button[data-testid="btn-delete-bulk"]').click();
+  //   cy.get('button[data-testid="btn-continue-delete"]').click();
+  //   cy.contains(
+  //     'No se pudieron eliminar los cultivos seleccionados, revisa que no tengan rol "Administrador"'
+  //   );
+  // });
+});
+
+describe('Copiar Id de registro', () => {
+  it('Copiar Id del usuario', () => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.createHarvest({ fastCreation: true }).then((data: any) => {
+      cy.visit(`/app/home/harvests/view/all`);
+      cy.wait(5000);
+      cy.get('button[data-testid="btn-page-size-selector"]').click();
+      cy.get(`div[data-testid="select-item-page-size-${50}"]`).click();
+      cy.wait(500);
+      cy.clickActionsButtonTableRow(data.id);
+      cy.get('button[data-testid="btn-copy-id"]').click();
+      cy.contains('Id copiado al portapapeles');
+    });
+  });
+});
+
+describe('Ver registro de cosecha', () => {
+  it('Ver registro de cosecha', () => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.createHarvest({ fastCreation: true }).then((data: any) => {
+      cy.visit(`/app/home/harvests/view/all`);
+      cy.wait(5000);
+      cy.get('button[data-testid="btn-page-size-selector"]').click();
+      cy.get(`div[data-testid="select-item-page-size-${50}"]`).click();
+      cy.wait(500);
+      cy.clickActionsButtonTableRow(data.id);
+      cy.get('button[data-testid="btn-view-record"]').click();
+      cy.contains('Información');
+      cy.contains('Volver');
     });
   });
 });

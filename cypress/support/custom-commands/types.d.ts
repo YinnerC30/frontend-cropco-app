@@ -183,6 +183,8 @@ declare global {
       clickOnCloseToast(): Chainable<void>;
       checkDialogIsVisible(): Chainable<void>;
       clickOnUpdateDetailRecord(): Chainable<void>;
+      clickOnDeleteRecord(): Chainable<void>;
+      clickOnContinueDeleteRecord(): Chainable<void>;
     }
   }
 }

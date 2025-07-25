@@ -34,7 +34,7 @@ export const ActionsTableHarvest: React.FC<Props> = ({ row }) => {
     });
   };
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={id}>
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}

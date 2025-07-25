@@ -65,3 +65,13 @@ Cypress.Commands.add('openActionsMenuByField', (value: string, url: string) => {
       cy.get('button[data-testid^="btn-actions-table-row-id-"]').click();
     });
 });
+
+Cypress.Commands.add('clickOnDeleteRecord', () => {
+  cy.get('button[data-testid="btn-delete-one-record"]').click();
+});
+
+Cypress.Commands.add('clickOnContinueDeleteRecord', () => {
+  cy.get('button[data-testid="btn-continue-delete-one-record"]').click();
+});
+
+
