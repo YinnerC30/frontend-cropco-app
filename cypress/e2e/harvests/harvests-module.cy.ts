@@ -114,40 +114,25 @@ describe('Creación de cosechas', () => {
   });
 
   it('Debe crear un cultivo', () => {
-    cy.get('button[data-testid="btn-calendar-selector"]').click();
-    cy.wait(500);
+    cy.openCalendar();
 
-    cy.get('button[data-testid="btn-month-calendar-selector"]').click();
-    cy.wait(500);
-
-    cy.get('div[role="option"][data-testid="item-month-4"]').click();
-    cy.get('button[data-testid="btn-year-calendar-selector"]').click();
-    cy.get('div[role="option"][data-testid="item-year-2023"]').click();
-
-    cy.get('button[name="day"]').contains('19').click();
+    cy.selectCalendarMonth(4);
+    cy.selectCalendarYear(2023);
+    cy.selectCalendarDay(19);
 
     // Seleccionar cultivo
-    cy.get('button[data-testid="btn-open-command-crop"]').click();
-    cy.wait(1000);
-    cy.get(
-      'div[data-testid="form-field-command-item-1"][role="option"]'
-    ).click();
-    cy.wait(500);
+    cy.openCommandField('crop');
+    cy.selectCommandOption('1');
 
-    // Abrir boton de crear detalle
-    cy.get('button[data-testid="btn-open-harvest-detail-form"]').click();
+    cy.openHarvestDetailForm();
 
     // Seleccionar empleado
-    cy.get('button[data-testid="btn-open-command-employee"]').click();
-    cy.wait(1000);
-    cy.get(
-      'div[data-testid="form-field-command-item-1"][role="option"]'
-    ).click();
-    cy.wait(500);
+    cy.openCommandField('employee');
+    cy.selectCommandOption('1');
 
     // Unidad de medida
-    cy.get('button[data-testid="btn-select-field"]').click();
-    cy.get(`div[role="option"][data-value="KILOGRAMOS"]`).click();
+    cy.openSelectField();
+    cy.selectSelectOption('KILOGRAMOS');
 
     cy.get('form[id="formHarvestDetail"]').within(() => {
       cy.get('input[name="amount"]').clear().type('55');
@@ -160,19 +145,15 @@ describe('Creación de cosechas', () => {
     cy.wait(1000);
 
     // Abrir boton de crear detalle
-    cy.get('button[data-testid="btn-open-harvest-detail-form"]').click();
+    cy.openHarvestDetailForm();
 
     // Seleccionar empleado
-    cy.get('button[data-testid="btn-open-command-employee"]').click();
-    cy.wait(1000);
-    cy.get(
-      'div[data-testid="form-field-command-item-0"][role="option"]'
-    ).click();
-    cy.wait(500);
+    cy.openCommandField('employee');
+    cy.selectCommandOption('1');
 
     // Unidad de medida
-    cy.get('button[data-testid="btn-select-field"]').click();
-    cy.get(`div[role="option"][data-value="KILOGRAMOS"]`).click();
+    cy.openSelectField();
+    cy.selectSelectOption('KILOGRAMOS');
 
     cy.get('form[id="formHarvestDetail"]').within(() => {
       cy.get('input[name="amount"]').clear().type('45');
@@ -181,7 +162,7 @@ describe('Creación de cosechas', () => {
       cy.get('input[name="value_pay"]').clear().type('50000');
     });
 
-    cy.get('button[data-testid="form-detail-submit-button"]').click();
+    cy.clickOnSubmitHarvestDetailForm();
 
     // Validar totales
     cy.get('div[data-testid="badge-amount"]').contains('100,00');
@@ -200,8 +181,8 @@ describe('Creación de cosechas', () => {
     cy.checkMessageFieldsMissing();
 
     // Abrir boton de crear detalle
-    cy.get('button[data-testid="btn-open-harvest-detail-form"]').click();
-    cy.get('button[data-testid="form-detail-submit-button"]').click();
+    cy.openHarvestDetailForm();
+    cy.clickOnSubmitHarvestDetailForm();
     cy.contains('El empleado es un campo obligatorio');
     cy.contains('Debe seleccionar una unidad de medida.');
     cy.contains('El valor cosechado debe ser un número positivo.');
@@ -216,11 +197,11 @@ describe('Creación de cosechas', () => {
     cy.get('button[aria-label="Close toast"]').click();
     cy.wait(500);
     // Abrir boton de crear detalle
-    cy.get('button[data-testid="btn-open-harvest-detail-form"]').click();
+    cy.openHarvestDetailForm();
     cy.get('form[id="formHarvestDetail"]').within(() => {
       cy.get('input[name="amount"]').clear().type('55');
     });
-    cy.get('button[data-testid="btn-close-form-dialog"]').click();
+    cy.clickOnCloseFormDialog();
     cy.checkMessageLostFormData();
   });
 
@@ -228,41 +209,41 @@ describe('Creación de cosechas', () => {
     cy.getFormTextArea('observation').type('Simple observación...');
     cy.navigateToModuleWithSideBar('harvests');
     cy.checkMessageLostFormData();
-    cy.contains('button', 'Ignorar').click();
+    cy.clickOnIgnoreButton();
     cy.wait(500);
     cy.url().then((currentUrl) => {
       expect(currentUrl).to.not.include('/app/home/harvests/create');
     });
     cy.clickOnCreateButton();
     cy.wait(500);
-    cy.get('button[data-testid="btn-open-harvest-detail-form"]').click();
+    cy.openHarvestDetailForm();
     cy.get('form[id="formHarvestDetail"]').within(() => {
       cy.get('input[name="amount"]').clear().type('55');
     });
-    cy.get('button[data-testid="btn-close-form-dialog"]').click();
+    cy.clickOnCloseFormDialog();
     cy.checkMessageLostFormData();
-    cy.contains('button', 'Ignorar').click();
+    cy.clickOnIgnoreButton();
     cy.checkCurrentUrl('/app/home/harvests/create/one');
-    cy.get('div[role="dialog"]').should('not.exist');
+    cy.checkDialogIsNotVisible();
   });
 
   it('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
     cy.getFormTextArea('observation').type('Simple observación...');
     cy.navigateToModuleWithSideBar('harvests');
     cy.checkMessageLostFormData();
-    cy.get('button[aria-label="Close toast"]').click();
+    cy.clickOnCloseToast();
     cy.wait(500);
     cy.checkCurrentUrl('/app/home/harvests/create/one');
 
-    cy.get('button[data-testid="btn-open-harvest-detail-form"]').click();
+    cy.openHarvestDetailForm();
     cy.get('form[id="formHarvestDetail"]').within(() => {
       cy.get('input[name="amount"]').clear().type('55');
     });
-    cy.get('button[data-testid="btn-close-form-dialog"]').click();
+    cy.clickOnCloseFormDialog();
     cy.checkMessageLostFormData();
-    cy.get('button[aria-label="Close toast"]').click();
+    cy.clickOnCloseToast();
 
-    cy.get('div[role="dialog"]').should('exist');
+    cy.checkDialogIsVisible();
   });
 });
 
@@ -275,14 +256,37 @@ describe.only('Modificación de cosechas', () => {
   it.only('Modificar cosecha existente', () => {
     cy.createHarvestAnd((data: any) => {
       cy.visit(`/app/home/harvests/update/one/${data.id}`);
-      // cy.visit(`/app/home/harvests/view/all?query=${name}`);
-      // cy.clickActionsButtonTableRow(id);
-      // cy.get('button[data-testid="btn-update-record"]').click();
-      // cy.getFormInput('name').clear().type('CropNameChanged');
+      cy.clickActionsButtonTableRow(data.details[0].id);
+      cy.clickOnUpdateDetailRecord();
+      cy.wait(500);
+      cy.get('form[id="formHarvestDetail"]').within(() => {
+        cy.get('input[name="amount"]').clear().type('65');
+      });
+      cy.get('form[id="formHarvestDetail"]').within(() => {
+        cy.get('input[name="value_pay"]').clear().type('75000');
+      });
 
-      // cy.clickOnSubmitButton();
-      // cy.checkDisabledSubmitButton();
-      // cy.contains('Cultivo actualizado');
+      cy.clickOnSubmitHarvestDetailForm();
+      cy.wait(500);
+
+      cy.clickActionsButtonTableRow(data.details[1].id);
+      cy.clickOnUpdateDetailRecord();
+      cy.wait(500);
+      cy.get('form[id="formHarvestDetail"]').within(() => {
+        cy.get('input[name="amount"]').clear().type('35');
+      });
+      cy.get('form[id="formHarvestDetail"]').within(() => {
+        cy.get('input[name="value_pay"]').clear().type('42000');
+      });
+
+      cy.clickOnSubmitHarvestDetailForm();
+      cy.wait(500);
+
+      // cy.validateTotalsHarvestForm({ amount: 100, valuePay: 117000 });
+
+      cy.clickOnSubmitButton();
+      cy.checkDisabledSubmitButton();
+      cy.contains('Cosecha actualizada');
     });
   });
 

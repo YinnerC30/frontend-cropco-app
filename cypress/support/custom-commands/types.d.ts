@@ -157,6 +157,7 @@ declare global {
         },
         callback: (data: any) => void
       ): Chainable<void>;
+      openCalendar(): Chainable<void>;
       selectCalendarMonth(month: number): Chainable<void>;
       selectCalendarYear(year: number): Chainable<void>;
       selectCalendarDay(day: number): Chainable<void>;
@@ -164,6 +165,24 @@ declare global {
       // Harvests
       createHarvest(opt?: { fastCreation?: boolean }): Chainable<any>;
       createHarvestAnd(callback: (data: any) => void): Chainable<any>;
+      validateTotalsHarvestForm(data: {
+        amount: number;
+        valuePay: number;
+      }): Chainable<any>;
+      openHarvestDetailForm(): Chainable<void>;
+      clickOnSubmitHarvestDetailForm(): Chainable<void>;
+      clickOnCloseFormDialog(): Chainable<void>;
+
+      // Forms
+      openCommandField(name: string): Chainable<void>;
+      selectCommandOption(numberOption: string): Chainable<void>;
+      openSelectField(): Chainable<void>;
+      selectSelectOption(value: string): Chainable<void>;
+      clickOnIgnoreButton(): Chainable<void>;
+      checkDialogIsNotVisible(): Chainable<void>;
+      clickOnCloseToast(): Chainable<void>;
+      checkDialogIsVisible(): Chainable<void>;
+      clickOnUpdateDetailRecord(): Chainable<void>;
     }
   }
 }

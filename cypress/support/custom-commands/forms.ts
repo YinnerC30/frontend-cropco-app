@@ -39,6 +39,13 @@ Cypress.Commands.add('clearInputBasicSearchBar', () => {
   cy.get('button[data-testid="btn-clear-basic-searchbar"]').click();
 });
 
+// Calendar Field
+
+Cypress.Commands.add('openCalendar', () => {
+  cy.get('button[data-testid="btn-calendar-selector"]').click();
+  cy.wait(300);
+});
+
 Cypress.Commands.add('selectCalendarMonth', (month: number) => {
   cy.get('button[data-testid="btn-month-calendar-selector"]').click();
   cy.get(`div[role="option"][data-testid="item-month-${month}"]`).click();
@@ -51,4 +58,38 @@ Cypress.Commands.add('selectCalendarYear', (year: number) => {
 
 Cypress.Commands.add('selectCalendarDay', (day: number) => {
   cy.get('button[name="day"]').contains(day).click();
+});
+
+// Command Field
+
+Cypress.Commands.add('openCommandField', (name: string) => {
+  cy.get(`button[data-testid="btn-open-command-${name}"]`).click();
+  cy.wait(500);
+});
+
+Cypress.Commands.add('selectCommandOption', (numberOption: string) => {
+  cy.get(
+    `div[data-testid="form-field-command-item-${numberOption}"][role="option"]`
+  ).click();
+  cy.wait(500);
+});
+
+// Select Field
+
+Cypress.Commands.add('openSelectField', () => {
+  cy.get('button[data-testid="btn-select-field"]').click();
+});
+
+Cypress.Commands.add('selectSelectOption', (value: string) => {
+  cy.get(`div[role="option"][data-value="${value}"]`).click();
+});
+
+Cypress.Commands.add('clickOnCloseFormDialog', () => {
+  cy.get('button[data-testid="btn-close-form-dialog"]').click();
+});
+
+// Update Detail Record
+
+Cypress.Commands.add('clickOnUpdateDetailRecord', () => {
+  cy.get('button[data-testid="btn-update-detail-record"]').click();
 });
