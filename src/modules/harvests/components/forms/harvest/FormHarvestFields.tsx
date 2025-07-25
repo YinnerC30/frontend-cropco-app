@@ -55,24 +55,13 @@ export const FormHarvestFields: React.FC = () => {
   });
 
   const getCropDataToCommand = (): Crop[] => {
-    let crops: Crop[] = [];
+    if (!queryCrops.isSuccess) return [];
+    const crops = [...queryCrops.data?.records];
     const defaultCrop = formHarvest.formState.defaultValues?.crop;
-    if (queryCrops.isSuccess) {
-      crops = [...queryCrops.data?.records];
-      const hasCropDefaultValue: boolean = defaultCrop.id !== '';
-      if (hasCropDefaultValue) {
-        const existsDefaultCrop = crops.find(
-          (crop) => crop.id === defaultCrop.id
-        );
-        crops = [
-          ...crops,
-          !existsDefaultCrop && formHarvest.formState.defaultValues?.crop,
-        ];
-      }
-
-      return crops;
+    if (defaultCrop?.id && !crops.some((crop) => crop.id === defaultCrop.id)) {
+      crops.push(defaultCrop);
     }
-    return [];
+    return crops;
   };
 
   return (

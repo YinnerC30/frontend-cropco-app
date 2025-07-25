@@ -12,6 +12,7 @@ import { useGetAllCrops } from '@/modules/crops/hooks';
 import { useFormWorkContext } from '@/modules/work/hooks/context/useFormWorkContext';
 import { formFieldsWork } from '@/modules/work/utils/formFieldsWork';
 import { FormWorkDataTable } from './FormWorkDataTable';
+import { Crop } from '@/modules/crops/interfaces/Crop';
 
 export const FormWorkFields: React.FC = () => {
   const { formWork, onSubmit, readOnly, value_pay } = useFormWorkContext();
@@ -20,6 +21,16 @@ export const FormWorkFields: React.FC = () => {
     queryValue: '',
     all_records: true,
   });
+
+  const getCropDataToCommand = (): Crop[] => {
+    if (!queryCrops.isSuccess) return [];
+    const crops = [...queryCrops.data?.records];
+    const defaultCrop = formWork.formState.defaultValues?.crop;
+    if (defaultCrop?.id && !crops.some((crop) => crop.id === defaultCrop.id)) {
+      crops.push(defaultCrop);
+    }
+    return crops;
+  };
 
   return (
     <Form {...formWork}>
@@ -39,14 +50,7 @@ export const FormWorkFields: React.FC = () => {
             className="w-[240px]"
           />
           <FormFieldCommand
-            data={
-              queryCrops.isSuccess
-                ? [
-                    ...queryCrops.data?.records,
-                    formWork.formState.defaultValues?.crop,
-                  ]
-                : []
-            }
+            data={getCropDataToCommand()}
             form={formWork}
             nameToShow={'name'}
             control={formWork.control}
