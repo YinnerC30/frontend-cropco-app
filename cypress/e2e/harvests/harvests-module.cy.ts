@@ -253,7 +253,7 @@ describe.only('Modificación de cosechas', () => {
     cy.navigateToModuleWithSideBar('harvests');
   });
 
-  it.only('Modificar cosecha existente', () => {
+  it('Modificar cosecha existente', () => {
     cy.createHarvestAnd((data: any) => {
       cy.visit(`/app/home/harvests/update/one/${data.id}`);
       cy.clickActionsButtonTableRow(data.details[0].id);
@@ -290,42 +290,74 @@ describe.only('Modificación de cosechas', () => {
     });
   });
 
-  // it('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
-  //   cy.createCropAnd({}, ({ name, id }) => {
-  //     cy.visit(`/app/home/harvests/view/all?query=${name}`);
-  //     cy.clickActionsButtonTableRow(id);
-  //     cy.get('button[data-testid="btn-update-record"]').click();
-  //     cy.getFormInput('name').type('CropName');
-  //     cy.navigateToModuleWithSideBar('harvests');
-  //     cy.checkMessageLostFormData();
-  //   });
-  // });
+  it('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
+    cy.createHarvestAnd((data: any) => {
+      cy.visit(`/app/home/harvests/update/one/${data.id}`);
+      cy.openCalendar();
+      cy.selectCalendarDay(12);
 
-  // it('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
-  //   cy.createCropAnd({}, ({ name, id }) => {
-  //     cy.visit(`/app/home/crops/view/all?query=${name}`);
-  //     cy.clickActionsButtonTableRow(id);
-  //     cy.get('button[data-testid="btn-update-record"]').click();
-  //     cy.getFormInput('name').type('CropName');
-  //     cy.navigateToModuleWithSideBar('crops');
-  //     cy.checkMessageLostFormData();
-  //     cy.contains('button', 'Ignorar').click();
-  //     cy.url().then((currentUrl) => {
-  //       expect(currentUrl).to.not.include('/app/home/crops/update');
-  //     });
-  //   });
-  // });
+      cy.navigateToModuleWithSideBar('harvests');
+      cy.checkMessageLostFormData();
+      cy.get('button[aria-label="Close toast"]').click();
 
-  // it('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
-  //   cy.createCropAnd({}, ({ name, id }) => {
-  //     cy.visit(`/app/home/crops/view/all?query=${name}`);
-  //     cy.clickActionsButtonTableRow(id);
-  //     cy.get('button[data-testid="btn-update-record"]').click();
-  //     cy.getFormInput('name').type('CropName');
-  //     cy.navigateToModuleWithSideBar('crops');
-  //     cy.checkMessageLostFormData();
-  //     cy.get('button[aria-label="Close toast"]').click();
-  //     cy.url().should('include', '/app/home/crops/update');
-  //   });
-  // });
+      cy.openHarvestDetailForm();
+      cy.get('form[id="formHarvestDetail"]').within(() => {
+        cy.get('input[name="amount"]').clear().type('65');
+      });
+      cy.clickOnCloseFormDialog();
+      cy.checkMessageLostFormData();
+
+      cy.checkCurrentUrl('/app/home/harvests/update/one');
+      cy.checkDialogIsVisible();
+    });
+  });
+
+  it('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
+    cy.createHarvestAnd((data: any) => {
+      cy.visit(`/app/home/harvests/update/one/${data.id}`);
+      cy.openCalendar();
+      cy.selectCalendarDay(12);
+      cy.navigateToModuleWithSideBar('harvests');
+      cy.checkMessageLostFormData();
+      cy.clickOnIgnoreButton();
+      cy.wait(500);
+      cy.url().then((currentUrl) => {
+        expect(currentUrl).to.not.include('/app/home/harvests/update');
+      });
+
+      cy.wait(500);
+      cy.visit(`/app/home/harvests/update/one/${data.id}`);
+      cy.openHarvestDetailForm();
+      cy.get('form[id="formHarvestDetail"]').within(() => {
+        cy.get('input[name="amount"]').clear().type('55');
+      });
+      cy.clickOnCloseFormDialog();
+      cy.checkMessageLostFormData();
+      cy.clickOnIgnoreButton();
+      cy.checkCurrentUrl(`/app/home/harvests/update/one/${data.id}`);
+      cy.checkDialogIsNotVisible();
+    });
+  });
+
+  it.only('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
+    cy.createHarvestAnd((data: any) => {
+      cy.visit(`/app/home/harvests/update/one/${data.id}`);
+      cy.openCalendar();
+      cy.selectCalendarDay(12);
+      cy.navigateToModuleWithSideBar('harvests');
+      cy.checkMessageLostFormData();
+      cy.clickOnCloseToast();
+      cy.wait(500);
+      cy.checkCurrentUrl(`/app/home/harvests/update/one/${data.id}`);
+
+      cy.openHarvestDetailForm();
+      cy.get('form[id="formHarvestDetail"]').within(() => {
+        cy.get('input[name="amount"]').clear().type('55');
+      });
+      cy.clickOnCloseFormDialog();
+      cy.checkMessageLostFormData();
+      cy.clickOnCloseToast();
+      cy.checkDialogIsVisible();
+    });
+  });
 });
