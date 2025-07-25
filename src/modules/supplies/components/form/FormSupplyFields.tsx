@@ -60,7 +60,6 @@ export const FormSupplyFields = () => {
       },
     ];
   };
-  console.log('🚀 ~ FormSupplyFields ~ statusForm:', statusForm);
 
   return (
     <Form {...form}>

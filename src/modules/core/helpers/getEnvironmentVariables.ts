@@ -13,11 +13,9 @@ export const getEnvironmentVariables = () => {
 
   // Valores por defecto si no se encuentran las variables
   if (!hostApiCropco) {
-    console.log('No hay variable de entorno para hostApiCropco');
     hostApiCropco = 'http://localhost:3000/';
   }
   if (!statusProject) {
-    console.log('No hay variable de entorno para statusProject');
     statusProject = 'development';
   }
 

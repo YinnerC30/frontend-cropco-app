@@ -43,13 +43,6 @@ export const FormTenantUserFields: React.FC<Props> = ({
     <div>
       <Form {...form}>
         <form
-          // onSubmit={() => {
-          //   console.log('Entro');
-          //   form.trigger();
-          //   form.handleSubmit((data) => {
-          //     onSubmit(data);
-          //   });
-          // }}
           id="formTenantUser"
           className="flex flex-row flex-wrap gap-4 p-2 justify-stretch md:w-full"
         >

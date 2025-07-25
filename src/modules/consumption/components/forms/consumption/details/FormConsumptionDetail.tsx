@@ -59,6 +59,8 @@ export const FormConsumptionDetail: React.FC = () => {
       const record = {
         ...values,
         deletedDate: null,
+        supply: { ...values.supply, deletedDate: null },
+        crop: { ...values.crop, deletedDate: null },
         id: generateUUID(),
       };
       removeSupplyStock({
@@ -71,7 +73,13 @@ export const FormConsumptionDetail: React.FC = () => {
       addConsumptionDetail(record);
       toast.success('Registro añadido');
     } else {
-      const record = { ...values, id: consumptionDetail.id, deletedDate: null };
+      const record = {
+        ...values,
+        id: consumptionDetail.id,
+        deletedDate: null,
+        supply: { ...values.supply, deletedDate: null },
+        crop: { ...values.crop, deletedDate: null },
+      };
       removeSupplyStock({
         id: values.supply.id,
         name: values.supply?.name!,

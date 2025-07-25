@@ -16,7 +16,6 @@ export const generateCertificationEmployee = async (
   employeeId: string,
   data: EmployeeCertification
 ): PromiseReturnRecord<Blob> => {
-  console.log({ employeeId, data });
   return await cropcoAPI.post<Blob>(
     `${pathsCropco.employees}/generate/certification/one/${employeeId}`,
     data,

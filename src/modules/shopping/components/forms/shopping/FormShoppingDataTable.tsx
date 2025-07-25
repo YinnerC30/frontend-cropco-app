@@ -44,7 +44,6 @@ export const FormShoppingDataTable: React.FC = () => {
     row: Row<any>
   ): { status: boolean; cellColorError: ErrorCell; message: string } => {
     const { supply, supplier } = row.original;
-    // console.log("🚀 ~ supply, supplier:", supply, supplier)
     const isDisabled =
       supply.deletedDate !== null || supplier.deletedDate !== null;
     return {
