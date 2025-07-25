@@ -29,7 +29,7 @@ export const useDeleteCrop = (): UseMutationReturn<void, string> => {
         handlers: {
           conflict: {
             message:
-              'No se pudo eliminar el cultivo seleccionado, revisa que no tenga stock',
+              'No fue posible eliminar el cultivo seleccionado. Verifica que no tenga stock disponible ni ventas con pagos pendientes antes de intentar eliminarlo.',
           },
         },
       });
