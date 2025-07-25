@@ -31,13 +31,18 @@ export const columnsSale: ColumnDef<Sale>[] = [
       <ButtonHeaderTable column={column} label="Clientes:" />
     ),
     cell: ({ row: { original } }) => {
-      const setClients = new Set(
-        original.details.map((item) => ({
+      // Usar un Map para filtrar clientes únicos por id y conservar el objeto completo
+      const clientMap = new Map();
+      original.details.forEach((item) => {
+        const client = {
           ...item.client,
           full_name: item.client.first_name + ' ' + item.client.last_name,
-        }))
-      );
-      const clients = Array.from(setClients);
+        };
+        if (!clientMap.has(client.id)) {
+          clientMap.set(client.id, client);
+        }
+      });
+      const clients = Array.from(clientMap.values());
       const maxVisible = 2;
       const hiddenCount = clients.length - maxVisible;
 
@@ -45,14 +50,11 @@ export const columnsSale: ColumnDef<Sale>[] = [
         <div className="flex flex-wrap items-center gap-1">
           {clients.slice(0, maxVisible).map((client, index) => (
             <PersonHoverCard
+              key={`${client.id}-${index}`}
               data={client as any}
               routeToNavigate={MODULE_CLIENTS_PATHS.ViewOne + client.id}
             >
-              <Badge
-                key={`${client.id}-${index}`}
-                className="mb-1 mr-1"
-                variant={'orange'}
-              >
+              <Badge className="mb-1 mr-1" variant={'orange'}>
                 {client.full_name}
               </Badge>
             </PersonHoverCard>
@@ -71,34 +73,29 @@ export const columnsSale: ColumnDef<Sale>[] = [
       <ButtonHeaderTable column={column} label="Cultivos:" />
     ),
     cell: ({ row: { original } }) => {
-      const setCrops = new Set(original.details.map((item) => item.crop));
-      const crops = Array.from(setCrops);
+      // Usar un Map para filtrar crops únicos por id pero conservar el objeto completo
+      const cropMap = new Map();
+      original.details.forEach((item) => {
+        if (!cropMap.has(item.crop.id)) {
+          cropMap.set(item.crop.id, item.crop);
+        }
+      });
+      const crops = Array.from(cropMap.values());
       const maxVisible = 2;
       const hiddenCount = crops.length - maxVisible;
 
       return (
         <div className="flex flex-wrap items-center gap-1">
           {crops.slice(0, maxVisible).map((crop, index) => (
-            <CropHoverCard data={crop as Crop}>
+            <CropHoverCard data={crop as Crop} key={`${crop.id}-${index}`}>
               <Badge className="mb-1 mr-1" variant={'purple'}>
                 {crop.name}
               </Badge>
             </CropHoverCard>
-
-            // <Badge key={`${crop}-${index}`} className="mb-1 mr-1" variant={'purple'}>
-            //   {crop}
-            // </Badge>
           ))}
 
           {hiddenCount > 0 && (
-            // <ToolTipTemplate
-            //   content={crops
-            //     .slice(maxVisible)
-            //     // .map((item) => item)
-            //     .join(',\n')}
-            // >
             <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
-            // </ToolTipTemplate>
           )}
         </div>
       );

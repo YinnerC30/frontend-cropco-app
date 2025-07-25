@@ -42,12 +42,13 @@ export const FormSaleDataTable: React.FC = () => {
   };
 
   const validateIsDisabled = (row: Row<any>): ValidationCellReturn => {
-    const { deletedDate } = row.original;
-    const isDisabled = deletedDate !== null;
+    const { crop, client } = row.original;
+    const isDisabled = crop.deletedDate !== null || client.deletedDate !== null;
     return {
       status: isDisabled,
       cellColorError: 'restriction',
-      message: 'No se puede modificar o eliminar este registro',
+      message:
+        'No es posible eliminar o modificar este registro porque el cultivo o el cliente asociado han sido dados de baja.',
     };
   };
 

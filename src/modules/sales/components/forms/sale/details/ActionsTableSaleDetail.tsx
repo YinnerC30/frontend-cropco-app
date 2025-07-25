@@ -46,8 +46,8 @@ export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
     toggleStatusPayment(saleDetail.id!);
   };
 
-  const { deletedDate } = row.original;
-  const isDisabled = deletedDate !== null;
+  const { crop, client } = row.original;
+  const isDisabled = crop.deletedDate !== null || client.deletedDate !== null;
 
   return (
     <DropDownMenuActions>

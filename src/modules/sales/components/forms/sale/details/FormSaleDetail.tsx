@@ -58,6 +58,8 @@ export const FormSaleDetail: React.FC = () => {
       const record = {
         ...values,
         deletedDate: null,
+        client: { ...values.client, deletedDate: null },
+        crop: { ...values.crop, deletedDate: null },
         id: generateUUID(),
       };
 
@@ -80,6 +82,8 @@ export const FormSaleDetail: React.FC = () => {
 
       modifySaleDetail({
         ...values,
+        client: { ...values.client, deletedDate: null },
+        crop: { ...values.crop, deletedDate: null },
         deletedDate: null,
       });
       toast.success('Registro actualizado');
