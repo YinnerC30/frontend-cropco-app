@@ -438,8 +438,7 @@ describe('Paginado y selectores', () => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
     cy.wait(2000);
-    cy.get('button[data-testid="btn-page-size-selector"]').click();
-    cy.get(`div[data-testid="select-item-page-size-${20}"]`).click();
+    cy.changeTablePageSize(20);
     cy.wait(2000);
     cy.checkPaginationValues();
     cy.get('button[data-testid="btn-go-next-page"]').click();
@@ -452,16 +451,6 @@ describe('Paginado y selectores', () => {
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
       'Página 1 de'
     );
-    // cy.contains('20');
-    // cy.checkPaginationValues();
-    // cy.get('button[data-testid="btn-go-next-page"]').click();
-    // cy.get('p[data-testid="data-table-page-info-number"]').contains(
-    //   'Página 2 de'
-    // );
-    // cy.get('button[data-testid="btn-go-previous-page"]').click();
-    // cy.get('p[data-testid="data-table-page-info-number"]').contains(
-    //   'Página 1 de'
-    // );
   });
 });
 

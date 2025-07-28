@@ -88,11 +88,7 @@ declare global {
         data?: PersonalInformation,
         opt?: { fastCreation?: boolean }
       ): Chainable<any>;
-      createEmployeeAnd(
-        data: PersonalInformation,
-
-        callback: (data: any) => void
-      ): Chainable<void>;
+      createEmployeeAnd(callback?: (data: any) => void): Chainable<void>;
 
       // Clients
       createClient(
@@ -195,7 +191,7 @@ declare global {
           url?: string;
           callback?: (response: any) => void;
         }
-      ): Chainable<void>;
+      ): Chainable<any>;
       executeClearSeedData(
         body: any,
         options?: {

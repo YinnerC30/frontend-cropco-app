@@ -373,8 +373,7 @@ describe('Paginado y selectores', () => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('crops');
     cy.wait(2000);
-    cy.get('button[data-testid="btn-page-size-selector"]').click();
-    cy.get(`div[data-testid="select-item-page-size-${20}"]`).click();
+    cy.changeTablePageSize(20)
     cy.wait(2000);
     cy.checkPaginationValues();
     cy.get('button[data-testid="btn-go-next-page"]').click();

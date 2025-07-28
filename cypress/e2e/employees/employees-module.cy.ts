@@ -199,7 +199,7 @@ describe('Modificación de empleados', () => {
   });
 
   it('Modificar empleado existente', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createEmployeeAnd(({ email, id }) => {
       cy.visit(`/app/home/employees/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.get('button[data-testid="btn-update-record"]').click();
@@ -218,7 +218,7 @@ describe('Modificación de empleados', () => {
   });
 
   it('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createEmployeeAnd(({ email, id }) => {
       cy.visit(`/app/home/employees/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.get('button[data-testid="btn-update-record"]').click();
@@ -229,7 +229,7 @@ describe('Modificación de empleados', () => {
   });
 
   it('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createEmployeeAnd(({ email, id }) => {
       cy.visit(`/app/home/employees/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.get('button[data-testid="btn-update-record"]').click();
@@ -244,7 +244,7 @@ describe('Modificación de empleados', () => {
   });
 
   it('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createEmployeeAnd(({ email, id }) => {
       cy.visit(`/app/home/employees/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.get('button[data-testid="btn-update-record"]').click();
@@ -264,7 +264,7 @@ describe('Eliminación de empleado', () => {
   });
 
   it('Eliminar empleado', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createEmployeeAnd(({ email, id }) => {
       cy.openActionsMenuByField(
         email,
         `/app/home/employees/view/all?query=${email}`
@@ -329,7 +329,7 @@ describe('Copiar Id de registro', () => {
   });
 
   it('Copiar Id del usuario', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createEmployeeAnd(({ email, id }) => {
       cy.openActionsMenuByField(
         email,
         `/app/home/employees/view/all?query=${email}`
@@ -348,7 +348,7 @@ describe('Ver registro de empleado', () => {
   });
 
   it('Ver registro de empleado', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createEmployeeAnd(({ email, id }) => {
       cy.openActionsMenuByField(
         email,
         `/app/home/employees/view/all?query=${email}`
@@ -372,7 +372,7 @@ describe('Certificar empleado', () => {
   });
 
   it('Generar certificado de empleado', () => {
-    cy.createEmployeeAnd({}, ({ email, id }) => {
+    cy.createEmployeeAnd(({ email, id }) => {
       // const email = 'stivenchilito@mail.com';
       // const id = '0044d935-a236-40de-847a-ea09f02c7ab7';
       cy.visit(`/app/home/employees/view/all?query=${email}`);
@@ -413,66 +413,44 @@ describe('Certificar empleado', () => {
   });
 });
 
-describe('Paginado y selectores', () => {
+describe.only('Paginado y selectores', () => {
   before(() => {
-    cy.loginUser();
-    cy.navigateToModuleWithSideBar('employees');
-    cy.wait(2000);
-    cy.get('span[data-testid="data-table-row-total"]')
-      .invoke('text')
-      .then((text) => {
-        const total = parseInt(text, 10);
-        if (total <= 11) {
-          for (let index = 0; index < 11; index++) {
-            cy.createEmployee({}, { fastCreation: true });
-          }
-        }
-        cy.logoutUser();
-      });
+    cy.executeClearSeedData({ employees: true });
+    cy.executeSeed({ employees: 25 });
   });
-  it('Navegar entre paginas disponibles (10 registro por página - default)', () => {
+
+  beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('employees');
     cy.wait(2000);
+  });
+
+  it('Navegar entre paginas disponibles (10 registro por página - default)', () => {
     cy.checkPaginationValues();
     cy.get('button[data-testid="btn-go-next-page"]').click();
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 2 de'
+      'Página 2 de 3'
     );
     cy.get('button[data-testid="btn-go-previous-page"]').click();
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 1 de'
+      'Página 1 de 3'
     );
   });
 
   it('Navegar entre paginas disponibles (20 registro por página)', () => {
-    cy.loginUser();
-    cy.navigateToModuleWithSideBar('employees');
-    cy.wait(2000);
-    cy.get('button[data-testid="btn-page-size-selector"]').click();
-    cy.get(`div[data-testid="select-item-page-size-${20}"]`).click();
+    cy.changeTablePageSize(20);
     cy.wait(2000);
     cy.checkPaginationValues();
     cy.get('button[data-testid="btn-go-next-page"]').click();
     cy.wait(2000);
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 2 de'
+      'Página 2 de 2'
     );
     cy.get('button[data-testid="btn-go-previous-page"]').click();
     cy.wait(2000);
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 1 de'
+      'Página 1 de 2'
     );
-    // cy.contains('20');
-    // cy.checkPaginationValues();
-    // cy.get('button[data-testid="btn-go-next-page"]').click();
-    // cy.get('p[data-testid="data-table-page-info-number"]').contains(
-    //   'Página 2 de'
-    // );
-    // cy.get('button[data-testid="btn-go-previous-page"]').click();
-    // cy.get('p[data-testid="data-table-page-info-number"]').contains(
-    //   'Página 1 de'
-    // );
   });
 });
 
@@ -484,7 +462,7 @@ describe('Auth modulo de empleados', () => {
 
   it('Crear usuario con acceso unicamente al modulo de empleados', () => {
     cy.createUser({ selectedModules: ['employees'] }).then((userData) => {
-      cy.createEmployeeAnd({}, (employeeData) => {
+      cy.createEmployeeAnd((employeeData) => {
         cy.logoutUser();
         cy.wait(2000);
         cy.log(userData);
@@ -533,7 +511,7 @@ describe('Auth modulo de empleados', () => {
   it('Crear usuario con acceso unicamente a ver tabla de empleados', () => {
     cy.createUser({ selectedActions: ['find_all_employees'] }).then(
       (userData) => {
-        cy.createEmployeeAnd({}, (employeeData) => {
+        cy.createEmployeeAnd((employeeData) => {
           cy.logoutUser();
           cy.wait(2000);
           cy.log(userData);
@@ -599,7 +577,7 @@ describe('Auth modulo de empleados', () => {
 
   it('No tiene permisos para ver el listado de empleados', () => {
     cy.createUserAnd({ selectedActions: ['create_employee'] }, (userData) => {
-      cy.createEmployeeAnd({}, () => {
+      cy.createEmployeeAnd(() => {
         cy.logoutUser();
         cy.wait(2000);
         cy.log(userData);
@@ -657,7 +635,7 @@ describe('Auth modulo de empleados', () => {
   it('Debe sacar al usuario si intenta modificar a un empleado y no tiene permisos', () => {
     cy.createUser({ selectedActions: ['find_all_employees'] }).then(
       (userData: any) => {
-        cy.createEmployeeAnd({}, (employeeData) => {
+        cy.createEmployeeAnd((employeeData) => {
           cy.logoutUser();
           cy.wait(2000);
           cy.loginUser(userData.email, userData.password);
@@ -681,7 +659,7 @@ describe('Auth modulo de empleados', () => {
   it('Debe sacar al usuario si intenta consultar a un empleado y no tiene permisos', () => {
     cy.createUser({ selectedActions: ['find_all_employees'] }).then(
       (data: any) => {
-        cy.createEmployeeAnd({}, (employeeData) => {
+        cy.createEmployeeAnd((employeeData) => {
           cy.log(JSON.stringify(data, null, 2));
           cy.logoutUser();
           cy.wait(2000);

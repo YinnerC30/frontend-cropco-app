@@ -374,8 +374,8 @@ describe('Eliminación de cosecha', () => {
         `/app/home/harvests/view/all?filter_by_value_pay=true&type_filter_value_pay=EQUAL&value_pay=${data.value_pay}`
       );
       cy.wait(500);
-      cy.get('button[data-testid="btn-page-size-selector"]').click();
-      cy.get(`div[data-testid="select-item-page-size-${50}"]`).click();
+      cy.changeTablePageSize(50);
+
       cy.clickActionsButtonTableRow(data.id);
       cy.clickOnDeleteRecord();
       cy.clickOnContinueDeleteRecord();
@@ -488,8 +488,7 @@ describe.only('Paginado y selectores', () => {
   });
 
   it('Navegar entre paginas disponibles (20 registro por página)', () => {
-    cy.get('button[data-testid="btn-page-size-selector"]').click();
-    cy.get(`div[data-testid="select-item-page-size-${20}"]`).click();
+    cy.changeTablePageSize(20)
     cy.wait(2000);
     cy.checkPaginationValues();
     cy.get('button[data-testid="btn-go-next-page"]').click();
