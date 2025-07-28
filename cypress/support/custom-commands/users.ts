@@ -166,3 +166,24 @@ Cypress.Commands.add(
     );
   }
 );
+
+Cypress.Commands.add('clickOnToggleStatusUserButton', () => {
+  cy.get('button[data-testid="btn-toggle-status-user"]').click();
+});
+
+Cypress.Commands.add('checkToggleStatusUserButtonState', (shouldBeDisabled: boolean) => {
+  cy.get('button[data-testid="btn-toggle-status-user"]').should(
+    shouldBeDisabled ? 'be.disabled' : 'be.enabled'
+  );
+});
+
+Cypress.Commands.add('clickOnResetPasswordUserButton', () => {
+  cy.get('button[data-testid="btn-reset-password-user"]').click();
+});
+
+
+Cypress.Commands.add('checkResetPasswordUserButtonState', (shouldBeDisabled: boolean) => {
+  cy.get('button[data-testid="btn-reset-password-user"]').should(
+    shouldBeDisabled ? 'be.disabled' : 'be.enabled'
+  );
+});

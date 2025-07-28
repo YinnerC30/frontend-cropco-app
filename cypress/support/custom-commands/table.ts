@@ -17,24 +17,85 @@ Cypress.Commands.add('changeTablePageSize', (size: number) => {
   cy.wait(1000);
 });
 
-Cypress.Commands.add('toggleSelectAllTableRows', (select: boolean = true) => {
-  cy.get('button[aria-label="Select all"]').click();
-  cy.wait(500);
-  if (select) {
-    cy.get('button[data-testid="btn-clear-selection-table"]').should(
-      'be.visible'
-    );
-    cy.get('button[data-testid="btn-delete-bulk"]').should('be.visible');
-  } else {
-    cy.get('button[data-testid="btn-clear-selection-table"]').should(
-      'not.be.visible'
-    );
-    cy.get('button[data-testid="btn-delete-bulk"]').should('not.be.visible');
+Cypress.Commands.add(
+  'checkClearSelectionButtonState',
+  (shouldBeVisible: boolean) => {
+    const assertion = shouldBeVisible ? 'be.visible' : 'not.be.visible';
+    cy.get('button[data-testid="btn-clear-selection-table"]').should(assertion);
   }
+);
+
+Cypress.Commands.add(
+  'checkDeleteBulkButtonState',
+  (shouldBeVisible: boolean) => {
+    const assertion = shouldBeVisible ? 'be.visible' : 'not.be.visible';
+    cy.get('button[data-testid="btn-delete-bulk"]').should(assertion);
+  }
+);
+
+Cypress.Commands.add('clickOnGoNextPageButton', () => {
+  cy.get('button[data-testid="btn-go-next-page"]').click();
+});
+
+Cypress.Commands.add('checkCreateButtonState', (shouldBeDisabled: boolean) => {
+  cy.get('button[data-testid="btn-create-record"]').should(
+    shouldBeDisabled ? 'be.disabled' : 'be.enabled'
+  );
+});
+
+Cypress.Commands.add('checkTablePageInfoContains', (text: string) => {
+  cy.get('p[data-testid="data-table-page-info-number"]').contains(text);
+});
+
+Cypress.Commands.add('clickOnGoPreviousPageButton', () => {
+  cy.get('button[data-testid="btn-go-previous-page"]').click();
+});
+
+Cypress.Commands.add('clickOnViewRecord', () => {
+  cy.get('button[data-testid="btn-view-record"]').click();
+});
+
+Cypress.Commands.add('clickOnCopyIdButton', () => {
+  cy.get('button[data-testid="btn-copy-id"]').click();
+  cy.contains('Id copiado al portapapeles');
+});
+
+Cypress.Commands.add('clickOnDeleteBulkButton', () => {
+  cy.get('button[data-testid="btn-delete-bulk"]').click();
+});
+
+Cypress.Commands.add('toggleSelectAllTableRows', () => {
+  cy.get('button[aria-label="Select all"]').click();
+});
+
+Cypress.Commands.add('checkSelectedTableRowsGreaterThanZero', () => {
+  cy.get('span[data-testid="data-table-row-selection-number"]')
+    .invoke('text')
+    .then((text) => {
+      const value = Number(text.trim());
+      expect(value).to.be.greaterThan(0);
+    });
+});
+
+Cypress.Commands.add('checkSelectedTableRowsIsZero', () => {
+  cy.get('span[data-testid="data-table-row-selection-number"]')
+    .invoke('text')
+    .then((text) => {
+      const value = Number(text.trim());
+      expect(value).to.equal(0);
+    });
 });
 
 Cypress.Commands.add('shouldBeRedirectedForNoPermission', () => {
   cy.contains('No tienes permiso para esta acción, seras redirigido');
+});
+
+Cypress.Commands.add('clickOnUpdateRecord', () => {
+  cy.get('button[data-testid="btn-update-record"]').click();
+});
+
+Cypress.Commands.add('checkNoRecordsMessage', () => {
+  cy.contains('No hay registros');
 });
 
 Cypress.Commands.add(
@@ -70,8 +131,10 @@ Cypress.Commands.add('clickOnDeleteRecord', () => {
   cy.get('button[data-testid="btn-delete-one-record"]').click();
 });
 
-Cypress.Commands.add('clickOnContinueDeleteRecord', () => {
+Cypress.Commands.add('clickOnContinueDeleteOneRecord', () => {
   cy.get('button[data-testid="btn-continue-delete-one-record"]').click();
 });
 
-
+Cypress.Commands.add('clickOnContinueDeleteBulkRecord', () => {
+  cy.get('button[data-testid="btn-continue-delete"]').click();
+});

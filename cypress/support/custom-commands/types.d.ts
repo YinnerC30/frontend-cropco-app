@@ -61,6 +61,14 @@ declare global {
       changeTablePageSize(size: number): Chainable<void>;
       toggleSelectAllTableRows(select?: boolean): Chainable<void>;
       shouldBeRedirectedForNoPermission(): Chainable<void>;
+      checkClearSelectionButtonState(shouldBeVisible: boolean): Chainable<void>;
+      checkDeleteBulkButtonState(shouldBeVisible: boolean): Chainable<void>;
+      checkSelectAllButtonState(shouldBeVisible: boolean): Chainable<void>;
+      checkSelectedTableRowsGreaterThanZero(): Chainable<void>;
+      checkSelectedTableRowsIsZero(): Chainable<void>;
+      clickOnUpdateRecord(): Chainable<void>;
+      openCommandPaletteAndSelect(typeValue: string, commandDataId: string): Chainable<void>;
+      checkLoadingInformation(): Chainable<void>;
       checkActionButtonsState(expected: {
         update?: boolean;
         view?: boolean;
@@ -180,7 +188,20 @@ declare global {
       checkDialogIsVisible(): Chainable<void>;
       clickOnUpdateDetailRecord(): Chainable<void>;
       clickOnDeleteRecord(): Chainable<void>;
-      clickOnContinueDeleteRecord(): Chainable<void>;
+      checkNoRecordsMessage(): Chainable<void>;
+      clickOnDeleteBulkButton(): Chainable<void>;
+      clickOnCopyIdButton(): Chainable<void>;
+      clickOnViewRecord(): Chainable<void>;
+      clickOnGoNextPageButton(): Chainable<void>;
+      clickOnGoPreviousPageButton(): Chainable<void>;
+      checkTablePageInfoContains(text: string): Chainable<void>;
+      clickOnToggleStatusUserButton(): Chainable<void>;
+      checkToggleStatusUserButtonState(shouldBeDisabled: boolean): Chainable<void>;
+      clickOnResetPasswordUserButton(): Chainable<void>;
+      checkResetPasswordUserButtonState(shouldBeDisabled: boolean): Chainable<void>;
+      checkCreateButtonState(shouldBeDisabled: boolean): Chainable<void>;
+      clickOnContinueDeleteOneRecord(): Chainable<void>;
+      clickOnContinueDeleteBulkRecord(): Chainable<void>;
 
       // Seed
       executeSeed(

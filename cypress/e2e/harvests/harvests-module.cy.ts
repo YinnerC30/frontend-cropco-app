@@ -378,7 +378,7 @@ describe('Eliminación de cosecha', () => {
 
       cy.clickActionsButtonTableRow(data.id);
       cy.clickOnDeleteRecord();
-      cy.clickOnContinueDeleteRecord();
+      cy.clickOnContinueDeleteOneRecord();
 
       cy.contains('Cosecha eliminada');
     });

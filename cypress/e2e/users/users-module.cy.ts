@@ -32,56 +32,33 @@ describe('Modulo de usuarios', () => {
   it('Debe mostrar el loading cuando se intenta forzar la recarga de datos', () => {
     cy.clickRefetchButton();
     cy.checkRefetchButtonState(false);
-    cy.contains('Cargando información');
+    cy.checkLoadingInformation();
   });
 
   it('Se puede seleccionar todos los elementos al dar clic sobre el checkbox del encabezado', () => {
     cy.wait(2000);
-    cy.get('button[data-testid="btn-clear-selection-table"]').should(
-      'not.be.visible'
-    );
-    cy.get('button[data-testid="btn-delete-bulk"]').should('not.be.visible');
-    cy.get('button[aria-label="Select all"]').click();
-    cy.get('span[data-testid="data-table-row-selection-number"]')
-      .invoke('text')
-      .then((text) => {
-        const value = Number(text.trim());
-        expect(value).to.be.greaterThan(0);
-      });
-    cy.get('button[data-testid="btn-clear-selection-table"]').should(
-      'be.visible'
-    );
-    cy.get('button[data-testid="btn-delete-bulk"]').should('be.visible');
+    cy.checkClearSelectionButtonState(false);
+    cy.checkDeleteBulkButtonState(false);
+    cy.toggleSelectAllTableRows();
+    cy.checkSelectedTableRowsGreaterThanZero();
+    cy.checkClearSelectionButtonState(true);
+    cy.checkDeleteBulkButtonState(true);
   });
 
   it('Debe deseleccionar todos los elementos al dar clic nuevamente en el checkbox del encabezado', () => {
     cy.wait(2000);
-    cy.get('button[aria-label="Select all"]').click(); // Selecciona todos
-    cy.get('span[data-testid="data-table-row-selection-number"]')
-      .invoke('text')
-      .then((text) => {
-        const value = Number(text.trim());
-        expect(value).to.be.greaterThan(0);
-      });
-    cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
-    cy.get('button[data-testid="btn-clear-selection-table"]').should(
-      'not.be.visible'
-    );
-    cy.get('button[data-testid="btn-delete-bulk"]').should('not.be.visible');
-    cy.get('span[data-testid="data-table-row-selection-number"]')
-      .invoke('text')
-      .then((text) => {
-        const value = Number(text.trim());
-        expect(value).to.equal(0);
-      });
+    cy.toggleSelectAllTableRows(); // Selecciona todos
+    cy.checkSelectedTableRowsGreaterThanZero();
+    cy.toggleSelectAllTableRows(); // Deselecciona todos
+    cy.checkClearSelectionButtonState(false);
+    cy.checkDeleteBulkButtonState(false);
+    cy.checkSelectedTableRowsIsZero();
   });
 
   it('Ingresar al modulo usando el command', () => {
     cy.visit('/app/home/page');
     cy.wait(3000);
-    cy.get('body').type('{ctrl}j');
-    cy.get('input[data-testid="input-command-search"]').type('usuarios');
-    cy.get('div[data-testid="command-item-users"]').click();
+    cy.openCommandPaletteAndSelect('usuarios', 'users');
     cy.checkCurrentUrl('users/view/all');
   });
 
@@ -221,7 +198,7 @@ describe('Creación de usuarios', () => {
     cy.getFormInput('first_name').type('UserName');
     cy.navigateToModuleWithSideBar('users');
     cy.checkMessageLostFormData();
-    cy.contains('button', 'Ignorar').click();
+    cy.clickOnIgnoreButton();
     cy.url().then((currentUrl) => {
       expect(currentUrl).to.not.include('/app/home/users/create');
     });
@@ -231,8 +208,8 @@ describe('Creación de usuarios', () => {
     cy.getFormInput('first_name').type('UserName');
     cy.navigateToModuleWithSideBar('users');
     cy.checkMessageLostFormData();
-    cy.get('button[aria-label="Close toast"]').click();
-    cy.url().should('include', '/app/home/users/create');
+    cy.clickOnCloseToast();
+    cy.checkCurrentUrl('/app/home/users/create');
   });
 });
 
@@ -246,7 +223,7 @@ describe('Modificación de usuarios', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
-      cy.get('button[data-testid="btn-update-record"]').click();
+      cy.clickOnUpdateRecord();
       cy.getFormInput('first_name').clear().type('UserNameChanged');
       cy.getFormInput('last_name').clear().type('LastNameChanged');
       const defaultEmail = InformationGenerator.generateEmail();
@@ -264,7 +241,7 @@ describe('Modificación de usuarios', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
-      cy.get('button[data-testid="btn-update-record"]').click();
+      cy.clickOnUpdateRecord();
       cy.getFormInput('first_name').type('UserName');
       cy.navigateToModuleWithSideBar('users');
       cy.checkMessageLostFormData();
@@ -275,11 +252,11 @@ describe('Modificación de usuarios', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
-      cy.get('button[data-testid="btn-update-record"]').click();
+      cy.clickOnUpdateRecord();
       cy.getFormInput('first_name').type('UserName');
       cy.navigateToModuleWithSideBar('users');
       cy.checkMessageLostFormData();
-      cy.contains('button', 'Ignorar').click();
+      cy.clickOnIgnoreButton();
       cy.url().then((currentUrl) => {
         expect(currentUrl).to.not.include('/app/home/users/update');
       });
@@ -290,12 +267,12 @@ describe('Modificación de usuarios', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
-      cy.get('button[data-testid="btn-update-record"]').click();
+      cy.clickOnUpdateRecord();
       cy.getFormInput('first_name').type('UserName');
       cy.navigateToModuleWithSideBar('users');
       cy.checkMessageLostFormData();
-      cy.get('button[aria-label="Close toast"]').click();
-      cy.url().should('include', '/app/home/users/update');
+      cy.clickOnCloseToast();
+      cy.checkCurrentUrl('/app/home/users/update');
     });
   });
 
@@ -332,11 +309,11 @@ describe('Eliminación de usuario', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
-      cy.get('button[data-testid="btn-delete-one-record"]').click();
-      cy.get('button[data-testid="btn-continue-delete-one-record"]').click();
+      cy.clickOnDeleteRecord();
+      cy.clickOnContinueDeleteOneRecord();
 
       cy.contains('Usuario eliminado');
-      cy.contains('No hay registros');
+      cy.checkNoRecordsMessage();
     });
   });
 
@@ -349,9 +326,7 @@ describe('Eliminación de usuario', () => {
       const ultimoElemento = partes[partes.length - 1].split('?')[0];
       cy.visit(`/app/home/users/view/all?query=Mantenimiento`);
       cy.clickActionsButtonTableRow(ultimoElemento);
-      cy.get('button[data-testid="btn-delete-one-record"]').should(
-        'be.disabled'
-      );
+      cy.checkActionButtonsState({ delete: false });
     });
   });
 });
@@ -371,12 +346,12 @@ describe('Eliminación de usuarios por lote', () => {
     cy.navigateToModuleWithSideBar('users');
     cy.visit(`/app/home/users/view/all?query=UserToRemoveBulk`);
     cy.wait(2000);
-    cy.get('button[aria-label="Select all"]').click({ timeout: 3000 });
-    cy.get('button[data-testid="btn-delete-bulk"]').click();
-    cy.get('button[data-testid="btn-continue-delete"]').click();
-    cy.contains('Cargando información');
+    cy.toggleSelectAllTableRows();
+    cy.clickOnDeleteBulkButton();
+    cy.clickOnContinueDeleteBulkRecord();
+    cy.checkLoadingInformation();
     cy.contains('Los registros seleccionados fueron eliminados');
-    cy.contains('No hay registros');
+    cy.checkNoRecordsMessage();
   });
 
   it('Intentar eliminar usuario con rol administrator en lote', () => {
@@ -384,9 +359,9 @@ describe('Eliminación de usuarios por lote', () => {
     cy.navigateToModuleWithSideBar('users');
     cy.visit(`/app/home/users/view/all?query=Mantenimiento`);
     cy.wait(2000);
-    cy.get('button[aria-label="Select all"]').click();
-    cy.get('button[data-testid="btn-delete-bulk"]').click();
-    cy.get('button[data-testid="btn-continue-delete"]').click();
+    cy.toggleSelectAllTableRows();
+    cy.clickOnDeleteBulkButton();
+    cy.clickOnContinueDeleteBulkRecord();
     cy.contains(
       'No se pudieron eliminar los usuarios seleccionados, revisa que no tengan rol "Administrador"'
     );
@@ -403,9 +378,7 @@ describe('Copiar Id de registro', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
-      cy.get('button[data-testid="btn-copy-id"]').click();
-
-      cy.contains('Id copiado al portapapeles');
+      cy.clickOnCopyIdButton();
     });
   });
 });
@@ -420,7 +393,7 @@ describe('Ver registro de usuario', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
-      cy.get('button[data-testid="btn-view-record"]').click();
+      cy.clickOnViewRecord();
       cy.contains('Información');
       cy.getFormInput('first_name').should('have.value', 'UserName');
       cy.getFormInput('last_name').should('have.value', 'LastName');
@@ -442,17 +415,13 @@ describe('Cambiar estado de usuario', () => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.contains('Desactivar');
-      cy.get('button[data-testid="btn-toggle-status-user"]').click();
-      cy.get('button[data-testid="btn-toggle-status-user"]').should(
-        'be.disabled'
-      );
+      cy.clickOnToggleStatusUserButton();
+      // cy.checkToggleStatusUserButtonState(false);
       cy.contains('El estado del usuario ha sido actualizado con éxito.');
       cy.clickActionsButtonTableRow(id);
       cy.contains('Activar');
-      cy.get('button[data-testid="btn-toggle-status-user"]').click();
-      cy.get('button[data-testid="btn-toggle-status-user"]').should(
-        'be.disabled'
-      );
+      cy.clickOnToggleStatusUserButton();
+      // cy.checkToggleStatusUserButtonState(true);
       cy.contains('El estado del usuario ha sido actualizado con éxito.');
     });
   });
@@ -466,7 +435,7 @@ describe('Cambiar estado de usuario', () => {
         cy.visit(`/app/home/users/view/all?query=${email}`);
         cy.clickActionsButtonTableRow(id);
         cy.contains('Desactivar');
-        cy.get('button[data-testid="btn-toggle-status-user"]').click();
+        cy.clickOnToggleStatusUserButton();
         cy.contains('Se cerrara la sesión');
         cy.contains(
           'Esta por desactivar su usuario, si desea continuar por favor presione "Desactivar"'
@@ -493,8 +462,8 @@ describe('Reset password user', () => {
   it('Restablecer contraseña de usuario', () => {
     cy.createUser({}).then(({ email, id }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
-      cy.get(`button[data-testid="btn-actions-table-row-id-${id}"]`).click();
-      cy.get('button[data-testid="btn-reset-password-user"]').click();
+      cy.clickActionsButtonTableRow(id);
+      cy.clickOnResetPasswordUserButton();
       cy.getFormInput('email').should('have.value', email);
       cy.get('button[data-testid="btn-execute-reset-password"]').click();
       cy.get('button[data-testid="btn-execute-reset-password"]').should(
@@ -517,9 +486,9 @@ describe('Auth modulo de usuarios', () => {
   it('Intentar ingresar al sistema con un usuario desactivado', () => {
     cy.createUser({}).then(({ id, email }) => {
       cy.visit(`/app/home/users/view/all?query=${email}`);
-      cy.get(`button[data-testid="btn-actions-table-row-id-${id}"]`).click();
+      cy.clickActionsButtonTableRow(id);
       cy.contains('Desactivar');
-      cy.get('button[data-testid="btn-toggle-status-user"]').click();
+      cy.clickOnToggleStatusUserButton();
       cy.contains('El estado del usuario ha sido actualizado con éxito.');
       cy.logoutUser();
       cy.attemptInvalidLogin(email, '123456');
@@ -561,37 +530,31 @@ describe('Auth modulo de usuarios', () => {
 
       // Comprobar habitiación de botones
       // Recarga de datos
-      cy.get('button[data-testid="btn-refetch-data"]').should('be.enabled');
+      cy.checkRefetchButtonState(true);
 
       // Crear registro
-      cy.get('button[data-testid="btn-create-record"]').should('be.enabled');
+      cy.checkCreateButtonState(false);
 
-      cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
+      cy.toggleSelectAllTableRows();
       cy.wait(700);
       // Eliminar bulk
-      cy.get('button[data-testid="btn-delete-bulk"]').should('be.enabled');
+      cy.checkDeleteBulkButtonState(true);
 
       cy.clickActionsButtonTableRow(data.id);
 
       // Modificar
-      cy.get('button[data-testid="btn-update-record"]').should('be.enabled');
+      cy.checkActionButtonsState({ update: true });
 
       // Ver
-      cy.get('button[data-testid="btn-delete-one-record"]').should(
-        'be.enabled'
-      );
+      cy.checkActionButtonsState({ view: true });
       // Eliminar
-      cy.get('button[data-testid="btn-view-record"]').should('be.enabled');
+      cy.checkActionButtonsState({ delete: true });
 
       // Contraseña
-      cy.get('button[data-testid="btn-reset-password-user"]').should(
-        'be.enabled'
-      );
+      cy.checkResetPasswordUserButtonState(false);
 
       // Estado user
-      cy.get('button[data-testid="btn-toggle-status-user"]').should(
-        'be.enabled'
-      );
+      cy.checkToggleStatusUserButtonState(false);
     });
   });
 
@@ -627,37 +590,31 @@ describe('Auth modulo de usuarios', () => {
 
       // Comprobar habitiación de botones
       // Recarga de datos
-      cy.get('button[data-testid="btn-refetch-data"]').should('be.enabled');
+      cy.checkRefetchButtonState(true);
 
       // Crear registro
-      cy.get('button[data-testid="btn-create-record"]').should('be.disabled');
+      cy.checkCreateButtonState(true);
 
-      cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
+      cy.toggleSelectAllTableRows(); // Deselecciona todos
       cy.wait(700);
       // Eliminar bulk
-      cy.get('button[data-testid="btn-delete-bulk"]').should('be.disabled');
+      // cy.checkDeleteBulkButtonState(false);
 
       cy.clickActionsButtonTableRow(data.id);
 
       // Modificar
-      cy.get('button[data-testid="btn-update-record"]').should('be.disabled');
+      cy.checkActionButtonsState({ update: false });
 
       // Ver
-      cy.get('button[data-testid="btn-delete-one-record"]').should(
-        'be.disabled'
-      );
+      cy.checkActionButtonsState({ view: false });
       // Eliminar
-      cy.get('button[data-testid="btn-view-record"]').should('be.disabled');
+      cy.checkActionButtonsState({ delete: false });
 
       // Contraseña
-      cy.get('button[data-testid="btn-reset-password-user"]').should(
-        'be.disabled'
-      );
+      cy.checkResetPasswordUserButtonState(true);
 
       // Estado user
-      cy.get('button[data-testid="btn-toggle-status-user"]').should(
-        'be.disabled'
-      );
+      cy.checkToggleStatusUserButtonState(true);
     });
   });
 
@@ -785,43 +742,25 @@ describe('Paginado y selectores', () => {
     cy.navigateToModuleWithSideBar('users');
     cy.wait(2000);
     cy.checkPaginationValues();
-    cy.get('button[data-testid="btn-go-next-page"]').click();
-    cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 2 de'
-    );
-    cy.get('button[data-testid="btn-go-previous-page"]').click();
-    cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 1 de'
-    );
+    cy.clickOnGoNextPageButton();
+    cy.checkTablePageInfoContains('Página 2 de');
+    cy.clickOnGoPreviousPageButton();
+    cy.checkTablePageInfoContains('Página 1 de');
   });
 
   it('Navegar entre paginas disponibles (20 registro por página)', () => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('users');
     cy.wait(2000);
-    cy.changeTablePageSize(20)
+    cy.changeTablePageSize(20);
     cy.wait(2000);
     cy.checkPaginationValues();
-    cy.get('button[data-testid="btn-go-next-page"]').click();
+    cy.clickOnGoNextPageButton();
     cy.wait(2000);
-    cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 2 de'
-    );
-    cy.get('button[data-testid="btn-go-previous-page"]').click();
+    cy.checkTablePageInfoContains('Página 2 de');
+    cy.clickOnGoPreviousPageButton();
     cy.wait(2000);
-    cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 1 de'
-    );
-    // cy.contains('20');
-    // cy.checkPaginationValues();
-    // cy.get('button[data-testid="btn-go-next-page"]').click();
-    // cy.get('p[data-testid="data-table-page-info-number"]').contains(
-    //   'Página 2 de'
-    // );
-    // cy.get('button[data-testid="btn-go-previous-page"]').click();
-    // cy.get('p[data-testid="data-table-page-info-number"]').contains(
-    //   'Página 1 de'
-    // );
+    cy.checkTablePageInfoContains('Página 1 de');
   });
 });
 

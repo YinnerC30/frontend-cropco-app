@@ -43,7 +43,7 @@ Cypress.Commands.add('existRefetchButton', () => {
 
 Cypress.Commands.add('existCreateButton', () => {
   cy.get('button[data-testid="btn-create-record"]').should('exist');
-}); 
+});
 
 Cypress.Commands.add('clickOnIgnoreButton', () => {
   cy.contains('button', 'Ignorar').click();
@@ -60,3 +60,16 @@ Cypress.Commands.add('checkDialogIsNotVisible', () => {
 Cypress.Commands.add('checkDialogIsVisible', () => {
   cy.get('div[role="dialog"]').should('exist');
 });
+
+Cypress.Commands.add('checkLoadingInformation', () => {
+  cy.contains('Cargando información');
+});
+
+Cypress.Commands.add(
+  'openCommandPaletteAndSelect',
+  (typeValue: string, commandDataId: string) => {
+    cy.get('body').type('{ctrl}j');
+    cy.get('input[data-testid="input-command-search"]').type(typeValue);
+    cy.get(`div[data-testid="command-item-${commandDataId}"]`).click();
+  }
+);
