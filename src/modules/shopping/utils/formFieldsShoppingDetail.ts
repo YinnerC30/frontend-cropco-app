@@ -31,7 +31,7 @@ export const formFieldsShoppingDetail: Record<
   },
   amount: {
     name: 'amount',
-    label: 'Monto:',
+    label: 'Cantidad:',
     placeholder: '0',
     description: 'Cantidad a comprar',
   },

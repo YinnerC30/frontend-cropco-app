@@ -30,7 +30,7 @@ export const formFieldsConsumptionDetail: Record<
   },
   amount: {
     name: 'amount',
-    label: 'Monto:',
+    label: 'Cantidad:',
     placeholder: '0',
     description: 'Cantidad a consumir',
   },
