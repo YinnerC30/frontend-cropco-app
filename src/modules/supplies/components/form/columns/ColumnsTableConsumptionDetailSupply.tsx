@@ -47,7 +47,7 @@ export const columnsConsumptionDetailSupply: ColumnDef<any>[] = [
       return FormatNumber(row.getValue('amount'));
     },
     header: ({ column }: HeaderContext<ConsumptionDetails, unknown>) => {
-      return <ButtonHeaderTable column={column} label={'Monto:'} />;
+      return <ButtonHeaderTable column={column} label={'Cantidad:'} />;
     },
   },
   {

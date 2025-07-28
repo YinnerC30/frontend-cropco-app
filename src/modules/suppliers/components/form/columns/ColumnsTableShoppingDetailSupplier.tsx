@@ -39,7 +39,7 @@ export const columnsShoppingDetailSupplier: ColumnDef<any>[] = [
       return FormatNumber(row.getValue('amount'));
     },
     header: ({ column }: HeaderContext<ShoppingDetail, unknown>) => {
-      return <ButtonHeaderTable column={column} label={'Monto:'} />;
+      return <ButtonHeaderTable column={column} label={'Cantidad:'} />;
     },
   },
   {
