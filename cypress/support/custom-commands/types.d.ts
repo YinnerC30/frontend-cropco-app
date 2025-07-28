@@ -185,6 +185,26 @@ declare global {
       clickOnUpdateDetailRecord(): Chainable<void>;
       clickOnDeleteRecord(): Chainable<void>;
       clickOnContinueDeleteRecord(): Chainable<void>;
+
+      // Seed
+      executeSeed(
+        body: any,
+        options?: {
+          token?: string;
+          tenantId?: string;
+          url?: string;
+          callback?: (response: any) => void;
+        }
+      ): Chainable<void>;
+      executeClearSeedData(
+        body: any,
+        options?: {
+          token?: string;
+          tenantId?: string;
+          url?: string;
+          callback?: (response: any) => void;
+        }
+      ): Chainable<void>;
     }
   }
 }

@@ -463,27 +463,19 @@ describe('Ver registro de cosecha', () => {
   });
 });
 
-describe('Paginado y selectores', () => {
+describe.only('Paginado y selectores', () => {
   before(() => {
-    cy.loginUser();
-    cy.navigateToModuleWithSideBar('harvests');
-    cy.wait(2000);
-    cy.get('span[data-testid="data-table-row-total"]')
-      .invoke('text')
-      .then((text) => {
-        const total = parseInt(text, 10);
-        if (total <= 11) {
-          for (let index = 0; index < 11; index++) {
-            cy.createHarvest({ fastCreation: true });
-          }
-        }
-      });
-    cy.logoutUser();
+    cy.executeClearSeedData({ harvests: true });
+    cy.executeSeed({ harvests: { quantity: 25 } });
   });
-  it('Navegar entre paginas disponibles (10 registro por página - default)', () => {
+
+  beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('harvests');
     cy.wait(2000);
+  });
+
+  it('Navegar entre paginas disponibles (10 registro por página - default)', () => {
     cy.checkPaginationValues();
     cy.get('button[data-testid="btn-go-next-page"]').click();
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
@@ -496,9 +488,6 @@ describe('Paginado y selectores', () => {
   });
 
   it('Navegar entre paginas disponibles (20 registro por página)', () => {
-    cy.loginUser();
-    cy.navigateToModuleWithSideBar('harvests');
-    cy.wait(2000);
     cy.get('button[data-testid="btn-page-size-selector"]').click();
     cy.get(`div[data-testid="select-item-page-size-${20}"]`).click();
     cy.wait(2000);
@@ -720,32 +709,5 @@ describe('Auth modulo de cosechas', () => {
         });
       }
     );
-  });
-});
-
-describe.only('Uso de seed', () => {
-  it('should ', () => {
-    cy.loginUser();
-    cy.navigateToModuleWithSideBar('harvests');
-
-    // Realizar una solicitud POST a un endpoint usando cy.request
-    cy.request({
-      method: 'POST',
-      url: 'http://localhost:3000/seed/controlled', // Cambia la URL al endpoint deseado
-      body: { harvests: { quantity: 5 } },
-      headers: {
-        // Si necesitas headers personalizados, agrégalos aquí
-        'Content-Type': 'application/json',
-        'x-tenant-id': 'c0913699-2c3e-418c-98fd-7e9560c975f1',
-        // Inserta la cookie 'administrator-token' en la solicitud
-        Cookie:
-          'administrator-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA1ZjM1YjUwLWYyN2YtNDhjNy05NmIyLWMzMTYxMjUwZjNlMyIsImlhdCI6MTc1MzczMTcwMCwiZXhwIjoxNzUzNzUzMzAwfQ.AHh_MfagRGlNyjp6dg919nCtSW9gfBsrxcGYNYwyAFs',
-      },
-    }).then((response) => {
-      // Puedes hacer assertions sobre la respuesta si lo deseas
-      // expect(response.status).to.eq(201); // O el status esperado
-      // expect(response.body).to.have.property('id');
-      cy.log('Respuesta del POST:', JSON.stringify(response.body));
-    });
   });
 });
