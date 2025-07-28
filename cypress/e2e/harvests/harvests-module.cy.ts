@@ -516,7 +516,7 @@ describe('Paginado y selectores', () => {
   });
 });
 
-describe.only('Auth modulo de cosechas', () => {
+describe('Auth modulo de cosechas', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('harvests');
@@ -697,7 +697,7 @@ describe.only('Auth modulo de cosechas', () => {
     );
   });
 
-  it.only('Debe sacar al usuario si intenta consultar a una cosecha y no tiene permisos', () => {
+  it('Debe sacar al usuario si intenta consultar a una cosecha y no tiene permisos', () => {
     cy.createUser({ selectedActions: ['find_all_harvests'] }).then(
       (data: any) => {
         cy.createHarvestAnd((harvestData) => {
@@ -720,5 +720,32 @@ describe.only('Auth modulo de cosechas', () => {
         });
       }
     );
+  });
+});
+
+describe.only('Uso de seed', () => {
+  it('should ', () => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('harvests');
+
+    // Realizar una solicitud POST a un endpoint usando cy.request
+    cy.request({
+      method: 'POST',
+      url: 'http://localhost:3000/seed/controlled', // Cambia la URL al endpoint deseado
+      body: { harvests: { quantity: 5 } },
+      headers: {
+        // Si necesitas headers personalizados, agrégalos aquí
+        'Content-Type': 'application/json',
+        'x-tenant-id': 'c0913699-2c3e-418c-98fd-7e9560c975f1',
+        // Inserta la cookie 'administrator-token' en la solicitud
+        Cookie:
+          'administrator-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA1ZjM1YjUwLWYyN2YtNDhjNy05NmIyLWMzMTYxMjUwZjNlMyIsImlhdCI6MTc1MzczMTcwMCwiZXhwIjoxNzUzNzUzMzAwfQ.AHh_MfagRGlNyjp6dg919nCtSW9gfBsrxcGYNYwyAFs',
+      },
+    }).then((response) => {
+      // Puedes hacer assertions sobre la respuesta si lo deseas
+      // expect(response.status).to.eq(201); // O el status esperado
+      // expect(response.body).to.have.property('id');
+      cy.log('Respuesta del POST:', JSON.stringify(response.body));
+    });
   });
 });
