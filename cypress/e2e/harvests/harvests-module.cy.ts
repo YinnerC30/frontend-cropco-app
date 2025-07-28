@@ -462,3 +462,263 @@ describe('Ver registro de cosecha', () => {
     });
   });
 });
+
+describe('Paginado y selectores', () => {
+  before(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.wait(2000);
+    cy.get('span[data-testid="data-table-row-total"]')
+      .invoke('text')
+      .then((text) => {
+        const total = parseInt(text, 10);
+        if (total <= 11) {
+          for (let index = 0; index < 11; index++) {
+            cy.createHarvest({ fastCreation: true });
+          }
+        }
+      });
+    cy.logoutUser();
+  });
+  it('Navegar entre paginas disponibles (10 registro por página - default)', () => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.wait(2000);
+    cy.checkPaginationValues();
+    cy.get('button[data-testid="btn-go-next-page"]').click();
+    cy.get('p[data-testid="data-table-page-info-number"]').contains(
+      'Página 2 de'
+    );
+    cy.get('button[data-testid="btn-go-previous-page"]').click();
+    cy.get('p[data-testid="data-table-page-info-number"]').contains(
+      'Página 1 de'
+    );
+  });
+
+  it('Navegar entre paginas disponibles (20 registro por página)', () => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.wait(2000);
+    cy.get('button[data-testid="btn-page-size-selector"]').click();
+    cy.get(`div[data-testid="select-item-page-size-${20}"]`).click();
+    cy.wait(2000);
+    cy.checkPaginationValues();
+    cy.get('button[data-testid="btn-go-next-page"]').click();
+    cy.wait(2000);
+    cy.get('p[data-testid="data-table-page-info-number"]').contains(
+      'Página 2 de'
+    );
+    cy.get('button[data-testid="btn-go-previous-page"]').click();
+    cy.wait(2000);
+    cy.get('p[data-testid="data-table-page-info-number"]').contains(
+      'Página 1 de'
+    );
+  });
+});
+
+describe.only('Auth modulo de cosechas', () => {
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('harvests');
+  });
+
+  it('Crear usuario con acceso unicamente al modulo de cosechas', () => {
+    cy.createUser({ selectedModules: ['harvests'] }).then((userData) => {
+      cy.createHarvestAnd((harvestData) => {
+        cy.logoutUser();
+        cy.wait(2000);
+        cy.log(userData);
+        cy.loginUser(userData.email, userData.password);
+        cy.wait(1500);
+        cy.get('ul[data-sidebar="menu"]').within(() => {
+          cy.get('li[data-sidebar="menu-item"]')
+            .should('have.length', 1)
+            .contains('Cosechas');
+        });
+        cy.get('body').type('{ctrl}j');
+        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+
+        cy.get('div[cmdk-item][role="option"]').click();
+
+        // cy.visit(`/app/home/crops/view/all?query=${cropData.name}`);
+        cy.wait(2000);
+
+        // Comprobar que haya registro en las tablas
+        cy.get('table tbody tr').should('exist');
+
+        // Comprobar habitiación de botones
+        // Recarga de datos
+        cy.get('button[data-testid="btn-refetch-data"]').should('be.enabled');
+
+        // Crear registro
+        cy.get('button[data-testid="btn-create-record"]').should('be.enabled');
+
+        cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
+        cy.wait(700);
+        // Eliminar bulk
+        cy.get('button[data-testid="btn-delete-bulk"]').should('be.enabled');
+
+        // cy.clickActionsButtonTableRow(cropData.id);
+
+        // cy.checkActionButtonsState({ update: true, view: true, delete: true });
+      });
+    });
+  });
+
+  it('Crear usuario con acceso unicamente a ver tabla de cosechas', () => {
+    cy.createUser({ selectedActions: ['find_all_harvests'] }).then(
+      (userData) => {
+        cy.createHarvestAnd((harvestData) => {
+          cy.logoutUser();
+          cy.wait(2000);
+          cy.log(userData);
+          cy.loginUser(userData.email, userData.password);
+          cy.wait(1500);
+          cy.get('ul[data-sidebar="menu"]').within(() => {
+            cy.get('li[data-sidebar="menu-item"]')
+              .should('have.length', 1)
+              .contains('Cosechas');
+          });
+          cy.get('body').type('{ctrl}j');
+          cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+
+          cy.get('div[cmdk-item][role="option"]').click();
+
+          // cy.visit(`/app/home/crops/view/all?query=${cropData.name}`);
+          cy.wait(2000);
+
+          // Comprobar que haya registro en las tablas
+          cy.get('table tbody tr').should('exist');
+
+          // Comprobar habitiación de botones
+          // Recarga de datos
+          cy.get('button[data-testid="btn-refetch-data"]').should('be.enabled');
+
+          // Crear registro
+          cy.get('button[data-testid="btn-create-record"]').should(
+            'be.disabled'
+          );
+
+          cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
+          cy.wait(700);
+          // Eliminar bulk
+          cy.get('button[data-testid="btn-delete-bulk"]').should('be.disabled');
+
+          // cy.clickActionsButtonTableRow(cropData.id);
+
+          // cy.checkActionButtonsState({
+          //   update: false,
+          //   view: false,
+          //   delete: false,
+          // });
+        });
+      }
+    );
+  });
+
+  it('No tiene permisos para ver el listado de cultivos', () => {
+    cy.createUserAnd({ selectedActions: ['create_harvest'] }, (userData) => {
+      cy.createHarvestAnd((harvestData) => {
+        cy.logoutUser();
+        cy.wait(2000);
+        cy.log(userData);
+        cy.loginUser(userData.email, userData.password);
+        cy.wait(1500);
+        cy.get('ul[data-sidebar="menu"]').within(() => {
+          cy.get('li[data-sidebar="menu-item"]')
+            .should('have.length', 1)
+            .contains('Cosechas');
+        });
+        cy.get('body').type('{ctrl}j');
+        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+        cy.get('div[cmdk-item][role="option"]').click();
+
+        cy.visit(`/app/home/harvests/view/all`);
+        cy.wait(2000);
+        cy.contains('No tienes permiso para ver el listado de las cosechas');
+        cy.checkRefetchButtonState(false);
+        // cy.get('input[placeholder="Escribe algo..."]').should('be.disabled');
+        // cy.get('button[data-testid="btn-submit-basic-searchbar"]').should(
+        //   'be.disabled'
+        // );
+        // cy.get('button[data-testid="btn-clear-basic-searchbar"]').should(
+        //   'be.disabled'
+        // );
+      });
+    });
+  });
+
+  it('Debe sacar al usuario si intenta crear una cosecha y no tiene permisos ', () => {
+    cy.createUser({ selectedActions: ['find_all_harvests'] }).then(
+      (data: any) => {
+        cy.logoutUser();
+        cy.wait(2000);
+        cy.loginUser(data.email, data.password);
+        cy.wait(1500);
+        cy.get('ul[data-sidebar="menu"]').within(() => {
+          cy.get('li[data-sidebar="menu-item"]')
+            .should('have.length', 1)
+            .contains('Cosechas');
+        });
+        cy.get('body').type('{ctrl}j');
+        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+        cy.get('div[cmdk-item][role="option"]').click();
+
+        cy.visit(`/app/home/harvests/view/all`);
+        cy.wait(2000);
+
+        cy.visit('/app/home/harvests/create/one');
+        cy.contains('No tienes permiso para esta acción, seras redirigido');
+      }
+    );
+  });
+
+  it('Debe sacar al usuario si intenta modificar a una cosecha y no tiene permisos', () => {
+    cy.createUser({ selectedActions: ['find_all_harvests'] }).then(
+      (userData: any) => {
+        cy.createHarvestAnd((harvestData) => {
+          cy.logoutUser();
+          cy.wait(2000);
+          cy.loginUser(userData.email, userData.password);
+          cy.wait(1500);
+          cy.get('ul[data-sidebar="menu"]').within(() => {
+            cy.get('li[data-sidebar="menu-item"]')
+              .should('have.length', 1)
+              .contains('Cosechas');
+          });
+          cy.get('body').type('{ctrl}j');
+          cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+          cy.get('div[cmdk-item][role="option"]').click();
+
+          cy.visit(`/app/home/harvests/update/one/${harvestData.id}`);
+          cy.contains('No tienes permiso para esta acción, seras redirigido');
+        });
+      }
+    );
+  });
+
+  it.only('Debe sacar al usuario si intenta consultar a una cosecha y no tiene permisos', () => {
+    cy.createUser({ selectedActions: ['find_all_harvests'] }).then(
+      (data: any) => {
+        cy.createHarvestAnd((harvestData) => {
+          cy.log(JSON.stringify(data, null, 2));
+          cy.logoutUser();
+          cy.wait(2000);
+          cy.loginUser(data.email, data.password);
+          cy.wait(1500);
+          cy.get('ul[data-sidebar="menu"]').within(() => {
+            cy.get('li[data-sidebar="menu-item"]')
+              .should('have.length', 1)
+              .contains('Cosechas');
+          });
+          cy.get('body').type('{ctrl}j');
+          cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+          cy.get('div[cmdk-item][role="option"]').click();
+
+          cy.visit(`/app/home/harvests/view/one/${harvestData.id}`);
+          cy.contains('No tienes permiso para esta acción, seras redirigido');
+        });
+      }
+    );
+  });
+});
