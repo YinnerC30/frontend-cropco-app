@@ -1,3 +1,6 @@
+const tokenAdmin =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA1ZjM1YjUwLWYyN2YtNDhjNy05NmIyLWMzMTYxMjUwZjNlMyIsImlhdCI6MTc1MzgyNjMyNywiZXhwIjoxNzUzODQ3OTI3fQ.XtvTeLeCJXh4lL48KUa3t43Fjyds8sVfmA4Y63RN17E';
+
 Cypress.Commands.add(
   'executeSeed',
   (
@@ -10,7 +13,7 @@ Cypress.Commands.add(
     }
   ): Cypress.Chainable<any> => {
     const {
-      token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA1ZjM1YjUwLWYyN2YtNDhjNy05NmIyLWMzMTYxMjUwZjNlMyIsImlhdCI6MTc1MzczMTcwMCwiZXhwIjoxNzUzNzUzMzAwfQ.AHh_MfagRGlNyjp6dg919nCtSW9gfBsrxcGYNYwyAFs',
+      token = tokenAdmin,
       tenantId = 'c0913699-2c3e-418c-98fd-7e9560c975f1',
       url = 'http://localhost:3000/seed/controlled',
       callback,
@@ -48,7 +51,7 @@ Cypress.Commands.add(
     }
   ): Cypress.Chainable<any> => {
     const {
-      token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA1ZjM1YjUwLWYyN2YtNDhjNy05NmIyLWMzMTYxMjUwZjNlMyIsImlhdCI6MTc1MzczMTcwMCwiZXhwIjoxNzUzNzUzMzAwfQ.AHh_MfagRGlNyjp6dg919nCtSW9gfBsrxcGYNYwyAFs',
+      token = tokenAdmin,
       tenantId = 'c0913699-2c3e-418c-98fd-7e9560c975f1',
       url = 'http://localhost:3000/seed/clear',
       callback,
