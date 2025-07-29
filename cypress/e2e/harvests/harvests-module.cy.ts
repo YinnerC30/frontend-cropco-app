@@ -259,12 +259,11 @@ describe.only('Modificación de cosechas', () => {
 
   beforeEach(() => {
     cy.loginUser();
-    cy.navigateToModuleWithSideBar('harvests');
+    cy.visit(`/app/home/harvests/update/one/${currentHarvest.id}`);
+    cy.wait(3000);
   });
 
   it('Modificar cosecha existente', () => {
-    cy.visit(`/app/home/harvests/update/one/${currentHarvest.id}`);
-    cy.wait(3000);
     cy.clickActionsButtonTableRow(currentHarvest.details[0].id);
     cy.clickOnUpdateDetailRecord();
     cy.wait(500);
@@ -297,7 +296,6 @@ describe.only('Modificación de cosechas', () => {
   });
 
   it('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
-    cy.visit(`/app/home/harvests/update/one/${currentHarvest.id}`);
     cy.openCalendar();
     cy.selectCalendarDay(12);
 
@@ -317,7 +315,6 @@ describe.only('Modificación de cosechas', () => {
   });
 
   it('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
-    cy.visit(`/app/home/harvests/update/one/${currentHarvest.id}`);
     cy.openCalendar();
     cy.selectCalendarDay(12);
     cy.navigateToModuleWithSideBar('harvests');
@@ -342,7 +339,6 @@ describe.only('Modificación de cosechas', () => {
   });
 
   it('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
-    cy.visit(`/app/home/harvests/update/one/${currentHarvest.id}`);
     cy.openCalendar();
     cy.selectCalendarDay(12);
     cy.navigateToModuleWithSideBar('harvests');
