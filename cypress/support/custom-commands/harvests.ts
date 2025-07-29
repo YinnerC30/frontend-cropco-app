@@ -4,7 +4,23 @@ Cypress.Commands.add(
     const creationCropEndpoint = 'http://localhost:3000/harvests/create';
 
     if (fastCreation) {
-      cy.visit('/app/home/harvests/create/one');
+      return cy
+        .executeSeed({ harvests: { quantity: 1, quantityEmployees: 3 } })
+        .then((result) => {
+          // Validamos que la estructura esperada exista
+          if (
+            result &&
+            result.history &&
+            Array.isArray(result.history.insertedHarvests) &&
+            result.history.insertedHarvests.length > 0
+          ) {
+            return result.history.insertedHarvests[0].harvest;
+          } else {
+            throw new Error(
+              'No se encontró ningún registro de cosecha insertado en la respuesta del seed.'
+            );
+          }
+        });
     } else {
       cy.navigateToModuleWithSideBar('harvests');
       cy.wait(3000);

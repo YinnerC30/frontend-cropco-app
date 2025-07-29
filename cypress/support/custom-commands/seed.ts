@@ -30,10 +30,12 @@ Cypress.Commands.add(
           Cookie: `administrator-token=${token}`,
         },
       })
+
       .then((response) => {
         if (typeof callback === 'function') {
           callback(response.body);
         }
+
         return response.body as any;
       });
   }

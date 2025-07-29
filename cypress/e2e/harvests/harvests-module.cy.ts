@@ -247,118 +247,118 @@ describe('Creación de cosechas', () => {
   });
 });
 
-describe('Modificación de cosechas', () => {
+describe.only('Modificación de cosechas', () => {
+  let currentHarvest: any = {};
+
+  before(() => {
+    cy.executeClearSeedData({ harvests: true });
+    cy.createHarvest({ fastCreation: true }).then((data) => {
+      currentHarvest = { ...data };
+    });
+  });
+
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('harvests');
   });
 
   it('Modificar cosecha existente', () => {
-    cy.createHarvestAnd((data: any) => {
-      cy.visit(`/app/home/harvests/update/one/${data.id}`);
-      cy.clickActionsButtonTableRow(data.details[0].id);
-      cy.clickOnUpdateDetailRecord();
-      cy.wait(500);
-      cy.get('form[id="formHarvestDetail"]').within(() => {
-        cy.get('input[name="amount"]').clear().type('65');
-      });
-      cy.get('form[id="formHarvestDetail"]').within(() => {
-        cy.get('input[name="value_pay"]').clear().type('75000');
-      });
-
-      cy.clickOnSubmitHarvestDetailForm();
-      cy.wait(500);
-
-      cy.clickActionsButtonTableRow(data.details[1].id);
-      cy.clickOnUpdateDetailRecord();
-      cy.wait(500);
-      cy.get('form[id="formHarvestDetail"]').within(() => {
-        cy.get('input[name="amount"]').clear().type('35');
-      });
-      cy.get('form[id="formHarvestDetail"]').within(() => {
-        cy.get('input[name="value_pay"]').clear().type('42000');
-      });
-
-      cy.clickOnSubmitHarvestDetailForm();
-      cy.wait(500);
-
-      // cy.validateTotalsHarvestForm({ amount: 100, valuePay: 117000 });
-
-      cy.clickOnSubmitButton();
-      cy.checkDisabledSubmitButton();
-      cy.contains('Cosecha actualizada');
+    cy.visit(`/app/home/harvests/update/one/${currentHarvest.id}`);
+    cy.wait(3000);
+    cy.clickActionsButtonTableRow(currentHarvest.details[0].id);
+    cy.clickOnUpdateDetailRecord();
+    cy.wait(500);
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="amount"]').clear().type('65');
     });
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="value_pay"]').clear().type('75000');
+    });
+
+    cy.clickOnSubmitHarvestDetailForm();
+    cy.wait(500);
+
+    cy.clickActionsButtonTableRow(currentHarvest.details[1].id);
+    cy.clickOnUpdateDetailRecord();
+    cy.wait(500);
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="amount"]').clear().type('35');
+    });
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="value_pay"]').clear().type('42000');
+    });
+
+    cy.clickOnSubmitHarvestDetailForm();
+    cy.wait(500);
+
+    cy.clickOnSubmitButton();
+    cy.checkDisabledSubmitButton();
+    cy.contains('Cosecha actualizada');
   });
 
   it('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
-    cy.createHarvestAnd((data: any) => {
-      cy.visit(`/app/home/harvests/update/one/${data.id}`);
-      cy.openCalendar();
-      cy.selectCalendarDay(12);
+    cy.visit(`/app/home/harvests/update/one/${currentHarvest.id}`);
+    cy.openCalendar();
+    cy.selectCalendarDay(12);
 
-      cy.navigateToModuleWithSideBar('harvests');
-      cy.checkMessageLostFormData();
-      cy.get('button[aria-label="Close toast"]').click();
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.checkMessageLostFormData();
+    cy.get('button[aria-label="Close toast"]').click();
 
-      cy.openHarvestDetailForm();
-      cy.get('form[id="formHarvestDetail"]').within(() => {
-        cy.get('input[name="amount"]').clear().type('65');
-      });
-      cy.clickOnCloseFormDialog();
-      cy.checkMessageLostFormData();
-
-      cy.checkCurrentUrl('/app/home/harvests/update/one');
-      cy.checkDialogIsVisible();
+    cy.openHarvestDetailForm();
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="amount"]').clear().type('65');
     });
+    cy.clickOnCloseFormDialog();
+    cy.checkMessageLostFormData();
+
+    cy.checkCurrentUrl('/app/home/harvests/update/one');
+    cy.checkDialogIsVisible();
   });
 
   it('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
-    cy.createHarvestAnd((data: any) => {
-      cy.visit(`/app/home/harvests/update/one/${data.id}`);
-      cy.openCalendar();
-      cy.selectCalendarDay(12);
-      cy.navigateToModuleWithSideBar('harvests');
-      cy.checkMessageLostFormData();
-      cy.clickOnIgnoreButton();
-      cy.wait(500);
-      cy.url().then((currentUrl) => {
-        expect(currentUrl).to.not.include('/app/home/harvests/update');
-      });
-
-      cy.wait(500);
-      cy.visit(`/app/home/harvests/update/one/${data.id}`);
-      cy.openHarvestDetailForm();
-      cy.get('form[id="formHarvestDetail"]').within(() => {
-        cy.get('input[name="amount"]').clear().type('55');
-      });
-      cy.clickOnCloseFormDialog();
-      cy.checkMessageLostFormData();
-      cy.clickOnIgnoreButton();
-      cy.checkCurrentUrl(`/app/home/harvests/update/one/${data.id}`);
-      cy.checkDialogIsNotVisible();
+    cy.visit(`/app/home/harvests/update/one/${currentHarvest.id}`);
+    cy.openCalendar();
+    cy.selectCalendarDay(12);
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.checkMessageLostFormData();
+    cy.clickOnIgnoreButton();
+    cy.wait(500);
+    cy.url().then((currentUrl) => {
+      expect(currentUrl).to.not.include('/app/home/harvests/update');
     });
+
+    cy.wait(500);
+    cy.visit(`/app/home/harvests/update/one/${currentHarvest.id}`);
+    cy.openHarvestDetailForm();
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="amount"]').clear().type('55');
+    });
+    cy.clickOnCloseFormDialog();
+    cy.checkMessageLostFormData();
+    cy.clickOnIgnoreButton();
+    cy.checkCurrentUrl(`/app/home/harvests/update/one/${currentHarvest.id}`);
+    cy.checkDialogIsNotVisible();
   });
 
   it('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
-    cy.createHarvestAnd((data: any) => {
-      cy.visit(`/app/home/harvests/update/one/${data.id}`);
-      cy.openCalendar();
-      cy.selectCalendarDay(12);
-      cy.navigateToModuleWithSideBar('harvests');
-      cy.checkMessageLostFormData();
-      cy.clickOnCloseToast();
-      cy.wait(500);
-      cy.checkCurrentUrl(`/app/home/harvests/update/one/${data.id}`);
+    cy.visit(`/app/home/harvests/update/one/${currentHarvest.id}`);
+    cy.openCalendar();
+    cy.selectCalendarDay(12);
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.checkMessageLostFormData();
+    cy.clickOnCloseToast();
+    cy.wait(500);
+    cy.checkCurrentUrl(`/app/home/harvests/update/one/${currentHarvest.id}`);
 
-      cy.openHarvestDetailForm();
-      cy.get('form[id="formHarvestDetail"]').within(() => {
-        cy.get('input[name="amount"]').clear().type('55');
-      });
-      cy.clickOnCloseFormDialog();
-      cy.checkMessageLostFormData();
-      cy.clickOnCloseToast();
-      cy.checkDialogIsVisible();
+    cy.openHarvestDetailForm();
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="amount"]').clear().type('55');
     });
+    cy.clickOnCloseFormDialog();
+    cy.checkMessageLostFormData();
+    cy.clickOnCloseToast();
+    cy.checkDialogIsVisible();
   });
 });
 
@@ -463,7 +463,7 @@ describe('Ver registro de cosecha', () => {
   });
 });
 
-describe.only('Paginado y selectores', () => {
+describe('Paginado y selectores', () => {
   before(() => {
     cy.executeClearSeedData({ harvests: true });
     cy.executeSeed({ harvests: { quantity: 25 } });
@@ -488,7 +488,7 @@ describe.only('Paginado y selectores', () => {
   });
 
   it('Navegar entre paginas disponibles (20 registro por página)', () => {
-    cy.changeTablePageSize(20)
+    cy.changeTablePageSize(20);
     cy.wait(2000);
     cy.checkPaginationValues();
     cy.get('button[data-testid="btn-go-next-page"]').click();
