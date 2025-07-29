@@ -97,39 +97,11 @@ Cypress.Commands.add(
   }
 );
 
-Cypress.Commands.add('createRandomUser', function () {
-  const firstName = InformationGenerator.generateFirstName();
-  const lastName = InformationGenerator.generateLastName();
-  const email = InformationGenerator.generateEmail();
-  const cellPhoneNumber = InformationGenerator.generateCellPhoneNumber();
-  const password = '123456';
-  cy.createUser({
-    firstName,
-    lastName,
-    email,
-    cellPhoneNumber,
-    password1: password,
-    password2: password,
-  });
-});
-
 Cypress.Commands.add('createUserAnd', (userData, callback) => {
   cy.createUser(userData).then((data) => {
     callback(data);
   });
 });
-
-Cypress.Commands.add(
-  'searchAndSelectTableRow',
-  (field: string, value: string) => {
-    cy.typeOnInputBasicSearchBar(value);
-    cy.clickOnSubmitBasicSearchBar();
-    cy.get('tbody tr')
-      .filter(`:contains(${value})`)
-      .should('have.length.greaterThan', 0);
-    cy.contains(value);
-  }
-);
 
 Cypress.Commands.add(
   'checkModuleSwitchState',
@@ -171,19 +143,24 @@ Cypress.Commands.add('clickOnToggleStatusUserButton', () => {
   cy.get('button[data-testid="btn-toggle-status-user"]').click();
 });
 
-Cypress.Commands.add('checkToggleStatusUserButtonState', (shouldBeDisabled: boolean) => {
-  cy.get('button[data-testid="btn-toggle-status-user"]').should(
-    shouldBeDisabled ? 'be.disabled' : 'be.enabled'
-  );
-});
+Cypress.Commands.add(
+  'checkToggleStatusUserButtonState',
+  (shouldBeDisabled: boolean) => {
+    cy.get('button[data-testid="btn-toggle-status-user"]').should(
+      shouldBeDisabled ? 'be.disabled' : 'be.enabled'
+    );
+  }
+);
 
 Cypress.Commands.add('clickOnResetPasswordUserButton', () => {
   cy.get('button[data-testid="btn-reset-password-user"]').click();
 });
 
-
-Cypress.Commands.add('checkResetPasswordUserButtonState', (shouldBeDisabled: boolean) => {
-  cy.get('button[data-testid="btn-reset-password-user"]').should(
-    shouldBeDisabled ? 'be.disabled' : 'be.enabled'
-  );
-});
+Cypress.Commands.add(
+  'checkResetPasswordUserButtonState',
+  (shouldBeDisabled: boolean) => {
+    cy.get('button[data-testid="btn-reset-password-user"]').should(
+      shouldBeDisabled ? 'be.disabled' : 'be.enabled'
+    );
+  }
+);

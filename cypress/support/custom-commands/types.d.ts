@@ -57,7 +57,6 @@ declare global {
       clickActionsButtonTableRow(id: string | number): Chainable<void>;
       clickRefetchButton(): Chainable<void>;
       checkRefetchButtonState(shouldBeEnabled: boolean): Chainable<void>;
-      createRandomUser(): Chainable<void>;
       changeTablePageSize(size: number): Chainable<void>;
       toggleSelectAllTableRows(select?: boolean): Chainable<void>;
       shouldBeRedirectedForNoPermission(): Chainable<void>;
@@ -67,7 +66,10 @@ declare global {
       checkSelectedTableRowsGreaterThanZero(): Chainable<void>;
       checkSelectedTableRowsIsZero(): Chainable<void>;
       clickOnUpdateRecord(): Chainable<void>;
-      openCommandPaletteAndSelect(typeValue: string, commandDataId: string): Chainable<void>;
+      openCommandPaletteAndSelect(
+        typeValue: string,
+        commandDataId: string
+      ): Chainable<void>;
       checkLoadingInformation(): Chainable<void>;
       checkActionButtonsState(expected: {
         update?: boolean;
@@ -89,7 +91,6 @@ declare global {
         callback: (data: any) => void
       ): Chainable<void>;
       openActionsMenuByField(value: string, url: string): Chainable<void>;
-      searchAndSelectTableRow(field: string, value: string): Chainable<void>;
 
       // Employees
       createEmployee(
@@ -196,9 +197,13 @@ declare global {
       clickOnGoPreviousPageButton(): Chainable<void>;
       checkTablePageInfoContains(text: string): Chainable<void>;
       clickOnToggleStatusUserButton(): Chainable<void>;
-      checkToggleStatusUserButtonState(shouldBeDisabled: boolean): Chainable<void>;
+      checkToggleStatusUserButtonState(
+        shouldBeDisabled: boolean
+      ): Chainable<void>;
       clickOnResetPasswordUserButton(): Chainable<void>;
-      checkResetPasswordUserButtonState(shouldBeDisabled: boolean): Chainable<void>;
+      checkResetPasswordUserButtonState(
+        shouldBeDisabled: boolean
+      ): Chainable<void>;
       checkCreateButtonState(shouldBeDisabled: boolean): Chainable<void>;
       clickOnContinueDeleteOneRecord(): Chainable<void>;
       clickOnContinueDeleteBulkRecord(): Chainable<void>;
