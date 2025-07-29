@@ -3,7 +3,20 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      
+      "@/users/*": ["./src/modules/users"],
+      "@/clients/*": ["./src/modules/clients"],
+      "@/consumption/*": ["./src/modules/consumption"],
+      "@/core/*": ["./src/modules/core"],
+      "@/crops/*": ["./src/modules/crops"],
+      "@/dashboard/*": ["./src/modules/dashboard"],
+      "@/employees/*": ["./src/modules/employees"],
+      "@/harvests/*": ["./src/modules/harvests"],
+      "@/payments/*": ["./src/modules/payments"],
+      "@/sales/*": ["./src/modules/sales"],
+      "@/shopping/*": ["./src/modules/shopping"],
+      "@/suppliers/*": ["./src/modules/suppliers"],
+      "@/supplies/*": ["./src/modules/supplies"],
+      "@/work/*": ["./src/modules/work"]
     },
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -26,6 +39,9 @@
     "noFallthroughCasesInSwitch": true,
     "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"]
   },
-  "include": ["src", "src/modules/clients/hooks/context/useClientsModuleContext.ts"],
+  "include": [
+    "src",
+    "src/modules/clients/hooks/context/useClientsModuleContext.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
