@@ -1,6 +1,9 @@
 Cypress.Commands.add(
   'createHarvest',
-  function ({ fastCreation = false } = {}): Cypress.Chainable<any> {
+  function ({
+    fastCreation = false,
+    returnOnlyHarvest = true,
+  } = {}): Cypress.Chainable<any> {
     const creationCropEndpoint = 'http://localhost:3000/harvests/create';
 
     if (fastCreation) {
@@ -8,17 +11,10 @@ Cypress.Commands.add(
         .executeSeed({ harvests: { quantity: 1, quantityEmployees: 3 } })
         .then((result) => {
           // Validamos que la estructura esperada exista
-          if (
-            result &&
-            result.history &&
-            Array.isArray(result.history.insertedHarvests) &&
-            result.history.insertedHarvests.length > 0
-          ) {
+          if (result.history.insertedHarvests.length > 0 && returnOnlyHarvest) {
             return result.history.insertedHarvests[0].harvest;
           } else {
-            throw new Error(
-              'No se encontró ningún registro de cosecha insertado en la respuesta del seed.'
-            );
+            return result.history.insertedHarvests[0];
           }
         });
     } else {

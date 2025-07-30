@@ -218,7 +218,7 @@ describe('Modificación de empleados', () => {
   });
 });
 
-describe('Eliminación de empleado', () => {
+describe.only('Eliminación de empleado', () => {
   let currentEmployee: any = {};
 
   before(() => {
@@ -230,18 +230,51 @@ describe('Eliminación de empleado', () => {
 
   beforeEach(() => {
     cy.loginUser();
-    cy.navigateToModuleWithSideBar('employees');
   });
 
   it('Eliminar cosecha', () => {
+    cy.navigateToModuleWithSideBar('employees');
     cy.clickActionsButtonTableRow(currentEmployee.id);
     cy.clickOnDeleteRecord();
     cy.clickOnContinueDeleteOneRecord();
     cy.contains('Empleado eliminado');
   });
 
+  it.only('Intentar eliminar empleado con cosechas pendiente de pago', () => {
+    cy.executeClearSeedData({ employees: true });
+
+    cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
+      (data) => {
+        cy.navigateToModuleWithSideBar('employees');
+        cy.log(JSON.stringify(data, null, 2));
+        const { employees } = data;
+
+        // Primer empleado
+        cy.clickActionsButtonTableRow(employees[0].id);
+        cy.clickOnDeleteRecord();
+        cy.clickOnContinueDeleteOneRecord();
+        cy.contains(
+          'No se pudo eliminar el empleado seleccionado, revisa si tiene cosechas o trabajos pendientes de pago'
+        );
+        // Segundo empleado
+        cy.clickActionsButtonTableRow(employees[1].id);
+        cy.clickOnDeleteRecord();
+        cy.clickOnContinueDeleteOneRecord();
+        cy.contains(
+          'No se pudo eliminar el empleado seleccionado, revisa si tiene cosechas o trabajos pendientes de pago'
+        );
+        // Tercer empleado
+        cy.clickActionsButtonTableRow(employees[2].id);
+        cy.clickOnDeleteRecord();
+        cy.clickOnContinueDeleteOneRecord();
+        cy.contains(
+          'No se pudo eliminar el empleado seleccionado, revisa si tiene cosechas o trabajos pendientes de pago'
+        );
+      }
+    );
+  });
+
   // TODO: Implementar pruebas
-  // it('Intentar eliminar empleado con cosechas pendiente de pago', () => {});
   // it('Intentar eliminar empleado con trabajo pendiente de pago', () => {});
 });
 

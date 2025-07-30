@@ -168,7 +168,7 @@ declare global {
       selectCalendarDay(day: number): Chainable<void>;
 
       // Harvests
-      createHarvest(opt?: { fastCreation?: boolean }): Chainable<any>;
+      createHarvest(opt?: { fastCreation?: boolean, returnOnlyHarvest?: boolean }): Chainable<any>;
       createHarvestAnd(callback: (data: any) => void): Chainable<any>;
       validateTotalsHarvestForm(data: {
         amount: number;
