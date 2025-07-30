@@ -273,7 +273,7 @@ describe('Eliminación de empleado', () => {
       cy.get('button[data-testid="btn-continue-delete-one-record"]').click();
 
       cy.contains('Empleado eliminado');
-      cy.contains('No hay registros');
+      cy.checkNoRecordsMessage();
     });
   });
 
@@ -305,7 +305,7 @@ describe('Eliminación de empleados por lote', () => {
     cy.get('button[data-testid="btn-continue-delete"]').click();
     cy.contains('Cargando información');
     cy.contains('Los registros seleccionados fueron eliminados');
-    cy.contains('No hay registros');
+    cy.checkNoRecordsMessage();
   });
 
   // it('Intentar eliminar usuario con rol administrator en lote', () => {
@@ -427,11 +427,11 @@ describe.only('Paginado y selectores', () => {
 
   it('Navegar entre paginas disponibles (10 registro por página - default)', () => {
     cy.checkPaginationValues();
-    cy.get('button[data-testid="btn-go-next-page"]').click();
+    cy.clickOnGoNextPageButton();
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
       'Página 2 de 3'
     );
-    cy.get('button[data-testid="btn-go-previous-page"]').click();
+    cy.clickOnGoPreviousPageButton();
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
       'Página 1 de 3'
     );
@@ -441,12 +441,12 @@ describe.only('Paginado y selectores', () => {
     cy.changeTablePageSize(20);
     cy.wait(2000);
     cy.checkPaginationValues();
-    cy.get('button[data-testid="btn-go-next-page"]').click();
+    cy.clickOnGoNextPageButton();
     cy.wait(2000);
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
       'Página 2 de 2'
     );
-    cy.get('button[data-testid="btn-go-previous-page"]').click();
+    cy.clickOnGoPreviousPageButton();
     cy.wait(2000);
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
       'Página 1 de 2'

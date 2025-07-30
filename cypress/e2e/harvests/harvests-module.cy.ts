@@ -2,6 +2,7 @@ describe('Modulo de cosechas', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('harvests');
+    cy.wait(2000);
   });
 
   it('Debe ingresar a la ruta correcta ', () => {
@@ -51,48 +52,23 @@ describe('Modulo de cosechas', () => {
   it('Debe mostrar el loading cuando se intenta forzar la recarga de datos', () => {
     cy.clickRefetchButton();
     cy.checkRefetchButtonState(false);
-    cy.contains('Cargando información');
+    cy.checkLoadingInformation();
   });
 
-  it('Se puede seleccionar todos los elementos al dar clic sobre el checkbox del encabezado', () => {
-    cy.wait(2000);
-    cy.get('button[data-testid="btn-clear-selection-table"]').should(
-      'not.be.visible'
-    );
-    cy.get('button[data-testid="btn-delete-bulk"]').should('not.be.visible');
-    cy.get('button[aria-label="Select all"]').click();
-    cy.get('span[data-testid="data-table-row-selection-number"]')
-      .invoke('text')
-      .then((text) => {
-        const value = Number(text.trim());
-        expect(value).to.be.greaterThan(0);
-      });
-    cy.get('button[data-testid="btn-clear-selection-table"]').should(
-      'be.visible'
-    );
-    cy.get('button[data-testid="btn-delete-bulk"]').should('be.visible');
-  });
+  it('Se puede seleccionar y deseleccionar los elementos al dar clic sobre el checkbox del encabezado', () => {
+    cy.checkClearSelectionButtonState(false);
+    cy.checkDeleteBulkButtonState(false);
 
-  it('Debe deseleccionar todos los elementos al dar clic nuevamente en el checkbox del encabezado', () => {
-    cy.wait(2000);
-    cy.get('button[aria-label="Select all"]').click(); // Selecciona todos
-    cy.get('span[data-testid="data-table-row-selection-number"]')
-      .invoke('text')
-      .then((text) => {
-        const value = Number(text.trim());
-        expect(value).to.be.greaterThan(0);
-      });
-    cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
-    cy.get('button[data-testid="btn-clear-selection-table"]').should(
-      'not.be.visible'
-    );
-    cy.get('button[data-testid="btn-delete-bulk"]').should('not.be.visible');
-    cy.get('span[data-testid="data-table-row-selection-number"]')
-      .invoke('text')
-      .then((text) => {
-        const value = Number(text.trim());
-        expect(value).to.equal(0);
-      });
+    cy.toggleSelectAllTableRows();
+
+    cy.checkSelectedTableRowsGreaterThanZero();
+    cy.checkClearSelectionButtonState(true);
+    cy.checkDeleteBulkButtonState(true);
+
+    cy.toggleSelectAllTableRows();
+    cy.checkClearSelectionButtonState(false);
+    cy.checkDeleteBulkButtonState(false);
+    cy.checkSelectedTableRowsIsZero();
   });
 
   it('Ingresar al modulo usando el command', () => {
@@ -106,6 +82,11 @@ describe('Modulo de cosechas', () => {
 });
 
 describe('Creación de cosechas', () => {
+  before(() => {
+    // Crear cultivo y empleados desde el seed
+    cy.executeSeed({ employees: 3, crops: 3 });
+  });
+
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('harvests');
@@ -117,13 +98,14 @@ describe('Creación de cosechas', () => {
     cy.openCalendar();
 
     cy.selectCalendarMonth(4);
-    cy.selectCalendarYear(2023);
+    cy.selectCalendarYear(2025);
     cy.selectCalendarDay(19);
 
     // Seleccionar cultivo
     cy.openCommandField('crop');
     cy.selectCommandOption('1');
 
+    // Abrir formulario interno
     cy.openHarvestDetailForm();
 
     // Seleccionar empleado
@@ -141,10 +123,9 @@ describe('Creación de cosechas', () => {
       cy.get('input[name="value_pay"]').clear().type('60000');
     });
 
-    cy.get('button[data-testid="form-detail-submit-button"]').click();
-    cy.wait(1000);
+    cy.clickOnSubmitHarvestDetailForm();
 
-    // Abrir boton de crear detalle
+    // Abrir formulario interno
     cy.openHarvestDetailForm();
 
     // Seleccionar empleado
@@ -180,7 +161,7 @@ describe('Creación de cosechas', () => {
     cy.contains('Debes registrar la cosecha de al menos 1 empleado');
     cy.checkMessageFieldsMissing();
 
-    // Abrir boton de crear detalle
+    // Abrir formulario interno
     cy.openHarvestDetailForm();
     cy.clickOnSubmitHarvestDetailForm();
     cy.contains('El empleado es un campo obligatorio');
@@ -196,7 +177,7 @@ describe('Creación de cosechas', () => {
     cy.checkMessageLostFormData();
     cy.get('button[aria-label="Close toast"]').click();
     cy.wait(500);
-    // Abrir boton de crear detalle
+    // Abrir formulario interno
     cy.openHarvestDetailForm();
     cy.get('form[id="formHarvestDetail"]').within(() => {
       cy.get('input[name="amount"]').clear().type('55');
@@ -247,7 +228,7 @@ describe('Creación de cosechas', () => {
   });
 });
 
-describe.only('Modificación de cosechas', () => {
+describe('Modificación de cosechas', () => {
   let currentHarvest: any = {};
 
   before(() => {
@@ -301,7 +282,7 @@ describe.only('Modificación de cosechas', () => {
 
     cy.navigateToModuleWithSideBar('harvests');
     cy.checkMessageLostFormData();
-    cy.get('button[aria-label="Close toast"]').click();
+    cy.clickOnCloseToast();
 
     cy.openHarvestDetailForm();
     cy.get('form[id="formHarvestDetail"]').within(() => {
@@ -359,107 +340,90 @@ describe.only('Modificación de cosechas', () => {
 });
 
 describe('Eliminación de cosecha', () => {
+  let currentHarvest: any = {};
+
+  before(() => {
+    cy.executeClearSeedData({ harvests: true });
+    cy.createHarvest({ fastCreation: true }).then((data) => {
+      currentHarvest = { ...data };
+    });
+  });
+
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('harvests');
   });
 
   it('Eliminar cosecha', () => {
-    cy.createHarvestAnd((data: any) => {
-      cy.visit(
-        `/app/home/harvests/view/all?filter_by_value_pay=true&type_filter_value_pay=EQUAL&value_pay=${data.value_pay}`
-      );
-      cy.wait(500);
-      cy.changeTablePageSize(50);
-
-      cy.clickActionsButtonTableRow(data.id);
-      cy.clickOnDeleteRecord();
-      cy.clickOnContinueDeleteOneRecord();
-
-      cy.contains('Cosecha eliminada');
-    });
+    cy.clickActionsButtonTableRow(currentHarvest.id);
+    cy.clickOnDeleteRecord();
+    cy.clickOnContinueDeleteOneRecord();
+    cy.contains('Cosecha eliminada');
   });
 
   // TODO: Implementar pruebas
-  // it('Intentar eliminar cosecha con pagos pendientes', () => {});
+  // it('Intentar eliminar cosecha con pagos realizados', () => {});
+
+  // it('Intentar eliminar cosecha con stock procesado', () => {});
 });
 
 describe('Eliminación de cosechas por lote', () => {
   before(() => {
-    cy.loginUser();
-    cy.navigateToModuleWithSideBar('harvests');
-    for (let index = 0; index < 2; index++) {
+    cy.executeClearSeedData({ harvests: true });
+    for (let index = 0; index < 5; index++) {
       cy.createHarvest({ fastCreation: true });
     }
   });
 
-  it('Eliminar cosechas seleccionadas', () => {
+  beforeEach(() => {
+    cy.loginUser();
     cy.navigateToModuleWithSideBar('harvests');
-    cy.visit(
-      `/app/home/harvests/view/all?filter_by_value_pay=true&type_filter_value_pay=EQUAL&value_pay=110000`
-    );
-    cy.wait(5000);
-    cy.get('button[aria-label="Select all"]').click({ timeout: 3000 });
-    cy.get('button[data-testid="btn-delete-bulk"]').click();
-    cy.get('button[data-testid="btn-continue-delete"]').click();
-    cy.contains('Cargando información');
+  });
+
+  it('Eliminar cosechas seleccionadas', () => {
+    cy.wait(3000);
+    cy.toggleSelectAllTableRows();
+    cy.clickOnDeleteBulkButton();
+    cy.clickOnContinueDeleteBulkRecord();
+    cy.checkLoadingInformation();
     cy.contains('Los registros seleccionados fueron eliminados');
-    cy.contains('No hay registros');
+    cy.checkNoRecordsMessage();
   });
 
   // TODO: Implementar pruebas
-  // it('Intentar eliminar cultivos con stock disponible', () => {});
-
-  // it('Intentar eliminar usuario con rol administrator en lote', () => {
-  //   cy.loginUser();
-  //   cy.navigateToModuleWithSideBar('crops');
-  //   cy.visit(`/app/home/crops/view/all?query=Mantenimiento`);
-  //   cy.wait(2000);
-  //   cy.get('button[aria-label="Select all"]').click();
-  //   cy.get('button[data-testid="btn-delete-bulk"]').click();
-  //   cy.get('button[data-testid="btn-continue-delete"]').click();
-  //   cy.contains(
-  //     'No se pudieron eliminar los cultivos seleccionados, revisa que no tengan rol "Administrador"'
-  //   );
-  // });
+  // it('Intentar eliminar cosechas con regsitros pagos', () => {});
+  // it('Intentar eliminar cosechas con stock procesado', () => {});
 });
 
 describe('Copiar Id de registro', () => {
   it('Copiar Id del usuario', () => {
-    cy.loginUser();
-    cy.navigateToModuleWithSideBar('harvests');
-    cy.createHarvest({ fastCreation: true }).then((data: any) => {
-      cy.visit(`/app/home/harvests/view/all`);
-      cy.wait(5000);
-      cy.get('button[data-testid="btn-page-size-selector"]').click();
-      cy.get(`div[data-testid="select-item-page-size-${50}"]`).click();
+    cy.executeClearSeedData({ harvests: true });
+    cy.createHarvest({ fastCreation: true }).then((currentHarvest) => {
+      cy.loginUser();
+      cy.navigateToModuleWithSideBar('harvests');
       cy.wait(500);
-      cy.clickActionsButtonTableRow(data.id);
-      cy.get('button[data-testid="btn-copy-id"]').click();
-      cy.contains('Id copiado al portapapeles');
+      cy.clickActionsButtonTableRow(currentHarvest.id);
+      cy.clickOnCopyIdButton();
     });
   });
 });
 
 describe('Ver registro de cosecha', () => {
   it('Ver registro de cosecha', () => {
-    cy.loginUser();
-    cy.navigateToModuleWithSideBar('harvests');
-    cy.createHarvest({ fastCreation: true }).then((data: any) => {
-      cy.visit(`/app/home/harvests/view/all`);
-      cy.wait(5000);
-      cy.get('button[data-testid="btn-page-size-selector"]').click();
-      cy.get(`div[data-testid="select-item-page-size-${50}"]`).click();
+    cy.executeClearSeedData({ harvests: true });
+    cy.createHarvest({ fastCreation: true }).then((currentHarvest) => {
+      cy.loginUser();
+      cy.navigateToModuleWithSideBar('harvests');
       cy.wait(500);
-      cy.clickActionsButtonTableRow(data.id);
-      cy.get('button[data-testid="btn-view-record"]').click();
+      cy.clickActionsButtonTableRow(currentHarvest.id);
+      cy.clickOnViewRecord();
       cy.contains('Información');
       cy.contains('Volver');
     });
   });
 });
 
-describe('Paginado y selectores', () => {
+describe.only('Paginado y selectores', () => {
   before(() => {
     cy.executeClearSeedData({ harvests: true });
     cy.executeSeed({ harvests: { quantity: 25 } });
@@ -473,30 +437,19 @@ describe('Paginado y selectores', () => {
 
   it('Navegar entre paginas disponibles (10 registro por página - default)', () => {
     cy.checkPaginationValues();
-    cy.get('button[data-testid="btn-go-next-page"]').click();
-    cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 2 de'
-    );
-    cy.get('button[data-testid="btn-go-previous-page"]').click();
-    cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 1 de'
-    );
+    cy.clickOnGoNextPageButton();
+    cy.checkTablePageInfoContains('Página 2 de 3');
+    cy.clickOnGoPreviousPageButton();
+    cy.checkTablePageInfoContains('Página 1 de 3');
   });
 
   it('Navegar entre paginas disponibles (20 registro por página)', () => {
     cy.changeTablePageSize(20);
-    cy.wait(2000);
     cy.checkPaginationValues();
-    cy.get('button[data-testid="btn-go-next-page"]').click();
-    cy.wait(2000);
-    cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 2 de'
-    );
-    cy.get('button[data-testid="btn-go-previous-page"]').click();
-    cy.wait(2000);
-    cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 1 de'
-    );
+    cy.clickOnGoNextPageButton();
+    cy.checkTablePageInfoContains('Página 2 de 2');
+    cy.clickOnGoPreviousPageButton();
+    cy.checkTablePageInfoContains('Página 1 de 2');
   });
 });
 

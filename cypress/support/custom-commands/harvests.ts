@@ -109,6 +109,7 @@ Cypress.Commands.add('openHarvestDetailForm', () => {
 
 Cypress.Commands.add('clickOnSubmitHarvestDetailForm', () => {
   cy.get('button[data-testid="form-detail-submit-button"]').click();
+  cy.wait(500);
 });
 
 // Cypress.Commands.add('validateTotalsHarvestForm', ({ amount, valuePay }) => {

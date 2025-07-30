@@ -35,6 +35,7 @@ Cypress.Commands.add(
 
 Cypress.Commands.add('clickOnGoNextPageButton', () => {
   cy.get('button[data-testid="btn-go-next-page"]').click();
+  cy.wait(1000);
 });
 
 Cypress.Commands.add('checkCreateButtonState', (shouldBeDisabled: boolean) => {
@@ -49,6 +50,7 @@ Cypress.Commands.add('checkTablePageInfoContains', (text: string) => {
 
 Cypress.Commands.add('clickOnGoPreviousPageButton', () => {
   cy.get('button[data-testid="btn-go-previous-page"]').click();
+  cy.wait(1000);
 });
 
 Cypress.Commands.add('clickOnViewRecord', () => {

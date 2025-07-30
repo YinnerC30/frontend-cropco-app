@@ -247,7 +247,7 @@ describe('Eliminación de cultivo', () => {
       cy.get('button[data-testid="btn-continue-delete-one-record"]').click();
 
       cy.contains('Cultivo eliminado');
-      cy.contains('No hay registros');
+      cy.checkNoRecordsMessage();
     });
   });
 
@@ -278,7 +278,7 @@ describe('Eliminación de cultivos por lote', () => {
     cy.get('button[data-testid="btn-continue-delete"]').click();
     cy.contains('Cargando información');
     cy.contains('Los registros seleccionados fueron eliminados');
-    cy.contains('No hay registros');
+    cy.checkNoRecordsMessage();
   });
 
   // TODO: Implementar pruebas
@@ -359,11 +359,11 @@ describe('Paginado y selectores', () => {
     cy.navigateToModuleWithSideBar('crops');
     cy.wait(2000);
     cy.checkPaginationValues();
-    cy.get('button[data-testid="btn-go-next-page"]').click();
+    cy.clickOnGoNextPageButton();
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
       'Página 2 de'
     );
-    cy.get('button[data-testid="btn-go-previous-page"]').click();
+    cy.clickOnGoPreviousPageButton();
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
       'Página 1 de'
     );
@@ -376,12 +376,12 @@ describe('Paginado y selectores', () => {
     cy.changeTablePageSize(20)
     cy.wait(2000);
     cy.checkPaginationValues();
-    cy.get('button[data-testid="btn-go-next-page"]').click();
+    cy.clickOnGoNextPageButton();
     cy.wait(2000);
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
       'Página 2 de'
     );
-    cy.get('button[data-testid="btn-go-previous-page"]').click();
+    cy.clickOnGoPreviousPageButton();
     cy.wait(2000);
     cy.get('p[data-testid="data-table-page-info-number"]').contains(
       'Página 1 de'
