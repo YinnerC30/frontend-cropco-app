@@ -9,7 +9,21 @@ Cypress.Commands.add(
     const creationEmployeeEndpoint = 'http://localhost:3000/employees/create';
 
     if (fastCreation) {
-      cy.visit('/app/home/employees/create/one');
+      return cy.executeSeed({ employees: 1 }).then((result) => {
+        // Validamos que la estructura esperada exista
+        if (
+          result &&
+          result.history &&
+          Array.isArray(result.history.insertedEmployees) &&
+          result.history.insertedEmployees.length > 0
+        ) {
+          return result.history.insertedEmployees[0];
+        } else {
+          throw new Error(
+            'No se encontró ningún registro de empleado insertado en la respuesta del seed.'
+          );
+        }
+      });
     } else {
       cy.navigateToModuleWithSideBar('employees');
       cy.wait(3000);

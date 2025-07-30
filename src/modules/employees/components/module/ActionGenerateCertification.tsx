@@ -18,6 +18,7 @@ import { EmployeeCertification } from '../../interfaces/EmployeeCertification';
 import { formSchemaEmployeeCertification } from '../../utils/formSchemaEmployeeCertification';
 import { FormEmployeeCertification } from './form/FormEmployeeCertification';
 import { Employee } from '../../interfaces/Employee';
+import { useFormChange } from '@/modules/core/components';
 
 interface Props {
   employeeId: string;
@@ -45,6 +46,7 @@ export function ActionGenerateCertification({
   employee,
 }: Props) {
   const { mutate, isPending } = mutation;
+  
 
   const form = useCreateForm({
     schema: formSchemaEmployeeCertification,
@@ -65,7 +67,9 @@ export function ActionGenerateCertification({
       { employeeId, data: { ...values } },
       {
         onSuccess: () => {
-          handleCloseDialog();
+          setTimeout(() => {
+            handleCloseDialog();
+          }, 1000);
         },
       }
     );

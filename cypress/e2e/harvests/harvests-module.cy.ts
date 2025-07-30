@@ -175,7 +175,7 @@ describe('Creación de cosechas', () => {
     cy.getFormTextArea('observation').type('Simple observación...');
     cy.navigateToModuleWithSideBar('harvests');
     cy.checkMessageLostFormData();
-    cy.get('button[aria-label="Close toast"]').click();
+     cy.clickOnCloseToast();
     cy.wait(500);
     // Abrir formulario interno
     cy.openHarvestDetailForm();

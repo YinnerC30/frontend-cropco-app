@@ -182,7 +182,7 @@ describe('Creación de proveedores', () => {
     cy.getFormInput('first_name').type('SupplierName');
     cy.navigateToModuleWithSideBar('suppliers');
     cy.checkMessageLostFormData();
-    cy.contains('button', 'Ignorar').click();
+    cy.clickOnIgnoreButton();
     cy.url().then((currentUrl) => {
       expect(currentUrl).to.not.include('/app/home/suppliers/create');
     });
@@ -192,7 +192,7 @@ describe('Creación de proveedores', () => {
     cy.getFormInput('first_name').type('SupplierName');
     cy.navigateToModuleWithSideBar('suppliers');
     cy.checkMessageLostFormData();
-    cy.get('button[aria-label="Close toast"]').click();
+     cy.clickOnCloseToast();
     cy.url().should('include', '/app/home/suppliers/create');
   });
 });
@@ -241,7 +241,7 @@ describe('Modificación de proveedores', () => {
       cy.getFormInput('first_name').type('UserName');
       cy.navigateToModuleWithSideBar('suppliers');
       cy.checkMessageLostFormData();
-      cy.contains('button', 'Ignorar').click();
+      cy.clickOnIgnoreButton();
       cy.url().then((currentUrl) => {
         expect(currentUrl).to.not.include('/app/home/suppliers/update');
       });
@@ -256,7 +256,7 @@ describe('Modificación de proveedores', () => {
       cy.getFormInput('first_name').type('UserName');
       cy.navigateToModuleWithSideBar('suppliers');
       cy.checkMessageLostFormData();
-      cy.get('button[aria-label="Close toast"]').click();
+       cy.clickOnCloseToast();
       cy.url().should('include', '/app/home/suppliers/update');
     });
   });

@@ -160,7 +160,7 @@ describe('Creación de cultivos', () => {
     cy.getFormInput('name').type('CropName');
     cy.navigateToModuleWithSideBar('crops');
     cy.checkMessageLostFormData();
-    cy.contains('button', 'Ignorar').click();
+    cy.clickOnIgnoreButton();
     cy.url().then((currentUrl) => {
       expect(currentUrl).to.not.include('/app/home/crops/create');
     });
@@ -170,7 +170,7 @@ describe('Creación de cultivos', () => {
     cy.getFormInput('name').type('CropName');
     cy.navigateToModuleWithSideBar('crops');
     cy.checkMessageLostFormData();
-    cy.get('button[aria-label="Close toast"]').click();
+     cy.clickOnCloseToast();
     cy.url().should('include', '/app/home/crops/create');
   });
 });
@@ -213,7 +213,7 @@ describe('Modificación de cultivos', () => {
       cy.getFormInput('name').type('CropName');
       cy.navigateToModuleWithSideBar('crops');
       cy.checkMessageLostFormData();
-      cy.contains('button', 'Ignorar').click();
+      cy.clickOnIgnoreButton();
       cy.url().then((currentUrl) => {
         expect(currentUrl).to.not.include('/app/home/crops/update');
       });
@@ -228,7 +228,7 @@ describe('Modificación de cultivos', () => {
       cy.getFormInput('name').type('CropName');
       cy.navigateToModuleWithSideBar('crops');
       cy.checkMessageLostFormData();
-      cy.get('button[aria-label="Close toast"]').click();
+       cy.clickOnCloseToast();
       cy.url().should('include', '/app/home/crops/update');
     });
   });

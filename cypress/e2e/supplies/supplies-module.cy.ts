@@ -155,7 +155,7 @@ describe('Creación de insumos', () => {
     cy.getFormInput('name').type('supplyname');
     cy.navigateToModuleWithSideBar('supplies');
     cy.checkMessageLostFormData();
-    cy.contains('button', 'Ignorar').click();
+    cy.clickOnIgnoreButton();
     cy.url().then((currentUrl) => {
       expect(currentUrl).to.not.include('/app/home/supplies/create');
     });
@@ -165,7 +165,7 @@ describe('Creación de insumos', () => {
     cy.getFormInput('name').type('supplyname');
     cy.navigateToModuleWithSideBar('supplies');
     cy.checkMessageLostFormData();
-    cy.get('button[aria-label="Close toast"]').click();
+     cy.clickOnCloseToast();
     cy.url().should('include', '/app/home/supplies/create');
   });
 });
@@ -208,7 +208,7 @@ describe('Modificación de insumos', () => {
       cy.getFormInput('name').type('supplyname');
       cy.navigateToModuleWithSideBar('supplies');
       cy.checkMessageLostFormData();
-      cy.contains('button', 'Ignorar').click();
+      cy.clickOnIgnoreButton();
       cy.url().then((currentUrl) => {
         expect(currentUrl).to.not.include('/app/home/supplies/update');
       });
@@ -223,7 +223,7 @@ describe('Modificación de insumos', () => {
       cy.getFormInput('name').type('supplyname');
       cy.navigateToModuleWithSideBar('supplies');
       cy.checkMessageLostFormData();
-      cy.get('button[aria-label="Close toast"]').click();
+       cy.clickOnCloseToast();
       cy.url().should('include', '/app/home/supplies/update');
     });
   });

@@ -180,7 +180,7 @@ describe('Creación de clientes', () => {
     cy.getFormInput('first_name').type('ClientName');
     cy.navigateToModuleWithSideBar('clients');
     cy.checkMessageLostFormData();
-    cy.contains('button', 'Ignorar').click();
+    cy.clickOnIgnoreButton();
     cy.url().then((currentUrl) => {
       expect(currentUrl).to.not.include('/app/home/clients/create');
     });
@@ -190,7 +190,7 @@ describe('Creación de clientes', () => {
     cy.getFormInput('first_name').type('ClientName');
     cy.navigateToModuleWithSideBar('clients');
     cy.checkMessageLostFormData();
-    cy.get('button[aria-label="Close toast"]').click();
+     cy.clickOnCloseToast();
     cy.url().should('include', '/app/home/clients/create');
   });
 });
@@ -239,7 +239,7 @@ describe('Modificación de clientes', () => {
       cy.getFormInput('first_name').type('UserName');
       cy.navigateToModuleWithSideBar('clients');
       cy.checkMessageLostFormData();
-      cy.contains('button', 'Ignorar').click();
+      cy.clickOnIgnoreButton();
       cy.url().then((currentUrl) => {
         expect(currentUrl).to.not.include('/app/home/clients/update');
       });
@@ -254,7 +254,7 @@ describe('Modificación de clientes', () => {
       cy.getFormInput('first_name').type('UserName');
       cy.navigateToModuleWithSideBar('clients');
       cy.checkMessageLostFormData();
-      cy.get('button[aria-label="Close toast"]').click();
+       cy.clickOnCloseToast();
       cy.url().should('include', '/app/home/clients/update');
     });
   });

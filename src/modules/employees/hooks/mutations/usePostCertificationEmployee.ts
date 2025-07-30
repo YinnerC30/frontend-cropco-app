@@ -11,6 +11,7 @@ import { ActionToPDF } from '@/modules/core/interfaces/ActionToPDF';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { AxiosError } from 'axios';
 import { EmployeeCertification } from '../../interfaces/EmployeeCertification';
+import { useFormChange } from '@/modules/core/components';
 
 export const generateCertificationEmployee = async (
   employeeId: string,
@@ -38,6 +39,7 @@ export const usePostCertificationEmployee = ({
   actionPDF,
 }: Props): UseMutationReturn<Blob, MutationVariables> => {
   const { hasPermission, handleError } = useAuthContext();
+  const { markChanges } = useFormChange();
   const isAuthorized = hasPermission(
     'employees',
     'generate_certification_employee'
@@ -58,6 +60,7 @@ export const usePostCertificationEmployee = ({
       return (await promise).data;
     },
     onSuccess: (blob, variables) => {
+      markChanges(false);
       switch (actionPDF) {
         case 'ViewPDF':
           viewPDF(blob);
