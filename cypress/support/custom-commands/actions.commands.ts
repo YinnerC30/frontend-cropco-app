@@ -1,9 +1,13 @@
 Cypress.Commands.add('existRefetchButton', () => {
-  cy.get('button[data-testid="btn-refetch-data"]').should('exist');
+  cy.get('button[data-testid="btn-refetch-data"]')
+    .should('exist')
+    .should('be.visible');
 });
 
 Cypress.Commands.add('existCreateButton', () => {
-  cy.get('button[data-testid="btn-create-record"]').should('exist');
+  cy.get('button[data-testid="btn-create-record"]')
+    .should('exist')
+    .should('be.visible');
 });
 
 Cypress.Commands.add('clickOnCreateButton', () => {
@@ -29,9 +33,15 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   'checkDeleteBulkButtonState',
-  (shouldBeVisible: boolean) => {
-    const assertion = shouldBeVisible ? 'be.visible' : 'not.be.visible';
-    cy.get('button[data-testid="btn-delete-bulk"]').should(assertion);
+  (shouldBeVisible: boolean, shouldBeEnabled = true) => {
+    const visibilityAssertion = shouldBeVisible
+      ? 'be.visible'
+      : 'not.be.visible';
+    const activeAssertion = shouldBeEnabled ? 'be.enabled' : 'be.disabled';
+    cy.get('button[data-testid="btn-delete-bulk"]').should(visibilityAssertion);
+    if (shouldBeVisible) {
+      cy.get('button[data-testid="btn-delete-bulk"]').should(activeAssertion);
+    }
   }
 );
 
