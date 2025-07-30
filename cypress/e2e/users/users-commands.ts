@@ -1,4 +1,4 @@
-import { InformationGenerator } from '../../e2e/helpers/InformationGenerator';
+import { InformationGenerator } from '../helpers/InformationGenerator';
 
 Cypress.Commands.add(
   'createUser',

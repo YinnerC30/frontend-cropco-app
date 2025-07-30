@@ -7,18 +7,18 @@ Cypress.on('uncaught:exception', (err, runnable) => {
   return false;
 });
 
-import './custom-commands/auth';
+import '../e2e/auth/auth';
 import './custom-commands/navigation';
 import './custom-commands/ui';
 import './custom-commands/forms';
 import './custom-commands/table';
-import './custom-commands/users';
+import '../e2e/users/users-commands';
 import './custom-commands/employees';
 import './custom-commands/clients';
 import './custom-commands/suppliers';
-import './custom-commands/crops';
-import './custom-commands/supplies';
-import './custom-commands/harvests';
+import '../e2e/crops/crops';
+import '../e2e/supplies/supplies';
+import '../e2e/harvests/harvests';
 import './custom-commands/works';
 import './custom-commands/seed';
 
