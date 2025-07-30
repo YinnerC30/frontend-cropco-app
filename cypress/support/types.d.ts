@@ -1,3 +1,22 @@
+export * from '../e2e/auth/auth.commands';
+export * from '../e2e/clients/clients.commands';
+export * from '../e2e/crops/crops.commands';
+export * from '../e2e/employees/employees.commands';
+export * from '../e2e/harvests/harvests.commands';
+export * from '../e2e/sales/sales.commands';
+export * from '../e2e/suppliers/suppliers.commands';
+export * from '../e2e/supplies/supplies.commands';
+export * from '../e2e/users/users.commands';
+export * from '../e2e/works/works.commands';
+
+export * from './custom-commands/actions.commands';
+export * from './custom-commands/forms.commands';
+export * from './custom-commands/navigation.commands';
+export * from './custom-commands/search-bar.commands';
+export * from './custom-commands/seed.commands';
+export * from './custom-commands/table.commands';
+export * from './custom-commands/ui.commands';
+
 import { AuthCommands } from '../e2e/auth/auth-commands';
 import { ClientCommands } from '../e2e/clients/client-commands';
 import { CropCommands } from '../e2e/crops/crop-commands';
