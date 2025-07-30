@@ -1,23 +1,37 @@
-import { InformationGenerator } from '../../e2e/helpers/InformationGenerator';
+import { InformationGenerator } from '../helpers/InformationGenerator';
 
 Cypress.Commands.add(
-  'createSupplier',
+  'createClient',
   function (
     { firstName, lastName, email, cellPhoneNumber, address } = {},
     { fastCreation = false } = {}
   ): Cypress.Chainable<any> {
-    const creationSupplierEndpoint = 'http://localhost:3000/suppliers/create';
+    const creationClientEndpoint = 'http://localhost:3000/clients/create';
 
     if (fastCreation) {
-      cy.visit('/app/home/suppliers/create/one');
+      return cy.executeSeed({ clients: 1 }).then((result) => {
+        // Validamos que la estructura esperada exista
+        if (
+          result &&
+          result.history &&
+          Array.isArray(result.history.insertedClients) &&
+          result.history.insertedClients.length > 0
+        ) {
+          return result.history.insertedClients[0];
+        } else {
+          throw new Error(
+            'No se encontró ningún registro de cliente insertado en la respuesta del seed.'
+          );
+        }
+      });
     } else {
-      cy.navigateToModuleWithSideBar('suppliers');
+      cy.navigateToModuleWithSideBar('clients');
       cy.wait(3000);
       cy.clickOnCreateButton();
     }
 
     cy.wait(1000);
-    const defaultFirstName = 'SupplierName';
+    const defaultFirstName = 'ClientName';
     const defaultLastName = 'LastName';
 
     const defaultEmail = InformationGenerator.generateEmail();
@@ -31,12 +45,11 @@ Cypress.Commands.add(
     cy.getFormInput('last_name').type(usedLastName);
     cy.getFormInput('email').type(usedEmail);
     cy.getFormInput('cell_phone_number').type(usedCellPhoneNumber);
-    cy.getFormInput('company_name').type('Nombre de compañia 1');
     cy.getFormTextArea('address').type(usedAddress);
 
-    cy.intercept('POST', creationSupplierEndpoint).as('createSupplierRequest');
+    cy.intercept('POST', creationClientEndpoint).as('createClientRequest');
     cy.clickOnSubmitButton();
-    return cy.wait('@createSupplierRequest').then((interception) => {
+    return cy.wait('@createClientRequest').then((interception) => {
       return cy.wrap({
         ...interception.response?.body,
       });
@@ -44,8 +57,8 @@ Cypress.Commands.add(
   }
 );
 
-Cypress.Commands.add('createSupplierAnd', (data, callback) => {
-  cy.createSupplier(data, { fastCreation: true }).then((data) => {
-    callback(data);
+Cypress.Commands.add('createClientAnd', (data, callback) => {
+  cy.executeSeed({ clients: 1 }).then(({ history: { insertedClients } }) => {
+    callback(insertedClients[0]);
   });
 });

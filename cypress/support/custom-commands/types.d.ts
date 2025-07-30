@@ -1,8 +1,4 @@
-// Extiende la interfaz Chainable de Cypress para incluir los comandos personalizados
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable<Subject = any> {
       // Auth Commands
@@ -212,7 +208,10 @@ declare global {
       ): Chainable<void>;
 
       // Harvests Commands
-      createHarvest(opt?: { fastCreation?: boolean, returnOnlyHarvest?: boolean }): Chainable<any>;
+      createHarvest(opt?: {
+        fastCreation?: boolean;
+        returnOnlyHarvest?: boolean;
+      }): Chainable<any>;
       createHarvestAnd(callback: (data: any) => void): Chainable<any>;
       validateTotalsHarvestForm(data: {
         amount: number;
@@ -220,7 +219,12 @@ declare global {
       }): Chainable<any>;
 
       // Sales Commands
-      createSale(opt?: { fastCreation?: boolean, returnOnlySale?: boolean, isReceivable?: boolean, isReceivableGeneric?: boolean }): Chainable<any>;
+      createSale(opt?: {
+        fastCreation?: boolean;
+        returnOnlySale?: boolean;
+        isReceivable?: boolean;
+        isReceivableGeneric?: boolean;
+      }): Chainable<any>;
       // createHarvestAnd(callback: (data: any) => void): Chainable<any>;
       // validateTotalsHarvestForm(data: {
       //   amount: number;
@@ -228,7 +232,10 @@ declare global {
       // }): Chainable<any>;
 
       // Works Commands
-      createWork(opt?: { fastCreation?: boolean, returnOnlyWork?: boolean }): Chainable<any>;
+      createWork(opt?: {
+        fastCreation?: boolean;
+        returnOnlyWork?: boolean;
+      }): Chainable<any>;
       createWorkAnd(callback: (data: any) => void): Chainable<any>;
       validateTotalsWorkForm(data: {
         amount: number;
@@ -258,4 +265,4 @@ declare global {
   }
 }
 
-export {}; 
+export {};
