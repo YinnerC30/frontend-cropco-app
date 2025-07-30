@@ -42,7 +42,7 @@ export const useGetAllSupplies = ({
   const isAuthorized = hasPermission('supplies', 'find_all_supplies');
 
   const query: UseQueryGetAllRecordsReturn<Supply> = useQuery({
-    queryKey: ['supplies', { queryValue, ...pagination }],
+    queryKey: ['supplies', { queryValue, all_records , ...pagination }],
     queryFn: () =>
       getSupplies({
         query: queryValue,

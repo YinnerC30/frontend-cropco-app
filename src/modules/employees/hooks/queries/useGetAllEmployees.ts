@@ -40,7 +40,7 @@ export const useGetAllEmployees = ({
   const isAuthorized = hasPermission('employees', 'find_all_employees');
 
   const query: UseQueryGetAllRecordsReturn<Employee> = useQuery({
-    queryKey: ['employees', { queryValue, ...pagination }],
+    queryKey: ['employees', { queryValue, all_records, ...pagination }],
     queryFn: () =>
       getEmployees({
         query: queryValue,

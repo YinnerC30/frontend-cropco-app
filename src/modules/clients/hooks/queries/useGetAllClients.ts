@@ -37,7 +37,7 @@ export const useGetAllClients = ({
 
   const isAuthorized = hasPermission('clients', 'find_all_clients');
   const query: UseQueryGetAllRecordsReturn<Client> = useQuery({
-    queryKey: ['clients', { queryValue, ...pagination }],
+    queryKey: ['clients', { queryValue, all_records, ...pagination }],
     queryFn: () =>
       getClients({
         query: queryValue,

@@ -37,7 +37,7 @@ export const useGetAllCrops = ({
   const isAuthorized = hasPermission('crops', 'find_all_crops');
 
   const query: UseQueryGetAllRecordsReturn<Crop> = useQuery({
-    queryKey: ['crops', { queryValue, ...pagination }],
+    queryKey: ['crops', { queryValue, all_records, ...pagination }],
     queryFn: () =>
       getCrops({
         query: queryValue,
