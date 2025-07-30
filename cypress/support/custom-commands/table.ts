@@ -2,46 +2,15 @@ Cypress.Commands.add('clickActionsButtonTableRow', (id: string | number) => {
   cy.get(`button[data-testid="btn-actions-table-row-id-${id}"]`).click();
 });
 
-Cypress.Commands.add('clickRefetchButton', () => {
-  cy.get('button[data-testid="btn-refetch-data"]').click({ multiple: true });
-});
-
-Cypress.Commands.add('checkRefetchButtonState', (shouldBeEnabled: boolean) => {
-  const assertion = shouldBeEnabled ? 'be.enabled' : 'be.disabled';
-  cy.get('button[data-testid="btn-refetch-data"]').should(assertion);
-});
-
 Cypress.Commands.add('changeTablePageSize', (size: number) => {
   cy.get('button[data-testid="btn-page-size-selector"]').click();
   cy.get(`div[data-testid="select-item-page-size-${size}"]`).click();
   cy.wait(1000);
 });
 
-Cypress.Commands.add(
-  'checkClearSelectionButtonState',
-  (shouldBeVisible: boolean) => {
-    const assertion = shouldBeVisible ? 'be.visible' : 'not.be.visible';
-    cy.get('button[data-testid="btn-clear-selection-table"]').should(assertion);
-  }
-);
-
-Cypress.Commands.add(
-  'checkDeleteBulkButtonState',
-  (shouldBeVisible: boolean) => {
-    const assertion = shouldBeVisible ? 'be.visible' : 'not.be.visible';
-    cy.get('button[data-testid="btn-delete-bulk"]').should(assertion);
-  }
-);
-
 Cypress.Commands.add('clickOnGoNextPageButton', () => {
   cy.get('button[data-testid="btn-go-next-page"]').click();
   cy.wait(1000);
-});
-
-Cypress.Commands.add('checkCreateButtonState', (shouldBeDisabled: boolean) => {
-  cy.get('button[data-testid="btn-create-record"]').should(
-    shouldBeDisabled ? 'be.disabled' : 'be.enabled'
-  );
 });
 
 Cypress.Commands.add('checkTablePageInfoContains', (text: string) => {
@@ -60,10 +29,6 @@ Cypress.Commands.add('clickOnViewRecord', () => {
 Cypress.Commands.add('clickOnCopyIdButton', () => {
   cy.get('button[data-testid="btn-copy-id"]').click();
   cy.contains('Id copiado al portapapeles');
-});
-
-Cypress.Commands.add('clickOnDeleteBulkButton', () => {
-  cy.get('button[data-testid="btn-delete-bulk"]').click();
 });
 
 Cypress.Commands.add('toggleSelectAllTableRows', () => {
@@ -88,16 +53,8 @@ Cypress.Commands.add('checkSelectedTableRowsIsZero', () => {
     });
 });
 
-Cypress.Commands.add('shouldBeRedirectedForNoPermission', () => {
-  cy.contains('No tienes permiso para esta acción, seras redirigido');
-});
-
 Cypress.Commands.add('clickOnUpdateRecord', () => {
   cy.get('button[data-testid="btn-update-record"]').click();
-});
-
-Cypress.Commands.add('checkNoRecordsMessage', () => {
-  cy.contains('No hay registros');
 });
 
 Cypress.Commands.add(
@@ -139,4 +96,40 @@ Cypress.Commands.add('clickOnContinueDeleteOneRecord', () => {
 
 Cypress.Commands.add('clickOnContinueDeleteBulkRecord', () => {
   cy.get('button[data-testid="btn-continue-delete"]').click();
+});
+
+Cypress.Commands.add('existPaginationButtons', () => {
+  cy.get('button[data-testid="btn-go-first-page"]').should('exist');
+  cy.get('button[data-testid="btn-go-previous-page"]').should('exist');
+  cy.get('button[data-testid="btn-go-next-page"]').should('exist');
+  cy.get('button[data-testid="btn-go-last-page"]').should('exist');
+});
+
+Cypress.Commands.add('existPaginationInfo', () => {
+  cy.contains('Total:');
+  cy.contains('N° seleccionados:');
+  cy.contains('N° registros:');
+  cy.get('button[data-testid="btn-page-size-selector"]').should('exist');
+  cy.contains('Página 1 de');
+});
+
+Cypress.Commands.add('checkPaginationValues', () => {
+  cy.get('span[data-testid="data-table-row-total"]')
+    .invoke('text')
+    .then((text) => {
+      const rowTotal = parseInt(text, 10);
+      cy.get('span[data-testid="page-size-value"]')
+        .invoke('text')
+        .then((text) => {
+          const pageSizeValue = parseInt(text, 10);
+          const pagesCount = Math.ceil(rowTotal / pageSizeValue);
+          cy.get('p[data-testid="data-table-page-info-number"]').contains(
+            `Página 1 de ${pagesCount}`
+          );
+        });
+    });
+});
+
+Cypress.Commands.add('clickOnUpdateDetailRecord', () => {
+  cy.get('button[data-testid="btn-update-detail-record"]').click();
 });

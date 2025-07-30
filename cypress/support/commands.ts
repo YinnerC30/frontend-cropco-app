@@ -22,5 +22,7 @@ import '../e2e/harvests/harvests';
 import '../e2e/sales/sales-commands';
 import './custom-commands/works';
 import './custom-commands/seed';
+import './custom-commands/search-bar';
+import './custom-commands/actions';
 
 // Declaraciones de tipos y cualquier configuración global pueden ir aquí si es necesario.
