@@ -423,7 +423,7 @@ describe('Ver registro de cosecha', () => {
   });
 });
 
-describe.only('Paginado y selectores', () => {
+describe('Paginado y selectores', () => {
   before(() => {
     cy.executeClearSeedData({ harvests: true });
     cy.executeSeed({ harvests: { quantity: 25 } });

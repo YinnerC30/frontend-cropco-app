@@ -1,28 +1,29 @@
-// Extiende la interfaz Chainable de Cypress para incluir los comandos personalizados documentados arriba
-
-import { PersonalInformation } from 'cypress/interfaces/PersonalInformation';
+// Extiende la interfaz Chainable de Cypress para incluir los comandos personalizados
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable<Subject = any> {
+      // Auth Commands
       loginUser(email?: string, password?: string): Chainable<void>;
       logoutUser(): Chainable<void>;
       clearSession(): Chainable<void>;
       shouldBeAuthenticated(): Chainable<void>;
       shouldNotBeAuthenticated(): Chainable<void>;
       attemptInvalidLogin(email: string, password: string): Chainable<void>;
+
+      // Navigation Commands
+      navigateToModuleWithSideBar(nameModule: string): Chainable<void>;
+      checkCurrentUrl(partialUrl: string): Chainable<void>;
+
+      // UI Commands
       existBasicSearchBar(): Chainable<void>;
       existPaginationButtons(): Chainable<void>;
       existPaginationInfo(): Chainable<void>;
       checkPaginationValues(): Chainable<void>;
       existRefetchButton(): Chainable<void>;
       existCreateButton(): Chainable<void>;
-      navigateToModuleWithSideBar(nameModule: string): Chainable<void>;
-      checkCurrentUrl(partialUrl: string): Chainable<void>;
-      getFormInput(name: string): Chainable<HTMLElement>;
-      getFormTextArea(name: string): Chainable<HTMLElement>;
       clickOnCreateButton(): Chainable<void>;
       clickOnSubmitButton(): Chainable<void>;
       checkMessageFieldsMissing(): Chainable<void>;
@@ -39,7 +40,75 @@ declare global {
       clickModuleActionsSwitch(moduleName: string): Chainable<void>;
       clickActionSwitch(actionName: string): Chainable<void>;
       checkGlobalActionsSwitchState(shouldBeActive: boolean): Chainable<void>;
-      createUser(data: {
+      clickActionsButtonTableRow(id: string | number): Chainable<void>;
+      clickRefetchButton(): Chainable<void>;
+      checkRefetchButtonState(shouldBeEnabled: boolean): Chainable<void>;
+      shouldBeRedirectedForNoPermission(): Chainable<void>;
+      checkLoadingInformation(): Chainable<void>;
+      openActionsMenuByField(value: string, url: string): Chainable<void>;
+      openCalendar(): Chainable<void>;
+      selectCalendarMonth(month: number): Chainable<void>;
+      selectCalendarYear(year: number): Chainable<void>;
+      selectCalendarDay(day: number): Chainable<void>;
+      openCommandField(name: string): Chainable<void>;
+      selectCommandOption(numberOption: string): Chainable<void>;
+      openSelectField(): Chainable<void>;
+      selectSelectOption(value: string): Chainable<void>;
+      clickOnIgnoreButton(): Chainable<void>;
+      checkDialogIsNotVisible(): Chainable<void>;
+      clickOnCloseToast(): Chainable<void>;
+      checkDialogIsVisible(): Chainable<void>;
+      clickOnCloseFormDialog(): Chainable<void>;
+      clickOnUpdateRecord(): Chainable<void>;
+      clickOnDeleteRecord(): Chainable<void>;
+      checkNoRecordsMessage(): Chainable<void>;
+      clickOnDeleteBulkButton(): Chainable<void>;
+      clickOnCopyIdButton(): Chainable<void>;
+      clickOnViewRecord(): Chainable<void>;
+      clickOnGoNextPageButton(): Chainable<void>;
+      clickOnGoPreviousPageButton(): Chainable<void>;
+      checkTablePageInfoContains(text: string): Chainable<void>;
+      clickOnToggleStatusUserButton(): Chainable<void>;
+      checkToggleStatusUserButtonState(
+        shouldBeDisabled: boolean
+      ): Chainable<void>;
+      clickOnResetPasswordUserButton(): Chainable<void>;
+      checkResetPasswordUserButtonState(
+        shouldBeDisabled: boolean
+      ): Chainable<void>;
+      checkCreateButtonState(shouldBeDisabled: boolean): Chainable<void>;
+      clickOnContinueDeleteOneRecord(): Chainable<void>;
+      clickOnContinueDeleteBulkRecord(): Chainable<void>;
+      checkActionButtonsState(expected: {
+        update?: boolean;
+        view?: boolean;
+        delete?: boolean;
+      }): Chainable<void>;
+
+      // Forms Commands
+      getFormInput(name: string): Chainable<HTMLElement>;
+      getFormTextArea(name: string): Chainable<HTMLElement>;
+      openCommandPaletteAndSelect(
+        typeValue: string,
+        commandDataId: string
+      ): Chainable<void>;
+      openHarvestDetailForm(): Chainable<void>;
+      clickOnSubmitHarvestDetailForm(): Chainable<void>;
+      openWorkDetailForm(): Chainable<void>;
+      clickOnSubmitWorkDetailForm(): Chainable<void>;
+      clickOnUpdateDetailRecord(): Chainable<void>;
+
+      // Table Commands
+      changeTablePageSize(size: number): Chainable<void>;
+      toggleSelectAllTableRows(select?: boolean): Chainable<void>;
+      checkClearSelectionButtonState(shouldBeVisible: boolean): Chainable<void>;
+      checkDeleteBulkButtonState(shouldBeVisible: boolean): Chainable<void>;
+      checkSelectAllButtonState(shouldBeVisible: boolean): Chainable<void>;
+      checkSelectedTableRowsGreaterThanZero(): Chainable<void>;
+      checkSelectedTableRowsIsZero(): Chainable<void>;
+
+      // Users Commands
+      createUser(data?: {
         firstName?: string;
         lastName?: string;
         email?: string;
@@ -54,28 +123,6 @@ declare global {
         firstName?: string;
         withAllActions?: boolean;
       }): Chainable<any>;
-      clickActionsButtonTableRow(id: string | number): Chainable<void>;
-      clickRefetchButton(): Chainable<void>;
-      checkRefetchButtonState(shouldBeEnabled: boolean): Chainable<void>;
-      changeTablePageSize(size: number): Chainable<void>;
-      toggleSelectAllTableRows(select?: boolean): Chainable<void>;
-      shouldBeRedirectedForNoPermission(): Chainable<void>;
-      checkClearSelectionButtonState(shouldBeVisible: boolean): Chainable<void>;
-      checkDeleteBulkButtonState(shouldBeVisible: boolean): Chainable<void>;
-      checkSelectAllButtonState(shouldBeVisible: boolean): Chainable<void>;
-      checkSelectedTableRowsGreaterThanZero(): Chainable<void>;
-      checkSelectedTableRowsIsZero(): Chainable<void>;
-      clickOnUpdateRecord(): Chainable<void>;
-      openCommandPaletteAndSelect(
-        typeValue: string,
-        commandDataId: string
-      ): Chainable<void>;
-      checkLoadingInformation(): Chainable<void>;
-      checkActionButtonsState(expected: {
-        update?: boolean;
-        view?: boolean;
-        delete?: boolean;
-      }): Chainable<void>;
       createUserAnd(
         userData: {
           firstName?: string;
@@ -90,35 +137,35 @@ declare global {
         },
         callback: (data: any) => void
       ): Chainable<void>;
-      openActionsMenuByField(value: string, url: string): Chainable<void>;
 
-      // Employees
+      // Employees Commands
       createEmployee(
-        data?: PersonalInformation,
+        data?: any,
         opt?: { fastCreation?: boolean }
       ): Chainable<any>;
       createEmployeeAnd(callback?: (data: any) => void): Chainable<void>;
 
-      // Clients
+      // Clients Commands
       createClient(
-        data?: PersonalInformation,
+        data?: any,
         opt?: { fastCreation?: boolean }
       ): Chainable<any>;
       createClientAnd(
-        data: PersonalInformation,
+        data: any,
         callback: (data: any) => void
       ): Chainable<void>;
 
-      // Suppliers
+      // Suppliers Commands
       createSupplier(
-        data?: PersonalInformation,
+        data?: any,
         opt?: { fastCreation?: boolean }
       ): Chainable<any>;
       createSupplierAnd(
-        data: PersonalInformation,
+        data: any,
         callback: (data: any) => void
       ): Chainable<void>;
-      // Crops
+
+      // Crops Commands
       createCrop(
         data?: {
           name?: string;
@@ -143,7 +190,8 @@ declare global {
         },
         callback: (data: any) => void
       ): Chainable<void>;
-      // Supplies
+
+      // Supplies Commands
       createSupply(
         data?: {
           name?: string;
@@ -162,62 +210,24 @@ declare global {
         },
         callback: (data: any) => void
       ): Chainable<void>;
-      openCalendar(): Chainable<void>;
-      selectCalendarMonth(month: number): Chainable<void>;
-      selectCalendarYear(year: number): Chainable<void>;
-      selectCalendarDay(day: number): Chainable<void>;
 
-      // Harvests
+      // Harvests Commands
       createHarvest(opt?: { fastCreation?: boolean, returnOnlyHarvest?: boolean }): Chainable<any>;
       createHarvestAnd(callback: (data: any) => void): Chainable<any>;
       validateTotalsHarvestForm(data: {
         amount: number;
         valuePay: number;
       }): Chainable<any>;
-      openHarvestDetailForm(): Chainable<void>;
-      clickOnSubmitHarvestDetailForm(): Chainable<void>;
-      // Works
+
+      // Works Commands
       createWork(opt?: { fastCreation?: boolean, returnOnlyWork?: boolean }): Chainable<any>;
       createWorkAnd(callback: (data: any) => void): Chainable<any>;
       validateTotalsWorkForm(data: {
         amount: number;
         valuePay: number;
       }): Chainable<any>;
-      openWorkDetailForm(): Chainable<void>;
-      clickOnSubmitWorkDetailForm(): Chainable<void>;
-      clickOnCloseFormDialog(): Chainable<void>;
 
-      // Forms
-      openCommandField(name: string): Chainable<void>;
-      selectCommandOption(numberOption: string): Chainable<void>;
-      openSelectField(): Chainable<void>;
-      selectSelectOption(value: string): Chainable<void>;
-      clickOnIgnoreButton(): Chainable<void>;
-      checkDialogIsNotVisible(): Chainable<void>;
-      clickOnCloseToast(): Chainable<void>;
-      checkDialogIsVisible(): Chainable<void>;
-      clickOnUpdateDetailRecord(): Chainable<void>;
-      clickOnDeleteRecord(): Chainable<void>;
-      checkNoRecordsMessage(): Chainable<void>;
-      clickOnDeleteBulkButton(): Chainable<void>;
-      clickOnCopyIdButton(): Chainable<void>;
-      clickOnViewRecord(): Chainable<void>;
-      clickOnGoNextPageButton(): Chainable<void>;
-      clickOnGoPreviousPageButton(): Chainable<void>;
-      checkTablePageInfoContains(text: string): Chainable<void>;
-      clickOnToggleStatusUserButton(): Chainable<void>;
-      checkToggleStatusUserButtonState(
-        shouldBeDisabled: boolean
-      ): Chainable<void>;
-      clickOnResetPasswordUserButton(): Chainable<void>;
-      checkResetPasswordUserButtonState(
-        shouldBeDisabled: boolean
-      ): Chainable<void>;
-      checkCreateButtonState(shouldBeDisabled: boolean): Chainable<void>;
-      clickOnContinueDeleteOneRecord(): Chainable<void>;
-      clickOnContinueDeleteBulkRecord(): Chainable<void>;
-
-      // Seed
+      // Seed Commands
       executeSeed(
         body: any,
         options?: {
@@ -240,4 +250,4 @@ declare global {
   }
 }
 
-export {};
+export {}; 

@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+/// <reference path="./custom-commands/types/types.d.ts" />
 
 Cypress.on('uncaught:exception', (err, runnable) => {
   // returning false here prevents Cypress from
