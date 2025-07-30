@@ -176,6 +176,15 @@ declare global {
       }): Chainable<any>;
       openHarvestDetailForm(): Chainable<void>;
       clickOnSubmitHarvestDetailForm(): Chainable<void>;
+      // Works
+      createWork(opt?: { fastCreation?: boolean, returnOnlyWork?: boolean }): Chainable<any>;
+      createWorkAnd(callback: (data: any) => void): Chainable<any>;
+      validateTotalsWorkForm(data: {
+        amount: number;
+        valuePay: number;
+      }): Chainable<any>;
+      openWorkDetailForm(): Chainable<void>;
+      clickOnSubmitWorkDetailForm(): Chainable<void>;
       clickOnCloseFormDialog(): Chainable<void>;
 
       // Forms

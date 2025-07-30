@@ -218,7 +218,7 @@ describe('Modificación de empleados', () => {
   });
 });
 
-describe.only('Eliminación de empleado', () => {
+describe('Eliminación de empleado', () => {
   let currentEmployee: any = {};
 
   before(() => {
@@ -240,7 +240,7 @@ describe.only('Eliminación de empleado', () => {
     cy.contains('Empleado eliminado');
   });
 
-  it.only('Intentar eliminar empleado con cosechas pendiente de pago', () => {
+  it('Intentar eliminar empleado con cosechas pendiente de pago', () => {
     cy.executeClearSeedData({ employees: true });
 
     cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
@@ -274,25 +274,53 @@ describe.only('Eliminación de empleado', () => {
     );
   });
 
-  // TODO: Implementar pruebas
-  // it('Intentar eliminar empleado con trabajo pendiente de pago', () => {});
+  it('Intentar eliminar empleado con trabajos pendiente de pago', () => {
+    cy.executeClearSeedData({ employees: true });
+
+    cy.createWork({ fastCreation: true, returnOnlyWork: false }).then(
+      (data) => {
+        cy.navigateToModuleWithSideBar('employees');
+        const { employees } = data;
+
+        // Primer empleado
+        cy.clickActionsButtonTableRow(employees[0].id);
+        cy.clickOnDeleteRecord();
+        cy.clickOnContinueDeleteOneRecord();
+        cy.contains(
+          'No se pudo eliminar el empleado seleccionado, revisa si tiene cosechas o trabajos pendientes de pago'
+        );
+        // Segundo empleado
+        cy.clickActionsButtonTableRow(employees[1].id);
+        cy.clickOnDeleteRecord();
+        cy.clickOnContinueDeleteOneRecord();
+        cy.contains(
+          'No se pudo eliminar el empleado seleccionado, revisa si tiene cosechas o trabajos pendientes de pago'
+        );
+        // Tercer empleado
+        cy.clickActionsButtonTableRow(employees[2].id);
+        cy.clickOnDeleteRecord();
+        cy.clickOnContinueDeleteOneRecord();
+        cy.contains(
+          'No se pudo eliminar el empleado seleccionado, revisa si tiene cosechas o trabajos pendientes de pago'
+        );
+      }
+    );
+  });
 });
 
 describe('Eliminación de empleados por lote', () => {
-  before(() => {
-    cy.executeClearSeedData({ employees: true });
-    for (let index = 0; index < 5; index++) {
-      cy.createEmployee({}, { fastCreation: true });
-    }
-  });
-
   beforeEach(() => {
+    cy.executeClearSeedData({ employees: true });
     cy.loginUser();
     cy.navigateToModuleWithSideBar('employees');
+    cy.clickRefetchButton();
   });
 
   it('Eliminar cosechas seleccionadas', () => {
-    cy.wait(3000);
+    for (let index = 0; index < 5; index++) {
+      cy.createEmployee({}, { fastCreation: true });
+    }
+    cy.clickRefetchButton();
     cy.toggleSelectAllTableRows();
     cy.clickOnDeleteBulkButton();
     cy.clickOnContinueDeleteBulkRecord();
@@ -301,9 +329,43 @@ describe('Eliminación de empleados por lote', () => {
     cy.checkNoRecordsMessage();
   });
 
-  // TODO: Implementar pruebas
-  // it('Intentar eliminar empleados con cosechas pendiente de pago', () => {});
-  // it('Intentar eliminar empleados con trabajo pendiente de pago', () => {});
+  it('Intentar eliminar empleados con cosechas pendiente de pago', () => {
+    cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false });
+    cy.navigateToModuleWithSideBar('employees');
+    cy.clickRefetchButton();
+    cy.toggleSelectAllTableRows();
+    cy.clickOnDeleteBulkButton();
+    cy.clickOnContinueDeleteBulkRecord();
+    cy.contains(
+      'No se pudieron eliminar los empleados seleccionados, revisa si tienen cosechas o trabajos pendientes de pago'
+    );
+  });
+
+  it('Intentar eliminar empleado con trabajos pendiente de pago', () => {
+    cy.createWork({ fastCreation: true, returnOnlyWork: false });
+    cy.navigateToModuleWithSideBar('employees');
+    cy.clickRefetchButton();
+    cy.toggleSelectAllTableRows();
+    cy.clickOnDeleteBulkButton();
+    cy.clickOnContinueDeleteBulkRecord();
+    cy.contains(
+      'No se pudieron eliminar los empleados seleccionados, revisa si tienen cosechas o trabajos pendientes de pago'
+    );
+  });
+
+  it('Eliminar empleados que tienen conflicto de eliminación y los que no tienen', () => {
+    cy.createEmployee({}, { fastCreation: true });
+    cy.createWork({ fastCreation: true, returnOnlyWork: false });
+    cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false });
+    cy.navigateToModuleWithSideBar('employees');
+    cy.clickRefetchButton();
+    cy.toggleSelectAllTableRows();
+    cy.clickOnDeleteBulkButton();
+    cy.clickOnContinueDeleteBulkRecord();
+    cy.contains(
+      'No se pudieron eliminar algunos empleados, revisa si tienen cosechas o trabajos pendientes de pago'
+    );
+  });
 });
 
 describe('Copiar Id de registro', () => {
