@@ -1,4 +1,4 @@
-import { InformationGenerator } from '../helpers/InformationGenerator';
+import { InformationGenerator } from '../../helpers/InformationGenerator';
 
 Cypress.Commands.add(
   'createEmployee',

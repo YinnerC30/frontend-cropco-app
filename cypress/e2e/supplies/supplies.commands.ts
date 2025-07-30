@@ -1,4 +1,4 @@
-import { InformationGenerator } from 'cypress/e2e/helpers/InformationGenerator';
+import { InformationGenerator } from 'cypress/helpers/InformationGenerator';
 
 Cypress.Commands.add(
   'createSupply',
