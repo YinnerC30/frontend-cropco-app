@@ -219,6 +219,14 @@ declare global {
         valuePay: number;
       }): Chainable<any>;
 
+      // Sales Commands
+      createSale(opt?: { fastCreation?: boolean, returnOnlySale?: boolean, isReceivable?: boolean, isReceivableGeneric?: boolean }): Chainable<any>;
+      // createHarvestAnd(callback: (data: any) => void): Chainable<any>;
+      // validateTotalsHarvestForm(data: {
+      //   amount: number;
+      //   valuePay: number;
+      // }): Chainable<any>;
+
       // Works Commands
       createWork(opt?: { fastCreation?: boolean, returnOnlyWork?: boolean }): Chainable<any>;
       createWorkAnd(callback: (data: any) => void): Chainable<any>;

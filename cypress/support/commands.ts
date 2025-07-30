@@ -13,12 +13,13 @@ import './custom-commands/ui';
 import './custom-commands/forms';
 import './custom-commands/table';
 import '../e2e/users/users-commands';
-import './custom-commands/employees';
-import './custom-commands/clients';
-import './custom-commands/suppliers';
+import '../e2e/employees/employees';
+import '../e2e/clients/clients';
+import '../e2e/suppliers/suppliers';
 import '../e2e/crops/crops';
 import '../e2e/supplies/supplies';
 import '../e2e/harvests/harvests';
+import '../e2e/sales/sales-commands';
 import './custom-commands/works';
 import './custom-commands/seed';
 

@@ -9,7 +9,21 @@ Cypress.Commands.add(
     const creationClientEndpoint = 'http://localhost:3000/clients/create';
 
     if (fastCreation) {
-      cy.visit('/app/home/clients/create/one');
+      return cy.executeSeed({ clients: 1 }).then((result) => {
+        // Validamos que la estructura esperada exista
+        if (
+          result &&
+          result.history &&
+          Array.isArray(result.history.insertedClients) &&
+          result.history.insertedClients.length > 0
+        ) {
+          return result.history.insertedClients[0];
+        } else {
+          throw new Error(
+            'No se encontró ningún registro de cliente insertado en la respuesta del seed.'
+          );
+        }
+      });
     } else {
       cy.navigateToModuleWithSideBar('clients');
       cy.wait(3000);
@@ -44,7 +58,7 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add('createClientAnd', (data, callback) => {
-  cy.createClient(data, { fastCreation: true }).then((data) => {
-    callback(data);
+  cy.executeSeed({ clients: 1 }).then(({ history: { insertedClients } }) => {
+    callback(insertedClients[0]);
   });
 });

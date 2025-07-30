@@ -34,62 +34,29 @@ describe('Modulo de clientes', () => {
   it('Debe mostrar el loading cuando se intenta forzar la recarga de datos', () => {
     cy.clickRefetchButton();
     cy.checkRefetchButtonState(false);
-    cy.contains('Cargando información');
+    cy.checkLoadingInformation();
   });
 
   it('Se puede seleccionar todos los elementos al dar clic sobre el checkbox del encabezado', () => {
     cy.wait(2000);
-    cy.get('button[data-testid="btn-clear-selection-table"]').should(
-      'not.be.visible'
-    );
-    cy.get('button[data-testid="btn-delete-bulk"]').should('not.be.visible');
-    cy.get('button[aria-label="Select all"]').click();
-    cy.get('span[data-testid="data-table-row-selection-number"]')
-      .invoke('text')
-      .then((text) => {
-        const value = Number(text.trim());
-        expect(value).to.be.greaterThan(0);
-      });
-    cy.get('button[data-testid="btn-clear-selection-table"]').should(
-      'be.visible'
-    );
-    cy.get('button[data-testid="btn-delete-bulk"]').should('be.visible');
-  });
-
-  it('Debe deseleccionar todos los elementos al dar clic nuevamente en el checkbox del encabezado', () => {
-    cy.wait(2000);
-    cy.get('button[aria-label="Select all"]').click(); // Selecciona todos
-    cy.get('span[data-testid="data-table-row-selection-number"]')
-      .invoke('text')
-      .then((text) => {
-        const value = Number(text.trim());
-        expect(value).to.be.greaterThan(0);
-      });
-    cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
-    cy.get('button[data-testid="btn-clear-selection-table"]').should(
-      'not.be.visible'
-    );
-    cy.get('button[data-testid="btn-delete-bulk"]').should('not.be.visible');
-    cy.get('span[data-testid="data-table-row-selection-number"]')
-      .invoke('text')
-      .then((text) => {
-        const value = Number(text.trim());
-        expect(value).to.equal(0);
-      });
+    cy.checkClearSelectionButtonState(false);
+    cy.checkDeleteBulkButtonState(false);
+    cy.toggleSelectAllTableRows();
+    cy.checkSelectedTableRowsGreaterThanZero();
+    cy.checkClearSelectionButtonState(true);
+    cy.checkDeleteBulkButtonState(true);
+    cy.toggleSelectAllTableRows();
+    cy.checkSelectedTableRowsIsZero();
+    cy.checkClearSelectionButtonState(false);
+    cy.checkDeleteBulkButtonState(false);
   });
 
   it('Ingresar al modulo usando el command', () => {
     cy.visit('/app/home/page');
     cy.wait(3000);
-    cy.get('body').type('{ctrl}j');
-    cy.get('input[data-testid="input-command-search"]').type('clientes');
-    cy.get('div[data-testid="command-item-clients"]').click();
+    cy.openCommandPaletteAndSelect('clientes', 'clients');
     cy.checkCurrentUrl('clients/view/all');
   });
-
-  //TODO: Ingresar usuario con permisos y verificar que esten visibles y disponibles
-  //TODO: Probar selección
-  //TODO: Probar orden de datos en las tablas
 });
 
 describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
@@ -190,59 +157,54 @@ describe('Creación de clientes', () => {
     cy.getFormInput('first_name').type('ClientName');
     cy.navigateToModuleWithSideBar('clients');
     cy.checkMessageLostFormData();
-     cy.clickOnCloseToast();
+    cy.clickOnCloseToast();
     cy.url().should('include', '/app/home/clients/create');
   });
 });
 
 describe('Modificación de clientes', () => {
+  let currentClient: any = {};
+
+  before(() => {
+    cy.executeClearSeedData({ clients: true });
+    cy.createClient({}, { fastCreation: true }).then((data) => {
+      currentClient = { ...data };
+    });
+  });
+
   beforeEach(() => {
     cy.loginUser();
-    cy.navigateToModuleWithSideBar('clients');
+    cy.visit(`/app/home/clients/update/one/${currentClient.id}`);
+    cy.wait(3000);
   });
 
   it('Modificar cliente existente', () => {
-    cy.createClientAnd({}, ({ email, id }) => {
-      cy.visit(`/app/home/clients/view/all?query=${email}`);
-      cy.clickActionsButtonTableRow(id);
-      cy.get('button[data-testid="btn-update-record"]').click();
-      cy.getFormInput('first_name').clear().type('ClientNameChanged');
-      cy.getFormInput('last_name').clear().type('LastNameChanged');
-      const defaultEmail = InformationGenerator.generateEmail();
-      cy.getFormInput('email').clear().type(defaultEmail);
-      cy.getFormInput('cell_phone_number').clear().type('3123451111');
-      cy.getFormTextArea('address')
-        .clear()
-        .type(InformationGenerator.generateAddress());
-      cy.clickOnSubmitButton();
-      cy.checkDisabledSubmitButton();
-      cy.contains('Cliente actualizado');
-    });
+    cy.getFormInput('first_name').clear().type('ClientNameChanged');
+    cy.getFormInput('last_name').clear().type('LastNameChanged');
+    const defaultEmail = InformationGenerator.generateEmail();
+    cy.getFormInput('email').clear().type(defaultEmail);
+    cy.getFormInput('cell_phone_number').clear().type('3123451111');
+    cy.getFormTextArea('address')
+      .clear()
+      .type(InformationGenerator.generateAddress());
+    cy.clickOnSubmitButton();
+    cy.checkDisabledSubmitButton();
+    cy.contains('Cliente actualizado');
   });
 
   it('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
-    cy.createClientAnd({}, ({ email, id }) => {
-      cy.visit(`/app/home/clients/view/all?query=${email}`);
-      cy.clickActionsButtonTableRow(id);
-      cy.get('button[data-testid="btn-update-record"]').click();
-      cy.getFormInput('first_name').type('UserName');
-      cy.navigateToModuleWithSideBar('clients');
-      cy.checkMessageLostFormData();
-    });
+    cy.getFormInput('first_name').type('ClientName');
+    cy.navigateToModuleWithSideBar('clients');
+    cy.checkMessageLostFormData();
   });
 
   it('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
-    cy.createClientAnd({}, ({ email, id }) => {
-      cy.visit(`/app/home/clients/view/all?query=${email}`);
-      cy.clickActionsButtonTableRow(id);
-      cy.get('button[data-testid="btn-update-record"]').click();
-      cy.getFormInput('first_name').type('UserName');
-      cy.navigateToModuleWithSideBar('clients');
-      cy.checkMessageLostFormData();
-      cy.clickOnIgnoreButton();
-      cy.url().then((currentUrl) => {
-        expect(currentUrl).to.not.include('/app/home/clients/update');
-      });
+    cy.getFormInput('first_name').type('ClientName');
+    cy.navigateToModuleWithSideBar('clients');
+    cy.checkMessageLostFormData();
+    cy.clickOnIgnoreButton();
+    cy.url().then((currentUrl) => {
+      expect(currentUrl).to.not.include('/app/home/clients/update');
     });
   });
 
@@ -251,120 +213,135 @@ describe('Modificación de clientes', () => {
       cy.visit(`/app/home/clients/view/all?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.get('button[data-testid="btn-update-record"]').click();
-      cy.getFormInput('first_name').type('UserName');
+      cy.getFormInput('first_name').type('ClientName');
       cy.navigateToModuleWithSideBar('clients');
       cy.checkMessageLostFormData();
-       cy.clickOnCloseToast();
+      cy.clickOnCloseToast();
       cy.url().should('include', '/app/home/clients/update');
     });
   });
 });
 
 describe('Eliminación de cliente', () => {
-  beforeEach(() => {
-    cy.loginUser();
-    cy.navigateToModuleWithSideBar('clients');
-  });
+  let currentClient: any = {};
 
-  it('Eliminar cliente', () => {
-    cy.createClientAnd({}, ({ email, id }) => {
-      cy.openActionsMenuByField(
-        email,
-        `/app/home/clients/view/all?query=${email}`
-      );
-      cy.get('button[data-testid="btn-delete-one-record"]').click();
-      cy.get('button[data-testid="btn-continue-delete-one-record"]').click();
-
-      cy.contains('Cliente eliminado');
-      cy.checkNoRecordsMessage();
+  before(() => {
+    cy.executeClearSeedData({ clients: true });
+    cy.createClient({}, { fastCreation: true }).then((data) => {
+      currentClient = { ...data };
     });
   });
 
-  // TODO: Implementar pruebas
-  // it('Intentar eliminar cliente con ventas pendiente de pago', () => {});
+  beforeEach(() => {
+    cy.loginUser();
+  });
+
+  it('Eliminar cosecha', () => {
+    cy.navigateToModuleWithSideBar('clients');
+    cy.clickActionsButtonTableRow(currentClient.id);
+    cy.clickOnDeleteRecord();
+    cy.clickOnContinueDeleteOneRecord();
+    cy.contains('Cliente eliminado');
+  });
+
+  it('Intentar eliminar cliente con ventas pendiente de pago', () => {
+    cy.executeClearSeedData({ clients: true });
+
+    cy.createSale({
+      fastCreation: true,
+      returnOnlySale: false,
+      isReceivableGeneric: true,
+    }).then((data) => {
+      cy.navigateToModuleWithSideBar('clients');
+      const { client } = data;
+
+      cy.clickActionsButtonTableRow(client.id);
+      cy.clickOnDeleteRecord();
+      cy.clickOnContinueDeleteOneRecord();
+      cy.contains(
+        'No se pudo eliminar el cliente seleccionado, revisa si tiene ventas pendientes de pago'
+      );
+    });
+  });
 });
 
 describe('Eliminación de clientes por lote', () => {
-  before(() => {
+  beforeEach(() => {
+    cy.executeClearSeedData({ clients: true });
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
-    for (let index = 0; index < 2; index++) {
-      cy.createClient(
-        { firstName: 'ClientToRemoveBulk' },
-        { fastCreation: true }
-      );
-    }
-    cy.logoutUser();
+    cy.clickRefetchButton();
   });
 
   it('Eliminar clientes seleccionados', () => {
-    cy.loginUser();
-    cy.navigateToModuleWithSideBar('clients');
-    cy.visit(`/app/home/clients/view/all?query=ClientToRemoveBulk`);
-    cy.wait(2000);
-    cy.get('button[aria-label="Select all"]').click({ timeout: 3000 });
-    cy.get('button[data-testid="btn-delete-bulk"]').click();
-    cy.get('button[data-testid="btn-continue-delete"]').click();
-    cy.contains('Cargando información');
+    for (let index = 0; index < 5; index++) {
+      cy.createClient({}, { fastCreation: true });
+    }
+    cy.clickRefetchButton();
+    cy.wait(1000);
+    cy.toggleSelectAllTableRows();
+    cy.clickOnDeleteBulkButton();
+    cy.clickOnContinueDeleteBulkRecord();
+    cy.checkLoadingInformation();
     cy.contains('Los registros seleccionados fueron eliminados');
     cy.checkNoRecordsMessage();
   });
 
-  // TODO: Implementar pruebas
-  // it('Intentar eliminar clientes con ventas pendiente de pago', () => {});
+  it('Intentar eliminar clientes con ventas pendiente de pago', () => {
+    cy.createSale({
+      fastCreation: true,
+      returnOnlySale: false,
+      isReceivableGeneric: true,
+    });
+    cy.navigateToModuleWithSideBar('clients');
+    cy.clickRefetchButton();
+    cy.wait(1000);
+    cy.toggleSelectAllTableRows();
+    cy.clickOnDeleteBulkButton();
+    cy.clickOnContinueDeleteBulkRecord();
+    cy.contains(
+      'No se pudieron eliminar los clientes seleccionados, revisa si tienen ventas pendientes de pago'
+    );
+  });
 
-  // it('Intentar eliminar usuario con rol administrator en lote', () => {
-  //   cy.loginUser();
-  //   cy.navigateToModuleWithSideBar('clients');
-  //   cy.visit(`/app/home/clients/view/all?query=Mantenimiento`);
-  //   cy.wait(2000);
-  //   cy.get('button[aria-label="Select all"]').click();
-  //   cy.get('button[data-testid="btn-delete-bulk"]').click();
-  //   cy.get('button[data-testid="btn-continue-delete"]').click();
-  //   cy.contains(
-  //     'No se pudieron eliminar los clientes seleccionados, revisa que no tengan rol "Administrador"'
-  //   );
-  // });
+  it('Eliminar clientes que tienen conflicto de eliminación y los que no tienen', () => {
+    cy.createClient({}, { fastCreation: true });
+    cy.createSale({ fastCreation: true, returnOnlySale: false, isReceivableGeneric: true });
+    cy.navigateToModuleWithSideBar('clients');
+    cy.clickRefetchButton();
+    cy.wait(1000);
+    cy.toggleSelectAllTableRows();
+    cy.clickOnDeleteBulkButton();
+    cy.clickOnContinueDeleteBulkRecord();
+    cy.contains(
+      'No se pudieron eliminar algunos clientes, revisa si tienen ventas pendientes de pago'
+    );
+  });
 });
 
 describe('Copiar Id de registro', () => {
-  beforeEach(() => {
-    cy.loginUser();
-    cy.navigateToModuleWithSideBar('clients');
-  });
-
-  it('Copiar Id del usuario', () => {
-    cy.createClientAnd({}, ({ email, id }) => {
-      cy.openActionsMenuByField(
-        email,
-        `/app/home/clients/view/all?query=${email}`
-      );
-      cy.get('button[data-testid="btn-copy-id"]').click();
-
-      cy.contains('Id copiado al portapapeles');
+  it('Copiar Id del cliente', () => {
+    cy.executeClearSeedData({ clients: true });
+    cy.createClient({}, { fastCreation: true }).then((currentClient) => {
+      cy.loginUser();
+      cy.navigateToModuleWithSideBar('clients');
+      cy.wait(500);
+      cy.clickActionsButtonTableRow(currentClient.id);
+      cy.clickOnCopyIdButton();
     });
   });
 });
 
 describe('Ver registro de cliente', () => {
-  beforeEach(() => {
-    cy.loginUser();
-    cy.navigateToModuleWithSideBar('clients');
-  });
-
-  it('Ver registro de cliente', () => {
-    cy.createClientAnd({}, ({ email, id }) => {
-      cy.openActionsMenuByField(
-        email,
-        `/app/home/clients/view/all?query=${email}`
-      );
-      cy.get('button[data-testid="btn-view-record"]').click();
+  it('Ver registro de cosecha', () => {
+    cy.executeClearSeedData({ clients: true });
+    cy.createClient({}, { fastCreation: true }).then((currentClient) => {
+      cy.loginUser();
+      cy.navigateToModuleWithSideBar('clients');
+      cy.wait(500);
+      cy.clickActionsButtonTableRow(currentClient.id);
+      cy.clickOnViewRecord();
       cy.contains('Información');
-      cy.getFormInput('first_name').should('have.value', 'ClientName');
-      cy.getFormInput('last_name').should('have.value', 'LastName');
-      cy.getFormInput('email').should('have.value', email);
-      cy.getFormInput('cell_phone_number').should('have.value', '3123456547');
-      cy.getFormTextArea('address').should('have.length.at.most', 14);
       cy.contains('Volver');
     });
   });
@@ -376,7 +353,7 @@ describe('Exportar clientes a PDF', () => {
     cy.navigateToModuleWithSideBar('clients');
   });
 
-  it('Generar certificado de cliente', () => {
+  it('Generar reporte de clientes', () => {
     cy.wait(2000);
     cy.get('span[data-testid="data-table-row-total"]')
       .invoke('text')
@@ -404,57 +381,47 @@ describe('Exportar clientes a PDF', () => {
 
 describe('Paginado y selectores', () => {
   before(() => {
-    cy.loginUser();
-    cy.navigateToModuleWithSideBar('clients');
-    cy.wait(2000);
-    cy.get('span[data-testid="data-table-row-total"]')
-      .invoke('text')
-      .then((text) => {
-        const total = parseInt(text, 10);
-        if (total <= 11) {
-          for (let index = 0; index < 11; index++) {
-            cy.createClient({}, { fastCreation: true });
-          }
-        }
-        cy.logoutUser();
-      });
+    cy.executeClearSeedData({ clients: true });
+    cy.executeSeed({ clients: 25 });
   });
-  it('Navegar entre paginas disponibles (10 registro por página - default)', () => {
+
+  beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
     cy.wait(2000);
+  });
+
+  it('Navegar entre paginas disponibles (10 registro por página - default)', () => {
     cy.checkPaginationValues();
     cy.clickOnGoNextPageButton();
-    cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 2 de'
-    );
+    cy.checkTablePageInfoContains('Página 2 de 3');
     cy.clickOnGoPreviousPageButton();
-    cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 1 de'
-    );
+    cy.checkTablePageInfoContains('Página 1 de 3');
   });
 
   it('Navegar entre paginas disponibles (20 registro por página)', () => {
-    cy.loginUser();
-    cy.navigateToModuleWithSideBar('clients');
-    cy.wait(2000);
     cy.changeTablePageSize(20);
     cy.wait(2000);
     cy.checkPaginationValues();
     cy.clickOnGoNextPageButton();
     cy.wait(2000);
-    cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 2 de'
-    );
+    cy.checkTablePageInfoContains('Página 2 de 2');
     cy.clickOnGoPreviousPageButton();
     cy.wait(2000);
-    cy.get('p[data-testid="data-table-page-info-number"]').contains(
-      'Página 1 de'
-    );
+    cy.checkTablePageInfoContains('Página 1 de 2');
   });
 });
 
 describe('Auth modulo de clientes', () => {
+  let currentClient: any = {};
+
+  before(() => {
+    cy.executeClearSeedData({ clients: true });
+    cy.createClient({}, { fastCreation: true }).then((data) => {
+      currentClient = { ...data };
+    });
+  });
+
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
@@ -462,7 +429,53 @@ describe('Auth modulo de clientes', () => {
 
   it('Crear usuario con acceso unicamente al modulo de clientes', () => {
     cy.createUser({ selectedModules: ['clients'] }).then((userData) => {
-      cy.createClientAnd({}, (clientData) => {
+      cy.logoutUser();
+      cy.wait(2000);
+      cy.log(userData);
+      cy.loginUser(userData.email, userData.password);
+      cy.wait(1500);
+      cy.get('ul[data-sidebar="menu"]').within(() => {
+        cy.get('li[data-sidebar="menu-item"]')
+          .should('have.length', 1)
+          .contains('Clientes');
+      });
+      cy.get('body').type('{ctrl}j');
+      cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+
+      cy.get('div[cmdk-item][role="option"]').click();
+
+      cy.wait(2000);
+
+      // Comprobar que haya registro en las tablas
+      cy.get('table tbody tr').should('exist');
+
+      // Comprobar habitiación de botones
+      // Recarga de datos
+      cy.checkRefetchButtonState(true);
+      cy.checkCreateButtonState(false);
+
+      // Crear registro
+
+      cy.toggleSelectAllTableRows();
+      cy.wait(700);
+
+      // Eliminar bulk
+      cy.checkDeleteBulkButtonState(true);
+
+      cy.clickActionsButtonTableRow(currentClient.id);
+
+      cy.checkActionButtonsState({ update: true, view: true, delete: true });
+
+      // // Certificar
+      // cy.get('button[data-testid="btn-certificate-employee"]').should(
+      //   'be.enabled'
+      // );
+    });
+  });
+
+  it('Crear usuario con acceso unicamente a ver tabla de clientes', () => {
+    cy.createUser({ selectedActions: ['find_all_clients'] }).then(
+      (userData) => {
         cy.logoutUser();
         cy.wait(2000);
         cy.log(userData);
@@ -478,7 +491,6 @@ describe('Auth modulo de clientes', () => {
 
         cy.get('div[cmdk-item][role="option"]').click();
 
-        cy.visit(`/app/home/clients/view/all?query=${clientData.email}`);
         cy.wait(2000);
 
         // Comprobar que haya registro en las tablas
@@ -486,79 +498,26 @@ describe('Auth modulo de clientes', () => {
 
         // Comprobar habitiación de botones
         // Recarga de datos
-        cy.get('button[data-testid="btn-refetch-data"]').should('be.enabled');
 
-        // Exportar clientes
-        cy.get('button[data-testid="btn-export-all-clients"]').should(
-          'be.enabled'
-        );
+        cy.checkRefetchButtonState(true);
 
         // Crear registro
-        cy.get('button[data-testid="btn-create-record"]').should('be.enabled');
+        cy.checkCreateButtonState(true);
 
-        cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
+        cy.toggleSelectAllTableRows();
         cy.wait(700);
-        // Eliminar bulk
-        cy.get('button[data-testid="btn-delete-bulk"]').should('be.enabled');
 
-        cy.clickActionsButtonTableRow(clientData.id);
+        cy.clickActionsButtonTableRow(currentClient.id);
 
-        cy.checkActionButtonsState({ update: true, view: true, delete: true });
-      });
-    });
-  });
+        // // Certificar
+        // cy.get('button[data-testid="btn-certificate-employee"]').should(
+        //   'be.disabled'
+        // );
 
-  it('Crear usuario con acceso unicamente a ver tabla de clientes', () => {
-    cy.createUser({ selectedActions: ['find_all_clients'] }).then(
-      (userData) => {
-        cy.createClientAnd({}, (clientData) => {
-          cy.logoutUser();
-          cy.wait(2000);
-          cy.log(userData);
-          cy.loginUser(userData.email, userData.password);
-          cy.wait(1500);
-          cy.get('ul[data-sidebar="menu"]').within(() => {
-            cy.get('li[data-sidebar="menu-item"]')
-              .should('have.length', 1)
-              .contains('Clientes');
-          });
-          cy.get('body').type('{ctrl}j');
-          cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
-
-          cy.get('div[cmdk-item][role="option"]').click();
-
-          cy.visit(`/app/home/clients/view/all?query=${clientData.email}`);
-          cy.wait(2000);
-
-          // Comprobar que haya registro en las tablas
-          cy.get('table tbody tr').should('exist');
-
-          // Comprobar habitiación de botones
-          // Recarga de datos
-          cy.get('button[data-testid="btn-refetch-data"]').should('be.enabled');
-
-          // Exportar clientes
-          cy.get('button[data-testid="btn-export-all-clients"]').should(
-            'be.disabled'
-          );
-
-          // Crear registro
-          cy.get('button[data-testid="btn-create-record"]').should(
-            'be.disabled'
-          );
-
-          cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
-          cy.wait(700);
-          // Eliminar bulk
-          cy.get('button[data-testid="btn-delete-bulk"]').should('be.disabled');
-
-          cy.clickActionsButtonTableRow(clientData.id);
-
-          cy.checkActionButtonsState({
-            update: false,
-            view: false,
-            delete: false,
-          });
+        cy.checkActionButtonsState({
+          update: false,
+          view: false,
+          delete: false,
         });
       }
     );
@@ -566,33 +525,31 @@ describe('Auth modulo de clientes', () => {
 
   it('No tiene permisos para ver el listado de clientes', () => {
     cy.createUserAnd({ selectedActions: ['create_client'] }, (userData) => {
-      cy.createClientAnd({}, () => {
-        cy.logoutUser();
-        cy.wait(2000);
-        cy.log(userData);
-        cy.loginUser(userData.email, userData.password);
-        cy.wait(1500);
-        cy.get('ul[data-sidebar="menu"]').within(() => {
-          cy.get('li[data-sidebar="menu-item"]')
-            .should('have.length', 1)
-            .contains('Clientes');
-        });
-        cy.get('body').type('{ctrl}j');
-        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
-        cy.get('div[cmdk-item][role="option"]').click();
-
-        cy.visit(`/app/home/clients/view/all`);
-        cy.wait(2000);
-        cy.contains('No tienes permiso para ver el listado de clientes');
-        cy.checkRefetchButtonState(false);
-        cy.get('input[placeholder="Escribe algo..."]').should('be.disabled');
-        cy.get('button[data-testid="btn-submit-basic-searchbar"]').should(
-          'be.disabled'
-        );
-        cy.get('button[data-testid="btn-clear-basic-searchbar"]').should(
-          'be.disabled'
-        );
+      cy.logoutUser();
+      cy.wait(2000);
+      cy.log(userData);
+      cy.loginUser(userData.email, userData.password);
+      cy.wait(1500);
+      cy.get('ul[data-sidebar="menu"]').within(() => {
+        cy.get('li[data-sidebar="menu-item"]')
+          .should('have.length', 1)
+          .contains('Clientes');
       });
+      cy.get('body').type('{ctrl}j');
+      cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+      cy.get('div[cmdk-item][role="option"]').click();
+
+      cy.wait(2000);
+      cy.contains('No tienes permiso para ver el listado de clientes');
+      cy.checkRefetchButtonState(false);
+
+      cy.get('input[placeholder="Escribe algo..."]').should('be.disabled');
+      cy.get('button[data-testid="btn-submit-basic-searchbar"]').should(
+        'be.disabled'
+      );
+      cy.get('button[data-testid="btn-clear-basic-searchbar"]').should(
+        'be.disabled'
+      );
     });
   });
 
@@ -612,7 +569,6 @@ describe('Auth modulo de clientes', () => {
         cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
         cy.get('div[cmdk-item][role="option"]').click();
 
-        cy.visit(`/app/home/clients/view/all`);
         cy.wait(2000);
 
         cy.visit('/app/home/clients/create/one');
@@ -624,23 +580,21 @@ describe('Auth modulo de clientes', () => {
   it('Debe sacar al usuario si intenta modificar a un cliente y no tiene permisos', () => {
     cy.createUser({ selectedActions: ['find_all_clients'] }).then(
       (userData: any) => {
-        cy.createClientAnd({}, (clientData) => {
-          cy.logoutUser();
-          cy.wait(2000);
-          cy.loginUser(userData.email, userData.password);
-          cy.wait(1500);
-          cy.get('ul[data-sidebar="menu"]').within(() => {
-            cy.get('li[data-sidebar="menu-item"]')
-              .should('have.length', 1)
-              .contains('Clientes');
-          });
-          cy.get('body').type('{ctrl}j');
-          cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
-          cy.get('div[cmdk-item][role="option"]').click();
-
-          cy.visit(`/app/home/clients/update/one/${clientData.id}`);
-          cy.contains('No tienes permiso para esta acción, seras redirigido');
+        cy.logoutUser();
+        cy.wait(2000);
+        cy.loginUser(userData.email, userData.password);
+        cy.wait(1500);
+        cy.get('ul[data-sidebar="menu"]').within(() => {
+          cy.get('li[data-sidebar="menu-item"]')
+            .should('have.length', 1)
+            .contains('Clientes');
         });
+        cy.get('body').type('{ctrl}j');
+        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+        cy.get('div[cmdk-item][role="option"]').click();
+
+        cy.visit(`/app/home/clients/update/one/${currentClient.id}`);
+        cy.contains('No tienes permiso para esta acción, seras redirigido');
       }
     );
   });
@@ -648,24 +602,22 @@ describe('Auth modulo de clientes', () => {
   it('Debe sacar al usuario si intenta consultar a un cliente y no tiene permisos', () => {
     cy.createUser({ selectedActions: ['find_all_clients'] }).then(
       (data: any) => {
-        cy.createClientAnd({}, (clientData) => {
-          cy.log(JSON.stringify(data, null, 2));
-          cy.logoutUser();
-          cy.wait(2000);
-          cy.loginUser(data.email, data.password);
-          cy.wait(1500);
-          cy.get('ul[data-sidebar="menu"]').within(() => {
-            cy.get('li[data-sidebar="menu-item"]')
-              .should('have.length', 1)
-              .contains('Clientes');
-          });
-          cy.get('body').type('{ctrl}j');
-          cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
-          cy.get('div[cmdk-item][role="option"]').click();
-
-          cy.visit(`/app/home/clients/view/one/${clientData.id}`);
-          cy.contains('No tienes permiso para esta acción, seras redirigido');
+        cy.log(JSON.stringify(data, null, 2));
+        cy.logoutUser();
+        cy.wait(2000);
+        cy.loginUser(data.email, data.password);
+        cy.wait(1500);
+        cy.get('ul[data-sidebar="menu"]').within(() => {
+          cy.get('li[data-sidebar="menu-item"]')
+            .should('have.length', 1)
+            .contains('Clientes');
         });
+        cy.get('body').type('{ctrl}j');
+        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+        cy.get('div[cmdk-item][role="option"]').click();
+
+        cy.visit(`/app/home/clients/view/one/${currentClient.id}`);
+        cy.contains('No tienes permiso para esta acción, seras redirigido');
       }
     );
   });

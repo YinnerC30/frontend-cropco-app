@@ -4,11 +4,10 @@ Cypress.Commands.add('clickActionsButtonTableRow', (id: string | number) => {
 
 Cypress.Commands.add('clickRefetchButton', () => {
   cy.get('button[data-testid="btn-refetch-data"]').click({ multiple: true });
-  cy.wait(1000);
 });
 
 Cypress.Commands.add('checkRefetchButtonState', (shouldBeEnabled: boolean) => {
-  const assertion = shouldBeEnabled ? 'not.be.disabled' : 'be.disabled';
+  const assertion = shouldBeEnabled ? 'be.enabled' : 'be.disabled';
   cy.get('button[data-testid="btn-refetch-data"]').should(assertion);
 });
 
