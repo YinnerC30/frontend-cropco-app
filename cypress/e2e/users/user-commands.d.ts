@@ -51,4 +51,6 @@ export interface UserCommands {
   clickOnResetPasswordUserButton(): Cypress.Chainable<void>;
   
   checkResetPasswordUserButtonState(shouldBeDisabled: boolean): Cypress.Chainable<void>;
+
+  createSeedUser(opt?: { modules?: string[], actions?: string[] }): Cypress.Chainable<any>
 } 

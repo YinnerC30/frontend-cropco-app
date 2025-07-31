@@ -1,5 +1,5 @@
 const tokenAdmin =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA1ZjM1YjUwLWYyN2YtNDhjNy05NmIyLWMzMTYxMjUwZjNlMyIsImlhdCI6MTc1MzkxMDE3NiwiZXhwIjoxNzUzOTMxNzc2fQ.ybNDlmmnaDHMqxRgLQIaM1xH5rAc8A0kIUD4nEytT8Q';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA1ZjM1YjUwLWYyN2YtNDhjNy05NmIyLWMzMTYxMjUwZjNlMyIsImlhdCI6MTc1Mzk3MjEyMywiZXhwIjoxNzUzOTkzNzIzfQ.QCafqkKbkUuxYOGtDlOKBklTcxRiyC6FyvdJlWRpwtE';
 
 Cypress.Commands.add(
   'executeSeed',
