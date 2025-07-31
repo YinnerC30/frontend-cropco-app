@@ -9,4 +9,6 @@ export interface UICommands {
   shouldBeRedirectedForNoPermission(): Cypress.Chainable<void>;
   checkNoRecordsMessage(): Cypress.Chainable<void>;
   checkSidebarMenuItem(menuItem: string): Cypress.Chainable<void>;
+  checkMessageIncorrectInformation(): Cypress.Chainable<void>;
+  checkMessageNotFoundInformation(): Cypress.Chainable<void>;
 } 

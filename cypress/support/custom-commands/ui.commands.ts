@@ -43,3 +43,16 @@ Cypress.Commands.add('checkSidebarMenuItem', (menuItem: string) => {
       .contains(menuItem);
   });
 });
+
+Cypress.Commands.add('checkMessageIncorrectInformation', () => {
+  cy.contains('La solicitud contiene información incorrecta');
+});
+
+Cypress.Commands.add('checkMessageNotFoundInformation', () => {
+  cy.contains('No se encontró la información solicitada');
+});
+
+
+
+
+

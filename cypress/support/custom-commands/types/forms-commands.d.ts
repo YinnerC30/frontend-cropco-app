@@ -12,4 +12,5 @@ export interface FormsCommands {
   openSelectField(): Cypress.Chainable<void>;
   selectSelectOption(value: string): Cypress.Chainable<void>;
   clickOnCloseFormDialog(): Cypress.Chainable<void>;
+  checkFormInputsAreEmpty(): Cypress.Chainable<void>;
 } 

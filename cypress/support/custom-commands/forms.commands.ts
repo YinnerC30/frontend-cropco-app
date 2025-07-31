@@ -61,3 +61,14 @@ Cypress.Commands.add('selectSelectOption', (value: string) => {
 Cypress.Commands.add('clickOnCloseFormDialog', () => {
   cy.get('button[data-testid="btn-close-form-dialog"]').click();
 });
+
+Cypress.Commands.add('checkFormInputsAreEmpty', () => {
+  cy.get('input').each(($input) => {
+    cy.wrap($input).should('have.value', '');
+  });
+});
+
+
+
+
+

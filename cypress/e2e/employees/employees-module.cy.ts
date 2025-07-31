@@ -1,4 +1,4 @@
-import { BASE_HOME_PAGE_URL } from 'cypress/helpers/constants';
+import { BASE_HOME_PAGE_URL, TEST_UUID_VALID } from 'cypress/helpers/constants';
 import { InformationGenerator } from '../../helpers/InformationGenerator';
 import { employeeRoutes } from './employee-routes';
 
@@ -422,10 +422,35 @@ describe('Ver registro de empleado', () => {
       cy.wait(500);
       cy.clickActionsButtonTableRow(currentEmployee.id);
       cy.clickOnViewRecord();
+      cy.contains(currentEmployee.first_name);
+      cy.contains(currentEmployee.last_name);
+      cy.contains(currentEmployee.email);
+      cy.contains(currentEmployee.address);
+      cy.contains(currentEmployee.cell_phone_number);
       cy.contains('Información');
       cy.contains('Volver');
     });
   });
+
+  it('Consultar registro con id no valido', () => {
+    cy.loginUser();
+    cy.visit(employeeRoutes.view('no-id'));
+    cy.checkFormInputsAreEmpty();
+    cy.checkMessageIncorrectInformation();
+    cy.contains('Información');
+    cy.contains('Volver');
+  });
+
+  it.only('Consultar registro con id inexistente', () => {
+    cy.loginUser();
+    cy.visit(employeeRoutes.view(TEST_UUID_VALID));
+    cy.checkFormInputsAreEmpty();
+    cy.checkMessageNotFoundInformation();
+    cy.contains('Información');
+    cy.contains('Volver');
+  });
+
+  // TODO: Crear casos de prueba para observar las tablas de registro donde esta involucrado
 });
 
 describe('Certificar empleado', () => {
