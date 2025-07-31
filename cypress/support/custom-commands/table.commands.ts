@@ -137,3 +137,14 @@ Cypress.Commands.add('clickOnUpdateDetailRecord', () => {
 Cypress.Commands.add('checkTableRowsExist', () => {
   cy.get('table tbody tr').should('exist');
 });
+
+Cypress.Commands.add(
+  'checkTableRowValues',
+  (rowId: string, valuesToCheck: string[]) => {
+    cy.get(`tr[data-testid="table-row-id-${rowId}"]`).within(() => {
+      valuesToCheck.forEach((element) => {
+        cy.contains(element);
+      });
+    });
+  }
+);

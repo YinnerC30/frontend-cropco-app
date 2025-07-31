@@ -24,4 +24,5 @@ export interface TableCommands {
   checkPaginationValues(): Cypress.Chainable<void>;
   clickOnUpdateDetailRecord(): Cypress.Chainable<void>;
   checkTableRowsExist(): Cypress.Chainable<void>;
+  checkTableRowValues(rowId: string, valuesToCheck: string[]): Cypress.Chainable<void>;
 } 

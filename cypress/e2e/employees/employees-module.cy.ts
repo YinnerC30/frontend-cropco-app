@@ -60,48 +60,79 @@ describe('Modulo de empleados', () => {
   });
 });
 
-describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
-  const employeeData = {
-    firstName: 'employeetosearch',
-    lastName: 'lasttosearch',
-    email: '',
-  };
+describe.only('Encuentra registros de acuerdo a la cadena de busqueda', () => {
+  before(() => {
+    cy.executeClearSeedData({ employees: true });
+    for (let i = 0; i < 5; i++) {
+      cy.createEmployee({}, { fastCreation: true });
+    }
+  });
 
   beforeEach(() => {
-    employeeData.email = InformationGenerator.generateEmail();
     cy.loginUser();
-    cy.createEmployee(employeeData);
+    cy.navigateToModuleWithSideBar('employees');
   });
 
   it('Busqueda por nombre(s) del empleado', () => {
-    cy.typeOnInputBasicSearchBar(employeeData.firstName);
-    cy.clickOnSubmitBasicSearchBar();
-    cy.get('tbody tr')
-      .filter(`:contains(${employeeData.firstName})`)
-      .should('have.length.greaterThan', 0);
-    cy.contains(employeeData.firstName);
-    cy.contains(employeeData.lastName);
-    cy.contains(employeeData.email);
+    cy.createEmployee({}, { fastCreation: true }).then((data) => {
+      const { id, first_name, last_name, email, address, cell_phone_number } =
+        data;
+      cy.typeOnInputBasicSearchBar(first_name);
+      cy.clickOnSubmitBasicSearchBar();
+      cy.checkTableRowValues(id, [
+        first_name,
+        last_name,
+        email,
+        address,
+        cell_phone_number,
+      ]);
+    });
   });
+
   it('Busqueda por apellido(s) del empleado', () => {
-    cy.typeOnInputBasicSearchBar(employeeData.lastName);
-    cy.clickOnSubmitBasicSearchBar();
-    cy.get('tbody tr')
-      .filter(`:contains(${employeeData.lastName})`)
-      .should('have.length.greaterThan', 0);
-    cy.contains(employeeData.firstName);
-    cy.contains(employeeData.lastName);
-    cy.contains(employeeData.email);
+    cy.createEmployee({}, { fastCreation: true }).then((data) => {
+      const { id, first_name, last_name, email, address, cell_phone_number } =
+        data;
+      cy.typeOnInputBasicSearchBar(last_name);
+      cy.clickOnSubmitBasicSearchBar();
+      cy.checkTableRowValues(id, [
+        first_name,
+        last_name,
+        email,
+        address,
+        cell_phone_number,
+      ]);
+    });
   });
   it('Busqueda por correo del empleado', () => {
-    cy.typeOnInputBasicSearchBar(employeeData.email.split('@')[0]);
-    cy.clickOnSubmitBasicSearchBar();
-    cy.get('tbody tr')
-      .filter(`:contains(${employeeData.email})`)
-      .should('have.length', 1);
-    cy.contains(employeeData.firstName);
-    cy.contains(employeeData.lastName);
-    cy.contains(employeeData.email);
+    cy.createEmployee({}, { fastCreation: true }).then((data) => {
+      const { id, first_name, last_name, email, address, cell_phone_number } =
+        data;
+      cy.typeOnInputBasicSearchBar(email);
+      cy.clickOnSubmitBasicSearchBar();
+      cy.checkTableRowValues(id, [
+        first_name,
+        last_name,
+        email,
+        address,
+        cell_phone_number,
+      ]);
+    });
+  });
+  it.only('Busqueda por id del empleado', () => {
+    cy.createEmployee({}, { fastCreation: true }).then((data) => {
+      const { id, first_name, last_name, email, address, cell_phone_number } =
+        data;
+      cy.typeOnInputBasicSearchBar(id);
+      cy.clickOnSubmitBasicSearchBar();
+      cy.checkTableRowValues(id, [
+        first_name,
+        last_name,
+        email,
+        address,
+        cell_phone_number,
+      ]);
+    });
   });
 });
 
@@ -477,7 +508,7 @@ describe('Paginado y selectores', () => {
   });
 });
 
-describe.only('Auth modulo de empleados', () => {
+describe('Auth modulo de empleados', () => {
   let currentEmployee: any = {};
 
   before(() => {
