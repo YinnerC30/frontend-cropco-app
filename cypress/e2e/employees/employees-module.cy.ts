@@ -60,7 +60,7 @@ describe('Modulo de empleados', () => {
   });
 });
 
-describe.only('Encuentra registros de acuerdo a la cadena de busqueda', () => {
+describe('Encuentra registros de acuerdo a la cadena de busqueda', () => {
   before(() => {
     cy.executeClearSeedData({ employees: true });
     for (let i = 0; i < 5; i++) {
@@ -119,7 +119,7 @@ describe.only('Encuentra registros de acuerdo a la cadena de busqueda', () => {
       ]);
     });
   });
-  it.only('Busqueda por id del empleado', () => {
+  it('Busqueda por id del empleado', () => {
     cy.createEmployee({}, { fastCreation: true }).then((data) => {
       const { id, first_name, last_name, email, address, cell_phone_number } =
         data;

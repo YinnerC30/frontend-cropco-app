@@ -389,7 +389,7 @@ describe('Paginado y selectores', () => {
   });
 });
 
-describe.only('Auth modulo de cultivos', () => {
+describe('Auth modulo de cultivos', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('crops');
