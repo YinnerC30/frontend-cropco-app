@@ -170,7 +170,7 @@ describe('Creación de cultivos', () => {
     cy.getFormInput('name').type('CropName');
     cy.navigateToModuleWithSideBar('crops');
     cy.checkMessageLostFormData();
-     cy.clickOnCloseToast();
+    cy.clickOnCloseToast();
     cy.url().should('include', '/app/home/crops/create');
   });
 });
@@ -228,7 +228,7 @@ describe('Modificación de cultivos', () => {
       cy.getFormInput('name').type('CropName');
       cy.navigateToModuleWithSideBar('crops');
       cy.checkMessageLostFormData();
-       cy.clickOnCloseToast();
+      cy.clickOnCloseToast();
       cy.url().should('include', '/app/home/crops/update');
     });
   });
@@ -373,7 +373,7 @@ describe('Paginado y selectores', () => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('crops');
     cy.wait(2000);
-    cy.changeTablePageSize(20)
+    cy.changeTablePageSize(20);
     cy.wait(2000);
     cy.checkPaginationValues();
     cy.clickOnGoNextPageButton();
@@ -389,14 +389,14 @@ describe('Paginado y selectores', () => {
   });
 });
 
-describe('Auth modulo de cultivos', () => {
+describe.only('Auth modulo de cultivos', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('crops');
   });
 
   it('Crear usuario con acceso unicamente al modulo de cultivos', () => {
-    cy.createUser({ selectedModules: ['crops'] }).then((userData) => {
+    cy.createSeedUser({ modules: ['crops'] }, (userData) => {
       cy.createCropAnd({}, (cropData) => {
         cy.logoutUser();
         cy.wait(2000);
@@ -439,7 +439,7 @@ describe('Auth modulo de cultivos', () => {
   });
 
   it('Crear usuario con acceso unicamente a ver tabla de cultivos', () => {
-    cy.createUser({ selectedActions: ['find_all_crops'] }).then((userData) => {
+    cy.createSeedUser({ actions: ['find_all_crops'] }, (userData) => {
       cy.createCropAnd({}, (cropData) => {
         cy.logoutUser();
         cy.wait(2000);
@@ -486,7 +486,7 @@ describe('Auth modulo de cultivos', () => {
   });
 
   it('No tiene permisos para ver el listado de cultivos', () => {
-    cy.createUserAnd({ selectedActions: ['create_crop'] }, (userData) => {
+    cy.createSeedUser({ actions: ['create_crop'] }, (userData) => {
       cy.createCropAnd({}, () => {
         cy.logoutUser();
         cy.wait(2000);
@@ -518,9 +518,7 @@ describe('Auth modulo de cultivos', () => {
   });
 
   it('Debe sacar al usuario si intenta crear un cultivo y no tiene permisos ', () => {
-    cy.createUser({ selectedActions: ['find_all_crops'] }).then((data: any) => {
-      cy.logoutUser();
-      cy.wait(2000);
+    cy.createSeedUser({ actions: ['find_all_crops'] }, (data: any) => {
       cy.loginUser(data.email, data.password);
       cy.wait(1500);
       cy.get('ul[data-sidebar="menu"]').within(() => {
@@ -541,31 +539,29 @@ describe('Auth modulo de cultivos', () => {
   });
 
   it('Debe sacar al usuario si intenta modificar a un cultivo y no tiene permisos', () => {
-    cy.createUser({ selectedActions: ['find_all_crops'] }).then(
-      (userData: any) => {
-        cy.createCropAnd({}, (cropData) => {
-          cy.logoutUser();
-          cy.wait(2000);
-          cy.loginUser(userData.email, userData.password);
-          cy.wait(1500);
-          cy.get('ul[data-sidebar="menu"]').within(() => {
-            cy.get('li[data-sidebar="menu-item"]')
-              .should('have.length', 1)
-              .contains('Cultivos');
-          });
-          cy.get('body').type('{ctrl}j');
-          cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
-          cy.get('div[cmdk-item][role="option"]').click();
-
-          cy.visit(`/app/home/crops/update/one/${cropData.id}`);
-          cy.contains('No tienes permiso para esta acción, seras redirigido');
+    cy.createSeedUser({ actions: ['find_all_crops'] }, (userData: any) => {
+      cy.createCropAnd({}, (cropData) => {
+        cy.logoutUser();
+        cy.wait(2000);
+        cy.loginUser(userData.email, userData.password);
+        cy.wait(1500);
+        cy.get('ul[data-sidebar="menu"]').within(() => {
+          cy.get('li[data-sidebar="menu-item"]')
+            .should('have.length', 1)
+            .contains('Cultivos');
         });
-      }
-    );
+        cy.get('body').type('{ctrl}j');
+        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+        cy.get('div[cmdk-item][role="option"]').click();
+
+        cy.visit(`/app/home/crops/update/one/${cropData.id}`);
+        cy.contains('No tienes permiso para esta acción, seras redirigido');
+      });
+    });
   });
 
   it('Debe sacar al usuario si intenta consultar a un cultivo y no tiene permisos', () => {
-    cy.createUser({ selectedActions: ['find_all_crops'] }).then((data: any) => {
+    cy.createSeedUser({ actions: ['find_all_crops'] }, (data: any) => {
       cy.createCropAnd({}, (cropData) => {
         cy.log(JSON.stringify(data, null, 2));
         cy.logoutUser();

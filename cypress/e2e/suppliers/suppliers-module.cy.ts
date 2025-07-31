@@ -441,7 +441,7 @@ describe('Auth modulo de proveedores', () => {
   });
 
   it('Crear usuario con acceso unicamente al modulo de proveedores', () => {
-    cy.createUser({ selectedModules: ['suppliers'] }).then((userData) => {
+    cy.createSeedUser({ modules: ['suppliers'] }).then((userData) => {
       cy.createSupplierAnd({}, (supplierData) => {
         cy.logoutUser();
         cy.wait(2000);
@@ -489,7 +489,7 @@ describe('Auth modulo de proveedores', () => {
   });
 
   it('Crear usuario con acceso unicamente a ver tabla de proveedores', () => {
-    cy.createUser({ selectedActions: ['find_all_suppliers'] }).then(
+    cy.createSeedUser({ actions: ['find_all_suppliers'] }).then(
       (userData) => {
         cy.createSupplierAnd({}, (supplierData) => {
           cy.logoutUser();
@@ -545,7 +545,7 @@ describe('Auth modulo de proveedores', () => {
   });
 
   it('No tiene permisos para ver el listado de proveedores', () => {
-    cy.createUserAnd({ selectedActions: ['create_supplier'] }, (userData) => {
+    cy.createSeedUser({ actions: ['create_supplier'] }, (userData) => {
       cy.createSupplierAnd({}, () => {
         cy.logoutUser();
         cy.wait(2000);
@@ -577,7 +577,7 @@ describe('Auth modulo de proveedores', () => {
   });
 
   it('Debe sacar al usuario si intenta crear un proveedor y no tiene permisos ', () => {
-    cy.createUser({ selectedActions: ['find_all_suppliers'] }).then(
+    cy.createSeedUser({ actions: ['find_all_suppliers'] }).then(
       (data: any) => {
         cy.logoutUser();
         cy.wait(2000);
@@ -602,7 +602,7 @@ describe('Auth modulo de proveedores', () => {
   });
 
   it('Debe sacar al usuario si intenta modificar a un proveedor y no tiene permisos', () => {
-    cy.createUser({ selectedActions: ['find_all_suppliers'] }).then(
+    cy.createSeedUser({ actions: ['find_all_suppliers'] }).then(
       (userData: any) => {
         cy.createSupplierAnd({}, (supplierData) => {
           cy.logoutUser();
@@ -626,7 +626,7 @@ describe('Auth modulo de proveedores', () => {
   });
 
   it('Debe sacar al usuario si intenta consultar a un proveedor y no tiene permisos', () => {
-    cy.createUser({ selectedActions: ['find_all_suppliers'] }).then(
+    cy.createSeedUser({ actions: ['find_all_suppliers'] }).then(
       (data: any) => {
         cy.createSupplierAnd({}, (supplierData) => {
           cy.log(JSON.stringify(data, null, 2));

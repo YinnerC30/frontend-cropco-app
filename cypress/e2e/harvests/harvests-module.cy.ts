@@ -460,7 +460,7 @@ describe('Auth modulo de cosechas', () => {
   });
 
   it('Crear usuario con acceso unicamente al modulo de cosechas', () => {
-    cy.createUser({ selectedModules: ['harvests'] }).then((userData) => {
+    cy.createSeedUser({ modules: ['harvests'] }).then((userData) => {
       cy.createHarvestAnd((harvestData) => {
         cy.logoutUser();
         cy.wait(2000);
@@ -503,7 +503,7 @@ describe('Auth modulo de cosechas', () => {
   });
 
   it('Crear usuario con acceso unicamente a ver tabla de cosechas', () => {
-    cy.createUser({ selectedActions: ['find_all_harvests'] }).then(
+    cy.createSeedUser({ actions: ['find_all_harvests'] }).then(
       (userData) => {
         cy.createHarvestAnd((harvestData) => {
           cy.logoutUser();
@@ -554,7 +554,7 @@ describe('Auth modulo de cosechas', () => {
   });
 
   it('No tiene permisos para ver el listado de cultivos', () => {
-    cy.createUserAnd({ selectedActions: ['create_harvest'] }, (userData) => {
+    cy.createSeedUser({ actions: ['create_harvest'] }, (userData) => {
       cy.createHarvestAnd((harvestData) => {
         cy.logoutUser();
         cy.wait(2000);
@@ -586,7 +586,7 @@ describe('Auth modulo de cosechas', () => {
   });
 
   it('Debe sacar al usuario si intenta crear una cosecha y no tiene permisos ', () => {
-    cy.createUser({ selectedActions: ['find_all_harvests'] }).then(
+    cy.createSeedUser({ actions: ['find_all_harvests'] }).then(
       (data: any) => {
         cy.logoutUser();
         cy.wait(2000);
@@ -611,7 +611,7 @@ describe('Auth modulo de cosechas', () => {
   });
 
   it('Debe sacar al usuario si intenta modificar a una cosecha y no tiene permisos', () => {
-    cy.createUser({ selectedActions: ['find_all_harvests'] }).then(
+    cy.createSeedUser({ actions: ['find_all_harvests'] }).then(
       (userData: any) => {
         cy.createHarvestAnd((harvestData) => {
           cy.logoutUser();
@@ -635,7 +635,7 @@ describe('Auth modulo de cosechas', () => {
   });
 
   it('Debe sacar al usuario si intenta consultar a una cosecha y no tiene permisos', () => {
-    cy.createUser({ selectedActions: ['find_all_harvests'] }).then(
+    cy.createSeedUser({ actions: ['find_all_harvests'] }).then(
       (data: any) => {
         cy.createHarvestAnd((harvestData) => {
           cy.log(JSON.stringify(data, null, 2));

@@ -402,7 +402,7 @@ describe('Auth modulo de insumos', () => {
   });
 
   it('Crear usuario con acceso unicamente al modulo de insumos', () => {
-    cy.createUser({ selectedModules: ['supplies'] }).then((userData) => {
+    cy.createSeedUser({ modules: ['supplies'] }).then((userData) => {
       cy.createSupplyAnd({}, (supplyData) => {
         cy.logoutUser();
         cy.wait(2000);
@@ -445,7 +445,7 @@ describe('Auth modulo de insumos', () => {
   });
 
   it('Crear usuario con acceso unicamente a ver tabla de insumos', () => {
-    cy.createUser({ selectedActions: ['find_all_supplies'] }).then(
+    cy.createSeedUser({ actions: ['find_all_supplies'] }).then(
       (userData) => {
         cy.createSupplyAnd({}, (supplyData) => {
           cy.logoutUser();
@@ -496,7 +496,7 @@ describe('Auth modulo de insumos', () => {
   });
 
   it('No tiene permisos para ver el listado de insumos', () => {
-    cy.createUserAnd({ selectedActions: ['create_supply'] }, (userData) => {
+    cy.createSeedUser({ actions: ['create_supply'] }, (userData) => {
       cy.createSupplyAnd({}, () => {
         cy.logoutUser();
         cy.wait(2000);
@@ -528,7 +528,7 @@ describe('Auth modulo de insumos', () => {
   });
 
   it('Debe sacar al usuario si intenta crear un insumo y no tiene permisos ', () => {
-    cy.createUser({ selectedActions: ['find_all_supplies'] }).then(
+    cy.createSeedUser({ actions: ['find_all_supplies'] }).then(
       (data: any) => {
         cy.logoutUser();
         cy.wait(2000);
@@ -553,7 +553,7 @@ describe('Auth modulo de insumos', () => {
   });
 
   it('Debe sacar al usuario si intenta modificar a un insumo y no tiene permisos', () => {
-    cy.createUser({ selectedActions: ['find_all_supplies'] }).then(
+    cy.createSeedUser({ actions: ['find_all_supplies'] }).then(
       (userData: any) => {
         cy.createCropAnd({}, (cropData) => {
           cy.logoutUser();
@@ -577,7 +577,7 @@ describe('Auth modulo de insumos', () => {
   });
 
   it('Debe sacar al usuario si intenta consultar a un insumo y no tiene permisos', () => {
-    cy.createUser({ selectedActions: ['find_all_supplies'] }).then(
+    cy.createSeedUser({ actions: ['find_all_supplies'] }).then(
       (data: any) => {
         cy.createSupplyAnd({}, (supplyData) => {
           cy.log(JSON.stringify(data, null, 2));

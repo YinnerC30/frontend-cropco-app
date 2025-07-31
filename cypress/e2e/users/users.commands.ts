@@ -165,9 +165,15 @@ Cypress.Commands.add(
   }
 );
 
-Cypress.Commands.add('createSeedUser', (opt = { modules: [], actions: [] }) => {
-  const { modules, actions } = opt;
-  return cy.executeSeed({ customUser: { modules, actions } }).then((data) => {
-    return { ...data.history.insertedCustomUser, password: '123456' };
-  });
-});
+Cypress.Commands.add(
+  'createSeedUser',
+  (opt = { modules: [], actions: [] }, callback) => {
+    const { modules, actions } = opt;
+    return cy.executeSeed({ customUser: { modules, actions } }).then((data) => {
+      return callback({
+        ...data.history.insertedCustomUser,
+        password: '123456',
+      });
+    });
+  }
+);

@@ -306,7 +306,11 @@ describe('Eliminación de clientes por lote', () => {
 
   it('Eliminar clientes que tienen conflicto de eliminación y los que no tienen', () => {
     cy.createClient({}, { fastCreation: true });
-    cy.createSale({ fastCreation: true, returnOnlySale: false, isReceivableGeneric: true });
+    cy.createSale({
+      fastCreation: true,
+      returnOnlySale: false,
+      isReceivableGeneric: true,
+    });
     cy.navigateToModuleWithSideBar('clients');
     cy.clickRefetchButton();
     cy.wait(1000);
@@ -422,15 +426,8 @@ describe('Auth modulo de clientes', () => {
     });
   });
 
-  beforeEach(() => {
-    cy.loginUser();
-    cy.navigateToModuleWithSideBar('clients');
-  });
-
   it('Crear usuario con acceso unicamente al modulo de clientes', () => {
-    cy.createUser({ selectedModules: ['clients'] }).then((userData) => {
-      cy.logoutUser();
-      cy.wait(2000);
+    cy.createSeedUser({ modules: ['clients'] }, (userData) => {
       cy.log(userData);
       cy.loginUser(userData.email, userData.password);
       cy.wait(1500);
@@ -474,59 +471,53 @@ describe('Auth modulo de clientes', () => {
   });
 
   it('Crear usuario con acceso unicamente a ver tabla de clientes', () => {
-    cy.createUser({ selectedActions: ['find_all_clients'] }).then(
-      (userData) => {
-        cy.logoutUser();
-        cy.wait(2000);
-        cy.log(userData);
-        cy.loginUser(userData.email, userData.password);
-        cy.wait(1500);
-        cy.get('ul[data-sidebar="menu"]').within(() => {
-          cy.get('li[data-sidebar="menu-item"]')
-            .should('have.length', 1)
-            .contains('Clientes');
-        });
-        cy.get('body').type('{ctrl}j');
-        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+    cy.createSeedUser({ actions: ['find_all_clients'] }, (userData) => {
+      cy.log(userData);
+      cy.loginUser(userData.email, userData.password);
+      cy.wait(1500);
+      cy.get('ul[data-sidebar="menu"]').within(() => {
+        cy.get('li[data-sidebar="menu-item"]')
+          .should('have.length', 1)
+          .contains('Clientes');
+      });
+      cy.get('body').type('{ctrl}j');
+      cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
 
-        cy.get('div[cmdk-item][role="option"]').click();
+      cy.get('div[cmdk-item][role="option"]').click();
 
-        cy.wait(2000);
+      cy.wait(2000);
 
-        // Comprobar que haya registro en las tablas
-        cy.get('table tbody tr').should('exist');
+      // Comprobar que haya registro en las tablas
+      cy.get('table tbody tr').should('exist');
 
-        // Comprobar habitiación de botones
-        // Recarga de datos
+      // Comprobar habitiación de botones
+      // Recarga de datos
 
-        cy.checkRefetchButtonState(true);
+      cy.checkRefetchButtonState(true);
 
-        // Crear registro
-        cy.checkCreateButtonState(true);
+      // Crear registro
+      cy.checkCreateButtonState(true);
 
-        cy.toggleSelectAllTableRows();
-        cy.wait(700);
+      cy.toggleSelectAllTableRows();
+      cy.wait(700);
 
-        cy.clickActionsButtonTableRow(currentClient.id);
+      cy.clickActionsButtonTableRow(currentClient.id);
 
-        // // Certificar
-        // cy.get('button[data-testid="btn-certificate-employee"]').should(
-        //   'be.disabled'
-        // );
+      // // Certificar
+      // cy.get('button[data-testid="btn-certificate-employee"]').should(
+      //   'be.disabled'
+      // );
 
-        cy.checkActionButtonsState({
-          update: false,
-          view: false,
-          delete: false,
-        });
-      }
-    );
+      cy.checkActionButtonsState({
+        update: false,
+        view: false,
+        delete: false,
+      });
+    });
   });
 
   it('No tiene permisos para ver el listado de clientes', () => {
-    cy.createUserAnd({ selectedActions: ['create_client'] }, (userData) => {
-      cy.logoutUser();
-      cy.wait(2000);
+    cy.createSeedUser({ actions: ['create_client'] }, (userData) => {
       cy.log(userData);
       cy.loginUser(userData.email, userData.password);
       cy.wait(1500);
@@ -554,71 +545,58 @@ describe('Auth modulo de clientes', () => {
   });
 
   it('Debe sacar al usuario si intenta crear un cliente y no tiene permisos ', () => {
-    cy.createUser({ selectedActions: ['find_all_clients'] }).then(
-      (data: any) => {
-        cy.logoutUser();
-        cy.wait(2000);
-        cy.loginUser(data.email, data.password);
-        cy.wait(1500);
-        cy.get('ul[data-sidebar="menu"]').within(() => {
-          cy.get('li[data-sidebar="menu-item"]')
-            .should('have.length', 1)
-            .contains('Clientes');
-        });
-        cy.get('body').type('{ctrl}j');
-        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
-        cy.get('div[cmdk-item][role="option"]').click();
+    cy.createSeedUser({ actions: ['find_all_clients'] }, (data: any) => {
+      cy.loginUser(data.email, data.password);
+      cy.wait(1500);
+      cy.get('ul[data-sidebar="menu"]').within(() => {
+        cy.get('li[data-sidebar="menu-item"]')
+          .should('have.length', 1)
+          .contains('Clientes');
+      });
+      cy.get('body').type('{ctrl}j');
+      cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+      cy.get('div[cmdk-item][role="option"]').click();
 
-        cy.wait(2000);
+      cy.wait(2000);
 
-        cy.visit('/app/home/clients/create/one');
-        cy.contains('No tienes permiso para esta acción, seras redirigido');
-      }
-    );
+      cy.visit('/app/home/clients/create/one');
+      cy.contains('No tienes permiso para esta acción, seras redirigido');
+    });
   });
 
   it('Debe sacar al usuario si intenta modificar a un cliente y no tiene permisos', () => {
-    cy.createUser({ selectedActions: ['find_all_clients'] }).then(
-      (userData: any) => {
-        cy.logoutUser();
-        cy.wait(2000);
-        cy.loginUser(userData.email, userData.password);
-        cy.wait(1500);
-        cy.get('ul[data-sidebar="menu"]').within(() => {
-          cy.get('li[data-sidebar="menu-item"]')
-            .should('have.length', 1)
-            .contains('Clientes');
-        });
-        cy.get('body').type('{ctrl}j');
-        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
-        cy.get('div[cmdk-item][role="option"]').click();
+    cy.createSeedUser({ actions: ['find_all_clients'] }, (userData: any) => {
+      cy.loginUser(userData.email, userData.password);
+      cy.wait(1500);
+      cy.get('ul[data-sidebar="menu"]').within(() => {
+        cy.get('li[data-sidebar="menu-item"]')
+          .should('have.length', 1)
+          .contains('Clientes');
+      });
+      cy.get('body').type('{ctrl}j');
+      cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+      cy.get('div[cmdk-item][role="option"]').click();
 
-        cy.visit(`/app/home/clients/update/one/${currentClient.id}`);
-        cy.contains('No tienes permiso para esta acción, seras redirigido');
-      }
-    );
+      cy.visit(`/app/home/clients/update/one/${currentClient.id}`);
+      cy.contains('No tienes permiso para esta acción, seras redirigido');
+    });
   });
 
   it('Debe sacar al usuario si intenta consultar a un cliente y no tiene permisos', () => {
-    cy.createUser({ selectedActions: ['find_all_clients'] }).then(
-      (data: any) => {
-        cy.log(JSON.stringify(data, null, 2));
-        cy.logoutUser();
-        cy.wait(2000);
-        cy.loginUser(data.email, data.password);
-        cy.wait(1500);
-        cy.get('ul[data-sidebar="menu"]').within(() => {
-          cy.get('li[data-sidebar="menu-item"]')
-            .should('have.length', 1)
-            .contains('Clientes');
-        });
-        cy.get('body').type('{ctrl}j');
-        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
-        cy.get('div[cmdk-item][role="option"]').click();
+    cy.createSeedUser({ actions: ['find_all_clients'] }, (data: any) => {
+      cy.loginUser(data.email, data.password);
+      cy.wait(1500);
+      cy.get('ul[data-sidebar="menu"]').within(() => {
+        cy.get('li[data-sidebar="menu-item"]')
+          .should('have.length', 1)
+          .contains('Clientes');
+      });
+      cy.get('body').type('{ctrl}j');
+      cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+      cy.get('div[cmdk-item][role="option"]').click();
 
-        cy.visit(`/app/home/clients/view/one/${currentClient.id}`);
-        cy.contains('No tienes permiso para esta acción, seras redirigido');
-      }
-    );
+      cy.visit(`/app/home/clients/view/one/${currentClient.id}`);
+      cy.contains('No tienes permiso para esta acción, seras redirigido');
+    });
   });
 });
