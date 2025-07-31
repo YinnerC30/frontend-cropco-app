@@ -11,4 +11,6 @@ export interface EmployeeCommands {
   ): Cypress.Chainable<any>;
   createEmployeeAnd(callback?: (data: any) => void): Cypress.Chainable<void>;
   checkCertificateButtonState(state: boolean): Cypress.Chainable<void>;
-} 
+  clickOnCertificateButton(): Cypress.Chainable<void>;
+  clickOnGenerateCertificateButton(): Cypress.Chainable<void>;
+}

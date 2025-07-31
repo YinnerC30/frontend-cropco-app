@@ -70,3 +70,17 @@ Cypress.Commands.add('checkCertificateButtonState', (state: boolean) => {
     state ? 'be.enabled' : 'be.disabled'
   );
 });
+
+Cypress.Commands.add('clickOnCertificateButton', () => {
+  cy.get('button[data-testid="btn-certificate-employee"]').click();
+});
+
+Cypress.Commands.add('clickOnGenerateCertificateButton', () => {
+  cy.get('button[data-testid="btn-generate-certificate"]').click();
+});
+
+
+
+
+
+

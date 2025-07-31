@@ -1,4 +1,6 @@
+import { BASE_HOME_PAGE_URL } from 'cypress/helpers/constants';
 import { InformationGenerator } from '../../helpers/InformationGenerator';
+import { employeeRoutes } from './employee-routes';
 
 describe('Modulo de empleados', () => {
   beforeEach(() => {
@@ -8,7 +10,7 @@ describe('Modulo de empleados', () => {
 
   it('Debe ingresar a la ruta correcta ', () => {
     cy.contains('Usuarios');
-    cy.checkCurrentUrl('employees/view/all');
+    cy.checkCurrentUrl(employeeRoutes.listAll());
   });
 
   it('Debe contener los elementos necesarios', () => {
@@ -51,12 +53,10 @@ describe('Modulo de empleados', () => {
   });
 
   it('Ingresar al modulo usando el command', () => {
-    cy.visit('/app/home/page');
+    cy.visit(BASE_HOME_PAGE_URL);
     cy.wait(3000);
-    cy.get('body').type('{ctrl}j');
-    cy.get('input[data-testid="input-command-search"]').type('empleados');
-    cy.get('div[data-testid="command-item-employees"]').click();
-    cy.checkCurrentUrl('employees/view/all');
+    cy.openCommandPaletteAndSelect('empleados', 'command-item-employees');
+    cy.checkCurrentUrl(employeeRoutes.listAll());
   });
 });
 
@@ -150,7 +150,7 @@ describe('Creación de empleados', () => {
     cy.checkMessageLostFormData();
     cy.clickOnIgnoreButton();
     cy.url().then((currentUrl) => {
-      expect(currentUrl).to.not.include('/app/home/employees/create');
+      expect(currentUrl).to.not.include(employeeRoutes.create());
     });
   });
 
@@ -159,7 +159,7 @@ describe('Creación de empleados', () => {
     cy.navigateToModuleWithSideBar('employees');
     cy.checkMessageLostFormData();
     cy.clickOnCloseToast();
-    cy.url().should('include', '/app/home/employees/create');
+    cy.url().should('include', employeeRoutes.create());
   });
 });
 
@@ -175,7 +175,7 @@ describe('Modificación de empleados', () => {
 
   beforeEach(() => {
     cy.loginUser();
-    cy.visit(`/app/home/employees/update/one/${currentEmployee.id}`);
+    cy.visit(employeeRoutes.update(currentEmployee.id));
     cy.wait(3000);
   });
 
@@ -205,7 +205,9 @@ describe('Modificación de empleados', () => {
     cy.checkMessageLostFormData();
     cy.clickOnIgnoreButton();
     cy.url().then((currentUrl) => {
-      expect(currentUrl).to.not.include('/app/home/employees/update');
+      expect(currentUrl).to.not.include(
+        employeeRoutes.update(currentEmployee.id)
+      );
     });
   });
 
@@ -214,7 +216,7 @@ describe('Modificación de empleados', () => {
     cy.navigateToModuleWithSideBar('employees');
     cy.checkMessageLostFormData();
     cy.clickOnCloseToast();
-    cy.url().should('include', '/app/home/employees/update');
+    cy.url().should('include', employeeRoutes.update(currentEmployee.id));
   });
 });
 
@@ -410,7 +412,7 @@ describe('Certificar empleado', () => {
       cy.clickRefetchButton();
       cy.clickActionsButtonTableRow(id);
       cy.contains('Certificar');
-      cy.get('button[data-testid="btn-certificate-employee"]').click();
+      cy.clickOnCertificateButton();
 
       cy.wait(1500);
       cy.getFormInput('company_name').type('Empresa de Prueba S.A.S');
@@ -429,7 +431,7 @@ describe('Certificar empleado', () => {
       cy.getFormInput('id_number').type('110508765');
       cy.getFormInput('weekly_working_hours').type('45');
 
-      cy.get('button[data-testid="btn-generate-certificate"]').click();
+      cy.clickOnGenerateCertificateButton();
       cy.contains('La constancia ha sido generada con éxito.');
       const expectedFileName = `constancia-empleado-${id}.pdf`;
       const downloadsFolder =
@@ -587,7 +589,7 @@ describe.only('Auth modulo de empleados', () => {
 
       cy.wait(2000);
 
-      cy.visit('/app/home/employees/create/one');
+      cy.visit(employeeRoutes.create());
       cy.shouldBeRedirectedForNoPermission();
     });
   });
@@ -599,7 +601,7 @@ describe.only('Auth modulo de empleados', () => {
       cy.checkSidebarMenuItem('Empleados');
       cy.openCommandPaletteAndSelectFirstOption();
 
-      cy.visit(`/app/home/employees/update/one/${currentEmployee.id}`);
+      cy.visit(employeeRoutes.update(currentEmployee.id));
       cy.shouldBeRedirectedForNoPermission();
     });
   });
@@ -611,7 +613,7 @@ describe.only('Auth modulo de empleados', () => {
       cy.checkSidebarMenuItem('Empleados');
       cy.openCommandPaletteAndSelectFirstOption();
 
-      cy.visit(`/app/home/employees/view/one/${currentEmployee.id}`);
+      cy.visit(employeeRoutes.view(currentEmployee.id));
       cy.shouldBeRedirectedForNoPermission();
     });
   });
