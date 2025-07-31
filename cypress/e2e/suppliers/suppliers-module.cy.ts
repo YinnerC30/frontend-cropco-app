@@ -596,7 +596,7 @@ describe('Auth modulo de proveedores', () => {
         cy.wait(2000);
 
         cy.visit('/app/home/suppliers/create/one');
-        cy.contains('No tienes permiso para esta acción, seras redirigido');
+        cy.shouldBeRedirectedForNoPermission();
       }
     );
   });
@@ -619,7 +619,7 @@ describe('Auth modulo de proveedores', () => {
           cy.get('div[cmdk-item][role="option"]').click();
 
           cy.visit(`/app/home/suppliers/update/one/${supplierData.id}`);
-          cy.contains('No tienes permiso para esta acción, seras redirigido');
+          cy.shouldBeRedirectedForNoPermission();
         });
       }
     );
@@ -644,7 +644,7 @@ describe('Auth modulo de proveedores', () => {
           cy.get('div[cmdk-item][role="option"]').click();
 
           cy.visit(`/app/home/suppliers/view/one/${supplierData.id}`);
-          cy.contains('No tienes permiso para esta acción, seras redirigido');
+          cy.shouldBeRedirectedForNoPermission();
         });
       }
     );

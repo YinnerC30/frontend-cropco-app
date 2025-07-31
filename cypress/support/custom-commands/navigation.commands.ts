@@ -15,3 +15,9 @@ Cypress.Commands.add(
     cy.get(`div[data-testid="command-item-${commandDataId}"]`).click();
   }
 );
+
+Cypress.Commands.add('openCommandPaletteAndSelectFirstOption', () => {
+  cy.get('body').type('{ctrl}j');
+  cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+  cy.get('div[cmdk-item][role="option"]').click();
+});

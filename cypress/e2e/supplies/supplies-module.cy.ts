@@ -547,7 +547,7 @@ describe('Auth modulo de insumos', () => {
         cy.wait(2000);
 
         cy.visit('/app/home/supplies/create/one');
-        cy.contains('No tienes permiso para esta acción, seras redirigido');
+        cy.shouldBeRedirectedForNoPermission();
       }
     );
   });
@@ -570,7 +570,7 @@ describe('Auth modulo de insumos', () => {
           cy.get('div[cmdk-item][role="option"]').click();
 
           cy.visit(`/app/home/supplies/update/one/${cropData.id}`);
-          cy.contains('No tienes permiso para esta acción, seras redirigido');
+          cy.shouldBeRedirectedForNoPermission();
         });
       }
     );
@@ -595,7 +595,7 @@ describe('Auth modulo de insumos', () => {
           cy.get('div[cmdk-item][role="option"]').click();
 
           cy.visit(`/app/home/supplies/view/one/${supplyData.id}`);
-          cy.contains('No tienes permiso para esta acción, seras redirigido');
+          cy.shouldBeRedirectedForNoPermission();
         });
       }
     );

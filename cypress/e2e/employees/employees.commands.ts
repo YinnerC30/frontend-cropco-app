@@ -64,3 +64,9 @@ Cypress.Commands.add('createEmployeeAnd', (callback = () => {}) => {
     }
   );
 });
+
+Cypress.Commands.add('checkCertificateButtonState', (state: boolean) => {
+  cy.get('button[data-testid="btn-certificate-employee"]').should(
+    state ? 'be.enabled' : 'be.disabled'
+  );
+});

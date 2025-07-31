@@ -29,9 +29,17 @@ Cypress.Commands.add('checkMessageLostFormData', () => {
 });
 
 Cypress.Commands.add('shouldBeRedirectedForNoPermission', () => {
-  cy.contains('No tienes permiso para esta acción, seras redirigido');
+  cy.shouldBeRedirectedForNoPermission();
 });
 
 Cypress.Commands.add('checkNoRecordsMessage', () => {
   cy.contains('No hay registros');
+});
+
+Cypress.Commands.add('checkSidebarMenuItem', (menuItem: string) => {
+  cy.get('ul[data-sidebar="menu"]').within(() => {
+    cy.get('li[data-sidebar="menu-item"]')
+      .should('have.length', 1)
+      .contains(menuItem);
+  });
 });

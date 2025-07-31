@@ -560,7 +560,7 @@ describe('Auth modulo de clientes', () => {
       cy.wait(2000);
 
       cy.visit('/app/home/clients/create/one');
-      cy.contains('No tienes permiso para esta acción, seras redirigido');
+      cy.shouldBeRedirectedForNoPermission();
     });
   });
 
@@ -578,7 +578,7 @@ describe('Auth modulo de clientes', () => {
       cy.get('div[cmdk-item][role="option"]').click();
 
       cy.visit(`/app/home/clients/update/one/${currentClient.id}`);
-      cy.contains('No tienes permiso para esta acción, seras redirigido');
+      cy.shouldBeRedirectedForNoPermission();
     });
   });
 
@@ -596,7 +596,7 @@ describe('Auth modulo de clientes', () => {
       cy.get('div[cmdk-item][role="option"]').click();
 
       cy.visit(`/app/home/clients/view/one/${currentClient.id}`);
-      cy.contains('No tienes permiso para esta acción, seras redirigido');
+      cy.shouldBeRedirectedForNoPermission();
     });
   });
 });

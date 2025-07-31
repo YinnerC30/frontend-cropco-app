@@ -3,4 +3,5 @@ export interface SearchBarCommands {
   clickOnSubmitBasicSearchBar(): Cypress.Chainable<void>;
   typeOnInputBasicSearchBar(value: string): Cypress.Chainable<void>;
   clearInputBasicSearchBar(): Cypress.Chainable<void>;
+  checkSearchBarIsDisabled(): Cypress.Chainable<void>;
 } 

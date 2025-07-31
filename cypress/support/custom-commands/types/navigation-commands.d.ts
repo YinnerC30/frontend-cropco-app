@@ -5,4 +5,5 @@ export interface NavigationCommands {
     typeValue: string,
     commandDataId: string
   ): Cypress.Chainable<void>;
+  openCommandPaletteAndSelectFirstOption(): Cypress.Chainable<void>;
 } 

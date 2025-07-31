@@ -23,4 +23,5 @@ export interface TableCommands {
   existPaginationInfo(): Cypress.Chainable<void>;
   checkPaginationValues(): Cypress.Chainable<void>;
   clickOnUpdateDetailRecord(): Cypress.Chainable<void>;
+  checkTableRowsExist(): Cypress.Chainable<void>;
 } 

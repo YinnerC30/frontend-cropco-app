@@ -667,7 +667,7 @@ describe('Auth modulo de usuarios', () => {
       cy.wait(2000);
 
       cy.visit('/app/home/users/create/one');
-      cy.contains('No tienes permiso para esta acción, seras redirigido');
+      cy.shouldBeRedirectedForNoPermission();
     });
   });
 
@@ -691,7 +691,7 @@ describe('Auth modulo de usuarios', () => {
       cy.wait(2000);
 
       cy.visit(`/app/home/users/update/one/${data.id}`);
-      cy.contains('No tienes permiso para esta acción, seras redirigido');
+      cy.shouldBeRedirectedForNoPermission();
     });
   });
 
@@ -715,7 +715,7 @@ describe('Auth modulo de usuarios', () => {
       cy.wait(2000);
 
       cy.visit(`/app/home/users/view/one/${data.id}`);
-      cy.contains('No tienes permiso para esta acción, seras redirigido');
+      cy.shouldBeRedirectedForNoPermission();
     });
   });
 });

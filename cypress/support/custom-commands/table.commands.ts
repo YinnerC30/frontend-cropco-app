@@ -133,3 +133,7 @@ Cypress.Commands.add('checkPaginationValues', () => {
 Cypress.Commands.add('clickOnUpdateDetailRecord', () => {
   cy.get('button[data-testid="btn-update-detail-record"]').click();
 });
+
+Cypress.Commands.add('checkTableRowsExist', () => {
+  cy.get('table tbody tr').should('exist');
+});

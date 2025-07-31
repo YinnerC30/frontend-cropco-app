@@ -605,7 +605,7 @@ describe('Auth modulo de cosechas', () => {
         cy.wait(2000);
 
         cy.visit('/app/home/harvests/create/one');
-        cy.contains('No tienes permiso para esta acción, seras redirigido');
+        cy.shouldBeRedirectedForNoPermission();
       }
     );
   });
@@ -628,7 +628,7 @@ describe('Auth modulo de cosechas', () => {
           cy.get('div[cmdk-item][role="option"]').click();
 
           cy.visit(`/app/home/harvests/update/one/${harvestData.id}`);
-          cy.contains('No tienes permiso para esta acción, seras redirigido');
+          cy.shouldBeRedirectedForNoPermission();
         });
       }
     );
@@ -653,7 +653,7 @@ describe('Auth modulo de cosechas', () => {
           cy.get('div[cmdk-item][role="option"]').click();
 
           cy.visit(`/app/home/harvests/view/one/${harvestData.id}`);
-          cy.contains('No tienes permiso para esta acción, seras redirigido');
+          cy.shouldBeRedirectedForNoPermission();
         });
       }
     );
