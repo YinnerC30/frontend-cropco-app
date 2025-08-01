@@ -23,6 +23,8 @@ describe('Comprobar existencia de elementos en el modulo de clientes', () => {
     cy.existRefetchButton();
     cy.existCreateButton();
 
+    cy.checkExportAllClientsButtonState(true);
+
     cy.existPaginationInfo();
 
     cy.contains('Nombre:');
