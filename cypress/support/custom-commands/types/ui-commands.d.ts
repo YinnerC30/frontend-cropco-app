@@ -11,4 +11,6 @@ export interface UICommands {
   checkSidebarMenuItem(menuItem: string): Cypress.Chainable<void>;
   checkMessageIncorrectInformation(): Cypress.Chainable<void>;
   checkMessageNotFoundInformation(): Cypress.Chainable<void>;
+  checkMassUnitOfMeasureButton(): Cypress.Chainable<void>;
+  clickOnMassUnitOfMeasureButton(): Cypress.Chainable<void>;
 } 

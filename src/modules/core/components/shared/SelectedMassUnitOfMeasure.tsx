@@ -37,7 +37,7 @@ export const SelectedMassUnitOfMeasure = ({
 
       <SelectContent>
         {UnitsType.MASS.map((item: any) => (
-          <SelectItem key={item.key} value={item.value}>
+          <SelectItem key={item.key} value={item.value} data-value={item.value}>
             {item.label}
           </SelectItem>
         ))}

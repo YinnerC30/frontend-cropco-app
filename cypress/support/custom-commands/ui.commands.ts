@@ -51,3 +51,13 @@ Cypress.Commands.add('checkMessageIncorrectInformation', () => {
 Cypress.Commands.add('checkMessageNotFoundInformation', () => {
   cy.contains('No se encontró la información solicitada');
 });
+
+Cypress.Commands.add('checkMassUnitOfMeasureButton', () => {
+  cy.get('button[data-testid="btn-select-mass-unit-of-measure"]')
+    .should('exist')
+    .should('be.visible');
+});
+
+Cypress.Commands.add('clickOnMassUnitOfMeasureButton', () => {
+  cy.get('button[data-testid="btn-select-mass-unit-of-measure"]').click();
+});
