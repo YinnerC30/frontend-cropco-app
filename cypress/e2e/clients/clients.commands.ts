@@ -66,3 +66,9 @@ Cypress.Commands.add('createClientAnd', (data, callback) => {
 Cypress.Commands.add('clickExportAllClientsButton', () => {
   cy.get('button[data-testid="btn-export-all-clients"]').click();
 });
+
+Cypress.Commands.add('checkExportAllClientsButtonState', (isEnabled) => {
+  cy.get('button[data-testid="btn-export-all-clients"]').should(
+    isEnabled ? 'be.enabled' : 'be.disabled'
+  );
+});

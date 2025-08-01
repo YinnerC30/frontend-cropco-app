@@ -466,9 +466,7 @@ describe('Exportar clientes a PDF', () => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('clients');
     cy.clickRefetchButton();
-    cy.get('button[data-testid="btn-export-all-clients"]').should(
-      'be.disabled'
-    );
+    cy.checkExportAllClientsButtonState(false);
   });
 });
 
@@ -637,6 +635,8 @@ describe('Auth modulo de clientes', () => {
 
       // Crear registro
       cy.checkCreateButtonState(true);
+
+      cy.checkExportAllClientsButtonState(false);
 
       cy.toggleSelectAllTableRows();
       cy.wait(700);

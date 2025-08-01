@@ -21,4 +21,5 @@ export interface ClientCommands {
     callback: (data: any) => void
   ): Cypress.Chainable<void>;
   clickExportAllClientsButton(): Cypress.Chainable<void>;
+  checkExportAllClientsButtonState(isEnabled: boolean): Cypress.Chainable<void>;
 } 
