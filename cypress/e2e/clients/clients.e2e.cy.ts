@@ -360,71 +360,27 @@ describe('Eliminación de cliente', () => {
     cy.contains('Cliente eliminado');
   });
 
-  // it('Intentar eliminar cliente con cosechas pendiente de pago', () => {
-  //   cy.executeClearSeedData({ clients: true });
-
-  //   cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
-  //     (data) => {
-  //       cy.navigateToModuleWithSideBar('clients');
-  //       const { clients } = data;
-
-  //       // Primer cliente
-  //       cy.clickActionsButtonTableRow(clients[0].id);
-  //       cy.clickOnDeleteRecord();
-  //       cy.clickOnContinueDeleteOneRecord();
-  //       cy.contains(
-  //         'No se pudo eliminar el cliente seleccionado, revisa si tiene cosechas o trabajos pendientes de pago'
-  //       );
-  //       // Segundo cliente
-  //       cy.clickActionsButtonTableRow(clients[1].id);
-  //       cy.clickOnDeleteRecord();
-  //       cy.clickOnContinueDeleteOneRecord();
-  //       cy.contains(
-  //         'No se pudo eliminar el cliente seleccionado, revisa si tiene cosechas o trabajos pendientes de pago'
-  //       );
-  //       // Tercer cliente
-  //       cy.clickActionsButtonTableRow(clients[2].id);
-  //       cy.clickOnDeleteRecord();
-  //       cy.clickOnContinueDeleteOneRecord();
-  //       cy.contains(
-  //         'No se pudo eliminar el cliente seleccionado, revisa si tiene cosechas o trabajos pendientes de pago'
-  //       );
-  //     }
-  //   );
-  // });
-
-  // it('Intentar eliminar cliente con trabajos pendiente de pago', () => {
-  //   cy.executeClearSeedData({ clients: true });
-
-  //   cy.createWork({ fastCreation: true, returnOnlyWork: false }).then(
-  //     (data) => {
-  //       cy.navigateToModuleWithSideBar('clients');
-  //       const { clients } = data;
-
-  //       // Primer cliente
-  //       cy.clickActionsButtonTableRow(clients[0].id);
-  //       cy.clickOnDeleteRecord();
-  //       cy.clickOnContinueDeleteOneRecord();
-  //       cy.contains(
-  //         'No se pudo eliminar el cliente seleccionado, revisa si tiene cosechas o trabajos pendientes de pago'
-  //       );
-  //       // Segundo cliente
-  //       cy.clickActionsButtonTableRow(clients[1].id);
-  //       cy.clickOnDeleteRecord();
-  //       cy.clickOnContinueDeleteOneRecord();
-  //       cy.contains(
-  //         'No se pudo eliminar el cliente seleccionado, revisa si tiene cosechas o trabajos pendientes de pago'
-  //       );
-  //       // Tercer cliente
-  //       cy.clickActionsButtonTableRow(clients[2].id);
-  //       cy.clickOnDeleteRecord();
-  //       cy.clickOnContinueDeleteOneRecord();
-  //       cy.contains(
-  //         'No se pudo eliminar el cliente seleccionado, revisa si tiene cosechas o trabajos pendientes de pago'
-  //       );
-  //     }
-  //   );
-  // });
+  it('Intentar eliminar cliente con ventas pendiente de pago', () => {
+    cy.executeClearSeedData({ clients: true });
+    cy.navigateToModuleWithSideBar('clients');
+    cy.createSale({
+      fastCreation: true,
+      returnOnlySale: false,
+      isReceivableGeneric: true,
+    }).then((data) => {
+      cy.wait(1000);
+      cy.clickRefetchButton();
+      const { client } = data;
+      cy.wait(1000);
+      // // Primer cliente
+      cy.clickActionsButtonTableRow(client.id);
+      cy.clickOnDeleteRecord();
+      cy.clickOnContinueDeleteOneRecord();
+      cy.contains(
+        'No se pudo eliminar el cliente seleccionado. Verifica si tiene ventas pendientes de pago antes de intentar eliminarlo.'
+      );
+    });
+  });
 });
 
 describe('Eliminación de clientes por lote', () => {
@@ -448,43 +404,38 @@ describe('Eliminación de clientes por lote', () => {
     cy.checkNoRecordsMessage();
   });
 
-  // it('Intentar eliminar clientes con cosechas pendiente de pago', () => {
-  //   cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false });
-  //   cy.navigateToModuleWithSideBar('clients');
-  //   cy.clickRefetchButton();
-  //   cy.toggleSelectAllTableRows();
-  //   cy.clickOnDeleteBulkButton();
-  //   cy.clickOnContinueDeleteBulkRecord();
-  //   cy.contains(
-  //     'No se pudieron eliminar los clientes seleccionados, revisa si tienen cosechas o trabajos pendientes de pago'
-  //   );
-  // });
+  it('Intentar eliminar clientes con ventas pendiente de pago', () => {
+    cy.createSale({
+      fastCreation: true,
+      returnOnlySale: false,
+      isReceivableGeneric: true,
+    });
+    cy.navigateToModuleWithSideBar('clients');
+    cy.clickRefetchButton();
+    cy.toggleSelectAllTableRows();
+    cy.clickOnDeleteBulkButton();
+    cy.clickOnContinueDeleteBulkRecord();
+    cy.contains(
+      'No se pudo eliminar los clientes seleccionados. Verifica si tienen ventas pendientes de pago antes de intentar eliminarlos.'
+    );
+  });
 
-  // it('Intentar eliminar cliente con trabajos pendiente de pago', () => {
-  //   cy.createWork({ fastCreation: true, returnOnlyWork: false });
-  //   cy.navigateToModuleWithSideBar('clients');
-  //   cy.clickRefetchButton();
-  //   cy.toggleSelectAllTableRows();
-  //   cy.clickOnDeleteBulkButton();
-  //   cy.clickOnContinueDeleteBulkRecord();
-  //   cy.contains(
-  //     'No se pudieron eliminar los clientes seleccionados, revisa si tienen cosechas o trabajos pendientes de pago'
-  //   );
-  // });
-
-  // it('Eliminar clientes que tienen conflicto de eliminación y los que no tienen', () => {
-  //   cy.createClient({}, { fastCreation: true });
-  //   cy.createWork({ fastCreation: true, returnOnlyWork: false });
-  //   cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false });
-  //   cy.navigateToModuleWithSideBar('clients');
-  //   cy.clickRefetchButton();
-  //   cy.toggleSelectAllTableRows();
-  //   cy.clickOnDeleteBulkButton();
-  //   cy.clickOnContinueDeleteBulkRecord();
-  //   cy.contains(
-  //     'No se pudieron eliminar algunos clientes, revisa si tienen cosechas o trabajos pendientes de pago'
-  //   );
-  // });
+  it('Eliminar clientes que tienen conflicto de eliminación y los que no tienen', () => {
+    cy.createClient({}, { fastCreation: true });
+    cy.createSale({
+      fastCreation: true,
+      returnOnlySale: false,
+      isReceivableGeneric: true,
+    });
+    cy.navigateToModuleWithSideBar('clients');
+    cy.clickRefetchButton();
+    cy.toggleSelectAllTableRows();
+    cy.clickOnDeleteBulkButton();
+    cy.clickOnContinueDeleteBulkRecord();
+    cy.contains(
+      'No se pudieron eliminar algunos clientes, revisa si tienen ventas pendientes de pago antes de intentar eliminarlos.'
+    );
+  });
 });
 
 describe('Copiar Id de registro', () => {
@@ -582,7 +533,7 @@ describe('Paginado y selectores', () => {
   });
 });
 
-describe.only('Auth modulo de clientes', () => {
+describe('Auth modulo de clientes', () => {
   let currentClient: any = {};
 
   before(() => {

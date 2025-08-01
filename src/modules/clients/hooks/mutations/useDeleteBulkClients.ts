@@ -33,7 +33,7 @@ export const useDeleteBulkClients = (): UseMutationReturn<
         status,
         customMessages: {
           multiStatus:
-            'No se pudieron eliminar algunos clientes, revisa si tienen ventas pendientes de pago',
+            'No se pudieron eliminar algunos clientes, revisa si tienen ventas pendientes de pago antes de intentar eliminarlos.',
         },
       });
     },
@@ -43,7 +43,7 @@ export const useDeleteBulkClients = (): UseMutationReturn<
         handlers: {
           conflict: {
             message:
-              'No se pudieron eliminar los clientes seleccionados, revisa si tienen ventas pendientes de pago',
+              'No se pudo eliminar los clientes seleccionados. Verifica si tienen ventas pendientes de pago antes de intentar eliminarlos.',
           },
         },
       });

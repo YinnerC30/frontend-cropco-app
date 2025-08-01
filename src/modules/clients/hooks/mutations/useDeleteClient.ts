@@ -28,7 +28,7 @@ export const useDeleteClient = (): UseMutationReturn<void, string> => {
         handlers: {
           conflict: {
             message:
-              'No se pudo eliminar el cliente seleccionado, revisa si tiene ventas pendientes de pago',
+              'No se pudo eliminar el cliente seleccionado. Verifica si tiene ventas pendientes de pago antes de intentar eliminarlo.',
           },
         },
       });
