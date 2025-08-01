@@ -2,7 +2,7 @@ import { BASE_HOME_PAGE_URL, TEST_UUID_VALID } from 'cypress/helpers/constants';
 import { InformationGenerator } from '../../helpers/InformationGenerator';
 import { employeeRoutes } from './employee-routes';
 
-describe('Modulo de empleados', () => {
+describe('Comprobar existencia de elementos en el modulo de empleados', () => {
   beforeEach(() => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('employees');
@@ -55,7 +55,7 @@ describe('Modulo de empleados', () => {
   it('Ingresar al modulo usando el command', () => {
     cy.visit(BASE_HOME_PAGE_URL);
     cy.wait(3000);
-    cy.openCommandPaletteAndSelect('empleados', 'command-item-employees');
+    cy.openCommandPaletteAndSelect('empleados', 'employees');
     cy.checkCurrentUrl(employeeRoutes.listAll());
   });
 });
