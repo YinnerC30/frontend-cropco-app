@@ -62,3 +62,7 @@ Cypress.Commands.add('createClientAnd', (data, callback) => {
     callback(insertedClients[0]);
   });
 });
+
+Cypress.Commands.add('clickExportAllClientsButton', () => {
+  cy.get('button[data-testid="btn-export-all-clients"]').click();
+});

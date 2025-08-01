@@ -438,6 +438,40 @@ describe('Eliminación de clientes por lote', () => {
   });
 });
 
+describe('Exportar clientes a PDF', () => {
+  before(() => {
+    cy.executeClearSeedData({ clients: true });
+    cy.executeSeed({ clients: 10 });
+  });
+
+  it('Generar reporte de clientes', () => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('clients');
+    cy.clickRefetchButton();
+    cy.clickExportAllClientsButton();
+
+    cy.contains('Generando reporte...');
+    cy.contains('El reporte ha sido generado con éxito.');
+    const expectedFileName = `reporte-clientes.pdf`;
+    const downloadsFolder =
+      Cypress.config('downloadsFolder') || 'cypress/downloads';
+
+    cy.readFile(`${downloadsFolder}/${expectedFileName}`, {
+      timeout: 10000,
+    }).should('exist');
+  });
+
+  it('No permite generar reporte si no hay registros', () => {
+    cy.executeClearSeedData({ clients: true });
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('clients');
+    cy.clickRefetchButton();
+    cy.get('button[data-testid="btn-export-all-clients"]').should(
+      'be.disabled'
+    );
+  });
+});
+
 describe('Copiar Id de registro', () => {
   it('Copiar Id del cliente', () => {
     cy.executeClearSeedData({ clients: true });
