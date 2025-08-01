@@ -243,6 +243,23 @@ describe('Modificación de empleados', () => {
     cy.wait(3000);
   });
 
+  it('Comprobar que se cargue la información del empleado antes de modificarlo', () => {
+    cy.getFormInput('first_name').should(
+      'have.value',
+      currentEmployee.first_name
+    );
+    cy.getFormInput('last_name').should(
+      'have.value',
+      currentEmployee.last_name
+    );
+    cy.getFormInput('email').should('have.value', currentEmployee.email);
+    cy.getFormInput('cell_phone_number').should(
+      'have.value',
+      currentEmployee.cell_phone_number
+    );
+    cy.getFormTextArea('address').should('have.value', currentEmployee.address);
+  });
+
   it('Modificar empleado existente', () => {
     cy.navigateToModuleWithSideBar('employees');
     cy.clickRefetchButton();
@@ -485,7 +502,7 @@ describe('Copiar Id de registro', () => {
 });
 
 describe('Ver registro de empleado', () => {
-  it('Ver registro de cosecha', () => {
+  it('Ver registro de empleado', () => {
     cy.executeClearSeedData({ employees: true });
     cy.createEmployee({}, { fastCreation: true }).then((currentEmployee) => {
       cy.loginUser();
@@ -493,11 +510,23 @@ describe('Ver registro de empleado', () => {
       cy.wait(500);
       cy.clickActionsButtonTableRow(currentEmployee.id);
       cy.clickOnViewRecord();
-      cy.contains(currentEmployee.first_name);
-      cy.contains(currentEmployee.last_name);
-      cy.contains(currentEmployee.email);
-      cy.contains(currentEmployee.address);
-      cy.contains(currentEmployee.cell_phone_number);
+      cy.getFormInput('first_name').should(
+        'have.value',
+        currentEmployee.first_name
+      );
+      cy.getFormInput('last_name').should(
+        'have.value',
+        currentEmployee.last_name
+      );
+      cy.getFormInput('email').should('have.value', currentEmployee.email);
+      cy.getFormInput('cell_phone_number').should(
+        'have.value',
+        currentEmployee.cell_phone_number
+      );
+      cy.getFormTextArea('address').should(
+        'have.value',
+        currentEmployee.address
+      );
       cy.contains('Información');
       cy.contains('Volver');
     });
