@@ -29,7 +29,7 @@ Cypress.Commands.add('checkMessageLostFormData', () => {
 });
 
 Cypress.Commands.add('shouldBeRedirectedForNoPermission', () => {
-  cy.shouldBeRedirectedForNoPermission();
+  cy.contains('No tienes permiso para esta acción, seras redirigido');
 });
 
 Cypress.Commands.add('checkNoRecordsMessage', () => {
@@ -51,8 +51,3 @@ Cypress.Commands.add('checkMessageIncorrectInformation', () => {
 Cypress.Commands.add('checkMessageNotFoundInformation', () => {
   cy.contains('No se encontró la información solicitada');
 });
-
-
-
-
-
