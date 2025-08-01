@@ -67,7 +67,11 @@ export const useGetReportClients = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        handlers: {},
+        handlers: {
+          notFound: {
+            message: 'No se encontraron registros para generar el reporte.',
+          },
+        },
       });
     }
   }, [query.isError, query.error]);
