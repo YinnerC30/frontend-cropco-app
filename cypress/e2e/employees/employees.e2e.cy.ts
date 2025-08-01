@@ -244,6 +244,11 @@ describe('Modificación de empleados', () => {
   });
 
   it('Modificar empleado existente', () => {
+    cy.navigateToModuleWithSideBar('employees');
+    cy.clickRefetchButton();
+    cy.clickActionsButtonTableRow(currentEmployee.id);
+    cy.clickOnUpdateRecord();
+    cy.wait(3000);
     cy.getFormInput('first_name').clear().type('EmployeeNameChanged');
     cy.getFormInput('last_name').clear().type('LastNameChanged');
     const defaultEmail = InformationGenerator.generateEmail();
