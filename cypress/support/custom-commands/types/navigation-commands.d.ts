@@ -6,4 +6,5 @@ export interface NavigationCommands {
     commandDataId: string
   ): Cypress.Chainable<void>;
   openCommandPaletteAndSelectFirstOption(): Cypress.Chainable<void>;
+  clickOnCancelRegisterButton(): Cypress.Chainable<void>;
 } 

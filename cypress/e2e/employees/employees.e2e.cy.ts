@@ -192,6 +192,26 @@ describe('Creación de empleados', () => {
     cy.clickOnCloseToast();
     cy.url().should('include', employeeRoutes.create());
   });
+
+  it('Debe volver a la tabla de los empleados al cancelar la creación de un empleado', () => {
+    cy.clickOnCancelRegisterButton();
+    cy.url().should('include', employeeRoutes.listAll());
+  });
+
+  it('Debe volver a la tabla de los empleados al cancelar la creación de un empleado (con campos rellenados)', () => {
+    cy.getFormInput('first_name').type('EmployeeName');
+    cy.getFormInput('last_name').type('LastName');
+    const defaultEmail = InformationGenerator.generateEmail();
+    cy.getFormInput('email').type(defaultEmail);
+    cy.getFormInput('cell_phone_number').type(
+      InformationGenerator.generateCellPhoneNumber()
+    );
+    cy.getFormTextArea('address').type(InformationGenerator.generateAddress());
+    cy.clickOnCancelRegisterButton();
+    cy.checkMessageLostFormData();
+    cy.clickOnIgnoreButton();
+    cy.url().should('include', employeeRoutes.listAll());
+  });
 });
 
 describe('Modificación de empleados', () => {
@@ -248,6 +268,26 @@ describe('Modificación de empleados', () => {
     cy.checkMessageLostFormData();
     cy.clickOnCloseToast();
     cy.url().should('include', employeeRoutes.update(currentEmployee.id));
+  });
+
+  it('Debe volver a la tabla de los empleados al cancelar la modificación de un empleado', () => {
+    cy.clickOnCancelRegisterButton();
+    cy.url().should('include', employeeRoutes.listAll());
+  });
+
+  it('Debe volver a la tabla de los empleados al cancelar la modificación de un empleado (con campos rellenados)', () => {
+    cy.getFormInput('first_name').type('EmployeeName');
+    cy.getFormInput('last_name').type('LastName');
+    const defaultEmail = InformationGenerator.generateEmail();
+    cy.getFormInput('email').type(defaultEmail);
+    cy.getFormInput('cell_phone_number').type(
+      InformationGenerator.generateCellPhoneNumber()
+    );
+    cy.getFormTextArea('address').type(InformationGenerator.generateAddress());
+    cy.clickOnCancelRegisterButton();
+    cy.checkMessageLostFormData();
+    cy.clickOnIgnoreButton();
+    cy.url().should('include', employeeRoutes.listAll());
   });
 });
 

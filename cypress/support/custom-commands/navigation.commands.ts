@@ -21,3 +21,7 @@ Cypress.Commands.add('openCommandPaletteAndSelectFirstOption', () => {
   cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
   cy.get('div[cmdk-item][role="option"]').click();
 });
+
+Cypress.Commands.add('clickOnCancelRegisterButton', () => {
+  cy.get('button[data-testid="btn-cancel-register"]').click();
+});
