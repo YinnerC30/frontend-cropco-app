@@ -49,12 +49,12 @@ export const useGetReportClients = ({
   });
 
   useEffect(() => {
-    if (!isAuthorized) {
+    if (!isAuthorized && executeQuery) {
       toast.error(
         'Requieres del permiso para generar el reporte de los clientes'
       );
     }
-  }, [isAuthorized]);
+  }, [isAuthorized, executeQuery]);
 
   useEffect(() => {
     if (query.isSuccess && showReport) {
