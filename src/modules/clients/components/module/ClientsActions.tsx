@@ -15,6 +15,9 @@ export const ClientsActions: React.FC = () => {
     mutationDeleteClients,
     queryClients,
     actionsClientsModule,
+    dataTable: {
+      table: { getRowModel },
+    },
   } = useClientsModuleContext();
 
   const handleDeleteBulkClients = () => {
@@ -35,7 +38,7 @@ export const ClientsActions: React.FC = () => {
 
       <div className="flex items-center gap-1">
         <ButtonExportClients
-          disabled={!actionsClientsModule['export_clients_pdf']}
+          disabled={!actionsClientsModule['export_clients_pdf'] || getRowModel().rows.length === 0}
         />
 
         <ButtonClearSelection
