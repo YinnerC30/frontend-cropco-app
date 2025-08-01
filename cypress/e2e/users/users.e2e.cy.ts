@@ -1,4 +1,5 @@
 import { InformationGenerator } from '../../helpers/InformationGenerator';
+import { usersRoutes } from './users-routes';
 
 describe('Modulo de usuarios', () => {
   beforeEach(() => {
@@ -8,7 +9,7 @@ describe('Modulo de usuarios', () => {
 
   it('Debe ingresar a la ruta correcta ', () => {
     cy.contains('Usuarios');
-    cy.checkCurrentUrl('users/view/all');
+    cy.checkCurrentUrl(usersRoutes.listAll());
   });
 
   it('Debe contener los elementos necesarios', () => {
@@ -59,7 +60,7 @@ describe('Modulo de usuarios', () => {
     cy.visit('/app/home/page');
     cy.wait(3000);
     cy.openCommandPaletteAndSelect('usuarios', 'users');
-    cy.checkCurrentUrl('users/view/all');
+    cy.checkCurrentUrl(usersRoutes.listAll());
   });
 
   //TODO: Ingresar usuario con permisos y verificar que esten visibles y disponibles
@@ -200,7 +201,7 @@ describe('Creación de usuarios', () => {
     cy.checkMessageLostFormData();
     cy.clickOnIgnoreButton();
     cy.url().then((currentUrl) => {
-      expect(currentUrl).to.not.include('/app/home/users/create');
+      expect(currentUrl).to.not.include(usersRoutes.create());
     });
   });
 
@@ -209,7 +210,7 @@ describe('Creación de usuarios', () => {
     cy.navigateToModuleWithSideBar('users');
     cy.checkMessageLostFormData();
     cy.clickOnCloseToast();
-    cy.checkCurrentUrl('/app/home/users/create');
+    cy.checkCurrentUrl(usersRoutes.create());
   });
 });
 
@@ -221,7 +222,7 @@ describe('Modificación de usuarios', () => {
 
   it('Modificar usuario existente', () => {
     cy.createUser({}).then(({ email, id }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.visit(`${usersRoutes.listAll()}?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.clickOnUpdateRecord();
       cy.getFormInput('first_name').clear().type('UserNameChanged');
@@ -239,7 +240,7 @@ describe('Modificación de usuarios', () => {
 
   it('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
     cy.createUser({}).then(({ email, id }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.visit(`${usersRoutes.listAll()}?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.clickOnUpdateRecord();
       cy.getFormInput('first_name').type('UserName');
@@ -250,7 +251,7 @@ describe('Modificación de usuarios', () => {
 
   it('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
     cy.createUser({}).then(({ email, id }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.visit(`${usersRoutes.listAll()}?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.clickOnUpdateRecord();
       cy.getFormInput('first_name').type('UserName');
@@ -265,7 +266,7 @@ describe('Modificación de usuarios', () => {
 
   it('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
     cy.createUser({}).then(({ email, id }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.visit(`${usersRoutes.listAll()}?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.clickOnUpdateRecord();
       cy.getFormInput('first_name').type('UserName');
@@ -307,7 +308,7 @@ describe('Eliminación de usuario', () => {
 
   it('Eliminar usuario', () => {
     cy.createUser({}).then(({ email, id }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.visit(`${usersRoutes.listAll()}?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.clickOnDeleteRecord();
       cy.clickOnContinueDeleteOneRecord();
@@ -318,7 +319,7 @@ describe('Eliminación de usuario', () => {
   });
 
   it('Intentar eliminar usuario con rol administrator', () => {
-    cy.visit(`/app/home/users/view/all?query=Mantenimiento`);
+    cy.visit(`${usersRoutes.listAll()}?query=Mantenimiento`);
     cy.wait(2000);
     cy.get('tbody tr').first().dblclick();
     cy.url().then((url) => {
@@ -344,7 +345,7 @@ describe('Eliminación de usuarios por lote', () => {
   it('Eliminar usuarios seleccionados', () => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('users');
-    cy.visit(`/app/home/users/view/all?query=UserToRemoveBulk`);
+    cy.visit(`${usersRoutes.listAll()}?query=UserToRemoveBulk`);
     cy.wait(2000);
     cy.toggleSelectAllTableRows();
     cy.clickOnDeleteBulkButton();
@@ -357,7 +358,7 @@ describe('Eliminación de usuarios por lote', () => {
   it('Intentar eliminar usuario con rol administrator en lote', () => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('users');
-    cy.visit(`/app/home/users/view/all?query=Mantenimiento`);
+    cy.visit(`${usersRoutes.listAll()}?query=Mantenimiento`);
     cy.wait(2000);
     cy.toggleSelectAllTableRows();
     cy.clickOnDeleteBulkButton();
@@ -376,7 +377,7 @@ describe('Copiar Id de registro', () => {
 
   it('Copiar Id del usuario', () => {
     cy.createUser({}).then(({ email, id }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.visit(`${usersRoutes.listAll()}?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.clickOnCopyIdButton();
     });
@@ -391,7 +392,7 @@ describe('Ver registro de usuario', () => {
 
   it('Ver registro de usuario', () => {
     cy.createUser({}).then(({ email, id }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.visit(`${usersRoutes.listAll()}?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.clickOnViewRecord();
       cy.contains('Información');
@@ -412,7 +413,7 @@ describe('Cambiar estado de usuario', () => {
 
   it('Cambiar estado de usuario', () => {
     cy.createUser({}).then(({ email, id }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.visit(`${usersRoutes.listAll()}?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.contains('Desactivar');
       cy.clickOnToggleStatusUserButton();
@@ -432,7 +433,7 @@ describe('Cambiar estado de usuario', () => {
       ({ email, id, password }) => {
         cy.logoutUser();
         cy.loginUser(email, password);
-        cy.visit(`/app/home/users/view/all?query=${email}`);
+        cy.visit(`${usersRoutes.listAll()}?query=${email}`);
         cy.clickActionsButtonTableRow(id);
         cy.contains('Desactivar');
         cy.clickOnToggleStatusUserButton();
@@ -461,7 +462,7 @@ describe('Reset password user', () => {
   });
   it('Restablecer contraseña de usuario', () => {
     cy.createUser({}).then(({ email, id }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.visit(`${usersRoutes.listAll()}?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.clickOnResetPasswordUserButton();
       cy.getFormInput('email').should('have.value', email);
@@ -485,7 +486,7 @@ describe('Auth modulo de usuarios', () => {
 
   it('Intentar ingresar al sistema con un usuario desactivado', () => {
     cy.createUser({}).then(({ id, email }) => {
-      cy.visit(`/app/home/users/view/all?query=${email}`);
+      cy.visit(`${usersRoutes.listAll()}?query=${email}`);
       cy.clickActionsButtonTableRow(id);
       cy.contains('Desactivar');
       cy.clickOnToggleStatusUserButton();
@@ -522,7 +523,7 @@ describe('Auth modulo de usuarios', () => {
       cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
       cy.get('div[cmdk-item][role="option"]').click();
 
-      cy.visit(`/app/home/users/view/all?query=${data.email}`);
+      cy.visit(`${usersRoutes.listAll()}?query=${data.email}`);
       cy.wait(2000);
 
       // Comprobar que haya registro en las tablas
@@ -574,7 +575,7 @@ describe('Auth modulo de usuarios', () => {
       cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
       cy.get('div[cmdk-item][role="option"]').click();
 
-      cy.visit(`/app/home/users/view/all?query=${data.email}`);
+      cy.visit(`${usersRoutes.listAll()}?query=${data.email}`);
       cy.wait(2000);
 
       cy.get('button[data-testid="btn-user-account"]').click();
@@ -663,7 +664,7 @@ describe('Auth modulo de usuarios', () => {
       cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
       cy.get('div[cmdk-item][role="option"]').click();
 
-      cy.visit(`/app/home/users/view/all?query=${data.email}`);
+      cy.visit(`${usersRoutes.listAll()}?query=${data.email}`);
       cy.wait(2000);
 
       cy.visit('/app/home/users/create/one');
@@ -687,7 +688,7 @@ describe('Auth modulo de usuarios', () => {
       cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
       cy.get('div[cmdk-item][role="option"]').click();
 
-      cy.visit(`/app/home/users/view/all?query=${data.email}`);
+      cy.visit(`${usersRoutes.listAll()}?query=${data.email}`);
       cy.wait(2000);
 
       cy.visit(`/app/home/users/update/one/${data.id}`);
@@ -711,7 +712,7 @@ describe('Auth modulo de usuarios', () => {
       cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
       cy.get('div[cmdk-item][role="option"]').click();
 
-      cy.visit(`/app/home/users/view/all?query=${data.email}`);
+      cy.visit(`${usersRoutes.listAll()}?query=${data.email}`);
       cy.wait(2000);
 
       cy.visit(`/app/home/users/view/one/${data.id}`);
