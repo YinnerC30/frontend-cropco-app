@@ -598,6 +598,22 @@ describe('Certificar empleado', () => {
       }).should('exist');
     });
   });
+
+  it('Mostrar mensaje de error al generar certificado con campos incompletos', () => {
+    cy.createEmployeeAnd(({ id }) => {
+      cy.clickRefetchButton();
+      cy.clickActionsButtonTableRow(id);
+      cy.contains('Certificar');
+      cy.clickOnCertificateButton();
+      cy.clickOnGenerateCertificateButton();
+      cy.contains('El nombre de la empresa debe tener al menos 2 caracteres');
+      cy.contains('El nombre del generador debe tener al menos 2 caracteres');
+      cy.contains('El cargo del generador debe tener al menos 2 caracteres');
+      cy.contains('El cargo del empleado debe tener al menos 2 caracteres');
+      cy.contains('El número de cédula debe tener al menos 5 caracteres');
+      cy.contains('Las horas semanales deben ser al menos 1');
+    });
+  });
 });
 
 describe('Paginado y selectores', () => {
