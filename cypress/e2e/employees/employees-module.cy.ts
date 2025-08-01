@@ -441,7 +441,7 @@ describe('Ver registro de empleado', () => {
     cy.contains('Volver');
   });
 
-  it.only('Consultar registro con id inexistente', () => {
+  it('Consultar registro con id inexistente', () => {
     cy.loginUser();
     cy.visit(employeeRoutes.view(TEST_UUID_VALID));
     cy.checkFormInputsAreEmpty();
