@@ -36,7 +36,7 @@ export const useDeleteBulkCrops = (): UseMutationReturn<
           status,
           customMessages: {
             multiStatus:
-              'No se pudieron eliminar algunos cultivos, revisa que no tengan stock ',
+              'No fue posible eliminar algunos cultivos seleccionados. Verifica que no tengan stock disponible ni ventas con pagos pendientes antes de intentar eliminarlos',
           },
         });
       },
@@ -46,7 +46,7 @@ export const useDeleteBulkCrops = (): UseMutationReturn<
           handlers: {
             conflict: {
               message:
-                'No se pudieron eliminar los cultivos seleccionados, revisa que no tengan stock',
+                'No fue posible eliminar los cultivos seleccionados. Verifica que no tengan stock disponible ni ventas con pagos pendientes antes de intentar eliminarlos',
             },
           },
         });

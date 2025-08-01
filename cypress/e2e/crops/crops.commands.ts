@@ -17,7 +17,21 @@ Cypress.Commands.add(
     const creationCropEndpoint = 'http://localhost:3000/crops/create';
 
     if (fastCreation) {
-      cy.visit('/app/home/crops/create/one');
+      return cy.executeSeed({ crops: 1 }).then((result) => {
+        // Validamos que la estructura esperada exista
+        if (
+          result &&
+          result.history &&
+          Array.isArray(result.history.insertedCrops) &&
+          result.history.insertedCrops.length > 0
+        ) {
+          return result.history.insertedCrops[0];
+        } else {
+          throw new Error(
+            'No se encontró ningún registro de cultivo insertado en la respuesta del seed.'
+          );
+        }
+      });
     } else {
       cy.navigateToModuleWithSideBar('crops');
       cy.wait(3000);

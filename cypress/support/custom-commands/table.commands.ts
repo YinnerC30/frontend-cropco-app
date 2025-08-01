@@ -144,7 +144,7 @@ Cypress.Commands.add(
   (rowId: string, valuesToCheck: string[]) => {
     cy.get(`tr[data-testid="table-row-id-${rowId}"]`).within(() => {
       valuesToCheck.forEach((element) => {
-        cy.contains(element);
+        cy.contains(`${element}`);
       });
     });
   }
