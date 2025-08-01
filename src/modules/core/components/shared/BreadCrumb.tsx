@@ -43,6 +43,7 @@ export const BreadCrumb: React.FC<Props> = memo(
 
             <BreadcrumbItem>
               <BreadcrumbLink
+                data-testid={`breadcrumb-link-home`}
                 className={`hover:cursor-pointer ${
                   finalItem.length > 0
                     ? 'text-foreground/55'
@@ -69,6 +70,7 @@ export const BreadCrumb: React.FC<Props> = memo(
                   <BreadcrumbSeparator className="mx-2" />
                   <BreadcrumbItem>
                     <BreadcrumbLink
+                      data-testid={`breadcrumb-link-item-${element.name.toLowerCase()}`}
                       className="w-auto font-normal hover:cursor-pointer text-foreground/55"
                       onClick={() => {
                         const LINK = element.link;
@@ -87,7 +89,11 @@ export const BreadCrumb: React.FC<Props> = memo(
             })}
             {finalItem.length > 0 && <BreadcrumbSeparator />}
             <BreadcrumbItem>
-              <BreadcrumbPage>{finalItem}</BreadcrumbPage>
+              <BreadcrumbPage
+                data-testid={`breadcrumb-page-item-${finalItem.toLowerCase()}`}
+              >
+                {finalItem}
+              </BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>

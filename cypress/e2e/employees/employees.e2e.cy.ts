@@ -212,6 +212,19 @@ describe('Creación de empleados', () => {
     cy.clickOnIgnoreButton();
     cy.url().should('include', employeeRoutes.listAll());
   });
+
+  it('Comprobar navegación del breadcrumb', () => {
+    cy.get('a[data-testid="breadcrumb-link-item-empleados"]').click();
+    cy.url().should('include', employeeRoutes.listAll());
+  });
+
+  it('Comprobar navegación del breadcrumb (con campos rellenados)', () => {
+    cy.getFormInput('first_name').type('EmployeeName');
+    cy.get('a[data-testid="breadcrumb-link-item-empleados"]').click();
+    cy.checkMessageLostFormData();
+    cy.clickOnIgnoreButton();
+    cy.url().should('include', employeeRoutes.listAll());
+  });
 });
 
 describe('Modificación de empleados', () => {
@@ -285,6 +298,19 @@ describe('Modificación de empleados', () => {
     );
     cy.getFormTextArea('address').type(InformationGenerator.generateAddress());
     cy.clickOnCancelRegisterButton();
+    cy.checkMessageLostFormData();
+    cy.clickOnIgnoreButton();
+    cy.url().should('include', employeeRoutes.listAll());
+  });
+
+  it('Comprobar navegación del breadcrumb', () => {
+    cy.get('a[data-testid="breadcrumb-link-item-empleados"]').click();
+    cy.url().should('include', employeeRoutes.listAll());
+  });
+
+  it('Comprobar navegación del breadcrumb (con campos rellenados)', () => {
+    cy.getFormInput('first_name').type('EmployeeName');
+    cy.get('a[data-testid="breadcrumb-link-item-empleados"]').click();
     cy.checkMessageLostFormData();
     cy.clickOnIgnoreButton();
     cy.url().should('include', employeeRoutes.listAll());
