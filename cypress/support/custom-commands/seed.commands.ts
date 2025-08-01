@@ -1,23 +1,41 @@
-const tokenAdmin =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA1ZjM1YjUwLWYyN2YtNDhjNy05NmIyLWMzMTYxMjUwZjNlMyIsImlhdCI6MTc1Mzk3MjEyMywiZXhwIjoxNzUzOTkzNzIzfQ.QCafqkKbkUuxYOGtDlOKBklTcxRiyC6FyvdJlWRpwtE';
+Cypress.Commands.add('getTokenToSeed', (): Cypress.Chainable<string> => {
+  return cy
+    .request({
+      method: 'POST',
+      url: 'http://localhost:3000/auth/management/login',
+      body: {
+        email: 'admincropco@mail.com',
+        password: '123456',
+      },
+    })
+    .then((response) => {
+      return (
+        response.headers['set-cookie']
+          ?.toString()
+          .split(';')
+          .find((cookie: string) => cookie.startsWith('administrator-token='))
+          ?.split('=')[1] || ''
+      );
+    });
+});
 
 Cypress.Commands.add(
   'executeSeed',
   (
     body: any,
     options?: {
-      token?: string;
       tenantId?: string;
       url?: string;
       callback?: (response: any) => void;
     }
   ): Cypress.Chainable<any> => {
     const {
-      token = tokenAdmin,
       tenantId = 'c0913699-2c3e-418c-98fd-7e9560c975f1',
       url = 'http://localhost:3000/seed/controlled',
       callback,
     } = options || {};
+
+    cy.getTokenToSeed();
 
     return cy
       .request({
@@ -27,7 +45,6 @@ Cypress.Commands.add(
         headers: {
           'Content-Type': 'application/json',
           'x-tenant-id': tenantId,
-          Cookie: `administrator-token=${token}`,
         },
       })
 
@@ -53,11 +70,12 @@ Cypress.Commands.add(
     }
   ): Cypress.Chainable<any> => {
     const {
-      token = tokenAdmin,
       tenantId = 'c0913699-2c3e-418c-98fd-7e9560c975f1',
       url = 'http://localhost:3000/seed/clear',
       callback,
     } = options || {};
+
+    cy.getTokenToSeed();
 
     return cy
       .request({
@@ -67,7 +85,6 @@ Cypress.Commands.add(
         headers: {
           'Content-Type': 'application/json',
           'x-tenant-id': tenantId,
-          Cookie: `administrator-token=${token}`,
         },
       })
       .then((response) => {
