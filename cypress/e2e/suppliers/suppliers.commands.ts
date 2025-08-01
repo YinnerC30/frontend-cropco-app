@@ -9,7 +9,21 @@ Cypress.Commands.add(
     const creationSupplierEndpoint = 'http://localhost:3000/suppliers/create';
 
     if (fastCreation) {
-      cy.visit('/app/home/suppliers/create/one');
+      return cy.executeSeed({ suppliers: 1 }).then((result) => {
+        // Validamos que la estructura esperada exista
+        if (
+          result &&
+          result.history &&
+          Array.isArray(result.history.insertedSuppliers) &&
+          result.history.insertedSuppliers.length > 0
+        ) {
+          return result.history.insertedSuppliers[0];
+        } else {
+          throw new Error(
+            'No se encontró ningún registro de proveedor insertado en la respuesta del seed.'
+          );
+        }
+      });
     } else {
       cy.navigateToModuleWithSideBar('suppliers');
       cy.wait(3000);
