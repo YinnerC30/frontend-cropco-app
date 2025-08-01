@@ -348,7 +348,7 @@ describe('Eliminación de empleados por lote', () => {
     cy.clickRefetchButton();
   });
 
-  it('Eliminar cosechas seleccionadas', () => {
+  it('Eliminar empleados seleccionados', () => {
     for (let index = 0; index < 5; index++) {
       cy.createEmployee({}, { fastCreation: true });
     }

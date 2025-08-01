@@ -32,6 +32,7 @@ Cypress.Commands.add('clickOnCopyIdButton', () => {
 });
 
 Cypress.Commands.add('toggleSelectAllTableRows', () => {
+  cy.wait(300);
   cy.get('button[aria-label="Select all"]').click();
 });
 
