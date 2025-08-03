@@ -6,7 +6,6 @@ import { Outlet } from 'react-router-dom';
 export const RoutesManagementController = () => {
   useSubdomainRedirect({
     redirectRoute: '/management/authentication/login',
-    baseDomain: 'localhost',
     autoRedirect: true,
   });
 

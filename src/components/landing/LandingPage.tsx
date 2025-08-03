@@ -6,7 +6,6 @@ import Hero from './Hero';
 export const LandingPage = () => {
   useSubdomainRedirect({
     redirectRoute: '/',
-    baseDomain: 'localhost',
     autoRedirect: true,
   });
 
