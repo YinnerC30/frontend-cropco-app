@@ -39,7 +39,7 @@ export const usePatchShopping = (
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

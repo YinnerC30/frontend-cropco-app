@@ -30,7 +30,7 @@ export const useGetAllCropsWithSales = (): UseQueryGetAllRecordsReturn<Crop> => 
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado de cultivos con trabajos 😑'
+        'No tienes permiso para ver el listado de cultivos con trabajos '
       );
     }
   }, [isAuthorized]);
@@ -39,7 +39,7 @@ export const useGetAllCropsWithSales = (): UseQueryGetAllRecordsReturn<Crop> => 
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {},
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

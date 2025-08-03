@@ -1,11 +1,15 @@
-export const FormatNumber = (
-  value: number,
-  isInteger: boolean = true
-): string => {
-  const options: Intl.NumberFormatOptions = {
-    maximumFractionDigits: isInteger ? 0 : 4,
-    minimumFractionDigits: isInteger ? 0 : 4,
-  };
+export const FormatNumber = (value: number | string): string => {
+  // Convertir a número si es string
+  const numValue = typeof value === 'string' ? parseFloat(value) : value;
 
-  return new Intl.NumberFormat('es-CO', options).format(value);
+  // Verificar si es un número válido
+  if (isNaN(numValue)) {
+    return '0,00';
+  }
+
+  // Formatear el número con separadores de miles y decimales
+  return numValue.toLocaleString('es-ES', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 };

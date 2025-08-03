@@ -1,0 +1,162 @@
+name: Beta Release Pipeline
+
+on:
+  push:
+    tags:
+      - 'v*-beta*'
+      - 'v*-rc*'
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Tipo de versión pre-release'
+        required: true
+        default: 'beta'
+        type: choice
+        options:
+          - beta
+          - rc
+      release_notes:
+        description: 'Notas de release (opcional)'
+        required: false
+        type: string
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run E2E tests
+        run: npm run cypress:run
+
+      - name: Build application
+        run: npm run build
+
+  beta-release:
+    needs: validate
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            # Para workflow manual, incrementar versión
+            VERSION_TYPE="${{ github.event.inputs.version_type }}"
+            npm run version:$VERSION_TYPE
+            VERSION=$(node -p "require('./package.json').version")
+          else
+            # Para tags, usar la versión del tag
+            VERSION=${GITHUB_REF#refs/tags/}
+            VERSION=${VERSION#v}
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/cropco-frontend:${{ steps.version.outputs.version }}
+            ${{ secrets.DOCKER_USERNAME }}/cropco-frontend:beta
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Create Beta Release
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: Beta Release v${{ steps.version.outputs.version }}
+          body: |
+            ## 🧪 Beta Release v${{ steps.version.outputs.version }}
+            
+            ### ⚠️ IMPORTANTE
+            Esta es una versión beta. No usar en producción.
+            
+            ### 🔍 Cambios en esta versión
+            ${{ github.event.inputs.release_notes || '- Cambios y mejoras en desarrollo' }}
+            
+            ### 🐳 Docker Image
+            - Tag: `${{ secrets.DOCKER_USERNAME }}/cropco-frontend:${{ steps.version.outputs.version }}`
+            - Beta: `${{ secrets.DOCKER_USERNAME }}/cropco-frontend:beta`
+            
+            ### 🧪 Testing
+            - [ ] Tests unitarios pasando
+            - [ ] Tests E2E pasando
+            - [ ] Build exitoso
+            - [ ] Linting sin errores
+            
+            ### 📋 Checklist para Release Final
+            - [ ] Revisar feedback de usuarios
+            - [ ] Corregir bugs reportados
+            - [ ] Actualizar documentación
+            - [ ] Preparar release notes finales
+          draft: false
+          prerelease: true
+
+      - name: Push changes
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git push origin main
+          git push --tags
+
+  notify:
+    needs: beta-release
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Notify Beta Release
+        run: |
+          echo "Beta release v${{ needs.beta-release.outputs.version }} completed!"
+          echo "Docker image: ${{ secrets.DOCKER_USERNAME }}/cropco-frontend:${{ needs.beta-release.outputs.version }}" 

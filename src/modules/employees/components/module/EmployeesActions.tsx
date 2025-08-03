@@ -32,7 +32,10 @@ export const EmployeesActions: React.FC = () => {
         onClick={async () => {
           await queryEmployees.refetch();
         }}
-        disabled={!actionsEmployeesModule['find_all_employees']}
+        disabled={
+          !actionsEmployeesModule['find_all_employees'] ||
+          queryEmployees.isFetching
+        }
         className=""
       />
 

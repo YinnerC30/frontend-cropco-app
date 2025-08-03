@@ -29,7 +29,7 @@ export const formFieldsClient: Record<ClientFormFields, CustomFormField> = {
   cell_phone_number: {
     name: 'cell_phone_number',
     label: 'Número celular:',
-    placeholder: '3148009870',
+    placeholder: '+573148009870',
     description: 'Su número celular personal',
   },
   address: {

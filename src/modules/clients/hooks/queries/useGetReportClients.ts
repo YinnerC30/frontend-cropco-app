@@ -49,12 +49,12 @@ export const useGetReportClients = ({
   });
 
   useEffect(() => {
-    if (!isAuthorized) {
+    if (!isAuthorized && executeQuery) {
       toast.error(
         'Requieres del permiso para generar el reporte de los clientes'
       );
     }
-  }, [isAuthorized]);
+  }, [isAuthorized, executeQuery]);
 
   useEffect(() => {
     if (query.isSuccess && showReport) {
@@ -67,8 +67,10 @@ export const useGetReportClients = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          notFound: 'No hay registros para generar el reporte',
+        handlers: {
+          notFound: {
+            message: 'No se encontraron registros para generar el reporte.',
+          },
         },
       });
     }

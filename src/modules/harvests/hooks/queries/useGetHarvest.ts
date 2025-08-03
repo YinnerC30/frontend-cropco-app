@@ -55,7 +55,7 @@ export const useGetHarvest = (id: string): UseGetOneRecordReturn<Harvest> => {
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {},
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

@@ -24,6 +24,7 @@ import { formSchemaSaleDetails } from '@/modules/sales/utils';
 import React from 'react';
 import { z } from 'zod';
 import { FormSaleDetailsFields } from './FormSaleDetailsFields';
+import { ScrollArea } from '@/components';
 
 export const FormSaleDetail: React.FC = () => {
   const {
@@ -38,6 +39,7 @@ export const FormSaleDetail: React.FC = () => {
     formSaleDetail,
     removeCropStock,
     validateAvailableStock,
+    isSubmittingSaleDetail,
   } = useFormSaleContext();
 
   const onSubmitSaleDetail = (
@@ -56,6 +58,8 @@ export const FormSaleDetail: React.FC = () => {
       const record = {
         ...values,
         deletedDate: null,
+        client: { ...values.client, deletedDate: null },
+        crop: { ...values.crop, deletedDate: null },
         id: generateUUID(),
       };
 
@@ -78,6 +82,8 @@ export const FormSaleDetail: React.FC = () => {
 
       modifySaleDetail({
         ...values,
+        client: { ...values.client, deletedDate: null },
+        crop: { ...values.crop, deletedDate: null },
         deletedDate: null,
       });
       toast.success('Registro actualizado');
@@ -98,7 +104,9 @@ export const FormSaleDetail: React.FC = () => {
     <>
       <ToolTipTemplate content={'Crear registro'}>
         <Button
-          className={`${readOnly && 'hidden'} bg-primary/70 hover:bg-primary/50`}
+          className={`${
+            readOnly && 'hidden'
+          } bg-primary/70 hover:bg-primary/50`}
           size="icon"
           onClick={handleOpenDialogExtended}
           disabled={readOnly}
@@ -109,7 +117,7 @@ export const FormSaleDetail: React.FC = () => {
       </ToolTipTemplate>
       <Dialog open={openDialog} modal={false}>
         <DialogContent
-          className="sm:max-w-[525px]"
+          className="sm:max-w-[425px] h-[85vh] overflow-hidden max-w-[95vw]"
           onClick={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
@@ -129,12 +137,15 @@ export const FormSaleDetail: React.FC = () => {
             </DialogDescription>
           </DialogHeader>
 
-          <FormSaleDetailsFields />
+          <ScrollArea className="h-[60vh] w-full py-2">
+            <FormSaleDetailsFields />
+          </ScrollArea>
 
           <DialogFooter>
             <Button
               type="submit"
               onClick={formSaleDetail.handleSubmit(onSubmitSaleDetail)}
+              disabled={isSubmittingSaleDetail}
             >
               Guardar
             </Button>

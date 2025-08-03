@@ -8,6 +8,10 @@ import { Crop } from '@/modules/crops/interfaces/Crop';
 import { Work } from '../../interfaces/Work';
 import { WorkDetail } from '../../interfaces/WorkDetail';
 import { formFieldsWork } from '../../utils/formFieldsWork';
+import { CropHoverCard } from '@/modules/crops/components/card/CropHoverCard';
+import { PersonHoverCard } from '@/modules/core/components/card/PersonHoverCard';
+import { Employee } from '@/modules/employees/interfaces/Employee';
+import { MODULE_EMPLOYEE_PATHS } from '@/modules/employees/routes/pathRoutes';
 
 export const columnsWork: ColumnDef<Work>[] = [
   {
@@ -23,13 +27,24 @@ export const columnsWork: ColumnDef<Work>[] = [
   },
   {
     accessorKey: formFieldsWork.crop.name,
-    cell: ({ row }) => {
-      const crop: Crop = row.getValue('crop');
-      return crop.name;
-    },
+    // cell: ({ row }) => {
+    //   const crop: Crop = row.getValue('crop');
+    //   return crop.name;
+    // },
+
     header: ({ column }: HeaderContext<Work, unknown>) => {
       return (
         <ButtonHeaderTable column={column} label={formFieldsWork.crop.label} />
+      );
+    },
+    cell: ({ row: { original } }) => {
+      const crop = original.crop as any;
+      return (
+        <CropHoverCard data={crop as Crop}>
+          <Badge className="mb-1 mr-1" variant={'purple'}>
+            {crop.name}
+          </Badge>
+        </CropHoverCard>
       );
     },
   },
@@ -46,9 +61,18 @@ export const columnsWork: ColumnDef<Work>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {employees.slice(0, maxVisible).map((employee, index) => (
-            <Badge key={`${employee?.id}-${index}`} className="mb-1 mr-1">
-              {employee.full_name}
-            </Badge>
+            <PersonHoverCard
+              data={employee as Employee}
+              routeToNavigate={MODULE_EMPLOYEE_PATHS.ViewOne + employee.id}
+            >
+              <Badge
+                key={`${employee?.id}-${index}`}
+                className="mb-1 mr-1"
+                variant={'orange'}
+              >
+                {employee.full_name}
+              </Badge>
+            </PersonHoverCard>
           ))}
 
           {hiddenCount > 0 && (
@@ -58,7 +82,7 @@ export const columnsWork: ColumnDef<Work>[] = [
             //     .map((item) => item.first_name)
             //     .join(',\n')}
             // >
-              <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
+            <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
             // </ToolTipTemplate>
           )}
         </div>
@@ -86,7 +110,10 @@ export const columnsWork: ColumnDef<Work>[] = [
     },
     header: ({ column }: HeaderContext<Work, unknown>) => {
       return (
-        <ButtonHeaderTable column={column} label={formFieldsWork.value_pay.label} />
+        <ButtonHeaderTable
+          column={column}
+          label={formFieldsWork.value_pay.label}
+        />
       );
     },
   },
@@ -97,9 +124,9 @@ export const columnsWork: ColumnDef<Work>[] = [
       const array: WorkDetail[] = row.getValue('details') ?? [];
       const result = array.some((item) => item.payment_is_pending);
       return result ? (
-        <Badge variant={'red'}>SI</Badge>
+        <Badge variant={'destructive'}>SI</Badge>
       ) : (
-        <Badge variant={'indigo'}>NO</Badge>
+        <Badge variant={'success'}>NO</Badge>
       );
     },
     header: ({ column }: HeaderContext<Work, unknown>) => {

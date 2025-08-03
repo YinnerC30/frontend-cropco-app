@@ -7,6 +7,10 @@ import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyV
 import { Sale, SaleDetail } from '../../interfaces';
 import { formFieldsSale } from '../../utils/formFieldsSale';
 import { CellSaleAmount } from './CellSaleAmount';
+import { CropHoverCard } from '@/modules/crops/components/card/CropHoverCard';
+import { Crop } from '@/modules/crops/interfaces/Crop';
+import { PersonHoverCard } from '@/modules/core/components/card/PersonHoverCard';
+import { MODULE_CLIENTS_PATHS } from '@/modules/clients/routes/pathRoutes';
 
 export const columnsSale: ColumnDef<Sale>[] = [
   {
@@ -22,30 +26,42 @@ export const columnsSale: ColumnDef<Sale>[] = [
   },
 
   {
-    accessorKey: 'clients',
+    accessorKey: 'details',
     header: ({ column }) => (
       <ButtonHeaderTable column={column} label="Clientes:" />
     ),
     cell: ({ row: { original } }) => {
-      const setClients = new Set(
-        original.details.map((item) => item.client.full_name)
-      );
-      const clients = Array.from(setClients);
+      // Usar un Map para filtrar clientes únicos por id y conservar el objeto completo
+      const clientMap = new Map();
+      original.details.forEach((item) => {
+        const client = {
+          ...item.client,
+          full_name: item.client.first_name + ' ' + item.client.last_name,
+        };
+        if (!clientMap.has(client.id)) {
+          clientMap.set(client.id, client);
+        }
+      });
+      const clients = Array.from(clientMap.values());
       const maxVisible = 2;
       const hiddenCount = clients.length - maxVisible;
 
       return (
         <div className="flex flex-wrap items-center gap-1">
           {clients.slice(0, maxVisible).map((client, index) => (
-            <Badge key={`${client}-${index}`} className="mb-1 mr-1">
-              {client}
-            </Badge>
+            <PersonHoverCard
+              key={`${client.id}-${index}`}
+              data={client as any}
+              routeToNavigate={MODULE_CLIENTS_PATHS.ViewOne + client.id}
+            >
+              <Badge className="mb-1 mr-1" variant={'orange'}>
+                {client.full_name}
+              </Badge>
+            </PersonHoverCard>
           ))}
 
           {hiddenCount > 0 && (
-            // <ToolTipTemplate content={clients.slice(maxVisible).join(',\n')}>
             <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
-            // </ToolTipTemplate>
           )}
         </div>
       );
@@ -57,28 +73,29 @@ export const columnsSale: ColumnDef<Sale>[] = [
       <ButtonHeaderTable column={column} label="Cultivos:" />
     ),
     cell: ({ row: { original } }) => {
-      const setCrops = new Set(original.details.map((item) => item.crop.name));
-      const crops = Array.from(setCrops);
+      // Usar un Map para filtrar crops únicos por id pero conservar el objeto completo
+      const cropMap = new Map();
+      original.details.forEach((item) => {
+        if (!cropMap.has(item.crop.id)) {
+          cropMap.set(item.crop.id, item.crop);
+        }
+      });
+      const crops = Array.from(cropMap.values());
       const maxVisible = 2;
       const hiddenCount = crops.length - maxVisible;
 
       return (
         <div className="flex flex-wrap items-center gap-1">
           {crops.slice(0, maxVisible).map((crop, index) => (
-            <Badge key={`${crop}-${index}`} className="mb-1 mr-1">
-              {crop}
-            </Badge>
+            <CropHoverCard data={crop as Crop} key={`${crop.id}-${index}`}>
+              <Badge className="mb-1 mr-1" variant={'purple'}>
+                {crop.name}
+              </Badge>
+            </CropHoverCard>
           ))}
 
           {hiddenCount > 0 && (
-            // <ToolTipTemplate
-            //   content={crops
-            //     .slice(maxVisible)
-            //     // .map((item) => item)
-            //     .join(',\n')}
-            // >
             <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
-            // </ToolTipTemplate>
           )}
         </div>
       );
@@ -118,9 +135,9 @@ export const columnsSale: ColumnDef<Sale>[] = [
       const array: SaleDetail[] = row.getValue('details') ?? [];
       const result = array.some((item) => item.is_receivable);
       return result ? (
-        <Badge variant={'red'}>SI</Badge>
+        <Badge variant={'destructive'}>SI</Badge>
       ) : (
-        <Badge variant={'indigo'}>NO</Badge>
+        <Badge variant={'success'}>NO</Badge>
       );
     },
     header: ({ column }: HeaderContext<Sale, unknown>) => {

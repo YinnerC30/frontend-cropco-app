@@ -136,4 +136,13 @@ export const defaultGlobalActionsUserAdmin = {
     find_total_sales_in_year_chart: false,
     find_total_consumptions_in_year_chart: false,
   },
+  tenants: {
+    create_tenant: false,
+    find_all_tenants: false,
+    find_one_tenant: false,
+    update_one_tenant: false,
+    remove_one_tenant: false,
+    remove_bulk_tenants: false,
+    toggle_status_tenant: false,
+  },
 };

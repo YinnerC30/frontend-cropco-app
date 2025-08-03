@@ -47,7 +47,10 @@ export const schemaForDate = z
 
 export const schemaForAmount = z
   .object({
-    amount: z.coerce.number().optional(),
+    amount: z.coerce
+      .number()
+      .positive('Debe ingresar un valor positivo')
+      .optional(),
     type_filter_amount: z
       .nativeEnum(TypeFilterNumber, {
         errorMap: (issue, _ctx) => {
@@ -90,7 +93,10 @@ export const schemaForAmount = z
 
 export const schemaForAmountWithMassUnitOfMeasure = z
   .object({
-    amount: z.coerce.number().optional(),
+    amount: z.coerce
+      .number()
+      .positive('Debe ingresar un valor positivo')
+      .optional(),
     type_unit_of_measure: z.nativeEnum(MassUnitOfMeasure, {
       errorMap: (issue, _ctx) => {
         switch (issue.code) {
@@ -157,7 +163,10 @@ export const schemaForAmountWithMassUnitOfMeasure = z
 
 export const schemaForTotal = z
   .object({
-    total: z.coerce.number().optional(),
+    total: z.coerce
+      .number()
+      .positive('Debe ingresar un valor positivo')
+      .optional(),
     type_filter_total: z
       .nativeEnum(TypeFilterNumber, {
         errorMap: (issue, _ctx) => {
@@ -200,7 +209,10 @@ export const schemaForTotal = z
 
 export const schemaForValuePay = z
   .object({
-    value_pay: z.coerce.number().optional(),
+    value_pay: z.coerce
+      .number()
+      .positive('Debe ingresar un valor positivo')
+      .optional(),
     type_filter_value_pay: z
       .nativeEnum(TypeFilterNumber, {
         errorMap: (issue, _ctx) => {

@@ -6,7 +6,8 @@ type UserFormFields =
   | 'email'
   | 'cell_phone_number'
   | 'password1'
-  | 'password2';
+  | 'password2'
+  | 'roles';
 
 export const formFieldsUser: Record<UserFormFields, CustomFormField> = {
   first_name: {
@@ -19,7 +20,7 @@ export const formFieldsUser: Record<UserFormFields, CustomFormField> = {
     name: 'last_name',
     label: 'Apellido(s):',
     placeholder: 'Gomez',
-    description: 'Su primer apellido',
+    description: 'Su(s) apellido(s)',
   },
   email: {
     name: 'email',
@@ -30,7 +31,7 @@ export const formFieldsUser: Record<UserFormFields, CustomFormField> = {
   cell_phone_number: {
     name: 'cell_phone_number',
     label: 'Número celular:',
-    placeholder: '3148009870',
+    placeholder: '+573148009870',
     description: 'Su número celular personal',
   },
   password1: {
@@ -44,5 +45,11 @@ export const formFieldsUser: Record<UserFormFields, CustomFormField> = {
     label: 'Repetir contraseña:',
     placeholder: '',
     description: 'Escriba nuevamente la contraseña',
+  },
+  roles: {
+    name: 'roles',
+    label: 'Rol asignado:',
+    placeholder: '',
+    description: '',
   },
 };

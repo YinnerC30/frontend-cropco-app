@@ -4,20 +4,20 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import { createContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { useGetAllCrops } from '../../hooks/queries/useGetAllCrops';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { BulkRecords } from '@/modules/core/interfaces';
+import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { useDeleteCrop } from '../../hooks';
 import { useDeleteBulkCrops } from '../../hooks/mutations/useDeleteBulkCrops';
 import { Crop } from '../../interfaces/Crop';
 import { columnsTableCrops } from './columnsTableCrops';
 import { CropsModuleActionsTable } from './CropsModuleActionsTable';
-import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
-import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 export interface CropsModuleContextProps {
   paramQuery: string;
@@ -52,7 +52,7 @@ export const CropsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const { getActionsModule } = useAuthContext();
 
-  const actionsCropsModule = useMemo(() => getActionsModule('crops'), []);
+  const actionsCropsModule = getActionsModule('crops');
 
   const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
     useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
@@ -93,7 +93,7 @@ export const CropsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
     mutationDeleteCrops,
     mutationDeleteCrop,
     unitTypeToShowAmount,
-    setUnitTypeToShowAmount
+    setUnitTypeToShowAmount,
   };
 
   return (

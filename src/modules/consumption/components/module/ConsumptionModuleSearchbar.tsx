@@ -159,7 +159,7 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
         form.setValue('supplies', [], { shouldDirty: false });
         break;
       case 'date':
-        form.setValue('filter_by_date.type_filter_date', TypeFilterDate.after, {
+        form.setValue('filter_by_date.type_filter_date', TypeFilterDate.AFTER, {
           shouldDirty: false,
         });
         form.setValue('filter_by_date.date', undefined, { shouldDirty: false });
@@ -204,7 +204,7 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
       {
         filter_by_date: {
           date: undefined,
-          type_filter_date: TypeFilterDate.after,
+          type_filter_date: TypeFilterDate.AFTER,
         },
         supplies: [],
         crops: [],
@@ -377,7 +377,7 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverSupplier}
                               modal={true}
                             >
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2">
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     {queryCrops.isLoading ||
@@ -544,7 +544,7 @@ export const ConsumptionModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverSupply}
                               modal={true}
                             >
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2">
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     {querySupplies.isLoading ||

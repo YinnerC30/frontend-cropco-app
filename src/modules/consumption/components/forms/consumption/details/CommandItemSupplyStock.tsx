@@ -1,10 +1,13 @@
 import { cn } from '@/lib/utils';
 import { FormatNumber } from '@/modules/core/helpers';
-import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
+import {
+  unitTypeMap,
+  useUnitConverter,
+} from '@/modules/core/hooks/useUnitConverter';
 import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import {
   UnitOfMeasure,
-  UnitSymbols,
+  UnitSymbols
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CheckIcon } from '@radix-ui/react-icons';
 import { ControllerRenderProps } from 'react-hook-form';
@@ -16,17 +19,35 @@ interface Props {
 }
 
 export const CommandItemSupplyStock = ({ field, item, converTo }: Props) => {
-  const coreUnit = item.unit_of_measure as UnitOfMeasure;
+  console.log(
+    '🚀 ~ CommandItemSupplyStock ~ field, item, converTo:',
+    field,
+    item,
+    converTo
+  );
+  const { convert, getUnitBase } = useUnitConverter();
+
+  const isInSameGroup =
+    unitTypeMap[converTo] ===
+    unitTypeMap[item.unit_of_measure as UnitOfMeasure];
+  const alternativeConverTo = item.unit_of_measure as UnitOfMeasure;
+
+  // const grupUnit = unitTypeMap[item.unit_of_measure as UnitOfMeasure];
+  const coreUnit: any = getUnitBase(item.unit_of_measure as UnitOfMeasure);
+
+  const finalConverTo: UnitOfMeasure = isInSameGroup
+    ? converTo
+    : alternativeConverTo;
 
   let result: string = '';
 
-  const { convert } = useUnitConverter();
-
   try {
-    const convertionValue = convert(item.amount, coreUnit, converTo);
-    result = `${convertionValue} ${UnitSymbols[converTo]}`;
+    const convertionValue = convert(item.amount, coreUnit, finalConverTo);
+    result = `${convertionValue} ${UnitSymbols[finalConverTo]}`;
   } catch (error) {
-    result = `${FormatNumber(item?.['amount'])}  ${UnitSymbols[coreUnit]}`;
+    result = `${FormatNumber(item?.['amount'])}  ${
+      UnitSymbols[coreUnit as UnitOfMeasure]
+    }`;
   }
 
   return (

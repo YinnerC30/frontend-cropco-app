@@ -14,11 +14,12 @@ import {
   FormFieldInput,
   FormFieldTextArea,
 } from '@/modules/core/components';
-import { FormatMoneyValue } from '@/modules/core/helpers';
+import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { useFormHarvestContext } from '@/modules/harvests/hooks';
 import { formFieldsHarvest } from '@/modules/harvests/utils';
 
 import { useGetAllCrops } from '@/modules/crops/hooks';
+import { Crop } from '@/modules/crops/interfaces/Crop';
 import {
   MassUnitOfMeasure,
   UnitsType,
@@ -34,15 +35,34 @@ export const FormHarvestFields: React.FC = () => {
     value_pay,
     unitTypeToShowAmount,
     setUnitTypeToShowAmount,
+    defaultValues,
   } = useFormHarvestContext();
-
-  const disabledCropField =
-    formHarvest.formState.defaultValues?.crop?.id !== '';
+  /**
+   * Indicates if the crop field should be disabled.
+   * It is disabled if there are processed items or a total amount processed.
+   */
+  const disabledCropField: boolean =
+    (Array.isArray(defaultValues?.processed) &&
+      defaultValues.processed.length > 0) ||
+    (typeof defaultValues?.total_amount_processed === 'number' &&
+      defaultValues.total_amount_processed > 0) ||
+    (typeof defaultValues?.crop === 'object' &&
+      defaultValues.crop.deletedDate !== null);
 
   const { query: queryCrops } = useGetAllCrops({
     queryValue: '',
     all_records: true,
   });
+
+  const getCropDataToCommand = (): Crop[] => {
+    if (!queryCrops.isSuccess) return [];
+    const crops = [...queryCrops.data?.records];
+    const defaultCrop = formHarvest.formState.defaultValues?.crop;
+    if (defaultCrop?.id && !crops.some((crop) => crop.id === defaultCrop.id)) {
+      crops.push(defaultCrop);
+    }
+    return crops;
+  };
 
   return (
     <Form {...formHarvest}>
@@ -62,14 +82,7 @@ export const FormHarvestFields: React.FC = () => {
             className="w-[240px]"
           />
           <FormFieldCommand
-            data={
-              queryCrops.isSuccess
-                ? [
-                    ...queryCrops.data?.records,
-                    formHarvest.formState.defaultValues?.crop,
-                  ]
-                : []
-            }
+            data={getCropDataToCommand()}
             form={formHarvest}
             nameToShow={'name'}
             control={formHarvest.control}
@@ -122,9 +135,10 @@ export const FormHarvestFields: React.FC = () => {
             <div className="flex items-center w-auto gap-2 py-4">
               <Badge
                 className="block h-8 text-base text-center w-28"
-                variant={'cyan'}
+                variant={'zinc'}
+                data-testid="badge-amount"
               >
-                {Number.isInteger(amount) ? amount : amount.toFixed(2)}
+                {FormatNumber(amount)}
               </Badge>
 
               <Select
@@ -140,7 +154,7 @@ export const FormHarvestFields: React.FC = () => {
                 </SelectTrigger>
 
                 <SelectContent>
-                  {[...UnitsType['GRAMOS']].map((item: any) => (
+                  {UnitsType.MASS.map((item: any) => (
                     <SelectItem key={item.key} value={item.value}>
                       {item.label}
                     </SelectItem>
@@ -165,7 +179,8 @@ export const FormHarvestFields: React.FC = () => {
           >
             <Badge
               className="block h-8 text-base text-center w-28"
-              variant={'indigo'}
+              variant={'emerald'}
+              data-testid="badge-value-pay"
             >
               {FormatMoneyValue(value_pay)}
             </Badge>

@@ -6,22 +6,27 @@ import {
 } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 import { RootState, useAppSelector } from '@/redux/store';
 import { useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { UserActive } from '../interfaces';
-import { removeUserActive, setUserActive } from '../utils';
-import { setToken } from '../utils/authenticationSlice';
-import {
-  removeUserInLocalStorage,
-  renewTokenInLocalStorage,
-  saveUserInLocalStorage,
-} from '../utils/manageUserInLocalStorage';
-import { AuthContextProps } from '../interfaces/AuthContextProps';
-import { TypedAxiosError } from '../interfaces/AxiosErrorResponse';
 import { defaultGlobalActionsUserAdmin } from '../helpers/defaultGlobalActionsUserAdmin';
+import { UserActive } from '../interfaces';
+import { AuthContextProps } from '../interfaces/AuthContextProps';
+import { Tenant } from '../interfaces/Tenant';
+import {
+  removeUserActive,
+  setUserActive,
+  UserLocalStorageManager,
+} from '../utils';
+import { setToken } from '../utils/authenticationSlice';
+
+import {
+  useHandlerError,
+  UseHandlerErrorProps,
+} from '../hooks/errors/useHandlerError';
+import { TenantLocalStorageManager } from '../utils/TenantLocalStorageManager';
+import { setTenant } from '../utils/tenantSlice';
 
 export const TIME_ACTIVE_TOKEN = 60_000 * 6;
 export const TIME_QUESTION_RENEW_TOKEN = 60_000 * 5.5;
@@ -39,18 +44,8 @@ export type ModulesCropco =
   | 'shopping'
   | 'consumptions'
   | 'dashboard';
-type GlobalActionsUser = Record<ModulesCropco, Record<string, boolean>>;
 
-export interface HandleErrorProps {
-  error: AxiosError<TypedAxiosError, unknown>;
-  messagesStatusError: {
-    notFound?: string;
-    badRequest?: string;
-    unauthorized?: string;
-    conflict?: string;
-    other?: string;
-  };
-}
+type GlobalActionsUser = Record<ModulesCropco, Record<string, boolean>>;
 
 interface DataActionsAuthorization {
   [key: string]: {
@@ -66,87 +61,73 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [executeQueryModule, setExecuteQueryModule] = useState(false);
-  const queryGetAllModules = useGetAllModules({
-    executeQuery: executeQueryModule,
-  });
+
   const { user } = useAppSelector((state: RootState) => state.authentication);
+  const { tenant } = useAppSelector((state: RootState) => state.tenant);
+
   const queryClient = useQueryClient();
   const tokenSession = user?.token;
+  const tenantId = tenant.id;
 
   const dispatch = useDispatch();
 
-  const saveUserInState = (user: UserActive) => {
+  const saveTenant = (tenant: Tenant) => {
+    TenantLocalStorageManager.saveTenantInLocalStorage(tenant);
+
+    dispatch(setTenant(tenant));
+  };
+  const saveUser = (user: UserActive) => {
+    UserLocalStorageManager.saveUser(user);
+    // userTokenCookieManager.save(user.token);
     dispatch(setUserActive(user));
   };
 
-  const saveUser = (user: UserActive) => {
-    saveUserInLocalStorage(user);
-    saveUserInState(user);
-  };
-
-  const removeUserInState = () => {
+  const removeTenant = () => {
+    TenantLocalStorageManager.removeTenantInLocalStorage();
     dispatch(removeUserActive());
   };
 
   const removeUser = () => {
     setExecuteQueryModule(false);
-    removeUserInLocalStorage();
-    removeUserInState();
+    UserLocalStorageManager.removeUser();
+    dispatch(removeUserActive());
     queryClient.clear();
   };
 
-  const renewTokenInState = (token: string) => {
-    dispatch(setToken(token));
-  };
+  const queryGetAllModules = useGetAllModules({
+    executeQuery: executeQueryModule,
+    actionOnError: () => {
+      setTimeout(() => {
+        removeUser();
+        window.location.reload();
+      }, 3000);
+    },
+  });
 
   const updateTokenInClient = (token: string) => {
     if (user) {
-      renewTokenInLocalStorage(user, token);
-      renewTokenInState(token);
+      UserLocalStorageManager.renewToken(user, token);
+      dispatch(setToken(token));
     }
   };
 
-  const handleError = ({ error, messagesStatusError }: HandleErrorProps) => {
-    const { response } = error;
-    const {
-      badRequest = 'La solicitud contiene información incorrecta',
-      unauthorized = 'No tienes permiso para realizar esta acción',
-      other = 'Ocurrió un error inesperado',
-      notFound = 'No se encontró la información solicitada',
-      conflict = 'Existe un conflicto al realizar la solicitud',
-    } = messagesStatusError;
+  const { handleErrorByStatus } = useHandlerError();
 
-    const handleNetworkError = () => {
-      if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
-        toast.error('El servicio actualmente no se encuentra disponible');
-        return true;
-      }
-      return false;
-    };
-
-    if (handleNetworkError()) return;
-
-    switch (response?.status) {
-      case 400:
-        toast.error(badRequest);
-        break;
-      case 401:
-        removeUser();
-        toast.error('Su sesión ha expirado, volveras al Login 😉');
-        break;
-      case 403:
-        toast.error(unauthorized);
-        break;
-      case 404:
-        toast.error(notFound);
-        break;
-      case 409:
-        toast.error(conflict);
-        break;
-      default:
-        toast.error(other);
-        break;
-    }
+  const handleError = (props: UseHandlerErrorProps) => {
+    handleErrorByStatus({
+      ...props,
+      handlers: {
+        ...props.handlers,
+        unauthorized: {
+          onHandle: () => {
+            setTimeout(() => {
+              removeUser();
+              window.location.reload();
+            }, 3000);
+          },
+        },
+      },
+    });
   };
 
   const navigate = useNavigate();
@@ -168,8 +149,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     );
   }, [user]);
 
-  const hasPermission = (moduleName: string, actionName: string): boolean => {
-    return userAuthData[moduleName]?.actions.has(actionName) ?? false;
+  const hasPermission = (
+    moduleName: string,
+    actionName: string,
+    showToastError = false,
+    messageError = 'No tienes permisos para esta acción'
+  ): boolean => {
+    const isAuthorized =
+      userAuthData[moduleName]?.actions.has(actionName) ?? false;
+    if (!isAuthorized && showToastError) {
+      toast.error(messageError);
+    }
+    return isAuthorized;
   };
 
   const getNameActionsModule = (nameModule: string) => {
@@ -220,10 +211,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   useEffect(() => {
-    if (!user?.isLogin) {
+    if (!user?.is_login) {
       setExecuteQueryModule(false);
       navigate(PATH_LOGIN, { replace: true });
-    } else if (user.isLogin) {
+    } else if (user.is_login) {
       setExecuteQueryModule(true);
     }
   }, [navigate, user]);
@@ -232,9 +223,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     <AuthContext.Provider
       value={{
         saveUser,
-        isLogin: user?.isLogin ?? false,
+        is_login: user?.is_login ?? false,
         removeUser,
-
+        // logout,
         updateTokenInClient,
         tokenSession,
         user,
@@ -247,6 +238,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         getActionsModule,
         isLoading: queryGetAllModules.isLoading,
         isError: queryGetAllModules.isError,
+        tenantId,
+        saveTenant,
+        removeTenant,
       }}
     >
       {children}

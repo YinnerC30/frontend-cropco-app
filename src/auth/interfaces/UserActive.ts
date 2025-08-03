@@ -7,5 +7,5 @@ export interface UserActive {
   first_name: string;
   last_name: string;
   modules: Module[];
-  isLogin: boolean;
+  is_login: boolean;
 }

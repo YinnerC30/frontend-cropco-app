@@ -30,7 +30,7 @@ export const usePostClient = (): UseMutationReturn<Client, Client> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

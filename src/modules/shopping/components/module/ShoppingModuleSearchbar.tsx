@@ -101,7 +101,12 @@ export const ShoppingModuleSearchbar: React.FC = () => {
     const isValid = await form.trigger(name);
     if (!isValid) return false;
 
-    const { filter_by_value_pay, suppliers = [], supplies = [], filter_by_date } = form.watch();
+    const {
+      filter_by_value_pay,
+      suppliers = [],
+      supplies = [],
+      filter_by_date,
+    } = form.watch();
 
     const filters: FilterSearchBar[] = [];
 
@@ -182,7 +187,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
         form.setValue('supplies', [], { shouldDirty: false });
         break;
       case 'date':
-        form.setValue('filter_by_date.type_filter_date', TypeFilterDate.after, {
+        form.setValue('filter_by_date.type_filter_date', TypeFilterDate.AFTER, {
           shouldDirty: false,
         });
         form.setValue('filter_by_date.date', undefined, { shouldDirty: false });
@@ -241,10 +246,10 @@ export const ShoppingModuleSearchbar: React.FC = () => {
       {
         filter_by_date: {
           date: undefined,
-          type_filter_date: TypeFilterDate.after,
+          type_filter_date: TypeFilterDate.AFTER,
         },
         filter_by_value_pay: {
-          type_filter_value_pay: TypeFilterNumber.MIN,
+          type_filter_value_pay: TypeFilterNumber.LESS_THAN,
           value_pay: 0,
         },
         suppliers: [],
@@ -425,7 +430,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverSupplier}
                               modal={true}
                             >
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2">
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     {querySuppliers.isLoading ||
@@ -593,7 +598,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverSupply}
                               modal={true}
                             >
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2">
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     {querySupplies.isLoading ||
@@ -754,6 +759,7 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                       control={form.control}
                       type="number"
                       name="filter_by_value_pay.value_pay"
+                      step={50}
                     />
                   </>
                 }

@@ -30,7 +30,7 @@ export function usePostWork(): UseMutationReturn<Work, Work> {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

@@ -53,7 +53,7 @@ export const useGetTopCropsInHarvests = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado del top cultivos en cosechas 😑'
+        'No tienes permiso para ver el listado del top cultivos en cosechas '
       );
     }
   }, [isAuthorized]);
@@ -62,10 +62,7 @@ export const useGetTopCropsInHarvests = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          unauthorized:
-            'No tienes permiso para ver el listado del top cultivos en cosechas 😑',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

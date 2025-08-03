@@ -1,7 +1,7 @@
 import { useAuthContext } from '@/auth/hooks';
 import { useDataTableManual } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import React, { createContext, useEffect, useMemo } from 'react';
+import React, { createContext, useEffect } from 'react';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useDeleteBulkClients } from '../../hooks/mutations/useDeleteBulkClients';
@@ -44,7 +44,7 @@ export const ClientsModuleProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const { getActionsModule } = useAuthContext();
 
-  const actionsClientsModule = useMemo(() => getActionsModule('clients'), []);
+  const actionsClientsModule = getActionsModule('clients');
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsTableClients,

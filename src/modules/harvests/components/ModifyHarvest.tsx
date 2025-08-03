@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { BreadCrumb } from '@/modules/core/components/';
 import { Loading } from '../../core/components';
-import { usePatchHarvest } from '../hooks/mutations/usePatchHarvest';
+import { usePutHarvest } from '../hooks/mutations/usePutHarvest';
 import { useGetHarvest } from '../hooks/queries/useGetHarvest';
 import { Harvest } from '../interfaces';
 import { HarvestDetail } from '../interfaces/HarvestDetail';
@@ -14,7 +14,7 @@ import FormHarvest from './forms/harvest/FormHarvest';
 export const ModifyHarvest: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetHarvest(id!);
-  const { mutate, isPending } = usePatchHarvest();
+  const { mutate, isPending } = usePutHarvest();
 
   const onSubmitHarvest = (values: z.infer<typeof formSchemaHarvest>) => {
     mutate({

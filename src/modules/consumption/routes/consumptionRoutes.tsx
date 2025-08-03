@@ -16,21 +16,25 @@ const routeConfig: RouteConfig[] = [
     action: 'find_all_supplies_consumption',
     element: <ConsumptionModule />,
     viewComponent: true,
+    label: 'Consumos'
   },
   {
     path: 'create/one',
     action: 'create_supply_consumption',
     element: <CreateConsumption />,
+    label: 'Crear Consumo'
   },
   {
     path: 'view/one/:id',
     action: 'find_one_supplies_consumption',
     element: <ViewConsumption />,
+    label: 'Ver Consumo'
   },
   {
     path: 'update/one/:id',
     action: 'update_one_supplies_consumption',
     element: <ModifyConsumption />,
+    label: 'Modificar Consumo'
   },
 ];
 

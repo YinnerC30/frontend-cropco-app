@@ -37,7 +37,7 @@ import {
 } from '@/components/ui/command';
 import {
   MassUnitOfMeasure,
-  UnitsType
+  UnitsType,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { useEffect, useRef, useState } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
@@ -118,12 +118,12 @@ export const FormSaleDetailsFields: React.FC = () => {
                   onOpenChange={setOpenPopover}
                   modal={true}
                 >
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     <PopoverTrigger asChild>
                       <FormControl>
                         {queryCropsWithStock.isLoading ||
                         queryCropsWithStock.isFetching ? (
-                          <div className="w-[200px]">
+                          <div className="w-auto max-w-44">
                             <Loading className="" />
                           </div>
                         ) : (
@@ -131,15 +131,15 @@ export const FormSaleDetailsFields: React.FC = () => {
                             variant="outline"
                             role="combobox"
                             aria-expanded={openPopover}
-                            className={`w-80 ${cn(
-                              'justify-between',
+                            className={`w-auto max-w-[80%] ${cn(
+                              'gap-2',
                               !field.value && 'text-muted-foreground'
                             )}`}
                             ref={field.ref}
                             onBlur={field.onBlur}
                             disabled={readOnly}
                           >
-                            <span className="overflow-auto truncate text-muted-foreground text-ellipsis">
+                            <span className="overflow-auto truncate text-muted-foreground text-ellipsis max-w-36">
                               {!!field.value
                                 ? cropStock.find((item: CropStock) => {
                                     return item.id === field.value;
@@ -232,7 +232,7 @@ export const FormSaleDetailsFields: React.FC = () => {
         />
 
         <FormFieldSelect
-          items={UnitsType[MassUnitOfMeasure.GRAMOS]}
+          items={UnitsType.MASS}
           control={formSaleDetail.control}
           description={formFieldsSaleDetail.unit_of_measure.description}
           label={formFieldsSaleDetail.unit_of_measure.label}
@@ -248,6 +248,7 @@ export const FormSaleDetailsFields: React.FC = () => {
           name={'is_receivable'}
           placeholder={formFieldsSaleDetail.is_receivable.placeholder}
           disabled={false}
+          className="w-60"
         />
         <FormFieldInput
           control={formSaleDetail.control}

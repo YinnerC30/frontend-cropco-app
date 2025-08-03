@@ -40,7 +40,7 @@ export const usePatchConsumption = (
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

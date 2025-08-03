@@ -23,6 +23,7 @@ import { useFormShoppingContext } from '@/modules/shopping/hooks/context/useForm
 import { formSchemaShoppingDetail } from '@/modules/shopping/utils';
 import { z } from 'zod';
 import { FormShoppingDetailsFields } from './FormShoppingDetailsFields';
+import { ScrollArea } from '@/components';
 
 export const FormShoppingDetail: React.FC = () => {
   const {
@@ -35,7 +36,7 @@ export const FormShoppingDetail: React.FC = () => {
     resetShoppingDetail,
     formShoppingDetail,
     addShoppingDetail,
-
+    isSubmittingShoppingDetail,
     modifyShoppingDetail,
   } = useFormShoppingContext();
 
@@ -46,13 +47,23 @@ export const FormShoppingDetail: React.FC = () => {
       const record = {
         ...values,
         deletedDate: null,
+        supply: { ...values.supply, deletedDate: null },
+        supplier: { ...values.supplier, deletedDate: null },
         id: generateUUID(),
       };
       addShoppingDetail(record);
       toast.success('Registro añadido');
     } else {
-      const record = { ...values, id: shoppingDetail.id };
-      modifyShoppingDetail({ ...record, deletedDate: null });
+      const record = {
+        ...values,
+        id: shoppingDetail.id,
+        supply: { ...values.supply, deletedDate: null },
+        supplier: { ...values.supplier, deletedDate: null },
+      };
+      modifyShoppingDetail({
+        ...record,
+        deletedDate: null,
+      });
       toast.success('Registro actualizado');
     }
     setOpenDialog(false);
@@ -65,11 +76,14 @@ export const FormShoppingDetail: React.FC = () => {
     resetShoppingDetail();
     handleOpenDialog();
   };
+
   return (
     <>
       <ToolTipTemplate content={'Crear registro'}>
         <Button
-          className={`${readOnly && 'hidden'} bg-primary/70 hover:bg-primary/50`}
+          className={`${
+            readOnly && 'hidden'
+          } bg-primary/70 hover:bg-primary/50`}
           size="icon"
           onClick={handleOpenDialogExtended}
           disabled={readOnly}
@@ -80,7 +94,7 @@ export const FormShoppingDetail: React.FC = () => {
       </ToolTipTemplate>
       <Dialog open={openDialog} modal={false}>
         <DialogContent
-          className="sm:max-w-[525px]"
+          className="sm:max-w-[425px] h-[85vh] overflow-hidden max-w-[95vw]"
           onClick={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
@@ -100,12 +114,15 @@ export const FormShoppingDetail: React.FC = () => {
             </DialogDescription>
           </DialogHeader>
 
-          <FormShoppingDetailsFields />
+          <ScrollArea className="h-[60vh] w-full py-2">
+            <FormShoppingDetailsFields />
+          </ScrollArea>
 
           <DialogFooter>
             <Button
               type="submit"
               onClick={formShoppingDetail.handleSubmit(onSubmitShoppingDetail)}
+              disabled={isSubmittingShoppingDetail}
             >
               Guardar
             </Button>

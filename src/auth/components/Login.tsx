@@ -16,8 +16,10 @@ import { useCreateForm } from '@/modules/core/hooks';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLoginUser } from '../hooks/mutations/useLoginUser';
+import useDocumentTitle from '@/modules/core/hooks/useDocumentTitle';
 
 export const Login: React.FC = () => {
+  useDocumentTitle({ title: 'Login' });
   const formLogin = useCreateForm({
     schema: formSchemaLogin,
     defaultValues: {
@@ -89,6 +91,7 @@ export const Login: React.FC = () => {
                     type="button"
                     onClick={togglePasswordVisibility}
                     className="p-2"
+                    aria-label='show-pass'
                   >
                     {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                   </Button>
@@ -104,7 +107,7 @@ export const Login: React.FC = () => {
               disabled={isPending}
             >
               {isPending && (
-                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
+                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" aria-label='icon-animate-spin'/>
               )}
               Ingresar
             </Button>

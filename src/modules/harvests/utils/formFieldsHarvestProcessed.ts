@@ -16,7 +16,7 @@ export const formFieldsHarvestProcessed: Record<
     name: 'date',
     label: 'Fecha:',
     placeholder: 'Selecciona una fecha',
-    description: 'Fecha en la que se esta agregando la cantidad al monto',
+    description: 'Fecha en la que se está agregando la cantidad al monto',
   },
   crop: {
     name: 'crop',
@@ -45,7 +45,7 @@ export const formFieldsHarvestProcessed: Record<
   observation: {
     name: 'observation',
     label: 'Observación:',
-    placeholder: 'Se cosecho hasta...',
-    description: 'Comentario u observación sobre la cosecha realizada',
+    placeholder: 'Se cosechó hasta...',
+    description: 'Observaciones sobre la cosecha realizada',
   },
 };

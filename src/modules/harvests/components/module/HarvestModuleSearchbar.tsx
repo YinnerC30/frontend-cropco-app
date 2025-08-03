@@ -48,7 +48,7 @@ import {
 import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
 import {
   MassUnitOfMeasure,
-  UnitsType
+  UnitsType,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
@@ -69,15 +69,15 @@ const valuesResetForm = {
   },
   filter_by_date: {
     date: undefined,
-    type_filter_date: TypeFilterDate.after,
+    type_filter_date: TypeFilterDate.AFTER,
   },
   filter_by_amount: {
-    type_filter_amount: TypeFilterNumber.MIN,
+    type_filter_amount: TypeFilterNumber.LESS_THAN,
     type_unit_of_measure: MassUnitOfMeasure.KILOGRAMOS,
     amount: 0,
   },
   filter_by_value_pay: {
-    type_filter_value_pay: TypeFilterNumber.MIN,
+    type_filter_value_pay: TypeFilterNumber.LESS_THAN,
     value_pay: 0,
   },
   employees: [],
@@ -348,6 +348,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                       size={'icon'}
                       disabled={readOnly}
                       className="bg-destructive hover:bg-destructive/80"
+                      data-testid="btn-clear-filters"
                     >
                       <X className="w-4 h-4" />
                     </Button>
@@ -365,6 +366,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                       }
                       size={'icon'}
                       disabled={readOnly}
+                      data-testid="btn-harvests-filters"
                     >
                       <Filter className="w-4 h-4" />
                     </Button>
@@ -406,7 +408,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopover}
                               modal={true}
                             >
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2">
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     {queryEmployees.isLoading ||
@@ -586,7 +588,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                     />
 
                     <FormFieldSelect
-                      items={UnitsType[MassUnitOfMeasure.GRAMOS]}
+                      items={UnitsType.MASS}
                       control={form.control}
                       description={
                         formFieldsSearchBarHarvest.type_unit_of_measure
@@ -634,6 +636,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                       control={form.control}
                       type="number"
                       name="filter_by_value_pay.value_pay"
+                      step={50}
                     />
                   </>
                 }

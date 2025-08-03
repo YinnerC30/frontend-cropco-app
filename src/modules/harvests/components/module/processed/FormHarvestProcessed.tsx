@@ -18,8 +18,8 @@ import {
 } from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks';
 import {
-  usePatchHarvestProcessed,
   usePostHarvestProcessed,
+  usePutHarvestProcessed,
 } from '@/modules/harvests/hooks';
 import { formFieldsHarvestProcessed } from '@/modules/harvests/utils/formFieldsHarvestProcessed';
 
@@ -29,15 +29,24 @@ import { Plus } from 'lucide-react';
 import { memo, useEffect } from 'react';
 
 import { ConvertStringToDate } from '@/modules/core/helpers';
-import {
-  MassUnitOfMeasure,
-  UnitsType
-} from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { MassUnitOfMeasure, UnitsType } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { z } from 'zod';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
 const formSchemaHarvestProcessed = z.object({
   date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
+  unit_of_measure: z.nativeEnum(MassUnitOfMeasure, {
+    errorMap: (issue, _ctx) => {
+      switch (issue.code) {
+        case 'invalid_type':
+          return { message: 'Debe seleccionar una unidad de medida.' };
+        case 'invalid_enum_value':
+          return { message: 'Debe seleccionar una unidad de medida válida.' };
+        default:
+          return { message: 'Error en la selección de unidad de medida.' };
+      }
+    },
+  }),
   amount: z.coerce
     .number({
       required_error: `El total es requerido`,
@@ -75,7 +84,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
   };
 
   const mutationPostHarvestProcessed = usePostHarvestProcessed();
-  const mutationPatchHarvestProcessed = usePatchHarvestProcessed();
+  const mutationPatchHarvestProcessed = usePutHarvestProcessed();
 
   const onSubmitHarvestProcessed = async () => {
     const result = await formProcessed.trigger();
@@ -110,7 +119,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
               amount: 0,
               id: undefined,
               unit_of_measure: undefined,
-            });
+            } as any);
 
             setOpenDialog(false);
           },
@@ -198,7 +207,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
                 />
 
                 <FormFieldSelect
-                  items={UnitsType[MassUnitOfMeasure.GRAMOS]}
+                  items={UnitsType.MASS}
                   control={formProcessed.control}
                   description={
                     formFieldsHarvestProcessed.unit_of_measure.description
@@ -233,10 +242,10 @@ export const FormHarvestProcessed: React.FC = memo(() => {
                 mutationPatchHarvestProcessed.isPending
               }
             >
-              {mutationPostHarvestProcessed.isPending ||
-                (mutationPatchHarvestProcessed.isPending && (
-                  <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
-                ))}
+              {(mutationPostHarvestProcessed.isPending ||
+                mutationPatchHarvestProcessed.isPending) && (
+                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
+              )}
               Guardar
             </Button>
           </DialogFooter>

@@ -18,7 +18,7 @@ export const ActionModifyRecordFormDataTable: React.FC<Props> = ({
   };
   return (
     <DropdownMenuItem asChild disabled={disabled}>
-      <Button variant={'ghost'} onClick={handleClick}>
+      <Button variant={'ghost'} onClick={handleClick} data-testid="btn-update-detail-record">
         <Pencil2Icon className="w-full h-4 mr-2 " /> Modificar
       </Button>
     </DropdownMenuItem>

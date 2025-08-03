@@ -8,6 +8,11 @@ import { Badge, Button } from '@/components';
 import { Harvest, HarvestDetail } from '../../interfaces';
 import { formFieldsHarvest } from '../../utils';
 import { CellHarvestAmount } from './CellHarvestAmount';
+import { PersonHoverCard } from '../../../core/components/card/PersonHoverCard';
+import { Employee } from '@/modules/employees/interfaces/Employee';
+import { CropHoverCard } from '@/modules/crops/components/card/CropHoverCard';
+import { Crop } from '@/modules/crops/interfaces/Crop';
+import { MODULE_EMPLOYEE_PATHS } from '@/modules/employees/routes/pathRoutes';
 
 export const columnsHarvest: ColumnDef<Harvest>[] = [
   {
@@ -25,13 +30,23 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
     },
   },
   {
-    accessorKey: 'crop.name',
-    header: ({ column }: HeaderContext<Harvest, unknown>) => {
+    accessorKey: 'crop',
+    header: ({ column }: HeaderContext<any, unknown>) => {
       return (
         <ButtonHeaderTable
           column={column}
           label={formFieldsHarvest.crop.label}
         />
+      );
+    },
+    cell: ({ row: { original } }) => {
+      const crop = original.crop as any;
+      return (
+        <CropHoverCard data={crop as Crop}>
+          <Badge className="mb-1 mr-1" variant={'purple'}>
+            {crop.name}
+          </Badge>
+        </CropHoverCard>
       );
     },
   },
@@ -48,20 +63,22 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
       return (
         <div className="flex flex-wrap items-center gap-1">
           {employees.slice(0, maxVisible).map((employee, index) => (
-            <Badge key={`${employee?.id}-${index}`} className="mb-1 mr-1">
-              {employee.full_name}
-            </Badge>
+            <PersonHoverCard
+              data={employee as Employee}
+              routeToNavigate={MODULE_EMPLOYEE_PATHS.ViewOne + employee.id}
+            >
+              <Badge
+                key={`${employee?.id}-${index}`}
+                className="mb-1 mr-1"
+                variant={'orange'}
+              >
+                {employee.full_name}
+              </Badge>
+            </PersonHoverCard>
           ))}
 
           {hiddenCount > 0 && (
-            // <ToolTipTemplate
-            //   content={employees
-            //     .slice(maxVisible)
-            //     .map((item) => item.first_name)
-            //     .join(',\n')}
-            // >
             <Button className="h-4 py-3 text-xs font-semibold cursor-pointer">{`Otros... (${hiddenCount})`}</Button>
-            // </ToolTipTemplate>
           )}
         </div>
       );
@@ -70,7 +87,7 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
 
   {
     accessorKey: formFieldsHarvest.amount.name,
-    cell: ({ row }) => (<CellHarvestAmount row={row}/>),
+    cell: ({ row }) => <CellHarvestAmount row={row} />,
     header: ({ column }: HeaderContext<Harvest, unknown>) => {
       return (
         <ButtonHeaderTable
@@ -102,9 +119,9 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
       const array: HarvestDetail[] = row.getValue('details') ?? [];
       const result = array.some((item) => item.payment_is_pending);
       return result ? (
-        <Badge variant={'red'}>SI</Badge>
+        <Badge variant={'destructive'}>SI</Badge>
       ) : (
-        <Badge variant={'indigo'}>NO</Badge>
+        <Badge variant={'success'}>NO</Badge>
       );
     },
     header: ({ column }: HeaderContext<Harvest, unknown>) => {

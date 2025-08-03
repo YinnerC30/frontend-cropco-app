@@ -11,6 +11,13 @@ import { formSchemaCrop } from '../../utils';
 export const moduleDefaultValues: Partial<z.infer<typeof formSchemaCrop>> = {
   name: '',
   description: '',
+  number_hectares: 0,
+  units: 0,
+  location: '',
+  dates: {
+    date_of_creation: new Date(),
+    date_of_termination: undefined,
+  },
   // Asegúrate de que todos los campos de formSchemaCrop estén aquí
   // con un valor inicial definido (ej. '', 0, false, [], etc.)
 };
@@ -36,14 +43,17 @@ export const FormCropProvider: React.FC<
   onSubmit = (values) => {},
   readOnly = false,
 }) => {
-  const combinedDefaultValues = useMemo(() => ({
-    ...moduleDefaultValues, // Usar los defaultValues del módulo como base
-    ...(propsDefaultValues || {}), // Sobrescribir con los de las props si existen
-  }), [propsDefaultValues]);
+  const combinedDefaultValues = useMemo(
+    () => ({
+      ...moduleDefaultValues, // Usar los defaultValues del módulo como base
+      ...(propsDefaultValues || {}), // Sobrescribir con los de las props si existen
+    }),
+    [propsDefaultValues]
+  );
 
-  const form = useCreateForm({ 
-    schema: formSchemaCrop, 
-    defaultValues: combinedDefaultValues // Usar los valores combinados
+  const form = useCreateForm({
+    schema: formSchemaCrop,
+    defaultValues: combinedDefaultValues, // Usar los valores combinados
   });
 
   return (

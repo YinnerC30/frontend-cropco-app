@@ -80,6 +80,10 @@ export interface FormConsumptionContextValues {
   addSupplyStock: (supplyStock: SupplyStock) => void;
   removeSupplyStock: (supplyStock: SupplyStock) => void;
   validateAvailableStock: (record: SupplyStock) => boolean;
+  isSubmittingConsumptionDetail: boolean;
+  setIsSubmittingConsumptionDetail: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
 }
 
 interface ConsumptionAction {
@@ -175,7 +179,7 @@ export const FormConsumptionProvider: React.FC<
     []
   );
 
-  const { convert } = useUnitConverter();
+  const { convert, getUnitBase } = useUnitConverter();
 
   const detailsDefaultValues = defaultValues?.details ?? [];
   const [detailsConsumption, dispatch] = useReducer(
@@ -183,9 +187,14 @@ export const FormConsumptionProvider: React.FC<
     detailsDefaultValues
   );
 
+  const [isSubmittingConsumptionDetail, setIsSubmittingConsumptionDetail] =
+    useState(false);
+
   const addConsumptionDetail = (
     consumptionDetail: ConsumptionDetails
   ): void => {
+    if (isSubmittingConsumptionDetail) return;
+    setIsSubmittingConsumptionDetail(true);
     dispatch({ type: 'ADD', payload: consumptionDetail });
   };
 
@@ -198,6 +207,8 @@ export const FormConsumptionProvider: React.FC<
   const modifyConsumptionDetail = (
     consumptionDetail: ConsumptionDetails
   ): void => {
+    if (isSubmittingConsumptionDetail) return;
+    setIsSubmittingConsumptionDetail(true);
     dispatch({ type: 'MODIFY', payload: consumptionDetail });
   };
 
@@ -225,10 +236,13 @@ export const FormConsumptionProvider: React.FC<
 
     let convertionValue: number = -1;
 
+    const unitBase: any = getUnitBase(record.supply.unit_of_measure);
+
     try {
       convertionValue = convert(
         supply.amount,
-        record.supply.unit_of_measure,
+        // record.supply.unit_of_measure,
+        unitBase,
         record.unit_of_measure
       );
     } catch (error) {
@@ -246,10 +260,12 @@ export const FormConsumptionProvider: React.FC<
   };
 
   const addSupplyStock = (suppliesStock: any): void => {
+    const baseUnit: any = getUnitBase(suppliesStock.supply.unit_of_measure);
+
     const result = convert(
       suppliesStock.amount,
       suppliesStock.unit_of_measure,
-      suppliesStock.supply.unit_of_measure
+      baseUnit
     );
 
     dispatchSupplyStock({
@@ -259,10 +275,11 @@ export const FormConsumptionProvider: React.FC<
   };
 
   const removeSupplyStock = (suppliesStock: any): void => {
+    const baseUnit: any = getUnitBase(suppliesStock.supply.unit_of_measure);
     const result = convert(
       suppliesStock.amount,
       suppliesStock.unit_of_measure,
-      suppliesStock.supply.unit_of_measure
+      baseUnit
     );
 
     dispatchSupplyStock({
@@ -318,6 +335,7 @@ export const FormConsumptionProvider: React.FC<
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
+    setIsSubmittingConsumptionDetail(false);
   };
 
   const ClearFormConsumptionDetail = () => {
@@ -410,6 +428,8 @@ export const FormConsumptionProvider: React.FC<
         // setCurrentSupply,
         // currentUnitType,
         // setCurrentUnitType,
+        isSubmittingConsumptionDetail,
+        setIsSubmittingConsumptionDetail,
       }}
     >
       {children}

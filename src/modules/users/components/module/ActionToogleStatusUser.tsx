@@ -4,7 +4,7 @@ import { useDataTableMenuActionsContext } from '@/modules/core/components';
 import { ToggleLeft, ToggleRight } from 'lucide-react';
 import React from 'react';
 import { toast } from 'sonner';
-import { usePatchUserStatus } from '../../hooks/mutations/usePatchStatusUser';
+import { usePutUserStatus } from '../../hooks/mutations/usePutUserStatus';
 
 interface Props {
   id: string;
@@ -19,7 +19,7 @@ export const ActionToogleStatusUser: React.FC<Props> = ({
 }) => {
   const { user } = useAuthContext();
   const { toggleOpen } = useDataTableMenuActionsContext();
-  const { mutate } = usePatchUserStatus();
+  const { mutate, isPending } = usePutUserStatus();
 
   const handleToggleUser = () => {
     mutate(id, { onSuccess: () => toggleOpen(false) });
@@ -35,23 +35,6 @@ export const ActionToogleStatusUser: React.FC<Props> = ({
       },
       duration: 3000,
     });
-    // return toast({
-    //   title: 'Se cerrara la sesión',
-    //   duration: 3000,
-    //   description:
-    //     'Esta por desactivar su usuario, si desea continuar por favor presione "Desactivar"',
-
-    //   action: (
-    //     <ToastAction
-    //       onClick={() => {
-    //         executeMutation();
-    //       }}
-    //       altText="Desactivar"
-    //     >
-    //       Desactivar
-    //     </ToastAction>
-    //   ),
-    // });
   };
 
   const handleToggleStatus = () => {
@@ -69,15 +52,16 @@ export const ActionToogleStatusUser: React.FC<Props> = ({
         onClick={handleToggleStatus}
         variant={'ghost'}
         className="cursor-pointer"
-        disabled={disabled}
+        disabled={disabled || isPending}
+        data-testid='btn-toggle-status-user'
       >
         {status ? (
           <>
-            <ToggleLeft className="w-4 h-4 mr-2" /> Desactivar
+            <ToggleRight className="w-4 h-4 mr-2" /> Desactivar
           </>
         ) : (
           <>
-            <ToggleRight className="w-4 h-4 mr-2" /> Activar
+            <ToggleLeft className="w-4 h-4 mr-2" /> Activar
           </>
         )}
       </Button>

@@ -7,7 +7,7 @@ import { Loading } from "@/modules/core/components";
 
 import { BreadCrumb } from "@/modules/core/components/";
 
-import { usePatchWork } from "../hooks/mutations/usePatchWork";
+import { usePutWork } from "../hooks/mutations/usePutWork";
 import { useGetWork } from "../hooks/queries/useGetWork";
 import { WorkDetail } from "../interfaces/WorkDetail";
 import { MODULE_WORKS_PATHS } from "../routes/pathRoutes";
@@ -16,7 +16,7 @@ import FormWork from "./forms/work/FormWork";
 export const ModifyWork: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetWork(id!);
-  const { mutate, isPending } = usePatchWork(id!);
+  const { mutate, isPending } = usePutWork(id!);
 
   const onSubmitWork = (values: z.infer<typeof formSchemaWork>) => {
     mutate({

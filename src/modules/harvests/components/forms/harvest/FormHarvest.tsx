@@ -7,7 +7,7 @@ export const FormHarvest: React.FC<FormHarvestProps> = (props) => {
   return (
     <FormHarvestProvider {...props}>
       <div className="flex flex-col items-center">
-        <ScrollArea className="h-[80vh] w-full pb-2">
+        <ScrollArea className="h-[80vh] w-full pb-2 pr-2">
           <FormHarvestFields />
         </ScrollArea>
         <FormHarvestButtons />

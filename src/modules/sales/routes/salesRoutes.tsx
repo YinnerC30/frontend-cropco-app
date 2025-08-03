@@ -14,21 +14,25 @@ const routeConfig: RouteConfig[] = [
     action: 'find_all_sales',
     element: <SaleModule />,
     viewComponent: true,
+    label: 'Ventas'
   },
   {
     path: 'create/one',
     action: 'create_sale',
     element: <CreateSale />,
+    label: 'Crear Venta'
   },
   {
     path: 'view/one/:id',
     action: 'find_one_sale',
     element: <ViewSale />,
+    label: 'Ver Venta'
   },
   {
     path: 'update/one/:id',
     action: 'update_one_sale',
     element: <ModifySale />,
+    label: 'Modificar Venta'
   },
 ];
 

@@ -36,13 +36,12 @@ import {
 import { cn } from '@/lib/utils';
 import { Loading } from '@/modules/core/components';
 
+import { unitTypeMap } from '@/modules/core/hooks/useUnitConverter';
 import { formFieldsSaleDetail } from '@/modules/sales/utils';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
 import {
-  MassUnitOfMeasure,
   UnitOfMeasure,
   UnitsType,
-  VolumeUnitOfMeasure,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { CheckIcon } from 'lucide-react';
@@ -67,6 +66,9 @@ export const FormShoppingDetailsFields: React.FC = () => {
     'unit_of_measure'
   ) as UnitOfMeasure;
 
+  const categorySupply =
+    unitTypeMap[currentSupply.unit_of_measure as UnitOfMeasure];
+
   useEffect(() => {
     formShoppingDetail.reset(shoppingDetail);
   }, [shoppingDetail]);
@@ -75,8 +77,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
     if (!!currentSupply.id && currentSupply.id !== shoppingDetail.supply.id) {
       formShoppingDetail.setValue(
         'unit_of_measure',
-        UnitsType[currentSupply.unit_of_measure as keyof typeof UnitsType][0]
-          .key,
+        currentSupply.unit_of_measure as UnitOfMeasure,
         { shouldValidate: true }
       );
     } else if (
@@ -134,11 +135,11 @@ export const FormShoppingDetailsFields: React.FC = () => {
                   onOpenChange={setOpenPopover}
                   modal={true}
                 >
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2 ">
                     <PopoverTrigger asChild>
                       <FormControl>
                         {querySupplies.isLoading || querySupplies.isFetching ? (
-                          <div className="w-[200px]">
+                          <div className="w-auto">
                             <Loading className="" />
                           </div>
                         ) : (
@@ -146,7 +147,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                             variant="outline"
                             role="combobox"
                             aria-expanded={openPopover}
-                            className={`w-80 flex justify-between ${cn(
+                            className={`w-auto flex max-w-[80%] gap-2${cn(
                               `${!field.value && 'flex justify-between'}`,
                               !field.value && 'text-muted-foreground'
                             )}`}
@@ -154,7 +155,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                             onBlur={field.onBlur}
                             disabled={readOnly}
                           >
-                            <span className="overflow-auto truncate text-muted-foreground text-ellipsis">
+                            <span className="mr-2 overflow-auto truncate text-muted-foreground text-ellipsis max-w-36">
                               {!!field.value
                                 ? querySupplies.data?.records.find(
                                     (item: Supply) => {
@@ -165,20 +166,12 @@ export const FormShoppingDetailsFields: React.FC = () => {
                             </span>
 
                             {!!field.value && (
-                              <Badge
-                                className={`${
-                                  !field.value ? 'hidden' : 'ml-10'
-                                }`}
-                                variant={'cyan'}
-                              >
-                                {querySupplies.data?.records.find(
-                                  (item: Supply) => {
-                                    return item.id === field.value;
-                                  }
-                                )?.['unit_of_measure'] === 'GRAMOS'
-                                  ? ' Gramos'
-                                  : ' Mililitros'}
-                              </Badge>
+                              <BadgeSupplyUnitOfMeasure
+                                field={field}
+                                supplies={
+                                  querySupplies.data?.records || ([] as any)
+                                }
+                              />
                             )}
 
                             <span>
@@ -287,35 +280,47 @@ export const FormShoppingDetailsFields: React.FC = () => {
           />
         )}
 
-        {!!currentSupply.id &&
-          currentSupply.unit_of_measure === MassUnitOfMeasure.GRAMOS && (
-            <FormFieldSelect
-              items={UnitsType[MassUnitOfMeasure.GRAMOS]}
-              control={formShoppingDetail.control}
-              description={formFieldsShoppingDetail.unit_of_measure.description}
-              label={formFieldsShoppingDetail.unit_of_measure.label}
-              name={'unit_of_measure'}
-              placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
-              disabled={readOnly}
-              currentValue={currentUnitType}
-              manualValidationValue
-            />
-          )}
+        {!!currentSupply.id && categorySupply === 'MASS' && (
+          <FormFieldSelect
+            items={UnitsType.MASS}
+            control={formShoppingDetail.control}
+            description={formFieldsShoppingDetail.unit_of_measure.description}
+            label={formFieldsShoppingDetail.unit_of_measure.label}
+            name={'unit_of_measure'}
+            placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
+            disabled={readOnly}
+            currentValue={currentUnitType}
+            manualValidationValue
+          />
+        )}
 
-        {!!currentSupply.id &&
-          currentSupply.unit_of_measure === VolumeUnitOfMeasure.MILILITROS && (
-            <FormFieldSelect
-              items={UnitsType[VolumeUnitOfMeasure.MILILITROS]}
-              control={formShoppingDetail.control}
-              description={formFieldsShoppingDetail.unit_of_measure.description}
-              label={formFieldsShoppingDetail.unit_of_measure.label}
-              name={'unit_of_measure'}
-              placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
-              disabled={readOnly}
-              currentValue={currentUnitType}
-              manualValidationValue
-            />
-          )}
+        {!!currentSupply.id && categorySupply === 'VOLUME' && (
+          <FormFieldSelect
+            items={UnitsType.VOLUME}
+            control={formShoppingDetail.control}
+            description={formFieldsShoppingDetail.unit_of_measure.description}
+            label={formFieldsShoppingDetail.unit_of_measure.label}
+            name={'unit_of_measure'}
+            placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
+            disabled={readOnly}
+            currentValue={currentUnitType}
+            manualValidationValue
+          />
+        )}
+
+        {!!currentSupply.id && categorySupply === 'LENGTH' && (
+          <FormFieldSelect
+            items={UnitsType.LENGTH}
+            control={formShoppingDetail.control}
+            description={formFieldsShoppingDetail.unit_of_measure.description}
+            label={formFieldsShoppingDetail.unit_of_measure.label}
+            name={'unit_of_measure'}
+            placeholder={formFieldsShoppingDetail.unit_of_measure.placeholder}
+            disabled={readOnly}
+            currentValue={currentUnitType!}
+            manualValidationValue
+          />
+        )}
 
         <FormFieldInput
           control={formShoppingDetail.control}
@@ -325,7 +330,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
           placeholder={formFieldsShoppingDetail.amount.placeholder}
           disabled={false}
           type="number"
-          step={50}
+          allowDecimals
         />
         <FormFieldInput
           control={formShoppingDetail.control}
@@ -339,5 +344,30 @@ export const FormShoppingDetailsFields: React.FC = () => {
         />
       </form>
     </Form>
+  );
+};
+
+interface BadgeSupplyUnitOfMeasureProps {
+  supplies: [];
+  field: ControllerRenderProps<any, any>;
+}
+const BadgeSupplyUnitOfMeasure: React.FC<BadgeSupplyUnitOfMeasureProps> = ({
+  field,
+  supplies,
+}) => {
+  const formatLabelUnitOfMeasure = (): string => {
+    const supply: any = supplies.find((item: Supply) => {
+      return item.id === field.value;
+    });
+    return CapitalizeFirstWord(supply.unit_of_measure.toLowerCase() as string);
+  };
+
+  return (
+    <Badge
+      className={`${!field.value ? 'hidden' : 'lg:ml-10'}`}
+      variant={'cyan'}
+    >
+      {formatLabelUnitOfMeasure()}
+    </Badge>
   );
 };

@@ -4,7 +4,12 @@ import { Badge } from '@/components';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatNumber } from '@/modules/core/helpers';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
+import {
+  unitTypeMap
+} from '@/modules/core/hooks/useUnitConverter';
 import { ShoppingDetail } from '@/modules/shopping/interfaces';
+import { UnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { getBadgeColor } from '@/modules/supplies/utils/getBadgeColor';
 
 export const columnsShoppingDetail: ColumnDef<ShoppingDetail>[] = [
   {
@@ -26,7 +31,7 @@ export const columnsShoppingDetail: ColumnDef<ShoppingDetail>[] = [
       return FormatNumber(row.getValue('amount'));
     },
     header: ({ column }: HeaderContext<ShoppingDetail, unknown>) => {
-      return <ButtonHeaderTable column={column} label={'Monto:'} />;
+      return <ButtonHeaderTable column={column} label={'Cantidad:'} />;
     },
   },
   {
@@ -36,8 +41,10 @@ export const columnsShoppingDetail: ColumnDef<ShoppingDetail>[] = [
     },
     cell: ({ row }) => {
       const unitOfMeasure: any = row.original.unit_of_measure;
+      const unit = unitTypeMap[unitOfMeasure as UnitOfMeasure];
+      const badgeVariant = getBadgeColor(unit);
       return (
-        <Badge variant={unitOfMeasure === 'GRAMOS' ? 'lime' : 'cyan'}>
+        <Badge variant={badgeVariant as any}>
           {unitOfMeasure}
         </Badge>
       );

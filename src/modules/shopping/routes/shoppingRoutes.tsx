@@ -16,21 +16,25 @@ const routeConfig: RouteConfig[] = [
     action: 'find_all_supplies_shopping',
     element: <ShoppingModule />,
     viewComponent: true,
+    label: 'Compras'
   },
   {
     path: 'create/one',
     action: 'create_supply_shopping',
     element: <CreateShopping />,
+    label: 'Crear Compra'
   },
   {
     path: 'view/one/:id',
     action: 'find_one_supplies_shopping',
     element: <ViewShopping />,
+    label: 'Ver Compra'
   },
   {
     path: 'update/one/:id',
     action: 'update_one_supplies_shopping',
     element: <ModifyShopping />,
+    label: 'Modificar Compra'
   },
 ];
 

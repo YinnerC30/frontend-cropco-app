@@ -31,9 +31,9 @@ export const formFieldsSearchBarConsumption: Record<
   },
   supplies: {
     name: 'supplies',
-    label: 'Fecha:',
-    placeholder: 'Selecciona una fecha',
-    description: 'Fecha de referencia para realizar la búsqueda',
+    label: 'Insumos:',
+    placeholder: 'Selecciona un insumo',
+    description: 'Filtrar registros por estos insumos',
   },
   crops: {
     name: 'crops',

@@ -1,13 +1,13 @@
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from '@/components';
 import {
-    UnitsType,
-    VolumeUnitOfMeasure
+  UnitsType,
+  VolumeUnitOfMeasure,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 
 interface Props {
@@ -35,7 +35,7 @@ export const SelectedVolumeUnitOfMeasure = ({
       </SelectTrigger>
 
       <SelectContent>
-        {[...UnitsType['MILILITROS']].map((item: any) => (
+        {UnitsType.VOLUME.map((item: any) => (
           <SelectItem key={item.key} value={item.value}>
             {item.label}
           </SelectItem>

@@ -10,7 +10,6 @@ import { HarvestDetail } from '@/modules/harvests/interfaces';
 
 import { formFieldsHarvestDetail } from '@/modules/harvests/utils';
 import {
-  MassUnitOfMeasure,
   UnitsType
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { useCallback, useEffect } from 'react';
@@ -53,13 +52,13 @@ export const FormHarvestDetailsFields: React.FC = () => {
           nameEntity="empleado"
           isLoading={queryEmployees.isLoading || queryEmployees.isRefetching}
           className="w-52"
-          reloadData={async() => {
-            await queryEmployees.refetch()
+          reloadData={async () => {
+            await queryEmployees.refetch();
           }}
         />
 
         <FormFieldSelect
-          items={UnitsType[MassUnitOfMeasure.GRAMOS]}
+          items={UnitsType.MASS}
           control={formHarvestDetail.control}
           description={formFieldsHarvestDetail.unit_of_measure.description}
           label={formFieldsHarvestDetail.unit_of_measure.label}

@@ -8,7 +8,7 @@ import { FormUserFieldsPermissions } from './FormUserFieldsPermissions';
 export const FormUser: React.FC<FormUserProps> = (props) => {
   return (
     <FormUserProvider {...props}>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center" data-testid="form-user">
         <ScrollArea className="h-[80vh] w-full pb-2">
           <FormUserFields />
           <FormUserFieldsPermissions />

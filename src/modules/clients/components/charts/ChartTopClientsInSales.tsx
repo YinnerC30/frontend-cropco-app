@@ -75,7 +75,7 @@ export function ChartTopClientsInSales() {
   });
 
   return (
-    <Card className="w-auto lg:w-[650px] ">
+    <Card className="w-11/12 lg:w-2/4">
       <CardHeader>
         <CardTitle>Top 5 clientes de las ventas</CardTitle>
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>

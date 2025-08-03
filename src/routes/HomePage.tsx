@@ -11,10 +11,10 @@ export const HomePage: React.FC = () => {
             Bienvenid@ a CropCo
           </h1>
           <p className="text-center text-muted-foreground">
-            La aplicación donde podra controlar la información de sus cultivos
+            La aplicación donde podrá controlar la información de sus cultivos
           </p>
           <p className="text-center text-muted-foreground">
-            Dale un vistaso a la barra lateral donde encontraras las
+            Dale un vistazo a la barra lateral donde encontrarás las
             herramientas disponibles
           </p>
           <p className="my-2 text-center text-muted-foreground">

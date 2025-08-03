@@ -42,7 +42,7 @@ export const useGetAllSupplies = ({
   const isAuthorized = hasPermission('supplies', 'find_all_supplies');
 
   const query: UseQueryGetAllRecordsReturn<Supply> = useQuery({
-    queryKey: ['supplies', { queryValue, ...pagination }],
+    queryKey: ['supplies', { queryValue, all_records , ...pagination }],
     queryFn: () =>
       getSupplies({
         query: queryValue,
@@ -58,7 +58,7 @@ export const useGetAllSupplies = ({
 
   useEffect(() => {
     if (!isAuthorized) {
-      toast.error('No tienes permiso para ver el listado de insumos 😑');
+      toast.error('No tienes permiso para ver el listado de insumos ');
     }
   }, [isAuthorized]);
 
@@ -66,7 +66,7 @@ export const useGetAllSupplies = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {},
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

@@ -81,8 +81,8 @@ const paramsShopping: ItemQueryAdvanced[] = [
     defaultValue: undefined,
   },
   {
-    propertyName: "filter_by_value_pay",
-    defaultValue: false,
+    propertyName: "value_pay",
+    defaultValue: 0,
   },
 
   {

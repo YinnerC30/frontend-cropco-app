@@ -16,6 +16,7 @@ export const FormClientFields: React.FC = () => {
         className="flex flex-col gap-2 ml-1"
       >
         <FormFieldInput
+          autoFocus
           control={form.control}
           description={formFieldsClient.first_name.description}
           label={formFieldsClient.first_name.label}

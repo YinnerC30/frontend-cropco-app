@@ -44,7 +44,7 @@ export const useCreateForm = ({
 
   useEffect(() => {
     if (skipDirty === false) {
-      isDirty ? markChanges(true) : null;
+      isDirty ? markChanges(true) : markChanges(false);
     }
     return () => {
       markChanges(false);

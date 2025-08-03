@@ -17,9 +17,10 @@ export const FormCropFields: React.FC = () => {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         id="formCrop"
-        className="flex flex-col gap-2 ml-1"
+        className="flex flex-row flex-wrap gap-2 ml-1 lg:gap-5"
       >
         <FormFieldInput
+          autoFocus
           control={form.control}
           description={formFieldsCrop.name.description}
           label={formFieldsCrop.name.label}
@@ -27,14 +28,16 @@ export const FormCropFields: React.FC = () => {
           placeholder={formFieldsCrop.name.placeholder}
           disabled={readOnly}
         />
-        <FormFieldTextArea
+
+        <FormFieldInput
           control={form.control}
-          description={formFieldsCrop.description.description}
-          label={formFieldsCrop.description.label}
-          name={'description'}
-          placeholder={formFieldsCrop.description.placeholder}
+          description={formFieldsCrop.number_hectares.description}
+          label={formFieldsCrop.number_hectares.label}
+          name={'number_hectares'}
+          placeholder={formFieldsCrop.number_hectares.placeholder}
           disabled={readOnly}
-          className="sm:w-2/4"
+          type="number"
+          allowDecimals
         />
         <FormFieldInput
           control={form.control}
@@ -45,15 +48,7 @@ export const FormCropFields: React.FC = () => {
           disabled={readOnly}
           type="number"
         />
-        <FormFieldTextArea
-          control={form.control}
-          description={formFieldsCrop.location.description}
-          label={formFieldsCrop.location.label}
-          name={'location'}
-          placeholder={formFieldsCrop.location.placeholder}
-          disabled={readOnly}
-          className="sm:w-2/4"
-        />
+
         <FormFieldCalendar
           control={form.control}
           description={formFieldsCrop.date_of_creation.description}
@@ -61,7 +56,7 @@ export const FormCropFields: React.FC = () => {
           name={'dates.date_of_creation'}
           placeholder={formFieldsCrop.date_of_creation.placeholder}
           disabled={readOnly}
-          className='w-[240px]'
+          className="w-[240px]"
         />
 
         <FormFieldCalendar
@@ -71,7 +66,27 @@ export const FormCropFields: React.FC = () => {
           name={'dates.date_of_termination'}
           placeholder={formFieldsCrop.date_of_termination.placeholder}
           disabled={readOnly}
-          className='w-[240px]'
+          className="w-[240px]"
+        />
+
+        <FormFieldTextArea
+          control={form.control}
+          description={formFieldsCrop.description.description}
+          label={formFieldsCrop.description.label}
+          name={'description'}
+          placeholder={formFieldsCrop.description.placeholder}
+          disabled={readOnly}
+          className='w-[300px] '
+        />
+
+        <FormFieldTextArea
+          control={form.control}
+          description={formFieldsCrop.location.description}
+          label={formFieldsCrop.location.label}
+          name={'location'}
+          placeholder={formFieldsCrop.location.placeholder}
+          disabled={readOnly}
+          className='w-[300px] '
         />
       </form>
     </Form>

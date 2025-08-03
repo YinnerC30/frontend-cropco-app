@@ -36,6 +36,7 @@ export * from './shared/BreadCrumb';
 export * from './shared/CommandDialogApp';
 export * from './shared/ErrorLoading';
 export * from './shared/Loading';
+export * from './shared/SelectedLengthUnitOfMeasure';
 export * from './shared/ThemeProvider';
 export * from './shared/ToolTipTemplate';
 export * from './table/ActionsTable';

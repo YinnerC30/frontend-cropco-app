@@ -49,7 +49,7 @@ export const useDeleteBulkPayments = (): UseMutationReturn<
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
 

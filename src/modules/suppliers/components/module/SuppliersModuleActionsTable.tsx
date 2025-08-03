@@ -29,7 +29,7 @@ export const SuppliersModuleActionsTable: React.FC<Props> = ({ row }: Props) => 
   };
 
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={id}>
       <ActionCopyIdRecord id={id} />
 
       <ActionDeleteRecord

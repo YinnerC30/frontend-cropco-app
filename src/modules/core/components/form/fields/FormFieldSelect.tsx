@@ -16,6 +16,7 @@ import {
 
 import React, { memo, useEffect, useState } from 'react';
 import { FormFieldProps } from '../../../interfaces/form/FormFieldProps';
+import { ControllerRenderProps } from 'react-hook-form';
 
 interface SelectItemValues {
   key: string;
@@ -27,6 +28,12 @@ interface FormFieldSelectProps extends FormFieldProps {
   items: SelectItemValues[];
   currentValue?: string;
   manualValidationValue?: boolean;
+  isValueInArray?: boolean;
+  manualOnChangeValue?: boolean;
+  callBackOnChangeValue?: (
+    field: ControllerRenderProps<any, string>,
+    value: string
+  ) => void;
 }
 
 export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
@@ -40,9 +47,26 @@ export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
     disabled: readOnly = false,
     className = '',
     currentValue = undefined,
+    isValueInArray = false,
     manualValidationValue = false,
+    manualOnChangeValue = false,
+    callBackOnChangeValue = (
+      field: ControllerRenderProps<any, string>,
+      value: string
+    ) => {},
   }) => {
     const [showSelectValue, setShowSelectValue] = useState(true);
+
+    const handleOnChangeValue = (
+      field: ControllerRenderProps<any, string>,
+      value: string
+    ) => {
+      if (!manualOnChangeValue) {
+        field.onChange(value);
+        return;
+      }
+      callBackOnChangeValue(field, value);
+    };
 
     useEffect(() => {
       if (!currentValue && manualValidationValue) {
@@ -63,13 +87,13 @@ export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
             <div className="w-48 ">
               <Select
                 onValueChange={(value: any) => {
-                  field.onChange(value);
+                  handleOnChangeValue(field, value);
                 }}
-                defaultValue={field.value}
-                value={!!field.value ? field.value : ''}
+                defaultValue={isValueInArray ? field.value[0] : field.value}
+                value={isValueInArray ? field.value[0] : field.value || ''}
                 disabled={readOnly}
               >
-                <SelectTrigger ref={field.ref}>
+                <SelectTrigger ref={field.ref} data-testid="btn-select-field">
                   {showSelectValue ? (
                     <SelectValue placeholder={placeholder} />
                   ) : (
@@ -79,7 +103,7 @@ export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
 
                 <SelectContent>
                   {[...items].map((item: SelectItemValues) => (
-                    <SelectItem key={item.key} value={item.value}>
+                    <SelectItem key={item.key} value={item.value}  data-value={item.value}>
                       {item.label}
                     </SelectItem>
                   ))}

@@ -25,8 +25,11 @@ export const useDeleteSupply = (): UseMutationReturn<void, string> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          conflict: 'El insumo tiene stock disponible',
+        handlers: {
+          conflict: {
+            message:
+              'No se pudo eliminar el insumo seleccionado, revisa que no tenga stock',
+          },
         },
       });
     },

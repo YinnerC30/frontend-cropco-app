@@ -18,21 +18,25 @@ const routeConfig: RouteConfig[] = [
     action: 'find_all_employees',
     element: <EmployeesModule />,
     viewComponent: true,
+    label: 'Empleados'
   },
   {
     path: 'create/one',
     action: 'create_employee',
     element: <CreateEmployee />,
+    label: 'Crear Empleado'
   },
   {
     path: 'view/one/:id',
     action: 'find_one_employee',
     element: <ViewEmployee />,
+    label: 'Ver Empleado'
   },
   {
     path: 'update/one/:id',
     action: 'update_one_employee',
     element: <ModifyEmployee />,
+    label: 'Modificar Empleado'
   },
 ];
 

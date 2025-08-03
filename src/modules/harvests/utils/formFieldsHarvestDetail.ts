@@ -26,12 +26,12 @@ export const formFieldsHarvestDetail: Record<
     name: 'amount',
     label: 'Cantidad:',
     placeholder: '0',
-    description: 'Introduce la cantidad que ha cosechado',
+    description: 'Cantidad cosechada',
   },
   value_pay: {
     name: 'value_pay',
     label: 'Valor a pagar:',
     placeholder: '0',
-    description: 'Introduce el valor a pagar por la cosecha',
+    description: 'Valor a pagar por la cosecha',
   },
 };

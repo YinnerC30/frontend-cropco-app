@@ -20,11 +20,13 @@ export const getSuppliers = async ({
   query = '',
   limit = 10,
   offset = 0,
+  all_records = false,
 }: BasicQueryData): TypeGetAllRecordsReturn<Supplier> => {
   const params = new URLSearchParams({
     query,
     limit: limit.toString(),
     offset: offset.toString(),
+    all_records: all_records.toString(),
   });
 
   return await cropcoAPI.get(`${pathsCropco.suppliers}/all?${params}`);
@@ -32,6 +34,7 @@ export const getSuppliers = async ({
 
 export const useGetAllSuppliers = ({
   queryValue,
+  all_records = false,
 }: UseGetAllRecordsProps): UseGetAllRecordsReturn<Supplier> => {
   const { pagination, setPagination } = usePaginationDataTable();
   const { hasPermission, handleError } = useAuthContext();
@@ -39,7 +42,7 @@ export const useGetAllSuppliers = ({
   const isAuthorized = hasPermission('suppliers', 'find_all_suppliers');
 
   const query: UseQueryGetAllRecordsReturn<Supplier> = useQuery({
-    queryKey: ['suppliers', { queryValue, ...pagination }],
+    queryKey: ['suppliers', { queryValue, all_records, ...pagination }],
     queryFn: () =>
       getSuppliers({
         query: queryValue,
@@ -64,7 +67,7 @@ export const useGetAllSuppliers = ({
 
   useEffect(() => {
     if (!isAuthorized) {
-      toast.error('No tienes permiso para ver el listado de proveedores 😑');
+      toast.error('No tienes permiso para ver el listado de proveedores ');
     }
   }, [isAuthorized]);
 
@@ -72,7 +75,7 @@ export const useGetAllSuppliers = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {},
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

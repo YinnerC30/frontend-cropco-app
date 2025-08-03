@@ -15,6 +15,7 @@ export const FormSupplierFields: React.FC = () => {
         className="flex flex-col gap-2 ml-1"
       >
         <FormFieldInput
+          autoFocus
           control={form.control}
           description={formFieldsSupplier.first_name.description}
           label={formFieldsSupplier.first_name.label}
@@ -54,7 +55,7 @@ export const FormSupplierFields: React.FC = () => {
           name={'address'}
           placeholder={formFieldsSupplier.address.placeholder}
           disabled={readOnly}
-          className='sm:w-2/4'
+          className="sm:w-2/4"
         />
         <FormFieldInput
           control={form.control}

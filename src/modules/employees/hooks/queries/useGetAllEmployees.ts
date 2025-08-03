@@ -40,7 +40,7 @@ export const useGetAllEmployees = ({
   const isAuthorized = hasPermission('employees', 'find_all_employees');
 
   const query: UseQueryGetAllRecordsReturn<Employee> = useQuery({
-    queryKey: ['employees', { queryValue, ...pagination }],
+    queryKey: ['employees', { queryValue, all_records, ...pagination }],
     queryFn: () =>
       getEmployees({
         query: queryValue,
@@ -66,7 +66,7 @@ export const useGetAllEmployees = ({
 
   useEffect(() => {
     if (!isAuthorized) {
-      toast.error('No tienes permiso para ver el listado de usuarios 😑');
+      toast.error('No tienes permiso para ver el listado de usuarios ');
     }
   }, [isAuthorized]);
 
@@ -74,9 +74,7 @@ export const useGetAllEmployees = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          unauthorized: 'No tienes permiso para ver el listado de empleados 😑',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

@@ -37,7 +37,7 @@ export const useGetAllCrops = ({
   const isAuthorized = hasPermission('crops', 'find_all_crops');
 
   const query: UseQueryGetAllRecordsReturn<Crop> = useQuery({
-    queryKey: ['crops', { queryValue, ...pagination }],
+    queryKey: ['crops', { queryValue, all_records, ...pagination }],
     queryFn: () =>
       getCrops({
         query: queryValue,
@@ -54,7 +54,7 @@ export const useGetAllCrops = ({
 
   useEffect(() => {
     if (!isAuthorized) {
-      toast.error('No tienes permiso para ver el listado de cultivos 😑');
+      toast.error('No tienes permiso para ver el listado de cultivos ');
     }
   }, [isAuthorized]);
 
@@ -62,7 +62,7 @@ export const useGetAllCrops = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {},
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

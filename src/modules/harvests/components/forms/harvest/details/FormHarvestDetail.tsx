@@ -34,6 +34,7 @@ export const FormHarvestDetail: React.FC = () => {
     formHarvestDetail,
     addHarvestDetail,
     modifyHarvestDetail,
+    isSubmittingHarvestDetail,
   } = useFormHarvestContext();
 
   const onSubmitHarvestDetail = (
@@ -80,6 +81,7 @@ export const FormHarvestDetail: React.FC = () => {
           size="icon"
           onClick={handleOpenDialogExtended}
           disabled={readOnly}
+          data-testid="btn-open-harvest-detail-form"
         >
           <Plus className="w-4 h-4" />
           <span className="sr-only">Crear nuevo registro</span>
@@ -87,13 +89,14 @@ export const FormHarvestDetail: React.FC = () => {
       </ToolTipTemplate>
       <Dialog open={openDialog} modal={false}>
         <DialogContent
-          className="sm:max-w-[425px]"
+          className="max-w-[95vw] sm:max-w-[425px]"
           onClick={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
           <DialogClose
+            data-testid="btn-close-form-dialog"
             onClick={handleCloseDialog}
             className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
           >
@@ -112,7 +115,9 @@ export const FormHarvestDetail: React.FC = () => {
           <DialogFooter>
             <Button
               type="submit"
+              disabled={isSubmittingHarvestDetail}
               onClick={formHarvestDetail.handleSubmit(onSubmitHarvestDetail)}
+              data-testid="form-detail-submit-button"
             >
               Guardar
             </Button>

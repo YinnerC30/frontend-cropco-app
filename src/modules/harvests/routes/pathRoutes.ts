@@ -9,5 +9,5 @@ export const MODULE_HARVESTS_PATHS: Record<HarvestRoutes, string> = {
   Create: `${PATH_BASE}/create/one`,
   Update: `${PATH_BASE}/update/one/`,
   ViewOne: `${PATH_BASE}/view/one/`,
-  Processed: `${PATH_BASE}/processed/view/one/`,
+  Processed: `${PATH_BASE}/processed/view/`,
 };

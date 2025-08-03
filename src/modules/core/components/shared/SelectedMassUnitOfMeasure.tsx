@@ -29,14 +29,15 @@ export const SelectedMassUnitOfMeasure = ({
       defaultValue={MassUnitOfMeasure.KILOGRAMOS}
       value={valueSelect}
       disabled={readOnly}
+      
     >
-      <SelectTrigger>
+      <SelectTrigger data-testid='btn-select-mass-unit-of-measure'>
         <SelectValue placeholder={'Selecciona una medida'} />
       </SelectTrigger>
 
       <SelectContent>
-        {[...UnitsType['GRAMOS']].map((item: any) => (
-          <SelectItem key={item.key} value={item.value}>
+        {UnitsType.MASS.map((item: any) => (
+          <SelectItem key={item.key} value={item.value} data-value={item.value}>
             {item.label}
           </SelectItem>
         ))}

@@ -20,8 +20,6 @@ export const getShoppingPDF = async (id: string): PromiseReturnRecord<Blob> => {
   );
 };
 
-
-
 interface Props {
   shoppingId: string;
   stateQuery: boolean;
@@ -80,10 +78,7 @@ export const useGetShoppingPDF = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          notFound: 'El documento solicitado no fue encontrado',
-          unauthorized: 'No tienes permiso para obtener el documento',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

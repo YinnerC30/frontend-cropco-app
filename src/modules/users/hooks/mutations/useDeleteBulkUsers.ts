@@ -1,10 +1,10 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { ManageMessageBulkRemove } from '@/modules/core/helpers/ManageMessageBulkRemove';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
 
 const deleteBulkUsers = async (
   data: BulkRecords
@@ -21,17 +21,24 @@ export const useDeleteBulkUsers = (): UseMutationReturn<void, BulkRecords> => {
   const { handleError } = useAuthContext();
   const mutation: UseMutationReturn<void, BulkRecords> = useMutation({
     mutationFn: deleteBulkUsers,
-    onSuccess: async () => {
+    onSuccess: async ({ status }) => {
       await queryClient.invalidateQueries({ queryKey: ['users'] });
-      toast.success(`Usuarios eliminados`);
+      ManageMessageBulkRemove({
+        status,
+        customMessages: {
+          multiStatus:
+            'No se pudieron eliminar algunos usuarios, revisa que no tengan rol "Administrador" ',
+        },
+      });
     },
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          notFound: 'No se encontro el usuario a eliminar',
-          badRequest: 'La solicitud no es válida',
-          unauthorized: 'No tienes permisos para eliminar usuarios',
+        handlers: {
+          conflict: {
+            message:
+              'No se pudieron eliminar los usuarios seleccionados, revisa que no tengan rol "Administrador"',
+          },
         },
       });
     },

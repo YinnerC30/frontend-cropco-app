@@ -73,14 +73,14 @@ import { CaretSortIcon } from '@radix-ui/react-icons';
 const valuesResetForm = {
   filter_by_date: {
     date: undefined,
-    type_filter_date: TypeFilterDate.after,
+    type_filter_date: TypeFilterDate.AFTER,
   },
   filter_by_value_pay: {
-    type_filter_value_pay: TypeFilterNumber.MIN,
+    type_filter_value_pay: TypeFilterNumber.LESS_THAN,
     value_pay: 0,
   },
   filter_by_amount: {
-    type_filter_amount: TypeFilterNumber.MIN,
+    type_filter_amount: TypeFilterNumber.LESS_THAN,
     type_unit_of_measure: MassUnitOfMeasure.KILOGRAMOS,
     amount: 0,
   },
@@ -224,7 +224,7 @@ export const SaleModuleSearchbar: React.FC = () => {
         form.setValue('crops', [], { shouldDirty: false });
         break;
       case 'date':
-        form.setValue('filter_by_date.type_filter_date', TypeFilterDate.after, {
+        form.setValue('filter_by_date.type_filter_date', TypeFilterDate.AFTER, {
           shouldDirty: false,
         });
         form.setValue('filter_by_date.date', undefined, { shouldDirty: false });
@@ -395,7 +395,6 @@ export const SaleModuleSearchbar: React.FC = () => {
                         className="self-end w-24 mt-4"
                         onClick={async () => {
                           handleClearErrorsForm('filter_by_date');
-                          await handleSearch(form.watch());
                           setOpenPopoverDate(false);
                         }}
                       >
@@ -469,7 +468,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverClient}
                               modal={true}
                             >
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2">
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     {queryClients.isLoading ||
@@ -635,7 +634,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                               onOpenChange={setOpenPopoverCrop}
                               modal={true}
                             >
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2">
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     {queryCrops.isLoading ||
@@ -795,6 +794,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                       control={form.control}
                       type="number"
                       name="filter_by_value_pay.value_pay"
+                      step={50}
                     />
                   </>
                 }
@@ -815,7 +815,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                     />
                     <FormFieldSelect
                       disabled={false}
-                      items={UnitsType[MassUnitOfMeasure.GRAMOS]}
+                      items={UnitsType.MASS}
                       {...formFieldsSearchBarSale.type_unit_of_measure}
                       control={form.control}
                       name="filter_by_amount.type_unit_of_measure"

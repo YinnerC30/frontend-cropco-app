@@ -27,15 +27,12 @@ export const useRenewToken = (): UseMutationReturn<
     onSuccess: async ({ data: { token } }) => {
       await queryClient.invalidateQueries({ queryKey: ['user-sesion-status'] });
       updateTokenInClient(token);
-      toast.success('Tu sesión se ha extendido un poco más 😊');
+      toast.success('Tu sesión se ha extendido un poco más');
     },
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          unauthorized:
-            'Tu sesión ha expirado, por favor vuelve a iniciar sesión',
-        },
+        handlers: {},
       });
     },
     retry: false,

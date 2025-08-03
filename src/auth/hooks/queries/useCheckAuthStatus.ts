@@ -21,46 +21,35 @@ declare module 'axios' {
   }
 }
 
-export const checkAuthStatus = async (
-  token: string
-): PromiseReturnRecord<ResponseCheckAuth> => {
-  return await cropcoAPI.get(`${pathsCropco.authentication}/check-status`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    skipInterceptor: true,
-  });
-};
+export const checkAuthStatus =
+  async (): PromiseReturnRecord<ResponseCheckAuth> => {
+    return await cropcoAPI.get(`${pathsCropco.authentication}/check-status`);
+  };
 
-export const useCheckAuthStatus = ({
-  token = '',
-}: {
-  token: string;
-}): UseGetOneRecordReturn<ResponseCheckAuth> => {
-  const { isLogin, handleError } = useAuthContext();
-  const query: UseGetOneRecordReturn<ResponseCheckAuth> = useQuery({
-    queryKey: ['valid-sesion-user'],
-    queryFn: () => checkAuthStatus(token),
-    enabled: isLogin,
-    refetchOnWindowFocus: false,
-    // refetchIntervalInBackground
-    ...CACHE_CONFIG_TIME.longTerm,
-    refetchInterval: TIME_ACTIVE_TOKEN,
-    retry: false,
-  });
+export const useCheckAuthStatus =
+  (): UseGetOneRecordReturn<ResponseCheckAuth> => {
+    const { is_login, handleError } = useAuthContext();
+    const query: UseGetOneRecordReturn<ResponseCheckAuth> = useQuery({
+      queryKey: ['valid-sesion-user'],
+      queryFn: () => checkAuthStatus(),
+      enabled: is_login,
+      refetchOnWindowFocus: false,
+      // refetchIntervalInBackground
+      ...CACHE_CONFIG_TIME.longTerm,
+      refetchInterval: TIME_ACTIVE_TOKEN,
+      retry: false,
+    });
 
-  const { isError, error } = query;
+    const { isError, error } = query;
 
-  useEffect(() => {
-    if (isError) {
-      handleError({
-        error,
-        messagesStatusError: {
-          unauthorized: 'Tu sesión ha expirado',
-        },
-      });
-    }
-  }, [isError]);
+    useEffect(() => {
+      if (isError) {
+        handleError({
+          error,
+          handlers: {},
+        });
+      }
+    }, [isError]);
 
-  return query;
-};
+    return query;
+  };

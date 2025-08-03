@@ -20,21 +20,25 @@ const routeConfig: RouteConfig[] = [
     action: 'find_all_clients',
     element: <ClientsModule />,
     viewComponent: true,
+    label: 'Clientes'
   },
   {
     path: 'create/one',
     action: 'create_client',
     element: <CreateClient />,
+    label: 'Crear Cliente'
   },
   {
     path: 'view/one/:id',
     action: 'find_one_client',
     element: <ViewClient />,
+    label: 'Ver Cliente'
   },
   {
     path: 'update/one/:id',
     action: 'update_one_client',
     element: <ModifyClient />,
+    label: 'Modificar Cliente'
   },
 ];
 

@@ -75,10 +75,10 @@ const valuesResetForm = {
   },
   filter_by_date: {
     date: undefined,
-    type_filter_date: TypeFilterDate.after,
+    type_filter_date: TypeFilterDate.AFTER,
   },
   filter_by_value_pay: {
-    type_filter_value_pay: TypeFilterNumber.MIN,
+    type_filter_value_pay: TypeFilterNumber.LESS_THAN,
     value_pay: 0,
   },
   employees: [],
@@ -372,7 +372,7 @@ export const WorkModuleSearchbar = () => {
                               onOpenChange={setOpenPopover}
                               modal={true}
                             >
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2">
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     {queryEmployees.isLoading ||
@@ -556,6 +556,7 @@ export const WorkModuleSearchbar = () => {
                       control={form.control}
                       type="number"
                       name="filter_by_value_pay.value_pay"
+                      step={50}
                     />
                   </>
                 }

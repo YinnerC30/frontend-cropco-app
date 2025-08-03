@@ -44,7 +44,7 @@ export const ConsumptionModuleActions: React.FC = () => {
     <div className="flex justify-between">
       <ButtonRefetchData
         onClick={handleRefetchData}
-        disabled={!actionsConsumptionsModule['find_all_supplies_consumption']}
+        disabled={!actionsConsumptionsModule['find_all_supplies_consumption'] || queryConsumptions.isRefetching}
         className=""
       />
 

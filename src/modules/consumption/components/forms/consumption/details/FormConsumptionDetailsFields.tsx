@@ -30,14 +30,15 @@ import {
   Loading,
 } from '@/modules/core/components';
 
+import {
+  unitTypeMap
+} from '@/modules/core/hooks/useUnitConverter';
 import { useGetAllCrops } from '@/modules/crops/hooks';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
 import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import {
-  MassUnitOfMeasure,
   UnitOfMeasure,
   UnitsType,
-  VolumeUnitOfMeasure,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { useEffect, useRef, useState } from 'react';
@@ -73,6 +74,9 @@ export const FormConsumptionDetailsFields: React.FC = () => {
     'unit_of_measure'
   ) as UnitOfMeasure;
 
+  const categorySupply =
+    unitTypeMap[currentSupply.unit_of_measure as UnitOfMeasure];
+
   useEffect(() => {
     if (firstRender.current) {
       addSupplyStock({
@@ -97,8 +101,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
     ) {
       formConsumptionDetail.setValue(
         'unit_of_measure',
-        UnitsType[currentSupply.unit_of_measure as keyof typeof UnitsType][0]
-          .key,
+        currentSupply.unit_of_measure as UnitOfMeasure,
         { shouldValidate: true }
       );
     } else if (
@@ -155,12 +158,12 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                 onOpenChange={setOpenPopover}
                 modal={true}
               >
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <PopoverTrigger asChild>
                     <FormControl>
                       {querySuppliesStock.isLoading ||
                       querySuppliesStock.isFetching ? (
-                        <div className="w-[200px]">
+                        <div className="w-auto">
                           <Loading className="" />
                         </div>
                       ) : (
@@ -168,15 +171,15 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                           variant="outline"
                           role="combobox"
                           aria-expanded={openPopover}
-                          className={`w-80 ${cn(
-                            `${!field.value && 'flex justify-between'}`,
+                          className={`w-auto max-w-[75%] flex gap-2 ${cn(
+                            `${!field.value && ''}`,
                             !field.value && 'text-muted-foreground'
                           )}`}
                           ref={field.ref}
                           onBlur={field.onBlur}
                           disabled={readOnly}
                         >
-                          <span className="overflow-auto truncate text-muted-foreground text-ellipsis">
+                          <span className="overflow-auto truncate text-muted-foreground text-ellipsis max-w-36">
                             {!!field.value
                               ? suppliesStock.find((item: SupplyStock) => {
                                   return item.id === field.value;
@@ -290,43 +293,59 @@ export const FormConsumptionDetailsFields: React.FC = () => {
           />
         )}
 
-        {!!currentSupply.id &&
-          currentSupply.unit_of_measure === MassUnitOfMeasure.GRAMOS && (
-            <FormFieldSelect
-              items={UnitsType[MassUnitOfMeasure.GRAMOS]}
-              control={formConsumptionDetail.control}
-              description={
-                formFieldsConsumptionDetail.unit_of_measure.description
-              }
-              label={formFieldsConsumptionDetail.unit_of_measure.label}
-              name={'unit_of_measure'}
-              placeholder={
-                formFieldsConsumptionDetail.unit_of_measure.placeholder
-              }
-              disabled={readOnly}
-              currentValue={currentUnitType!}
-              manualValidationValue
-            />
-          )}
+        {!!currentSupply.id && categorySupply === 'MASS' && (
+          <FormFieldSelect
+            items={UnitsType.MASS}
+            control={formConsumptionDetail.control}
+            description={
+              formFieldsConsumptionDetail.unit_of_measure.description
+            }
+            label={formFieldsConsumptionDetail.unit_of_measure.label}
+            name={'unit_of_measure'}
+            placeholder={
+              formFieldsConsumptionDetail.unit_of_measure.placeholder
+            }
+            disabled={readOnly}
+            currentValue={currentUnitType!}
+            manualValidationValue
+          />
+        )}
 
-        {!!currentSupply.id &&
-          currentSupply.unit_of_measure === VolumeUnitOfMeasure.MILILITROS && (
-            <FormFieldSelect
-              items={UnitsType[VolumeUnitOfMeasure.MILILITROS]}
-              control={formConsumptionDetail.control}
-              description={
-                formFieldsConsumptionDetail.unit_of_measure.description
-              }
-              label={formFieldsConsumptionDetail.unit_of_measure.label}
-              name={'unit_of_measure'}
-              placeholder={
-                formFieldsConsumptionDetail.unit_of_measure.placeholder
-              }
-              disabled={readOnly}
-              currentValue={currentUnitType!}
-              manualValidationValue
-            />
-          )}
+        {!!currentSupply.id && categorySupply === 'VOLUME' && (
+          <FormFieldSelect
+            items={UnitsType.VOLUME}
+            control={formConsumptionDetail.control}
+            description={
+              formFieldsConsumptionDetail.unit_of_measure.description
+            }
+            label={formFieldsConsumptionDetail.unit_of_measure.label}
+            name={'unit_of_measure'}
+            placeholder={
+              formFieldsConsumptionDetail.unit_of_measure.placeholder
+            }
+            disabled={readOnly}
+            currentValue={currentUnitType!}
+            manualValidationValue
+          />
+        )}
+
+        {!!currentSupply.id && categorySupply === 'LENGTH' && (
+          <FormFieldSelect
+            items={UnitsType.LENGTH}
+            control={formConsumptionDetail.control}
+            description={
+              formFieldsConsumptionDetail.unit_of_measure.description
+            }
+            label={formFieldsConsumptionDetail.unit_of_measure.label}
+            name={'unit_of_measure'}
+            placeholder={
+              formFieldsConsumptionDetail.unit_of_measure.placeholder
+            }
+            disabled={readOnly}
+            currentValue={currentUnitType!}
+            manualValidationValue
+          />
+        )}
 
         <FormFieldInput
           control={formConsumptionDetail.control}
@@ -336,7 +355,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
           placeholder={formFieldsConsumptionDetail.amount.placeholder}
           disabled={false}
           type="number"
-          step={50}
+          allowDecimals
         />
       </form>
     </Form>

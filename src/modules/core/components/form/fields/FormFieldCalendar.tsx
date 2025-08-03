@@ -56,6 +56,7 @@ export const FormFieldCalendar: React.FC<FieldCalendarProps> = memo(
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
+                      data-testid={'btn-calendar-selector'}
                       ref={field.ref}
                       disabled={readOnly}
                       variant={'outline'}
@@ -78,9 +79,11 @@ export const FormFieldCalendar: React.FC<FieldCalendarProps> = memo(
                   <Calendar
                     locale={es}
                     mode="single"
-                    selected={new Date(`${field.value}`)}
+                    selected={
+                      !!field.value ? new Date(`${field.value}`) : new Date()
+                    }
                     onSelect={(date) => {
-                      field.onChange(date);
+                      !date ? field.onChange(new Date()) : field.onChange(date);
                       setOpenPopover(false);
                     }}
                     disabled={conditionCalendar}

@@ -20,7 +20,10 @@ interface Props {
 export const ActionsTableHarvest: React.FC<Props> = ({ row }) => {
   const { dataTable, actionsHarvestsModule, mutationDeleteHarvest } =
     useHarvestModuleContext();
-  const id = row.original.id ?? '';
+  const {
+    id = '',
+    crop: { deletedDate },
+  } = row.original;
   const { mutate } = mutationDeleteHarvest;
 
   const handleDelete = () => {
@@ -31,7 +34,7 @@ export const ActionsTableHarvest: React.FC<Props> = ({ row }) => {
     });
   };
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={id}>
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}
@@ -51,7 +54,7 @@ export const ActionsTableHarvest: React.FC<Props> = ({ row }) => {
         path={`../processed/view/${id}`}
         Icon={LayersIcon}
         name={'Inventario'}
-        disabled={!actionsHarvestsModule['find_one_harvest']}
+        disabled={!actionsHarvestsModule['find_one_harvest'] || !!deletedDate}
       />
       <ActionGetDocument
         id={id!}

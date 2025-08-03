@@ -20,7 +20,7 @@ export const formSchemaSupply = z.object({
         case "invalid_type":
           return { message: "Debe seleccionar una unidad de medida." };
         case "invalid_enum_value":
-          return { message: "Debe seleccionar GRAMOS o MILILITROS." };
+          return { message: "Debe seleccionar una unidad de medida válida (masa, volumen o longitud)." };
         default:
           return { message: "Error en la selección de unidad de medida." };
       }
@@ -28,8 +28,8 @@ export const formSchemaSupply = z.object({
   }),
   observation: z
     .string()
-    .min(6, {
-      message: "La observación debe tener mínimo 6 caracteres",
+    .min(10, {
+      message: "La observación debe tener mínimo 10 caracteres",
     })
     .max(500, { message: `La dirección debe tener máximo 200 caracteres` }),
 });

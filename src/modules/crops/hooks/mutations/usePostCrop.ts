@@ -27,7 +27,7 @@ export const usePostCrop = (): UseMutationReturn<void, Crop> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

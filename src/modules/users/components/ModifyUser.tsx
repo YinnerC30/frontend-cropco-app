@@ -1,6 +1,6 @@
 import { Loading } from '@/modules/core/components';
 import { z } from 'zod';
-import { useGetUser, usePatchUser } from '../hooks/';
+import { useGetUser, usePutUser } from '@/modules/users/hooks';
 
 import { BreadCrumb } from '@/modules/core/components/';
 import { useParams } from 'react-router-dom';
@@ -12,7 +12,7 @@ import { User } from '../interfaces';
 export const ModifyUser: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useGetUser(id!);
-  const { mutate, isPending } = usePatchUser();
+  const { mutate, isPending } = usePutUser();
 
   const handleSubmit = (values: z.infer<typeof formSchemaUser>) => {
     mutate({ id: id ?? undefined, ...values } as Partial<User>);

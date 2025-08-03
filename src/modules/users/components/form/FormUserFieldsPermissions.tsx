@@ -56,6 +56,7 @@ export const ModuleCard: React.FC<ModuleCardProps> = memo<ModuleCardProps>(
               onCheckedChange={handleOnCheckedChangeSwitch}
               checked={isCheckedSwitch}
               disabled={readOnly}
+              data-testid={`switch-actions-module-${name}`}
             />
           </div>
 
@@ -96,21 +97,24 @@ export const FormUserFieldsPermissions: React.FC = () => {
     <div>
       <Separator className="my-5" />
       <h3 className="text-xl">Permisos:</h3>
-      <div
-        className={`flex gap-2 my-2 items-center justify-center ${
-          readOnly && 'hidden'
-        }`}
-      >
-        <div className="flex items-center self-start gap-2 py-4 ">
-          <Label className="">Activar todos los permisos</Label>
-          <Switch
-            defaultChecked={isSelectedAllActions}
-            onCheckedChange={handleOnCheckedChangeSwitch}
-            checked={isSelectedAllActions}
-            disabled={readOnly}
-          />
+      {!readOnly && (
+        <div
+          className={`flex gap-2 my-2 items-center justify-center ${
+            readOnly && 'hidden'
+          }`}
+        >
+          <div className="flex items-center self-start gap-2 py-4 ">
+            <Label className="">Activar todos los permisos</Label>
+            <Switch
+              defaultChecked={isSelectedAllActions}
+              onCheckedChange={handleOnCheckedChangeSwitch}
+              checked={isSelectedAllActions}
+              disabled={readOnly}
+              data-testid={'switch-global-actions'}
+            />
+          </div>
         </div>
-      </div>
+      )}
       <div className="flex flex-wrap gap-2 my-2 justify-evenly">
         {generateModuleCards()}
       </div>

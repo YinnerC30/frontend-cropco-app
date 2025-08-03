@@ -67,7 +67,7 @@ export function useGetAllConsumptions(
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado de consumos de insumos 😑'
+        'No tienes permiso para ver el listado de consumos de insumos '
       );
     }
   }, [isAuthorized]);
@@ -76,7 +76,7 @@ export function useGetAllConsumptions(
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {},
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

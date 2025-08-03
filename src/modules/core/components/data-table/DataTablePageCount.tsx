@@ -4,7 +4,10 @@ import { useDataTableContext } from './DataTableContext';
 export const DataTablePageCount = memo(() => {
   const { pageText } = useDataTableContext();
   return (
-    <p className="text-sm font-medium text-center text-muted-foreground">
+    <p
+      className="text-sm font-medium text-center text-muted-foreground"
+      data-testid="data-table-page-info-number"
+    >
       {pageText}
     </p>
   );

@@ -1,11 +1,11 @@
-import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
-import { useAuthContext } from "@/auth/hooks";
-import { PromiseReturnRecord } from "@/auth/interfaces/PromiseReturnRecord";
-import { BulkRecords } from "@/modules/core/interfaces/bulk-data/BulkRecords";
-import { UseDeleteBulkResponse } from "@/modules/core/interfaces/responses/UseDeleteBulkResponse";
-import { UseMutationReturn } from "@/modules/core/interfaces/responses/UseMutationReturn";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { ManageMessageBulkRemove } from '@/modules/core/helpers/ManageMessageBulkRemove';
+import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
+import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const deleteBulkEmployees = async (
   data: BulkRecords
@@ -26,29 +26,33 @@ export const useDeleteBulkEmployees = (): UseMutationReturn<
   const mutation: UseMutationReturn<UseDeleteBulkResponse, BulkRecords> =
     useMutation({
       mutationFn: deleteBulkEmployees,
-      onSuccess: async ({ data: { failed, success } }) => {
-        await queryClient.invalidateQueries({ queryKey: ["employees"] });
-        await queryClient.invalidateQueries({ queryKey: ["harvest"] });
-        await queryClient.invalidateQueries({ queryKey: ["work"] });
+      onSuccess: async ({ status, data: { failed, success } }) => {
+        await queryClient.invalidateQueries({ queryKey: ['employees'] });
+        await queryClient.invalidateQueries({ queryKey: ['harvest'] });
+        await queryClient.invalidateQueries({ queryKey: ['work'] });
         await queryClient.invalidateQueries({
-          queryKey: ["employees-top-harvests"],
+          queryKey: ['employees-top-harvests'],
         });
         await queryClient.invalidateQueries({
-          queryKey: ["employees-top-works"],
+          queryKey: ['employees-top-works'],
         });
-
-        if (success.length > 0 && failed.length === 0) {
-          toast.success(`Empleados eliminados`);
-        } else if (failed.length > 0) {
-          toast.error(
-            `No se pudieron eliminar algunos empleados, revisa si tienen cosechas o trabajos pendientes de pago`
-          );
-        }
+        ManageMessageBulkRemove({
+          status,
+          customMessages: {
+            multiStatus:
+              'No se pudieron eliminar algunos empleados, revisa si tienen cosechas o trabajos pendientes de pago',
+          },
+        });
       },
       onError: (error) => {
         handleError({
           error,
-          messagesStatusError: {},
+          handlers: {
+            conflict: {
+              message:
+                'No se pudieron eliminar los empleados seleccionados, revisa si tienen cosechas o trabajos pendientes de pago',
+            },
+          },
         });
       },
 

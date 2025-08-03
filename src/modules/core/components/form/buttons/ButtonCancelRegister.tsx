@@ -21,6 +21,7 @@ export const ButtonCancelRegister: React.FC<Props> = ({ action }) => {
           action();
         }
       }}
+      data-testid="btn-cancel-register"
     >
       Cancelar
     </Button>

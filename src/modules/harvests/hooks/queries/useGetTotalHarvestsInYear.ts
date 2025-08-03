@@ -44,7 +44,10 @@ export const useGetTotalHarvestsInYear = ({
 }: QueryParams): UseGetOneRecordReturn<HarvestTotalInYearData> => {
   const { hasPermission, handleError } = useAuthContext();
 
-  const isAuthorized = hasPermission('dashboard', 'find_total_harvest_in_year_chart');
+  const isAuthorized = hasPermission(
+    'dashboard',
+    'find_total_harvest_in_year_chart'
+  );
 
   const query: UseGetOneRecordReturn<HarvestTotalInYearData> = useQuery({
     queryKey: ['harvests-amount-year', year, crop, employee],
@@ -58,7 +61,7 @@ export const useGetTotalHarvestsInYear = ({
   useEffect(() => {
     if (!isAuthorized) {
       toast.error(
-        'No tienes permiso para ver el listado del amount de cosechas en el año 😑'
+        'No tienes permiso para ver el listado del amount de cosechas en el año '
       );
     }
   }, [isAuthorized]);
@@ -67,10 +70,7 @@ export const useGetTotalHarvestsInYear = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          unauthorized:
-            'No tienes permiso para ver el listado del amount de cosechas en el año 😑',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

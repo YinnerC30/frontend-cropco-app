@@ -1,6 +1,5 @@
 import { ButtonHeaderTable } from '@/modules/core/components';
 
-
 import { ColumnDef, HeaderContext, Row } from '@tanstack/react-table';
 import { Supply } from '../../interfaces/Supply';
 import { formFieldsSupply } from '../../utils';

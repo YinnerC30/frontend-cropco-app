@@ -15,21 +15,25 @@ const routeConfig: RouteConfig[] = [
     action: 'find_all_users',
     element: <UsersModule />,
     viewComponent: true,
+    label: 'Usuarios'
   },
   {
     path: 'create/one',
     action: 'create_user',
     element: <CreateUser />,
+    label: 'Crear Usuario'
   },
   {
     path: 'view/one/:id',
     action: 'find_one_user',
     element: <ViewUser />,
+    label: 'Ver Usuario'
   },
   {
     path: 'update/one/:id',
     action: 'update_one_user',
     element: <ModifyUser />,
+    label: 'Modificar Usuario'
   },
 ];
 

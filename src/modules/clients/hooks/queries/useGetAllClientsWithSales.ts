@@ -44,7 +44,7 @@ export const useGetAllClientsWithSales =
     useEffect(() => {
       if (!isAuthorized) {
         toast.error(
-          'No tienes permiso para ver el listado de clientes con ventas 😑'
+          'No tienes permiso para ver el listado de clientes con ventas '
         );
       }
     }, [isAuthorized]);
@@ -53,7 +53,7 @@ export const useGetAllClientsWithSales =
       if (query.isError) {
         handleError({
           error: query.error,
-          messagesStatusError: {},
+          handlers: {},
         });
       }
     }, [query.isError, query.error]);

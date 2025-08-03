@@ -50,11 +50,11 @@ export const CommandDialogApp = () => {
       <DialogTitle>
         <VisuallyHidden.Root>Menu</VisuallyHidden.Root>
       </DialogTitle>
-      <CommandInput placeholder="Escribe el nombre de un módulo..." />
+      <CommandInput placeholder="Escribe el nombre de un módulo..." data-testid="input-command-search"/>
 
-      <CommandList className="">
+      <CommandList className="" data-testid={`command-list`}>
         <CommandEmpty>No se encontraron resultados</CommandEmpty>
-        <CommandGroup heading="Módulos">
+        <CommandGroup heading="Módulos" data-testid={`command-group`}>
           {routes.map((route: Route) => {
             if (nameModulesUser.includes(route.name_module)) {
               return (
@@ -64,6 +64,7 @@ export const CommandDialogApp = () => {
                     navigate(route.path);
                     setOpen(false);
                   }}
+                  data-testid={`command-item-${route.name_module}`}
                 >
                   {route.Icon}
                   <span className="ml-2 font-medium">{route.label}</span>

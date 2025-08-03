@@ -14,16 +14,19 @@ const routeConfig: RouteConfig[] = [
     action: 'find_all_payments',
     element: <PaymentModule />,
     viewComponent: true,
+    label: 'Pagos'
   },
   {
     path: 'create/one',
     action: 'create_payment',
     element: <CreatePayment />,
+    label: 'Crear Pago'
   },
   {
     path: 'view/one/:id',
     action: 'find_one_payment',
     element: <ViewPayment />,
+    label: 'Ver Pago'
   },
 ];
 

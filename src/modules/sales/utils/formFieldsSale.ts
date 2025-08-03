@@ -7,13 +7,13 @@ export const formFieldsSale: Record<FormFieldsSale, CustomFormField> = {
     name: 'date',
     label: 'Fecha:',
     placeholder: 'Selecciona una fecha',
-    description: 'Fecha en la que se realizo la venta',
+    description: 'Fecha en la que se realizó la venta',
   },
   amount: {
     name: 'amount',
     label: 'Cantidad:',
     placeholder: '',
-    description: 'Número de Kilogramos vendidos',
+    description: 'Número de kilogramos vendidos',
   },
   value_pay: {
     name: 'value_pay',

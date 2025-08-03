@@ -15,6 +15,13 @@ COPY . .
 # Aumentar el límite de memoria para la compilación
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
+# Obtener la versión del package.json
+ARG VERSION
+RUN if [ -z "$VERSION" ]; then VERSION=$(node -p "require('./package.json').version"); fi && echo "Building version: $VERSION"
+
+# tests
+RUN npm run test
+
 # Construye la aplicación
 RUN npm run build
 
@@ -27,6 +34,7 @@ RUN apk add --no-cache nodejs
 # Crear script de inicio
 RUN echo '#!/bin/sh' > /docker-entrypoint.sh && \
     echo 'echo "window.ENV = { VITE_HOST_API_CROPCO: \"$VITE_HOST_API_CROPCO\", VITE_STATUS_PROJECT: \"$VITE_STATUS_PROJECT\" }" > /usr/share/nginx/html/env-config.js' >> /docker-entrypoint.sh && \
+    echo 'echo "window.APP_VERSION = \"$APP_VERSION\";" >> /usr/share/nginx/html/env-config.js' >> /docker-entrypoint.sh && \
     echo 'nginx -g "daemon off;"' >> /docker-entrypoint.sh && \
     chmod +x /docker-entrypoint.sh
 
@@ -34,6 +42,10 @@ RUN echo '#!/bin/sh' > /docker-entrypoint.sh && \
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Copia los archivos de construcción desde la etapa anterior
 COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Variables de entorno para la versión
+ARG VERSION
+ENV APP_VERSION=${VERSION}
 
 # Expone el puerto 80
 EXPOSE 80

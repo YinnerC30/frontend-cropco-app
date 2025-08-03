@@ -1,5 +1,5 @@
+import { TenantLocalStorageManager } from '@/auth/utils/TenantLocalStorageManager';
 import { BASE_PATH_API_CROPCO } from '@/config';
-import { getTokenToLocalStorage } from '@/auth/utils/manageUserInLocalStorage';
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 declare module 'axios' {
@@ -25,6 +25,8 @@ interface PathsCropco {
   shopping: string;
   consumption: string;
   dashboard: string;
+  tenants: string;
+  administrators: string;
 }
 
 // Crear una instancia de Axios con la URL base y encabezados configurados
@@ -33,18 +35,22 @@ export const cropcoAPI: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  // Habilitar el envío automático de cookies
+  withCredentials: true,
 });
 
-// Añadir el interceptor de solicitud para agregar el token de autorización
+// Añadir el interceptor de solicitud para agregar headers adicionales (ya no el token JWT)
 cropcoAPI.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     if (config.skipInterceptor) {
       return config; // Ignora el interceptor y devuelve la configuración
     }
-    const token = getTokenToLocalStorage();
-    if (!!token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+
+    const tenantId = TenantLocalStorageManager.getTenantIdToLocalStorage();
+    if (!!tenantId) {
+      config.headers['x-tenant-id'] = tenantId;
     }
+
     return config;
   }
 );
@@ -67,4 +73,6 @@ export const pathsCropco: PathsCropco = {
   shopping: 'shopping',
   consumption: 'consumptions',
   dashboard: 'dashboard',
+  tenants: 'tenants',
+  administrators: 'administrators',
 };

@@ -20,8 +20,6 @@ export const getHarvestPDF = async (id: string): PromiseReturnRecord<Blob> => {
   );
 };
 
-
-
 interface Props {
   harvestId: string;
   stateQuery: boolean;
@@ -81,10 +79,7 @@ export const useGetHarvestPDF = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          notFound: 'El documento solicitado no fue encontrado',
-          unauthorized: 'No tienes permiso para obtener el documento',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

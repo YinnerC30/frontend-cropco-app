@@ -94,7 +94,7 @@ const HarvestProcessedDataTable: React.FC = memo(() => {
           <div className="flex items-center gap-1">
             <Badge
               className="block w-auto h-8 my-2 text-base text-center"
-              variant={'cyan'}
+              variant={'zinc'}
             >
               {amountProcessedConverted}
             </Badge>
@@ -112,7 +112,7 @@ const HarvestProcessedDataTable: React.FC = memo(() => {
                 </SelectTrigger>
 
                 <SelectContent>
-                  {[...UnitsType['GRAMOS']].map((item: any) => (
+                  {UnitsType.MASS.map((item: any) => (
                     <SelectItem key={item.key} value={item.value}>
                       {item.label}
                     </SelectItem>

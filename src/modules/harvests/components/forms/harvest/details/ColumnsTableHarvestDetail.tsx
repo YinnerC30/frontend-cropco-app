@@ -4,6 +4,7 @@ import { Badge } from '@/components';
 import { ButtonHeaderTable } from '@/modules/core/components';
 import { FormatMoneyValue } from '@/modules/core/helpers/formatting/FormatMoneyValue';
 import { HarvestDetail } from '@/modules/harvests/interfaces';
+import { FormatNumber } from '@/modules/core/helpers';
 
 export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
   {
@@ -16,7 +17,7 @@ export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
     accessorKey: 'amount',
     cell: ({ row }) => {
       const amount: number = row.getValue('amount');
-      return Number.isInteger(amount) ? amount : amount.toFixed(2);
+      return FormatNumber(amount);
     },
     header: ({ column }: HeaderContext<HarvestDetail, unknown>) => {
       return (
@@ -32,7 +33,7 @@ export const columnsHarvestDetail: ColumnDef<HarvestDetail>[] = [
     cell: ({ row }) => {
       const unitOfMeasure: any = row.original.unit_of_measure;
       return (
-        <Badge variant={unitOfMeasure === 'GRAMOS' ? 'lime' : 'cyan'}>
+        <Badge variant={'zinc'}>
           {unitOfMeasure}
         </Badge>
       );

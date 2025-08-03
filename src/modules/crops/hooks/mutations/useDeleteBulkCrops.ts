@@ -1,11 +1,11 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { ManageMessageBulkRemove } from '@/modules/core/helpers/ManageMessageBulkRemove';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
 import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
 
 const deleteBulkCrops = async (
   data: BulkRecords
@@ -26,24 +26,29 @@ export const useDeleteBulkCrops = (): UseMutationReturn<
   const mutation: UseMutationReturn<UseDeleteBulkResponse, BulkRecords> =
     useMutation({
       mutationFn: deleteBulkCrops,
-      onSuccess: async ({ data: { failed, success } }) => {
+      onSuccess: async ({ status, data: { failed, success } }) => {
         await queryClient.invalidateQueries({ queryKey: ['crops'] });
         await queryClient.invalidateQueries({ queryKey: ['harvest'] });
         await queryClient.invalidateQueries({ queryKey: ['work'] });
         await queryClient.invalidateQueries({ queryKey: ['sale'] });
         await queryClient.invalidateQueries({ queryKey: ['consumption'] });
-        if (success.length > 0 && failed.length === 0) {
-          toast.success(`Cultivos eliminados`);
-        } else if (failed.length > 0) {
-          toast.error(
-            `No se pudieron eliminar algunos cultivos, es posible que alguno tenga aun stock disponible`
-          );
-        }
+        ManageMessageBulkRemove({
+          status,
+          customMessages: {
+            multiStatus:
+              'No fue posible eliminar algunos cultivos seleccionados. Verifica que no tengan stock disponible ni ventas con pagos pendientes antes de intentar eliminarlos',
+          },
+        });
       },
       onError: (error) => {
         handleError({
           error,
-          messagesStatusError: {},
+          handlers: {
+            conflict: {
+              message:
+                'No fue posible eliminar los cultivos seleccionados. Verifica que no tengan stock disponible ni ventas con pagos pendientes antes de intentar eliminarlos',
+            },
+          },
         });
       },
 

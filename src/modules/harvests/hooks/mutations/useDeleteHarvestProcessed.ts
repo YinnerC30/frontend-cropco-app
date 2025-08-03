@@ -32,7 +32,7 @@ export const useDeleteHarvestProcessed = (): UseMutationReturn<
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

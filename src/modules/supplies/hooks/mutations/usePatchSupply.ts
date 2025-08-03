@@ -34,7 +34,7 @@ export const usePatchSupply = (): UseMutationReturn<void, Supply> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

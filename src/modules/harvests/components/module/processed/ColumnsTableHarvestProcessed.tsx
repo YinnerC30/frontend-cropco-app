@@ -8,6 +8,7 @@ import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';
 import { HarvestProcessed } from '../../../interfaces/HarvestProcessed';
 import { formFieldsHarvestProcessed } from '../../../utils/formFieldsHarvestProcessed';
 import { ActionsTableHarvestProcessed } from './ActionsTableHarvestProcessed';
+import { FormatNumber } from '@/modules/core/helpers';
 
 export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
   {
@@ -29,7 +30,7 @@ export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
     accessorKey: formFieldsHarvestProcessed.amount.name,
     cell: ({ row }) => {
       const amount: number = row.getValue('amount');
-      return Number.isInteger(amount) ? amount : amount.toFixed(2);
+      return FormatNumber(amount);
     },
     header: ({ column }: HeaderContext<HarvestProcessed, unknown>) => {
       return (
@@ -48,7 +49,7 @@ export const columnsHarvestProcessed: ColumnDef<HarvestProcessed>[] = [
     cell: ({ row }) => {
       const unitOfMeasure: any = row.original.unit_of_measure;
       return (
-        <Badge variant={unitOfMeasure === 'GRAMOS' ? 'lime' : 'cyan'}>
+        <Badge variant={'zinc'}>
           {unitOfMeasure}
         </Badge>
       );
