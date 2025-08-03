@@ -7,7 +7,7 @@ WORKDIR /app
 # Copia los archivos de dependencias
 COPY package*.json ./
 # Instala las dependencias
-RUN npm ci
+RUN npm ci --only=production
 
 # Copia el resto del código fuente
 COPY . .
@@ -28,8 +28,8 @@ RUN npm run build
 # Etapa de producción
 FROM nginx:alpine
 
-# Instalar node para el script de inicio
-RUN apk add --no-cache nodejs
+# Instalar node para el script de inicio (versión ligera)
+RUN apk add --no-cache nodejs --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main
 
 # Crear script de inicio
 RUN echo '#!/bin/sh' > /docker-entrypoint.sh && \
