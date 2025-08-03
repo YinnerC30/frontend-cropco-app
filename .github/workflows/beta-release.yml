@@ -1,25 +1,58 @@
-name: Release and Build Docker Image
+name: Beta Release Pipeline
 
 on:
   push:
     tags:
-      - 'v*'
-      - '!v*-beta*'
-      - '!v*-rc*'
+      - 'v*-beta*'
+      - 'v*-rc*'
   workflow_dispatch:
     inputs:
       version_type:
-        description: 'Tipo de versión'
+        description: 'Tipo de versión pre-release'
         required: true
-        default: 'patch'
+        default: 'beta'
         type: choice
         options:
-          - patch
-          - minor
-          - major
+          - beta
+          - rc
+      release_notes:
+        description: 'Notas de release (opcional)'
+        required: false
+        type: string
 
 jobs:
-  release:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run E2E tests
+        run: npm run cypress:run
+
+      - name: Build application
+        run: npm run build
+
+  beta-release:
+    needs: validate
     runs-on: ubuntu-latest
     
     steps:
@@ -37,15 +70,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Run tests
-        run: npm test
-
-      - name: Run linting
-        run: npm run lint
-
-      - name: Build application
-        run: npm run build
 
       - name: Determine version
         id: version
@@ -79,35 +103,44 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/cropco-frontend:${{ steps.version.outputs.version }}
-            ${{ secrets.DOCKER_USERNAME }}/cropco-frontend:latest
+            ${{ secrets.DOCKER_USERNAME }}/cropco-frontend:beta
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Create Release
+      - name: Create Beta Release
         if: github.event_name == 'workflow_dispatch'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: v${{ steps.version.outputs.version }}
-          release_name: Release v${{ steps.version.outputs.version }}
+          release_name: Beta Release v${{ steps.version.outputs.version }}
           body: |
-            ## Cambios en esta versión
+            ## 🧪 Beta Release v${{ steps.version.outputs.version }}
             
-            ### Nuevas características
-            - 
+            ### ⚠️ IMPORTANTE
+            Esta es una versión beta. No usar en producción.
             
-            ### Mejoras
-            - 
+            ### 🔍 Cambios en esta versión
+            ${{ github.event.inputs.release_notes || '- Cambios y mejoras en desarrollo' }}
             
-            ### Correcciones
-            - 
-            
-            ### Docker Image
+            ### 🐳 Docker Image
             - Tag: `${{ secrets.DOCKER_USERNAME }}/cropco-frontend:${{ steps.version.outputs.version }}`
-            - Latest: `${{ secrets.DOCKER_USERNAME }}/cropco-frontend:latest`
+            - Beta: `${{ secrets.DOCKER_USERNAME }}/cropco-frontend:beta`
+            
+            ### 🧪 Testing
+            - [ ] Tests unitarios pasando
+            - [ ] Tests E2E pasando
+            - [ ] Build exitoso
+            - [ ] Linting sin errores
+            
+            ### 📋 Checklist para Release Final
+            - [ ] Revisar feedback de usuarios
+            - [ ] Corregir bugs reportados
+            - [ ] Actualizar documentación
+            - [ ] Preparar release notes finales
           draft: false
-          prerelease: false
+          prerelease: true
 
       - name: Push changes
         if: github.event_name == 'workflow_dispatch'
@@ -115,4 +148,15 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git push origin main
-          git push --tags 
+          git push --tags
+
+  notify:
+    needs: beta-release
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Notify Beta Release
+        run: |
+          echo "Beta release v${{ needs.beta-release.outputs.version }} completed!"
+          echo "Docker image: ${{ secrets.DOCKER_USERNAME }}/cropco-frontend:${{ needs.beta-release.outputs.version }}" 
