@@ -460,10 +460,8 @@ describe('Paginado y selectores', () => {
   });
 });
 
-// TODO: Implementar pruebas
-describe.only('Cambiar unidad de medida para mostrar el stock de los insumos', () => {
+describe('Cambiar unidad de medida para mostrar el stock de los insumos', () => {
   before(() => {
-    cy.executeClearSeedData({ supplies: true });
     cy.loginUser();
     cy.intercept(
       'GET',
@@ -477,190 +475,192 @@ describe.only('Cambiar unidad de medida para mostrar el stock de los insumos', (
     cy.wait(2000);
   });
 
-  it('Debe mostrar el inventario en la tabla de insumos de acuerdo a la unidad de medida seleccionada', () => {
-    // cy.clickOnMassUnitOfMeasureButton();
-    // cy.selectSelectOption('GRAMOS');
-    // // Evaluar
-    // // Obtiene el primer tr y verifica si contiene el número 850.000,00
-    // cy.get('tbody tr')
-    //   .first()
-    //   .within(() => {
-    //     cy.get('span[data-testid="span-amount"]').should(
-    //       'contain.text',
-    //       '850.000,00'
-    //     );
-    //     cy.get('div[data-testid="badge-unit-of-measure"]').should(
-    //       'have.text',
-    //       'g'
-    //     );
-    //   });
-    // cy.get('tbody tr')
-    //   .eq(1)
-    //   .within(() => {
-    //     cy.get('span[data-testid="span-amount"]').should(
-    //       'have.text',
-    //       '550.000,00'
-    //     );
-    //     cy.get('div[data-testid="badge-unit-of-measure"]').should(
-    //       'have.text',
-    //       'g'
-    //     );
-    //   });
-    // cy.get('tbody tr')
-    //   .eq(2)
-    //   .within(() => {
-    //     cy.get('span[data-testid="span-amount"]').should(
-    //       'have.text',
-    //       '100.000,00'
-    //     );
-    //     cy.get('div[data-testid="badge-unit-of-measure"]').should(
-    //       'have.text',
-    //       'g'
-    //     );
-    //   });
-    // cy.clickOnMassUnitOfMeasureButton();
-    // cy.selectSelectOption('KILOGRAMOS');
-    // cy.get('tbody tr')
-    //   .first()
-    //   .within(() => {
-    //     cy.get('span[data-testid="span-amount"]').should('have.text', '850,00');
-    //     cy.get('div[data-testid="badge-unit-of-measure"]').should(
-    //       'have.text',
-    //       'kg'
-    //     );
-    //   });
-    // cy.get('tbody tr')
-    //   .eq(1)
-    //   .within(() => {
-    //     cy.get('span[data-testid="span-amount"]').should('have.text', '550,00');
-    //     cy.get('div[data-testid="badge-unit-of-measure"]').should(
-    //       'have.text',
-    //       'kg'
-    //     );
-    //   });
-    // cy.get('tbody tr')
-    //   .eq(2)
-    //   .within(() => {
-    //     cy.get('span[data-testid="span-amount"]').should('have.text', '100,00');
-    //     cy.get('div[data-testid="badge-unit-of-measure"]').should(
-    //       'have.text',
-    //       'kg'
-    //     );
-    //   });
-    // // Validación para ONZAS
-    // cy.clickOnMassUnitOfMeasureButton();
-    // cy.selectSelectOption('ONZAS');
-    // cy.get('tbody tr')
-    //   .first()
-    //   .within(() => {
-    //     cy.get('span[data-testid="span-amount"]').should(
-    //       'contain.text',
-    //       '29.982'
-    //     );
-    //     cy.get('div[data-testid="badge-unit-of-measure"]').should(
-    //       'have.text',
-    //       'oz'
-    //     );
-    //   });
-    // cy.get('tbody tr')
-    //   .eq(1)
-    //   .within(() => {
-    //     cy.get('span[data-testid="span-amount"]').should(
-    //       'contain.text',
-    //       '19.400'
-    //     );
-    //     cy.get('div[data-testid="badge-unit-of-measure"]').should(
-    //       'have.text',
-    //       'oz'
-    //     );
-    //   });
-    // cy.get('tbody tr')
-    //   .eq(2)
-    //   .within(() => {
-    //     cy.get('span[data-testid="span-amount"]').should(
-    //       'contain.text',
-    //       '3527'
-    //     );
-    //     cy.get('div[data-testid="badge-unit-of-measure"]').should(
-    //       'have.text',
-    //       'oz'
-    //     );
-    //   });
-    // // Validación para LIBRAS
-    // cy.clickOnMassUnitOfMeasureButton();
-    // cy.selectSelectOption('LIBRAS');
-    // cy.get('tbody tr')
-    //   .first()
-    //   .within(() => {
-    //     cy.get('span[data-testid="span-amount"]').should(
-    //       'contain.text',
-    //       '1873'
-    //     );
-    //     cy.get('div[data-testid="badge-unit-of-measure"]').should(
-    //       'have.text',
-    //       'lb'
-    //     );
-    //   });
-    // cy.get('tbody tr')
-    //   .eq(1)
-    //   .within(() => {
-    //     cy.get('span[data-testid="span-amount"]').should(
-    //       'contain.text',
-    //       '1212'
-    //     );
-    //     cy.get('div[data-testid="badge-unit-of-measure"]').should(
-    //       'have.text',
-    //       'lb'
-    //     );
-    //   });
-    // cy.get('tbody tr')
-    //   .eq(2)
-    //   .within(() => {
-    //     cy.get('span[data-testid="span-amount"]').should('contain.text', '220');
-    //     cy.get('div[data-testid="badge-unit-of-measure"]').should(
-    //       'have.text',
-    //       'lb'
-    //     );
-    //   });
-    // // Validación para TONELADAS
-    // cy.clickOnMassUnitOfMeasureButton();
-    // cy.selectSelectOption('TONELADAS');
-    // cy.get('tbody tr')
-    //   .first()
-    //   .within(() => {
-    //     cy.get('span[data-testid="span-amount"]').should(
-    //       'contain.text',
-    //       '0,85'
-    //     );
-    //     cy.get('div[data-testid="badge-unit-of-measure"]').should(
-    //       'have.text',
-    //       't'
-    //     );
-    //   });
-    // cy.get('tbody tr')
-    //   .eq(1)
-    //   .within(() => {
-    //     cy.get('span[data-testid="span-amount"]').should(
-    //       'contain.text',
-    //       '0,55'
-    //     );
-    //     cy.get('div[data-testid="badge-unit-of-measure"]').should(
-    //       'have.text',
-    //       't'
-    //     );
-    //   });
-    // cy.get('tbody tr')
-    //   .eq(2)
-    //   .within(() => {
-    //     cy.get('span[data-testid="span-amount"]').should(
-    //       'contain.text',
-    //       '0,10'
-    //     );
-    //     cy.get('div[data-testid="badge-unit-of-measure"]').should(
-    //       'have.text',
-    //       't'
-    //     );
-    //   });
+  it('Debe mostrar el inventario en la tabla de insumos de acuerdo a la unidad de medida seleccionada (masa)', () => {
+    // Selecciona el botón por data-testid y verifica que exista y contenga el texto esperado
+
+    cy.checkMassUnitOfMeasureButton();
+    cy.checkCurrentMassUnitOfMeasureSelected('KILOGRAMOS');
+
+    cy.get('tbody tr')
+      .eq(1)
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should(
+          'contain.text',
+          '500,00'
+        );
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          'KILOGRAMOS'
+        );
+      });
+
+    cy.clickOnMassUnitOfMeasureButton();
+    cy.selectSelectOption('GRAMOS');
+    // Evaluar
+    // Obtiene el primer tr y verifica si contiene el número 850.000,00
+    cy.get('tbody tr')
+      .eq(1)
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should(
+          'contain.text',
+          '500.000,00'
+        );
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          'GRAMOS'
+        );
+      });
+
+    cy.clickOnMassUnitOfMeasureButton();
+    cy.selectSelectOption('ONZAS');
+    cy.get('tbody tr')
+      .eq(1)
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should(
+          'contain.text',
+          '17.637,00'
+        );
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          'ONZAS'
+        );
+      });
+
+    // Validación para LIBRAS
+    cy.clickOnMassUnitOfMeasureButton();
+    cy.selectSelectOption('LIBRAS');
+    cy.get('tbody tr')
+      .eq(1)
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should(
+          'contain.text',
+          '1102,31'
+        );
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          'LIBRAS'
+        );
+      });
+
+    // Validación para TONELADAS
+    cy.clickOnMassUnitOfMeasureButton();
+    cy.selectSelectOption('TONELADAS');
+
+    cy.get('tbody tr')
+      .eq(1)
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should('contain.text', '0,5');
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          'TONELADAS'
+        );
+      });
+  });
+  it('Debe mostrar el inventario en la tabla de insumos de acuerdo a la unidad de medida seleccionada (volumen)', () => {
+    // Selecciona el botón por data-testid y verifica que exista y contenga el texto esperado
+
+    cy.checkVolumeUnitOfMeasureButton();
+    cy.checkCurrentVolumeUnitOfMeasureSelected('LITROS');
+
+    cy.get('tbody tr')
+      .eq(2)
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should(
+          'contain.text',
+          '500,00'
+        );
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          'LITROS'
+        );
+      });
+
+    cy.clickOnVolumeUnitOfMeasureButton();
+    cy.selectSelectOption('MILILITROS');
+    // Evaluar
+    // Obtiene el primer tr y verifica si contiene el número 850.000,00
+    cy.get('tbody tr')
+      .eq(2)
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should(
+          'contain.text',
+          '500.000,00'
+        );
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          'MILILITROS'
+        );
+      });
+
+    // Validación para GALONES
+    cy.clickOnVolumeUnitOfMeasureButton();
+    cy.selectSelectOption('GALONES');
+
+    cy.get('tbody tr')
+      .eq(2)
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should(
+          'contain.text',
+          '132,09'
+        );
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          'GALONES'
+        );
+      });
+  });
+  it('Debe mostrar el inventario en la tabla de insumos de acuerdo a la unidad de medida seleccionada (longitud)', () => {
+    // Selecciona el botón por data-testid y verifica que exista y contenga el texto esperado
+
+    cy.checkLengthUnitOfMeasureButton();
+    cy.checkCurrentLengthUnitOfMeasureSelected('METROS');
+
+    cy.get('tbody tr')
+      .first()
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should(
+          'contain.text',
+          '500,00'
+        );
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          'METROS'
+        );
+      });
+
+    cy.clickOnLengthUnitOfMeasureButton();
+    cy.selectSelectOption('MILIMETROS');
+    // Evaluar
+    // Obtiene el primer tr y verifica si contiene el número 850.000,00
+    cy.get('tbody tr')
+      .first()
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should(
+          'contain.text',
+          '500.000,00'
+        );
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          'MILIMETROS'
+        );
+      });
+
+    // Validación para CENTIMETROS
+    cy.clickOnLengthUnitOfMeasureButton();
+    cy.selectSelectOption('CENTIMETROS');
+
+    cy.get('tbody tr')
+      .first()
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should(
+          'contain.text',
+          '50.000,00'
+        );
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          'CENTIMETROS'
+        );
+      });
   });
 });
 

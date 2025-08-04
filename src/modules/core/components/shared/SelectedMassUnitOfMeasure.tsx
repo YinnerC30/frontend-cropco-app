@@ -29,10 +29,12 @@ export const SelectedMassUnitOfMeasure = ({
       defaultValue={MassUnitOfMeasure.KILOGRAMOS}
       value={valueSelect}
       disabled={readOnly}
-      
     >
-      <SelectTrigger data-testid='btn-select-mass-unit-of-measure'>
-        <SelectValue placeholder={'Selecciona una medida'} />
+      <SelectTrigger data-testid="btn-select-mass-unit-of-measure" data-value={valueSelect}>
+        <SelectValue
+          placeholder={'Selecciona una medida'}
+          data-testid="select-current-value"
+        />
       </SelectTrigger>
 
       <SelectContent>

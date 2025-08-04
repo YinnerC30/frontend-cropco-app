@@ -47,5 +47,5 @@ export const CellSupplyAmount = ({ row }: { row: Row<Supply> }) => {
     );
   }
 
-  return FormatNumber(convertedValue);
+  return <span data-testid="span-amount">{FormatNumber(convertedValue)}</span>;
 };

@@ -17,4 +17,7 @@ export interface UICommands {
   clickOnVolumeUnitOfMeasureButton(): Cypress.Chainable<void>;
   checkLengthUnitOfMeasureButton(): Cypress.Chainable<void>;
   clickOnLengthUnitOfMeasureButton(): Cypress.Chainable<void>;
+  checkCurrentMassUnitOfMeasureSelected(value: string): Cypress.Chainable<void>;
+  checkCurrentVolumeUnitOfMeasureSelected(value: string): Cypress.Chainable<void>;
+  checkCurrentLengthUnitOfMeasureSelected(value: string): Cypress.Chainable<void>;
 }

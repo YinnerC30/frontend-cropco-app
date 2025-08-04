@@ -30,8 +30,8 @@ export const SelectedLengthUnitOfMeasure = ({
       value={valueSelect}
       disabled={readOnly}
     >
-      <SelectTrigger data-testid='btn-select-length-unit-of-measure'>
-        <SelectValue placeholder={'Selecciona una medida'} />
+      <SelectTrigger data-testid='btn-select-length-unit-of-measure' data-value={valueSelect}>
+        <SelectValue data-testid='select-current-value' placeholder={'Selecciona una medida'}  />
       </SelectTrigger>
 
       <SelectContent>

@@ -58,6 +58,15 @@ Cypress.Commands.add('checkMassUnitOfMeasureButton', () => {
     .should('be.visible');
 });
 
+Cypress.Commands.add(
+  'checkCurrentMassUnitOfMeasureSelected',
+  (value: string) => {
+    cy.get('button[data-testid="btn-select-mass-unit-of-measure"]')
+      .should('exist')
+      .and('have.attr', 'data-value', value);
+  }
+);
+
 Cypress.Commands.add('clickOnMassUnitOfMeasureButton', () => {
   cy.get('button[data-testid="btn-select-mass-unit-of-measure"]').click();
 });
@@ -68,6 +77,15 @@ Cypress.Commands.add('checkVolumeUnitOfMeasureButton', () => {
     .should('be.visible');
 });
 
+Cypress.Commands.add(
+  'checkCurrentVolumeUnitOfMeasureSelected',
+  (value: string) => {
+    cy.get('button[data-testid="btn-select-volume-unit-of-measure"]')
+      .should('exist')
+      .and('have.attr', 'data-value', value);
+  }
+);
+
 Cypress.Commands.add('clickOnVolumeUnitOfMeasureButton', () => {
   cy.get('button[data-testid="btn-select-volume-unit-of-measure"]').click();
 });
@@ -77,6 +95,15 @@ Cypress.Commands.add('checkLengthUnitOfMeasureButton', () => {
     .should('exist')
     .should('be.visible');
 });
+
+Cypress.Commands.add(
+  'checkCurrentLengthUnitOfMeasureSelected',
+  (value: string) => {
+    cy.get('button[data-testid="btn-select-length-unit-of-measure"]')
+      .should('exist')
+      .and('have.attr', 'data-value', value);
+  }
+);
 
 Cypress.Commands.add('clickOnLengthUnitOfMeasureButton', () => {
   cy.get('button[data-testid="btn-select-length-unit-of-measure"]').click();

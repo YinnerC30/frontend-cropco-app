@@ -33,5 +33,5 @@ export const BadgeColumnsUnitOfMeasure = ({ row }: { row: Row<Supply> }) => {
     }
   };
 
-  return <Badge variant={badgeVariant as any}>{getUnitToShow(group)}</Badge>;
+  return <Badge data-testid="badge-unit-of-measure" variant={badgeVariant as any}>{getUnitToShow(group)}</Badge>;
 };
