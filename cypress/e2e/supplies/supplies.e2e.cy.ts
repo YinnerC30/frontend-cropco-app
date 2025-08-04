@@ -2,6 +2,7 @@ import { BASE_HOME_PAGE_URL, TEST_UUID_VALID } from 'cypress/helpers/constants';
 import { InformationGenerator } from '../../helpers/InformationGenerator';
 import { suppliesRoutes } from './supplies-routes';
 import { suppliesData } from './data/get-all-supplies.data';
+import { getOneSupplyData } from './data/get-one-supply.data';
 
 describe('Comprobar existencia de elementos en el modulo de insumos', () => {
   beforeEach(() => {
@@ -208,7 +209,11 @@ describe('Modificación de insumos', () => {
   it('Comprobar que se cargue la información del insumo antes de modificarlo', () => {
     cy.getFormInput('name').should('have.value', currenSupply.name);
     cy.getFormInput('brand').should('have.value', currenSupply.brand);
-    // cy.getFormInput('units').should('have.value', currenSupply.units);
+    cy.get('button[data-testid="btn-select-group-field"]').should(
+      'have.attr',
+      'data-value',
+      currenSupply.unit_of_measure
+    );
     cy.getFormTextArea('observation').should(
       'have.value',
       currenSupply.observation
@@ -223,8 +228,7 @@ describe('Modificación de insumos', () => {
     cy.wait(3000);
     cy.getFormInput('name').clear().type('SupplyNameChanged');
     cy.getFormInput('brand').clear().type('BrandNameChanged');
-    // cy.getFormInput('units').clear().type('1600');
-    // cy.getFormTextArea('location').clear().type('LocationChanged');
+
     cy.getFormTextArea('observation').clear().type('ObservationChanged');
     cy.clickOnSubmitButton();
     cy.checkDisabledSubmitButton();
@@ -280,6 +284,132 @@ describe('Modificación de insumos', () => {
     cy.checkMessageLostFormData();
     cy.clickOnIgnoreButton();
     cy.url().should('include', suppliesRoutes.listAll());
+  });
+});
+
+describe('Actualizar unidad del insumo', () => {
+  let currenSupply: any = {};
+
+  before(() => {
+    cy.createSupply({}, { fastCreation: true }).then((data) => {
+      currenSupply = { ...data };
+    });
+  });
+
+  beforeEach(() => {
+    cy.loginUser();
+  });
+
+  it('Modificar unidad de medida del insumo (masa)', () => {
+    cy.intercept(
+      'GET',
+      `http://localhost:3000/supplies/one/${currenSupply.id}`,
+      {
+        statusCode: 200,
+        body: getOneSupplyData,
+      }
+    );
+    cy.visit(suppliesRoutes.update(currenSupply.id));
+    cy.wait(3000);
+    cy.get('button[data-testid="btn-select-group-field"]').click();
+    cy.get(`div[role="option"][data-value="KILOGRAMOS"]`)
+      .should('be.visible')
+      .should('exist');
+    cy.get(`div[role="option"][data-value="GRAMOS"]`)
+      .should('be.visible')
+      .should('exist');
+    cy.get(`div[role="option"][data-value="LIBRAS"]`)
+      .should('be.visible')
+      .should('exist');
+    cy.get(`div[role="option"][data-value="TONELADAS"]`)
+      .should('be.visible')
+      .should('exist');
+    cy.get(`div[role="option"][data-value="ONZAS"]`)
+      .should('be.visible')
+      .should('exist');
+
+    // Comprobar que no se muestren las unidades de medida que no son de masa
+    cy.get(`div[role="option"][data-value="LITROS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="MILILITROS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="GALONES"]`).should('not.exist');
+
+    cy.get(`div[role="option"][data-value="MILIMETROS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="CENTIMETROS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="METROS"]`).should('not.exist');
+  });
+
+  it('Modificar unidad de medida del insumo (volumen)', () => {
+    cy.intercept(
+      'GET',
+      `http://localhost:3000/supplies/one/${currenSupply.id}`,
+      {
+        statusCode: 200,
+        body: {
+          ...getOneSupplyData,
+          unit_of_measure: 'LITROS',
+        },
+      }
+    );
+    cy.visit(suppliesRoutes.update(currenSupply.id));
+    cy.wait(3000);
+    cy.get('button[data-testid="btn-select-group-field"]').click();
+    cy.get(`div[role="option"][data-value="KILOGRAMOS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="GRAMOS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="LIBRAS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="TONELADAS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="ONZAS"]`).should('not.exist');
+
+    // Comprobar que no se muestren las unidades de medida que no son de masa
+    cy.get(`div[role="option"][data-value="LITROS"]`)
+      .should('be.visible')
+      .should('exist');
+    cy.get(`div[role="option"][data-value="MILILITROS"]`)
+      .should('be.visible')
+      .should('exist');
+    cy.get(`div[role="option"][data-value="GALONES"]`)
+      .should('be.visible')
+      .should('exist');
+
+    cy.get(`div[role="option"][data-value="MILIMETROS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="CENTIMETROS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="METROS"]`).should('not.exist');
+  });
+
+  it('Modificar unidad de medida del insumo (longitud)', () => {
+    cy.intercept(
+      'GET',
+      `http://localhost:3000/supplies/one/${currenSupply.id}`,
+      {
+        statusCode: 200,
+        body: {
+          ...getOneSupplyData,
+          unit_of_measure: 'METROS',
+        },
+      }
+    );
+    cy.visit(suppliesRoutes.update(currenSupply.id));
+    cy.wait(3000);
+    cy.get('button[data-testid="btn-select-group-field"]').click();
+    cy.get(`div[role="option"][data-value="KILOGRAMOS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="GRAMOS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="LIBRAS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="TONELADAS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="ONZAS"]`).should('not.exist');
+
+    // Comprobar que no se muestren las unidades de medida que no son de masa
+    cy.get(`div[role="option"][data-value="LITROS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="MILILITROS"]`).should('not.exist');
+    cy.get(`div[role="option"][data-value="GALONES"]`).should('not.exist');
+
+    cy.get(`div[role="option"][data-value="MILIMETROS"]`)
+      .should('exist')
+      .should('be.visible');
+    cy.get(`div[role="option"][data-value="CENTIMETROS"]`)
+      .should('exist')
+      .should('be.visible');
+    cy.get(`div[role="option"][data-value="METROS"]`)
+      .should('exist')
+      .should('be.visible');
   });
 });
 
@@ -395,7 +525,11 @@ describe('Ver registro de insumo', () => {
       cy.clickOnViewRecord();
       cy.getFormInput('name').should('have.value', currenSupply.name);
       cy.getFormInput('brand').should('have.value', currenSupply.brand);
-      // cy.getFormInput('units').should('have.value', currenSupply.units);
+      cy.get('button[data-testid="btn-select-group-field"]').should(
+        'have.attr',
+        'data-value',
+        currenSupply.unit_of_measure
+      );
 
       cy.getFormTextArea('observation').should(
         'have.value',

@@ -102,7 +102,7 @@ export const FormFieldSelectWithGroups: React.FC<FormFieldSelectWithGroupsProps>
                   disabled={readOnly}
                   // open
                 >
-                  <SelectTrigger ref={field.ref} data-testid="btn-select-group-field">
+                  <SelectTrigger ref={field.ref} data-testid="btn-select-group-field" data-value={field.value}>
                     {showSelectValue ? (
                       <SelectValue placeholder={placeholder} />
                     ) : (
