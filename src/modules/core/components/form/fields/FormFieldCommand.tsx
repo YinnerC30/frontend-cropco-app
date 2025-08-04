@@ -131,6 +131,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                         onBlur={field.onBlur}
                         disabled={readOnly}
                         data-testid={`btn-open-command-${name}`}
+                        data-value={field.value}
                       >
                         <span
                           className={cn(

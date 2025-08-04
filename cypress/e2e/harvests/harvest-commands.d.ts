@@ -2,6 +2,7 @@ export interface HarvestCommands {
   createHarvest(opt?: {
     fastCreation?: boolean;
     returnOnlyHarvest?: boolean;
+    unitOfMeasure?: string;
   }): Cypress.Chainable<any>;
   
   createHarvestAnd(callback: (data: any) => void): Cypress.Chainable<void>;

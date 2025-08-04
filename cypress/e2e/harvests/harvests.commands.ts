@@ -3,12 +3,13 @@ Cypress.Commands.add(
   function ({
     fastCreation = false,
     returnOnlyHarvest = true,
+    unitOfMeasure = 'KILOGRAMOS',
   } = {}): Cypress.Chainable<any> {
     const creationCropEndpoint = 'http://localhost:3000/harvests/create';
 
     if (fastCreation) {
       return cy
-        .executeSeed({ harvests: { quantity: 1, quantityEmployees: 3 } })
+        .executeSeed({ harvests: { quantity: 1, quantityEmployees: 3, unitOfMeasure } })
         .then((result) => {
           // Validamos que la estructura esperada exista
           if (result.history.insertedHarvests.length > 0 && returnOnlyHarvest) {

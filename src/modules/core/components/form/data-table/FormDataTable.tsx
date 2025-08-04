@@ -104,6 +104,7 @@ export const FormDataTable = memo(
                   onDoubleClick={() => {
                     handleDoubleClickRow({ row, status, message });
                   }}
+                  data-testid={`table-row-id-${row.original.id}`}
                 >
                   {row.getVisibleCells().map((cell: Cell<any, unknown>) => (
                     <TableCell key={cell.id} className="py-1">

@@ -65,6 +65,7 @@ export const FormFieldCalendar: React.FC<FieldCalendarProps> = memo(
                         'w-full pl-3 text-left font-normal',
                         !field.value && 'text-muted-foreground' && className
                       )}
+                      data-value={field.value?.toISOString().split('T')[0]}
                     >
                       {field.value ? (
                         format(field.value, 'PPP', { locale: es })
