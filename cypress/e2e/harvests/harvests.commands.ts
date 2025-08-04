@@ -9,7 +9,9 @@ Cypress.Commands.add(
 
     if (fastCreation) {
       return cy
-        .executeSeed({ harvests: { quantity: 1, quantityEmployees: 3, unitOfMeasure } })
+        .executeSeed({
+          harvests: { quantity: 1, quantityEmployees: 3, unitOfMeasure },
+        })
         .then((result) => {
           // Validamos que la estructura esperada exista
           if (result.history.insertedHarvests.length > 0 && returnOnlyHarvest) {
@@ -108,6 +110,32 @@ Cypress.Commands.add('clickOnSubmitHarvestDetailForm', () => {
   cy.get('button[data-testid="form-detail-submit-button"]').click();
   cy.wait(500);
 });
+
+Cypress.Commands.add(
+  'createHarvestProcessed',
+  ({
+    // returnOnlyHarvestProcessed = true,
+    cropId,
+    harvestId,
+    amount,
+    unitOfMeasure = 'KILOGRAMOS',
+  } = {}) => {
+    return cy
+      .executeSeed({
+        harvestsProcessed: {
+          quantity: 1,
+          cropId,
+          harvestId,
+          amount,
+          unitOfMeasure,
+        },
+      })
+      .then((result) => {
+        // Validamos que la estructura esperada exista
+        return result.history.insertedHarvestsProcessed[0];
+      });
+  }
+);
 
 // Cypress.Commands.add('validateTotalsHarvestForm', ({ amount, valuePay }) => {
 //   // Validar totales

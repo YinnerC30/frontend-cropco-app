@@ -39,7 +39,7 @@ export const useDeleteBulkHarvests = (): UseMutationReturn<
           status,
           customMessages: {
             multiStatus:
-              'No se pudieron eliminar algunas cosechas, revisa  que no tengan registros pagos',
+              'No se pudieron eliminar algunas cosechas, revisa que no tengan registros pagos o registros de cosecha procesada',
           },
         });
       },

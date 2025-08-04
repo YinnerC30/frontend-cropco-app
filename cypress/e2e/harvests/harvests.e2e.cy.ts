@@ -369,7 +369,7 @@ describe('Creación de cosechas', () => {
   });
 });
 
-describe.only('Modificación de cosechas', () => {
+describe('Modificación de cosechas', () => {
   let currentCrop: any = {};
   let currentHarvest: any = {};
   let currentEmployees: any = {};
@@ -393,7 +393,7 @@ describe.only('Modificación de cosechas', () => {
     cy.wait(3000);
   });
 
-  it.only('Comprobar que se cargue la información de la cosecha antes de modificarla', () => {
+  it('Comprobar que se cargue la información de la cosecha antes de modificarla', () => {
     cy.get('button[data-testid="btn-calendar-selector"]').should(
       'have.attr',
       'data-value',
@@ -434,24 +434,73 @@ describe.only('Modificación de cosechas', () => {
     cy.clickActionsButtonTableRow(currentHarvest.id);
     cy.clickOnUpdateRecord();
     cy.wait(3000);
-    cy.getFormInput('name').clear().type('CropNameChanged');
-    cy.getFormInput('number_hectares').clear().type('15');
-    cy.getFormInput('units').clear().type('1600');
-    cy.getFormTextArea('location').clear().type('LocationChanged');
-    cy.getFormTextArea('description').clear().type('DescriptionChanged');
+
+    cy.openCalendar();
+
+    cy.selectCalendarMonth(4);
+    cy.selectCalendarYear(2025);
+    cy.selectCalendarDay(19);
+
+    // Seleccionar cultivo
+    cy.openCommandField('crop');
+    cy.selectCommandOption('0');
+
+    cy.getFormTextArea('observation').clear().type('ObservationChanged...');
+
+    // Abrir formulario interno
+    cy.clickActionsButtonTableRow(currentHarvest.details[0].id);
+    cy.clickOnUpdateDetailRecord();
+    cy.wait(3000);
+
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="amount"]').clear().type('200');
+    });
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="value_pay"]').clear().type('120000');
+    });
+    cy.clickOnSubmitHarvestDetailForm();
+    cy.wait(3000);
+    cy.clickActionsButtonTableRow(currentHarvest.details[1].id);
+    cy.clickOnUpdateDetailRecord();
+    cy.wait(3000);
+
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="amount"]').clear().type('200');
+    });
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="value_pay"]').clear().type('120000');
+    });
+    cy.clickOnSubmitHarvestDetailForm();
+    cy.wait(3000);
+    cy.clickActionsButtonTableRow(currentHarvest.details[2].id);
+    cy.clickOnUpdateDetailRecord();
+    cy.wait(3000);
+
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="amount"]').clear().type('200');
+    });
+    cy.get('form[id="formHarvestDetail"]').within(() => {
+      cy.get('input[name="value_pay"]').clear().type('120000');
+    });
+    cy.clickOnSubmitHarvestDetailForm();
+    cy.wait(3000);
+
+    cy.get('div[data-testid="badge-amount"]').contains('600,00');
+    cy.get('div[data-testid="badge-value-pay"]').contains('$ 360.000');
+
     cy.clickOnSubmitButton();
     cy.checkDisabledSubmitButton();
-    cy.contains('Cultivo actualizado');
+    cy.contains('Cosecha actualizada');
   });
 
   it('Debe advertir al usuario antes de salir del formulario si hay campos rellenados (salir usando sidebar)', () => {
-    cy.getFormInput('name').type('CropName');
+    cy.getFormTextArea('observation').clear().type('ObservationChanged');
     cy.navigateToModuleWithSideBar('harvests');
     cy.checkMessageLostFormData();
   });
 
   it('Debe permitir al usuario salir del formulario incluso si hay campos rellenados, presionando "Ignorar" (salir usando sidebar)', () => {
-    cy.getFormInput('name').type('CropName');
+    cy.getFormTextArea('observation').clear().type('ObservationChanged');
     cy.navigateToModuleWithSideBar('harvests');
     cy.checkMessageLostFormData();
     cy.clickOnIgnoreButton();
@@ -463,7 +512,7 @@ describe.only('Modificación de cosechas', () => {
   });
 
   it('No debe permitir al usuario salir del formulario cuando hay campos rellenados, cerrando el sonner (salir usando sidebar)', () => {
-    cy.getFormInput('name').type('CropName');
+    cy.getFormTextArea('observation').clear().type('ObservationChanged');
     cy.navigateToModuleWithSideBar('harvests');
     cy.checkMessageLostFormData();
     cy.clickOnCloseToast();
@@ -476,11 +525,8 @@ describe.only('Modificación de cosechas', () => {
   });
 
   it('Debe volver a la tabla de los cosechas al cancelar la modificación de un cosecha (con campos rellenados)', () => {
-    cy.getFormInput('name').type('CropName');
-    cy.getFormInput('number_hectares').type('15');
-    cy.getFormInput('units').type('1600');
-    cy.getFormTextArea('location').type('LocationChanged');
-    cy.getFormTextArea('description').type('DescriptionChanged');
+    cy.getFormTextArea('observation').clear().type('ObservationChanged');
+
     cy.clickOnCancelRegisterButton();
     cy.checkMessageLostFormData();
     cy.clickOnIgnoreButton();
@@ -493,7 +539,7 @@ describe.only('Modificación de cosechas', () => {
   });
 
   it('Comprobar navegación del breadcrumb (con campos rellenados)', () => {
-    cy.getFormInput('name').type('CropName');
+    cy.getFormTextArea('observation').clear().type('ObservationChanged');
     cy.get('a[data-testid="breadcrumb-link-item-cosechas"]').click();
     cy.checkMessageLostFormData();
     cy.clickOnIgnoreButton();
@@ -501,94 +547,131 @@ describe.only('Modificación de cosechas', () => {
   });
 });
 
-// describe('Eliminación de cosecha', () => {
-//   let currentHarvest: any = {};
+describe('Eliminación de cosecha', () => {
+  let currentHarvest: any = {};
 
-//   before(() => {
-//     cy.executeClearSeedData({ harvests: true });
-//     cy.createCrop({}, { fastCreation: true }).then((data) => {
-//       currentHarvest = { ...data };
-//     });
-//   });
+  before(() => {
+    cy.executeClearSeedData({ harvests: true });
+    cy.createHarvest({ fastCreation: true }).then((data) => {
+      currentHarvest = { ...data };
+    });
+  });
 
-//   beforeEach(() => {
-//     cy.loginUser();
-//   });
+  beforeEach(() => {
+    cy.loginUser();
+  });
 
-//   it('Eliminar cosecha', () => {
-//     cy.navigateToModuleWithSideBar('harvests');
-//     cy.clickActionsButtonTableRow(currentHarvest.id);
-//     cy.clickOnDeleteRecord();
-//     cy.clickOnContinueDeleteOneRecord();
-//     cy.contains('Cultivo eliminado');
-//   });
+  it('Eliminar cosecha', () => {
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.clickActionsButtonTableRow(currentHarvest.id);
+    cy.clickOnDeleteRecord();
+    cy.clickOnContinueDeleteOneRecord();
+    cy.contains('Cosecha eliminada');
+  });
 
-//   it('Intentar eliminar cosecha con stock disponible', () => {
-//     cy.executeClearSeedData({ harvests: true });
+  it('Intentar eliminar cosecha con stock de cosecha procesada', () => {
+    cy.executeClearSeedData({ harvests: true });
 
-//     cy.createSale({ fastCreation: true, returnOnlySale: false }).then(
-//       (data) => {
-//         cy.navigateToModuleWithSideBar('harvests');
-//         cy.log(JSON.stringify(data, null, 2));
-//         const { harvest } = data;
+    cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
+      (data) => {
+        const { harvest, crop } = data;
 
-//         cy.clickActionsButtonTableRow(harvest.id);
-//         cy.clickOnDeleteRecord();
-//         cy.clickOnContinueDeleteOneRecord();
-//         cy.contains(
-//           'No fue posible eliminar el cosecha seleccionado. Verifica que no tenga stock disponible ni ventas con pagos pendientes antes de intentar eliminarlo'
-//         );
-//       }
-//     );
-//   });
-// });
+        cy.createHarvestProcessed({
+          cropId: crop.id,
+          harvestId: harvest.id,
+          amount: 100,
+          unitOfMeasure: 'KILOGRAMOS',
+        });
 
-// describe('Eliminación de cosechas por lote', () => {
-//   beforeEach(() => {
-//     cy.executeClearSeedData({ harvests: true });
-//     cy.loginUser();
-//     cy.navigateToModuleWithSideBar('harvests');
-//     cy.clickRefetchButton();
-//   });
+        cy.navigateToModuleWithSideBar('harvests');
+        cy.wait(5000);
+        cy.clickActionsButtonTableRow(harvest.id);
+        cy.clickOnDeleteRecord();
+        cy.clickOnContinueDeleteOneRecord();
+        cy.contains(
+          'No se pudo eliminar la cosecha seleccionada, revisa que no tenga registros pagos o registros de cosecha procesada'
+        );
+      }
+    );
+  });
 
-//   it('Eliminar cosechas seleccionados', () => {
-//     for (let index = 0; index < 5; index++) {
-//       cy.createCrop({}, { fastCreation: true });
-//     }
-//     cy.clickRefetchButton();
-//     cy.toggleSelectAllTableRows();
-//     cy.clickOnDeleteBulkButton();
-//     cy.clickOnContinueDeleteBulkRecord();
-//     cy.checkLoadingInformation();
-//     cy.contains('Los registros seleccionados fueron eliminados');
-//     cy.checkNoRecordsMessage();
-//   });
+  // TODO: Intentar eliminar cosechas con registros pagos
+});
 
-//   it('Intentar eliminar cosechas con stock disponible', () => {
-//     cy.createSale({ fastCreation: true, returnOnlySale: false });
-//     cy.navigateToModuleWithSideBar('harvests');
-//     cy.clickRefetchButton();
-//     cy.toggleSelectAllTableRows();
-//     cy.clickOnDeleteBulkButton();
-//     cy.clickOnContinueDeleteBulkRecord();
-//     cy.contains(
-//       'No fue posible eliminar los cosechas seleccionados. Verifica que no tengan stock disponible ni ventas con pagos pendientes antes de intentar eliminarlos'
-//     );
-//   });
+describe('Eliminación de cosechas por lote', () => {
+  beforeEach(() => {
+    cy.executeClearSeedData({ harvests: true });
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.clickRefetchButton();
+  });
 
-//   it('Eliminar cosechas que tienen conflicto de eliminación y los que no tienen', () => {
-//     cy.createCrop({}, { fastCreation: true });
-//     cy.createSale({ fastCreation: true, returnOnlySale: false });
-//     cy.navigateToModuleWithSideBar('harvests');
-//     cy.clickRefetchButton();
-//     cy.toggleSelectAllTableRows();
-//     cy.clickOnDeleteBulkButton();
-//     cy.clickOnContinueDeleteBulkRecord();
-//     cy.contains(
-//       'No fue posible eliminar algunos cosechas seleccionados. Verifica que no tengan stock disponible ni ventas con pagos pendientes antes de intentar eliminarlos'
-//     );
-//   });
-// });
+  it('Eliminar cosechas seleccionados', () => {
+    for (let index = 0; index < 5; index++) {
+      cy.createHarvest({ fastCreation: true });
+    }
+    cy.clickRefetchButton();
+    cy.wait(3000);
+    cy.toggleSelectAllTableRows();
+    cy.clickOnDeleteBulkButton();
+    cy.clickOnContinueDeleteBulkRecord();
+    cy.checkLoadingInformation();
+    cy.contains('Los registros seleccionados fueron eliminados');
+    cy.checkNoRecordsMessage();
+  });
+
+  it('Intentar eliminar cosechas con stock disponible', () => {
+    cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
+      (data) => {
+        const { harvest, crop } = data;
+
+        cy.createHarvestProcessed({
+          cropId: crop.id,
+          harvestId: harvest.id,
+          amount: 100,
+          unitOfMeasure: 'KILOGRAMOS',
+        });
+
+        cy.navigateToModuleWithSideBar('harvests');
+        cy.clickRefetchButton();
+        cy.wait(3000);
+        cy.toggleSelectAllTableRows();
+        cy.clickOnDeleteBulkButton();
+        cy.clickOnContinueDeleteBulkRecord();
+        cy.contains(
+          'No se pudieron eliminar las cosechas seleccionadas, revisa que no tengan registros pagos o registros de cosecha procesada'
+        );
+      }
+    );
+  });
+
+  it('Eliminar cosechas que tienen conflicto de eliminación y los que no tienen', () => {
+    cy.executeClearSeedData({ harvests: true });
+    cy.createHarvest({ fastCreation: true });
+    cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
+      (data) => {
+        const { harvest, crop } = data;
+
+        cy.createHarvestProcessed({
+          cropId: crop.id,
+          harvestId: harvest.id,
+          amount: 100,
+          unitOfMeasure: 'KILOGRAMOS',
+        });
+
+        cy.navigateToModuleWithSideBar('harvests');
+        cy.clickRefetchButton();
+        cy.wait(3000);
+        cy.toggleSelectAllTableRows();
+        cy.clickOnDeleteBulkButton();
+        cy.clickOnContinueDeleteBulkRecord();
+        cy.contains(
+          'No se pudieron eliminar algunas cosechas, revisa que no tengan registros pagos o registros de cosecha procesada'
+        );
+      }
+    );
+  });
+});
 
 describe('Copiar Id de registro', () => {
   it('Copiar Id del cosecha', () => {
@@ -685,228 +768,100 @@ describe('Paginado y selectores', () => {
   });
 });
 
-// TODO: Implementar pruebas
-// describe('Cambiar unidad de medida para mostrar el stock de los cosechas', () => {
-//   before(() => {
-//     cy.executeClearSeedData({ harvests: true });
-//     cy.loginUser();
-//     cy.intercept(
-//       'GET',
-//       'http://localhost:3000/harvests/all?query=&limit=10&offset=0&all_records=false',
-//       {
-//         statusCode: 200,
-//         body: harvestsData,
-//       }
-//     );
-//     cy.navigateToModuleWithSideBar('harvests');
-//     cy.wait(2000);
-//   });
+describe('Cambiar unidad de medida para mostrar el stock de los cosechas', () => {
+  before(() => {
+    cy.executeClearSeedData({ harvests: true });
+    cy.createHarvest({ fastCreation: true });
+    cy.loginUser();
 
-//   it('Debe mostrar el inventario en la tabla de cosechas de acuerdo a la unidad de medida seleccionada', () => {
-//     cy.clickOnMassUnitOfMeasureButton();
-//     cy.selectSelectOption('GRAMOS');
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.wait(2000);
+  });
 
-//     // Evaluar
-//     // Obtiene el primer tr y verifica si contiene el número 850.000,00
-//     cy.get('tbody tr')
-//       .first()
-//       .within(() => {
-//         cy.get('span[data-testid="span-amount"]').should(
-//           'contain.text',
-//           '850.000,00'
-//         );
-//         cy.get('div[data-testid="badge-unit-of-measure"]').should(
-//           'have.text',
-//           'g'
-//         );
-//       });
+  it('Debe mostrar el inventario en la tabla de cosechas de acuerdo a la unidad de medida seleccionada', () => {
+    cy.clickOnMassUnitOfMeasureButton();
+    cy.selectSelectOption('GRAMOS');
 
-//     cy.get('tbody tr')
-//       .eq(1)
-//       .within(() => {
-//         cy.get('span[data-testid="span-amount"]').should(
-//           'have.text',
-//           '550.000,00'
-//         );
-//         cy.get('div[data-testid="badge-unit-of-measure"]').should(
-//           'have.text',
-//           'g'
-//         );
-//       });
+    // Evaluar
+    // Obtiene el primer tr y verifica si contiene el número 850.000,00
+    cy.get('tbody tr')
+      .first()
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should(
+          'contain.text',
+          '450.000,00'
+        );
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          'g'
+        );
+      });
 
-//     cy.get('tbody tr')
-//       .eq(2)
-//       .within(() => {
-//         cy.get('span[data-testid="span-amount"]').should(
-//           'have.text',
-//           '100.000,00'
-//         );
-//         cy.get('div[data-testid="badge-unit-of-measure"]').should(
-//           'have.text',
-//           'g'
-//         );
-//       });
+    cy.clickOnMassUnitOfMeasureButton();
+    cy.selectSelectOption('KILOGRAMOS');
 
-//     cy.clickOnMassUnitOfMeasureButton();
-//     cy.selectSelectOption('KILOGRAMOS');
+    cy.get('tbody tr')
+      .first()
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should('have.text', '450,00');
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          'kg'
+        );
+      });
 
-//     cy.get('tbody tr')
-//       .first()
-//       .within(() => {
-//         cy.get('span[data-testid="span-amount"]').should('have.text', '850,00');
-//         cy.get('div[data-testid="badge-unit-of-measure"]').should(
-//           'have.text',
-//           'kg'
-//         );
-//       });
+    // Validación para ONZAS
+    cy.clickOnMassUnitOfMeasureButton();
+    cy.selectSelectOption('ONZAS');
 
-//     cy.get('tbody tr')
-//       .eq(1)
-//       .within(() => {
-//         cy.get('span[data-testid="span-amount"]').should('have.text', '550,00');
-//         cy.get('div[data-testid="badge-unit-of-measure"]').should(
-//           'have.text',
-//           'kg'
-//         );
-//       });
+    cy.get('tbody tr')
+      .first()
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should(
+          'contain.text',
+          '15.873,30'
+        );
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          'oz'
+        );
+      });
 
-//     cy.get('tbody tr')
-//       .eq(2)
-//       .within(() => {
-//         cy.get('span[data-testid="span-amount"]').should('have.text', '100,00');
-//         cy.get('div[data-testid="badge-unit-of-measure"]').should(
-//           'have.text',
-//           'kg'
-//         );
-//       });
+    // Validación para LIBRAS
+    cy.clickOnMassUnitOfMeasureButton();
+    cy.selectSelectOption('LIBRAS');
 
-//     // Validación para ONZAS
-//     cy.clickOnMassUnitOfMeasureButton();
-//     cy.selectSelectOption('ONZAS');
+    cy.get('tbody tr')
+      .first()
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should(
+          'contain.text',
+          '992,08'
+        );
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          'lb'
+        );
+      });
 
-//     cy.get('tbody tr')
-//       .first()
-//       .within(() => {
-//         cy.get('span[data-testid="span-amount"]').should(
-//           'contain.text',
-//           '29.982'
-//         );
-//         cy.get('div[data-testid="badge-unit-of-measure"]').should(
-//           'have.text',
-//           'oz'
-//         );
-//       });
+    // Validación para TONELADAS
+    cy.clickOnMassUnitOfMeasureButton();
+    cy.selectSelectOption('TONELADAS');
 
-//     cy.get('tbody tr')
-//       .eq(1)
-//       .within(() => {
-//         cy.get('span[data-testid="span-amount"]').should(
-//           'contain.text',
-//           '19.400'
-//         );
-//         cy.get('div[data-testid="badge-unit-of-measure"]').should(
-//           'have.text',
-//           'oz'
-//         );
-//       });
-
-//     cy.get('tbody tr')
-//       .eq(2)
-//       .within(() => {
-//         cy.get('span[data-testid="span-amount"]').should(
-//           'contain.text',
-//           '3527'
-//         );
-//         cy.get('div[data-testid="badge-unit-of-measure"]').should(
-//           'have.text',
-//           'oz'
-//         );
-//       });
-
-//     // Validación para LIBRAS
-//     cy.clickOnMassUnitOfMeasureButton();
-//     cy.selectSelectOption('LIBRAS');
-
-//     cy.get('tbody tr')
-//       .first()
-//       .within(() => {
-//         cy.get('span[data-testid="span-amount"]').should(
-//           'contain.text',
-//           '1873'
-//         );
-//         cy.get('div[data-testid="badge-unit-of-measure"]').should(
-//           'have.text',
-//           'lb'
-//         );
-//       });
-
-//     cy.get('tbody tr')
-//       .eq(1)
-//       .within(() => {
-//         cy.get('span[data-testid="span-amount"]').should(
-//           'contain.text',
-//           '1212'
-//         );
-//         cy.get('div[data-testid="badge-unit-of-measure"]').should(
-//           'have.text',
-//           'lb'
-//         );
-//       });
-
-//     cy.get('tbody tr')
-//       .eq(2)
-//       .within(() => {
-//         cy.get('span[data-testid="span-amount"]').should('contain.text', '220');
-//         cy.get('div[data-testid="badge-unit-of-measure"]').should(
-//           'have.text',
-//           'lb'
-//         );
-//       });
-
-//     // Validación para TONELADAS
-//     cy.clickOnMassUnitOfMeasureButton();
-//     cy.selectSelectOption('TONELADAS');
-
-//     cy.get('tbody tr')
-//       .first()
-//       .within(() => {
-//         cy.get('span[data-testid="span-amount"]').should(
-//           'contain.text',
-//           '0,85'
-//         );
-//         cy.get('div[data-testid="badge-unit-of-measure"]').should(
-//           'have.text',
-//           't'
-//         );
-//       });
-
-//     cy.get('tbody tr')
-//       .eq(1)
-//       .within(() => {
-//         cy.get('span[data-testid="span-amount"]').should(
-//           'contain.text',
-//           '0,55'
-//         );
-//         cy.get('div[data-testid="badge-unit-of-measure"]').should(
-//           'have.text',
-//           't'
-//         );
-//       });
-
-//     cy.get('tbody tr')
-//       .eq(2)
-//       .within(() => {
-//         cy.get('span[data-testid="span-amount"]').should(
-//           'contain.text',
-//           '0,10'
-//         );
-//         cy.get('div[data-testid="badge-unit-of-measure"]').should(
-//           'have.text',
-//           't'
-//         );
-//       });
-//   });
-// });
+    cy.get('tbody tr')
+      .first()
+      .within(() => {
+        cy.get('span[data-testid="span-amount"]').should(
+          'contain.text',
+          '0,45'
+        );
+        cy.get('div[data-testid="badge-unit-of-measure"]').should(
+          'have.text',
+          't'
+        );
+      });
+  });
+});
 
 describe('Auth modulo de cosechas', () => {
   let currentHarvest: any = {};
