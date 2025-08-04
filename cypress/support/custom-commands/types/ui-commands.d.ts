@@ -13,4 +13,8 @@ export interface UICommands {
   checkMessageNotFoundInformation(): Cypress.Chainable<void>;
   checkMassUnitOfMeasureButton(): Cypress.Chainable<void>;
   clickOnMassUnitOfMeasureButton(): Cypress.Chainable<void>;
-} 
+  checkVolumeUnitOfMeasureButton(): Cypress.Chainable<void>;
+  clickOnVolumeUnitOfMeasureButton(): Cypress.Chainable<void>;
+  checkLengthUnitOfMeasureButton(): Cypress.Chainable<void>;
+  clickOnLengthUnitOfMeasureButton(): Cypress.Chainable<void>;
+}

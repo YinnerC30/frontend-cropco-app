@@ -30,13 +30,13 @@ export const SelectedVolumeUnitOfMeasure = ({
       value={valueSelect}
       disabled={readOnly}
     >
-      <SelectTrigger>
+      <SelectTrigger data-testid='btn-select-volume-unit-of-measure'>
         <SelectValue placeholder={'Selecciona una medida'} />
       </SelectTrigger>
 
       <SelectContent>
         {UnitsType.VOLUME.map((item: any) => (
-          <SelectItem key={item.key} value={item.value}>
+          <SelectItem key={item.key} value={item.value} data-value={item.value}>
             {item.label}
           </SelectItem>
         ))}

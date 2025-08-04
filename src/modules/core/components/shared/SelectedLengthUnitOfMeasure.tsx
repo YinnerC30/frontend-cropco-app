@@ -30,13 +30,13 @@ export const SelectedLengthUnitOfMeasure = ({
       value={valueSelect}
       disabled={readOnly}
     >
-      <SelectTrigger>
+      <SelectTrigger data-testid='btn-select-length-unit-of-measure'>
         <SelectValue placeholder={'Selecciona una medida'} />
       </SelectTrigger>
 
       <SelectContent>
         {UnitsType.LENGTH.map((item: any) => (
-          <SelectItem key={item.key} value={item.value}>
+          <SelectItem key={item.key} value={item.value} data-value={item.value}>
             {item.label}
           </SelectItem>
         ))}

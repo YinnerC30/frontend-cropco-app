@@ -61,3 +61,23 @@ Cypress.Commands.add('checkMassUnitOfMeasureButton', () => {
 Cypress.Commands.add('clickOnMassUnitOfMeasureButton', () => {
   cy.get('button[data-testid="btn-select-mass-unit-of-measure"]').click();
 });
+
+Cypress.Commands.add('checkVolumeUnitOfMeasureButton', () => {
+  cy.get('button[data-testid="btn-select-volume-unit-of-measure"]')
+    .should('exist')
+    .should('be.visible');
+});
+
+Cypress.Commands.add('clickOnVolumeUnitOfMeasureButton', () => {
+  cy.get('button[data-testid="btn-select-volume-unit-of-measure"]').click();
+});
+
+Cypress.Commands.add('checkLengthUnitOfMeasureButton', () => {
+  cy.get('button[data-testid="btn-select-length-unit-of-measure"]')
+    .should('exist')
+    .should('be.visible');
+});
+
+Cypress.Commands.add('clickOnLengthUnitOfMeasureButton', () => {
+  cy.get('button[data-testid="btn-select-length-unit-of-measure"]').click();
+});

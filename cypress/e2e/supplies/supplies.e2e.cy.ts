@@ -21,9 +21,11 @@ describe('Comprobar existencia de elementos en el modulo de insumos', () => {
 
     cy.existPaginationInfo();
 
-    cy.contains('Mostrar inventario de masa como:');
     cy.contains('Mostrar inventario de volumen como:');
+    cy.checkVolumeUnitOfMeasureButton();
     cy.contains('Mostrar inventario de longitud como:');
+    cy.checkLengthUnitOfMeasureButton();
+    cy.contains('Mostrar inventario de masa como:');
     cy.checkMassUnitOfMeasureButton();
 
     cy.contains('Nombre:');
