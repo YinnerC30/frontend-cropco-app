@@ -8,6 +8,7 @@ export * from '../e2e/suppliers/suppliers.commands';
 export * from '../e2e/supplies/supplies.commands';
 export * from '../e2e/users/users.commands';
 export * from '../e2e/works/works.commands';
+export * from '../e2e/shopping/shopping.commands';
 
 export * from './custom-commands/actions.commands';
 export * from './custom-commands/forms.commands';
@@ -27,6 +28,7 @@ import { SupplierCommands } from '../e2e/suppliers/supplier-commands';
 import { SupplyCommands } from '../e2e/supplies/supply-commands';
 import { UserCommands } from '../e2e/users/user-commands';
 import { WorkCommands } from '../e2e/works/work-commands';
+import { ShoppingCommands } from '../e2e/shopping/shopping-commands';
 
 import { ActionsCommands } from './custom-commands/types/actions-commands';
 import { FormsCommands } from './custom-commands/types/forms-commands';
@@ -49,6 +51,7 @@ declare global {
         SupplyCommands,
         UserCommands,
         WorkCommands,
+        ShoppingCommands,
         ActionsCommands,
         FormsCommands,
         NavigationCommands,

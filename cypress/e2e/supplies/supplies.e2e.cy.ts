@@ -302,24 +302,23 @@ describe('Eliminación de insumo', () => {
     cy.contains('Insumo eliminado');
   });
 
-  // it('Intentar eliminar insumo con stock disponible', () => {
-  //   cy.executeClearSeedData({ supplies: true });
+  it('Intentar eliminar insumo con stock disponible', () => {
+    cy.executeClearSeedData({ supplies: true });
 
-  //   cy.createSale({ fastCreation: true, returnOnlySale: false }).then(
-  //     (data) => {
-  //       cy.navigateToModuleWithSideBar('supplies');
-  //       cy.log(JSON.stringify(data, null, 2));
-  //       const { supply } = data;
+    cy.createShopping({ fastCreation: true, returnOnlyShopping: false }).then(
+      (data) => {
+        cy.navigateToModuleWithSideBar('supplies');
+        const { supplies } = data;
 
-  //       cy.clickActionsButtonTableRow(supply.id);
-  //       cy.clickOnDeleteRecord();
-  //       cy.clickOnContinueDeleteOneRecord();
-  //       cy.contains(
-  //         'No fue posible eliminar el insumo seleccionado. Verifica que no tenga stock disponible ni ventas con pagos pendientes antes de intentar eliminarlo'
-  //       );
-  //     }
-  //   );
-  // });
+        cy.clickActionsButtonTableRow(supplies[0].id);
+        cy.clickOnDeleteRecord();
+        cy.clickOnContinueDeleteOneRecord();
+        cy.contains(
+          'No fue posible eliminar el insumo seleccionado. Verifica que no tenga stock disponible'
+        );
+      }
+    );
+  });
 });
 
 describe('Eliminación de insumos por lote', () => {
@@ -343,30 +342,30 @@ describe('Eliminación de insumos por lote', () => {
     cy.checkNoRecordsMessage();
   });
 
-  // it('Intentar eliminar insumos con stock disponible', () => {
-  //   cy.createSale({ fastCreation: true, returnOnlySale: false });
-  //   cy.navigateToModuleWithSideBar('supplies');
-  //   cy.clickRefetchButton();
-  //   cy.toggleSelectAllTableRows();
-  //   cy.clickOnDeleteBulkButton();
-  //   cy.clickOnContinueDeleteBulkRecord();
-  //   cy.contains(
-  //     'No fue posible eliminar los insumos seleccionados. Verifica que no tengan stock disponible ni ventas con pagos pendientes antes de intentar eliminarlos'
-  //   );
-  // });
+  it('Intentar eliminar insumos con stock disponible', () => {
+    cy.createShopping({ fastCreation: true, returnOnlyShopping: false });
+    cy.navigateToModuleWithSideBar('supplies');
+    cy.clickRefetchButton();
+    cy.toggleSelectAllTableRows();
+    cy.clickOnDeleteBulkButton();
+    cy.clickOnContinueDeleteBulkRecord();
+    cy.contains(
+      'No fue posible eliminar los insumos seleccionados. Verifica que no tengan stock disponible antes de intentar eliminarlos'
+    );
+  });
 
-  // it('Eliminar insumos que tienen conflicto de eliminación y los que no tienen', () => {
-  //   cy.createSupply({}, { fastCreation: true });
-  //   cy.createSale({ fastCreation: true, returnOnlySale: false });
-  //   cy.navigateToModuleWithSideBar('supplies');
-  //   cy.clickRefetchButton();
-  //   cy.toggleSelectAllTableRows();
-  //   cy.clickOnDeleteBulkButton();
-  //   cy.clickOnContinueDeleteBulkRecord();
-  //   cy.contains(
-  //     'No fue posible eliminar algunos insumos seleccionados. Verifica que no tengan stock disponible ni ventas con pagos pendientes antes de intentar eliminarlos'
-  //   );
-  // });
+  it('Eliminar insumos que tienen conflicto de eliminación y los que no tienen', () => {
+    cy.createSupply({}, { fastCreation: true });
+    cy.createShopping({ fastCreation: true, returnOnlyShopping: false });
+    cy.navigateToModuleWithSideBar('supplies');
+    cy.clickRefetchButton();
+    cy.toggleSelectAllTableRows();
+    cy.clickOnDeleteBulkButton();
+    cy.clickOnContinueDeleteBulkRecord();
+    cy.contains(
+      'No fue posible eliminar algunos insumos seleccionados. Verifica que no tengan stock disponible antes de intentar eliminarlos'
+    );
+  });
 });
 
 describe('Copiar Id de registro', () => {
@@ -392,12 +391,9 @@ describe('Ver registro de insumo', () => {
       cy.clickActionsButtonTableRow(currenSupply.id);
       cy.clickOnViewRecord();
       cy.getFormInput('name').should('have.value', currenSupply.name);
-      cy.getFormInput('brand').should(
-        'have.value',
-        currenSupply.brand
-      );
+      cy.getFormInput('brand').should('have.value', currenSupply.brand);
       // cy.getFormInput('units').should('have.value', currenSupply.units);
-      
+
       cy.getFormTextArea('observation').should(
         'have.value',
         currenSupply.observation
@@ -725,8 +721,6 @@ describe('Auth modulo de insumos', () => {
       cy.clickActionsButtonTableRow(currenSupply.id);
 
       cy.checkActionButtonsState({ update: true, view: true, delete: true });
-
-      
     });
   });
 
@@ -758,8 +752,6 @@ describe('Auth modulo de insumos', () => {
       cy.wait(700);
 
       cy.clickActionsButtonTableRow(currenSupply.id);
-
-      
 
       cy.checkActionButtonsState({
         update: false,
