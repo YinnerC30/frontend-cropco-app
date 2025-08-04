@@ -1,8 +1,7 @@
 import { BASE_HOME_PAGE_URL, TEST_UUID_VALID } from 'cypress/helpers/constants';
 import { InformationGenerator } from '../../helpers/InformationGenerator';
-import { suppliesRoutes } from './supplies-routes';
 import { suppliesData } from './data/get-all-supplies.data';
-import { getOneSupplyData } from './data/get-one-supply.data';
+import { suppliesRoutes } from './supplies-routes';
 
 describe('Comprobar existencia de elementos en el modulo de insumos', () => {
   beforeEach(() => {
