@@ -10,8 +10,8 @@ export const formSchemaSupply = z.object({
     .max(100, { message: `El nombre no debe exceder los 100 caracteres` }),
   brand: z
     .string()
-    .min(4, {
-      message: "La marca debe tener al menos 4 caracteres",
+    .min(3, {
+      message: "La marca debe tener al menos 3 caracteres",
     })
     .max(100, { message: `El apellido no debe exceder los 100 caracteres` }),
   unit_of_measure: z.nativeEnum(AllUnitsOfMeasure, {

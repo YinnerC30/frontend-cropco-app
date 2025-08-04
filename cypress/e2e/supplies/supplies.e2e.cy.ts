@@ -131,7 +131,7 @@ describe('Creación de insumos', () => {
   it('Debe mostrar mensajes de error al intentar enviar el formulario vacio', () => {
     cy.clickOnSubmitButton();
     cy.contains('El nombre debe tener al menos 2 caracteres');
-    cy.contains('La marca debe tener al menos 4 caracteres');
+    cy.contains('La marca debe tener al menos 3 caracteres');
     cy.contains('Debe seleccionar una unidad de medida');
     cy.contains('La observación debe tener mínimo 10 caracteres');
     cy.checkMessageFieldsMissing();
@@ -322,6 +322,12 @@ describe('Actualizar unidad del insumo', () => {
         'not.exist'
       );
       cy.get(`div[role="option"][data-value="METROS"]`).should('not.exist');
+
+      cy.get(`div[role="option"][data-value="KILOGRAMOS"]`).click();
+
+      cy.clickOnSubmitButton();
+      cy.checkDisabledSubmitButton();
+      cy.contains('Insumo actualizado');
     });
   });
 
@@ -352,11 +358,17 @@ describe('Actualizar unidad del insumo', () => {
         'not.exist'
       );
       cy.get(`div[role="option"][data-value="METROS"]`).should('not.exist');
+
+      cy.get(`div[role="option"][data-value="LITROS"]`).click();
+
+      cy.clickOnSubmitButton();
+      cy.checkDisabledSubmitButton();
+      cy.contains('Insumo actualizado');
     });
   });
 
   it('Modificar unidad de medida del insumo (longitud)', () => {
-    cy.createCustomSupply({ unitOfMeasure: 'METROS' }).then((data) => {
+    cy.createCustomSupply({ unitOfMeasure: 'MILIMETROS' }).then((data) => {
       cy.visit(suppliesRoutes.update(data.id));
       cy.wait(3000);
       cy.get('button[data-testid="btn-select-group-field"]').click();
@@ -380,6 +392,12 @@ describe('Actualizar unidad del insumo', () => {
       cy.get(`div[role="option"][data-value="METROS"]`)
         .should('exist')
         .should('be.visible');
+
+      cy.get(`div[role="option"][data-value="METROS"]`).click();
+
+      cy.clickOnSubmitButton();
+      cy.checkDisabledSubmitButton();
+      cy.contains('Insumo actualizado');
     });
   });
 });
