@@ -18,4 +18,10 @@ export interface SupplyCommands {
     },
     callback: (data: any) => void
   ): Cypress.Chainable<void>;
+
+  createCustomSupply(
+    data: {
+      unitOfMeasure: string;
+    },
+  ): Cypress.Chainable<any>;
 } 

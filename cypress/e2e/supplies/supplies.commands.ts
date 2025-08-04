@@ -63,6 +63,29 @@ Cypress.Commands.add(
   }
 );
 
+Cypress.Commands.add(
+  'createCustomSupply',
+  function ({ unitOfMeasure } = {}): Cypress.Chainable<any> {
+    return cy
+      .executeSeed({ customSupplies: { quantity: 1, unitOfMeasure } })
+      .then((result) => {
+        // Validamos que la estructura esperada exista
+        if (
+          result &&
+          result.history &&
+          Array.isArray(result.history.insertedCustomSupplies) &&
+          result.history.insertedCustomSupplies.length > 0
+        ) {
+          return result.history.insertedCustomSupplies[0];
+        } else {
+          throw new Error(
+            'No se encontró ningún registro de insumo insertado en la respuesta del seed.'
+          );
+        }
+      });
+  }
+);
+
 Cypress.Commands.add('createSupplyAnd', (data, callback) => {
   cy.createSupply(data, { fastCreation: true }).then((data) => {
     callback(data);

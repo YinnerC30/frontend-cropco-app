@@ -288,128 +288,100 @@ describe('Modificación de insumos', () => {
 });
 
 describe('Actualizar unidad del insumo', () => {
-  let currenSupply: any = {};
-
-  before(() => {
-    cy.createSupply({}, { fastCreation: true }).then((data) => {
-      currenSupply = { ...data };
-    });
-  });
-
   beforeEach(() => {
     cy.loginUser();
   });
 
   it('Modificar unidad de medida del insumo (masa)', () => {
-    cy.intercept(
-      'GET',
-      `http://localhost:3000/supplies/one/${currenSupply.id}`,
-      {
-        statusCode: 200,
-        body: getOneSupplyData,
-      }
-    );
-    cy.visit(suppliesRoutes.update(currenSupply.id));
-    cy.wait(3000);
-    cy.get('button[data-testid="btn-select-group-field"]').click();
-    cy.get(`div[role="option"][data-value="KILOGRAMOS"]`)
-      .should('be.visible')
-      .should('exist');
-    cy.get(`div[role="option"][data-value="GRAMOS"]`)
-      .should('be.visible')
-      .should('exist');
-    cy.get(`div[role="option"][data-value="LIBRAS"]`)
-      .should('be.visible')
-      .should('exist');
-    cy.get(`div[role="option"][data-value="TONELADAS"]`)
-      .should('be.visible')
-      .should('exist');
-    cy.get(`div[role="option"][data-value="ONZAS"]`)
-      .should('be.visible')
-      .should('exist');
+    cy.createCustomSupply({ unitOfMeasure: 'GRAMOS' }).then((data) => {
+      cy.visit(suppliesRoutes.update(data.id));
+      cy.wait(3000);
+      cy.get('button[data-testid="btn-select-group-field"]').click();
+      cy.get(`div[role="option"][data-value="KILOGRAMOS"]`)
+        .should('be.visible')
+        .should('exist');
+      cy.get(`div[role="option"][data-value="GRAMOS"]`)
+        .should('be.visible')
+        .should('exist');
+      cy.get(`div[role="option"][data-value="LIBRAS"]`)
+        .should('be.visible')
+        .should('exist');
+      cy.get(`div[role="option"][data-value="TONELADAS"]`)
+        .should('be.visible')
+        .should('exist');
+      cy.get(`div[role="option"][data-value="ONZAS"]`)
+        .should('be.visible')
+        .should('exist');
 
-    // Comprobar que no se muestren las unidades de medida que no son de masa
-    cy.get(`div[role="option"][data-value="LITROS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="MILILITROS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="GALONES"]`).should('not.exist');
+      // Comprobar que no se muestren las unidades de medida que no son de masa
+      cy.get(`div[role="option"][data-value="LITROS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="MILILITROS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="GALONES"]`).should('not.exist');
 
-    cy.get(`div[role="option"][data-value="MILIMETROS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="CENTIMETROS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="METROS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="MILIMETROS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="CENTIMETROS"]`).should(
+        'not.exist'
+      );
+      cy.get(`div[role="option"][data-value="METROS"]`).should('not.exist');
+    });
   });
 
   it('Modificar unidad de medida del insumo (volumen)', () => {
-    cy.intercept(
-      'GET',
-      `http://localhost:3000/supplies/one/${currenSupply.id}`,
-      {
-        statusCode: 200,
-        body: {
-          ...getOneSupplyData,
-          unit_of_measure: 'LITROS',
-        },
-      }
-    );
-    cy.visit(suppliesRoutes.update(currenSupply.id));
-    cy.wait(3000);
-    cy.get('button[data-testid="btn-select-group-field"]').click();
-    cy.get(`div[role="option"][data-value="KILOGRAMOS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="GRAMOS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="LIBRAS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="TONELADAS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="ONZAS"]`).should('not.exist');
+    cy.createCustomSupply({ unitOfMeasure: 'LITROS' }).then((data) => {
+      cy.visit(suppliesRoutes.update(data.id));
+      cy.wait(3000);
+      cy.get('button[data-testid="btn-select-group-field"]').click();
+      cy.get(`div[role="option"][data-value="KILOGRAMOS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="GRAMOS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="LIBRAS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="TONELADAS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="ONZAS"]`).should('not.exist');
 
-    // Comprobar que no se muestren las unidades de medida que no son de masa
-    cy.get(`div[role="option"][data-value="LITROS"]`)
-      .should('be.visible')
-      .should('exist');
-    cy.get(`div[role="option"][data-value="MILILITROS"]`)
-      .should('be.visible')
-      .should('exist');
-    cy.get(`div[role="option"][data-value="GALONES"]`)
-      .should('be.visible')
-      .should('exist');
+      // Comprobar que no se muestren las unidades de medida que no son de masa
+      cy.get(`div[role="option"][data-value="LITROS"]`)
+        .should('be.visible')
+        .should('exist');
+      cy.get(`div[role="option"][data-value="MILILITROS"]`)
+        .should('be.visible')
+        .should('exist');
+      cy.get(`div[role="option"][data-value="GALONES"]`)
+        .should('be.visible')
+        .should('exist');
 
-    cy.get(`div[role="option"][data-value="MILIMETROS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="CENTIMETROS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="METROS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="MILIMETROS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="CENTIMETROS"]`).should(
+        'not.exist'
+      );
+      cy.get(`div[role="option"][data-value="METROS"]`).should('not.exist');
+    });
   });
 
   it('Modificar unidad de medida del insumo (longitud)', () => {
-    cy.intercept(
-      'GET',
-      `http://localhost:3000/supplies/one/${currenSupply.id}`,
-      {
-        statusCode: 200,
-        body: {
-          ...getOneSupplyData,
-          unit_of_measure: 'METROS',
-        },
-      }
-    );
-    cy.visit(suppliesRoutes.update(currenSupply.id));
-    cy.wait(3000);
-    cy.get('button[data-testid="btn-select-group-field"]').click();
-    cy.get(`div[role="option"][data-value="KILOGRAMOS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="GRAMOS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="LIBRAS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="TONELADAS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="ONZAS"]`).should('not.exist');
+    cy.createCustomSupply({ unitOfMeasure: 'METROS' }).then((data) => {
+      cy.visit(suppliesRoutes.update(data.id));
+      cy.wait(3000);
+      cy.get('button[data-testid="btn-select-group-field"]').click();
+      cy.get(`div[role="option"][data-value="KILOGRAMOS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="GRAMOS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="LIBRAS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="TONELADAS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="ONZAS"]`).should('not.exist');
 
-    // Comprobar que no se muestren las unidades de medida que no son de masa
-    cy.get(`div[role="option"][data-value="LITROS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="MILILITROS"]`).should('not.exist');
-    cy.get(`div[role="option"][data-value="GALONES"]`).should('not.exist');
+      // Comprobar que no se muestren las unidades de medida que no son de masa
+      cy.get(`div[role="option"][data-value="LITROS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="MILILITROS"]`).should('not.exist');
+      cy.get(`div[role="option"][data-value="GALONES"]`).should('not.exist');
 
-    cy.get(`div[role="option"][data-value="MILIMETROS"]`)
-      .should('exist')
-      .should('be.visible');
-    cy.get(`div[role="option"][data-value="CENTIMETROS"]`)
-      .should('exist')
-      .should('be.visible');
-    cy.get(`div[role="option"][data-value="METROS"]`)
-      .should('exist')
-      .should('be.visible');
+      cy.get(`div[role="option"][data-value="MILIMETROS"]`)
+        .should('exist')
+        .should('be.visible');
+      cy.get(`div[role="option"][data-value="CENTIMETROS"]`)
+        .should('exist')
+        .should('be.visible');
+      cy.get(`div[role="option"][data-value="METROS"]`)
+        .should('exist')
+        .should('be.visible');
+    });
   });
 });
 
