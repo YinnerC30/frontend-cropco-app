@@ -1,6 +1,6 @@
 import { Badge } from '@/components';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ErrorLoading, Loading } from '@/modules/core/components';
+import { Loading } from '@/modules/core/components';
 import { BreadCrumb } from '@/modules/core/components/';
 import { BasicDataTable } from '@/modules/core/components/form/basic/BasicDataTable';
 import { FormatNumber } from '@/modules/core/helpers';
@@ -56,9 +56,9 @@ export const ViewSupply = () => {
     return <Loading />;
   }
 
-  if (!data) {
-    return <ErrorLoading />;
-  }
+  // if (!data) {
+  //   return <ErrorLoading />;
+  // }
 
   const consumptionData = Array.isArray(data?.consumption_details)
     ? data?.consumption_details.map((item) => ({
@@ -77,31 +77,31 @@ export const ViewSupply = () => {
     : [];
 
   const currentStock = data?.stock?.amount || 0;
-  const baseSupplyUnitType = getUnitBase(data.unit_of_measure as UnitOfMeasure);
+  const baseSupplyUnitType = getUnitBase(data?.unit_of_measure as UnitOfMeasure);
   const unitType = unitTypeMap[baseSupplyUnitType as UnitOfMeasure];
 
   const convertedAmount = convert(
     currentStock,
     baseSupplyUnitType as UnitOfMeasure,
-    data.unit_of_measure as UnitOfMeasure
+    data?.unit_of_measure as UnitOfMeasure
   );
   let displayUnit;
 
   switch (unitType) {
     case 'MASS':
       displayUnit =
-        MassUnitOfMeasure[data.unit_of_measure as MassUnitOfMeasure];
+        MassUnitOfMeasure[data?.unit_of_measure as MassUnitOfMeasure];
       break;
     case 'VOLUME':
       displayUnit =
-        VolumeUnitOfMeasure[data.unit_of_measure as VolumeUnitOfMeasure];
+        VolumeUnitOfMeasure[data?.unit_of_measure as VolumeUnitOfMeasure];
       break;
     case 'LENGTH':
       displayUnit =
-        LengthUnitOfMeasure[data.unit_of_measure as LengthUnitOfMeasure];
+        LengthUnitOfMeasure[data?.unit_of_measure as LengthUnitOfMeasure];
       break;
     default:
-      displayUnit = data.unit_of_measure;
+      displayUnit = data?.unit_of_measure;
       break;
   }
 

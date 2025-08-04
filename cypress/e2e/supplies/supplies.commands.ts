@@ -9,7 +9,21 @@ Cypress.Commands.add(
     const creationSupplyEndpoint = 'http://localhost:3000/supplies/create';
 
     if (fastCreation) {
-      cy.visit('/app/home/supplies/create/one');
+      return cy.executeSeed({ supplies: 1 }).then((result) => {
+        // Validamos que la estructura esperada exista
+        if (
+          result &&
+          result.history &&
+          Array.isArray(result.history.insertedSupplies) &&
+          result.history.insertedSupplies.length > 0
+        ) {
+          return result.history.insertedSupplies[0];
+        } else {
+          throw new Error(
+            'No se encontró ningún registro de insumo insertado en la respuesta del seed.'
+          );
+        }
+      });
     } else {
       cy.navigateToModuleWithSideBar('supplies');
       cy.wait(3000);

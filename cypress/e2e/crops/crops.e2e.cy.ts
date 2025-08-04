@@ -541,7 +541,7 @@ describe('Cambiar unidad de medida para mostrar el stock de los cultivos', () =>
     cy.wait(2000);
   });
 
-  it.only('Debe mostrar el inventario en la tabla de cultivos de acuerdo a la unidad de medida seleccionada', () => {
+  it('Debe mostrar el inventario en la tabla de cultivos de acuerdo a la unidad de medida seleccionada', () => {
     cy.clickOnMassUnitOfMeasureButton();
     cy.selectSelectOption('GRAMOS');
 
