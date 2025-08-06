@@ -37,6 +37,7 @@ import { SearchBarCommands } from './custom-commands/types/search-bar-commands';
 import { SeedCommands } from './custom-commands/types/seed-commands';
 import { TableCommands } from './custom-commands/types/table-commands';
 import { UICommands } from './custom-commands/types/ui-commands';
+import "cypress-real-events/support";
 
 declare global {
   namespace Cypress {

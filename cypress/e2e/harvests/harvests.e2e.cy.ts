@@ -2,6 +2,7 @@ import { BASE_HOME_PAGE_URL, TEST_UUID_VALID } from 'cypress/helpers/constants';
 import { FormatMoneyValue } from 'cypress/helpers/formatting/FormatMoneyValue';
 import { harvestsRoutes } from './harvests-routes';
 import { cropsRoutes } from '../crops/crops-routes';
+import 'cypress-real-events/support';
 // import { harvestsData } from './data/get-all-harvests.data';
 
 describe('Comprobar existencia de elementos en el modulo de cosechas', () => {
@@ -67,71 +68,49 @@ describe('Comprobar existencia de elementos en el modulo de cosechas', () => {
   });
 });
 
-// describe.skip('Encuentra registros de acuerdo a la cadena de busqueda', () => {
-//   before(() => {
-//     cy.executeClearSeedData({ harvests: true });
-//     for (let i = 0; i < 5; i++) {
-//       cy.createCrop({}, { fastCreation: true });
-//     }
-//   });
+describe.only('Encuentra registros de acuerdo a la cadena de búsqueda', () => {
+  before(() => {
+    cy.executeClearSeedData({ harvests: true });
+    for (let i = 0; i < 2; i++) {
+      cy.createHarvest({ fastCreation: true, unitOfMeasure: 'LIBRAS' });
+      cy.createHarvest({ fastCreation: true, unitOfMeasure: 'KILOGRAMOS' });
+    }
+  });
 
-//   beforeEach(() => {
-//     cy.loginUser();
-//     cy.navigateToModuleWithSideBar('harvests');
-//   });
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('harvests');
+  });
 
-//   it('Busqueda por nombre del cosecha', () => {
-//     cy.createCrop({}, { fastCreation: true }).then((data) => {
-//       const {
-//         id,
-//         name,
-//         description,
-//         number_hectares,
-//         units,
-//         location,
-//         // date_of_creation,
-//         // date_of_termination,
-//       } = data;
-//       cy.typeOnInputBasicSearchBar(name);
-//       cy.clickOnSubmitBasicSearchBar();
-//       cy.checkTableRowValues(id, [
-//         name,
-//         description,
-//         number_hectares,
-//         units,
-//         location,
-//         // date_of_creation,
-//         // date_of_termination,
-//       ]);
-//     });
-//   });
+  it('Debe buscar la cosechas por un cultivo en especifico', () => {
+    cy.openCommandField('crop');
+    cy.selectCommandOption('0');
+    cy.wait(2000);
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('1');
+  });
 
-//   it('Busqueda por id del cosecha', () => {
-//     cy.createCrop({}, { fastCreation: true }).then((data) => {
-//       const {
-//         id,
-//         name,
-//         description,
-//         number_hectares,
-//         units,
-//         location,
-//         // date_of_creation,
-//         // date_of_termination,
-//       } = data;
-//       cy.typeOnInputBasicSearchBar(id);
-//       cy.clickOnSubmitBasicSearchBar();
-//       cy.checkTableRowValues(id, [
-//         name,
-//         description,
-//         number_hectares,
-//         units,
-//         location,
-//         // date_of_creation,
-//         // date_of_termination,
-//       ]);
-//     });
-//   });
-// });
+  it.only('Debe buscar la cosechas por un empleado en especifico', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-harvests-filters"]').click();
+
+    cy.get('div[data-testid="filter-employees"]').realHover();
+
+    /* cy.openCommandField('employee'); */
+    cy.get(`button[data-testid="btn-open-command-employee"]`).click();
+
+    cy.selectCommandOption('0');
+
+    cy.get('div[data-testid="filter-employees"]').realHover();
+    cy.get('button[data-testid="button-filter-employees-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('1');
+  });
+});
 
 describe('Creación de cosechas', () => {
   before(() => {

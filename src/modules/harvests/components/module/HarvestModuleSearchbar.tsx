@@ -429,6 +429,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                                         ref={field.ref}
                                         onBlur={field.onBlur}
                                         disabled={readOnly}
+                                        data-testid={`btn-open-command-employee`}
                                       >
                                         {field.value.length > 0 &&
                                         !!queryEmployees.data
@@ -450,7 +451,14 @@ export const HarvestModuleSearchbar: React.FC = () => {
                                   content="Actualizar datos de empleados involucrados"
                                 />
                               </div>
-                              <PopoverContent className="w-[200px] p-0">
+                              <PopoverContent
+                                className="w-[200px] p-0"
+                                onPointerDownOutside={(e) => {
+                                  e.preventDefault();
+                                  /* setOpenDropDownMenu((prev: boolean) => !prev); */
+                                }}
+                                onCloseAutoFocus={(e) => e.preventDefault()}
+                              >
                                 <Command>
                                   <CommandInput
                                     placeholder={`Buscar empleado...`}
@@ -463,11 +471,12 @@ export const HarvestModuleSearchbar: React.FC = () => {
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
                                         {queryEmployees?.data?.records.map(
-                                          (item) => {
+                                          (item, index) => {
                                             return (
                                               <CommandItem
                                                 value={item?.['full_name']}
                                                 key={item.id!}
+                                                data-testid={`form-field-command-item-${index}`}
                                                 onSelect={() => {
                                                   if (
                                                     field?.value?.some(
@@ -550,6 +559,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                 }
                 actionOnSave={() => handleAddFilter('employees')}
                 actionOnClose={() => handleClearErrorsForm('employees')}
+                dataTestId="filter-employees"
               />
               <FilterDropdownItem
                 label={'Fecha'}
@@ -572,11 +582,13 @@ export const HarvestModuleSearchbar: React.FC = () => {
                 }
                 actionOnSave={() => handleAddFilter('filter_by_date')}
                 actionOnClose={() => handleClearErrorsForm('filter_by_date')}
+                dataTestId="filter-date"
               />
               <FilterDropdownItem
                 label={'Cantidad'}
                 actionOnSave={() => handleAddFilter('filter_by_amount')}
                 actionOnClose={() => handleClearErrorsForm('filter_by_amount')}
+                dataTestId="filter-amount"
                 content={
                   <>
                     <FormFieldSelect
@@ -621,6 +633,7 @@ export const HarvestModuleSearchbar: React.FC = () => {
                 actionOnClose={() =>
                   handleClearErrorsForm('filter_by_value_pay')
                 }
+                dataTestId="filter-value-pay"
                 content={
                   <>
                     <FormFieldSelect

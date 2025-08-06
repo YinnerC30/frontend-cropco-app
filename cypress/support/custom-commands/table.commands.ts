@@ -131,6 +131,10 @@ Cypress.Commands.add('checkPaginationValues', () => {
     });
 });
 
+Cypress.Commands.add('checkTableRowTotal', (value: string) => {
+  cy.get('span[data-testid="data-table-row-total"]').contains(value);
+});
+
 Cypress.Commands.add('clickOnUpdateDetailRecord', () => {
   cy.get('button[data-testid="btn-update-detail-record"]').click();
 });

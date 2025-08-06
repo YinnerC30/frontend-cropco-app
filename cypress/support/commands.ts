@@ -19,3 +19,4 @@ import './custom-commands/search-bar.commands';
 import './custom-commands/seed.commands';
 import './custom-commands/table.commands';
 import './custom-commands/ui.commands';
+import "cypress-real-events/support";
