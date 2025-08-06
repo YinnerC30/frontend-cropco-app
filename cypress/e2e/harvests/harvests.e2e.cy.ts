@@ -578,16 +578,13 @@ describe('Modificar cosechas procesadas', () => {
           cy.clickOnViewProcessedRecords();
           cy.wait(2000);
 
-
           cy.get('tr[data-testid="table-row-id-' + data.id + '"]').dblclick();
           cy.wait(1000);
           cy.checkDialogIsVisible();
-
-          
         });
       }
     );
-  })
+  });
 
   it('Mostrar error al intentar modificar una cosecha procesada con un monto superior al permitido', () => {
     cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
@@ -706,8 +703,6 @@ describe('Modificación de cosechas', () => {
       'have.value',
       currentHarvest.observation
     );
-
-    cy.log(JSON.stringify(currentHarvest.details, null, 2));
 
     // Comprobar datos de la tabla
 
@@ -1020,30 +1015,55 @@ describe('Copiar Id de registro', () => {
   });
 });
 
-// TODO: Pendiente por implementar
-describe.skip('Ver registro de cosecha', () => {
+describe('Ver registro de cosecha', () => {
   it('Ver registro de cosecha', () => {
+    cy.loginUser();
     cy.executeClearSeedData({ harvests: true });
-    cy.createCrop({}, { fastCreation: true }).then((currentHarvest) => {
-      cy.loginUser();
+    cy.createHarvest({
+      fastCreation: true,
+      returnOnlyHarvest: false,
+      unitOfMeasure: 'KILOGRAMOS',
+    }).then((data) => {
+      const {
+        harvest: currentHarvest,
+        crop: currentCrop,
+        employees: currentEmployees,
+      } = data;
+
       cy.navigateToModuleWithSideBar('harvests');
       cy.wait(500);
       cy.clickActionsButtonTableRow(currentHarvest.id);
       cy.clickOnViewRecord();
-      cy.getFormInput('name').should('have.value', currentHarvest.name);
-      cy.getFormInput('number_hectares').should(
-        'have.value',
-        currentHarvest.number_hectares
+      cy.get('button[data-testid="btn-calendar-selector"]').should(
+        'have.attr',
+        'data-value',
+        new Date(currentHarvest.date).toISOString().split('T')[0]
       );
-      cy.getFormInput('units').should('have.value', currentHarvest.units);
-      cy.getFormTextArea('location').should(
+      cy.get('button[data-testid="btn-open-command-crop"]')
+        .should('have.attr', 'data-value', currentCrop.id)
+        .contains(currentCrop.name);
+      cy.getFormTextArea('observation').should(
         'have.value',
-        currentHarvest.location
+        currentHarvest.observation
       );
-      cy.getFormTextArea('description').should(
-        'have.value',
-        currentHarvest.description
-      );
+
+      // Comprobar datos de la tabla
+
+      for (let i = 0; i < currentHarvest.details.length; i++) {
+        cy.checkTableRowValues(currentHarvest.details[i].id, [
+          currentEmployees[i].first_name,
+          currentEmployees[i].last_name,
+          currentHarvest.details[i].amount,
+          FormatMoneyValue(currentHarvest.details[i].value_pay)
+            .split('$')[1]
+            .trim(),
+          currentHarvest.details[i].unit_of_measure,
+        ]);
+      }
+
+      // Validar totales
+      cy.get('div[data-testid="badge-amount"]').contains('450,00');
+      cy.get('div[data-testid="badge-value-pay"]').contains('$ 270.000');
       cy.contains('Información');
       cy.contains('Volver');
     });
@@ -1052,7 +1072,6 @@ describe.skip('Ver registro de cosecha', () => {
   it('Consultar registro con id no valido', () => {
     cy.loginUser();
     cy.visit(harvestsRoutes.view('no-id'));
-    // cy.checkFormInputsAreEmpty();
     cy.checkMessageIncorrectInformation();
     cy.contains('Información');
     cy.contains('Volver');
@@ -1061,13 +1080,28 @@ describe.skip('Ver registro de cosecha', () => {
   it('Consultar registro con id inexistente', () => {
     cy.loginUser();
     cy.visit(harvestsRoutes.view(TEST_UUID_VALID));
-    // cy.checkFormInputsAreEmpty();
     cy.checkMessageNotFoundInformation();
     cy.contains('Información');
     cy.contains('Volver');
   });
+});
 
-  // TODO: Crear casos de prueba para observar las tablas de registro donde esta involucrado
+describe('Ver registro de cosecha procesada', () => {
+  it('Consultar registro con id no valido', () => {
+    cy.loginUser();
+    cy.visit(harvestsRoutes.viewProcessed('no-id'));
+    cy.checkMessageIncorrectInformation();
+    cy.contains('Inventario');
+    cy.contains('Volver');
+  });
+
+  it('Consultar registro con id inexistente', () => {
+    cy.loginUser();
+    cy.visit(harvestsRoutes.viewProcessed(TEST_UUID_VALID));
+    cy.checkMessageNotFoundInformation();
+    cy.contains('Inventario');
+    cy.contains('Volver');
+  });
 });
 
 describe('Paginado y selectores', () => {
