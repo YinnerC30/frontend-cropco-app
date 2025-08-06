@@ -1,6 +1,6 @@
 import { BASE_HOME_PAGE_URL, TEST_UUID_VALID } from 'cypress/helpers/constants';
-import { harvestsRoutes } from './harvests-routes';
 import { FormatMoneyValue } from 'cypress/helpers/formatting/FormatMoneyValue';
+import { harvestsRoutes } from './harvests-routes';
 // import { harvestsData } from './data/get-all-harvests.data';
 
 describe('Comprobar existencia de elementos en el modulo de cosechas', () => {
@@ -882,6 +882,40 @@ describe('Eliminación de cosechas por lote', () => {
         );
       }
     );
+  });
+});
+
+describe('Exportar cosecha a PDF', () => {
+  before(() => {
+    cy.executeClearSeedData({ harvests: true });
+  });
+
+  it('Generar reporte de cosecha', () => {
+    cy.loginUser();
+    cy.createHarvest({ fastCreation: true, returnOnlyHarvest: true }).then(
+      (currentHarvest) => {
+        cy.navigateToModuleWithSideBar('harvests');
+        cy.clickActionsButtonTableRow(currentHarvest.id);
+        cy.get('button[data-testid="btn-download-pdf"]').click();
+        cy.contains('Generando documento PDF...');
+        cy.contains('El documento ha sido generado con éxito.');
+        const expectedFileName = `reporte-cosecha-${currentHarvest.id}.pdf`;
+        const downloadsFolder =
+          Cypress.config('downloadsFolder') || 'cypress/downloads';
+
+        cy.readFile(`${downloadsFolder}/${expectedFileName}`, {
+          timeout: 10000,
+        }).should('exist');
+      }
+    );
+  });
+
+  it('No permite generar reporte si no hay registros', () => {
+    cy.executeClearSeedData({ clients: true });
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('clients');
+    cy.clickRefetchButton();
+    cy.checkExportAllClientsButtonState(false);
   });
 });
 
