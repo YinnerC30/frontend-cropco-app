@@ -502,6 +502,12 @@ describe('Eliminar cosechas procesadas', () => {
           cy.clickOnContinueDeleteOneRecord();
           cy.contains('Cosecha procesada eliminada');
           cy.get('div[data-testid="badge-amount-processed"]').contains('0,00');
+          cy.visit(cropsRoutes.view(crop.id));
+          cy.wait(2000);
+          cy.get('span[data-testid="current-stock"]').contains('0,00');
+          cy.get('div[data-testid="badge-mass-unit-of-measure"]').contains(
+            'kg'
+          );
         });
       }
     );
