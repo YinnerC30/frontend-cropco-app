@@ -2,12 +2,7 @@ import {
   Badge,
   Label,
   ScrollArea,
-  ScrollBar,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  ScrollBar
 } from '@/components';
 import {
   FormDataTableButtonsPagination,
@@ -17,18 +12,14 @@ import { FormDataTable } from '@/modules/core/components/form/data-table/';
 import { FormDataTablePageCount } from '@/modules/core/components/form/data-table/FormDataTablePageCount';
 import { FormDataTableRowCount } from '@/modules/core/components/form/data-table/FormDataTableRowCount';
 import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data-table/FormDataTableSelectPageSize';
+import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
+import { FormatNumber } from '@/modules/core/helpers';
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
 import { HarvestProcessed } from '@/modules/harvests/interfaces';
-import {
-  MassUnitOfMeasure,
-  UnitsType,
-} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { memo, useMemo } from 'react';
 import columnsHarvestProcessed from './ColumnsTableHarvestProcessed';
 import { FormHarvestProcessed } from './FormHarvestProcessed';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
-import { FormatNumber } from '@/modules/core/helpers';
-import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
 
 const HarvestProcessedDataTable: React.FC = memo(() => {
   const {

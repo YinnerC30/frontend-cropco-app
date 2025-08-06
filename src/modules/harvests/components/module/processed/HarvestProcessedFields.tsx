@@ -1,11 +1,6 @@
 import {
   Badge,
-  Form,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  Form
 } from '@/components';
 import {
   FormFieldCalendar,
@@ -13,17 +8,13 @@ import {
   FormFieldTextArea,
   Loading,
 } from '@/modules/core/components';
+import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
 import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { useCreateForm } from '@/modules/core/hooks';
 import { formFieldsHarvestProcessed } from '@/modules/harvests/utils/formFieldsHarvestProcessed';
-import {
-  MassUnitOfMeasure,
-  UnitsType,
-} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import React from 'react';
 import { z } from 'zod';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
-import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
 
 const formSchema = z.object({
   date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
