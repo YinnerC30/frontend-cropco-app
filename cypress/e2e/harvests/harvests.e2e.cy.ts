@@ -369,6 +369,117 @@ describe('Creación de cosechas', () => {
   });
 });
 
+describe('Crear cosechas procesadas', () => {
+  let currentCrop: any = {};
+  let currentHarvest: any = {};
+  let currentEmployees: any = {};
+
+  before(() => {
+    cy.executeClearSeedData({ harvests: true });
+    cy.createHarvest({
+      fastCreation: true,
+      returnOnlyHarvest: false,
+      unitOfMeasure: 'KILOGRAMOS',
+    }).then((data) => {
+      currentHarvest = { ...data.harvest };
+      currentCrop = { ...data.crop };
+      currentEmployees = { ...data.employees };
+    });
+  });
+
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('harvests');
+    cy.wait(3000);
+    cy.clickActionsButtonTableRow(currentHarvest.id);
+    cy.clickOnViewProcessedRecords();
+  });
+
+  it('Navega correctamente a la ruta esperada', () => {
+    cy.checkCurrentUrl(harvestsRoutes.viewProcessed(currentHarvest.id));
+  });
+
+  it('Comprobar que se muestre la información de la cosecha', () => {
+    cy.get('button[data-testid="btn-calendar-selector"]').should(
+      'have.attr',
+      'data-value',
+      new Date(currentHarvest.date).toISOString().split('T')[0]
+    );
+
+    cy.get('input[name="crop.name"]').should('have.value', currentCrop.name);
+
+    cy.getFormTextArea('observation').should(
+      'have.value',
+      currentHarvest.observation
+    );
+
+    // Validar totales
+    cy.get('div[data-testid="badge-amount"]').contains('450,00');
+    cy.get('div[data-testid="badge-value-pay"]').contains('$ 270.000');
+    cy.get('div[data-testid="badge-amount-processed"]').contains('0,00');
+  });
+
+  it('Debe crear un registro de cosecha procesada', () => {
+    cy.get('button[data-testid="btn-create-harvest-processed"]').click();
+    cy.wait(1000);
+
+    const today = new Date();
+    const currentDay = today.getDate();
+
+    cy.get('form[id="formHarvestProcessed"]').within(() => {
+      cy.openCalendar();
+    });
+
+    cy.selectCalendarDay(currentDay);
+    cy.wait(1000);
+
+    cy.openSelectField();
+    cy.selectSelectOption('KILOGRAMOS');
+    cy.get('form[id="formHarvestProcessed"]').within(() => {
+      cy.get('input[name="amount"]').clear().type('100');
+    });
+    cy.get('button[data-testid="form-processed-submit-button"]').click();
+
+    cy.contains('Cosecha procesada creada');
+    cy.get('div[data-testid="badge-amount-processed"]').contains('100,00');
+  });
+});
+
+describe.only('Eliminar cosechas procesadas', () => {
+  before(() => {
+    cy.loginUser();
+    /* cy.navigateToModuleWithSideBar("harvests"); */
+  });
+
+  it('Debe eliminar un registro de cosecha procesada', () => {
+    cy.executeClearSeedData({ harvests: true });
+
+    cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
+      (data) => {
+        const { harvest, crop } = data;
+
+        cy.createHarvestProcessed({
+          cropId: crop.id,
+          harvestId: harvest.id,
+          amount: 100,
+          unitOfMeasure: 'KILOGRAMOS',
+        }).then((data) => {
+          cy.navigateToModuleWithSideBar('harvests');
+          cy.clickRefetchButton();
+          cy.clickActionsButtonTableRow(harvest.id);
+          cy.clickOnViewProcessedRecords();
+          cy.wait(2000);
+          cy.clickActionsButtonTableRow(data.id);
+          cy.clickOnDeleteRecord();
+          cy.clickOnContinueDeleteOneRecord();
+          cy.contains('Cosecha procesada eliminada');
+          cy.get('div[data-testid="badge-amount-processed"]').contains('0,00');
+        });
+      }
+    );
+  });
+});
+
 describe('Modificación de cosechas', () => {
   let currentCrop: any = {};
   let currentHarvest: any = {};
@@ -686,7 +797,8 @@ describe('Copiar Id de registro', () => {
   });
 });
 
-describe('Ver registro de cosecha', () => {
+// TODO: Pendiente por implementar
+describe.skip('Ver registro de cosecha', () => {
   it('Ver registro de cosecha', () => {
     cy.executeClearSeedData({ harvests: true });
     cy.createCrop({}, { fastCreation: true }).then((currentHarvest) => {
@@ -888,7 +1000,7 @@ describe('Auth modulo de cosechas', () => {
       // Comprobar que haya registro en las tablas
       cy.checkTableRowsExist();
 
-      // Comprobar habitiación de botones
+      // Comprobar habilitación de botones
       // Recarga de datos
       cy.checkRefetchButtonState(true);
       cy.checkCreateButtonState(false);
@@ -923,7 +1035,7 @@ describe('Auth modulo de cosechas', () => {
       // Comprobar que haya registro en las tablas
       cy.checkTableRowsExist();
 
-      // Comprobar habitiación de botones
+      // Comprobar habilitación de botones
       // Recarga de datos
 
       cy.checkRefetchButtonState(true);

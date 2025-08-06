@@ -9,11 +9,18 @@ interface Props {
   >;
   name: string;
   disabled?: boolean;
+  dataTestId?: string;
 }
 
-export const ItemNavigate = ({ path, Icon, name, disabled = false }: Props) => {
+export const ItemNavigate = ({
+  path,
+  Icon,
+  name,
+  disabled = false,
+  dataTestId,
+}: Props) => {
   return (
-    <DropdownMenuItem asChild disabled={disabled}>
+    <DropdownMenuItem asChild disabled={disabled} data-testid={dataTestId}>
       <Link
         to={`${!disabled ? path : ''}`}
         className={`${disabled && 'opacity-50'}  ${

@@ -27,6 +27,8 @@ import { memo, useMemo } from 'react';
 import columnsHarvestProcessed from './ColumnsTableHarvestProcessed';
 import { FormHarvestProcessed } from './FormHarvestProcessed';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
+import { FormatNumber } from '@/modules/core/helpers';
+import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
 
 const HarvestProcessedDataTable: React.FC = memo(() => {
   const {
@@ -95,30 +97,15 @@ const HarvestProcessedDataTable: React.FC = memo(() => {
             <Badge
               className="block w-auto h-8 my-2 text-base text-center"
               variant={'zinc'}
+              data-testid="badge-amount-processed"
             >
-              {amountProcessedConverted}
+              {FormatNumber(amountProcessedConverted)}
             </Badge>
-            <div className='w-auto'>
-              <Select
-                onValueChange={(value: any) => {
-                  setUnitTypeToShowProcessedAmount(value);
-                }}
-                defaultValue={MassUnitOfMeasure.KILOGRAMOS}
-                value={unitTypeToShowProcessedAmount}
-                disabled={false}
-              >
-                <SelectTrigger /* ref={field.ref} */>
-                  <SelectValue placeholder={'Selecciona una medida'} />
-                </SelectTrigger>
-
-                <SelectContent>
-                  {UnitsType.MASS.map((item: any) => (
-                    <SelectItem key={item.key} value={item.value}>
-                      {item.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <div className="w-auto">
+              <SelectedMassUnitOfMeasure
+                onChange={setUnitTypeToShowProcessedAmount}
+                valueSelect={unitTypeToShowProcessedAmount}
+              />
             </div>
           </div>
           <p className="text-[0.8rem] text-muted-foreground">

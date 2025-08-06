@@ -17,4 +17,5 @@ export interface HarvestCommands {
     amount: number;
     unitOfMeasure?: UnitType;
   }): Cypress.Chainable<any>;
+  clickOnViewProcessedRecords(): Cypress.Chainable<void>;
 }

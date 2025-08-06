@@ -13,7 +13,7 @@ import {
   FormFieldTextArea,
   Loading,
 } from '@/modules/core/components';
-import { FormatMoneyValue } from '@/modules/core/helpers';
+import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { useCreateForm } from '@/modules/core/hooks';
 import { formFieldsHarvestProcessed } from '@/modules/harvests/utils/formFieldsHarvestProcessed';
 import {
@@ -23,6 +23,7 @@ import {
 import React from 'react';
 import { z } from 'zod';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
+import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
 
 const formSchema = z.object({
   date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
@@ -125,30 +126,15 @@ export const HarvestProcessedFields: React.FC = () => {
           <Badge
             className="block w-auto h-8 text-base text-center"
             variant={'zinc'}
+            data-testid="badge-amount"
           >
-            {amountConverted}
+            {FormatNumber(amountConverted)}
           </Badge>
           <div>
-            <Select
-              onValueChange={(value: any) => {
-                setUnitTypeToShowAmount(value);
-              }}
-              defaultValue={MassUnitOfMeasure.KILOGRAMOS}
-              value={unitTypeToShowAmount}
-              disabled={false}
-            >
-              <SelectTrigger /* ref={field.ref} */>
-                <SelectValue placeholder={'Selecciona una medida'} />
-              </SelectTrigger>
-
-              <SelectContent>
-                {UnitsType.MASS.map((item: any) => (
-                  <SelectItem key={item.key} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <SelectedMassUnitOfMeasure
+              onChange={setUnitTypeToShowAmount}
+              valueSelect={unitTypeToShowAmount}
+            />
           </div>
         </FormFieldInput>
 
@@ -166,6 +152,7 @@ export const HarvestProcessedFields: React.FC = () => {
           <Badge
             className="block h-8 text-base text-center w-28"
             variant={'emerald'}
+            data-testid="badge-value-pay"
           >
             {FormatMoneyValue(data?.value_pay! ?? 0)}
           </Badge>

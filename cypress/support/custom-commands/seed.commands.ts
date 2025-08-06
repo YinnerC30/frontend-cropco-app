@@ -30,7 +30,7 @@ Cypress.Commands.add(
     }
   ): Cypress.Chainable<any> => {
     const {
-      tenantId = 'c0913699-2c3e-418c-98fd-7e9560c975f1',
+      tenantId = 'fdfad7f8-7a9d-481e-9b88-d76bd6597063',
       url = 'http://localhost:3000/seed/controlled',
       callback,
     } = options || {};
@@ -70,7 +70,7 @@ Cypress.Commands.add(
     }
   ): Cypress.Chainable<any> => {
     const {
-      tenantId = 'c0913699-2c3e-418c-98fd-7e9560c975f1',
+      tenantId = 'fdfad7f8-7a9d-481e-9b88-d76bd6597063',
       url = 'http://localhost:3000/seed/clear',
       callback,
     } = options || {};

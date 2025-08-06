@@ -34,10 +34,20 @@ export const usePostHarvestProcessed = (): UseMutationReturn<
 
       toast.success(`Cosecha procesada creada`);
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      const messageResponse: any = error.response?.data?.message! || '';
+      const conflictMessage = messageResponse.includes(
+        'add more processed harvest'
+      )
+        ? 'El monto ingresado supera el monto total de la cosecha.'
+        : 'Hubo un conflicto al crear la cosecha procesada, verifique los datos ingresados.';
       handleError({
         error,
-        handlers: {},
+        handlers: {
+          conflict: {
+            message: conflictMessage,
+          },
+        },
       });
     },
     retry: false,

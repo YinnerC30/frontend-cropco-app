@@ -29,7 +29,10 @@ import { Plus } from 'lucide-react';
 import { memo, useEffect } from 'react';
 
 import { ConvertStringToDate } from '@/modules/core/helpers';
-import { MassUnitOfMeasure, UnitsType } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import {
+  MassUnitOfMeasure,
+  UnitsType,
+} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { z } from 'zod';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
@@ -158,6 +161,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
             !actionsHarvestsModule['create_harvest_processed'] ||
             data?.amount! <= data?.total_amount_processed!
           }
+          data-testid="btn-create-harvest-processed"
         >
           <Plus className="w-4 h-4" />
           <span className="sr-only">Crear nuevo registro</span>
@@ -191,7 +195,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
             <Loading />
           ) : (
             <Form {...formProcessed}>
-              <form className="z-50 mx-5" id="myform">
+              <form className="z-50 mx-5" id="formHarvestProcessed">
                 <FormFieldCalendar
                   control={formProcessed.control}
                   description={formFieldsHarvestProcessed.date.description}
@@ -241,6 +245,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
                 mutationPostHarvestProcessed.isPending ||
                 mutationPatchHarvestProcessed.isPending
               }
+              data-testid="form-processed-submit-button"
             >
               {(mutationPostHarvestProcessed.isPending ||
                 mutationPatchHarvestProcessed.isPending) && (

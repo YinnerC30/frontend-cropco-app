@@ -55,6 +55,7 @@ export const ActionsTableHarvest: React.FC<Props> = ({ row }) => {
         Icon={LayersIcon}
         name={'Inventario'}
         disabled={!actionsHarvestsModule['find_one_harvest'] || !!deletedDate}
+        dataTestId="btn-view-processed-records"
       />
       <ActionGetDocument
         id={id!}

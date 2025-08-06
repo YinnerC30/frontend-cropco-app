@@ -137,6 +137,10 @@ Cypress.Commands.add(
   }
 );
 
+Cypress.Commands.add('clickOnViewProcessedRecords', () => {
+  cy.get('a[data-testid="btn-view-processed-records"]').click();
+});
+
 // Cypress.Commands.add('validateTotalsHarvestForm', ({ amount, valuePay }) => {
 //   // Validar totales
 //   cy.getFormInput('amount').should('have.value', amount.toString());

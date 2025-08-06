@@ -13,4 +13,7 @@ export const harvestsRoutes = {
   view(id: string) {
     return `${BASE_URL}harvests/view/one/${id}`;
   },
+  viewProcessed(id: string) {
+    return `${BASE_URL}harvests/processed/view/${id}`;
+  },
 };
