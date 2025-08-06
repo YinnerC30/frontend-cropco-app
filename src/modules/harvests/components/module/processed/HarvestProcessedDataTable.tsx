@@ -91,6 +91,8 @@ const HarvestProcessedDataTable: React.FC = memo(() => {
 
           <ScrollBar className="mt-2" orientation="horizontal" forceMount />
         </ScrollArea>
+        <FormDataTableButtonsPagination />
+        <FormDataTablePageCount />
         <div className="self-start">
           <Label>Total de cosecha procesada:</Label>
           <div className="flex items-center gap-1">
@@ -112,8 +114,7 @@ const HarvestProcessedDataTable: React.FC = memo(() => {
             {'Número de kilogramos listos para la venta'}
           </p>
         </div>
-        <FormDataTableButtonsPagination />
-        <FormDataTablePageCount />
+        
       </div>
     </FormDataTableProvider>
   );

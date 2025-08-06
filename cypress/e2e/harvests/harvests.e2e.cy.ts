@@ -559,6 +559,36 @@ describe('Modificar cosechas procesadas', () => {
     );
   });
 
+  it('Se puede modificar el registro dando doble clic sobre la fila de la tabla', () => {
+    cy.executeClearSeedData({ harvests: true });
+
+    cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
+      (data) => {
+        const { harvest, crop } = data;
+
+        cy.createHarvestProcessed({
+          cropId: crop.id,
+          harvestId: harvest.id,
+          amount: 100,
+          unitOfMeasure: 'KILOGRAMOS',
+        }).then((data) => {
+          cy.navigateToModuleWithSideBar('harvests');
+          cy.clickRefetchButton();
+          cy.clickActionsButtonTableRow(harvest.id);
+          cy.clickOnViewProcessedRecords();
+          cy.wait(2000);
+
+
+          cy.get('tr[data-testid="table-row-id-' + data.id + '"]').dblclick();
+          cy.wait(1000);
+          cy.checkDialogIsVisible();
+
+          
+        });
+      }
+    );
+  })
+
   it('Mostrar error al intentar modificar una cosecha procesada con un monto superior al permitido', () => {
     cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
       (data) => {
@@ -593,6 +623,49 @@ describe('Modificar cosechas procesadas', () => {
         });
       }
     );
+  });
+});
+
+describe('Paginado de cosecha procesada', () => {
+  let currentHarvest: any;
+
+  before(() => {
+    cy.executeClearSeedData({ harvests: true });
+    cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
+      (data) => {
+        currentHarvest = { ...data.harvest };
+        const { harvest, crop } = data;
+
+        for (let i = 0; i < 20; i++) {
+          cy.createHarvestProcessed({
+            cropId: crop.id,
+            harvestId: harvest.id,
+            amount: 2,
+            unitOfMeasure: 'KILOGRAMOS',
+          });
+        }
+      }
+    );
+  });
+
+  it('Debe funcionar el paginado (10 elementos por página)', () => {
+    cy.loginUser();
+    cy.visit(harvestsRoutes.viewProcessed(currentHarvest.id));
+    cy.wait(3000);
+    cy.checkTablePageInfoContains('Página 1 de 2');
+    cy.clickOnGoNextPageButton();
+    cy.checkTablePageInfoContains('Página 2 de 2');
+    cy.clickOnGoPreviousPageButton();
+    cy.checkTablePageInfoContains('Página 1 de 2');
+  });
+
+  it('Debe funcionar el paginado (20 elementos por página)', () => {
+    cy.loginUser();
+    cy.visit(harvestsRoutes.viewProcessed(currentHarvest.id));
+    cy.wait(3000);
+    cy.changeTablePageSize(20);
+    cy.wait(2000);
+    cy.checkTablePageInfoContains('Página 1 de 1');
   });
 });
 

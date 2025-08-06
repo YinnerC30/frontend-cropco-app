@@ -6,7 +6,7 @@ export const FormDataTableRowSelection = () => {
     <div>
       <p className="text-sm font-medium text-muted-foreground">
         N° seleccionados:
-        <span className="font-medium">
+        <span className="font-medium" data-testid='data-table-row-selection-number'>
           {' '}
           {table.getSelectedRowModel().rows.length}
         </span>

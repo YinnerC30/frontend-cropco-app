@@ -8,7 +8,7 @@ export const FormDataTablePageCount = () => {
     table.getCoreRowModel().rows.length / table.getState().pagination.pageSize
   )}`;
   return (
-    <p className="text-sm font-medium text-center text-muted-foreground">
+    <p className="text-sm font-medium text-center text-muted-foreground" data-testid="data-table-page-info-number">
       {pageText}
     </p>
   );

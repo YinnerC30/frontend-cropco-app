@@ -158,8 +158,8 @@ export const FormHarvestProcessed: React.FC = memo(() => {
           size="icon"
           onClick={handleOpenDialogExtended}
           disabled={
-            !actionsHarvestsModule['create_harvest_processed'] ||
-            data?.amount! <= data?.total_amount_processed!
+            !actionsHarvestsModule['create_harvest_processed']
+            /* || data?.amount! <= data?.total_amount_processed! */
           }
           data-testid="btn-create-harvest-processed"
         >
