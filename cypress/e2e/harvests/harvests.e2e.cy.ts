@@ -443,9 +443,34 @@ describe('Crear cosechas procesadas', () => {
     cy.contains('Cosecha procesada creada');
     cy.get('div[data-testid="badge-amount-processed"]').contains('100,00');
   });
+
+  it('Mostrar error al intentar crear una cosecha procesada con un monto superior al permitido', () => {
+    cy.get('button[data-testid="btn-create-harvest-processed"]').click();
+    cy.wait(1000);
+
+    const today = new Date();
+    const currentDay = today.getDate();
+
+    cy.get('form[id="formHarvestProcessed"]').within(() => {
+      cy.openCalendar();
+    });
+
+    cy.selectCalendarDay(currentDay);
+    cy.wait(1000);
+
+    cy.openSelectField();
+    cy.selectSelectOption('KILOGRAMOS');
+    cy.get('form[id="formHarvestProcessed"]').within(() => {
+      cy.get('input[name="amount"]').clear().type('500');
+    });
+    cy.get('button[data-testid="form-processed-submit-button"]').click();
+
+    cy.contains('El monto ingresado supera el monto total de la cosecha.');
+    cy.get('div[data-testid="badge-amount-processed"]').contains('0,00');
+  });
 });
 
-describe.only('Eliminar cosechas procesadas', () => {
+describe('Eliminar cosechas procesadas', () => {
   before(() => {
     cy.loginUser();
     /* cy.navigateToModuleWithSideBar("harvests"); */
@@ -474,6 +499,82 @@ describe.only('Eliminar cosechas procesadas', () => {
           cy.clickOnContinueDeleteOneRecord();
           cy.contains('Cosecha procesada eliminada');
           cy.get('div[data-testid="badge-amount-processed"]').contains('0,00');
+        });
+      }
+    );
+  });
+});
+
+describe('Modificar cosechas procesadas', () => {
+  before(() => {
+    cy.loginUser();
+  });
+
+  it('Debe modificar un registro de cosecha procesada', () => {
+    cy.executeClearSeedData({ harvests: true });
+
+    cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
+      (data) => {
+        const { harvest, crop } = data;
+
+        cy.createHarvestProcessed({
+          cropId: crop.id,
+          harvestId: harvest.id,
+          amount: 100,
+          unitOfMeasure: 'KILOGRAMOS',
+        }).then((data) => {
+          cy.navigateToModuleWithSideBar('harvests');
+          cy.clickRefetchButton();
+          cy.clickActionsButtonTableRow(harvest.id);
+          cy.clickOnViewProcessedRecords();
+          cy.wait(2000);
+          cy.clickActionsButtonTableRow(data.id);
+          cy.clickOnUpdateDetailRecord();
+          cy.openSelectField();
+          cy.selectSelectOption('KILOGRAMOS');
+          cy.get('form[id="formHarvestProcessed"]').within(() => {
+            cy.get('input[name="amount"]').clear().type('50');
+          });
+          cy.get('button[data-testid="form-processed-submit-button"]').click();
+
+          cy.contains('Cosecha procesada actualizada');
+          cy.get('div[data-testid="badge-amount-processed"]').contains('50,00');
+        });
+      }
+    );
+  });
+
+  it('Mostrar error al intentar modificar una cosecha procesada con un monto superior al permitido', () => {
+    cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
+      (data) => {
+        const { harvest, crop } = data;
+
+        cy.createHarvestProcessed({
+          cropId: crop.id,
+          harvestId: harvest.id,
+          amount: 100,
+          unitOfMeasure: 'KILOGRAMOS',
+        }).then((data) => {
+          cy.navigateToModuleWithSideBar('harvests');
+          cy.clickRefetchButton();
+          cy.clickActionsButtonTableRow(harvest.id);
+          cy.clickOnViewProcessedRecords();
+          cy.wait(2000);
+          cy.clickActionsButtonTableRow(data.id);
+          cy.clickOnUpdateDetailRecord();
+          cy.openSelectField();
+          cy.selectSelectOption('KILOGRAMOS');
+          cy.get('form[id="formHarvestProcessed"]').within(() => {
+            cy.get('input[name="amount"]').clear().type('500');
+          });
+          cy.get('button[data-testid="form-processed-submit-button"]').click();
+
+          cy.contains(
+            'El monto ingresado supera el monto total de la cosecha.'
+          );
+          cy.get('div[data-testid="badge-amount-processed"]').contains(
+            '100,00'
+          );
         });
       }
     );
