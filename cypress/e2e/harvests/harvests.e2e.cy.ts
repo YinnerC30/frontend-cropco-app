@@ -1,6 +1,7 @@
 import { BASE_HOME_PAGE_URL, TEST_UUID_VALID } from 'cypress/helpers/constants';
 import { FormatMoneyValue } from 'cypress/helpers/formatting/FormatMoneyValue';
 import { harvestsRoutes } from './harvests-routes';
+import { cropsRoutes } from '../crops/crops-routes';
 // import { harvestsData } from './data/get-all-harvests.data';
 
 describe('Comprobar existencia de elementos en el modulo de cosechas', () => {
@@ -372,7 +373,6 @@ describe('Creación de cosechas', () => {
 describe('Crear cosechas procesadas', () => {
   let currentCrop: any = {};
   let currentHarvest: any = {};
-  let currentEmployees: any = {};
 
   before(() => {
     cy.executeClearSeedData({ harvests: true });
@@ -383,7 +383,6 @@ describe('Crear cosechas procesadas', () => {
     }).then((data) => {
       currentHarvest = { ...data.harvest };
       currentCrop = { ...data.crop };
-      currentEmployees = { ...data.employees };
     });
   });
 
@@ -442,6 +441,10 @@ describe('Crear cosechas procesadas', () => {
 
     cy.contains('Cosecha procesada creada');
     cy.get('div[data-testid="badge-amount-processed"]').contains('100,00');
+    cy.visit(cropsRoutes.view(currentCrop.id));
+    cy.wait(2000);
+    cy.get('span[data-testid="current-stock"]').contains('100,00');
+    cy.get('div[data-testid="badge-mass-unit-of-measure"]').contains('kg');
   });
 
   it('Mostrar error al intentar crear una cosecha procesada con un monto superior al permitido', () => {
@@ -539,6 +542,12 @@ describe('Modificar cosechas procesadas', () => {
 
           cy.contains('Cosecha procesada actualizada');
           cy.get('div[data-testid="badge-amount-processed"]').contains('50,00');
+          cy.visit(cropsRoutes.view(crop.id));
+          cy.wait(2000);
+          cy.get('span[data-testid="current-stock"]').contains('50,00');
+          cy.get('div[data-testid="badge-mass-unit-of-measure"]').contains(
+            'kg'
+          );
         });
       }
     );

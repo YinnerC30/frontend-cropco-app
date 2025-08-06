@@ -145,8 +145,8 @@ export const ViewCrop: React.FC = () => {
           Stock disponible:
         </h3>
         <div className="flex gap-2">
-          <span>{FormatNumber(convertedAmount)}</span>
-          <Badge className="w-auto" variant={'zinc'}>
+          <span data-testid="current-stock">{FormatNumber(convertedAmount)}</span>
+          <Badge className="w-auto" variant={'zinc'} data-testid="badge-mass-unit-of-measure">
             {UnitSymbols[MassUnitOfMeasure.KILOGRAMOS]}
           </Badge>
         </div>
