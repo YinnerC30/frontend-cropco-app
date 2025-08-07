@@ -93,7 +93,7 @@ export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
                 value={isValueInArray ? field.value[0] : field.value || ''}
                 disabled={readOnly}
               >
-                <SelectTrigger ref={field.ref} data-testid="btn-select-field">
+                <SelectTrigger ref={field.ref} data-testid="btn-select-field" data-name={name}>
                   {showSelectValue ? (
                     <SelectValue placeholder={placeholder} />
                   ) : (
