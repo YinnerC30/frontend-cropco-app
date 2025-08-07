@@ -65,474 +65,326 @@ describe('Comprobar existencia de elementos en el modulo de trabajos', () => {
   });
 });
 
-// describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
-//   before(() => {
-//     cy.executeClearSeedData({ works: true });
-//     for (let i = 0; i < 2; i++) {
-//       cy.createWork({ fastCreation: true, unitOfMeasure: 'LIBRAS' });
-//       cy.createWork({ fastCreation: true, unitOfMeasure: 'KILOGRAMOS' });
-//     }
-//   });
-
-//   beforeEach(() => {
-//     cy.loginUser();
-//     cy.navigateToModuleWithSideBar('works');
-//   });
-
-//   it('Debe buscar la trabajos por un cultivo en especifico', () => {
-//     cy.openCommandField('crop');
-//     cy.selectCommandOption('0');
-//     cy.wait(2000);
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('1');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('1');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-crop"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-
-//   it('Debe buscar la trabajos por un empleado en especifico', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-works-filters"]').click();
-
-//     cy.get('div[data-testid="filter-employees"]').realHover();
-
-//     /* cy.openCommandField('employee'); */
-//     cy.get(`button[data-testid="btn-open-command-employee"]`).click();
-
-//     cy.selectCommandOption('0');
-
-//     cy.get('div[data-testid="filter-employees"]').realHover();
-//     cy.get('button[data-testid="button-filter-employees-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('1');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('1');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-employees"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-
-//   it('Debe buscar la trabajos por una fecha (fecha actual)', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-works-filters"]').click();
-
-//     cy.get('div[data-testid="filter-date"]').click();
-
-//     cy.openSelectField();
-//     // cy.wait(2000);
-//     cy.selectSelectOption('EQUAL');
-
-//     cy.get('div[data-testid="filter-date"]').click();
-
-//     cy.get('button[data-testid="btn-calendar-selector"]').click();
-//     cy.selectCalendarDay(new Date().getDate());
-
-//     cy.get('div[data-testid="filter-date"]').click();
-
-//     cy.get('button[data-testid="button-filter-date-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('4');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('4');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-date"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
+describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
+  before(() => {
+    cy.executeClearSeedData({ works: true });
+    for (let i = 0; i < 2; i++) {
+      cy.createWork({ fastCreation: true });
+      cy.createWork({ fastCreation: true });
+    }
+  });
+
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('works');
+  });
+
+  it('Debe buscar la trabajos por un cultivo en especifico', () => {
+    cy.openCommandField('crop');
+    cy.selectCommandOption('0');
+    cy.wait(2000);
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('1');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('1');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-crop"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
+  });
+
+  it('Debe buscar la trabajos por un empleado en especifico', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-works-filters"]').click();
+
+    cy.get('div[data-testid="filter-employees"]').realHover();
+
+    /* cy.openCommandField('employee'); */
+    cy.get(`button[data-testid="btn-open-command-employee"]`).click();
+
+    cy.selectCommandOption('0');
+
+    cy.get('div[data-testid="filter-employees"]').realHover();
+    cy.get('button[data-testid="button-filter-employees-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('1');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('1');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-employees"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
+  });
+
+  it('Debe buscar la trabajos por una fecha (fecha actual)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-works-filters"]').click();
+
+    cy.get('div[data-testid="filter-date"]').click();
+
+    cy.openSelectField();
+    // cy.wait(2000);
+    cy.selectSelectOption('EQUAL');
+
+    cy.get('div[data-testid="filter-date"]').click();
+
+    cy.get('button[data-testid="btn-calendar-selector"]').click();
+    cy.selectCalendarDay(new Date().getDate());
+
+    cy.get('div[data-testid="filter-date"]').click();
+
+    cy.get('button[data-testid="button-filter-date-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('4');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('4');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-date"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
+  });
 
-//   it('Debe buscar la trabajos por una fecha (fecha anterior)', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-works-filters"]').click();
+  it('Debe buscar la trabajos por una fecha (fecha anterior)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-works-filters"]').click();
 
-//     cy.get('div[data-testid="filter-date"]').click();
+    cy.get('div[data-testid="filter-date"]').click();
 
-//     cy.openSelectField();
-//     cy.selectSelectOption('BEFORE');
+    cy.openSelectField();
+    cy.selectSelectOption('BEFORE');
 
-//     cy.get('div[data-testid="filter-date"]').click();
+    cy.get('div[data-testid="filter-date"]').click();
 
-//     cy.get('button[data-testid="btn-calendar-selector"]').click();
-//     cy.selectCalendarDay(new Date().getDate());
+    cy.get('button[data-testid="btn-calendar-selector"]').click();
+    cy.selectCalendarDay(new Date().getDate());
 
-//     cy.get('div[data-testid="filter-date"]').click();
+    cy.get('div[data-testid="filter-date"]').click();
 
-//     cy.get('button[data-testid="button-filter-date-apply"]').click();
-//     cy.wait(2000);
+    cy.get('button[data-testid="button-filter-date-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-date"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
+  });
 
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
+  it('Debe buscar la trabajos por una fecha (fecha posterior)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-works-filters"]').click();
 
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-date"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-
-//   it('Debe buscar la trabajos por una fecha (fecha posterior)', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-works-filters"]').click();
+    cy.get('div[data-testid="filter-date"]').click();
 
-//     cy.get('div[data-testid="filter-date"]').click();
-
-//     cy.openSelectField();
-//     cy.selectSelectOption('AFTER');
+    cy.openSelectField();
+    cy.selectSelectOption('AFTER');
 
-//     cy.get('div[data-testid="filter-date"]').click();
+    cy.get('div[data-testid="filter-date"]').click();
 
-//     cy.get('button[data-testid="btn-calendar-selector"]').click();
-//     cy.selectCalendarDay(new Date().getDate());
+    cy.get('button[data-testid="btn-calendar-selector"]').click();
+    cy.selectCalendarDay(new Date().getDate());
 
-//     cy.get('div[data-testid="filter-date"]').click();
+    cy.get('div[data-testid="filter-date"]').click();
 
-//     cy.get('button[data-testid="button-filter-date-apply"]').click();
-//     cy.wait(2000);
+    cy.get('button[data-testid="button-filter-date-apply"]').click();
+    cy.wait(2000);
 
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-date"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
+  });
 
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
+  it('Debe buscar la trabajos por un valor (igual a)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-works-filters"]').click();
 
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-date"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-
-//   it('Debe buscar la trabajos por un monto (igual a)', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-works-filters"]').click();
-
-//     cy.get('div[data-testid="filter-amount"]').click();
+    cy.get('div[data-testid="filter-value-pay"]').click();
 
-//     cy.get(
-//       'button[data-testid="btn-select-field"][data-name="filter_by_amount.type_filter_amount"]'
-//     ).click();
-//     cy.selectSelectOption('EQUAL');
-
-//     cy.get('div[data-testid="filter-amount"]').click();
+    cy.get(
+      'button[data-testid="btn-select-field"][data-name="filter_by_value_pay.type_filter_value_pay"]'
+    ).click();
+    cy.selectSelectOption('EQUAL');
 
-//     cy.get(
-//       'button[data-testid="btn-select-field"][data-name="filter_by_amount.type_unit_of_measure"]'
-//     ).click();
-//     cy.selectSelectOption('KILOGRAMOS');
+    cy.get('div[data-testid="filter-value-pay"]').click();
 
-//     cy.get('div[data-testid="filter-amount"]').click();
+    cy.getFormInput('filter_by_value_pay.value_pay').clear();
 
-//     cy.getFormInput('filter_by_amount.amount').clear();
+    cy.get('div[data-testid="filter-value-pay"]').click();
+    cy.getFormInput('filter_by_value_pay.value_pay').type('270000');
 
-//     cy.get('div[data-testid="filter-amount"]').click();
-//     cy.getFormInput('filter_by_amount.amount').type('450');
+    cy.get('div[data-testid="filter-value-pay"]').click();
 
-//     cy.get('div[data-testid="filter-amount"]').click();
+    cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
+    cy.wait(2000);
 
-//     cy.get('button[data-testid="button-filter-amount-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('2');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('2');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-amount"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-
-//   it('Debe buscar la trabajos por un monto (mayor a)', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-works-filters"]').click();
-
-//     cy.get('div[data-testid="filter-amount"]').click();
-
-//     cy.get(
-//       'button[data-testid="btn-select-field"][data-name="filter_by_amount.type_filter_amount"]'
-//     ).click();
-//     cy.selectSelectOption('GREATER_THAN');
-
-//     cy.get('div[data-testid="filter-amount"]').click();
-
-//     cy.get(
-//       'button[data-testid="btn-select-field"][data-name="filter_by_amount.type_unit_of_measure"]'
-//     ).click();
-//     cy.selectSelectOption('KILOGRAMOS');
-
-//     cy.get('div[data-testid="filter-amount"]').click();
-
-//     cy.getFormInput('filter_by_amount.amount').clear();
-
-//     cy.get('div[data-testid="filter-amount"]').click();
-//     cy.getFormInput('filter_by_amount.amount').type('450');
-
-//     cy.get('div[data-testid="filter-amount"]').click();
-
-//     cy.get('button[data-testid="button-filter-amount-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-amount"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-
-//   it('Debe buscar la trabajos por un monto (menor a)', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-works-filters"]').click();
-
-//     cy.get('div[data-testid="filter-amount"]').click();
-
-//     cy.get(
-//       'button[data-testid="btn-select-field"][data-name="filter_by_amount.type_filter_amount"]'
-//     ).click();
-//     cy.selectSelectOption('LESS_THAN');
-
-//     cy.get('div[data-testid="filter-amount"]').click();
-
-//     cy.get(
-//       'button[data-testid="btn-select-field"][data-name="filter_by_amount.type_unit_of_measure"]'
-//     ).click();
-//     cy.selectSelectOption('KILOGRAMOS');
-
-//     cy.get('div[data-testid="filter-amount"]').click();
-
-//     cy.getFormInput('filter_by_amount.amount').clear();
-
-//     cy.get('div[data-testid="filter-amount"]').click();
-//     cy.getFormInput('filter_by_amount.amount').type('450');
-
-//     cy.get('div[data-testid="filter-amount"]').click();
-
-//     cy.get('button[data-testid="button-filter-amount-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('2');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('2');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-amount"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-
-//   it('Debe buscar la trabajos por un valor (igual a)', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-works-filters"]').click();
-
-//     cy.get('div[data-testid="filter-value-pay"]').click();
-
-//     cy.get(
-//       'button[data-testid="btn-select-field"][data-name="filter_by_value_pay.type_filter_value_pay"]'
-//     ).click();
-//     cy.selectSelectOption('EQUAL');
-
-//     cy.get('div[data-testid="filter-value-pay"]').click();
-
-//     cy.getFormInput('filter_by_value_pay.value_pay').clear();
-
-//     cy.get('div[data-testid="filter-value-pay"]').click();
-//     cy.getFormInput('filter_by_value_pay.value_pay').type('270000');
-
-//     cy.get('div[data-testid="filter-value-pay"]').click();
-
-//     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('4');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('4');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-value_pay"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-//   it('Debe buscar la trabajos por un valor (mayor a)', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-works-filters"]').click();
-
-//     cy.get('div[data-testid="filter-value-pay"]').click();
-
-//     cy.get(
-//       'button[data-testid="btn-select-field"][data-name="filter_by_value_pay.type_filter_value_pay"]'
-//     ).click();
-//     cy.selectSelectOption('GREATER_THAN');
-
-//     cy.get('div[data-testid="filter-value-pay"]').click();
-
-//     cy.getFormInput('filter_by_value_pay.value_pay').clear();
-
-//     cy.get('div[data-testid="filter-value-pay"]').click();
-//     cy.getFormInput('filter_by_value_pay.value_pay').type('270000');
-
-//     cy.get('div[data-testid="filter-value-pay"]').click();
-
-//     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-value_pay"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-//   it('Debe buscar la trabajos por un valor (mayor a)', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-works-filters"]').click();
-
-//     cy.get('div[data-testid="filter-value-pay"]').click();
-
-//     cy.get(
-//       'button[data-testid="btn-select-field"][data-name="filter_by_value_pay.type_filter_value_pay"]'
-//     ).click();
-//     cy.selectSelectOption('LESS_THAN');
-
-//     cy.get('div[data-testid="filter-value-pay"]').click();
-
-//     cy.getFormInput('filter_by_value_pay.value_pay').clear();
-
-//     cy.get('div[data-testid="filter-value-pay"]').click();
-//     cy.getFormInput('filter_by_value_pay.value_pay').type('270000');
-
-//     cy.get('div[data-testid="filter-value-pay"]').click();
-
-//     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-value_pay"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-// });
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('4');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('4');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-value_pay"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
+  });
+
+  it('Debe buscar la trabajos por un valor (mayor a)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-works-filters"]').click();
+
+    cy.get('div[data-testid="filter-value-pay"]').click();
+
+    cy.get(
+      'button[data-testid="btn-select-field"][data-name="filter_by_value_pay.type_filter_value_pay"]'
+    ).click();
+    cy.selectSelectOption('GREATER_THAN');
+
+    cy.get('div[data-testid="filter-value-pay"]').click();
+
+    cy.getFormInput('filter_by_value_pay.value_pay').clear();
+
+    cy.get('div[data-testid="filter-value-pay"]').click();
+    cy.getFormInput('filter_by_value_pay.value_pay').type('270000');
+
+    cy.get('div[data-testid="filter-value-pay"]').click();
+
+    cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-value_pay"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
+  });
+
+  it('Debe buscar la trabajos por un valor (mayor a)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-works-filters"]').click();
+
+    cy.get('div[data-testid="filter-value-pay"]').click();
+
+    cy.get(
+      'button[data-testid="btn-select-field"][data-name="filter_by_value_pay.type_filter_value_pay"]'
+    ).click();
+    cy.selectSelectOption('LESS_THAN');
+
+    cy.get('div[data-testid="filter-value-pay"]').click();
+
+    cy.getFormInput('filter_by_value_pay.value_pay').clear();
+
+    cy.get('div[data-testid="filter-value-pay"]').click();
+    cy.getFormInput('filter_by_value_pay.value_pay').type('270000');
+
+    cy.get('div[data-testid="filter-value-pay"]').click();
+
+    cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-value_pay"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
+  });
+});
 
 describe('Creación de trabajos', () => {
   before(() => {

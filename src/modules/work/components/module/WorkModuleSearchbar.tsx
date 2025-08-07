@@ -314,6 +314,7 @@ export const WorkModuleSearchbar = () => {
                       size={'icon'}
                       disabled={readOnly}
                       className="bg-destructive hover:bg-destructive/80"
+                      data-testid="btn-clear-filters"
                     >
                       <X className="w-4 h-4" />
                     </Button>
@@ -331,6 +332,7 @@ export const WorkModuleSearchbar = () => {
                       }
                       size={'icon'}
                       disabled={readOnly}
+                      data-testid="btn-works-filters"
                     >
                       <Filter className="w-4 h-4" />
                     </Button>
@@ -393,6 +395,7 @@ export const WorkModuleSearchbar = () => {
                                         ref={field.ref}
                                         onBlur={field.onBlur}
                                         disabled={readOnly}
+                                        data-testid={`btn-open-command-employee`}
                                       >
                                         {field.value.length > 0 &&
                                         !!queryEmployees.data
@@ -427,11 +430,12 @@ export const WorkModuleSearchbar = () => {
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
                                         {queryEmployees?.data?.records.map(
-                                          (item) => {
+                                          (item, index) => {
                                             return (
                                               <CommandItem
                                                 value={item?.['full_name']}
                                                 key={item.id!}
+                                                data-testid={`form-field-command-item-${index}`}
                                                 onSelect={() => {
                                                   if (
                                                     field?.value?.some(
@@ -512,6 +516,7 @@ export const WorkModuleSearchbar = () => {
                 }
                 actionOnSave={() => handleAddFilter('employees')}
                 actionOnClose={() => handleClearErrorsForm('employees')}
+                dataTestId="filter-employees"
               />
               <FilterDropdownItem
                 label={'Fecha'}
@@ -534,6 +539,7 @@ export const WorkModuleSearchbar = () => {
                 }
                 actionOnSave={() => handleAddFilter('filter_by_date')}
                 actionOnClose={() => handleClearErrorsForm('filter_by_date')}
+                dataTestId="filter-date"
               />
               <FilterDropdownItem
                 label={'Valor a pagar'}
@@ -560,6 +566,7 @@ export const WorkModuleSearchbar = () => {
                     />
                   </>
                 }
+                dataTestId="filter-value-pay"
               />
             </DropdownMenuContent>
 
