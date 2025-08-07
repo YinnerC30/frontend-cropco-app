@@ -68,7 +68,7 @@ describe('Comprobar existencia de elementos en el modulo de cosechas', () => {
   });
 });
 
-describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
+describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
   before(() => {
     cy.executeClearSeedData({ harvests: true });
     for (let i = 0; i < 2; i++) {
@@ -89,6 +89,14 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('1');
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-crop"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
   });
 
   it('Debe buscar la cosechas por un empleado en especifico', () => {
@@ -109,6 +117,15 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('1');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-employees"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
   });
 
   it('Debe buscar la cosechas por una fecha (fecha actual)', () => {
@@ -134,7 +151,15 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('4');
-    // cy.wait(1000);
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-date"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
   });
 
   it('Debe buscar la cosechas por una fecha (fecha anterior)', () => {
@@ -159,6 +184,15 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-date"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
   });
 
   it('Debe buscar la cosechas por una fecha (fecha posterior)', () => {
@@ -183,6 +217,15 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-date"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
   });
 
   it('Debe buscar la cosechas por un monto (igual a)', () => {
@@ -218,6 +261,15 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('2');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-amount"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
   });
 
   it('Debe buscar la cosechas por un monto (mayor a)', () => {
@@ -253,6 +305,15 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-amount"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
   });
 
   it('Debe buscar la cosechas por un monto (menor a)', () => {
@@ -288,6 +349,15 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('2');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-amount"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
   });
 
   it('Debe buscar la cosechas por un valor (igual a)', () => {
@@ -316,6 +386,15 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('4');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-value_pay"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
   });
   it('Debe buscar la cosechas por un valor (mayor a)', () => {
     cy.wait(1500);
@@ -343,6 +422,15 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-value_pay"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
   });
   it('Debe buscar la cosechas por un valor (mayor a)', () => {
     cy.wait(1500);
@@ -370,6 +458,15 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-value_pay"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
   });
 });
 
