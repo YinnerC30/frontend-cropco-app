@@ -39,6 +39,12 @@ import { TableCommands } from './custom-commands/types/table-commands';
 import { UICommands } from './custom-commands/types/ui-commands';
 import "cypress-real-events/support";
 
+Cypress.on('uncaught:exception', (err) => {
+  if (err.message.includes('ResizeObserver loop')) {
+    return false
+  }
+})
+
 declare global {
   namespace Cypress {
     interface Chainable<Subject = any>

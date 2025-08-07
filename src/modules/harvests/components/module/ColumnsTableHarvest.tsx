@@ -64,6 +64,7 @@ export const columnsHarvest: ColumnDef<Harvest>[] = [
         <div className="flex flex-wrap items-center gap-1">
           {employees.slice(0, maxVisible).map((employee, index) => (
             <PersonHoverCard
+              key={`${employee?.id}-${index}`}
               data={employee as Employee}
               routeToNavigate={MODULE_EMPLOYEE_PATHS.ViewOne + employee.id}
             >

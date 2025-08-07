@@ -15,4 +15,22 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+
+window.addEventListener('error', (event) => {
+  if (
+    event.message &&
+    event.message.includes(
+      'ResizeObserver loop completed with undelivered notifications'
+    )
+  ) {
+    event.stopImmediatePropagation();
+  }
+});
+
+Cypress.on('uncaught:exception', (err) => {
+  if (err.message.includes('ResizeObserver loop')) {
+    return false;
+  }
+});
+
+import './commands';

@@ -28,7 +28,7 @@ export const dateFilterOptions = [
   {
     key: TypeFilterDate.AFTER,
     value: TypeFilterDate.AFTER,
-    label: 'Despues del',
+    label: 'Después del',
   },
   {
     key: TypeFilterDate.BEFORE,

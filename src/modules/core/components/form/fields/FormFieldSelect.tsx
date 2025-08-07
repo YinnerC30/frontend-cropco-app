@@ -101,12 +101,24 @@ export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
                   )}
                 </SelectTrigger>
 
-                <SelectContent>
-                  {[...items].map((item: SelectItemValues) => (
-                    <SelectItem key={item.key} value={item.value}  data-value={item.value}>
-                      {item.label}
-                    </SelectItem>
-                  ))}
+                <SelectContent
+                  onPointerDownOutside={(e) => {
+                    e.preventDefault();
+                    /* setOpenDropDownMenu((prev: boolean) => !prev); */
+                  }}
+                  onCloseAutoFocus={(e) => e.preventDefault()}
+                >
+                  {[...items].map((item: SelectItemValues) => {
+                    return (
+                      <SelectItem
+                        key={item.key}
+                        value={item.value}
+                        data-value={item.value}
+                      >
+                        {item.label}
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
             </div>

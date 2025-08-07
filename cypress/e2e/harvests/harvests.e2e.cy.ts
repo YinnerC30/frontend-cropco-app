@@ -68,7 +68,7 @@ describe('Comprobar existencia de elementos en el modulo de cosechas', () => {
   });
 });
 
-describe.only('Encuentra registros de acuerdo a la cadena de búsqueda', () => {
+describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
   before(() => {
     cy.executeClearSeedData({ harvests: true });
     for (let i = 0; i < 2; i++) {
@@ -91,7 +91,7 @@ describe.only('Encuentra registros de acuerdo a la cadena de búsqueda', () => {
     cy.checkTableRowTotal('1');
   });
 
-  it.only('Debe buscar la cosechas por un empleado en especifico', () => {
+  it('Debe buscar la cosechas por un empleado en especifico', () => {
     cy.wait(1500);
     cy.get('button[data-testid="btn-harvests-filters"]').click();
 
@@ -109,6 +109,80 @@ describe.only('Encuentra registros de acuerdo a la cadena de búsqueda', () => {
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('1');
+  });
+
+  it('Debe buscar la cosechas por una fecha (fecha actual)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-harvests-filters"]').click();
+
+    cy.get('div[data-testid="filter-date"]').click();
+
+    cy.openSelectField();
+    // cy.wait(2000);
+    cy.selectSelectOption('EQUAL');
+
+    cy.get('div[data-testid="filter-date"]').click();
+
+    cy.get('button[data-testid="btn-calendar-selector"]').click();
+    cy.selectCalendarDay(new Date().getDate());
+
+    cy.get('div[data-testid="filter-date"]').click();
+
+    cy.get('button[data-testid="button-filter-date-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('4');
+    // cy.wait(1000);
+  });
+
+  it('Debe buscar la cosechas por una fecha (fecha anterior)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-harvests-filters"]').click();
+
+    cy.get('div[data-testid="filter-date"]').click();
+
+    cy.openSelectField();
+    cy.selectSelectOption('BEFORE');
+
+    cy.get('div[data-testid="filter-date"]').click();
+
+    cy.get('button[data-testid="btn-calendar-selector"]').click();
+    cy.selectCalendarDay(new Date().getDate());
+
+    cy.get('div[data-testid="filter-date"]').click();
+
+    cy.get('button[data-testid="button-filter-date-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+  });
+
+  it('Debe buscar la cosechas por una fecha (fecha posterior)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-harvests-filters"]').click();
+
+    cy.get('div[data-testid="filter-date"]').click();
+
+    cy.openSelectField();
+    cy.selectSelectOption('AFTER');
+
+    cy.get('div[data-testid="filter-date"]').click();
+
+    cy.get('button[data-testid="btn-calendar-selector"]').click();
+    cy.selectCalendarDay(new Date().getDate());
+
+    cy.get('div[data-testid="filter-date"]').click();
+
+    cy.get('button[data-testid="button-filter-date-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
   });
 });
 
