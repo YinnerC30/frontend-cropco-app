@@ -89,6 +89,13 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('1');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('1');
+
     cy.get('div[data-testid="filters-badged-list"]')
       .should('exist')
       .within(() => {
@@ -114,6 +121,12 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.get('button[data-testid="button-filter-employees-apply"]').click();
     cy.wait(2000);
 
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('1');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('1');
@@ -152,6 +165,12 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('4');
 
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('4');
+
     cy.get('div[data-testid="filters-badged-list"]')
       .should('exist')
       .within(() => {
@@ -185,6 +204,12 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('0');
 
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
     cy.get('div[data-testid="filters-badged-list"]')
       .should('exist')
       .within(() => {
@@ -214,6 +239,12 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.get('button[data-testid="button-filter-date-apply"]').click();
     cy.wait(2000);
 
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('0');
@@ -262,6 +293,12 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('2');
 
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('2');
+
     cy.get('div[data-testid="filters-badged-list"]')
       .should('exist')
       .within(() => {
@@ -302,6 +339,12 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.get('button[data-testid="button-filter-amount-apply"]').click();
     cy.wait(2000);
 
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('0');
@@ -350,6 +393,12 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('2');
 
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('2');
+
     cy.get('div[data-testid="filters-badged-list"]')
       .should('exist')
       .within(() => {
@@ -383,6 +432,12 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
     cy.wait(2000);
 
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('4');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('4');
@@ -423,6 +478,12 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('0');
 
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
     cy.get('div[data-testid="filters-badged-list"]')
       .should('exist')
       .within(() => {
@@ -455,6 +516,12 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
     cy.wait(2000);
 
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
     cy.checkTableRowTotal('0');
