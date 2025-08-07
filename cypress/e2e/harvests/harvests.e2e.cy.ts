@@ -68,7 +68,7 @@ describe('Comprobar existencia de elementos en el modulo de cosechas', () => {
   });
 });
 
-describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
+describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
   before(() => {
     cy.executeClearSeedData({ harvests: true });
     for (let i = 0; i < 2; i++) {
@@ -919,7 +919,7 @@ describe('Eliminar cosechas procesadas', () => {
 });
 
 describe('Modificar cosechas procesadas', () => {
-  before(() => {
+  beforeEach(() => {
     cy.loginUser();
   });
 
