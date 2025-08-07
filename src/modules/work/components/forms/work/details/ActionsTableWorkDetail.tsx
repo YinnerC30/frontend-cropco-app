@@ -32,7 +32,7 @@ export const ActionsTableWorkDetail = ({ row }: { row: Row<WorkDetail> }) => {
   const isDisabled = deletedDate !== null || payment_is_pending === false;
 
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={workDetail?.id!}>
       <ActionCopyIdRecord id={workDetail?.id!} />
       <ActionDeleteRecord
         action={() => {

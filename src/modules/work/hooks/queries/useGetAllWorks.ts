@@ -53,7 +53,7 @@ export const useGetAllWorks = (
   const { pagination, setPagination } = usePaginationDataTable();
 
   const { hasPermission, handleError } = useAuthContext();
-  const isAuthorized = hasPermission('works', 'find_one_work');
+  const isAuthorized = hasPermission('works', 'find_all_works');
 
   const query: UseQueryGetAllRecordsReturn<Work> = useQuery({
     queryKey: [

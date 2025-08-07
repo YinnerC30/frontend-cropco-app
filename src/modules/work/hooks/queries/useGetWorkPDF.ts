@@ -62,10 +62,10 @@ export const useGetWorkPDF = ({
     if (query.isSuccess) {
       switch (actionPDF) {
         case 'ViewPDF':
-          viewPDF(query.data, `work-report-${workId}`);
+          viewPDF(query.data, `reporte-trabajo-${workId}`);
           break;
         case 'DownloadPDF':
-          downloadPDF(query.data, `work-document-${workId}`);
+          downloadPDF(query.data, `reporte-trabajo-${workId}`);
           break;
         default:
           break;

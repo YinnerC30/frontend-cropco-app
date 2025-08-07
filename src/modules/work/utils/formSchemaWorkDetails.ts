@@ -24,11 +24,9 @@ export const formSchemaWorkDetails = z.object({
 
   employee: z.object({
     id: z
-      .string({
-        required_error: 'El empleado es un campo obligatorio',
-      })
+      .string({ required_error: 'El empleado es un campo obligatorio' })
       .uuid({
-        message: 'La opción seleccionada no es valida.',
+        message: 'El empleado es un campo obligatorio',
       }),
     full_name: z.string().optional(),
   }),

@@ -673,7 +673,7 @@ describe('Creación de cosechas', () => {
     cy.contains('Cosecha creada');
   });
 
-  it('Debe mostrar mensajes de error al intentar enviar el formulario vacio', () => {
+  it('Debe mostrar mensajes de error al intentar enviar el formulario vacío', () => {
     cy.clickOnSubmitButton();
     cy.contains('La fecha es un campo obligatorio');
     cy.contains('La opción seleccionada no es valida.');

@@ -39,7 +39,7 @@ export const defaultValuesWorkDetail: WorkDetail = {
     id: '',
     first_name: '',
   },
-  value_pay: 1000,
+  value_pay: 0,
   payment_is_pending: true,
 };
 

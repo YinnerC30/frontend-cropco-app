@@ -169,7 +169,7 @@ describe('Creación de cultivos', () => {
     cy.contains('Cultivo creado');
   });
 
-  it('Debe mostrar mensajes de error al intentar enviar el formulario vacio', () => {
+  it('Debe mostrar mensajes de error al intentar enviar el formulario vacío', () => {
     cy.clickOnSubmitButton();
     cy.contains('El nombre debe tener al menos 4 caracteres');
     cy.contains('El número debe ser positivo');

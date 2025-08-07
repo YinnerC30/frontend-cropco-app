@@ -168,7 +168,7 @@ describe('Creación de usuarios', () => {
     cy.contains('Usuario creado');
   });
 
-  it('Debe mostrar mensajes de error al intentar enviar el formulario vacio', () => {
+  it('Debe mostrar mensajes de error al intentar enviar el formulario vacío', () => {
     cy.clickOnSubmitButton();
     cy.contains('El nombre debe tener al menos 2 caracteres');
     cy.contains('El apellido debe tener al menos 2 caracteres');

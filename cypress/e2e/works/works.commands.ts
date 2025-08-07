@@ -4,11 +4,13 @@ Cypress.Commands.add(
     fastCreation = false,
     returnOnlyWork = true,
   } = {}): Cypress.Chainable<any> {
-    const creationCropEndpoint = 'http://localhost:3000/works/create';
+    const creationWorkEndpoint = 'http://localhost:3000/works/create';
 
     if (fastCreation) {
       return cy
-        .executeSeed({ works: { quantity: 1, quantityEmployees: 3 } })
+        .executeSeed({
+          works: { quantity: 1, quantityEmployees: 3 },
+        })
         .then((result) => {
           // Validamos que la estructura esperada exista
           if (result.history.insertedWorks.length > 0 && returnOnlyWork) {
@@ -18,7 +20,7 @@ Cypress.Commands.add(
           }
         });
     } else {
-      cy.navigateToModuleWithSideBar('works');
+      cy.navigateToModuleWithSideBar('harvests');
       cy.wait(3000);
       cy.clickOnCreateButton();
     }
@@ -64,10 +66,9 @@ Cypress.Commands.add(
 
     cy.clickOnSubmitWorkDetailForm();
 
-    // Validar totales
     cy.get('div[data-testid="badge-value-pay"]').contains('$ 110.000');
 
-    cy.intercept('POST', creationCropEndpoint).as('createWorkRequest');
+    cy.intercept('POST', creationWorkEndpoint).as('createWorkRequest');
     cy.clickOnSubmitButton();
 
     return cy.wait('@createWorkRequest').then((interception) => {

@@ -46,6 +46,6 @@ export const formFieldsHarvestProcessed: Record<
     name: 'observation',
     label: 'Observación:',
     placeholder: 'Se cosechó hasta...',
-    description: 'Observaciones sobre la cosecha realizada',
+    description: 'Observacíones sobre la cosecha realizada',
   },
 };

@@ -36,7 +36,7 @@ export const formFieldsHarvest: Record<HarvestFormFields, CustomFormField> = {
     name: 'observation',
     label: 'Observación:',
     placeholder: 'Se cosechó hasta...',
-    description: 'Observaciones sobre la cosecha realizada',
+    description: 'Observacíones sobre la cosecha realizada',
   },
   details: {
     name: 'details',
