@@ -32,7 +32,7 @@ export const useDeleteBulkSales = (): UseMutationReturn<void, BulkRecords> => {
         status,
         customMessages: {
           multiStatus:
-            'No se pudieron eliminar algunas ventas, revisa que no tenga pagos pendientes',
+            'No se pudieron eliminar algunas ventas, revisa que no tenga registros pendientes de pago',
         },
       });
     },
@@ -42,7 +42,7 @@ export const useDeleteBulkSales = (): UseMutationReturn<void, BulkRecords> => {
         handlers: {
           conflict: {
             message:
-              'No se pudieron eliminar las ventas seleccionados, revisa que no tenga pagos pendientes',
+              'No se pudieron eliminar las ventas seleccionados, revisa que no tenga registros pendientes de pago',
           },
         },
       });

@@ -29,7 +29,7 @@ export const useDeleteSale = (): UseMutationReturn<void, string> => {
         handlers: {
           conflict: {
             message:
-              'No se pudo eliminar la venta seleccionada, revisa que no tenga pagos pendientes',
+              'No se pudo eliminar la venta seleccionada, revisa que no tenga registros pendientes de pago',
           },
         },
       });

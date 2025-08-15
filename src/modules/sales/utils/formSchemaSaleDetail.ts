@@ -14,7 +14,7 @@ export const formSchemaSaleDetails = z.object({
         required_error: 'El cultivo es un campo obligatorio',
       })
       .uuid({
-        message: 'EEl cultivo es un campo obligatorio',
+        message: 'El cultivo es un campo obligatorio',
       }),
     name: z.string().optional(),
   }),
@@ -42,10 +42,10 @@ export const formSchemaSaleDetails = z.object({
   }),
   amount: z.coerce
     .number({
-      required_error: `El valor a vender es requerido`,
+      required_error: `La cantidad a vender es requerido`,
       invalid_type_error: `Debe introducir un valor numérico`,
     })
-    .positive({ message: 'El valor a vender debe ser un número positivo.' }),
+    .positive({ message: 'La cantidad a vender debe ser un número positivo.' }),
   value_pay: z.coerce
     .number({
       required_error: `El valor a pagar es requerido`,

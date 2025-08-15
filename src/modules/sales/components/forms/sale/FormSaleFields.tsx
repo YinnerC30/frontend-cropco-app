@@ -72,6 +72,7 @@ export const FormSaleFields: React.FC = () => {
           <Badge
             className="block h-8 text-base text-center w-28"
             variant={'emerald'}
+            data-testid="badge-value-pay"
           >
             {FormatMoneyValue(value_pay)}
           </Badge>
@@ -90,6 +91,7 @@ export const FormSaleFields: React.FC = () => {
             <Badge
               className="block h-8 text-base text-center w-28"
               variant={'zinc'}
+              data-testid="badge-amount"
             >
               {FormatNumber(amount)}
             </Badge>

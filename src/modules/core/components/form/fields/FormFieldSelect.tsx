@@ -102,10 +102,10 @@ export const FormFieldSelect: React.FC<FormFieldSelectProps> = memo(
                 </SelectTrigger>
 
                 <SelectContent
-                  onPointerDownOutside={(e) => {
-                    e.preventDefault();
-                    /* setOpenDropDownMenu((prev: boolean) => !prev); */
-                  }}
+                  // onPointerDownOutside={(e) => {
+                  //   e.preventDefault();
+                  //   /* setOpenDropDownMenu((prev: boolean) => !prev); */
+                  // }}
                   onCloseAutoFocus={(e) => e.preventDefault()}
                 >
                   {[...items].map((item: SelectItemValues) => {

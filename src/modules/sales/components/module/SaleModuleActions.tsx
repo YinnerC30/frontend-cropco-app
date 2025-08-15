@@ -44,7 +44,7 @@ export const SaleModuleActions: React.FC = () => {
     <div className="flex justify-between">
       <ButtonRefetchData
         onClick={handleRefetchData}
-        disabled={!actionsSalesModule['find_all_sales'] || querySales.isRefetching}
+        disabled={!actionsSalesModule['find_all_sales'] || querySales.isFetching}
         className=""
       />
 

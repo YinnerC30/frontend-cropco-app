@@ -30,7 +30,7 @@ export const ActionsTableSale: React.FC<{ row: Row<Sale> }> = ({ row }) => {
     });
   };
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={id}>
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}

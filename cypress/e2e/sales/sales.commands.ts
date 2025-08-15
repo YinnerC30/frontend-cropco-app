@@ -29,23 +29,17 @@ Cypress.Commands.add(
   }
 );
 
-// Cypress.Commands.add('createSaleAnd', (callback) => {
-//   cy.createSale({ fastCreation: true }).then((data) => {
-//     callback(data);
-//   });
-// });
+Cypress.Commands.add('createSaleAnd', (callback) => {
+  cy.createSale({ fastCreation: true }).then((data) => {
+    callback(data);
+  });
+});
 
-// Cypress.Commands.add('openSaleDetailForm', () => {
-//   cy.get('button[data-testid="btn-open-sale-detail-form"]').click();
-// });
+Cypress.Commands.add('openSaleDetailForm', () => {
+  cy.get('button[data-testid="btn-open-sale-detail-form"]').click();
+});
 
-// Cypress.Commands.add('clickOnSubmitSaleDetailForm', () => {
-//   cy.get('button[data-testid="form-detail-submit-button"]').click();
-//   cy.wait(500);
-// });
-
-// Cypress.Commands.add('validateTotalsSaleForm', ({ amount, valuePay }) => {
-//   // Validar totales
-//   cy.getFormInput('amount').should('have.value', amount.toString());
-//   cy.getFormInput('value_pay').should('have.value', valuePay.toString());
-// });
+Cypress.Commands.add('clickOnSubmitSaleDetailForm', () => {
+  cy.get('button[data-testid="form-detail-submit-button"]').click();
+  cy.wait(500);
+});

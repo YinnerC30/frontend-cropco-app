@@ -138,6 +138,7 @@ export const FormSaleDetailsFields: React.FC = () => {
                             ref={field.ref}
                             onBlur={field.onBlur}
                             disabled={readOnly}
+                            data-testid={`btn-open-command-crop`}
                           >
                             <span className="overflow-auto truncate text-muted-foreground text-ellipsis max-w-36">
                               {!!field.value
@@ -180,7 +181,7 @@ export const FormSaleDetailsFields: React.FC = () => {
                             'cultivo'
                           )} no encontrado`}</CommandEmpty>
                           <CommandGroup>
-                            {cropStock.map((item) => {
+                            {cropStock.map((item,index) => {
                               return (
                                 <CommandItem
                                   disabled={item?.['stock'] === 0}
@@ -207,6 +208,7 @@ export const FormSaleDetailsFields: React.FC = () => {
                                     }
                                     setOpenPopover(false);
                                   }}
+                                  data-testid={`form-field-command-item-${index}`}
                                 >
                                   <CommandItemCropStock
                                     field={field}
