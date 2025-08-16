@@ -353,7 +353,7 @@ export const SaleModuleSearchbar: React.FC = () => {
 
               <div className="self-start my-2 sm:self-center sm:m-0">
                 <ToolTipTemplate content="Filtros">
-                  <DropdownMenuTrigger>
+                  <DropdownMenuTrigger asChild>
                     <Button
                       variant="outline"
                       size={'icon'}
