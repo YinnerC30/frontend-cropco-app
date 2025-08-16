@@ -13,7 +13,6 @@ const FiltersBadgedListComponent: React.FC<Props> = ({
   filters,
   handleRemove,
 }) => {
-  console.log('🚀 ~ FiltersBadgedListComponent ~ filters:', filters)
   if (!(filters.length > 0)) {
     return null;
   }

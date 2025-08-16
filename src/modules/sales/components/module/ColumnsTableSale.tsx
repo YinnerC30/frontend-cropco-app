@@ -26,6 +26,7 @@ export const columnsSale: ColumnDef<Sale>[] = [
   },
 
   {
+    //id: 'clients',
     accessorKey: 'details',
     header: ({ column }) => (
       <ButtonHeaderTable column={column} label="Clientes:" />
@@ -130,7 +131,8 @@ export const columnsSale: ColumnDef<Sale>[] = [
     },
   },
   {
-    accessorKey: 'details',
+    id: 'is_receivable',
+    //    accessorKey: 'details',
     cell: ({ row }) => {
       const array: SaleDetail[] = row.getValue('details') ?? [];
       const result = array.some((item) => item.is_receivable);
