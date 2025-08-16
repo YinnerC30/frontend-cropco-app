@@ -110,14 +110,14 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     cy.wait(1500);
     cy.get('button[data-testid="btn-harvests-filters"]').click();
 
-    cy.get('div[data-testid="filter-employees"]').realHover();
+    cy.get('div[data-testid="filter-employees"]').click();
 
     /* cy.openCommandField('employee'); */
     cy.get(`button[data-testid="btn-open-command-employee"]`).click();
 
     cy.selectCommandOption('0');
 
-    cy.get('div[data-testid="filter-employees"]').realHover();
+    cy.get('div[data-testid="filter-employees"]').click();
     cy.get('button[data-testid="button-filter-employees-apply"]').click();
     cy.wait(2000);
 
