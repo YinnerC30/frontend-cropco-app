@@ -68,7 +68,7 @@ describe('Comprobar existencia de elementos en el modulo de ventas', () => {
   });
 });
 
-describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
+describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
   before(() => {
     cy.executeClearSeedData({ sales: true });
     for (let i = 0; i < 2; i++) {
@@ -187,7 +187,7 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     cy.checkTableRowTotal('4');
   });
 
-  it('Debe buscar la ventas por un cliente en especifico', () => {
+  it.only('Debe buscar la ventas por un cliente en especifico', () => {
     cy.wait(1500);
     cy.get('button[data-testid="btn-sales-filters"]').click();
 
@@ -195,7 +195,9 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
 
     cy.get(`button[data-testid="btn-open-command-client"]`).click();
 
-    cy.selectCommandOption('0');
+    cy.selectCommandOption('0', true);
+
+    cy.get('div[data-testid="filter-clients"]').realHover();
 
     cy.get('button[data-testid="button-filter-clients-apply"]').click();
     cy.wait(2000);

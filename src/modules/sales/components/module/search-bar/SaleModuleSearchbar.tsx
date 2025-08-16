@@ -24,7 +24,7 @@ import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/format
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { CheckIcon, Filter, X } from 'lucide-react';
+import { CheckIcon, Filter } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
@@ -60,14 +60,14 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { cn } from '@/lib/utils';
-import { ButtonFiltersModule } from '@/modules/core/components/search-bar/ButtonFiltersModule';
+import { ButtonClearAllFilters } from '@/modules/core/components/search-bar/ButtonClearAllFilters';
 import {
   MassUnitOfMeasure,
   UnitsType,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { SaleSearchBarDateFilter } from './SaleSearchBarDateFilter';
-import { ButtonClearAllFilters } from '@/modules/core/components/search-bar/ButtonClearAllFilters';
+import { SaleSearchBarClientsFilter } from './SaleSearchBarClientsFilter';
 
 const valuesResetForm = {
   filter_by_date: {
@@ -110,7 +110,6 @@ export const SaleModuleSearchbar: React.FC = () => {
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
-  // console.log('🚀 ~ SaleModuleSearchbar ~ openDropDownMenu:', openDropDownMenu);
 
   const [openPopoverClient, setOpenPopoverClient] = useState(false);
   const [openPopoverCrop, setOpenPopoverCrop] = useState(false);
@@ -375,175 +374,12 @@ export const SaleModuleSearchbar: React.FC = () => {
               }}
               onCloseAutoFocus={(e) => e.preventDefault()}
             >
-              <FilterDropdownItem
-                label={'Clientes'}
-                className=" lg:w-[280px]"
-                content={
-                  <>
-                    <FormField
-                      control={form.control}
-                      name={`clients`}
-                      render={({
-                        field,
-                      }: {
-                        field: ControllerRenderProps<any, any>;
-                      }) => {
-                        const currentEmployees = form.watch('clients');
-
-                        return (
-                          <FormItem className="">
-                            <FormLabel className="block my-2">
-                              {'Clientes involucrados:'}
-                            </FormLabel>
-                            <Popover
-                              open={openPopoverClient}
-                              onOpenChange={setOpenPopoverClient}
-                              modal={true}
-                            >
-                              <div className="flex flex-wrap gap-2">
-                                <PopoverTrigger asChild>
-                                  <FormControl>
-                                    {queryClients.isLoading ||
-                                    queryClients.isFetching ? (
-                                      <div className="w-[200px]">
-                                        <Loading className="" />
-                                      </div>
-                                    ) : (
-                                      <Button
-                                        variant="outline"
-                                        role="combobox"
-                                        aria-expanded={openPopoverClient}
-                                        className={` ${cn(
-                                          'justify-between',
-                                          !field.value &&
-                                            'text-muted-foreground'
-                                        )}`}
-                                        ref={field.ref}
-                                        onBlur={field.onBlur}
-                                        disabled={readOnly}
-                                        data-testid="btn-open-command-client"
-                                      >
-                                        {field.value.length > 0 &&
-                                        !!queryClients.data
-                                          ? `${
-                                              currentEmployees!.length
-                                            } seleccionado(s)`
-                                          : 'Selecciona clientes'}
-
-                                        <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                                      </Button>
-                                    )}
-                                  </FormControl>
-                                </PopoverTrigger>
-                                <ButtonRefetchData
-                                  onClick={async () => {
-                                    await queryClients.refetch();
-                                  }}
-                                  disabled={false}
-                                  content="Actualizar datos de clientes involucrados"
-                                />
-                              </div>
-                              <PopoverContent className="w-[200px] p-0">
-                                <Command>
-                                  <CommandInput
-                                    placeholder={`Buscar cliente...`}
-                                    className="h-9"
-                                  />
-                                  <CommandList>
-                                    <ScrollArea className="w-auto h-56 p-1 pr-2">
-                                      <CommandEmpty>{`${CapitalizeFirstWord(
-                                        'cliente'
-                                      )} no encontrado`}</CommandEmpty>
-                                      <CommandGroup>
-                                        {queryClients?.data?.records.map(
-                                          (item, index) => {
-                                            return (
-                                              <CommandItem
-                                                value={item?.['full_name']}
-                                                key={item.id!}
-                                                onSelect={() => {
-                                                  if (
-                                                    field?.value?.some(
-                                                      (i: any) =>
-                                                        i.id === item?.id
-                                                    )
-                                                  ) {
-                                                    form.setValue(
-                                                      'clients',
-                                                      [
-                                                        ...field?.value?.filter(
-                                                          (i: any) =>
-                                                            i.id !== item?.id
-                                                        ),
-                                                      ],
-                                                      {
-                                                        shouldValidate: true,
-                                                        shouldDirty: true,
-                                                      }
-                                                    );
-                                                  } else {
-                                                    form.setValue(
-                                                      'clients',
-                                                      [
-                                                        ...(currentEmployees ||
-                                                          []),
-                                                        {
-                                                          id: item.id,
-                                                          full_name:
-                                                            item['full_name'],
-                                                        },
-                                                      ],
-                                                      {
-                                                        shouldValidate: true,
-                                                        shouldDirty: true,
-                                                      }
-                                                    );
-                                                  }
-                                                  setOpenPopoverClient(false);
-                                                }}
-                                                data-testid={`form-field-command-item-${index}`}
-                                              >
-                                                <div className="">
-                                                  {item?.['full_name']}
-                                                </div>
-
-                                                <CheckIcon
-                                                  className={cn(
-                                                    'ml-auto h-4 w-4',
-                                                    field?.value.some(
-                                                      (i: any) => {
-                                                        return (
-                                                          i.id === item?.id
-                                                        );
-                                                      }
-                                                    )
-                                                      ? 'opacity-100'
-                                                      : 'opacity-0'
-                                                  )}
-                                                />
-                                              </CommandItem>
-                                            );
-                                          }
-                                        )}
-                                      </CommandGroup>
-                                    </ScrollArea>
-                                  </CommandList>
-                                </Command>
-                              </PopoverContent>
-                            </Popover>
-                            <FormDescription>
-                              {'Cliente(s) que han participado en las ventas'}
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        );
-                      }}
-                    />
-                  </>
-                }
-                actionOnSave={() => handleAddFilter('clients')}
-                actionOnClose={() => handleClearErrorsForm('clients')}
-                dataTestId="filter-clients"
+              <SaleSearchBarClientsFilter
+                onAddFilter={handleAddFilter}
+                onClearErrors={handleClearErrorsForm}
+                queryClients={queryClients}
+                disabled={readOnly}
+                formSearchBar={form}
               />
               <FilterDropdownItem
                 label={'Cultivos'}

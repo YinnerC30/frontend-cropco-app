@@ -1,4 +1,4 @@
-import { Button, Popover, PopoverContent, PopoverAnchor } from '@/components';
+import { Button, Popover, PopoverAnchor, PopoverContent } from '@/components';
 import { FormFieldCalendar, FormFieldSelect } from '@/modules/core/components';
 import { formatTypeFilterDate } from '@/modules/core/helpers/formatting/formatTypeFilterDate';
 import { TypeFilterDate } from '@/modules/core/interfaces';
@@ -9,11 +9,11 @@ import {
 } from '@/modules/sales/utils';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { Calendar } from 'lucide-react';
+import { useRef, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { ParamQuerySale } from '../SaleModuleContext';
-import { useState, useRef, useEffect } from 'react';
-import { Calendar } from 'lucide-react';
 
 interface Props {
   formSearchBar: UseFormReturn<
