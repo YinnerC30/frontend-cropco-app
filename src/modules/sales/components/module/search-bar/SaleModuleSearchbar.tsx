@@ -371,8 +371,12 @@ export const SaleModuleSearchbar: React.FC = () => {
               className="w-80"
               onPointerDownOutside={(e) => {
                 e.preventDefault();
+                e.stopImmediatePropagation();
               }}
-              onCloseAutoFocus={(e) => e.preventDefault()}
+              onCloseAutoFocus={(e) => {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+              }}
             >
               <SaleSearchBarClientsFilter
                 onAddFilter={handleAddFilter}
