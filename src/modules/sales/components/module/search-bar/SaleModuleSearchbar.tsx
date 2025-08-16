@@ -24,7 +24,7 @@ import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/format
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { CheckIcon, X } from 'lucide-react';
+import { CheckIcon, Filter, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
@@ -67,6 +67,7 @@ import {
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { SaleSearchBarDateFilter } from './SaleSearchBarDateFilter';
+import { ButtonClearAllFilters } from '@/modules/core/components/search-bar/ButtonClearAllFilters';
 
 const valuesResetForm = {
   filter_by_date: {
@@ -109,6 +110,7 @@ export const SaleModuleSearchbar: React.FC = () => {
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
+  // console.log('🚀 ~ SaleModuleSearchbar ~ openDropDownMenu:', openDropDownMenu);
 
   const [openPopoverClient, setOpenPopoverClient] = useState(false);
   const [openPopoverCrop, setOpenPopoverCrop] = useState(false);
@@ -329,59 +331,47 @@ export const SaleModuleSearchbar: React.FC = () => {
           id="formSearch"
           className="flex flex-col w-full"
         >
-          <DropdownMenu open={openDropDownMenu} modal={true}>
+          <DropdownMenu
+            open={openDropDownMenu}
+            onOpenChange={setOpenDropDownMenu}
+            modal={false}
+          >
             <div className="flex flex-col items-center justify-center  md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
-              <SaleSearchBarDateFilter
-                formSearchBar={form}
-                onAddFilter={handleAddFilter}
-                onClearErrors={handleClearErrorsForm}
-                paramsQuery={paramsQuery}
-              />
-
               <div className="flex items-center gap-2">
-                <ToolTipTemplate content="Borrar consulta">
-                  <Button
-                    variant="outline"
-                    onClick={handleResetForm}
-                    size={'icon'}
-                    disabled={readOnly}
-                    className="bg-destructive hover:bg-destructive/80"
-                  >
-                    <X className="w-4 h-4" />
-                  </Button>
-                </ToolTipTemplate>
+                <SaleSearchBarDateFilter
+                  formSearchBar={form}
+                  onAddFilter={handleAddFilter}
+                  onClearErrors={handleClearErrorsForm}
+                  paramsQuery={paramsQuery}
+                />
+
+                <ButtonClearAllFilters
+                  onClearValues={handleResetForm}
+                  disabled={readOnly}
+                />
               </div>
 
               <div className="self-start my-2 sm:self-center sm:m-0">
                 <ToolTipTemplate content="Filtros">
                   <DropdownMenuTrigger>
-                    <ButtonFiltersModule
-                      onClick={() =>
-                        setOpenDropDownMenu((prev: boolean) => !prev)
-                      }
-                      disabled={readOnly}
-                      dataTestId={'btn-sales-filters'}
-                    />
-                    {/* <Button
+                    <Button
                       variant="outline"
-                      onClick={() =>
-                        setOpenDropDownMenu((prev: boolean) => !prev)
-                      }
                       size={'icon'}
+                      type="button"
                       disabled={readOnly}
+                      data-testid="btn-sales-filters"
                     >
                       <Filter className="w-4 h-4" />
-                    </Button> */}
+                    </Button>
                   </DropdownMenuTrigger>
                 </ToolTipTemplate>
               </div>
             </div>
 
             <DropdownMenuContent
-              className="w-32"
+              className="w-80"
               onPointerDownOutside={(e) => {
                 e.preventDefault();
-                setOpenDropDownMenu((prev: boolean) => !prev);
               }}
               onCloseAutoFocus={(e) => e.preventDefault()}
             >
