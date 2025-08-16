@@ -197,7 +197,7 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
 
     cy.selectCommandOption('0', true);
 
-    cy.get('div[data-testid="filter-clients"]').realHover();
+    cy.get('div[data-testid="filter-clients"]').click();
 
     cy.get('button[data-testid="button-filter-clients-apply"]').click();
     cy.wait(2000);

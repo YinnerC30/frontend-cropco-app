@@ -56,6 +56,123 @@ export const SaleSearchBarClientsFilter: React.FC<Props> = (props) => {
   const { formSearchBar, onAddFilter, onClearErrors, queryClients, disabled } =
     props;
 
+  // Funciones extraídas para mejorar la legibilidad
+  const handleRefetchClients = async () => {
+    await queryClients.refetch();
+  };
+
+  const handleClientSelection = (
+    field: ControllerRenderProps<any, any>,
+    item: Client,
+    currentClients: any[] | undefined
+  ) => {
+    const isClientSelected = field?.value?.some((i: any) => i.id === item?.id);
+
+    if (isClientSelected) {
+      // Remover cliente si ya está seleccionado
+      formSearchBar.setValue(
+        'clients',
+        [...field?.value?.filter((i: any) => i.id !== item?.id)],
+        {
+          shouldValidate: true,
+          shouldDirty: true,
+        }
+      );
+    } else {
+      // Agregar cliente si no está seleccionado
+      formSearchBar.setValue(
+        'clients',
+        [
+          ...(currentClients || []),
+          {
+            id: item.id,
+            full_name: item['full_name'],
+          },
+        ],
+        {
+          shouldValidate: true,
+          shouldDirty: true,
+        }
+      );
+    }
+    setOpenPopoverClient(false);
+  };
+
+  const renderClientButton = (field: ControllerRenderProps<any, any>) => {
+    const currentClients = formSearchBar.watch('clients');
+
+    if (queryClients.isLoading || queryClients.isFetching) {
+      return (
+        <div className="w-[200px]">
+          <Loading className="" />
+        </div>
+      );
+    }
+
+    return (
+      <Button
+        variant="outline"
+        role="combobox"
+        aria-expanded={openPopoverClient}
+        className={cn(
+          'justify-between',
+          !field.value && 'text-muted-foreground'
+        )}
+        ref={field.ref}
+        onBlur={field.onBlur}
+        disabled={disabled}
+        data-testid="btn-open-command-client"
+      >
+        {field.value.length > 0 && !!queryClients.data
+          ? `${currentClients!.length} seleccionado(s)`
+          : 'Selecciona clientes'}
+
+        <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+      </Button>
+    );
+  };
+
+  const renderClientItem = (
+    item: Client,
+    index: number,
+    field: ControllerRenderProps<any, any>
+  ) => {
+    const currentClients = formSearchBar.watch('clients');
+    const isSelected = field?.value.some((i: any) => i.id === item?.id);
+
+    return (
+      <CommandItem
+        value={item?.['full_name']}
+        key={item.id!}
+        onSelect={() => handleClientSelection(field, item, currentClients)}
+        data-testid={`form-field-command-item-${index}`}
+      >
+        <div className="">{item?.['full_name']}</div>
+        <CheckIcon
+          className={cn(
+            'ml-auto h-4 w-4',
+            isSelected ? 'opacity-100' : 'opacity-0'
+          )}
+        />
+      </CommandItem>
+    );
+  };
+
+  const renderClientList = (field: ControllerRenderProps<any, any>) => {
+    return (
+      <ScrollArea className="w-auto h-56 p-1 pr-2">
+        <CommandEmpty>
+          {`${CapitalizeFirstWord('cliente')} no encontrado`}
+        </CommandEmpty>
+        <CommandGroup>
+          {queryClients?.data?.records.map((item, index) =>
+            renderClientItem(item, index, field)
+          )}
+        </CommandGroup>
+      </ScrollArea>
+    );
+  };
+
   return (
     <FilterDropdownItem
       label={'Clientes'}
@@ -66,8 +183,6 @@ export const SaleSearchBarClientsFilter: React.FC<Props> = (props) => {
             control={formSearchBar.control}
             name={`clients`}
             render={({ field }: { field: ControllerRenderProps<any, any> }) => {
-              const currentEmployees = formSearchBar.watch('clients');
-
               return (
                 <FormItem className="">
                   <FormLabel className="block my-2">
@@ -80,38 +195,10 @@ export const SaleSearchBarClientsFilter: React.FC<Props> = (props) => {
                   >
                     <div className="flex flex-wrap gap-2">
                       <PopoverTrigger asChild>
-                        <FormControl>
-                          {queryClients.isLoading || queryClients.isFetching ? (
-                            <div className="w-[200px]">
-                              <Loading className="" />
-                            </div>
-                          ) : (
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              aria-expanded={openPopoverClient}
-                              className={` ${cn(
-                                'justify-between',
-                                !field.value && 'text-muted-foreground'
-                              )}`}
-                              ref={field.ref}
-                              onBlur={field.onBlur}
-                              disabled={disabled}
-                              data-testid="btn-open-command-client"
-                            >
-                              {field.value.length > 0 && !!queryClients.data
-                                ? `${currentEmployees!.length} seleccionado(s)`
-                                : 'Selecciona clientes'}
-
-                              <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                            </Button>
-                          )}
-                        </FormControl>
+                        <FormControl>{renderClientButton(field)}</FormControl>
                       </PopoverTrigger>
                       <ButtonRefetchData
-                        onClick={async () => {
-                          await queryClients.refetch();
-                        }}
+                        onClick={handleRefetchClients}
                         disabled={false}
                         content="Actualizar datos de clientes involucrados"
                       />
@@ -122,77 +209,7 @@ export const SaleSearchBarClientsFilter: React.FC<Props> = (props) => {
                           placeholder={`Buscar cliente...`}
                           className="h-9"
                         />
-                        <CommandList>
-                          <ScrollArea className="w-auto h-56 p-1 pr-2">
-                            <CommandEmpty>{`${CapitalizeFirstWord(
-                              'cliente'
-                            )} no encontrado`}</CommandEmpty>
-                            <CommandGroup>
-                              {queryClients?.data?.records.map(
-                                (item, index) => {
-                                  return (
-                                    <CommandItem
-                                      value={item?.['full_name']}
-                                      key={item.id!}
-                                      onSelect={() => {
-                                        if (
-                                          field?.value?.some(
-                                            (i: any) => i.id === item?.id
-                                          )
-                                        ) {
-                                          formSearchBar.setValue(
-                                            'clients',
-                                            [
-                                              ...field?.value?.filter(
-                                                (i: any) => i.id !== item?.id
-                                              ),
-                                            ],
-                                            {
-                                              shouldValidate: true,
-                                              shouldDirty: true,
-                                            }
-                                          );
-                                        } else {
-                                          formSearchBar.setValue(
-                                            'clients',
-                                            [
-                                              ...(currentEmployees || []),
-                                              {
-                                                id: item.id,
-                                                full_name: item['full_name'],
-                                              },
-                                            ],
-                                            {
-                                              shouldValidate: true,
-                                              shouldDirty: true,
-                                            }
-                                          );
-                                        }
-                                        setOpenPopoverClient(false);
-                                      }}
-                                      data-testid={`form-field-command-item-${index}`}
-                                    >
-                                      <div className="">
-                                        {item?.['full_name']}
-                                      </div>
-
-                                      <CheckIcon
-                                        className={cn(
-                                          'ml-auto h-4 w-4',
-                                          field?.value.some((i: any) => {
-                                            return i.id === item?.id;
-                                          })
-                                            ? 'opacity-100'
-                                            : 'opacity-0'
-                                        )}
-                                      />
-                                    </CommandItem>
-                                  );
-                                }
-                              )}
-                            </CommandGroup>
-                          </ScrollArea>
-                        </CommandList>
+                        <CommandList>{renderClientList(field)}</CommandList>
                       </Command>
                     </PopoverContent>
                   </Popover>
