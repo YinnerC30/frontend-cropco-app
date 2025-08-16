@@ -25,7 +25,7 @@ import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/format
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { Calendar, CheckIcon, Filter, X } from 'lucide-react';
+import { CheckIcon, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
@@ -64,6 +64,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { cn } from '@/lib/utils';
+import { ButtonCalendarFilter } from '@/modules/core/components/search-bar/ButtonCalendarFilter';
+import { ButtonFiltersModule } from '@/modules/core/components/search-bar/ButtonFiltersModule';
 import {
   MassUnitOfMeasure,
   UnitsType,
@@ -309,6 +311,16 @@ export const SaleModuleSearchbar: React.FC = () => {
     toast.success('Se han limpiado los filtros');
   };
 
+  const labelCalendarFilter =
+    !form.getValues('filter_by_date.date') || !paramsQuery.filter_by_date?.date
+      ? 'Filtrar por fecha'
+      : formatTypeFilterDate(
+          form.getValues('filter_by_date.type_filter_date') as TypeFilterDate
+        ) +
+        format(form.getValues('filter_by_date.date') ?? '', 'PPP', {
+          locale: es,
+        });
+
   useEffect(() => {
     const addFilters = async () => {
       for (const key of Object.keys(paramsQuery)) {
@@ -331,79 +343,72 @@ export const SaleModuleSearchbar: React.FC = () => {
           id="formSearch"
           className="flex flex-col w-full"
         >
-          <DropdownMenu open={openDropDownMenu} modal={false}>
+          <DropdownMenu open={openDropDownMenu} modal={true}>
             <div className="flex flex-col items-center justify-center  md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
-              <div className="flex items-center gap-2">
-                <Popover
-                  open={openPopoverDate}
-                  onOpenChange={setOpenPopoverDate}
-                >
-                  <PopoverTrigger asChild>
-                    <Button
-                      className="w-auto lg:w-[300px]"
-                      variant={'outline'}
-                      onClick={() => setOpenPopoverDate(true)}
-                    >
-                      {!form.getValues('filter_by_date.date') ||
-                      !paramsQuery.filter_by_date?.date
-                        ? 'Filtrar por fecha'
-                        : formatTypeFilterDate(
-                            form.getValues(
-                              'filter_by_date.type_filter_date'
-                            ) as TypeFilterDate
-                          ) +
-                          format(
-                            form.getValues('filter_by_date.date') ?? '',
-                            'PPP',
-                            {
-                              locale: es,
-                            }
-                          )}
-                      <Calendar className="w-4 h-4 ml-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent>
-                    <FormFieldSelect
-                      items={dateFilterOptions}
-                      disabled={false}
-                      {...formFieldsSearchBarSale.type_filter_date}
-                      name="filter_by_date.type_filter_date"
-                      control={form.control}
-                    />
-                    <FormFieldCalendar
-                      disabled={false}
-                      {...formFieldsSearchBarSale.date}
-                      control={form.control}
-                      name="filter_by_date.date"
-                      className="w-[95%]"
-                    />
-                    <div className="flex justify-center gap-2">
-                      <Button
-                        className="self-end w-24 mt-4"
-                        onClick={async (e) => {
-                          e.preventDefault();
-                          const result = await handleAddFilter(
-                            'filter_by_date'
-                          );
-                          setOpenPopoverDate(!result);
-                        }}
-                      >
-                        Aplicar
-                      </Button>
-                      <Button
-                        variant={'destructive'}
-                        className="self-end w-24 mt-4"
-                        onClick={async () => {
-                          handleClearErrorsForm('filter_by_date');
-                          setOpenPopoverDate(false);
-                        }}
-                      >
-                        Cerrar
-                      </Button>
-                    </div>
-                  </PopoverContent>
-                </Popover>
+              <Popover
+                open={openPopoverDate}
+                onOpenChange={(status) => {
+                  if (status) {
+                    setOpenPopoverDate(status);
+                  }
+                }}
+              >
+                <PopoverTrigger>
+                  <ButtonCalendarFilter
+                    label={labelCalendarFilter}
+                    dataTestId="btn-filter-date"
+                  />
+                </PopoverTrigger>
 
+                <PopoverContent
+                  onPointerDownOutside={(e) => {
+                    e.preventDefault();
+                    if (openPopoverDate) {
+                      setOpenPopoverDate(false);
+                    }
+                  }}
+                >
+                  <FormFieldSelect
+                    items={dateFilterOptions}
+                    disabled={false}
+                    {...formFieldsSearchBarSale.type_filter_date}
+                    name="filter_by_date.type_filter_date"
+                    control={form.control}
+                  />
+                  <FormFieldCalendar
+                    disabled={false}
+                    {...formFieldsSearchBarSale.date}
+                    control={form.control}
+                    name="filter_by_date.date"
+                    className="w-[95%]"
+                  />
+                  <div className="flex justify-center gap-2">
+                    <Button
+                      className="self-end w-24 mt-4"
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        const result = await handleAddFilter('filter_by_date');
+                        setOpenPopoverDate(!result);
+                      }}
+                      data-testid={`button-filter-date-apply`}
+                    >
+                      Aplicar
+                    </Button>
+                    <Button
+                      variant={'destructive'}
+                      className="self-end w-24 mt-4"
+                      onClick={async () => {
+                        handleClearErrorsForm('filter_by_date');
+                        setOpenPopoverDate(false);
+                      }}
+                      data-testid={`button-filter-date-close`}
+                    >
+                      Cerrar
+                    </Button>
+                  </div>
+                </PopoverContent>
+              </Popover>
+              <div className="flex items-center gap-2">
                 <ToolTipTemplate content="Borrar consulta">
                   <Button
                     variant="outline"
@@ -419,8 +424,15 @@ export const SaleModuleSearchbar: React.FC = () => {
 
               <div className="self-start my-2 sm:self-center sm:m-0">
                 <ToolTipTemplate content="Filtros">
-                  <DropdownMenuTrigger asChild>
-                    <Button
+                  <DropdownMenuTrigger>
+                    <ButtonFiltersModule
+                      onClick={() =>
+                        setOpenDropDownMenu((prev: boolean) => !prev)
+                      }
+                      disabled={readOnly}
+                      dataTestId={'btn-sales-filters'}
+                    />
+                    {/* <Button
                       variant="outline"
                       onClick={() =>
                         setOpenDropDownMenu((prev: boolean) => !prev)
@@ -429,7 +441,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                       disabled={readOnly}
                     >
                       <Filter className="w-4 h-4" />
-                    </Button>
+                    </Button> */}
                   </DropdownMenuTrigger>
                 </ToolTipTemplate>
               </div>
@@ -489,6 +501,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                                         ref={field.ref}
                                         onBlur={field.onBlur}
                                         disabled={readOnly}
+                                        data-testid="btn-open-command-client"
                                       >
                                         {field.value.length > 0 &&
                                         !!queryClients.data
@@ -523,7 +536,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
                                         {queryClients?.data?.records.map(
-                                          (item) => {
+                                          (item, index) => {
                                             return (
                                               <CommandItem
                                                 value={item?.['full_name']}
@@ -568,10 +581,12 @@ export const SaleModuleSearchbar: React.FC = () => {
                                                   }
                                                   setOpenPopoverClient(false);
                                                 }}
+                                                data-testid={`form-field-command-item-${index}`}
                                               >
                                                 <div className="">
                                                   {item?.['full_name']}
                                                 </div>
+
                                                 <CheckIcon
                                                   className={cn(
                                                     'ml-auto h-4 w-4',
@@ -608,6 +623,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                 }
                 actionOnSave={() => handleAddFilter('clients')}
                 actionOnClose={() => handleClearErrorsForm('clients')}
+                dataTestId="filter-clients"
               />
               <FilterDropdownItem
                 label={'Cultivos'}
@@ -655,6 +671,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                                         ref={field.ref}
                                         onBlur={field.onBlur}
                                         disabled={readOnly}
+                                        data-testid="btn-open-command-crop"
                                       >
                                         {field.value.length > 0 &&
                                         !!queryCrops.data
@@ -689,11 +706,12 @@ export const SaleModuleSearchbar: React.FC = () => {
                                       )} no encontrado`}</CommandEmpty>
                                       <CommandGroup>
                                         {queryCrops?.data?.records.map(
-                                          (item) => {
+                                          (item, index) => {
                                             return (
                                               <CommandItem
                                                 value={item?.['name']}
                                                 key={item.id!}
+                                                data-testid={`form-field-command-item-${index}`}
                                                 onSelect={() => {
                                                   if (
                                                     field?.value?.some(
@@ -772,6 +790,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                 }
                 actionOnSave={() => handleAddFilter('crops')}
                 actionOnClose={() => handleClearErrorsForm('crops')}
+                dataTestId="filter-crops"
               />
               <FilterDropdownItem
                 label={'Valor a pagar'}
@@ -798,6 +817,7 @@ export const SaleModuleSearchbar: React.FC = () => {
                     />
                   </>
                 }
+                dataTestId="filter-value-pay"
               />
 
               <FilterDropdownItem
@@ -829,9 +849,11 @@ export const SaleModuleSearchbar: React.FC = () => {
                     />
                   </>
                 }
+                dataTestId="filter-amount"
               />
             </DropdownMenuContent>
           </DropdownMenu>
+
           <FiltersBadgedList
             filters={appliedFilters}
             handleRemove={handleRemoveFilter}

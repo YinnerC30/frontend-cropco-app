@@ -23,6 +23,7 @@ export const FilterDropdownItem = memo(
     className?: string;
     dataTestId?: string;
   }) => {
+    console.log('Render')
     const [openMenu, setOpenMenu] = useState(false);
 
     return (
