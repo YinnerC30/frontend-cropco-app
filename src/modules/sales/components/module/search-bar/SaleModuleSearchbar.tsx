@@ -9,7 +9,6 @@ import {
 } from '@/components';
 import {
   ButtonRefetchData,
-  FormFieldCalendar,
   FormFieldInput,
   FormFieldSelect,
   Loading,
@@ -30,18 +29,15 @@ import React, { useEffect, useState } from 'react';
 
 import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
 import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
-import {
-  dateFilterOptions,
-  numberFilterOptions,
-} from '@/modules/core/interfaces/queries/FilterOptions';
+import { numberFilterOptions } from '@/modules/core/interfaces/queries/FilterOptions';
 import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
 import { Popover } from '@radix-ui/react-popover';
 import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
-import { useSaleModuleContext } from '../../hooks/context/useSaleModuleContext';
-import { MODULE_SALES_PATHS } from '../../routes/pathRoutes';
-import { formFieldsSearchBarSale } from '../../utils/formFieldsSearchBarSale';
-import { formSchemaSearchBarSale } from '../../utils/formSchemaSearchBarSale';
+import { useSaleModuleContext } from '../../../hooks/context/useSaleModuleContext';
+import { MODULE_SALES_PATHS } from '../../../routes/pathRoutes';
+import { formFieldsSearchBarSale } from '../../../utils/formFieldsSearchBarSale';
+import { formSchemaSearchBarSale } from '../../../utils/formSchemaSearchBarSale';
 
 import {
   Command,
@@ -64,13 +60,13 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { cn } from '@/lib/utils';
-import { ButtonCalendarFilter } from '@/modules/core/components/search-bar/ButtonCalendarFilter';
 import { ButtonFiltersModule } from '@/modules/core/components/search-bar/ButtonFiltersModule';
 import {
   MassUnitOfMeasure,
   UnitsType,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { CaretSortIcon } from '@radix-ui/react-icons';
+import { SaleSearchBarDateFilter } from './SaleSearchBarDateFilter';
 
 const valuesResetForm = {
   filter_by_date: {
@@ -113,7 +109,7 @@ export const SaleModuleSearchbar: React.FC = () => {
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
-  const [openPopoverDate, setOpenPopoverDate] = useState(false);
+
   const [openPopoverClient, setOpenPopoverClient] = useState(false);
   const [openPopoverCrop, setOpenPopoverCrop] = useState(false);
 
@@ -311,16 +307,6 @@ export const SaleModuleSearchbar: React.FC = () => {
     toast.success('Se han limpiado los filtros');
   };
 
-  const labelCalendarFilter =
-    !form.getValues('filter_by_date.date') || !paramsQuery.filter_by_date?.date
-      ? 'Filtrar por fecha'
-      : formatTypeFilterDate(
-          form.getValues('filter_by_date.type_filter_date') as TypeFilterDate
-        ) +
-        format(form.getValues('filter_by_date.date') ?? '', 'PPP', {
-          locale: es,
-        });
-
   useEffect(() => {
     const addFilters = async () => {
       for (const key of Object.keys(paramsQuery)) {
@@ -345,69 +331,13 @@ export const SaleModuleSearchbar: React.FC = () => {
         >
           <DropdownMenu open={openDropDownMenu} modal={true}>
             <div className="flex flex-col items-center justify-center  md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
-              <Popover
-                open={openPopoverDate}
-                onOpenChange={(status) => {
-                  if (status) {
-                    setOpenPopoverDate(status);
-                  }
-                }}
-              >
-                <PopoverTrigger>
-                  <ButtonCalendarFilter
-                    label={labelCalendarFilter}
-                    dataTestId="btn-filter-date"
-                  />
-                </PopoverTrigger>
+              <SaleSearchBarDateFilter
+                formSearchBar={form}
+                onAddFilter={handleAddFilter}
+                onClearErrors={handleClearErrorsForm}
+                paramsQuery={paramsQuery}
+              />
 
-                <PopoverContent
-                  onPointerDownOutside={(e) => {
-                    e.preventDefault();
-                    if (openPopoverDate) {
-                      setOpenPopoverDate(false);
-                    }
-                  }}
-                >
-                  <FormFieldSelect
-                    items={dateFilterOptions}
-                    disabled={false}
-                    {...formFieldsSearchBarSale.type_filter_date}
-                    name="filter_by_date.type_filter_date"
-                    control={form.control}
-                  />
-                  <FormFieldCalendar
-                    disabled={false}
-                    {...formFieldsSearchBarSale.date}
-                    control={form.control}
-                    name="filter_by_date.date"
-                    className="w-[95%]"
-                  />
-                  <div className="flex justify-center gap-2">
-                    <Button
-                      className="self-end w-24 mt-4"
-                      onClick={async (e) => {
-                        e.preventDefault();
-                        const result = await handleAddFilter('filter_by_date');
-                        setOpenPopoverDate(!result);
-                      }}
-                      data-testid={`button-filter-date-apply`}
-                    >
-                      Aplicar
-                    </Button>
-                    <Button
-                      variant={'destructive'}
-                      className="self-end w-24 mt-4"
-                      onClick={async () => {
-                        handleClearErrorsForm('filter_by_date');
-                        setOpenPopoverDate(false);
-                      }}
-                      data-testid={`button-filter-date-close`}
-                    >
-                      Cerrar
-                    </Button>
-                  </div>
-                </PopoverContent>
-              </Popover>
               <div className="flex items-center gap-2">
                 <ToolTipTemplate content="Borrar consulta">
                   <Button

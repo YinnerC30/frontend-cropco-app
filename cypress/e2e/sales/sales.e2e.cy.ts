@@ -68,7 +68,7 @@ describe('Comprobar existencia de elementos en el modulo de ventas', () => {
   });
 });
 
-describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
+describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
   before(() => {
     cy.executeClearSeedData({ sales: true });
     for (let i = 0; i < 2; i++) {
