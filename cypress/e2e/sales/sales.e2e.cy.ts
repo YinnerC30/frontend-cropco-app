@@ -94,8 +94,6 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
 
     cy.get('button[data-testid="btn-calendar-selector"]').click();
 
-    cy.wait(4000);
-
     cy.selectCalendarDay(new Date().getDate());
 
     cy.get('button[data-testid="button-filter-date-apply"]').click();
@@ -222,7 +220,7 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.checkTableRowTotal('4');
   });
 
-  it.only('Debe buscar la ventas por un cultivo en especifico', () => {
+  it('Debe buscar la ventas por un cultivo en especifico', () => {
     cy.wait(1500);
     cy.get('button[data-testid="btn-sales-filters"]').click();
 
