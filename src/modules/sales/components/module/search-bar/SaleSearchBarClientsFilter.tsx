@@ -1,12 +1,5 @@
+import { CapitalizeFirstWord } from '@/auth';
 import { Button, PopoverContent, PopoverTrigger } from '@/components';
-import { ButtonRefetchData, Loading } from '@/modules/core/components';
-
-import { CheckIcon } from 'lucide-react';
-
-import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
-import { Popover } from '@radix-ui/react-popover';
-import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
-
 import {
   Command,
   CommandEmpty,
@@ -15,211 +8,278 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-
-import { ScrollArea } from '@/components/ui/scroll-area';
-
-import { CapitalizeFirstWord } from '@/auth';
 import {
-  FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from '@/components/ui/form';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { Client } from '@/modules/clients/interfaces/Client';
+import { ButtonRefetchData, Loading } from '@/modules/core/components';
+import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { formSchemaSearchBarSale } from '@/modules/sales/utils';
 import { CaretSortIcon } from '@radix-ui/react-icons';
-import { useState } from 'react';
+import { Popover } from '@radix-ui/react-popover';
+import { CheckIcon } from 'lucide-react';
+import { useCallback, useState } from 'react';
+import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 
-interface Props {
-  formSearchBar: UseFormReturn<
-    z.infer<typeof formSchemaSearchBarSale>,
-    unknown
-  >;
-  onAddFilter: (
-    filterName: keyof z.infer<typeof formSchemaSearchBarSale>
-  ) => Promise<boolean>;
-  onClearErrors: (
-    filterName: keyof z.infer<typeof formSchemaSearchBarSale>
-  ) => void;
+// Tipos inferidos del schema
+type FormSchema = z.infer<typeof formSchemaSearchBarSale>;
+type ClientsField = NonNullable<FormSchema['clients']>;
+type ClientItem = NonNullable<ClientsField>[0];
 
+interface Props {
+  formSearchBar: UseFormReturn<FormSchema, unknown>;
+  onAddFilter: (filterName: keyof FormSchema) => Promise<boolean>;
+  onClearErrors: (filterName: keyof FormSchema) => void;
   queryClients: UseQueryGetAllRecordsReturn<Client>;
   disabled: boolean;
 }
 
-export const SaleSearchBarClientsFilter: React.FC<Props> = (props) => {
-  const [openPopoverClient, setOpenPopoverClient] = useState(false);
-  const { formSearchBar, onAddFilter, onClearErrors, queryClients, disabled } =
-    props;
+// Subcomponente: Item individual de cliente
+interface ClientItemProps {
+  client: Client;
+  index: number;
+  isSelected: boolean;
+  onSelect: () => void;
+}
 
-  // Funciones extraídas para mejorar la legibilidad
-  const handleRefetchClients = async () => {
-    await queryClients.refetch();
-  };
-
-  const handleClientSelection = (
-    field: ControllerRenderProps<any, any>,
-    item: Client,
-    currentClients: any[] | undefined
-  ) => {
-    const isClientSelected = field?.value?.some((i: any) => i.id === item?.id);
-
-    if (isClientSelected) {
-      // Remover cliente si ya está seleccionado
-      formSearchBar.setValue(
-        'clients',
-        [...field?.value?.filter((i: any) => i.id !== item?.id)],
-        {
-          shouldValidate: true,
-          shouldDirty: true,
-        }
-      );
-    } else {
-      // Agregar cliente si no está seleccionado
-      formSearchBar.setValue(
-        'clients',
-        [
-          ...(currentClients || []),
-          {
-            id: item.id,
-            full_name: item['full_name'],
-          },
-        ],
-        {
-          shouldValidate: true,
-          shouldDirty: true,
-        }
-      );
-    }
-    setOpenPopoverClient(false);
-  };
-
-  const renderClientButton = (field: ControllerRenderProps<any, any>) => {
-    const currentClients = formSearchBar.watch('clients');
-
-    if (queryClients.isLoading || queryClients.isFetching) {
-      return (
-        <div className="w-[200px]">
-          <Loading className="" />
-        </div>
-      );
-    }
-
-    return (
-      <Button
-        variant="outline"
-        role="combobox"
-        aria-expanded={openPopoverClient}
+const ClientItem: React.FC<ClientItemProps> = ({
+  client,
+  index,
+  isSelected,
+  onSelect,
+}) => {
+  return (
+    <CommandItem
+      value={client.full_name}
+      key={client.id}
+      onSelect={onSelect}
+      role="option"
+      aria-selected={isSelected}
+      data-testid={`form-field-command-item-${index}`}
+    >
+      <div className="">{client.full_name}</div>
+      <CheckIcon
         className={cn(
-          'justify-between',
-          !field.value && 'text-muted-foreground'
+          'ml-auto h-4 w-4',
+          isSelected ? 'opacity-100' : 'opacity-0'
         )}
-        ref={field.ref}
-        onBlur={field.onBlur}
-        disabled={disabled}
-        data-testid="btn-open-command-client"
-      >
-        {field.value.length > 0 && !!queryClients.data
-          ? `${currentClients!.length} seleccionado(s)`
-          : 'Selecciona clientes'}
+      />
+    </CommandItem>
+  );
+};
 
-        <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-      </Button>
-    );
-  };
+// Subcomponente: Lista de clientes
+interface ClientListProps {
+  clients: Client[];
+  selectedClients: ClientsField;
+  onClientSelect: (client: Client) => void;
+}
 
-  const renderClientItem = (
-    item: Client,
-    index: number,
-    field: ControllerRenderProps<any, any>
-  ) => {
-    const currentClients = formSearchBar.watch('clients');
-    const isSelected = field?.value.some((i: any) => i.id === item?.id);
+const ClientList: React.FC<ClientListProps> = ({
+  clients,
+  selectedClients,
+  onClientSelect,
+}) => {
+  return (
+    <ScrollArea className="w-auto h-56 p-1 pr-2">
+      <CommandEmpty>
+        {`${CapitalizeFirstWord('cliente')} no encontrado`}
+      </CommandEmpty>
+      <CommandGroup role="listbox">
+        {clients.map((client, index) => {
+          const isSelected = selectedClients.some(
+            (selected) => selected.id === client.id
+          );
 
-    return (
-      <CommandItem
-        value={item?.['full_name']}
-        key={item.id!}
-        onSelect={() => handleClientSelection(field, item, currentClients)}
-        data-testid={`form-field-command-item-${index}`}
-      >
-        <div className="">{item?.['full_name']}</div>
-        <CheckIcon
+          return (
+            <ClientItem
+              key={client.id}
+              client={client}
+              index={index}
+              isSelected={isSelected}
+              onSelect={() => onClientSelect(client)}
+            />
+          );
+        })}
+      </CommandGroup>
+    </ScrollArea>
+  );
+};
+
+// Componente principal refactorizado
+export const SaleSearchBarClientsFilter: React.FC<Props> = ({
+  formSearchBar,
+  onAddFilter,
+  onClearErrors,
+  queryClients,
+  disabled,
+}) => {
+  const [openPopoverClient, setOpenPopoverClient] = useState(false);
+
+  // Obtener clientes actuales una sola vez para evitar re-renders
+  const currentClients = formSearchBar.watch('clients') || [];
+
+  // Memoizar función de refetch para evitar recreaciones
+  const handleRefetchClients = useCallback(async () => {
+    await queryClients.refetch();
+  }, [queryClients]);
+
+  // Memoizar función de selección de cliente
+  const handleClientSelection = useCallback(
+    (field: ControllerRenderProps<FormSchema, 'clients'>, client: Client) => {
+      const currentFieldValue = field.value || [];
+      const isClientSelected = currentFieldValue.some(
+        (selectedClient) => selectedClient.id === client.id
+      );
+
+      if (isClientSelected) {
+        // Remover cliente si ya está seleccionado
+        formSearchBar.setValue(
+          'clients',
+          currentFieldValue.filter(
+            (selectedClient) => selectedClient.id !== client.id
+          ),
+          {
+            shouldValidate: true,
+            shouldDirty: true,
+          }
+        );
+      } else {
+        // Agregar cliente si no está seleccionado
+        const newClient: ClientItem = {
+          id: client.id,
+          full_name: client.full_name,
+        };
+
+        formSearchBar.setValue('clients', [...currentClients, newClient], {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+      }
+
+      // Opcional: mantener popover abierto para selección múltiple
+      // setOpenPopoverClient(false);
+    },
+    [formSearchBar, currentClients]
+  );
+
+  // Memoizar función de renderizado del botón
+  const renderClientButton = useCallback(
+    (field: ControllerRenderProps<FormSchema, 'clients'>) => {
+      if (queryClients.isLoading || queryClients.isFetching) {
+        return (
+          <div className="w-[200px]">
+            <Loading className="" />
+          </div>
+        );
+      }
+
+      return (
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={openPopoverClient}
+          aria-label="Seleccionar clientes"
           className={cn(
-            'ml-auto h-4 w-4',
-            isSelected ? 'opacity-100' : 'opacity-0'
+            'justify-between',
+            !field.value && 'text-muted-foreground'
           )}
-        />
-      </CommandItem>
-    );
-  };
+          ref={field.ref}
+          onBlur={field.onBlur}
+          disabled={disabled}
+          data-testid="btn-open-command-client"
+          id={field.name}
+          aria-describedby={
+            field.name ? `${field.name}-description` : undefined
+          }
+          onClick={() => setOpenPopoverClient(!openPopoverClient)}
+        >
+          {field.value && field.value.length > 0
+            ? `${currentClients.length} seleccionado(s)`
+            : 'Selecciona clientes'}
 
-  const renderClientList = (field: ControllerRenderProps<any, any>) => {
-    return (
-      <ScrollArea className="w-auto h-56 p-1 pr-2">
-        <CommandEmpty>
-          {`${CapitalizeFirstWord('cliente')} no encontrado`}
-        </CommandEmpty>
-        <CommandGroup>
-          {queryClients?.data?.records.map((item, index) =>
-            renderClientItem(item, index, field)
-          )}
-        </CommandGroup>
-      </ScrollArea>
-    );
-  };
+          <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+        </Button>
+      );
+    },
+    [
+      currentClients,
+      openPopoverClient,
+      disabled,
+      queryClients.isLoading,
+      queryClients.isFetching,
+    ]
+  );
+
+  // Memoizar función de renderizado de la lista
+  const renderClientList = useCallback(
+    (field: ControllerRenderProps<FormSchema, 'clients'>) => {
+      if (!queryClients.data?.records) return null;
+
+      return (
+        <ClientList
+          clients={queryClients.data.records}
+          selectedClients={currentClients}
+          onClientSelect={(client) => handleClientSelection(field, client)}
+        />
+      );
+    },
+    [queryClients.data?.records, currentClients, handleClientSelection]
+  );
 
   return (
     <FilterDropdownItem
       label={'Clientes'}
-      className=" lg:w-[280px]"
+      className="lg:w-[280px]"
       content={
         <>
           <FormField
             control={formSearchBar.control}
-            name={`clients`}
-            render={({ field }: { field: ControllerRenderProps<any, any> }) => {
-              return (
-                <FormItem className="">
-                  <FormLabel className="block my-2">
-                    {'Clientes involucrados:'}
-                  </FormLabel>
+            name="clients"
+            render={({ field }) => (
+              <FormItem className="">
+                <FormLabel className="block my-2">
+                  {'Clientes involucrados:'}
+                </FormLabel>
+                <div className="flex flex-wrap gap-2">
                   <Popover
                     open={openPopoverClient}
                     onOpenChange={setOpenPopoverClient}
                     modal={true}
                   >
-                    <div className="flex flex-wrap gap-2">
-                      <PopoverTrigger asChild>
-                        <FormControl>{renderClientButton(field)}</FormControl>
-                      </PopoverTrigger>
-                      <ButtonRefetchData
-                        onClick={handleRefetchClients}
-                        disabled={false}
-                        content="Actualizar datos de clientes involucrados"
-                      />
-                    </div>
+                    <PopoverTrigger asChild>
+                      {renderClientButton(field)}
+                    </PopoverTrigger>
                     <PopoverContent className="w-[200px] p-0">
                       <Command>
                         <CommandInput
-                          placeholder={`Buscar cliente...`}
+                          placeholder="Buscar cliente..."
                           className="h-9"
                         />
                         <CommandList>{renderClientList(field)}</CommandList>
                       </Command>
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>
-                    {'Cliente(s) que han participado en las ventas'}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
+                  <ButtonRefetchData
+                    onClick={handleRefetchClients}
+                    disabled={false}
+                    content="Actualizar datos de clientes involucrados"
+                  />
+                </div>
+                <FormDescription>
+                  {'Cliente(s) que han participado en las ventas'}
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </>
       }

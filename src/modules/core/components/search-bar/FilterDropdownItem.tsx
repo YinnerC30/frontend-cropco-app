@@ -23,11 +23,15 @@ export const FilterDropdownItem = memo(
     className?: string;
     dataTestId?: string;
   }) => {
-    console.log('Render')
     const [openMenu, setOpenMenu] = useState(false);
 
     return (
-      <DropdownMenuSub open={openMenu} onOpenChange={setOpenMenu} >
+      <DropdownMenuSub
+        open={openMenu}
+        onOpenChange={(value) => {
+          setOpenMenu(value);
+        }}
+      >
         <DropdownMenuSubTrigger
           data-testid={dataTestId}
           onMouseDown={(e) => e.preventDefault()}
@@ -39,10 +43,10 @@ export const FilterDropdownItem = memo(
             className={`w-[240px] p-4 ml-2 ${className}`}
             avoidCollisions
             sideOffset={0}
-            onPointerDownOutside={(e) => {
-              e.preventDefault();
-              /* setOpenDropDownMenu((prev: boolean) => !prev); */
-            }}
+            // onPointerDownOutside={(e) => {
+            //   e.preventDefault();
+            //   setOpenMenu((prev: boolean) => true);
+            // }}
             /* onCloseAutoFocus={(e) => e.preventDefault()} */
           >
             {content}

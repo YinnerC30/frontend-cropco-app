@@ -185,7 +185,7 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.checkTableRowTotal('4');
   });
 
-  it('Debe buscar la ventas por un cliente en especifico', () => {
+  it.only('Debe buscar la ventas por un cliente en especifico', () => {
     cy.wait(1500);
     cy.get('button[data-testid="btn-sales-filters"]').click();
 
@@ -195,7 +195,8 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
 
     cy.selectCommandOption('0', true);
 
-    cy.get('div[data-testid="filter-clients"]').click();
+    // cy.realPress('Escape');
+    // cy.get('div[data-testid="filter-clients"]').click();
 
     cy.get('button[data-testid="button-filter-clients-apply"]').click();
     cy.wait(2000);
