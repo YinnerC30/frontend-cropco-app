@@ -8,7 +8,7 @@ export interface FormsCommands {
   selectCalendarYear(year: number): Cypress.Chainable<void>;
   selectCalendarDay(day: number): Cypress.Chainable<void>;
   openCommandField(name: string): Cypress.Chainable<void>;
-  selectCommandOption(numberOption: string): Cypress.Chainable<void>;
+  selectCommandOption(numberOption: string, skipWait?: boolean): Cypress.Chainable<void>;
   openSelectField(): Cypress.Chainable<void>;
   selectSelectOption(value: string): Cypress.Chainable<void>;
   clickOnCloseFormDialog(): Cypress.Chainable<void>;

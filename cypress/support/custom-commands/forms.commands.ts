@@ -41,12 +41,21 @@ Cypress.Commands.add('openCommandField', (name: string) => {
   cy.wait(500);
 });
 
-Cypress.Commands.add('selectCommandOption', (numberOption: string) => {
-  cy.get(
-    `div[data-testid="form-field-command-item-${numberOption}"][role="option"]`
-  ).click();
-  cy.wait(500);
-});
+Cypress.Commands.add(
+  'selectCommandOption',
+  (numberOption: string, skipWait = false) => {
+    cy.get(
+      `div[data-testid="form-field-command-item-${numberOption}"][role="option"]`
+    )
+      .should('exist')
+      .should('be.visible')
+      .click();
+
+    if (!skipWait) {
+      cy.wait(500);
+    }
+  }
+);
 
 // Select Field
 
@@ -67,8 +76,3 @@ Cypress.Commands.add('checkFormInputsAreEmpty', () => {
     cy.wrap($input).should('have.value', '');
   });
 });
-
-
-
-
-
