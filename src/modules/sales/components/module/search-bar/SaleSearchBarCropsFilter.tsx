@@ -184,7 +184,7 @@ export const SaleSearchBarCropsFilter: React.FC<Props> = (props) => {
   return (
     <FilterDropdownItem
       label={'Cultivos'}
-      className=" lg:w-[280px]"
+      className="w-[200px] sm:w-[250px] md:w-[250px] lg:w-[285px]"
       content={
         <>
           <FormField
