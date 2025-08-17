@@ -1,7 +1,7 @@
 import { BreadCrumb } from '@/modules/core/components';
 import { UsersActions } from './UsersActions';
 import { UsersModuleProvider } from './UsersModuleContext';
-import { UsersSearchBar } from './UsersSearchBar';
+import { UsersSearchBar } from './UsersSearchBar'
 import { UsersTable } from './UsersTable';
 
 export const UsersModule = () => {
