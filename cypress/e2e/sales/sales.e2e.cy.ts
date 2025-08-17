@@ -185,7 +185,7 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.checkTableRowTotal('4');
   });
 
-  it.only('Debe buscar la ventas por un cliente en especifico', () => {
+  it('Debe buscar la ventas por un cliente en especifico', () => {
     cy.wait(1500);
     cy.get('button[data-testid="btn-sales-filters"]').click();
 
@@ -194,9 +194,6 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.get(`button[data-testid="btn-open-command-client"]`).click();
 
     cy.selectCommandOption('0', true);
-
-    // cy.realPress('Escape');
-    // cy.get('div[data-testid="filter-clients"]').click();
 
     cy.get('button[data-testid="button-filter-clients-apply"]').click();
     cy.wait(2000);
@@ -230,8 +227,6 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.get(`button[data-testid="btn-open-command-crop"]`).click();
 
     cy.selectCommandOption('0', true);
-
-    cy.get('div[data-testid="filter-crops"]').click();
 
     cy.get('button[data-testid="button-filter-crops-apply"]').click();
     cy.wait(2000);
@@ -267,14 +262,9 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     ).click();
     cy.selectSelectOption('EQUAL');
 
-    cy.get('div[data-testid="filter-amount"]').click();
-
     cy.getFormInput('filter_by_amount.amount').clear();
 
-    cy.get('div[data-testid="filter-amount"]').click();
     cy.getFormInput('filter_by_amount.amount').type('15');
-
-    cy.get('div[data-testid="filter-amount"]').click();
 
     cy.get('button[data-testid="button-filter-amount-apply"]').click();
     cy.wait(2000);
@@ -310,14 +300,9 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     ).click();
     cy.selectSelectOption('GREATER_THAN');
 
-    cy.get('div[data-testid="filter-amount"]').click();
-
     cy.getFormInput('filter_by_amount.amount').clear();
 
-    cy.get('div[data-testid="filter-amount"]').click();
     cy.getFormInput('filter_by_amount.amount').type('15');
-
-    cy.get('div[data-testid="filter-amount"]').click();
 
     cy.get('button[data-testid="button-filter-amount-apply"]').click();
     cy.wait(2000);
@@ -353,14 +338,9 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     ).click();
     cy.selectSelectOption('LESS_THAN');
 
-    cy.get('div[data-testid="filter-amount"]').click();
-
     cy.getFormInput('filter_by_amount.amount').clear();
 
-    cy.get('div[data-testid="filter-amount"]').click();
     cy.getFormInput('filter_by_amount.amount').type('15');
-
-    cy.get('div[data-testid="filter-amount"]').click();
 
     cy.get('button[data-testid="button-filter-amount-apply"]').click();
     cy.wait(2000);
@@ -393,18 +373,12 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
 
     cy.getFormInput('filter_by_value_pay.value_pay').clear();
 
-    cy.get('div[data-testid="filter-value-pay"]').click();
-
     cy.getFormInput('filter_by_value_pay.value_pay').type('10000');
-
-    cy.get('div[data-testid="filter-value-pay"]').click();
 
     cy.get(
       'button[data-testid="btn-select-field"][data-name="filter_by_value_pay.type_filter_value_pay"]'
     ).click();
     cy.selectSelectOption('EQUAL');
-
-    cy.get('div[data-testid="filter-value-pay"]').click();
 
     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
     cy.wait(2000);
@@ -440,14 +414,9 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     ).click();
     cy.selectSelectOption('GREATER_THAN');
 
-    cy.get('div[data-testid="filter-value-pay"]').click();
-
     cy.getFormInput('filter_by_value_pay.value_pay').clear();
 
-    cy.get('div[data-testid="filter-value-pay"]').click();
     cy.getFormInput('filter_by_value_pay.value_pay').type('50000');
-
-    cy.get('div[data-testid="filter-value-pay"]').click();
 
     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
     cy.wait(2000);
@@ -483,14 +452,9 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     ).click();
     cy.selectSelectOption('LESS_THAN');
 
-    cy.get('div[data-testid="filter-value-pay"]').click();
-
     cy.getFormInput('filter_by_value_pay.value_pay').clear();
 
-    cy.get('div[data-testid="filter-value-pay"]').click();
     cy.getFormInput('filter_by_value_pay.value_pay').type('10000');
-
-    cy.get('div[data-testid="filter-value-pay"]').click();
 
     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
     cy.wait(2000);
