@@ -26,7 +26,7 @@ export const HarvestModuleTable: React.FC = () => {
       rowCount={queryHarvests?.data?.total_row_count ?? 0}
       isLoading={
         queryHarvests.isLoading ||
-        queryHarvests.isRefetching ||
+        queryHarvests.isFetching ||
         mutationDeleteHarvests.isPending ||
         mutationDeleteHarvest.isPending
       }
