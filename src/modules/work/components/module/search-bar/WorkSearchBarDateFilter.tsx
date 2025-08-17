@@ -5,6 +5,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { formSchemaSearchBarWork } from '../../../utils/formSchemaSearchBarWork';
 import { formFieldsSearchBarWork } from '../../../utils/formFieldsSearchBarWork';
+import { ParamQueryWork } from '../WorkModuleContext';
 
 interface WorkSearchBarDateFilterProps {
   formSearchBar: UseFormReturn<
@@ -13,7 +14,7 @@ interface WorkSearchBarDateFilterProps {
   >;
   onAddFilter: (name: string) => Promise<boolean>;
   onClearErrors: (name: string) => void;
-  paramsQuery: Record<string, unknown>;
+  paramsQuery: ParamQueryWork;
   disabled?: boolean;
 }
 

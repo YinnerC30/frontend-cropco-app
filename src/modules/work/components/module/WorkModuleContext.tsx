@@ -28,7 +28,7 @@ import { useGetAllEmployeesWithWorks } from '@/modules/payments/hooks/queries/us
 import { Crop } from '@/modules/crops/interfaces/Crop';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 
-export interface paramQueryWork {
+export interface ParamQueryWork {
   crop: { id: string };
   employees: { id: string }[];
   filter_by_date: {
@@ -42,7 +42,7 @@ export interface paramQueryWork {
 }
 
 export interface WorksModuleContextValues {
-  paramsQuery: paramQueryWork;
+  paramsQuery: ParamQueryWork;
   queryWorks: UseQueryGetAllRecordsReturn<Work>;
   dataTable: DataTableManualReturn<Work>;
   mutationDeleteWorks: UseMutationReturn<void, BulkRecords>;

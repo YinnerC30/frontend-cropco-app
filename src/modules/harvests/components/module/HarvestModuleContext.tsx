@@ -8,7 +8,10 @@ import {
   ItemQueryAdvanced,
   useAdvancedQueryDataPlus,
 } from '@/modules/core/hooks/useAdvancedQueryDataPlus';
-import { BulkRecords, ResponseApiGetAllRecords } from '@/modules/core/interfaces';
+import {
+  BulkRecords,
+  ResponseApiGetAllRecords,
+} from '@/modules/core/interfaces';
 import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
@@ -29,7 +32,7 @@ import { Crop } from '@/modules/crops/interfaces/Crop';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 
-export interface paramQueryHarvest {
+export interface ParamQueryHarvest {
   crop: { id: string };
   employees: { id: string }[];
   filter_by_date: {
@@ -48,7 +51,7 @@ export interface paramQueryHarvest {
 }
 
 export interface HarvestsModuleContextProps {
-  paramsQuery: paramQueryHarvest;
+  paramsQuery: ParamQueryHarvest;
   queryHarvests: UseQueryGetAllRecordsReturn<Harvest>;
   dataTable: DataTableManualReturn<Harvest>;
   mutationDeleteHarvests: UseMutationReturn<UseDeleteBulkResponse, BulkRecords>;
@@ -63,7 +66,10 @@ export interface HarvestsModuleContextProps {
   setHarvestIdDocument: React.Dispatch<React.SetStateAction<string>>;
   setExecuteQuery: React.Dispatch<React.SetStateAction<boolean>>;
 
-  queryCrops: UseQueryResult<ResponseApiGetAllRecords<Crop>, AxiosError<TypedAxiosError, unknown>>;
+  queryCrops: UseQueryResult<
+    ResponseApiGetAllRecords<Crop>,
+    AxiosError<TypedAxiosError, unknown>
+  >;
   queryEmployees: UseQueryGetAllRecordsReturn<Employee>;
   unitTypeToShowAmount: MassUnitOfMeasure;
   setUnitTypeToShowAmount: React.Dispatch<

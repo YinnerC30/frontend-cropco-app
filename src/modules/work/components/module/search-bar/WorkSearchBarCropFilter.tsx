@@ -3,6 +3,9 @@ import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { formSchemaSearchBarWork } from '../../../utils/formSchemaSearchBarWork';
 import { formFieldsSearchBarWork } from '../../../utils/formFieldsSearchBarWork';
+import { ParamQueryWork } from '../WorkModuleContext';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { Crop } from '@/modules/crops/interfaces/Crop';
 
 interface WorkSearchBarCropFilterProps {
   formSearchBar: UseFormReturn<
@@ -11,13 +14,8 @@ interface WorkSearchBarCropFilterProps {
   >;
   onAddFilter: (name: string) => Promise<boolean>;
   onClearErrors: (name: string) => void;
-  paramsQuery: Record<string, unknown>;
-  queryCrops: {
-    data?: { records: Array<{ id: string; name: string }> };
-    isLoading: boolean;
-    isFetching: boolean;
-    refetch: () => Promise<unknown>;
-  };
+  paramsQuery: ParamQueryWork;
+  queryCrops: UseQueryGetAllRecordsReturn<Crop>;
   disabled?: boolean;
 }
 
