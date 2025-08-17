@@ -13,7 +13,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from '@/components/ui/form';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
@@ -166,7 +166,7 @@ export const SaleSearchBarClientsFilter: React.FC<Props> = ({
       }
 
       // Opcional: mantener popover abierto para selección múltiple
-      // setOpenPopoverClient(false);
+      setOpenPopoverClient(false);
     },
     [formSearchBar, currentClients]
   );

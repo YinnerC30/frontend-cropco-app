@@ -331,15 +331,15 @@ export const SaleModuleSearchbar: React.FC = () => {
             </div>
 
             <DropdownMenuContent
-              className="w-80"
+              className="w-auto"
               onPointerDownOutside={(e) => {
                 e.preventDefault();
                 e.stopImmediatePropagation();
               }}
-              onCloseAutoFocus={(e) => {
-                e.preventDefault();
-                e.stopImmediatePropagation();
-              }}
+              // onCloseAutoFocus={(e) => {
+              //   e.preventDefault();
+              //   e.stopImmediatePropagation();
+              // }}
             >
               <SaleSearchBarClientsFilter
                 onAddFilter={handleAddFilter}

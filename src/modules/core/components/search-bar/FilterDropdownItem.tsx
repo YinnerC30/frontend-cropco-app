@@ -28,26 +28,42 @@ export const FilterDropdownItem = memo(
     return (
       <DropdownMenuSub
         open={openMenu}
-        onOpenChange={(value) => {
-          setOpenMenu(value);
-        }}
+        // onOpenChange={(value) => {
+        //   // if (value) {
+        //   //   setOpenMenu(value);
+        //   // }
+        // }}
       >
         <DropdownMenuSubTrigger
           data-testid={dataTestId}
           onMouseDown={(e) => e.preventDefault()}
+          onClick={(e) => {
+            e.preventDefault();
+            // e.stopPropagation();
+            console.log('Se llamo');
+            setOpenMenu((prev) => !prev);
+          }}
+          // onMouseEnter={(e) => e.preventDefault()}
+          // onFocus={(e) => e.preventDefault()}
         >
           {label}
         </DropdownMenuSubTrigger>
+
         <DropdownMenuPortal>
           <DropdownMenuSubContent
             className={`w-[240px] p-4 ml-2 ${className}`}
             avoidCollisions
             sideOffset={0}
-            // onPointerDownOutside={(e) => {
+            onPointerDownOutside={(e) => {
+              e.preventDefault();
+              e.stopImmediatePropagation();
+              console.log('Aqui entro...');
+            }}
+            // onFocusOutside={(e) => {
             //   e.preventDefault();
-            //   setOpenMenu((prev: boolean) => true);
+            //   // setOpenMenu(false)
             // }}
-            /* onCloseAutoFocus={(e) => e.preventDefault()} */
+            // onInteractOutside={(e) => e.preventDefault()}
           >
             {content}
             <div className="flex justify-center gap-2">
