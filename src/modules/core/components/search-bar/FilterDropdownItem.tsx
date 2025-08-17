@@ -52,14 +52,14 @@ export const FilterDropdownItem = memo(
 
         <DropdownMenuPortal>
           <DropdownMenuSubContent
-            className={`w-[240px] p-4 ml-2 ${className}`}
+            className={`w-[360px] p-4 ml-2 ${className}`}
             avoidCollisions
             sideOffset={0}
             onPointerDownOutside={(e) => {
               e.preventDefault();
               e.stopImmediatePropagation();
-              console.log('Aqui entro...');
             }}
+            alignOffset={5}
 
             // onFocusOutside={(e) => {
             //   e.preventDefault();

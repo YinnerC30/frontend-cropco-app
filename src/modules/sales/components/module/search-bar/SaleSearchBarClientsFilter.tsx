@@ -24,7 +24,7 @@ import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses
 import { formSchemaSearchBarSale } from '@/modules/sales/utils';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { Popover } from '@radix-ui/react-popover';
-import { CheckIcon } from 'lucide-react';
+import { CheckIcon, X } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
@@ -176,7 +176,7 @@ export const SaleSearchBarClientsFilter: React.FC<Props> = ({
     (field: ControllerRenderProps<FormSchema, 'clients'>) => {
       if (queryClients.isLoading || queryClients.isFetching) {
         return (
-          <div className="w-[200px]">
+          <div className="w-[170px]">
             <Loading className="" />
           </div>
         );
@@ -190,7 +190,8 @@ export const SaleSearchBarClientsFilter: React.FC<Props> = ({
           aria-label="Seleccionar clientes"
           className={cn(
             'justify-between',
-            !field.value && 'text-muted-foreground'
+            !field.value && 'text-muted-foreground',
+            'w-[170px] p-2 mr-2'
           )}
           ref={field.ref}
           onBlur={field.onBlur}
@@ -238,7 +239,7 @@ export const SaleSearchBarClientsFilter: React.FC<Props> = ({
   return (
     <FilterDropdownItem
       label={'Clientes'}
-      className="lg:w-[280px]"
+      className="w-[200px] sm:w-[250px] md:w-[250px] lg:w-[285px]"
       content={
         <>
           <FormField
@@ -249,7 +250,7 @@ export const SaleSearchBarClientsFilter: React.FC<Props> = ({
                 <FormLabel className="block my-2">
                   {'Clientes involucrados:'}
                 </FormLabel>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-0">
                   <Popover
                     open={openPopoverClient}
                     onOpenChange={setOpenPopoverClient}
@@ -258,7 +259,7 @@ export const SaleSearchBarClientsFilter: React.FC<Props> = ({
                     <PopoverTrigger asChild>
                       {renderClientButton(field)}
                     </PopoverTrigger>
-                    <PopoverContent className="w-[200px] p-0">
+                    <PopoverContent className="w-[210px] p-0">
                       <Command>
                         <CommandInput
                           placeholder="Buscar cliente..."
@@ -268,6 +269,20 @@ export const SaleSearchBarClientsFilter: React.FC<Props> = ({
                       </Command>
                     </PopoverContent>
                   </Popover>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      formSearchBar.setValue('clients', [], {
+                        shouldValidate: false,
+                        shouldDirty: false,
+                      });
+                    }}
+                    size={'icon'}
+                    variant={'outline'}
+                    className="w-8 mr-1 bg-destructive hover:bg-destructive/80 "
+                  >
+                    <X className="w-3 h-3" />
+                  </Button>
                   <ButtonRefetchData
                     onClick={handleRefetchClients}
                     disabled={false}
