@@ -333,8 +333,8 @@ export const SaleModuleSearchbar: React.FC = () => {
             <DropdownMenuContent
               className="w-auto"
               onPointerDownOutside={(e) => {
-                e.preventDefault();
-                e.stopImmediatePropagation();
+                // e.preventDefault();
+                // e.stopImmediatePropagation();
               }}
               // onCloseAutoFocus={(e) => {
               //   e.preventDefault();

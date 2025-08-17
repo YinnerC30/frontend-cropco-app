@@ -253,7 +253,7 @@ export const SaleSearchBarClientsFilter: React.FC<Props> = ({
                   <Popover
                     open={openPopoverClient}
                     onOpenChange={setOpenPopoverClient}
-                    modal={true}
+                    modal={false}
                   >
                     <PopoverTrigger asChild>
                       {renderClientButton(field)}

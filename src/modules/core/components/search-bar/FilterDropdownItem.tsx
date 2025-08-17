@@ -28,6 +28,7 @@ export const FilterDropdownItem = memo(
     return (
       <DropdownMenuSub
         open={openMenu}
+
         // onOpenChange={(value) => {
         //   // if (value) {
         //   //   setOpenMenu(value);
@@ -59,6 +60,7 @@ export const FilterDropdownItem = memo(
               e.stopImmediatePropagation();
               console.log('Aqui entro...');
             }}
+
             // onFocusOutside={(e) => {
             //   e.preventDefault();
             //   // setOpenMenu(false)
