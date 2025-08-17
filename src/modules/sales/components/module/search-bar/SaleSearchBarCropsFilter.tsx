@@ -1,7 +1,7 @@
 import { Button, PopoverContent, PopoverTrigger } from '@/components';
 import { ButtonRefetchData, Loading } from '@/modules/core/components';
 
-import { CheckIcon } from 'lucide-react';
+import { CheckIcon, X } from 'lucide-react';
 
 import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
 import { Popover } from '@radix-ui/react-popover';
@@ -20,16 +20,15 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 import { CapitalizeFirstWord } from '@/auth';
 import {
-  FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from '@/components/ui/form';
 import { cn } from '@/lib/utils';
-import { Crop } from '@/modules/crops/interfaces/Crop';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { Crop } from '@/modules/crops/interfaces/Crop';
 import { formSchemaSearchBarSale } from '@/modules/sales/utils';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
@@ -103,7 +102,7 @@ export const SaleSearchBarCropsFilter: React.FC<Props> = (props) => {
 
     if (queryCrops.isLoading || queryCrops.isFetching) {
       return (
-        <div className="w-[200px]">
+        <div className="w-[170px]">
           <Loading className="" />
         </div>
       );
@@ -114,16 +113,21 @@ export const SaleSearchBarCropsFilter: React.FC<Props> = (props) => {
         variant="outline"
         role="combobox"
         aria-expanded={openPopoverCrop}
+        aria-label="Seleccionar cultivos"
         className={cn(
           'justify-between',
-          !field.value && 'text-muted-foreground'
+          !field.value && 'text-muted-foreground',
+          'w-[170px] p-2 mr-2'
         )}
         ref={field.ref}
         onBlur={field.onBlur}
         disabled={disabled}
         data-testid="btn-open-command-crop"
+        id={field.name}
+        aria-describedby={field.name ? `${field.name}-description` : undefined}
+        onClick={() => setOpenPopoverCrop(!openPopoverCrop)}
       >
-        {field.value.length > 0 && !!queryCrops.data
+        {field.value && field.value.length > 0
           ? `${currentCrops!.length} seleccionado(s)`
           : 'Selecciona cultivos'}
 
@@ -147,6 +151,8 @@ export const SaleSearchBarCropsFilter: React.FC<Props> = (props) => {
           const currentCrops = formSearchBar.watch('crops');
           handleCropSelection(field, item, currentCrops);
         }}
+        role="option"
+        aria-selected={isSelected}
         data-testid={`form-field-command-item-${index}`}
       >
         <div className="">{item?.['name']}</div>
@@ -166,7 +172,7 @@ export const SaleSearchBarCropsFilter: React.FC<Props> = (props) => {
         <CommandEmpty>
           {`${CapitalizeFirstWord('cultivo')} no encontrado`}
         </CommandEmpty>
-        <CommandGroup>
+        <CommandGroup role="listbox">
           {queryCrops?.data?.records.map((item, index) =>
             renderCropItem(item, index, field)
           )}
@@ -190,31 +196,47 @@ export const SaleSearchBarCropsFilter: React.FC<Props> = (props) => {
                   <FormLabel className="block my-2">
                     {'Cultivos involucrados:'}
                   </FormLabel>
-                  <Popover
-                    open={openPopoverCrop}
-                    onOpenChange={setOpenPopoverCrop}
-                    modal={true}
-                  >
-                    <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap justify-center gap-2 ">
+                    <Popover
+                      open={openPopoverCrop}
+                      onOpenChange={setOpenPopoverCrop}
+                      modal={false}
+                    >
                       <PopoverTrigger asChild>
-                        <FormControl>{renderCropButton(field)}</FormControl>
+                        {renderCropButton(field)}
                       </PopoverTrigger>
+                      <PopoverContent className="w-[210px] p-0">
+                        <Command>
+                          <CommandInput
+                            placeholder="Buscar cultivo..."
+                            className="h-9"
+                          />
+                          <CommandList>{renderCropList(field)}</CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <div className="flex items-center justify-center">
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          formSearchBar.setValue('crops', [], {
+                            shouldValidate: false,
+                            shouldDirty: false,
+                          });
+                        }}
+                        size={'icon'}
+                        variant={'outline'}
+                        className="w-8 mr-1 bg-destructive hover:bg-destructive/80 "
+                      >
+                        <X className="w-3 h-3" />
+                      </Button>
                       <ButtonRefetchData
                         onClick={handleRefetchCrops}
                         disabled={false}
                         content="Actualizar datos de cultivos involucrados"
                       />
                     </div>
-                    <PopoverContent className="w-[200px] p-0">
-                      <Command>
-                        <CommandInput
-                          placeholder={`Buscar cultivo...`}
-                          className="h-9"
-                        />
-                        <CommandList>{renderCropList(field)}</CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
+                  </div>
                   <FormDescription>
                     {'Cultivo(s) que han participado en la venta'}
                   </FormDescription>
