@@ -87,6 +87,7 @@ export const FormShoppingDetail: React.FC = () => {
           size="icon"
           onClick={handleOpenDialogExtended}
           disabled={readOnly}
+          data-testid="btn-open-shopping-detail-form"
         >
           <Plus className="w-4 h-4" />
           <span className="sr-only">Crear nuevo registro</span>
@@ -123,6 +124,7 @@ export const FormShoppingDetail: React.FC = () => {
               type="submit"
               onClick={formShoppingDetail.handleSubmit(onSubmitShoppingDetail)}
               disabled={isSubmittingShoppingDetail}
+              data-testid="form-detail-submit-button"
             >
               Guardar
             </Button>

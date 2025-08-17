@@ -162,6 +162,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                   <CommandInput
                     placeholder={`Buscar ${nameEntity}...`}
                     className="h-9"
+                    data-testid={`${name}-command-input`}
                   />
                   <CommandList>
                     <ScrollArea className="w-auto h-56 p-1 pr-2">

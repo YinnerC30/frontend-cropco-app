@@ -37,6 +37,7 @@ export const FormDataTableFilter = ({
           table.getColumn(nameColumnFilter)?.setFilterValue(event.target.value)
         }
         className="max-w-sm"
+        data-testid="shopping-filter-input"
       />
       <ToolTipTemplate content="Eliminar busqueda">
         <Button
@@ -44,7 +45,7 @@ export const FormDataTableFilter = ({
           onClick={handleClearFilter}
           size={'icon'}
           variant={'outline'}
-          className='bg-destructive hover:bg-destructive/80'
+          className="bg-destructive hover:bg-destructive/80"
         >
           <X className="w-4 h-4" />
           <span className="sr-only">Limpiar</span>
