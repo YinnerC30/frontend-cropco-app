@@ -177,7 +177,7 @@ const paymentsReducer = (
 
 const defaultValuesPayment: PaymentRecord = {
   id: '',
-  date: '',
+  date: undefined,
   method_of_payment: '',
   value_pay: 0,
   employee: {

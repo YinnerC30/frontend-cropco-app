@@ -1,6 +1,6 @@
 export interface PaymentRecord {
   id: string;
-  date: string;
+  date: string | undefined;
   method_of_payment: string;
   value_pay: number;
   employee: Employee;
