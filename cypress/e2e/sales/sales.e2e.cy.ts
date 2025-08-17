@@ -68,7 +68,7 @@ describe('Comprobar existencia de elementos en el modulo de ventas', () => {
   });
 });
 
-describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
+describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
   before(() => {
     cy.executeClearSeedData({ sales: true });
     for (let i = 0; i < 2; i++) {
@@ -373,7 +373,7 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
 
     cy.getFormInput('filter_by_value_pay.value_pay').clear();
 
-    cy.getFormInput('filter_by_value_pay.value_pay').type('10000');
+    cy.getFormInput('filter_by_value_pay.value_pay').type('840000');
 
     cy.get(
       'button[data-testid="btn-select-field"][data-name="filter_by_value_pay.type_filter_value_pay"]'
@@ -385,13 +385,13 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
 
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
-    cy.checkTableRowTotal('0');
+    cy.checkTableRowTotal('4');
 
     // Persiste a la recarga manual de la pestaña
     cy.reload();
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
-    cy.checkTableRowTotal('0');
+    cy.checkTableRowTotal('4');
 
     cy.get('div[data-testid="filters-badged-list"]')
       .should('exist')
@@ -416,20 +416,20 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
 
     cy.getFormInput('filter_by_value_pay.value_pay').clear();
 
-    cy.getFormInput('filter_by_value_pay.value_pay').type('50000');
+    cy.getFormInput('filter_by_value_pay.value_pay').type('840000');
 
     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
     cy.wait(2000);
 
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
-    cy.checkTableRowTotal('4');
+    cy.checkTableRowTotal('0');
 
     // Persiste a la recarga manual de la pestaña
     cy.reload();
     cy.existPaginationInfo();
     cy.checkTableRowsExist();
-    cy.checkTableRowTotal('4');
+    cy.checkTableRowTotal('0');
 
     cy.get('div[data-testid="filters-badged-list"]')
       .should('exist')
