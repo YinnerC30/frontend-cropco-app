@@ -117,7 +117,6 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
 
     cy.selectCommandOption('0');
 
-    cy.get('div[data-testid="filter-employees"]').click();
     cy.get('button[data-testid="button-filter-employees-apply"]').click();
     cy.wait(2000);
 
@@ -151,12 +150,8 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     // cy.wait(2000);
     cy.selectSelectOption('EQUAL');
 
-    cy.get('div[data-testid="filter-date"]').click();
-
     cy.get('button[data-testid="btn-calendar-selector"]').click();
     cy.selectCalendarDay(new Date().getDate());
-
-    cy.get('div[data-testid="filter-date"]').click();
 
     cy.get('button[data-testid="button-filter-date-apply"]').click();
     cy.wait(2000);
@@ -190,12 +185,8 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     cy.openSelectField();
     cy.selectSelectOption('BEFORE');
 
-    cy.get('div[data-testid="filter-date"]').click();
-
     cy.get('button[data-testid="btn-calendar-selector"]').click();
     cy.selectCalendarDay(new Date().getDate());
-
-    cy.get('div[data-testid="filter-date"]').click();
 
     cy.get('button[data-testid="button-filter-date-apply"]').click();
     cy.wait(2000);
@@ -229,12 +220,8 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     cy.openSelectField();
     cy.selectSelectOption('AFTER');
 
-    cy.get('div[data-testid="filter-date"]').click();
-
     cy.get('button[data-testid="btn-calendar-selector"]').click();
     cy.selectCalendarDay(new Date().getDate());
-
-    cy.get('div[data-testid="filter-date"]').click();
 
     cy.get('button[data-testid="button-filter-date-apply"]').click();
     cy.wait(2000);
@@ -270,21 +257,14 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     ).click();
     cy.selectSelectOption('EQUAL');
 
-    cy.get('div[data-testid="filter-amount"]').click();
-
     cy.get(
       'button[data-testid="btn-select-field"][data-name="filter_by_amount.type_unit_of_measure"]'
     ).click();
     cy.selectSelectOption('KILOGRAMOS');
 
-    cy.get('div[data-testid="filter-amount"]').click();
-
     cy.getFormInput('filter_by_amount.amount').clear();
 
-    cy.get('div[data-testid="filter-amount"]').click();
     cy.getFormInput('filter_by_amount.amount').type('450');
-
-    cy.get('div[data-testid="filter-amount"]').click();
 
     cy.get('button[data-testid="button-filter-amount-apply"]').click();
     cy.wait(2000);
@@ -320,21 +300,14 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     ).click();
     cy.selectSelectOption('GREATER_THAN');
 
-    cy.get('div[data-testid="filter-amount"]').click();
-
     cy.get(
       'button[data-testid="btn-select-field"][data-name="filter_by_amount.type_unit_of_measure"]'
     ).click();
     cy.selectSelectOption('KILOGRAMOS');
 
-    cy.get('div[data-testid="filter-amount"]').click();
-
     cy.getFormInput('filter_by_amount.amount').clear();
 
-    cy.get('div[data-testid="filter-amount"]').click();
     cy.getFormInput('filter_by_amount.amount').type('450');
-
-    cy.get('div[data-testid="filter-amount"]').click();
 
     cy.get('button[data-testid="button-filter-amount-apply"]').click();
     cy.wait(2000);
@@ -370,21 +343,14 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     ).click();
     cy.selectSelectOption('LESS_THAN');
 
-    cy.get('div[data-testid="filter-amount"]').click();
-
     cy.get(
       'button[data-testid="btn-select-field"][data-name="filter_by_amount.type_unit_of_measure"]'
     ).click();
     cy.selectSelectOption('KILOGRAMOS');
 
-    cy.get('div[data-testid="filter-amount"]').click();
-
     cy.getFormInput('filter_by_amount.amount').clear();
 
-    cy.get('div[data-testid="filter-amount"]').click();
     cy.getFormInput('filter_by_amount.amount').type('450');
-
-    cy.get('div[data-testid="filter-amount"]').click();
 
     cy.get('button[data-testid="button-filter-amount-apply"]').click();
     cy.wait(2000);
@@ -420,14 +386,9 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     ).click();
     cy.selectSelectOption('EQUAL');
 
-    cy.get('div[data-testid="filter-value-pay"]').click();
-
     cy.getFormInput('filter_by_value_pay.value_pay').clear();
 
-    cy.get('div[data-testid="filter-value-pay"]').click();
     cy.getFormInput('filter_by_value_pay.value_pay').type('270000');
-
-    cy.get('div[data-testid="filter-value-pay"]').click();
 
     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
     cy.wait(2000);
@@ -462,14 +423,9 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     ).click();
     cy.selectSelectOption('GREATER_THAN');
 
-    cy.get('div[data-testid="filter-value-pay"]').click();
-
     cy.getFormInput('filter_by_value_pay.value_pay').clear();
 
-    cy.get('div[data-testid="filter-value-pay"]').click();
     cy.getFormInput('filter_by_value_pay.value_pay').type('270000');
-
-    cy.get('div[data-testid="filter-value-pay"]').click();
 
     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
     cy.wait(2000);
@@ -493,7 +449,7 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
       });
     cy.checkTableRowTotal('4');
   });
-  it('Debe buscar la cosechas por un valor (mayor a)', () => {
+  it('Debe buscar la cosechas por un valor (menor a)', () => {
     cy.wait(1500);
     cy.get('button[data-testid="btn-harvests-filters"]').click();
 
@@ -504,14 +460,9 @@ describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
     ).click();
     cy.selectSelectOption('LESS_THAN');
 
-    cy.get('div[data-testid="filter-value-pay"]').click();
-
     cy.getFormInput('filter_by_value_pay.value_pay').clear();
 
-    cy.get('div[data-testid="filter-value-pay"]').click();
     cy.getFormInput('filter_by_value_pay.value_pay').type('270000');
-
-    cy.get('div[data-testid="filter-value-pay"]').click();
 
     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
     cy.wait(2000);

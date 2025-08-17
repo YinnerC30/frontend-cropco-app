@@ -13,6 +13,7 @@ import {
 import { BulkRecords } from '@/modules/core/interfaces';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
 import { useDeleteBulkWorks } from '../../hooks/mutations/useDeleteBulkWorks';
 import { useDeleteWork } from '../../hooks/mutations/useDeleteWork';
 import { useGetAllWorks } from '../../hooks/queries/useGetAllWorks';
@@ -48,6 +49,8 @@ export interface WorksModuleContextValues {
   mutationDeleteWork: UseMutationReturn<void, string>;
   actionsWorksModule: Record<string, boolean>;
   hasParamsQuery: boolean;
+  appliedFilters: FilterSearchBar[];
+  setAppliedFilters: React.Dispatch<React.SetStateAction<FilterSearchBar[]>>;
 
   queryGetDocument: UseQueryResult<Blob, AxiosError>;
   workIdDocument: string;
@@ -102,6 +105,7 @@ export const WorksModuleProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const { paramsValues, hasValues } = useAdvancedQueryDataPlus(paramsWorks);
+  const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
   const {
     query: queryWorks,
@@ -180,6 +184,8 @@ export const WorksModuleProvider: React.FC<{
     },
 
     hasParamsQuery: hasValues,
+    appliedFilters,
+    setAppliedFilters,
     workIdDocument,
     setWorkIdDocument,
     setExecuteQuery,
