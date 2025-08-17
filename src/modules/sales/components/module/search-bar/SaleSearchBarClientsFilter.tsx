@@ -250,7 +250,7 @@ export const SaleSearchBarClientsFilter: React.FC<Props> = ({
                 <FormLabel className="block my-2">
                   {'Clientes involucrados:'}
                 </FormLabel>
-                <div className="flex flex-wrap gap-0">
+                <div className="flex flex-wrap justify-center gap-2 ">
                   <Popover
                     open={openPopoverClient}
                     onOpenChange={setOpenPopoverClient}
@@ -269,25 +269,27 @@ export const SaleSearchBarClientsFilter: React.FC<Props> = ({
                       </Command>
                     </PopoverContent>
                   </Popover>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      formSearchBar.setValue('clients', [], {
-                        shouldValidate: false,
-                        shouldDirty: false,
-                      });
-                    }}
-                    size={'icon'}
-                    variant={'outline'}
-                    className="w-8 mr-1 bg-destructive hover:bg-destructive/80 "
-                  >
-                    <X className="w-3 h-3" />
-                  </Button>
-                  <ButtonRefetchData
-                    onClick={handleRefetchClients}
-                    disabled={false}
-                    content="Actualizar datos de clientes involucrados"
-                  />
+                  <div className="flex items-center justify-center">
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        formSearchBar.setValue('clients', [], {
+                          shouldValidate: false,
+                          shouldDirty: false,
+                        });
+                      }}
+                      size={'icon'}
+                      variant={'outline'}
+                      className="w-8 mr-1 bg-destructive hover:bg-destructive/80 "
+                    >
+                      <X className="w-3 h-3" />
+                    </Button>
+                    <ButtonRefetchData
+                      onClick={handleRefetchClients}
+                      disabled={false}
+                      content="Actualizar datos de clientes involucrados"
+                    />
+                  </div>
                 </div>
                 <FormDescription>
                   {'Cliente(s) que han participado en las ventas'}
