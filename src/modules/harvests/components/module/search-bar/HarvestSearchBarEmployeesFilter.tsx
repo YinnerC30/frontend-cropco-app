@@ -22,7 +22,7 @@ import { ButtonRefetchData, Loading } from '@/modules/core/components';
 import { CapitalizeFirstWord } from '@/auth/helpers';
 import { cn } from '@/lib/utils';
 import { CaretSortIcon } from '@radix-ui/react-icons';
-import { CheckIcon } from 'lucide-react';
+import { CheckIcon, X } from 'lucide-react';
 import React, { useState, useCallback } from 'react';
 import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
@@ -218,7 +218,7 @@ export const HarvestSearchBarEmployeesFilter: React.FC<
                 onOpenChange={handleOpenChange}
                 modal={true}
               >
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap justify-center gap-2">
                   <PopoverTrigger asChild>
                     <FormControl>
                       {renderTriggerButton(
@@ -230,11 +230,27 @@ export const HarvestSearchBarEmployeesFilter: React.FC<
                       )}
                     </FormControl>
                   </PopoverTrigger>
-                  <ButtonRefetchData
-                    onClick={() => handleRefetchEmployees(queryEmployees)}
-                    disabled={false}
-                    content="Actualizar datos de empleados involucrados"
-                  />
+                  <div className="flex items-center justify-center">
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        formSearchBar.setValue('employees', [], {
+                          shouldValidate: false,
+                          shouldDirty: false,
+                        });
+                      }}
+                      size={'icon'}
+                      variant={'outline'}
+                      className="w-8 mr-1 bg-destructive hover:bg-destructive/80"
+                    >
+                      <X className="w-3 h-3" />
+                    </Button>
+                    <ButtonRefetchData
+                      onClick={() => handleRefetchEmployees(queryEmployees)}
+                      disabled={false}
+                      content="Actualizar datos de empleados involucrados"
+                    />
+                  </div>
                 </div>
                 <PopoverContent
                   className="w-[200px] p-0"
