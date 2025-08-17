@@ -2,9 +2,9 @@ import {
   ActionCopyIdRecord,
   ActionDeleteRecord,
   ActionModifyRecord,
+  ActionNavigate,
   ActionViewRecord,
   DropDownMenuActions,
-  ItemNavigate,
 } from '@/modules/core/components';
 import { Row } from '@tanstack/react-table';
 import { LayersIcon } from 'lucide-react';
@@ -50,7 +50,8 @@ export const ActionsTableHarvest: React.FC<Props> = ({ row }) => {
         path={MODULE_HARVESTS_PATHS.ViewOne + id}
         disabled={!actionsHarvestsModule['find_one_harvest']}
       />
-      <ItemNavigate
+
+      <ActionNavigate
         path={`../processed/view/${id}`}
         Icon={LayersIcon}
         name={'Inventario'}
