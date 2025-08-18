@@ -1,16 +1,14 @@
-import { Cross2Icon } from '@radix-ui/react-icons';
 
 import { Button } from '@/components/ui/button';
 
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogCustomClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from '@/components/ui/dialog';
 
 import { toast } from 'sonner';
@@ -20,11 +18,11 @@ import { ToolTipTemplate } from '@/modules/core/components';
 
 import { Plus } from 'lucide-react';
 
+import { ScrollArea } from '@/components';
 import { useFormShoppingContext } from '@/modules/shopping/hooks/context/useFormShoppingContext';
 import { formSchemaShoppingDetail } from '@/modules/shopping/utils';
 import { z } from 'zod';
 import { FormShoppingDetailsFields } from './FormShoppingDetailsFields';
-import { ScrollArea } from '@/components';
 
 export const FormShoppingDetail: React.FC = () => {
   const {
