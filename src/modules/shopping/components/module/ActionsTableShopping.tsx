@@ -32,7 +32,7 @@ export const ActionsTableShopping: React.FC<{
     });
   };
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={id}>
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}
