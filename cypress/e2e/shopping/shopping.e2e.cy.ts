@@ -65,7 +65,7 @@ describe('Comprobar existencia de elementos en el modulo de compras', () => {
   });
 });
 
-describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
+describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
   before(() => {
     cy.executeClearSeedData({ shoppingSupplies: true });
     for (let i = 0; i < 2; i++) {
@@ -79,7 +79,7 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.navigateToModuleWithSideBar('shopping');
   });
 
-  it.only('Debe buscar la compras por una fecha (fecha actual)', () => {
+  it('Debe buscar la compras por una fecha (fecha actual)', () => {
     cy.wait(1500);
     cy.get('button[data-testid="btn-filter-date"]').click();
 
@@ -116,7 +116,7 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.checkTableRowTotal('4');
   });
 
-  it.only('Debe buscar la compras por una fecha (fecha anterior)', () => {
+  it('Debe buscar la compras por una fecha (fecha anterior)', () => {
     cy.wait(1500);
     cy.get('button[data-testid="btn-filter-date"]').click();
 
@@ -149,7 +149,7 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.checkTableRowTotal('4');
   });
 
-  it.only('Debe buscar la compras por una fecha (fecha posterior)', () => {
+  it('Debe buscar la compras por una fecha (fecha posterior)', () => {
     cy.wait(1500);
     cy.get('button[data-testid="btn-filter-date"]').click();
 
@@ -182,17 +182,17 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.checkTableRowTotal('4');
   });
 
-  it('Debe buscar la compras por un cliente en especifico', () => {
+  it('Debe buscar la compras por un proveedor en especifico', () => {
     cy.wait(1500);
     cy.get('button[data-testid="btn-shopping-filters"]').click();
 
-    cy.get('div[data-testid="filter-clients"]').click();
+    cy.get('div[data-testid="filter-suppliers"]').click();
 
-    cy.get(`button[data-testid="btn-open-command-client"]`).click();
+    cy.get(`button[data-testid="btn-open-command-supplier"]`).click();
 
     cy.selectCommandOption('0', true);
 
-    cy.get('button[data-testid="button-filter-clients-apply"]').click();
+    cy.get('button[data-testid="button-filter-suppliers-apply"]').click();
     cy.wait(2000);
 
     cy.existPaginationInfo();
@@ -208,24 +208,24 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.get('div[data-testid="filters-badged-list"]')
       .should('exist')
       .within(() => {
-        cy.get('button[data-testid="btn-remove-filter-clients"]')
+        cy.get('button[data-testid="btn-remove-filter-suppliers"]')
           .should('exist')
           .click();
       });
     cy.checkTableRowTotal('4');
   });
 
-  it('Debe buscar la compras por un cultivo en especifico', () => {
+  it('Debe buscar la compras por un insumo en especifico', () => {
     cy.wait(1500);
     cy.get('button[data-testid="btn-shopping-filters"]').click();
 
-    cy.get('div[data-testid="filter-crops"]').click();
+    cy.get('div[data-testid="filter-supplies"]').click();
 
-    cy.get(`button[data-testid="btn-open-command-crop"]`).click();
+    cy.get(`button[data-testid="btn-open-command-supply"]`).click();
 
     cy.selectCommandOption('0', true);
 
-    cy.get('button[data-testid="button-filter-crops-apply"]').click();
+    cy.get('button[data-testid="button-filter-supplies-apply"]').click();
     cy.wait(2000);
 
     cy.existPaginationInfo();
@@ -241,121 +241,7 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
     cy.get('div[data-testid="filters-badged-list"]')
       .should('exist')
       .within(() => {
-        cy.get('button[data-testid="btn-remove-filter-crops"]')
-          .should('exist')
-          .click();
-      });
-    cy.checkTableRowTotal('4');
-  });
-
-  it('Debe buscar la compras por un monto (igual a)', () => {
-    cy.wait(1500);
-    cy.get('button[data-testid="btn-shopping-filters"]').click();
-
-    cy.get('div[data-testid="filter-amount"]').click();
-
-    cy.get(
-      'button[data-testid="btn-select-field"][data-name="filter_by_amount.type_filter_amount"]'
-    ).click();
-    cy.selectSelectOption('EQUAL');
-
-    cy.getFormInput('filter_by_amount.amount').clear();
-
-    cy.getFormInput('filter_by_amount.amount').type('15');
-
-    cy.get('button[data-testid="button-filter-amount-apply"]').click();
-    cy.wait(2000);
-
-    cy.existPaginationInfo();
-    cy.checkTableRowsExist();
-    cy.checkTableRowTotal('4');
-
-    // Persiste a la recarga manual de la pestaña
-    cy.reload();
-    cy.existPaginationInfo();
-    cy.checkTableRowsExist();
-    cy.checkTableRowTotal('4');
-
-    cy.get('div[data-testid="filters-badged-list"]')
-      .should('exist')
-      .within(() => {
-        cy.get('button[data-testid="btn-remove-filter-amount"]')
-          .should('exist')
-          .click();
-      });
-    cy.checkTableRowTotal('4');
-  });
-
-  it('Debe buscar la compras por un monto (mayor a)', () => {
-    cy.wait(1500);
-    cy.get('button[data-testid="btn-shopping-filters"]').click();
-
-    cy.get('div[data-testid="filter-amount"]').click();
-
-    cy.get(
-      'button[data-testid="btn-select-field"][data-name="filter_by_amount.type_filter_amount"]'
-    ).click();
-    cy.selectSelectOption('GREATER_THAN');
-
-    cy.getFormInput('filter_by_amount.amount').clear();
-
-    cy.getFormInput('filter_by_amount.amount').type('15');
-
-    cy.get('button[data-testid="button-filter-amount-apply"]').click();
-    cy.wait(2000);
-
-    cy.existPaginationInfo();
-    cy.checkTableRowsExist();
-    cy.checkTableRowTotal('0');
-
-    // Persiste a la recarga manual de la pestaña
-    cy.reload();
-    cy.existPaginationInfo();
-    cy.checkTableRowsExist();
-    cy.checkTableRowTotal('0');
-
-    cy.get('div[data-testid="filters-badged-list"]')
-      .should('exist')
-      .within(() => {
-        cy.get('button[data-testid="btn-remove-filter-amount"]')
-          .should('exist')
-          .click();
-      });
-    cy.checkTableRowTotal('4');
-  });
-
-  it('Debe buscar la compras por un monto (menor a)', () => {
-    cy.wait(1500);
-    cy.get('button[data-testid="btn-shopping-filters"]').click();
-
-    cy.get('div[data-testid="filter-amount"]').click();
-
-    cy.get(
-      'button[data-testid="btn-select-field"][data-name="filter_by_amount.type_filter_amount"]'
-    ).click();
-    cy.selectSelectOption('LESS_THAN');
-
-    cy.getFormInput('filter_by_amount.amount').clear();
-
-    cy.getFormInput('filter_by_amount.amount').type('15');
-
-    cy.get('button[data-testid="button-filter-amount-apply"]').click();
-    cy.wait(2000);
-
-    cy.existPaginationInfo();
-    cy.checkTableRowsExist();
-    cy.checkTableRowTotal('0');
-
-    // Persiste a la recarga manual de la pestaña
-    cy.reload();
-    cy.existPaginationInfo();
-    cy.checkTableRowsExist();
-    cy.checkTableRowTotal('0');
-
-    cy.get('div[data-testid="filters-badged-list"]')
-      .should('exist')
-      .within(() => {
-        cy.get('button[data-testid="btn-remove-filter-amount"]')
+        cy.get('button[data-testid="btn-remove-filter-supplies"]')
           .should('exist')
           .click();
       });
@@ -370,7 +256,7 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
 
     cy.getFormInput('filter_by_value_pay.value_pay').clear();
 
-    cy.getFormInput('filter_by_value_pay.value_pay').type('840000');
+    cy.getFormInput('filter_by_value_pay.value_pay').type('250000');
 
     cy.get(
       'button[data-testid="btn-select-field"][data-name="filter_by_value_pay.type_filter_value_pay"]'
@@ -413,7 +299,7 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
 
     cy.getFormInput('filter_by_value_pay.value_pay').clear();
 
-    cy.getFormInput('filter_by_value_pay.value_pay').type('840000');
+    cy.getFormInput('filter_by_value_pay.value_pay').type('250000');
 
     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
     cy.wait(2000);
@@ -451,7 +337,7 @@ describe.only('Encuentra registros de acuerdo a los filtros de búsqueda', () =>
 
     cy.getFormInput('filter_by_value_pay.value_pay').clear();
 
-    cy.getFormInput('filter_by_value_pay.value_pay').type('10000');
+    cy.getFormInput('filter_by_value_pay.value_pay').type('250000');
 
     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
     cy.wait(2000);

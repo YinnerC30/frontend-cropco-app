@@ -99,6 +99,7 @@ export const ShoppingSearchBarSuppliersFilter: React.FC<
                               ref={field.ref}
                               onBlur={field.onBlur}
                               disabled={disabled}
+                              data-testid="btn-open-command-supplier"
                             >
                               {field.value.length > 0 && !!querySuppliers.data
                                 ? `${currentSuppliers!.length} seleccionado(s)`
@@ -121,11 +122,12 @@ export const ShoppingSearchBarSuppliersFilter: React.FC<
                                 'proveedor'
                               )} no encontrado`}</CommandEmpty>
                               <CommandGroup>
-                                {querySuppliers?.data?.records.map((item: any) => {
+                                {querySuppliers?.data?.records.map((item: any, index: number) => {
                                   return (
                                     <CommandItem
                                       value={item?.['full_name']}
                                       key={item.id!}
+                                      data-testid={`form-field-command-item-${index}`}
                                       onSelect={() => {
                                         if (
                                           field?.value?.some((i: any) => i.id === item?.id)
