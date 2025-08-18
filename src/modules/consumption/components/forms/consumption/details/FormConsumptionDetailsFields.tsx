@@ -178,6 +178,7 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                           ref={field.ref}
                           onBlur={field.onBlur}
                           disabled={readOnly}
+                          data-testid={`btn-open-command-supply`}
                         >
                           <span className="overflow-auto truncate text-muted-foreground text-ellipsis max-w-36">
                             {!!field.value
@@ -220,12 +221,13 @@ export const FormConsumptionDetailsFields: React.FC = () => {
                           'insumo'
                         )} no encontrado`}</CommandEmpty>
                         <CommandGroup>
-                          {suppliesStock.map((item) => {
+                          {suppliesStock.map((item, index) => {
                             return (
                               <CommandItem
                                 disabled={item?.['amount'] === 0}
                                 value={item?.['name']}
                                 key={item.id!}
+                                data-testid={`form-field-command-item-${index}`}
                                 onSelect={() => {
                                   if (field?.value === item?.id) {
                                     formConsumptionDetail.setValue('supply', {

@@ -33,9 +33,11 @@ export const usePatchConsumption = (
       await queryClient.invalidateQueries({ queryKey: ['consumptions'] });
       await queryClient.invalidateQueries({ queryKey: ['consumption', id] });
       await queryClient.invalidateQueries({ queryKey: ['supplies'] });
-      await queryClient.invalidateQueries({ queryKey: ['supplies-with-stock'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['supplies-with-stock'],
+      });
       navigate(MODULE_CONSUMPTION_PATHS.ViewAll);
-      toast.success(`Registro de consumo de insumo actualizado`);
+      toast.success(`El registro de consumo de insumos ha sido actualizado`);
     },
     onError: (error) => {
       handleError({

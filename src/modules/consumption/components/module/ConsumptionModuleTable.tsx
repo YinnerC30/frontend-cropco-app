@@ -14,7 +14,7 @@ export const ConsumptionModuleTable: React.FC = () => {
     <DataTableTemplate
       errorMessage={
         !actionsConsumptionsModule['find_all_supplies_consumption']
-          ? 'No tienes permiso para ver el listado de las compras 😢'
+          ? 'No tienes permiso para ver el listado de los consumos 😢'
           : 'No hay registros.'
       }
       disabledDoubleClick={

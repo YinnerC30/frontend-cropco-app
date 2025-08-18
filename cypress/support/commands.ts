@@ -11,6 +11,7 @@ import '../e2e/supplies/supplies.commands';
 import '../e2e/users/users.commands';
 import '../e2e/works/works.commands';
 import '../e2e/shopping/shopping.commands';
+import '../e2e/consumptions/consumptions.commands';
 
 import './custom-commands/actions.commands';
 import './custom-commands/forms.commands';

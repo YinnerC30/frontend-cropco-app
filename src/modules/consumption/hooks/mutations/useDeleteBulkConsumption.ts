@@ -1,10 +1,10 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { ManageMessageBulkRemove } from '@/modules/core/helpers/ManageMessageBulkRemove';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
 
 const deleteBulkConsumption = async (
   data: BulkRecords
@@ -24,11 +24,11 @@ export const useDeleteBulkConsumption = (): UseMutationReturn<
   const { handleError } = useAuthContext();
   const mutation: UseMutationReturn<void, BulkRecords> = useMutation({
     mutationFn: deleteBulkConsumption,
-    onSuccess: async () => {
+    onSuccess: async ({ status }) => {
       await queryClient.invalidateQueries({ queryKey: ['consumptions'] });
       await queryClient.invalidateQueries({ queryKey: ['supplies'] });
       await queryClient.invalidateQueries({ queryKey: ['supplies-with-stock'] });
-      toast.success(`consumos eliminados`);
+      ManageMessageBulkRemove({ status });
     },
     onError: (error) => {
       handleError({

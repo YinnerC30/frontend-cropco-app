@@ -45,7 +45,7 @@ export const ActionsTableConsumptionDetail: React.FC<{
   const isDisabled = supply.deletedDate !== null || crop.deletedDate !== null;
 
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={consumptionDetail.id!}>
       <ActionCopyIdRecord id={consumptionDetail.id!} />
       <ActionDeleteRecord
         action={() => {
