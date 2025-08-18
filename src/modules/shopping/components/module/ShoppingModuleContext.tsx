@@ -1,36 +1,36 @@
-import { useAuthContext } from "@/auth";
+import { useAuthContext } from '@/auth';
 import {
   DataTableManualReturn,
   useDataTableManual,
-} from "@/modules/core/hooks";
-import { useCreateColumnsTable } from "@/modules/core/hooks/data-table/useCreateColumnsTable";
-import { createContext, useEffect, useMemo, useState } from "react";
+} from '@/modules/core/hooks';
+import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
+import { createContext, useEffect, useMemo, useState } from 'react';
 
 import {
   ItemQueryAdvanced,
   useAdvancedQueryDataPlus,
-} from "@/modules/core/hooks/useAdvancedQueryDataPlus";
-import { BulkRecords } from "@/modules/core/interfaces";
-import { UseMutationReturn } from "@/modules/core/interfaces/responses/UseMutationReturn";
-import { UseQueryGetAllRecordsReturn } from "@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn";
-import { useDeleteBulkShopping } from "../../hooks/mutations/useDeleteBulkShopping";
-import { useDeleteShopping } from "../../hooks/mutations/useDeleteShopping";
+} from '@/modules/core/hooks/useAdvancedQueryDataPlus';
+import { BulkRecords } from '@/modules/core/interfaces';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
+import { useDeleteBulkShopping } from '../../hooks/mutations/useDeleteBulkShopping';
+import { useDeleteShopping } from '../../hooks/mutations/useDeleteShopping';
 import {
   GetShoppingProps,
   useGetAllShopping,
-} from "../../hooks/queries/useGetAllShopping";
-import { ShoppingSupplies } from "../../interfaces";
-import { ActionsTableShopping } from "./ActionsTableShopping";
-import columnsShopping from "./ColumnsTableShopping";
-import { UseQueryResult } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { useGetShoppingPDF } from "../../hooks/queries/useGetShoppingPDF";
-import { useGetAllSuppliersWithShopping } from "@/modules/suppliers/hooks/queries/useGetAllSuppliersWithShopping";
-import { useGetAllSuppliesWithShopping } from "@/modules/supplies/hooks/queries/useGetAllSuppliesWithShopping";
-import { Supply } from "@/modules/supplies/interfaces/Supply";
-import { Supplier } from "@/modules/suppliers/interfaces/Supplier";
+} from '../../hooks/queries/useGetAllShopping';
+import { ShoppingSupplies } from '../../interfaces';
+import { ActionsTableShopping } from './ActionsTableShopping';
+import columnsShopping from './ColumnsTableShopping';
+import { UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { useGetShoppingPDF } from '../../hooks/queries/useGetShoppingPDF';
+import { useGetAllSuppliersWithShopping } from '@/modules/suppliers/hooks/queries/useGetAllSuppliersWithShopping';
+import { useGetAllSuppliesWithShopping } from '@/modules/supplies/hooks/queries/useGetAllSuppliesWithShopping';
+import { Supply } from '@/modules/supplies/interfaces/Supply';
+import { Supplier } from '@/modules/suppliers/interfaces/Supplier';
 
-export interface paramQueryShopping {
+export interface ParamQueryShopping {
   filter_by_date: {
     type_filter_date: string | undefined;
     date: undefined | Date;
@@ -44,7 +44,7 @@ export interface paramQueryShopping {
 }
 
 export interface ShoppingModuleContextValues {
-  paramsQuery: paramQueryShopping;
+  paramsQuery: ParamQueryShopping;
   queryShopping: UseQueryGetAllRecordsReturn<ShoppingSupplies>;
   dataTable: DataTableManualReturn<ShoppingSupplies>;
   mutationDeleteShopping: UseMutationReturn<void, BulkRecords>;
@@ -55,43 +55,43 @@ export interface ShoppingModuleContextValues {
   shoppingIdDocument: string;
   setShoppingIdDocument: React.Dispatch<React.SetStateAction<string>>;
   setExecuteQuery: React.Dispatch<React.SetStateAction<boolean>>;
-  querySupplies: UseQueryGetAllRecordsReturn<Supply>,
-  querySuppliers: UseQueryGetAllRecordsReturn<Supplier>,
+  querySupplies: UseQueryGetAllRecordsReturn<Supply>;
+  querySuppliers: UseQueryGetAllRecordsReturn<Supplier>;
 }
 
 const paramsShopping: ItemQueryAdvanced[] = [
   {
-    propertyName: "filter_by_date",
+    propertyName: 'filter_by_date',
     defaultValue: false,
   },
   {
-    propertyName: "type_filter_date",
+    propertyName: 'type_filter_date',
     defaultValue: undefined,
   },
   {
-    propertyName: "date",
+    propertyName: 'date',
     defaultValue: undefined,
   },
   {
-    propertyName: "filter_by_value_pay",
+    propertyName: 'filter_by_value_pay',
     defaultValue: false,
   },
   {
-    propertyName: "type_filter_value_pay",
+    propertyName: 'type_filter_value_pay',
     defaultValue: undefined,
   },
   {
-    propertyName: "value_pay",
+    propertyName: 'value_pay',
     defaultValue: 0,
   },
 
   {
-    propertyName: "supplies",
+    propertyName: 'supplies',
     defaultValue: [],
     isArray: true,
   },
   {
-    propertyName: "suppliers",
+    propertyName: 'suppliers',
     defaultValue: [],
     isArray: true,
   },
@@ -117,7 +117,7 @@ export const ShoppingModuleProvider: React.FC<{
 
   const { getActionsModule } = useAuthContext();
 
-  const actionsShoppingModule = useMemo(() => getActionsModule("shopping"), []);
+  const actionsShoppingModule = useMemo(() => getActionsModule('shopping'), []);
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsShopping,
@@ -140,16 +140,16 @@ export const ShoppingModuleProvider: React.FC<{
   const mutationDeleteShopping = useDeleteBulkShopping();
   const mutationDeleteOneShopping = useDeleteShopping();
 
-  const [shoppingIdDocument, setShoppingIdDocument] = useState("");
+  const [shoppingIdDocument, setShoppingIdDocument] = useState('');
   const [executeQuery, setExecuteQuery] = useState(false);
 
   const queryGetDocument = useGetShoppingPDF({
     shoppingId: shoppingIdDocument,
     stateQuery: executeQuery,
-    actionPDF: "DownloadPDF",
+    actionPDF: 'DownloadPDF',
     actionOnSuccess: () => {
       setExecuteQuery(false);
-      setShoppingIdDocument("");
+      setShoppingIdDocument('');
     },
   });
 
@@ -183,7 +183,7 @@ export const ShoppingModuleProvider: React.FC<{
     shoppingIdDocument,
     setShoppingIdDocument,
     querySuppliers,
-    querySupplies
+    querySupplies,
   };
 
   return (

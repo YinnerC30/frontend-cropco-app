@@ -4,17 +4,8 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
   Form,
-  PopoverContent,
-  PopoverTrigger,
 } from '@/components';
-import {
-  ButtonRefetchData,
-  FormFieldCalendar,
-  FormFieldInput,
-  FormFieldSelect,
-  Loading,
-  ToolTipTemplate,
-} from '@/modules/core/components';
+import { ToolTipTemplate } from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
 
 import { useNavigate } from 'react-router-dom';
@@ -25,47 +16,35 @@ import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/format
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { Calendar, Filter, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Filter } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 
-import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
 import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
-import {
-  dateFilterOptions,
-  numberFilterOptions,
-} from '@/modules/core/interfaces/queries/FilterOptions';
 import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
-import { Popover } from '@radix-ui/react-popover';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { useShoppingModuleContext } from '../../hooks/context/useShoppingModuleContext';
 import { MODULE_SHOPPING_PATHS } from '../../routes/pathRoutes';
-import { formFieldsSearchBarShopping } from '../../utils/formFieldsSearchBarShopping';
 import { formSchemaSearchBarShopping } from '../../utils/formSchemaSearchBarShopping';
 
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command';
+import { ButtonClearAllFilters } from '@/modules/core/components/search-bar/ButtonClearAllFilters';
+import { ShoppingSearchBarDateFilter } from './search-bar/ShoppingSearchBarDateFilter';
+import { ShoppingSearchBarSuppliersFilter } from './search-bar/ShoppingSearchBarSuppliersFilter';
+import { ShoppingSearchBarSuppliesFilter } from './search-bar/ShoppingSearchBarSuppliesFilter';
+import { ShoppingSearchBarValuePayFilter } from './search-bar/ShoppingSearchBarValuePayFilter';
 
-import { ScrollArea } from '@/components/ui/scroll-area';
-
-import { CapitalizeFirstWord } from '@/auth';
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { cn } from '@/lib/utils';
-import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
-import { ControllerRenderProps } from 'react-hook-form';
+const valuesResetForm = {
+  filter_by_date: {
+    date: undefined,
+    type_filter_date: TypeFilterDate.AFTER,
+  },
+  filter_by_value_pay: {
+    type_filter_value_pay: TypeFilterNumber.LESS_THAN,
+    value_pay: 0,
+  },
+  suppliers: [],
+  supplies: [],
+};
 
 export const ShoppingModuleSearchbar: React.FC = () => {
   const {
@@ -85,15 +64,11 @@ export const ShoppingModuleSearchbar: React.FC = () => {
     schema: formSchemaSearchBarShopping,
     defaultValues: paramsQuery,
     skipDirty: true,
-    validationMode: 'onSubmit',
+    validationMode: 'onChange',
   });
   const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
-
-  const [openPopoverDate, setOpenPopoverDate] = useState(false);
-  const [openPopoverSupply, setOpenPopoverSupply] = useState(false);
-  const [openPopoverSupplier, setOpenPopoverSupplier] = useState(false);
 
   const handleAddFilter = async (
     name: keyof z.infer<typeof formSchemaSearchBarShopping>
@@ -102,10 +77,10 @@ export const ShoppingModuleSearchbar: React.FC = () => {
     if (!isValid) return false;
 
     const {
+      filter_by_date,
       filter_by_value_pay,
       suppliers = [],
       supplies = [],
-      filter_by_date,
     } = form.watch();
 
     const filters: FilterSearchBar[] = [];
@@ -177,7 +152,13 @@ export const ShoppingModuleSearchbar: React.FC = () => {
     return true;
   };
 
-  const handleRemoveFilter = async (filter: FilterSearchBar) => {
+  const handleClearErrorsForm = (
+    name: keyof z.infer<typeof formSchemaSearchBarShopping>
+  ) => {
+    form.clearErrors(name);
+  };
+
+  const handleRemoveFilter = (filter: FilterSearchBar) => {
     setAppliedFilters((prev) => prev.filter((f) => f.key !== filter.key));
     switch (filter.key) {
       case 'suppliers':
@@ -201,20 +182,13 @@ export const ShoppingModuleSearchbar: React.FC = () => {
         });
         break;
     }
-    await handleSearch(form.watch());
+    handleSearch(form.watch());
   };
 
   const handleSearch = async (
     values: z.infer<typeof formSchemaSearchBarShopping>
   ) => {
     const params = new URLSearchParams();
-
-    if (values.suppliers!.length > 0) {
-      params.append('suppliers', values.suppliers!.map((e) => e.id).join(','));
-    }
-    if (values.supplies!.length > 0) {
-      params.append('supplies', values.supplies!.map((e) => e.id).join(','));
-    }
 
     if (values.filter_by_date.type_filter_date && values.filter_by_date.date) {
       params.append('filter_by_date', 'true');
@@ -223,6 +197,13 @@ export const ShoppingModuleSearchbar: React.FC = () => {
         `${values.filter_by_date.type_filter_date}`
       );
       params.append('date', values.filter_by_date.date.toISOString());
+    }
+
+    if (values.suppliers!.length > 0) {
+      params.append('suppliers', values.suppliers!.map((e) => e.id).join(','));
+    }
+    if (values.supplies!.length > 0) {
+      params.append('supplies', values.supplies!.map((e) => e.id).join(','));
     }
 
     if (
@@ -242,33 +223,12 @@ export const ShoppingModuleSearchbar: React.FC = () => {
 
   const handleResetForm = () => {
     setAppliedFilters([]);
-    form.reset(
-      {
-        filter_by_date: {
-          date: undefined,
-          type_filter_date: TypeFilterDate.AFTER,
-        },
-        filter_by_value_pay: {
-          type_filter_value_pay: TypeFilterNumber.LESS_THAN,
-          value_pay: 0,
-        },
-        suppliers: [],
-        supplies: [],
-      },
-      {
-        keepErrors: false,
-        keepDirty: false,
-      }
-    );
+    form.reset(valuesResetForm, {
+      keepErrors: false,
+      keepDirty: false,
+    });
     navigate(MODULE_SHOPPING_PATHS.ViewAll);
     toast.success('Se han limpiado los filtros');
-  };
-
-  const handleClearErrorsForm = (
-    name: keyof z.infer<typeof formSchemaSearchBarShopping>
-  ) => {
-    form.clearErrors(name);
-    // form.resetField(name);
   };
 
   useEffect(() => {
@@ -293,90 +253,24 @@ export const ShoppingModuleSearchbar: React.FC = () => {
           id="formSearch"
           className="flex flex-col w-full"
         >
-          <DropdownMenu open={openDropDownMenu} modal={false}>
+          <DropdownMenu
+            open={openDropDownMenu}
+            onOpenChange={setOpenDropDownMenu}
+            modal={false}
+          >
             <div className="flex flex-col items-center justify-center  md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
-                <Popover
-                  open={openPopoverDate}
-                  onOpenChange={setOpenPopoverDate}
-                >
-                  <PopoverTrigger asChild>
-                    <Button
-                      className="w-auto lg:w-[300px]"
-                      variant={'outline'}
-                      onClick={() => setOpenPopoverDate(true)}
-                    >
-                      {!form.getValues('filter_by_date.date') ||
-                      !paramsQuery.filter_by_date?.date
-                        ? 'Filtrar por fecha'
-                        : formatTypeFilterDate(
-                            form.getValues(
-                              'filter_by_date.type_filter_date'
-                            ) as TypeFilterDate
-                          ) +
-                          format(
-                            form.getValues('filter_by_date.date') ?? '',
-                            'PPP',
-                            {
-                              locale: es,
-                            }
-                          )}
-                      <Calendar className="w-4 h-4 ml-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent>
-                    <FormFieldSelect
-                      items={dateFilterOptions}
-                      disabled={false}
-                      {...formFieldsSearchBarShopping.type_filter_date}
-                      name="filter_by_date.type_filter_date"
-                      control={form.control}
-                    />
-                    <FormFieldCalendar
-                      disabled={false}
-                      {...formFieldsSearchBarShopping.date}
-                      control={form.control}
-                      name="filter_by_date.date"
-                      className="w-[95%]"
-                    />
-                    <div className="flex justify-center gap-2">
-                      <Button
-                        className="self-end w-24 mt-4"
-                        onClick={async (e) => {
-                          e.preventDefault();
-                          const result = await handleAddFilter(
-                            'filter_by_date'
-                          );
-                          setOpenPopoverDate(!result);
-                        }}
-                      >
-                        Aplicar
-                      </Button>
-                      <Button
-                        variant={'destructive'}
-                        className="self-end w-24 mt-4"
-                        onClick={() => {
-                          setOpenPopoverDate(false);
-                          handleClearErrorsForm('filter_by_date');
-                        }}
-                      >
-                        Cerrar
-                      </Button>
-                    </div>
-                  </PopoverContent>
-                </Popover>
+                <ShoppingSearchBarDateFilter
+                  formSearchBar={form}
+                  onAddFilter={handleAddFilter}
+                  onClearErrors={handleClearErrorsForm}
+                  paramsQuery={paramsQuery}
+                />
 
-                <ToolTipTemplate content="Borrar consulta">
-                  <Button
-                    variant="outline"
-                    onClick={handleResetForm}
-                    size={'icon'}
-                    disabled={readOnly}
-                    className="bg-destructive hover:bg-destructive/80"
-                  >
-                    <X className="w-4 h-4" />
-                  </Button>
-                </ToolTipTemplate>
+                <ButtonClearAllFilters
+                  onClearValues={handleResetForm}
+                  disabled={readOnly}
+                />
               </div>
 
               <div className="self-start my-2 sm:self-center sm:m-0">
@@ -384,11 +278,10 @@ export const ShoppingModuleSearchbar: React.FC = () => {
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="outline"
-                      onClick={() =>
-                        setOpenDropDownMenu((prev: boolean) => !prev)
-                      }
                       size={'icon'}
+                      type="button"
                       disabled={readOnly}
+                      data-testid="btn-shopping-filters"
                     >
                       <Filter className="w-4 h-4" />
                     </Button>
@@ -398,374 +291,39 @@ export const ShoppingModuleSearchbar: React.FC = () => {
             </div>
 
             <DropdownMenuContent
-              className="w-32"
+              className="w-auto"
               onPointerDownOutside={(e) => {
-                e.preventDefault();
-                setOpenDropDownMenu((prev: boolean) => !prev);
+                // e.preventDefault();
+                // e.stopImmediatePropagation();
               }}
-              onCloseAutoFocus={(e) => e.preventDefault()}
+              // onCloseAutoFocus={(e) => {
+              //   e.preventDefault();
+              //   e.stopImmediatePropagation();
+              // }}
             >
-              <FilterDropdownItem
-                label={'Proveedores'}
-                className=" lg:w-[280px]"
-                content={
-                  <>
-                    <FormField
-                      control={form.control}
-                      name={`suppliers`}
-                      render={({
-                        field,
-                      }: {
-                        field: ControllerRenderProps<any, any>;
-                      }) => {
-                        const currentEmployees = form.watch('suppliers');
-
-                        return (
-                          <FormItem className="">
-                            <FormLabel className="block my-2">
-                              {'Proveedores involucrados:'}
-                            </FormLabel>
-                            <Popover
-                              open={openPopoverSupplier}
-                              onOpenChange={setOpenPopoverSupplier}
-                              modal={true}
-                            >
-                              <div className="flex flex-wrap gap-2">
-                                <PopoverTrigger asChild>
-                                  <FormControl>
-                                    {querySuppliers.isLoading ||
-                                    querySuppliers.isFetching ? (
-                                      <div className="w-[200px]">
-                                        <Loading className="" />
-                                      </div>
-                                    ) : (
-                                      <Button
-                                        variant="outline"
-                                        role="combobox"
-                                        aria-expanded={openPopoverSupplier}
-                                        className={` ${cn(
-                                          'justify-between',
-                                          !field.value &&
-                                            'text-muted-foreground'
-                                        )}`}
-                                        ref={field.ref}
-                                        onBlur={field.onBlur}
-                                        disabled={readOnly}
-                                      >
-                                        {field.value.length > 0 &&
-                                        !!querySuppliers.data
-                                          ? `${
-                                              currentEmployees!.length
-                                            } seleccionado(s)`
-                                          : 'Selecciona proveedors'}
-
-                                        <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                                      </Button>
-                                    )}
-                                  </FormControl>
-                                </PopoverTrigger>
-                                <ButtonRefetchData
-                                  onClick={async () => {
-                                    await querySuppliers.refetch();
-                                  }}
-                                  disabled={false}
-                                  content="Actualizar datos de proveedores involucrados"
-                                />
-                              </div>
-
-                              <PopoverContent className="w-[200px] p-0">
-                                <Command>
-                                  <CommandInput
-                                    placeholder={`Buscar proveedor...`}
-                                    className="h-9"
-                                  />
-                                  <CommandList>
-                                    <ScrollArea className="w-auto h-56 p-1 pr-2">
-                                      <CommandEmpty>{`${CapitalizeFirstWord(
-                                        'proveedor'
-                                      )} no encontrado`}</CommandEmpty>
-                                      <CommandGroup>
-                                        {querySuppliers?.data?.records.map(
-                                          (item) => {
-                                            return (
-                                              <CommandItem
-                                                value={item?.['full_name']}
-                                                key={item.id!}
-                                                onSelect={() => {
-                                                  if (
-                                                    field?.value?.some(
-                                                      (i: any) =>
-                                                        i.id === item?.id
-                                                    )
-                                                  ) {
-                                                    form.setValue(
-                                                      'suppliers',
-                                                      [
-                                                        ...field?.value?.filter(
-                                                          (i: any) =>
-                                                            i.id !== item?.id
-                                                        ),
-                                                      ],
-                                                      {
-                                                        shouldValidate: true,
-                                                        shouldDirty: true,
-                                                      }
-                                                    );
-                                                  } else {
-                                                    form.setValue(
-                                                      'suppliers',
-                                                      [
-                                                        ...(currentEmployees ||
-                                                          []),
-                                                        {
-                                                          id: item.id,
-                                                          full_name:
-                                                            item['full_name'],
-                                                        },
-                                                      ],
-                                                      {
-                                                        shouldValidate: true,
-                                                        shouldDirty: true,
-                                                      }
-                                                    );
-                                                  }
-                                                  setOpenPopoverSupplier(false);
-                                                }}
-                                              >
-                                                <div className="">
-                                                  {item?.['full_name']}
-                                                </div>
-                                                <CheckIcon
-                                                  className={cn(
-                                                    'ml-auto h-4 w-4',
-                                                    field?.value.some(
-                                                      (i: any) => {
-                                                        return (
-                                                          i.id === item?.id
-                                                        );
-                                                      }
-                                                    )
-                                                      ? 'opacity-100'
-                                                      : 'opacity-0'
-                                                  )}
-                                                />
-                                              </CommandItem>
-                                            );
-                                          }
-                                        )}
-                                      </CommandGroup>
-                                    </ScrollArea>
-                                  </CommandList>
-                                </Command>
-                              </PopoverContent>
-                            </Popover>
-                            <FormDescription>
-                              {'Proveedor(s) que han participado en trabajos'}
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        );
-                      }}
-                    />
-                  </>
-                }
-                actionOnSave={() => handleAddFilter('suppliers')}
-                actionOnClose={() => handleClearErrorsForm('suppliers')}
+              <ShoppingSearchBarSuppliersFilter
+                onAddFilter={handleAddFilter}
+                onClearErrors={handleClearErrorsForm}
+                querySuppliers={querySuppliers}
+                disabled={readOnly}
+                formSearchBar={form}
               />
-
-              <FilterDropdownItem
-                label={'Insumos'}
-                className=" lg:w-[280px]"
-                content={
-                  <>
-                    <FormField
-                      control={form.control}
-                      name={`supplies`}
-                      render={({
-                        field,
-                      }: {
-                        field: ControllerRenderProps<any, any>;
-                      }) => {
-                        const currentCrops = form.watch('supplies');
-
-                        return (
-                          <FormItem className="">
-                            <FormLabel className="block my-2">
-                              {'Insumos involucrados:'}
-                            </FormLabel>
-                            <Popover
-                              open={openPopoverSupply}
-                              onOpenChange={setOpenPopoverSupply}
-                              modal={true}
-                            >
-                              <div className="flex flex-wrap gap-2">
-                                <PopoverTrigger asChild>
-                                  <FormControl>
-                                    {querySupplies.isLoading ||
-                                    querySupplies.isFetching ? (
-                                      <div className="w-[200px]">
-                                        <Loading className="" />
-                                      </div>
-                                    ) : (
-                                      <Button
-                                        variant="outline"
-                                        role="combobox"
-                                        aria-expanded={openPopoverSupply}
-                                        className={` ${cn(
-                                          'justify-between',
-                                          !field.value &&
-                                            'text-muted-foreground'
-                                        )}`}
-                                        ref={field.ref}
-                                        onBlur={field.onBlur}
-                                        disabled={readOnly}
-                                      >
-                                        {field.value.length > 0 &&
-                                        !!querySupplies.data
-                                          ? `${
-                                              currentCrops!.length
-                                            } seleccionado(s)`
-                                          : 'Selecciona insumos'}
-
-                                        <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                                      </Button>
-                                    )}
-                                  </FormControl>
-                                </PopoverTrigger>
-                                <ButtonRefetchData
-                                  onClick={async () => {
-                                    await querySupplies.refetch();
-                                  }}
-                                  disabled={false}
-                                  content="Actualizar datos de insumos involucrados"
-                                />
-                              </div>
-                              <PopoverContent className="w-[200px] p-0">
-                                <Command>
-                                  <CommandInput
-                                    placeholder={`Buscar insumo...`}
-                                    className="h-9"
-                                  />
-                                  <CommandList>
-                                    <ScrollArea className="w-auto h-56 p-1 pr-2">
-                                      <CommandEmpty>{`${CapitalizeFirstWord(
-                                        'insumo'
-                                      )} no encontrado`}</CommandEmpty>
-                                      <CommandGroup>
-                                        {querySupplies?.data?.records.map(
-                                          (item) => {
-                                            return (
-                                              <CommandItem
-                                                value={item?.['name']}
-                                                key={item.id!}
-                                                onSelect={() => {
-                                                  if (
-                                                    field?.value?.some(
-                                                      (i: any) =>
-                                                        i.id === item?.id
-                                                    )
-                                                  ) {
-                                                    form.setValue(
-                                                      'supplies',
-                                                      [
-                                                        ...field?.value?.filter(
-                                                          (i: any) =>
-                                                            i.id !== item?.id
-                                                        ),
-                                                      ],
-                                                      {
-                                                        shouldValidate: true,
-                                                        shouldDirty: true,
-                                                      }
-                                                    );
-                                                  } else {
-                                                    form.setValue(
-                                                      'supplies',
-                                                      [
-                                                        ...(currentCrops || []),
-                                                        {
-                                                          id: item.id,
-                                                          name: item['name'],
-                                                        },
-                                                      ],
-                                                      {
-                                                        shouldValidate: true,
-                                                        shouldDirty: true,
-                                                      }
-                                                    );
-                                                  }
-                                                  setOpenPopoverSupply(false);
-                                                }}
-                                              >
-                                                <div className="">
-                                                  {item?.['name']}
-                                                </div>
-                                                <CheckIcon
-                                                  className={cn(
-                                                    'ml-auto h-4 w-4',
-                                                    field?.value.some(
-                                                      (i: any) => {
-                                                        return (
-                                                          i.id === item?.id
-                                                        );
-                                                      }
-                                                    )
-                                                      ? 'opacity-100'
-                                                      : 'opacity-0'
-                                                  )}
-                                                />
-                                              </CommandItem>
-                                            );
-                                          }
-                                        )}
-                                      </CommandGroup>
-                                    </ScrollArea>
-                                  </CommandList>
-                                </Command>
-                              </PopoverContent>
-                            </Popover>
-                            <FormDescription>
-                              {'Insumo(s) que han participado en la compra'}
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        );
-                      }}
-                    />
-                  </>
-                }
-                actionOnSave={() => handleAddFilter('supplies')}
-                actionOnClose={() => handleClearErrorsForm('supplies')}
+              <ShoppingSearchBarSuppliesFilter
+                onAddFilter={handleAddFilter}
+                onClearErrors={handleClearErrorsForm}
+                querySupplies={querySupplies}
+                disabled={readOnly}
+                formSearchBar={form}
               />
-
-              <FilterDropdownItem
-                label={'Total'}
-                actionOnSave={() => handleAddFilter('filter_by_value_pay')}
-                actionOnClose={() =>
-                  handleClearErrorsForm('filter_by_value_pay')
-                }
-                content={
-                  <>
-                    <FormFieldSelect
-                      disabled={false}
-                      items={numberFilterOptions}
-                      {...formFieldsSearchBarShopping.type_filter_value_pay}
-                      control={form.control}
-                      name="filter_by_value_pay.type_filter_value_pay"
-                    />
-                    <FormFieldInput
-                      disabled={false}
-                      {...formFieldsSearchBarShopping.value_pay}
-                      control={form.control}
-                      type="number"
-                      name="filter_by_value_pay.value_pay"
-                      step={50}
-                    />
-                  </>
-                }
+              <ShoppingSearchBarValuePayFilter
+                onAddFilter={handleAddFilter}
+                onClearErrors={handleClearErrorsForm}
+                disabled={readOnly}
+                formSearchBar={form}
               />
             </DropdownMenuContent>
           </DropdownMenu>
+
           <FiltersBadgedList
             filters={appliedFilters}
             handleRemove={handleRemoveFilter}
