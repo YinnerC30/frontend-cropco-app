@@ -683,7 +683,6 @@ describe('Paginado y selectores', () => {
     cy.executeSeed({ shoppings: { quantity: 10 } });
     cy.executeSeed({ shoppings: { quantity: 10 } });
     cy.executeSeed({ shoppings: { quantity: 5 } });
-    
   });
 
   beforeEach(() => {
@@ -713,7 +712,7 @@ describe('Paginado y selectores', () => {
   });
 });
 
-describe.only('Auth modulo de compras', () => {
+describe('Auth modulo de compras', () => {
   let currentShopping: any = {};
 
   before(() => {
@@ -758,44 +757,47 @@ describe.only('Auth modulo de compras', () => {
   });
 
   it('Crear usuario con acceso unicamente a ver tabla de compras', () => {
-    cy.createSeedUser({ actions: ['find_all_supplies_shopping'] }, (userData) => {
-      cy.wait(2000);
-      cy.log(userData);
-      cy.loginUser(userData.email, userData.password);
-      cy.wait(1500);
+    cy.createSeedUser(
+      { actions: ['find_all_supplies_shopping'] },
+      (userData) => {
+        cy.wait(2000);
+        cy.log(userData);
+        cy.loginUser(userData.email, userData.password);
+        cy.wait(1500);
 
-      cy.checkSidebarMenuItem('Compras');
+        cy.checkSidebarMenuItem('Compras');
 
-      cy.openCommandPaletteAndSelectFirstOption();
+        cy.openCommandPaletteAndSelectFirstOption();
 
-      cy.wait(2000);
+        cy.wait(2000);
 
-      // Comprobar que haya registro en las tablas
-      cy.checkTableRowsExist();
+        // Comprobar que haya registro en las tablas
+        cy.checkTableRowsExist();
 
-      // Comprobar habilitación de botones
-      // Recarga de datos
-      cy.clickRefetchButton();
-      cy.wait(2000);
+        // Comprobar habilitación de botones
+        // Recarga de datos
+        cy.clickRefetchButton();
+        cy.wait(2000);
 
-      cy.checkRefetchButtonState(true);
+        cy.checkRefetchButtonState(true);
 
-      // Crear registro
-      cy.checkCreateButtonState(true);
+        // Crear registro
+        cy.checkCreateButtonState(true);
 
-      cy.toggleSelectAllTableRows();
-      cy.wait(700);
+        cy.toggleSelectAllTableRows();
+        cy.wait(700);
 
-      cy.clickActionsButtonTableRow(currentShopping.id);
+        cy.clickActionsButtonTableRow(currentShopping.id);
 
-      // Certificar
+        // Certificar
 
-      cy.checkActionButtonsState({
-        update: false,
-        view: false,
-        delete: false,
-      });
-    });
+        cy.checkActionButtonsState({
+          update: false,
+          view: false,
+          delete: false,
+        });
+      }
+    );
   });
 
   it('No tiene permisos para ver el listado de compras', () => {
@@ -814,41 +816,50 @@ describe.only('Auth modulo de compras', () => {
   });
 
   it('Debe sacar al usuario si intenta crear un compra y no tiene permisos ', () => {
-    cy.createSeedUser({ actions: ['find_all_supplies_shopping'] }, (data: any) => {
-      cy.loginUser(data.email, data.password);
-      cy.wait(1500);
+    cy.createSeedUser(
+      { actions: ['find_all_supplies_shopping'] },
+      (data: any) => {
+        cy.loginUser(data.email, data.password);
+        cy.wait(1500);
 
-      cy.checkSidebarMenuItem('Compras');
-      cy.openCommandPaletteAndSelectFirstOption();
+        cy.checkSidebarMenuItem('Compras');
+        cy.openCommandPaletteAndSelectFirstOption();
 
-      cy.wait(2000);
+        cy.wait(2000);
 
-      cy.visit(shoppingRoutes.create());
-      cy.shouldBeRedirectedForNoPermission();
-    });
+        cy.visit(shoppingRoutes.create());
+        cy.shouldBeRedirectedForNoPermission();
+      }
+    );
   });
 
   it('Debe sacar al usuario si intenta modificar a un compra y no tiene permisos', () => {
-    cy.createSeedUser({ actions: ['find_all_supplies_shopping'] }, (userData: any) => {
-      cy.loginUser(userData.email, userData.password);
-      cy.wait(1500);
-      cy.checkSidebarMenuItem('Compras');
-      cy.openCommandPaletteAndSelectFirstOption();
+    cy.createSeedUser(
+      { actions: ['find_all_supplies_shopping'] },
+      (userData: any) => {
+        cy.loginUser(userData.email, userData.password);
+        cy.wait(1500);
+        cy.checkSidebarMenuItem('Compras');
+        cy.openCommandPaletteAndSelectFirstOption();
 
-      cy.visit(shoppingRoutes.update(currentShopping.id));
-      cy.shouldBeRedirectedForNoPermission();
-    });
+        cy.visit(shoppingRoutes.update(currentShopping.id));
+        cy.shouldBeRedirectedForNoPermission();
+      }
+    );
   });
 
   it('Debe sacar al usuario si intenta consultar a un compra y no tiene permisos', () => {
-    cy.createSeedUser({ actions: ['find_all_supplies_shopping'] }, (data: any) => {
-      cy.loginUser(data.email, data.password);
-      cy.wait(1500);
-      cy.checkSidebarMenuItem('Compras');
-      cy.openCommandPaletteAndSelectFirstOption();
+    cy.createSeedUser(
+      { actions: ['find_all_supplies_shopping'] },
+      (data: any) => {
+        cy.loginUser(data.email, data.password);
+        cy.wait(1500);
+        cy.checkSidebarMenuItem('Compras');
+        cy.openCommandPaletteAndSelectFirstOption();
 
-      cy.visit(shoppingRoutes.view(currentShopping.id));
-      cy.shouldBeRedirectedForNoPermission();
-    });
+        cy.visit(shoppingRoutes.view(currentShopping.id));
+        cy.shouldBeRedirectedForNoPermission();
+      }
+    );
   });
 });
