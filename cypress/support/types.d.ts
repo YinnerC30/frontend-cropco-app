@@ -9,6 +9,7 @@ export * from '../e2e/supplies/supplies.commands';
 export * from '../e2e/users/users.commands';
 export * from '../e2e/works/works.commands';
 export * from '../e2e/shopping/shopping.commands';
+export * from '../e2e/consumptions/consumptions.commands';
 
 export * from './custom-commands/actions.commands';
 export * from './custom-commands/forms.commands';
@@ -29,6 +30,7 @@ import { SupplyCommands } from '../e2e/supplies/supply-commands';
 import { UserCommands } from '../e2e/users/user-commands';
 import { WorkCommands } from '../e2e/works/works-commands';
 import { ShoppingCommands } from '../e2e/shopping/shopping-commands';
+import { ConsumptionCommands } from '../e2e/consumptions/consumptions-commands';
 
 import { ActionsCommands } from './custom-commands/types/actions-commands';
 import { FormsCommands } from './custom-commands/types/forms-commands';
@@ -37,13 +39,13 @@ import { SearchBarCommands } from './custom-commands/types/search-bar-commands';
 import { SeedCommands } from './custom-commands/types/seed-commands';
 import { TableCommands } from './custom-commands/types/table-commands';
 import { UICommands } from './custom-commands/types/ui-commands';
-import "cypress-real-events/support";
+import 'cypress-real-events/support';
 
 Cypress.on('uncaught:exception', (err) => {
   if (err.message.includes('ResizeObserver loop')) {
-    return false
+    return false;
   }
-})
+});
 
 declare global {
   namespace Cypress {
@@ -59,6 +61,7 @@ declare global {
         UserCommands,
         WorkCommands,
         ShoppingCommands,
+        ConsumptionCommands,
         ActionsCommands,
         FormsCommands,
         NavigationCommands,
