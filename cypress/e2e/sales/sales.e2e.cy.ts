@@ -705,7 +705,6 @@ describe('Modificación de ventas', () => {
       fastCreation: true,
       returnOnlySale: false,
     }).then((data) => {
-      cy.log(JSON.stringify(data, null, 2));
       currentSale = { ...data.sale };
       currentCrop = { ...data.crop };
       currentClient = { ...data.client };
@@ -1010,7 +1009,6 @@ describe('Ver registro de venta', () => {
       fastCreation: true,
       returnOnlySale: false,
     }).then((data) => {
-      cy.log(JSON.stringify(data, null, 2));
       const {
         sale: currentSale,
         crop: currentCrop,

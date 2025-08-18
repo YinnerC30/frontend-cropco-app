@@ -165,7 +165,7 @@ describe('Creación de insumos', () => {
     cy.getFormInput('name').type('supplyname');
     cy.navigateToModuleWithSideBar('supplies');
     cy.checkMessageLostFormData();
-     cy.clickOnCloseToast();
+    cy.clickOnCloseToast();
     cy.url().should('include', '/app/home/supplies/create');
   });
 });
@@ -223,7 +223,7 @@ describe('Modificación de insumos', () => {
       cy.getFormInput('name').type('supplyname');
       cy.navigateToModuleWithSideBar('supplies');
       cy.checkMessageLostFormData();
-       cy.clickOnCloseToast();
+      cy.clickOnCloseToast();
       cy.url().should('include', '/app/home/supplies/update');
     });
   });
@@ -379,7 +379,7 @@ describe('Paginado y selectores', () => {
     cy.loginUser();
     cy.navigateToModuleWithSideBar('supplies');
     cy.wait(2000);
-    cy.changeTablePageSize(20)
+    cy.changeTablePageSize(20);
     cy.wait(2000);
     cy.checkPaginationValues();
     cy.clickOnGoNextPageButton();
@@ -445,54 +445,50 @@ describe('Auth modulo de insumos', () => {
   });
 
   it('Crear usuario con acceso unicamente a ver tabla de insumos', () => {
-    cy.createSeedUser({ actions: ['find_all_supplies'] }).then(
-      (userData) => {
-        cy.createSupplyAnd({}, (supplyData) => {
-          cy.logoutUser();
-          cy.wait(2000);
-          cy.log(userData);
-          cy.loginUser(userData.email, userData.password);
-          cy.wait(1500);
-          cy.get('ul[data-sidebar="menu"]').within(() => {
-            cy.get('li[data-sidebar="menu-item"]')
-              .should('have.length', 1)
-              .contains('Insumos');
-          });
-          cy.get('body').type('{ctrl}j');
-          cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
-
-          cy.get('div[cmdk-item][role="option"]').click();
-
-          cy.visit(`/app/home/supplies/view/all?query=${supplyData.name}`);
-          cy.wait(2000);
-
-          // Comprobar que haya registro en las tablas
-          cy.get('table tbody tr').should('exist');
-
-          // Comprobar habitiación de botones
-          // Recarga de datos
-          cy.get('button[data-testid="btn-refetch-data"]').should('be.enabled');
-
-          // Crear registro
-          cy.get('button[data-testid="btn-create-record"]').should(
-            'be.disabled'
-          );
-
-          cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
-          cy.wait(700);
-          // Eliminar bulk
-          cy.get('button[data-testid="btn-delete-bulk"]').should('be.disabled');
-
-          cy.clickActionsButtonTableRow(supplyData.id);
-
-          cy.checkActionButtonsState({
-            update: false,
-            view: false,
-            delete: false,
-          });
+    cy.createSeedUser({ actions: ['find_all_supplies'] }).then((userData) => {
+      cy.createSupplyAnd({}, (supplyData) => {
+        cy.logoutUser();
+        cy.wait(2000);
+        cy.log(userData);
+        cy.loginUser(userData.email, userData.password);
+        cy.wait(1500);
+        cy.get('ul[data-sidebar="menu"]').within(() => {
+          cy.get('li[data-sidebar="menu-item"]')
+            .should('have.length', 1)
+            .contains('Insumos');
         });
-      }
-    );
+        cy.get('body').type('{ctrl}j');
+        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+
+        cy.get('div[cmdk-item][role="option"]').click();
+
+        cy.visit(`/app/home/supplies/view/all?query=${supplyData.name}`);
+        cy.wait(2000);
+
+        // Comprobar que haya registro en las tablas
+        cy.get('table tbody tr').should('exist');
+
+        // Comprobar habitiación de botones
+        // Recarga de datos
+        cy.get('button[data-testid="btn-refetch-data"]').should('be.enabled');
+
+        // Crear registro
+        cy.get('button[data-testid="btn-create-record"]').should('be.disabled');
+
+        cy.get('button[aria-label="Select all"]').click(); // Deselecciona todos
+        cy.wait(700);
+        // Eliminar bulk
+        cy.get('button[data-testid="btn-delete-bulk"]').should('be.disabled');
+
+        cy.clickActionsButtonTableRow(supplyData.id);
+
+        cy.checkActionButtonsState({
+          update: false,
+          view: false,
+          delete: false,
+        });
+      });
+    });
   });
 
   it('No tiene permisos para ver el listado de insumos', () => {
@@ -528,28 +524,26 @@ describe('Auth modulo de insumos', () => {
   });
 
   it('Debe sacar al usuario si intenta crear un insumo y no tiene permisos ', () => {
-    cy.createSeedUser({ actions: ['find_all_supplies'] }).then(
-      (data: any) => {
-        cy.logoutUser();
-        cy.wait(2000);
-        cy.loginUser(data.email, data.password);
-        cy.wait(1500);
-        cy.get('ul[data-sidebar="menu"]').within(() => {
-          cy.get('li[data-sidebar="menu-item"]')
-            .should('have.length', 1)
-            .contains('Insumos');
-        });
-        cy.get('body').type('{ctrl}j');
-        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
-        cy.get('div[cmdk-item][role="option"]').click();
+    cy.createSeedUser({ actions: ['find_all_supplies'] }).then((data: any) => {
+      cy.logoutUser();
+      cy.wait(2000);
+      cy.loginUser(data.email, data.password);
+      cy.wait(1500);
+      cy.get('ul[data-sidebar="menu"]').within(() => {
+        cy.get('li[data-sidebar="menu-item"]')
+          .should('have.length', 1)
+          .contains('Insumos');
+      });
+      cy.get('body').type('{ctrl}j');
+      cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+      cy.get('div[cmdk-item][role="option"]').click();
 
-        cy.visit(`/app/home/supplies/view/all`);
-        cy.wait(2000);
+      cy.visit(`/app/home/supplies/view/all`);
+      cy.wait(2000);
 
-        cy.visit('/app/home/supplies/create/one');
-        cy.shouldBeRedirectedForNoPermission();
-      }
-    );
+      cy.visit('/app/home/supplies/create/one');
+      cy.shouldBeRedirectedForNoPermission();
+    });
   });
 
   it('Debe sacar al usuario si intenta modificar a un insumo y no tiene permisos', () => {
@@ -577,27 +571,24 @@ describe('Auth modulo de insumos', () => {
   });
 
   it('Debe sacar al usuario si intenta consultar a un insumo y no tiene permisos', () => {
-    cy.createSeedUser({ actions: ['find_all_supplies'] }).then(
-      (data: any) => {
-        cy.createSupplyAnd({}, (supplyData) => {
-          cy.log(JSON.stringify(data, null, 2));
-          cy.logoutUser();
-          cy.wait(2000);
-          cy.loginUser(data.email, data.password);
-          cy.wait(1500);
-          cy.get('ul[data-sidebar="menu"]').within(() => {
-            cy.get('li[data-sidebar="menu-item"]')
-              .should('have.length', 1)
-              .contains('Insumos');
-          });
-          cy.get('body').type('{ctrl}j');
-          cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
-          cy.get('div[cmdk-item][role="option"]').click();
-
-          cy.visit(`/app/home/supplies/view/one/${supplyData.id}`);
-          cy.shouldBeRedirectedForNoPermission();
+    cy.createSeedUser({ actions: ['find_all_supplies'] }).then((data: any) => {
+      cy.createSupplyAnd({}, (supplyData) => {
+        cy.logoutUser();
+        cy.wait(2000);
+        cy.loginUser(data.email, data.password);
+        cy.wait(1500);
+        cy.get('ul[data-sidebar="menu"]').within(() => {
+          cy.get('li[data-sidebar="menu-item"]')
+            .should('have.length', 1)
+            .contains('Insumos');
         });
-      }
-    );
+        cy.get('body').type('{ctrl}j');
+        cy.get('div[cmdk-item][role="option"]').should('have.length', 1);
+        cy.get('div[cmdk-item][role="option"]').click();
+
+        cy.visit(`/app/home/supplies/view/one/${supplyData.id}`);
+        cy.shouldBeRedirectedForNoPermission();
+      });
+    });
   });
 });

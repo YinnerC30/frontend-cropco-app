@@ -371,7 +371,7 @@ describe('Eliminación de cultivo', () => {
     cy.createSale({ fastCreation: true, returnOnlySale: false }).then(
       (data) => {
         cy.navigateToModuleWithSideBar('crops');
-        cy.log(JSON.stringify(data, null, 2));
+
         const { crop } = data;
 
         cy.clickActionsButtonTableRow(crop.id);

@@ -1,5 +1,5 @@
 import 'cypress-real-events/support';
-import { BASE_HOME_PAGE_URL } from 'cypress/helpers/constants';
+import { BASE_HOME_PAGE_URL, TEST_UUID_VALID } from 'cypress/helpers/constants';
 import { shoppingRoutes } from './shopping-routes';
 import { FormatNumber } from 'cypress/helpers/formatting/FormatNumber';
 import { FormatMoneyValue } from 'cypress/helpers/formatting/FormatMoneyValue';
@@ -320,7 +320,6 @@ describe('Modificación de compras', () => {
       fastCreation: true,
       returnOnlyShopping: false,
     }).then((data) => {
-      cy.log(JSON.stringify(data, null, 2));
       currentShopping = { ...data.shopping };
       currentSupply = { ...data.supplies[0] };
       currentSupplier = { ...data.supplier };
@@ -504,10 +503,9 @@ describe('Eliminación de compra', () => {
 
   it.skip('Intentar eliminar compra con registros pendientes de pago', () => {
     cy.executeClearSeedData({ shopping: true });
-    cy.createSale({
+    cy.createShopping({
       fastCreation: true,
-      returnOnlySale: false,
-      isReceivableGeneric: true,
+      returnOnlyShopping: false,
     }).then((data) => {
       const { sale } = data;
 
@@ -546,10 +544,9 @@ describe('Eliminación de compras por lote', () => {
 
   it.skip('Intentar eliminar compras con registros pendientes de pago', () => {
     cy.executeClearSeedData({ shopping: true });
-    cy.createSale({
+    cy.createShopping({
       fastCreation: true,
-      returnOnlySale: false,
-      isReceivableGeneric: true,
+      returnOnlyShopping: false,
     }).then((data) => {
       cy.navigateToModuleWithSideBar('shopping');
       cy.clickRefetchButton();
@@ -565,23 +562,21 @@ describe('Eliminación de compras por lote', () => {
   });
 
   it.skip('Eliminar compras que tienen conflicto de eliminación y los que no tienen', () => {
-    cy.createSale({ fastCreation: true, isReceivableGeneric: true }).then(
-      (data) => {
-        cy.navigateToModuleWithSideBar('shopping');
-        cy.clickRefetchButton();
-        cy.wait(3000);
-        cy.toggleSelectAllTableRows();
-        cy.clickOnDeleteBulkButton();
-        cy.clickOnContinueDeleteBulkRecord();
-        cy.contains(
-          'No se pudieron eliminar algunas compras, revisa que no tenga registros pendientes de pago'
-        );
-      }
-    );
+    cy.createShopping({ fastCreation: true }).then((data) => {
+      cy.navigateToModuleWithSideBar('shopping');
+      cy.clickRefetchButton();
+      cy.wait(3000);
+      cy.toggleSelectAllTableRows();
+      cy.clickOnDeleteBulkButton();
+      cy.clickOnContinueDeleteBulkRecord();
+      cy.contains(
+        'No se pudieron eliminar algunas compras, revisa que no tenga registros pendientes de pago'
+      );
+    });
   });
 });
 
-describe.only('Exportar compra a PDF', () => {
+describe('Exportar compra a PDF', () => {
   before(() => {
     cy.executeClearSeedData({ shoppingSupplies: true });
   });
@@ -607,7 +602,7 @@ describe.only('Exportar compra a PDF', () => {
   });
 });
 
-describe.only('Copiar Id de registro', () => {
+describe('Copiar Id de registro', () => {
   it('Copiar Id del compra', () => {
     cy.executeClearSeedData({ shoppingSupplies: true });
     cy.createShopping({ fastCreation: true }).then((currentShopping) => {
@@ -616,6 +611,244 @@ describe.only('Copiar Id de registro', () => {
       cy.wait(500);
       cy.clickActionsButtonTableRow(currentShopping.id);
       cy.clickOnCopyIdButton();
+    });
+  });
+});
+
+describe('Ver registro de compra', () => {
+  it('Ver registro de compra', () => {
+    cy.loginUser();
+    cy.executeClearSeedData({ shopping: true });
+    cy.createShopping({
+      fastCreation: true,
+      returnOnlyShopping: false,
+    }).then((data) => {
+      const { shopping: currentShopping, supplier: currentSupplier } = data;
+
+      const currentSupply = { ...data.supplies[0] };
+
+      cy.navigateToModuleWithSideBar('shopping');
+      cy.wait(500);
+      cy.clickActionsButtonTableRow(currentShopping.id);
+      cy.clickOnViewRecord();
+      cy.get('button[data-testid="btn-calendar-selector"]').should(
+        'have.attr',
+        'data-value',
+        new Date(currentShopping.date).toISOString().split('T')[0]
+      );
+
+      // Comprobar datos de la tabla
+
+      for (let i = 0; i < currentShopping.details.length; i++) {
+        cy.checkTableRowValues(currentShopping.details[i].id, [
+          currentSupplier.first_name,
+          currentSupplier.last_name,
+          currentSupply.name,
+          currentShopping.details[i].unit_of_measure,
+          FormatNumber(currentShopping.details[i].amount),
+          currentShopping.details[i].unit_of_measure,
+          FormatMoneyValue(currentShopping.details[i].value_pay)
+            .split('$')[1]
+            .trim(),
+        ]);
+      }
+
+      // Validar totales
+      cy.get('div[data-testid="badge-value-pay"]').contains('$ 250.000');
+      cy.contains('Información');
+      cy.contains('Volver');
+    });
+  });
+
+  it('Consultar registro con id no valido', () => {
+    cy.loginUser();
+    cy.visit(shoppingRoutes.view('no-id'));
+    cy.checkMessageIncorrectInformation();
+    cy.contains('Información');
+    cy.contains('Volver');
+  });
+
+  it('Consultar registro con id inexistente', () => {
+    cy.loginUser();
+    cy.visit(shoppingRoutes.view(TEST_UUID_VALID));
+    cy.checkMessageNotFoundInformation();
+    cy.contains('Información');
+    cy.contains('Volver');
+  });
+});
+
+describe('Paginado y selectores', () => {
+  before(() => {
+    cy.executeClearSeedData({ shoppingSupplies: true });
+    cy.executeSeed({ shoppings: { quantity: 10 } });
+    cy.executeSeed({ shoppings: { quantity: 10 } });
+    cy.executeSeed({ shoppings: { quantity: 5 } });
+    
+  });
+
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('shopping');
+    cy.wait(2000);
+  });
+
+  it('Navegar entre paginas disponibles (10 registro por página - default)', () => {
+    cy.checkPaginationValues();
+    cy.clickOnGoNextPageButton();
+    cy.checkTablePageInfoContains('Página 2 de 3');
+    cy.clickOnGoPreviousPageButton();
+    cy.checkTablePageInfoContains('Página 1 de 3');
+  });
+
+  it('Navegar entre paginas disponibles (20 registro por página)', () => {
+    cy.changeTablePageSize(20);
+    cy.wait(2000);
+    cy.checkPaginationValues();
+    cy.clickOnGoNextPageButton();
+    cy.wait(2000);
+    cy.checkTablePageInfoContains('Página 2 de 2');
+    cy.clickOnGoPreviousPageButton();
+    cy.wait(2000);
+    cy.checkTablePageInfoContains('Página 1 de 2');
+  });
+});
+
+describe.only('Auth modulo de compras', () => {
+  let currentShopping: any = {};
+
+  before(() => {
+    cy.executeClearSeedData({ shoppingSupplies: true });
+    cy.createShopping({ fastCreation: true }).then((data) => {
+      currentShopping = { ...data };
+    });
+  });
+
+  it('Crear usuario con acceso unicamente al modulo de compras', () => {
+    cy.createSeedUser({ modules: ['shopping'] }, (userData) => {
+      cy.log(userData);
+      cy.loginUser(userData.email, userData.password);
+      cy.wait(1500);
+
+      cy.checkSidebarMenuItem('Compras');
+
+      cy.openCommandPaletteAndSelectFirstOption();
+
+      cy.wait(2000);
+
+      // Comprobar que haya registro en las tablas
+      cy.checkTableRowsExist();
+
+      // Comprobar habilitación de botones
+      // Recarga de datos
+      cy.checkRefetchButtonState(true);
+      cy.checkCreateButtonState(false);
+
+      // Crear registro
+
+      cy.toggleSelectAllTableRows();
+      cy.wait(700);
+
+      // Eliminar bulk
+      cy.checkDeleteBulkButtonState(true);
+
+      cy.clickActionsButtonTableRow(currentShopping.id);
+
+      cy.checkActionButtonsState({ update: true, view: true, delete: true });
+    });
+  });
+
+  it('Crear usuario con acceso unicamente a ver tabla de compras', () => {
+    cy.createSeedUser({ actions: ['find_all_supplies_shopping'] }, (userData) => {
+      cy.wait(2000);
+      cy.log(userData);
+      cy.loginUser(userData.email, userData.password);
+      cy.wait(1500);
+
+      cy.checkSidebarMenuItem('Compras');
+
+      cy.openCommandPaletteAndSelectFirstOption();
+
+      cy.wait(2000);
+
+      // Comprobar que haya registro en las tablas
+      cy.checkTableRowsExist();
+
+      // Comprobar habilitación de botones
+      // Recarga de datos
+      cy.clickRefetchButton();
+      cy.wait(2000);
+
+      cy.checkRefetchButtonState(true);
+
+      // Crear registro
+      cy.checkCreateButtonState(true);
+
+      cy.toggleSelectAllTableRows();
+      cy.wait(700);
+
+      cy.clickActionsButtonTableRow(currentShopping.id);
+
+      // Certificar
+
+      cy.checkActionButtonsState({
+        update: false,
+        view: false,
+        delete: false,
+      });
+    });
+  });
+
+  it('No tiene permisos para ver el listado de compras', () => {
+    cy.createSeedUser({ actions: ['create_supply_shopping'] }, (userData) => {
+      cy.loginUser(userData.email, userData.password);
+      cy.wait(1500);
+      cy.checkSidebarMenuItem('Compras');
+      cy.openCommandPaletteAndSelectFirstOption();
+
+      cy.wait(2000);
+      cy.contains('No tienes permiso para ver el listado de las compras');
+      cy.checkRefetchButtonState(false);
+
+      // cy.checkSearchBarIsDisabled();
+    });
+  });
+
+  it('Debe sacar al usuario si intenta crear un compra y no tiene permisos ', () => {
+    cy.createSeedUser({ actions: ['find_all_supplies_shopping'] }, (data: any) => {
+      cy.loginUser(data.email, data.password);
+      cy.wait(1500);
+
+      cy.checkSidebarMenuItem('Compras');
+      cy.openCommandPaletteAndSelectFirstOption();
+
+      cy.wait(2000);
+
+      cy.visit(shoppingRoutes.create());
+      cy.shouldBeRedirectedForNoPermission();
+    });
+  });
+
+  it('Debe sacar al usuario si intenta modificar a un compra y no tiene permisos', () => {
+    cy.createSeedUser({ actions: ['find_all_supplies_shopping'] }, (userData: any) => {
+      cy.loginUser(userData.email, userData.password);
+      cy.wait(1500);
+      cy.checkSidebarMenuItem('Compras');
+      cy.openCommandPaletteAndSelectFirstOption();
+
+      cy.visit(shoppingRoutes.update(currentShopping.id));
+      cy.shouldBeRedirectedForNoPermission();
+    });
+  });
+
+  it('Debe sacar al usuario si intenta consultar a un compra y no tiene permisos', () => {
+    cy.createSeedUser({ actions: ['find_all_supplies_shopping'] }, (data: any) => {
+      cy.loginUser(data.email, data.password);
+      cy.wait(1500);
+      cy.checkSidebarMenuItem('Compras');
+      cy.openCommandPaletteAndSelectFirstOption();
+
+      cy.visit(shoppingRoutes.view(currentShopping.id));
+      cy.shouldBeRedirectedForNoPermission();
     });
   });
 });

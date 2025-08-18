@@ -509,7 +509,6 @@ describe('Auth modulo de usuarios', () => {
 
   it('Crear usuario con acceso unicamente al modulo de usuarios', () => {
     cy.createUser({ selectedModules: ['users'] }).then((data: any) => {
-      cy.log(JSON.stringify(data, null, 2));
       cy.logoutUser();
       cy.wait(2000);
       cy.loginUser(data.email, data.password);
@@ -561,7 +560,6 @@ describe('Auth modulo de usuarios', () => {
 
   it('Crear usuario con acceso unicamente a ver tabla de usuarios', () => {
     cy.createUser({ selectedActions: ['find_all_users'] }).then((data: any) => {
-      cy.log(JSON.stringify(data, null, 2));
       cy.logoutUser();
       cy.wait(2000);
       cy.loginUser(data.email, data.password);
@@ -650,7 +648,6 @@ describe('Auth modulo de usuarios', () => {
 
   it('Debe sacar al usuario si intenta crear un usuario y no tiene permisos ', () => {
     cy.createUser({ selectedActions: ['find_all_users'] }).then((data: any) => {
-      cy.log(JSON.stringify(data, null, 2));
       cy.logoutUser();
       cy.wait(2000);
       cy.loginUser(data.email, data.password);
@@ -674,7 +671,6 @@ describe('Auth modulo de usuarios', () => {
 
   it('Debe sacar al usuario si intenta modificar a un usuario y no tiene permisos', () => {
     cy.createUser({ selectedActions: ['find_all_users'] }).then((data: any) => {
-      cy.log(JSON.stringify(data, null, 2));
       cy.logoutUser();
       cy.wait(2000);
       cy.loginUser(data.email, data.password);
@@ -698,7 +694,6 @@ describe('Auth modulo de usuarios', () => {
 
   it('Debe sacar al usuario si intenta consultar a un usuario y no tiene permisos', () => {
     cy.createUser({ selectedActions: ['find_all_users'] }).then((data: any) => {
-      cy.log(JSON.stringify(data, null, 2));
       cy.logoutUser();
       cy.wait(2000);
       cy.loginUser(data.email, data.password);

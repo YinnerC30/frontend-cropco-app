@@ -37,6 +37,8 @@ Cypress.Commands.add(
 
     cy.getTokenToSeed();
 
+    // TODO: Incrementar tiempo de espera
+
     return cy
       .request({
         method: 'POST',
