@@ -70,7 +70,7 @@ export const ConsumptionSearchBarCropsFilter: React.FC<
                     onOpenChange={setOpenPopoverCrops}
                     modal={true}
                   >
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap justify-center gap-2">
                       <PopoverTrigger asChild>
                         <FormControl>
                           {queryCrops.isLoading || queryCrops.isFetching ? (
