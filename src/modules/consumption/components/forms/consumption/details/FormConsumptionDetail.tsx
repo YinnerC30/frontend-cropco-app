@@ -1,16 +1,14 @@
-import { Cross2Icon } from '@radix-ui/react-icons';
 
 import { Button } from '@/components/ui/button';
 
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogCustomClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from '@/components/ui/dialog';
 
 import { toast } from 'sonner';
@@ -22,10 +20,10 @@ import { Plus } from 'lucide-react';
 
 import { useFormConsumptionContext } from '@/modules/consumption/hooks/context/useFormConsumptionContext';
 
+import { ScrollArea } from '@/components';
 import { formSchemaConsumptionDetail } from '@/modules/consumption/utils';
 import { z } from 'zod';
 import { FormConsumptionDetailsFields } from './FormConsumptionDetailsFields';
-import { ScrollArea } from '@/components';
 
 export const FormConsumptionDetail: React.FC = () => {
   const {
