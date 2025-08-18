@@ -299,7 +299,7 @@ describe('Creación de compras', () => {
   });
 });
 
-describe.only('Modificación de compras', () => {
+describe('Modificación de compras', () => {
   let currentSupply: any = {};
   let currentShopping: any = {};
   let currentSupplier: any = {};
@@ -477,5 +477,145 @@ describe.only('Modificación de compras', () => {
     cy.checkMessageLostFormData();
     cy.clickOnIgnoreButton();
     cy.url().should('include', shoppingRoutes.listAll());
+  });
+});
+
+describe('Eliminación de compra', () => {
+  let currentShopping: any = {};
+
+  before(() => {
+    cy.executeClearSeedData({ shoppingSupplies: true });
+    cy.createShopping({ fastCreation: true }).then((data) => {
+      currentShopping = { ...data };
+    });
+  });
+
+  beforeEach(() => {
+    cy.loginUser();
+  });
+
+  it('Eliminar compra', () => {
+    cy.navigateToModuleWithSideBar('shopping');
+    cy.clickActionsButtonTableRow(currentShopping.id);
+    cy.clickOnDeleteRecord();
+    cy.clickOnContinueDeleteOneRecord();
+    cy.contains('Compra eliminada');
+  });
+
+  it.skip('Intentar eliminar compra con registros pendientes de pago', () => {
+    cy.executeClearSeedData({ shopping: true });
+    cy.createSale({
+      fastCreation: true,
+      returnOnlySale: false,
+      isReceivableGeneric: true,
+    }).then((data) => {
+      const { sale } = data;
+
+      cy.navigateToModuleWithSideBar('shopping');
+      cy.wait(5000);
+      cy.clickActionsButtonTableRow(sale.id);
+      cy.clickOnDeleteRecord();
+      cy.clickOnContinueDeleteOneRecord();
+      cy.contains(
+        'No se pudo eliminar la compra seleccionada, revisa que no tenga registros pendientes de pago'
+      );
+    });
+  });
+});
+
+describe('Eliminación de compras por lote', () => {
+  beforeEach(() => {
+    cy.executeClearSeedData({ shoppingSupplies: true });
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('shopping');
+    for (let index = 0; index < 5; index++) {
+      cy.createShopping({ fastCreation: true });
+    }
+    cy.clickRefetchButton();
+  });
+
+  it('Eliminar compras seleccionados', () => {
+    cy.wait(3000);
+    cy.toggleSelectAllTableRows();
+    cy.clickOnDeleteBulkButton();
+    cy.clickOnContinueDeleteBulkRecord();
+    cy.checkLoadingInformation();
+    cy.contains('Los registros seleccionados fueron eliminados');
+    cy.checkNoRecordsMessage();
+  });
+
+  it.skip('Intentar eliminar compras con registros pendientes de pago', () => {
+    cy.executeClearSeedData({ shopping: true });
+    cy.createSale({
+      fastCreation: true,
+      returnOnlySale: false,
+      isReceivableGeneric: true,
+    }).then((data) => {
+      cy.navigateToModuleWithSideBar('shopping');
+      cy.clickRefetchButton();
+      cy.wait(5000);
+      cy.toggleSelectAllTableRows();
+      cy.clickOnDeleteBulkButton();
+      cy.clickOnContinueDeleteBulkRecord();
+      // cy.checkLoadingInformation();
+      cy.contains(
+        'No se pudieron eliminar las compras seleccionados, revisa que no tenga registros pendientes de pago'
+      );
+    });
+  });
+
+  it.skip('Eliminar compras que tienen conflicto de eliminación y los que no tienen', () => {
+    cy.createSale({ fastCreation: true, isReceivableGeneric: true }).then(
+      (data) => {
+        cy.navigateToModuleWithSideBar('shopping');
+        cy.clickRefetchButton();
+        cy.wait(3000);
+        cy.toggleSelectAllTableRows();
+        cy.clickOnDeleteBulkButton();
+        cy.clickOnContinueDeleteBulkRecord();
+        cy.contains(
+          'No se pudieron eliminar algunas compras, revisa que no tenga registros pendientes de pago'
+        );
+      }
+    );
+  });
+});
+
+describe.only('Exportar compra a PDF', () => {
+  before(() => {
+    cy.executeClearSeedData({ shoppingSupplies: true });
+  });
+
+  it('Generar reporte de compra', () => {
+    cy.loginUser();
+    cy.createShopping({ fastCreation: true, returnOnlyShopping: true }).then(
+      (currentShopping) => {
+        cy.navigateToModuleWithSideBar('shopping');
+        cy.clickActionsButtonTableRow(currentShopping.id);
+        cy.get('button[data-testid="btn-download-pdf"]').click();
+        cy.contains('Generando documento PDF...');
+        cy.contains('El documento ha sido generado con éxito.');
+        const expectedFileName = `reporte-compra-${currentShopping.id}.pdf`;
+        const downloadsFolder =
+          Cypress.config('downloadsFolder') || 'cypress/downloads';
+
+        cy.readFile(`${downloadsFolder}/${expectedFileName}`, {
+          timeout: 10000,
+        }).should('exist');
+      }
+    );
+  });
+});
+
+describe.only('Copiar Id de registro', () => {
+  it('Copiar Id del compra', () => {
+    cy.executeClearSeedData({ shoppingSupplies: true });
+    cy.createShopping({ fastCreation: true }).then((currentShopping) => {
+      cy.loginUser();
+      cy.navigateToModuleWithSideBar('shopping');
+      cy.wait(500);
+      cy.clickActionsButtonTableRow(currentShopping.id);
+      cy.clickOnCopyIdButton();
+    });
   });
 });

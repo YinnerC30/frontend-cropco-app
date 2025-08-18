@@ -65,7 +65,7 @@ export const useGetShoppingPDF = ({
           viewPDF(query.data);
           break;
         case 'DownloadPDF':
-          downloadPDF(query.data, `shopping-document-${shoppingId}`);
+          downloadPDF(query.data, `reporte-compra-${shoppingId}`);
           break;
         default:
           break;
