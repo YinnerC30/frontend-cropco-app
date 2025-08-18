@@ -115,6 +115,24 @@ const DialogDescription = React.forwardRef<
 ));
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
+interface DialogCustomCloseProps {
+  handleClose: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+export const DialogCustomClose: React.FC<DialogCustomCloseProps> = (props) => {
+  const { handleClose } = props;
+  return (
+    <DialogClose
+      onClick={handleClose}
+      className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+      data-testid="btn-close-form-dialog"
+    >
+      <Cross2Icon className="w-4 h-4" />
+      <span className="sr-only">Close</span>
+    </DialogClose>
+  );
+};
+
 export {
   Dialog,
   DialogClose,

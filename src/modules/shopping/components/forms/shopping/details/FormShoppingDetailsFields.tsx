@@ -37,7 +37,6 @@ import { cn } from '@/lib/utils';
 import { Loading } from '@/modules/core/components';
 
 import { unitTypeMap } from '@/modules/core/hooks/useUnitConverter';
-import { formFieldsSaleDetail } from '@/modules/sales/utils';
 import { Supply } from '@/modules/supplies/interfaces/Supply';
 import {
   UnitOfMeasure,
@@ -154,6 +153,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                             ref={field.ref}
                             onBlur={field.onBlur}
                             disabled={readOnly}
+                            data-testid={`btn-open-command-supply`}
                           >
                             <span className="mr-2 overflow-auto truncate text-muted-foreground text-ellipsis max-w-36">
                               {!!field.value
@@ -162,7 +162,7 @@ export const FormShoppingDetailsFields: React.FC = () => {
                                       return item.id === field.value;
                                     }
                                   )?.['name']
-                                : formFieldsSaleDetail.crop.placeholder}
+                                : formFieldsShoppingDetail.supply.placeholder}
                             </span>
 
                             {!!field.value && (
@@ -200,11 +200,12 @@ export const FormShoppingDetailsFields: React.FC = () => {
                             'insumo'
                           )} no encontrado`}</CommandEmpty>
                           <CommandGroup>
-                            {querySupplies.data?.records.map((item) => {
+                            {querySupplies.data?.records.map((item,index) => {
                               return (
                                 <CommandItem
                                   value={item?.['name']}
                                   key={item.id!}
+                                  data-testid={`form-field-command-item-${index}`}
                                   onSelect={() => {
                                     if (field?.value === item?.id) {
                                       formShoppingDetail.setValue('supply', {

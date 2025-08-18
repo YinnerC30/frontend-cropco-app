@@ -1,11 +1,9 @@
-import { Cross2Icon } from '@radix-ui/react-icons';
-
 import { Button } from '@/components/ui/button';
 
 import {
   Dialog,
-  DialogClose,
   DialogContent,
+  DialogCustomClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -19,12 +17,12 @@ import { ToolTipTemplate } from '@/modules/core/components';
 
 import { Plus } from 'lucide-react';
 
+import { ScrollArea } from '@/components';
 import { useFormSaleContext } from '@/modules/sales/hooks';
 import { formSchemaSaleDetails } from '@/modules/sales/utils';
 import React from 'react';
 import { z } from 'zod';
 import { FormSaleDetailsFields } from './FormSaleDetailsFields';
-import { ScrollArea } from '@/components';
 
 export const FormSaleDetail: React.FC = () => {
   const {
@@ -124,14 +122,7 @@ export const FormSaleDetail: React.FC = () => {
           onInteractOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
-          <DialogClose
-            onClick={handleCloseDialog}
-            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-            data-testid="btn-close-form-dialog"
-          >
-            <Cross2Icon className="w-4 h-4" />
-            <span className="sr-only">Close</span>
-          </DialogClose>
+          <DialogCustomClose handleClose={handleCloseDialog} />
           <DialogHeader>
             <DialogTitle>Venta a cliente</DialogTitle>
             <DialogDescription>

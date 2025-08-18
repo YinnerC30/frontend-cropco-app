@@ -1,13 +1,13 @@
 import {
   Button,
   Dialog,
-  DialogClose,
   DialogContent,
+  DialogCustomClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  Form,
+  Form
 } from '@/components';
 import {
   FormFieldCalendar,
@@ -23,7 +23,7 @@ import {
 } from '@/modules/harvests/hooks';
 import { formFieldsHarvestProcessed } from '@/modules/harvests/utils/formFieldsHarvestProcessed';
 
-import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
+import { ReloadIcon } from '@radix-ui/react-icons';
 
 import { Plus } from 'lucide-react';
 import { memo, useEffect } from 'react';
@@ -176,13 +176,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
           onInteractOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
-          <DialogClose
-            onClick={handleCloseDialog}
-            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-          >
-            <Cross2Icon className="w-4 h-4" />
-            <span className="sr-only">Close</span>
-          </DialogClose>
+          <DialogCustomClose handleClose={handleCloseDialog} />
           <DialogHeader>
             <DialogTitle>Cosecha procesada</DialogTitle>
             <DialogDescription className="">
