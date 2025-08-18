@@ -359,7 +359,8 @@ const BadgeSupplyUnitOfMeasure: React.FC<BadgeSupplyUnitOfMeasureProps> = ({
     const supply: any = supplies.find((item: Supply) => {
       return item.id === field.value;
     });
-    return CapitalizeFirstWord(supply.unit_of_measure.toLowerCase() as string);
+    const value: string = supply.unit_of_measure;
+    return value.toUpperCase();
   };
 
   return (
