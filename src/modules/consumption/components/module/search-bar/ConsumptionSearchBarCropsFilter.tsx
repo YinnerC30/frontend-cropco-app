@@ -89,7 +89,7 @@ export const ConsumptionSearchBarCropsFilter: React.FC<
                               ref={field.ref}
                               onBlur={field.onBlur}
                               disabled={disabled}
-                              data-testid="btn-consumption-crops-select"
+                              data-testid="btn-open-command-crop"
                             >
                               {field.value.length > 0 && !!queryCrops.data
                                 ? `${currentCrops!.length} seleccionado(s)`
@@ -141,63 +141,65 @@ export const ConsumptionSearchBarCropsFilter: React.FC<
                               'cultivo'
                             )} no encontrado`}</CommandEmpty>
                             <CommandGroup>
-                              {queryCrops?.data?.records.map((item: any) => {
-                                return (
-                                  <CommandItem
-                                    value={item?.['name']}
-                                    key={item.id!}
-                                    onSelect={() => {
-                                      if (
-                                        field?.value?.some(
-                                          (i: any) => i.id === item?.id
-                                        )
-                                      ) {
-                                        formSearchBar.setValue(
-                                          'crops',
-                                          [
-                                            ...field?.value?.filter(
-                                              (i: any) => i.id !== item?.id
-                                            ),
-                                          ],
-                                          {
-                                            shouldValidate: true,
-                                            shouldDirty: true,
-                                          }
-                                        );
-                                      } else {
-                                        formSearchBar.setValue(
-                                          'crops',
-                                          [
-                                            ...(currentCrops || []),
+                              {queryCrops?.data?.records.map(
+                                (item: any, index: number) => {
+                                  return (
+                                    <CommandItem
+                                      value={item?.['name']}
+                                      key={item.id!}
+                                      data-testid={`form-field-command-item-${index}`}
+                                      onSelect={() => {
+                                        if (
+                                          field?.value?.some(
+                                            (i: any) => i.id === item?.id
+                                          )
+                                        ) {
+                                          formSearchBar.setValue(
+                                            'crops',
+                                            [
+                                              ...field?.value?.filter(
+                                                (i: any) => i.id !== item?.id
+                                              ),
+                                            ],
                                             {
-                                              id: item.id,
-                                              name: item['name'],
-                                            },
-                                          ],
-                                          {
-                                            shouldValidate: true,
-                                            shouldDirty: true,
-                                          }
-                                        );
-                                      }
-                                      setOpenPopoverCrops(false);
-                                    }}
-                                    data-testid={`option-consumption-crop-${item.id}`}
-                                  >
-                                    <div className="">{item?.['name']}</div>
-                                    <CheckIcon
-                                      className={cn(
-                                        'ml-auto h-4 w-4',
-                                        field?.value.some((i: any) => {
-                                          return i.id === item?.id;
-                                        })
-                                          ? 'opacity-100'
-                                          : 'opacity-0'
-                                      )}
-                                    />
-                                  </CommandItem>
-                                );
-                              })}
+                                              shouldValidate: true,
+                                              shouldDirty: true,
+                                            }
+                                          );
+                                        } else {
+                                          formSearchBar.setValue(
+                                            'crops',
+                                            [
+                                              ...(currentCrops || []),
+                                              {
+                                                id: item.id,
+                                                name: item['name'],
+                                              },
+                                            ],
+                                            {
+                                              shouldValidate: true,
+                                              shouldDirty: true,
+                                            }
+                                          );
+                                        }
+                                        setOpenPopoverCrops(false);
+                                      }}
+                                    >
+                                      <div className="">{item?.['name']}</div>
+                                      <CheckIcon
+                                        className={cn(
+                                          'ml-auto h-4 w-4',
+                                          field?.value.some((i: any) => {
+                                            return i.id === item?.id;
+                                          })
+                                            ? 'opacity-100'
+                                            : 'opacity-0'
+                                        )}
+                                      />
+                                    </CommandItem>
+                                  );
+                                }
+                              )}
                             </CommandGroup>
                           </ScrollArea>
                         </CommandList>
@@ -216,6 +218,7 @@ export const ConsumptionSearchBarCropsFilter: React.FC<
       }
       actionOnSave={() => onAddFilter('crops')}
       actionOnClose={() => onClearErrors('crops')}
+      dataTestId="filter-crops"
     />
   );
 };

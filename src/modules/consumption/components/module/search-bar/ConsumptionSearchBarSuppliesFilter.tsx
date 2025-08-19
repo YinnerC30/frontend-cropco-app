@@ -96,7 +96,7 @@ export const ConsumptionSearchBarSuppliesFilter: React.FC<
                               ref={field.ref}
                               onBlur={field.onBlur}
                               disabled={disabled}
-                              data-testid="btn-consumption-supplies-select"
+                              data-testid="btn-open-command-supply"
                             >
                               {field.value.length > 0 && !!querySupplies.data
                                 ? `${currentSupplies!.length} seleccionado(s)`
@@ -147,63 +147,65 @@ export const ConsumptionSearchBarSuppliesFilter: React.FC<
                               'insumo'
                             )} no encontrado`}</CommandEmpty>
                             <CommandGroup>
-                              {querySupplies?.data?.records.map((item: any) => {
-                                return (
-                                  <CommandItem
-                                    value={item?.['name']}
-                                    key={item.id!}
-                                    onSelect={() => {
-                                      if (
-                                        field?.value?.some(
-                                          (i: any) => i.id === item?.id
-                                        )
-                                      ) {
-                                        formSearchBar.setValue(
-                                          'supplies',
-                                          [
-                                            ...field?.value?.filter(
-                                              (i: any) => i.id !== item?.id
-                                            ),
-                                          ],
-                                          {
-                                            shouldValidate: true,
-                                            shouldDirty: true,
-                                          }
-                                        );
-                                      } else {
-                                        formSearchBar.setValue(
-                                          'supplies',
-                                          [
-                                            ...(currentSupplies || []),
+                              {querySupplies?.data?.records.map(
+                                (item: any, index: number) => {
+                                  return (
+                                    <CommandItem
+                                      value={item?.['name']}
+                                      key={item.id!}
+                                      data-testid={`form-field-command-item-${index}`}
+                                      onSelect={() => {
+                                        if (
+                                          field?.value?.some(
+                                            (i: any) => i.id === item?.id
+                                          )
+                                        ) {
+                                          formSearchBar.setValue(
+                                            'supplies',
+                                            [
+                                              ...field?.value?.filter(
+                                                (i: any) => i.id !== item?.id
+                                              ),
+                                            ],
                                             {
-                                              id: item.id,
-                                              name: item['name'],
-                                            },
-                                          ],
-                                          {
-                                            shouldValidate: true,
-                                            shouldDirty: true,
-                                          }
-                                        );
-                                      }
-                                      setOpenPopoverSupply(false);
-                                    }}
-                                    data-testid={`option-consumption-supply-${item.id}`}
-                                  >
-                                    <div className="">{item?.['name']}</div>
-                                    <CheckIcon
-                                      className={cn(
-                                        'ml-auto h-4 w-4',
-                                        field?.value.some((i: any) => {
-                                          return i.id === item?.id;
-                                        })
-                                          ? 'opacity-100'
-                                          : 'opacity-0'
-                                      )}
-                                    />
-                                  </CommandItem>
-                                );
-                              })}
+                                              shouldValidate: true,
+                                              shouldDirty: true,
+                                            }
+                                          );
+                                        } else {
+                                          formSearchBar.setValue(
+                                            'supplies',
+                                            [
+                                              ...(currentSupplies || []),
+                                              {
+                                                id: item.id,
+                                                name: item['name'],
+                                              },
+                                            ],
+                                            {
+                                              shouldValidate: true,
+                                              shouldDirty: true,
+                                            }
+                                          );
+                                        }
+                                        setOpenPopoverSupply(false);
+                                      }}
+                                    >
+                                      <div className="">{item?.['name']}</div>
+                                      <CheckIcon
+                                        className={cn(
+                                          'ml-auto h-4 w-4',
+                                          field?.value.some((i: any) => {
+                                            return i.id === item?.id;
+                                          })
+                                            ? 'opacity-100'
+                                            : 'opacity-0'
+                                        )}
+                                      />
+                                    </CommandItem>
+                                  );
+                                }
+                              )}
                             </CommandGroup>
                           </ScrollArea>
                         </CommandList>
@@ -222,6 +224,7 @@ export const ConsumptionSearchBarSuppliesFilter: React.FC<
       }
       actionOnSave={() => onAddFilter('supplies')}
       actionOnClose={() => onClearErrors('supplies')}
+      dataTestId="filter-supplies"
     />
   );
 };

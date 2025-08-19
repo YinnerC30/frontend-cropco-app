@@ -61,303 +61,189 @@ describe('Comprobar existencia de elementos en el modulo de consumos', () => {
   });
 });
 
-// describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
-//   before(() => {
-//     cy.executeClearSeedData({ consumptionSupplies: true });
-//     for (let i = 0; i < 2; i++) {
-//       cy.createConsumption({ fastCreation: true });
-//       cy.createConsumption({ fastCreation: true });
-//     }
-//   });
-
-//   beforeEach(() => {
-//     cy.loginUser();
-//     cy.navigateToModuleWithSideBar('consumptions');
-//   });
-
-//   it('Debe buscar la consumos por una fecha (fecha actual)', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-filter-date"]').click();
-
-//     cy.openSelectField();
-
-//     cy.selectSelectOption('EQUAL');
-
-//     cy.get('button[data-testid="btn-filter-date"]').click();
-
-//     cy.get('button[data-testid="btn-calendar-selector"]').click();
-
-//     cy.selectCalendarDay(new Date().getDate());
-
-//     cy.get('button[data-testid="button-filter-date-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('4');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('4');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-date"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-
-//   it('Debe buscar la consumos por una fecha (fecha anterior)', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-filter-date"]').click();
-
-//     cy.openSelectField();
-//     cy.selectSelectOption('BEFORE');
-
-//     cy.get('button[data-testid="btn-calendar-selector"]').click();
-//     cy.selectCalendarDay(new Date().getDate());
-
-//     cy.get('button[data-testid="button-filter-date-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-date"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-
-//   it('Debe buscar la consumos por una fecha (fecha posterior)', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-filter-date"]').click();
-
-//     cy.openSelectField();
-//     cy.selectSelectOption('AFTER');
-
-//     cy.get('button[data-testid="btn-calendar-selector"]').click();
-//     cy.selectCalendarDay(new Date().getDate());
-
-//     cy.get('button[data-testid="button-filter-date-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-date"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-
-//   it('Debe buscar la consumos por un proveedor en especifico', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-consumption-filters"]').click();
-
-//     cy.get('div[data-testid="filter-suppliers"]').click();
-
-//     cy.get(`button[data-testid="btn-open-command-supplier"]`).click();
-
-//     cy.selectCommandOption('0', true);
-
-//     cy.get('button[data-testid="button-filter-suppliers-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('1');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('1');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-suppliers"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-
-//   it('Debe buscar la consumos por un insumo en especifico', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-consumption-filters"]').click();
-
-//     cy.get('div[data-testid="filter-supplies"]').click();
-
-//     cy.get(`button[data-testid="btn-open-command-supply"]`).click();
-
-//     cy.selectCommandOption('0', true);
-
-//     cy.get('button[data-testid="button-filter-supplies-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('1');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('1');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-supplies"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-
-//   it('Debe buscar la consumos por un valor (igual a)', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-consumption-filters"]').click();
-
-//     cy.get('div[data-testid="filter-value-pay"]').click();
-
-//     cy.getFormInput('filter_by_value_pay.value_pay').clear();
-
-//     cy.getFormInput('filter_by_value_pay.value_pay').type('250000');
-
-//     cy.get(
-//       'button[data-testid="btn-select-field"][data-name="filter_by_value_pay.type_filter_value_pay"]'
-//     ).click();
-//     cy.selectSelectOption('EQUAL');
-
-//     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('4');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('4');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-value_pay"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-
-//   it('Debe buscar la consumos por un valor (mayor a)', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-consumption-filters"]').click();
-
-//     cy.get('div[data-testid="filter-value-pay"]').click();
-
-//     cy.get(
-//       'button[data-testid="btn-select-field"][data-name="filter_by_value_pay.type_filter_value_pay"]'
-//     ).click();
-//     cy.selectSelectOption('GREATER_THAN');
-
-//     cy.getFormInput('filter_by_value_pay.value_pay').clear();
-
-//     cy.getFormInput('filter_by_value_pay.value_pay').type('250000');
-
-//     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-value_pay"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-
-//   it('Debe buscar la consumos por un valor (menor a)', () => {
-//     cy.wait(1500);
-//     cy.get('button[data-testid="btn-consumption-filters"]').click();
-
-//     cy.get('div[data-testid="filter-value-pay"]').click();
-
-//     cy.get(
-//       'button[data-testid="btn-select-field"][data-name="filter_by_value_pay.type_filter_value_pay"]'
-//     ).click();
-//     cy.selectSelectOption('LESS_THAN');
-
-//     cy.getFormInput('filter_by_value_pay.value_pay').clear();
-
-//     cy.getFormInput('filter_by_value_pay.value_pay').type('250000');
-
-//     cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
-//     cy.wait(2000);
-
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
-
-//     // Persiste a la recarga manual de la pestaña
-//     cy.reload();
-//     cy.existPaginationInfo();
-//     cy.checkTableRowsExist();
-//     cy.checkTableRowTotal('0');
-
-//     cy.get('div[data-testid="filters-badged-list"]')
-//       .should('exist')
-//       .within(() => {
-//         cy.get('button[data-testid="btn-remove-filter-value_pay"]')
-//           .should('exist')
-//           .click();
-//       });
-//     cy.checkTableRowTotal('4');
-//   });
-// });
+describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
+  before(() => {
+    cy.executeClearSeedData({ consumptionSupplies: true });
+    for (let i = 0; i < 2; i++) {
+      cy.createConsumption({ fastCreation: true });
+      cy.createConsumption({ fastCreation: true });
+    }
+  });
+
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('consumptions');
+  });
+
+  it('Debe buscar la consumos por una fecha (fecha actual)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-filter-date"]').click();
+
+    cy.openSelectField();
+
+    cy.selectSelectOption('EQUAL');
+
+    cy.get('button[data-testid="btn-filter-date"]').click();
+
+    cy.get('button[data-testid="btn-calendar-selector"]').click();
+
+    cy.selectCalendarDay(new Date().getDate());
+
+    cy.get('button[data-testid="button-filter-date-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('4');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('4');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-date"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
+  });
+
+  it('Debe buscar la consumos por una fecha (fecha anterior)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-filter-date"]').click();
+
+    cy.openSelectField();
+    cy.selectSelectOption('BEFORE');
+
+    cy.get('button[data-testid="btn-calendar-selector"]').click();
+    cy.selectCalendarDay(new Date().getDate());
+
+    cy.get('button[data-testid="button-filter-date-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-date"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
+  });
+
+  it('Debe buscar la consumos por una fecha (fecha posterior)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-filter-date"]').click();
+
+    cy.openSelectField();
+    cy.selectSelectOption('AFTER');
+
+    cy.get('button[data-testid="btn-calendar-selector"]').click();
+    cy.selectCalendarDay(new Date().getDate());
+
+    cy.get('button[data-testid="button-filter-date-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-date"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
+  });
+
+  it('Debe buscar la consumos por un cultivo en especifico', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-consumption-filters"]').click();
+
+    cy.get('div[data-testid="filter-crops"]').click();
+
+    cy.get(`button[data-testid="btn-open-command-crop"]`).click();
+
+    cy.selectCommandOption('0', true);
+
+    cy.get('button[data-testid="button-filter-crops-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('1');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('1');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-crops"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
+  });
+
+  it('Debe buscar la consumos por un insumo en especifico', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-consumption-filters"]').click();
+
+    cy.get('div[data-testid="filter-supplies"]').click();
+
+    cy.get(`button[data-testid="btn-open-command-supply"]`).click();
+
+    cy.selectCommandOption('0', true);
+
+    cy.get('button[data-testid="button-filter-supplies-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('1');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('1');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-supplies"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('4');
+  });
+});
 
 describe('Creación de consumos', () => {
   before(() => {
