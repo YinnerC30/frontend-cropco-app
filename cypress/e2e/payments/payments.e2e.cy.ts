@@ -73,6 +73,377 @@ describe('Comprobar existencia de elementos en el modulo de pagos', () => {
   });
 });
 
+describe('Encuentra registros de acuerdo a los filtros de búsqueda', () => {
+  before(() => {
+    cy.executeClearSeedData({ payments: true });
+    for (let i = 0; i < 2; i++) {
+      cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
+        (data) => {
+          const { harvest, employees } = data;
+          cy.createPayment({
+            data: {
+              employeeId: employees[0].id,
+              harvestsId: [harvest.details[0].id],
+              worksId: [],
+              valuePay: harvest.details[0].value_pay,
+              methodOfPayment: 'EFECTIVO',
+            },
+          });
+        }
+      );
+    }
+  });
+
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('payments');
+  });
+
+  it('Debe buscar el pago por un empleado en especifico', () => {
+    cy.openCommandField('employee');
+    cy.selectCommandOption('0');
+    cy.wait(2000);
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('1');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('1');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-employee"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('2');
+  });
+
+  it('Debe buscar el pago por una fecha (fecha actual)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-payments-filters"]').click();
+
+    cy.get('div[data-testid="filter-date"]').click();
+
+    cy.openSelectField();
+    // cy.wait(2000);
+    cy.selectSelectOption('EQUAL');
+
+    cy.get('button[data-testid="btn-calendar-selector"]').click();
+    cy.selectCalendarDay(new Date().getDate());
+
+    cy.get('button[data-testid="button-filter-date-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('2');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('2');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-date"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('2');
+  });
+
+  it('Debe buscar el pago por una fecha (fecha anterior)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-payments-filters"]').click();
+
+    cy.get('div[data-testid="filter-date"]').click();
+
+    cy.openSelectField();
+    cy.selectSelectOption('BEFORE');
+
+    cy.get('button[data-testid="btn-calendar-selector"]').click();
+    cy.selectCalendarDay(new Date().getDate());
+
+    cy.get('button[data-testid="button-filter-date-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-date"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('2');
+  });
+
+  it('Debe buscar el pago por una fecha (fecha posterior)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-payments-filters"]').click();
+
+    cy.get('div[data-testid="filter-date"]').click();
+
+    cy.openSelectField();
+    cy.selectSelectOption('AFTER');
+
+    cy.get('button[data-testid="btn-calendar-selector"]').click();
+    cy.selectCalendarDay(new Date().getDate());
+
+    cy.get('button[data-testid="button-filter-date-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-date"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('2');
+  });
+
+  it('Debe buscar el pago por un valor (igual a)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-payments-filters"]').click();
+
+    cy.get('div[data-testid="filter-value-pay"]').click();
+
+    cy.get(
+      'button[data-testid="btn-select-field"][data-name="filter_by_value_pay.type_filter_value_pay"]'
+    ).click();
+    cy.selectSelectOption('EQUAL');
+
+    cy.getFormInput('filter_by_value_pay.value_pay').clear();
+
+    cy.getFormInput('filter_by_value_pay.value_pay').type('90000');
+
+    cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('2');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('2');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-value_pay"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('2');
+  });
+  it('Debe buscar el pago por un valor (mayor a)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-payments-filters"]').click();
+
+    cy.get('div[data-testid="filter-value-pay"]').click();
+
+    cy.get(
+      'button[data-testid="btn-select-field"][data-name="filter_by_value_pay.type_filter_value_pay"]'
+    ).click();
+    cy.selectSelectOption('GREATER_THAN');
+
+    cy.getFormInput('filter_by_value_pay.value_pay').clear();
+
+    cy.getFormInput('filter_by_value_pay.value_pay').type('90000');
+
+    cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-value_pay"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('2');
+  });
+  it('Debe buscar el pago por un valor (menor a)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-payments-filters"]').click();
+
+    cy.get('div[data-testid="filter-value-pay"]').click();
+
+    cy.get(
+      'button[data-testid="btn-select-field"][data-name="filter_by_value_pay.type_filter_value_pay"]'
+    ).click();
+    cy.selectSelectOption('LESS_THAN');
+
+    cy.getFormInput('filter_by_value_pay.value_pay').clear();
+
+    cy.getFormInput('filter_by_value_pay.value_pay').type('90000');
+
+    cy.get('button[data-testid="button-filter-value-pay-apply"]').click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-value_pay"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('2');
+  });
+
+  it('Debe buscar el pago por un metodo de pago (efectivo)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-payments-filters"]').click();
+
+    cy.get('div[data-testid="filter-method-of-payment"]').click();
+
+    cy.openSelectField();
+    cy.selectSelectOption('EFECTIVO');
+
+    cy.get(
+      'button[data-testid="button-filter-method-of-payment-apply"]'
+    ).click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('2');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('2');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-method_of_payment"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('2');
+  });
+
+  it('Debe buscar el pago por un metodo de pago (transferencia)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-payments-filters"]').click();
+
+    cy.get('div[data-testid="filter-method-of-payment"]').click();
+
+    cy.openSelectField();
+    cy.selectSelectOption('TRANSFERENCIA');
+
+    cy.get(
+      'button[data-testid="button-filter-method-of-payment-apply"]'
+    ).click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-method_of_payment"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('2');
+  });
+
+  it('Debe buscar el pago por un metodo de pago (intercambio)', () => {
+    cy.wait(1500);
+    cy.get('button[data-testid="btn-payments-filters"]').click();
+
+    cy.get('div[data-testid="filter-method-of-payment"]').click();
+
+    cy.openSelectField();
+    cy.selectSelectOption('INTERCAMBIO');
+
+    cy.get(
+      'button[data-testid="button-filter-method-of-payment-apply"]'
+    ).click();
+    cy.wait(2000);
+
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    // Persiste a la recarga manual de la pestaña
+    cy.reload();
+    cy.existPaginationInfo();
+    cy.checkTableRowsExist();
+    cy.checkTableRowTotal('0');
+
+    cy.get('div[data-testid="filters-badged-list"]')
+      .should('exist')
+      .within(() => {
+        cy.get('button[data-testid="btn-remove-filter-method_of_payment"]')
+          .should('exist')
+          .click();
+      });
+    cy.checkTableRowTotal('2');
+  });
+});
+
 describe('Creación de pagos', () => {
   beforeEach(() => {
     cy.loginUser();

@@ -11,6 +11,7 @@ import {
   useAdvancedQueryDataPlus,
 } from '@/modules/core/hooks/useAdvancedQueryDataPlus';
 import { BulkRecords } from '@/modules/core/interfaces';
+import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { UseQueryResult } from '@tanstack/react-query';
@@ -47,6 +48,8 @@ export interface PaymentsModuleContextValues {
   mutationDeletePayments: UseMutationReturn<void, BulkRecords>;
   mutationDeletePayment: UseMutationReturn<void, string>;
   actionsPaymentsModule: Record<string, boolean>;
+  appliedFilters: FilterSearchBar[];
+  setAppliedFilters: React.Dispatch<React.SetStateAction<FilterSearchBar[]>>;
   hasParamsQuery: boolean;
   queryGetDocument: UseQueryResult<Blob, AxiosError>;
   paymentIdDocument: string;
@@ -103,7 +106,7 @@ export const PaymentsModuleProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { paramsValues, hasValues, } = useAdvancedQueryDataPlus(paramsPayments);
+  const { paramsValues, hasValues } = useAdvancedQueryDataPlus(paramsPayments);
 
   const {
     query: queryPayments,
@@ -118,6 +121,8 @@ export const PaymentsModuleProvider = ({
   const { getActionsModule } = useAuthContext();
 
   const actionsPaymentsModule = useMemo(() => getActionsModule('payments'), []);
+
+  const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
   const columnsTable = useCreateColumnsTable({
     columns: columnsPayment,
@@ -165,6 +170,8 @@ export const PaymentsModuleProvider = ({
     dataTable,
     mutationDeletePayments,
     mutationDeletePayment,
+    appliedFilters,
+    setAppliedFilters,
     paramsQuery: {
       employee: { id: paramsValues.employee },
       filter_by_date: {
