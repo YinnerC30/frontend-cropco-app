@@ -3,6 +3,20 @@ import { paymentsRoutes } from './payments-routes';
 
 describe('Comprobar existencia de elementos en el modulo de pagos', () => {
   beforeEach(() => {
+    cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
+      (data) => {
+        const { harvest, employees } = data;
+        cy.createPayment({
+          data: {
+            employeeId: employees[0].id,
+            harvestsId: [harvest.details[0].id],
+            worksId: [],
+            valuePay: harvest.details[0].value_pay,
+            methodOfPayment: 'EFECTIVO',
+          },
+        });
+      }
+    );
     cy.loginUser();
     cy.navigateToModuleWithSideBar('payments');
   });
@@ -314,7 +328,7 @@ describe('Eliminación de pagos por lote', () => {
   });
 });
 
-describe.only('Exportar pago a PDF', () => {
+describe('Exportar pago a PDF', () => {
   before(() => {
     cy.executeClearSeedData({ payments: true });
   });
@@ -352,7 +366,7 @@ describe.only('Exportar pago a PDF', () => {
   });
 });
 
-describe.only('Copiar Id de registro', () => {
+describe('Copiar Id de registro', () => {
   it('Copiar Id del pago', () => {
     cy.executeClearSeedData({ payments: true });
     cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
@@ -376,5 +390,193 @@ describe.only('Copiar Id de registro', () => {
         });
       }
     );
+  });
+});
+
+describe('Paginado y selectores', () => {
+  before(() => {
+    cy.executeClearSeedData({ payments: true });
+    for (let i = 0; i < 25; i++) {
+      cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
+        (data) => {
+          const { harvest, employees } = data;
+          cy.createPayment({
+            data: {
+              employeeId: employees[0].id,
+              harvestsId: [harvest.details[0].id],
+              worksId: [],
+              valuePay: harvest.details[0].value_pay,
+              methodOfPayment: 'EFECTIVO',
+            },
+          });
+        }
+      );
+    }
+  });
+
+  beforeEach(() => {
+    cy.loginUser();
+    cy.navigateToModuleWithSideBar('payments');
+    cy.wait(2000);
+  });
+
+  it('Navegar entre paginas disponibles (10 registro por página - default)', () => {
+    cy.checkPaginationValues();
+    cy.clickOnGoNextPageButton();
+    cy.checkTablePageInfoContains('Página 2 de 3');
+    cy.clickOnGoPreviousPageButton();
+    cy.checkTablePageInfoContains('Página 1 de 3');
+  });
+
+  it('Navegar entre paginas disponibles (20 registro por página)', () => {
+    cy.changeTablePageSize(20);
+    cy.wait(2000);
+    cy.checkPaginationValues();
+    cy.clickOnGoNextPageButton();
+    cy.wait(2000);
+    cy.checkTablePageInfoContains('Página 2 de 2');
+    cy.clickOnGoPreviousPageButton();
+    cy.wait(2000);
+    cy.checkTablePageInfoContains('Página 1 de 2');
+  });
+});
+
+describe('Auth modulo de pagos', () => {
+  let currentPayment: any = {};
+
+  before(() => {
+    cy.executeClearSeedData({ payments: true });
+    cy.createHarvest({ fastCreation: true, returnOnlyHarvest: false }).then(
+      (data) => {
+        const { harvest, employees } = data;
+        cy.createPayment({
+          data: {
+            employeeId: employees[0].id,
+            harvestsId: [harvest.details[0].id],
+            worksId: [],
+            valuePay: harvest.details[0].value_pay,
+            methodOfPayment: 'EFECTIVO',
+          },
+        }).then((data) => {
+          currentPayment = { ...data };
+        });
+      }
+    );
+  });
+
+  it('Crear usuario con acceso unicamente al modulo de pagos', () => {
+    cy.createSeedUser({ modules: ['payments'] }, (userData) => {
+      cy.log(userData);
+      cy.loginUser(userData.email, userData.password);
+      cy.wait(1500);
+
+      cy.checkSidebarMenuItem('Pagos');
+
+      cy.openCommandPaletteAndSelectFirstOption();
+
+      cy.wait(2000);
+
+      // Comprobar que haya registro en las tablas
+      cy.checkTableRowsExist();
+
+      // Comprobar habilitación de botones
+      // Recarga de datos
+      cy.checkRefetchButtonState(true);
+      cy.checkCreateButtonState(false);
+
+      // Crear registro
+
+      cy.toggleSelectAllTableRows();
+      cy.wait(700);
+
+      // Eliminar bulk
+      cy.checkDeleteBulkButtonState(true);
+
+      cy.clickActionsButtonTableRow(currentPayment.id);
+
+      cy.checkActionButtonsState({ view: true, delete: true });
+    });
+  });
+
+  it('Crear usuario con acceso unicamente a ver tabla de pagos', () => {
+    cy.createSeedUser({ actions: ['find_all_payments'] }, (userData) => {
+      cy.wait(2000);
+      cy.log(userData);
+      cy.loginUser(userData.email, userData.password);
+      cy.wait(1500);
+
+      cy.checkSidebarMenuItem('Pagos');
+
+      cy.openCommandPaletteAndSelectFirstOption();
+
+      cy.wait(2000);
+
+      // Comprobar que haya registro en las tablas
+      cy.checkTableRowsExist();
+
+      // Comprobar habilitación de botones
+      // Recarga de datos
+      cy.clickRefetchButton();
+      cy.wait(2000);
+
+      cy.checkRefetchButtonState(true);
+
+      // Crear registro
+      cy.checkCreateButtonState(true);
+
+      cy.toggleSelectAllTableRows();
+      cy.wait(700);
+
+      cy.clickActionsButtonTableRow(currentPayment.id);
+
+      // Certificar
+
+      cy.checkActionButtonsState({
+        view: false,
+        delete: false,
+      });
+    });
+  });
+
+  it('No tiene permisos para ver el listado de pagos', () => {
+    cy.createSeedUser({ actions: ['create_payment'] }, (userData) => {
+      cy.loginUser(userData.email, userData.password);
+      cy.wait(1500);
+      cy.checkSidebarMenuItem('Pagos');
+      cy.openCommandPaletteAndSelectFirstOption();
+
+      cy.wait(2000);
+      cy.contains('No tienes permiso para ver el listado de los pagos');
+      cy.checkRefetchButtonState(false);
+
+      // cy.checkSearchBarIsDisabled();
+    });
+  });
+
+  it('Debe sacar al usuario si intenta crear un venta y no tiene permisos ', () => {
+    cy.createSeedUser({ actions: ['find_all_payments'] }, (data: any) => {
+      cy.loginUser(data.email, data.password);
+      cy.wait(1500);
+
+      cy.checkSidebarMenuItem('Pagos');
+      cy.openCommandPaletteAndSelectFirstOption();
+
+      cy.wait(2000);
+
+      cy.visit(paymentsRoutes.create());
+      cy.shouldBeRedirectedForNoPermission();
+    });
+  });
+
+  it('Debe sacar al usuario si intenta consultar a un venta y no tiene permisos', () => {
+    cy.createSeedUser({ actions: ['find_all_payments'] }, (data: any) => {
+      cy.loginUser(data.email, data.password);
+      cy.wait(1500);
+      cy.checkSidebarMenuItem('Pagos');
+      cy.openCommandPaletteAndSelectFirstOption();
+
+      cy.visit(paymentsRoutes.view(currentPayment.id));
+      cy.shouldBeRedirectedForNoPermission();
+    });
   });
 });
