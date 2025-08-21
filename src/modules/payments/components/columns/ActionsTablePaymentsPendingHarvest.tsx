@@ -29,11 +29,11 @@ export const ActionsTablePaymentsPendingHarvest: React.FC<{
       type: 'harvest',
     });
 
-    toast.success(`Se ha añadido la cosecha para pagarla`);
+    toast.success(`Se ha añadido la cosecha a la cola de pagos`);
   };
 
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={id!}>
       <ActionCopyIdRecord id={id!} />
       <ActionPayPendingPayment action={handlePayRecord} />
       <ActionNavigate

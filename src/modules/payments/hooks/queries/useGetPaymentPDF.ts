@@ -64,7 +64,7 @@ export const useGetPaymentPDF = ({
           viewPDF(query.data);
           break;
         case 'DownloadPDF':
-          downloadPDF(query.data, `payment-document-${paymentId}`);
+          downloadPDF(query.data, `reporte-pago-${paymentId}`);
           break;
         default:
           break;

@@ -22,7 +22,7 @@ export const ActionGetDocument: React.FC<Props> = ({ id, disabled }: Props) => {
   };
   return (
     <DropdownMenuItem asChild disabled={disabled}>
-      <Button variant={'ghost'} onClick={handleDocumentPayment}>
+      <Button variant={'ghost'} onClick={handleDocumentPayment} data-testid="btn-download-pdf">
         <Download className="w-4 h-4 mr-1" /> Descargar PDF
       </Button>
     </DropdownMenuItem>

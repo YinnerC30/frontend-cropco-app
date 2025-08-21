@@ -28,11 +28,11 @@ export const ActionsTablePaymentsPendingWork: React.FC<{
       date: work?.date!,
       type: 'work',
     });
-    toast.success(`Se ha añadido el trabajo para pagarlo`);
+    toast.success(`Se ha añadido el trabajo a la cola de pagos`);
   };
 
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={id!}>
       <ActionCopyIdRecord id={id!} />
       <ActionPayPendingPayment action={handlePayRecord} />
       <ActionNavigate

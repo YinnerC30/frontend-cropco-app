@@ -20,7 +20,7 @@ export const ActionsTablePayment: React.FC<{ row: Row<Payment> }> = ({
     mutate(id);
   };
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={id}>
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord action={handleDelete} />
       <ActionViewRecord id={id} />

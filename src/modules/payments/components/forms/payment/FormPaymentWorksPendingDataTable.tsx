@@ -102,6 +102,7 @@ export const FormPaymentWorksPendingDataTable: React.FC = () => {
           <ScrollArea
             className="h-max-[460px] w-[85%] sm:w-full p-1 border rounded-sm self-start"
             type="auto"
+            data-testid="form-payment-works-pending-data-table"
           >
             <FormDataTable
               onCellDoubleClick={(data) => {}}

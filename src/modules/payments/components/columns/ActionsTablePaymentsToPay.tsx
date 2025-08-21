@@ -45,7 +45,7 @@ export const ActionsTablePaymentsToPay = ({
   };
 
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={record.id}>
       <ActionCopyIdRecord id={record.id} />
       <ActionNavigate
         path={

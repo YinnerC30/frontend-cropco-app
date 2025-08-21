@@ -98,6 +98,7 @@ export const FormPaymentToPayDataTable: React.FC = () => {
           <ScrollArea
             className="h-max-[460px] w-[85%] sm:w-full p-1 border rounded-sm self-start"
             type="auto"
+            data-testid="form-payment-to-pay-data-table"
           >
             <FormDataTable
               onCellDoubleClick={(data) => {}}
