@@ -10,6 +10,7 @@ export * from '../e2e/users/users.commands';
 export * from '../e2e/works/works.commands';
 export * from '../e2e/shopping/shopping.commands';
 export * from '../e2e/consumptions/consumptions.commands';
+export * from '../e2e/payments/payments.commands';
 
 export * from './custom-commands/actions.commands';
 export * from './custom-commands/forms.commands';
@@ -31,6 +32,7 @@ import { UserCommands } from '../e2e/users/user-commands';
 import { WorkCommands } from '../e2e/works/works-commands';
 import { ShoppingCommands } from '../e2e/shopping/shopping-commands';
 import { ConsumptionCommands } from '../e2e/consumptions/consumptions-commands';
+import { PaymentsCommands } from '../e2e/payments/payments-commands';
 
 import { ActionsCommands } from './custom-commands/types/actions-commands';
 import { FormsCommands } from './custom-commands/types/forms-commands';
@@ -62,6 +64,7 @@ declare global {
         WorkCommands,
         ShoppingCommands,
         ConsumptionCommands,
+        PaymentsCommands,
         ActionsCommands,
         FormsCommands,
         NavigationCommands,
