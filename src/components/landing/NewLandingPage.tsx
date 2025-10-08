@@ -1,22 +1,18 @@
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import {
-  Leaf,
-  Package,
-  Users,
-  TrendingUp,
   BarChart3,
   Cloud,
-  Clock,
-  Smartphone,
-  CheckCircle2,
-  ArrowRight,
-  Sprout,
+  Leaf,
+  Package,
   Shield,
+  Smartphone,
+  Sprout,
+  TrendingUp,
+  Users,
   Zap,
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 export default function NewLandingPage() {
   const RedirectToVideoDemo = () => {
@@ -32,9 +28,9 @@ export default function NewLandingPage() {
             <Sprout className="w-8 h-8 text-emerald-600" />
             <span className="text-2xl font-bold text-foreground">CropCo</span>
           </div>
-          <Link to="/admin">
+          {/* <Link to="/management" target="_blank">
             <Button variant="outline">Administración</Button>
-          </Link>
+          </Link> */}
         </div>
       </header>
 
@@ -54,13 +50,13 @@ export default function NewLandingPage() {
               en datos en tiempo real y optimiza tu producción.
             </p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              <Button
+              {/* <Button
                 size="lg"
                 className="text-white bg-emerald-600 hover:bg-emerald-700"
               >
                 Solicitar Demo Gratuita
                 <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
+              </Button> */}
               <Button
                 size="lg"
                 variant="outline"
@@ -79,7 +75,7 @@ export default function NewLandingPage() {
       </section>
 
       {/* Main Features Section */}
-      <section className="py-20 bg-background">
+      <section className="py-20 bg-background" id="features">
         <div className="container px-4 mx-auto">
           <div className="mb-16 text-center">
             <h2 className="mb-4 text-3xl font-bold md:text-4xl text-foreground">
@@ -103,8 +99,7 @@ export default function NewLandingPage() {
                 </h3>
                 <p className="leading-relaxed text-muted-foreground">
                   Registra y monitorea el progreso de tus cultivos en tiempo
-                  real con alertas personalizadas y visualización instantánea
-                  del estado de cada parcela.
+                  real con visualización instantánea del estado de cada parcela.
                 </p>
               </CardContent>
             </Card>
@@ -120,8 +115,7 @@ export default function NewLandingPage() {
                 </h3>
                 <p className="leading-relaxed text-muted-foreground">
                   Gestiona eficientemente tus insumos y recursos agrícolas con
-                  control de stock automático, alertas de reabastecimiento y
-                  trazabilidad completa.
+                  control de stock automático y trazabilidad completa.
                 </p>
               </CardContent>
             </Card>
@@ -195,13 +189,13 @@ export default function NewLandingPage() {
             </Card>
 
             {/* Feature 7 */}
-            <Card className="transition-colors border-2 hover:border-emerald-600">
+            {/* <Card className="transition-colors border-2 hover:border-emerald-600">
               <CardContent className="pt-6">
                 <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-lg bg-rose-100 dark:bg-rose-900/20">
                   <Clock className="w-6 h-6 text-rose-600" />
                 </div>
                 <h3 className="mb-3 text-xl font-semibold text-foreground">
-                  Monitoreo en Tiempo Real
+                  Monitoreo en Tiempo Real (Proximamente)
                 </h3>
                 <p className="leading-relaxed text-muted-foreground">
                   Seguimiento instantáneo de todas tus operaciones agrícolas con
@@ -209,7 +203,7 @@ export default function NewLandingPage() {
                   automáticas.
                 </p>
               </CardContent>
-            </Card>
+            </Card> */}
 
             {/* Feature 8 */}
             <Card className="transition-colors border-2 hover:border-emerald-600">
@@ -265,8 +259,8 @@ export default function NewLandingPage() {
                 Seguridad Garantizada
               </h3>
               <p className="leading-relaxed text-muted-foreground">
-                Tus datos están protegidos con encriptación de nivel bancario y
-                backups automáticos diarios.
+                Tus datos están protegidos con encriptación y backups
+                automáticos diarios.
               </p>
             </div>
 
@@ -287,7 +281,7 @@ export default function NewLandingPage() {
       </section>
 
       {/* Use Cases Section */}
-      <section className="py-20 bg-background">
+      {/* <section className="py-20 bg-background">
         <div className="container px-4 mx-auto">
           <div className="mb-16 text-center">
             <h2 className="mb-4 text-3xl font-bold md:text-4xl text-foreground">
@@ -379,12 +373,12 @@ export default function NewLandingPage() {
             </Card>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Stats Section */}
       <section className="py-20 text-white bg-emerald-600">
         <div className="container px-4 mx-auto">
-          <div className="grid gap-8 text-center md:grid-cols-4">
+          <div className="grid gap-8 text-center md:grid-cols-3">
             <div>
               <div className="mb-2 text-4xl font-bold md:text-5xl">40%</div>
               <div className="text-emerald-100">Aumento en Productividad</div>
@@ -393,10 +387,10 @@ export default function NewLandingPage() {
               <div className="mb-2 text-4xl font-bold md:text-5xl">30%</div>
               <div className="text-emerald-100">Reducción de Costos</div>
             </div>
-            <div>
+            {/* <div>
               <div className="mb-2 text-4xl font-bold md:text-5xl">500+</div>
               <div className="text-emerald-100">Agricultores Satisfechos</div>
-            </div>
+            </div> */}
             <div>
               <div className="mb-2 text-4xl font-bold md:text-5xl">24/7</div>
               <div className="text-emerald-100">Soporte Técnico</div>
@@ -406,7 +400,7 @@ export default function NewLandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-background">
+      {/* <section className="py-20 bg-background">
         <div className="container px-4 mx-auto">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="mb-6 text-3xl font-bold md:text-4xl text-foreground">
@@ -440,7 +434,7 @@ export default function NewLandingPage() {
             </p>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Footer */}
       <footer className="py-12 border-t border-border bg-muted/30">
@@ -461,11 +455,11 @@ export default function NewLandingPage() {
               <h4 className="mb-4 font-semibold text-foreground">Producto</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <a href="#" className="hover:text-emerald-600">
+                  <a href="#features" className="hover:text-emerald-600">
                     Características
                   </a>
                 </li>
-                <li>
+                {/* <li>
                   <a href="#" className="hover:text-emerald-600">
                     Precios
                   </a>
@@ -479,18 +473,22 @@ export default function NewLandingPage() {
                   <a href="#" className="hover:text-emerald-600">
                     Integraciones
                   </a>
-                </li>
+                </li> */}
               </ul>
             </div>
             <div>
               <h4 className="mb-4 font-semibold text-foreground">Recursos</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <a href="#" className="hover:text-emerald-600">
+                  <a
+                    href="https://docs.cropco.org"
+                    target="_blank"
+                    className="hover:text-emerald-600"
+                  >
                     Documentación
                   </a>
                 </li>
-                <li>
+                {/* <li>
                   <a href="#" className="hover:text-emerald-600">
                     Blog
                   </a>
@@ -504,10 +502,10 @@ export default function NewLandingPage() {
                   <a href="#" className="hover:text-emerald-600">
                     Soporte
                   </a>
-                </li>
+                </li> */}
               </ul>
             </div>
-            <div>
+            {/* <div>
               <h4 className="mb-4 font-semibold text-foreground">Empresa</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
@@ -531,11 +529,11 @@ export default function NewLandingPage() {
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
-          <div className="pt-8 mt-8 text-sm text-center border-t border-border text-muted-foreground">
+          {/* <div className="pt-8 mt-8 text-sm text-center border-t border-border text-muted-foreground">
             <p>&copy; 2025 CropCo. Todos los derechos reservados.</p>
-          </div>
+          </div> */}
         </div>
       </footer>
     </div>
