@@ -5,6 +5,7 @@ import { ColumnDef, HeaderContext, Row } from '@tanstack/react-table';
 import { Crop } from '../../interfaces/Crop';
 import { formFieldsCrop } from '../../utils';
 import { CellCropAmount } from './CellCropAmount';
+import { CellTextArea } from '@/modules/core/components/data-table/CellTextArea';
 
 export const columnsTableCrops: ColumnDef<Crop>[] = [
   {
@@ -24,6 +25,9 @@ export const columnsTableCrops: ColumnDef<Crop>[] = [
           label={formFieldsCrop.description.label}
         />
       );
+    },
+    cell: ({ row }) => {
+      return <CellTextArea content={row.getValue('description')} />;
     },
   },
   {
@@ -60,6 +64,9 @@ export const columnsTableCrops: ColumnDef<Crop>[] = [
           label={formFieldsCrop.location.label}
         />
       );
+    },
+    cell: ({ row }) => {
+      return <CellTextArea content={row.getValue('location')} />;
     },
   },
   {

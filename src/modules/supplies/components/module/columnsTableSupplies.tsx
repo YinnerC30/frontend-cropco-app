@@ -5,6 +5,7 @@ import { Supply } from '../../interfaces/Supply';
 import { formFieldsSupply } from '../../utils';
 import { BadgeColumnsUnitOfMeasure } from './BadgeColumnsUnitOfMeasure';
 import { CellSupplyAmount } from './CellSupplyAmount';
+import { CellTextArea } from '@/modules/core/components/data-table/CellTextArea';
 
 export const columnsTableSupplies: ColumnDef<Supply>[] = [
   {
@@ -39,6 +40,9 @@ export const columnsTableSupplies: ColumnDef<Supply>[] = [
           label={formFieldsSupply.observation.label}
         />
       );
+    },
+    cell: ({ row }) => {
+      return <CellTextArea content={row.getValue('observation')} />;
     },
   },
   {
