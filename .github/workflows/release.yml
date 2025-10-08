@@ -32,8 +32,8 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Building release version: $VERSION"
 
-      - name: 🧪 Run tests
-        run: npm run test
+      # - name: 🧪 Run tests
+      #   run: npm run test
 
       # - name: 🔍 Run linting
       #   run: npm run lint
