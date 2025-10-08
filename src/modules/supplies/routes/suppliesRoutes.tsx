@@ -18,21 +18,25 @@ const routeConfig: RouteConfig[] = [
     action: 'find_all_supply',
     element: <SuppliesModule />,
     viewComponent: true,
+    label: 'Insumos'
   },
   {
     path: 'create/one',
     action: 'create_supply',
     element: <CreateSupply />,
+    label: 'Crear Insumo'
   },
   {
     path: 'view/one/:id',
     action: 'find_one_supply',
     element: <ViewSupply />,
+    label: 'Ver Insumo'
   },
   {
     path: 'update/one/:id',
     action: 'update_one_supply',
     element: <ModifySupply />,
+    label: 'Modificar Insumo'
   },
 ];
 

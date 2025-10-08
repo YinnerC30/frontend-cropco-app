@@ -12,7 +12,7 @@ export const formFieldsLogin: Record<FormFieldsLogin, CustomFormField> = {
   password: {
     name: 'password',
     label: 'Contraseña:',
-    placeholder: '',
+    placeholder: 'mypass1234',
     description: 'La contraseña de su cuenta',
   },
 };

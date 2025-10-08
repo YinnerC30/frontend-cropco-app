@@ -2,7 +2,7 @@ import { Switch } from '@/components/ui/switch';
 import { CapitalizeFirstWord } from '@/auth/helpers';
 import { Action } from '@/modules/core/interfaces/responses/ResponseGetAllModules';
 
-import { useFormUserContext } from '../../hooks';
+import { useFormUserContext } from '@/modules/users/hooks';
 
 interface Props {
   action: Action;
@@ -34,6 +34,7 @@ export const FormUserPermissionAction: React.FC<Props> = ({
         checked={isChecked}
         defaultChecked={isChecked}
         onCheckedChange={handleOnChange}
+        data-testid={`switch-action-${action.name}`}
       />
     </div>
   );

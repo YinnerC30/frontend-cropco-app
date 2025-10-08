@@ -100,6 +100,10 @@ export interface FormSaleContextValues {
   setUnitTypeToShowAmount: React.Dispatch<
     React.SetStateAction<MassUnitOfMeasure>
   >;
+  isSubmittingSaleDetail: boolean;
+  setIsSubmittingSaleDetail: React.Dispatch<React.SetStateAction<boolean>>;
+  isToggleStatusRecord: boolean;
+  setIsToggleStatusRecord: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type SaleAction =
@@ -215,7 +219,13 @@ export const FormSaleProvider: React.FC<
     detailsDefaultValues
   );
 
+  const [isSubmittingSaleDetail, setIsSubmittingSaleDetail] = useState(false);
+
+  const [isToggleStatusRecord, setIsToggleStatusRecord] = useState(false);
+
   const addSaleDetail = (saleDetail: SaleDetail): void => {
+    if (isSubmittingSaleDetail) return;
+    setIsSubmittingSaleDetail(true);
     dispatchSaleDetails({ type: 'ADD', payload: saleDetail });
   };
 
@@ -224,6 +234,8 @@ export const FormSaleProvider: React.FC<
   };
 
   const modifySaleDetail = (saleDetail: SaleDetail): void => {
+    if (isSubmittingSaleDetail) return;
+    setIsSubmittingSaleDetail(true);
     dispatchSaleDetails({ type: 'MODIFY', payload: saleDetail });
   };
 
@@ -232,6 +244,8 @@ export const FormSaleProvider: React.FC<
   };
 
   const toggleStatusPayment = (id: string): void => {
+    if (isToggleStatusRecord) return;
+    setIsToggleStatusRecord(true);
     dispatchSaleDetails({ type: 'TOGGLE_STATUS_PAYMENT', payload: id });
   };
 
@@ -260,7 +274,7 @@ export const FormSaleProvider: React.FC<
       saleAmountInGrams = convert(
         record.stock,
         record.unit_of_measure,
-        MassUnitOfMeasure.GRAMOS,
+        MassUnitOfMeasure.GRAMOS
       );
     } catch (error) {
       return false;
@@ -300,7 +314,7 @@ export const FormSaleProvider: React.FC<
     const result = convert(
       cropStock.stock,
       cropStock.unit_of_measure,
-      MassUnitOfMeasure.GRAMOS,
+      MassUnitOfMeasure.GRAMOS
     );
     dispatchCropStock({
       type: 'ADD',
@@ -312,7 +326,7 @@ export const FormSaleProvider: React.FC<
     const result = convert(
       cropStock.stock,
       cropStock.unit_of_measure,
-      MassUnitOfMeasure.GRAMOS,
+      MassUnitOfMeasure.GRAMOS
     );
     dispatchCropStock({
       type: 'REMOVE',
@@ -337,14 +351,22 @@ export const FormSaleProvider: React.FC<
       Number(value_pay) + Number(detail.value_pay),
     0
   );
-  // const amount = detailsSale.reduce(
-  //   (amount: number, detail: SaleDetail) =>
-  //     Number(amount) + Number(detail.amount),
-  //   0
-  // );
 
   const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
     useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
+
+  const amountForm = useMemo<number>(
+    () =>
+      detailsSale.reduce((amount: number, detail: SaleDetail) => {
+        const convertedAmount = convert(
+          Number(detail.amount),
+          detail.unit_of_measure!,
+          MassUnitOfMeasure.GRAMOS
+        );
+        return Number(amount) + convertedAmount;
+      }, 0),
+    [detailsSale]
+  );
 
   const amount = useMemo<number>(
     () =>
@@ -394,6 +416,7 @@ export const FormSaleProvider: React.FC<
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
+    setIsSubmittingSaleDetail(false);
   };
 
   const ClearFormSaleDetail = () => {
@@ -443,7 +466,7 @@ export const FormSaleProvider: React.FC<
       shouldDirty: true,
     });
     formSale.setValue('value_pay', value_pay, { shouldValidate: true });
-    formSale.setValue('amount', amount, { shouldValidate: true });
+    formSale.setValue('amount', amountForm, { shouldValidate: true });
   }, [detailsSale]);
 
   useEffect(() => {
@@ -485,6 +508,10 @@ export const FormSaleProvider: React.FC<
         toggleStatusPayment,
         unitTypeToShowAmount,
         setUnitTypeToShowAmount,
+        isSubmittingSaleDetail,
+        setIsSubmittingSaleDetail,
+        isToggleStatusRecord,
+        setIsToggleStatusRecord,
       }}
     >
       {children}

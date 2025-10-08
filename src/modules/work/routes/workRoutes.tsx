@@ -14,21 +14,25 @@ const routeConfig: RouteConfig[] = [
     action: 'find_all_works',
     element: <WorkModule />,
     viewComponent: true,
+    label: 'Trabajos'
   },
   {
     path: 'create/one',
     action: 'create_work',
     element: <CreateWork />,
+    label: 'Crear Trabajo'
   },
   {
     path: 'view/one/:id',
     action: 'find_one_work',
     element: <ViewWork />,
+    label: 'Ver Trabajo'
   },
   {
     path: 'update/one/:id',
     action: 'update_one_work',
     element: <ModifyWork />,
+    label: 'Modificar Trabajo'
   },
 ];
 

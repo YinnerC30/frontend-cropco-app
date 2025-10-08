@@ -27,7 +27,7 @@ export const ActionsTableWork = ({ row }: { row: Row<Work> }) => {
     });
   };
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={id}>
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}

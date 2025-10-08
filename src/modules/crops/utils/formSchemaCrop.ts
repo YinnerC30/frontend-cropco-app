@@ -10,8 +10,13 @@ export const formSchemaCrop = z.object({
   description: z
     .string({ required_error: `La descripción es requerida` })
     .min(15, { message: `La descripción debe tener mínimo 15 caracteres` })
-    .max(100, { message: `La descripción no debe exceder los 100 caracteres` }),
-    
+    .max(500, { message: `La descripción no debe exceder los 500 caracteres` }),
+  number_hectares: z.coerce
+    .number({
+      required_error: `El número de hectáreas es requerido`,
+      invalid_type_error: `Debe introducir un valor numérico`,
+    })
+    .positive({ message: `El número debe ser positivo` }),
   units: z.coerce
     .number({
       required_error: `El número de unidades es requerido`,
@@ -20,8 +25,8 @@ export const formSchemaCrop = z.object({
     .positive({ message: `El número debe ser positivo` }),
   location: z
     .string({ required_error: `La ubicación es requerida` })
-    .min(4, { message: `La ubicación debe tener al menos 4 caracteres` })
-    .max(100, { message: `La ubicación no debe superar los 100 caracteres` }),
+    .min(15, { message: `La ubicación debe tener al menos 15 caracteres` })
+    .max(150, { message: `La ubicación no debe superar los 150 caracteres` }),
 
   dates: z
     .object({
@@ -31,7 +36,7 @@ export const formSchemaCrop = z.object({
       date_of_termination: z.date().optional(),
     })
     .refine(
-      data => {
+      (data) => {
         if (!data.date_of_termination) {
           return true;
         } else {
@@ -41,6 +46,6 @@ export const formSchemaCrop = z.object({
       {
         message: 'La fecha de terminación debe ser superior a la de creación',
         path: ['date_of_termination'],
-      },
+      }
     ),
 });

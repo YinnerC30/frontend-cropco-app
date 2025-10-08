@@ -26,8 +26,11 @@ export const useDeleteCrop = (): UseMutationReturn<void, string> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          conflict: 'El cultivo aun tiene stock disponible',
+        handlers: {
+          conflict: {
+            message:
+              'No fue posible eliminar el cultivo seleccionado. Verifica que no tenga stock disponible ni ventas con pagos pendientes antes de intentar eliminarlo.',
+          },
         },
       });
     },

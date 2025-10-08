@@ -27,18 +27,18 @@ export const formFieldsShoppingDetail: Record<
     name: 'unit_of_measure',
     label: 'Unidad de medida:',
     placeholder: 'Selecciona',
-    description: 'Unidad de medida que posee el insumo',
+    description: 'Unidad de medida de compra',
   },
   amount: {
     name: 'amount',
-    label: 'Monto:',
+    label: 'Cantidad:',
     placeholder: '0',
-    description: 'Monto a comprar (mililitros o gramos)',
+    description: 'Cantidad a comprar',
   },
   value_pay: {
     name: 'value_pay',
     label: 'Total a pagar:',
     placeholder: '0',
-    description: 'Cantidad a pagar',
+    description: 'Valor a pagar',
   },
 };

@@ -4,23 +4,24 @@ import {
   useDataTableManual,
 } from '@/modules/core/hooks';
 import { useBasicQueryData } from '@/modules/core/hooks/';
-import { createContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { BulkRecords } from '@/modules/core/interfaces';
+import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { UseQueryGetAllRecordsReturn } from '@/modules/core/interfaces/responses/UseQueryGetAllRecordsReturn';
 import { useDeleteSupply } from '../../hooks';
 import { useDeleteBulkSupplies } from '../../hooks/mutations/useDeleteBulkSupplies';
 import { useGetAllSupplies } from '../../hooks/queries/useGetAllSupplies';
 import { Supply } from '../../interfaces/Supply';
-import { columnsTableSupplies } from './columnsTableSupplies';
-import { SuppliesModuleActionsTable } from './SuppliesModuleActionsTable';
-import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
 import {
+  LengthUnitOfMeasure,
   MassUnitOfMeasure,
   VolumeUnitOfMeasure,
 } from '../../interfaces/UnitOfMeasure';
+import { columnsTableSupplies } from './columnsTableSupplies';
+import { SuppliesModuleActionsTable } from './SuppliesModuleActionsTable';
 
 export interface SuppliesModuleContextProps {
   paramQuery: string;
@@ -36,6 +37,10 @@ export interface SuppliesModuleContextProps {
   unitVolumeTypeToShowAmount: VolumeUnitOfMeasure;
   setUnitVolumeTypeToShowAmount: React.Dispatch<
     React.SetStateAction<VolumeUnitOfMeasure>
+  >;
+  unitLengthTypeToShowAmount: LengthUnitOfMeasure;
+  setUnitLengthTypeToShowAmount: React.Dispatch<
+    React.SetStateAction<LengthUnitOfMeasure>
   >;
 }
 
@@ -57,12 +62,14 @@ export const SuppliesModuleProvider = ({ children }: any) => {
 
   const { getActionsModule } = useAuthContext();
 
-  const actionsSuppliesModule = useMemo(() => getActionsModule('supplies'), []);
+  const actionsSuppliesModule = getActionsModule('supplies');
 
   const [unitMassTypeToShowAmount, setMassUnitTypeToShowAmount] =
     useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
   const [unitVolumeTypeToShowAmount, setUnitVolumeTypeToShowAmount] =
     useState<VolumeUnitOfMeasure>(VolumeUnitOfMeasure.LITROS);
+  const [unitLengthTypeToShowAmount, setUnitLengthTypeToShowAmount] =
+    useState<LengthUnitOfMeasure>(LengthUnitOfMeasure.METROS);
 
   const columnsTable = useCreateColumnsTable<Supply>({
     columns: columnsTableSupplies,
@@ -102,6 +109,8 @@ export const SuppliesModuleProvider = ({ children }: any) => {
     setMassUnitTypeToShowAmount,
     unitVolumeTypeToShowAmount,
     setUnitVolumeTypeToShowAmount,
+    unitLengthTypeToShowAmount,
+    setUnitLengthTypeToShowAmount,
   };
 
   return (

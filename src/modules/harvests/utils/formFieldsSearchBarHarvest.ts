@@ -22,13 +22,13 @@ export const formFieldsSearchBarHarvest: Record<
     name: 'crop',
     label: 'Filtrar por cultivo:',
     placeholder: 'Selecciona un cultivo',
-    description: 'Nombre del cultivo al cual se le realizo la cosecha',
+    description: 'Nombre del cultivo al cual se le realizó la cosecha',
   },
   employees: {
     name: 'employees',
     label: 'Filtrar por empleados:',
     placeholder: 'Selecciona empleado(s)',
-    description: 'Nombre de empleado(s) que participo en la cosecha',
+    description: 'Nombre de empleado(s) que participó en la cosecha',
   },
   filter_by_date: {
     name: 'filter_by_date',

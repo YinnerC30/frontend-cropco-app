@@ -28,9 +28,7 @@ import { CheckboxTableCustom } from '@/modules/core/components/table/CheckboxTab
 import { useCreateColumnsTable } from '@/modules/core/hooks/data-table/useCreateColumnsTable';
 import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 import { FormProps, ResponseApiGetAllRecords } from '@/modules/core/interfaces';
-import {
-  MassUnitOfMeasure
-} from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { z } from 'zod';
@@ -44,13 +42,13 @@ export const defaultValuesHarvestDetail: HarvestDetail = {
     first_name: '',
   },
   unit_of_measure: undefined,
-  amount: 10,
-  value_pay: 1000,
+  amount: 0,
+  value_pay: 0,
 };
 
 const defaultValuesHarvest = {
   date: undefined,
-  crop: { id: '', name: '' },
+  crop: { id: '', name: '', deletedDate: null },
   observation: '',
   details: [],
   amount: 0,
@@ -93,6 +91,9 @@ export interface FormHarvestContextProps {
   setUnitTypeToShowAmount: React.Dispatch<
     React.SetStateAction<MassUnitOfMeasure>
   >;
+  isSubmittingHarvestDetail: boolean;
+  setIsSubmittingHarvestDetail: React.Dispatch<React.SetStateAction<boolean>>;
+  defaultValues: Harvest;
 }
 
 type HarvestAction =
@@ -150,12 +151,17 @@ export const FormHarvestProvider: React.FC<
     detailsDefaultValues
   );
 
+  const [isSubmittingHarvestDetail, setIsSubmittingHarvestDetail] =
+    useState(false);
+
   const { convert } = useUnitConverter();
 
   const [unitTypeToShowAmount, setUnitTypeToShowAmount] =
     useState<MassUnitOfMeasure>(MassUnitOfMeasure.KILOGRAMOS);
 
   const addHarvestDetail = (harvestDetail: HarvestDetail): void => {
+    if (isSubmittingHarvestDetail) return;
+    setIsSubmittingHarvestDetail(true);
     dispatch({ type: 'ADD', payload: harvestDetail });
   };
 
@@ -164,12 +170,27 @@ export const FormHarvestProvider: React.FC<
   };
 
   const modifyHarvestDetail = (harvestDetail: HarvestDetail): void => {
+    if (isSubmittingHarvestDetail) return;
+    setIsSubmittingHarvestDetail(true);
     dispatch({ type: 'MODIFY', payload: harvestDetail });
   };
 
   const resetHarvestDetails = (): void => {
     dispatch({ type: 'RESET', payload: detailsDefaultValues });
   };
+
+  const amountForm = useMemo<number>(
+    () =>
+      detailsHarvest.reduce((amount: number, detail: HarvestDetail) => {
+        const convertedAmount = convert(
+          Number(detail.amount),
+          detail.unit_of_measure!,
+          MassUnitOfMeasure.GRAMOS
+        );
+        return Number(amount) + convertedAmount;
+      }, 0),
+    [detailsHarvest]
+  );
 
   const amount = useMemo<number>(
     () =>
@@ -229,12 +250,14 @@ export const FormHarvestProvider: React.FC<
 
   const handleOpenDialog = (): void => {
     setOpenDialog(true);
+    setIsSubmittingHarvestDetail(false);
   };
 
   const handleCloseDialog = (
     event: React.MouseEvent<HTMLButtonElement>
   ): void => {
     event.preventDefault();
+
     if (formHarvestDetail.formState.isDirty) {
       showToast({
         skipRedirection: true,
@@ -247,7 +270,7 @@ export const FormHarvestProvider: React.FC<
       });
       return;
     }
-
+    setIsSubmittingHarvestDetail(false);
     setOpenDialog(false);
   };
 
@@ -270,7 +293,7 @@ export const FormHarvestProvider: React.FC<
       shouldValidate: detailsHarvest.length > 0,
       shouldDirty: true,
     });
-    formHarvest.setValue('amount', amount, { shouldValidate: true });
+    formHarvest.setValue('amount', amountForm, { shouldValidate: true });
     formHarvest.setValue('value_pay', value_pay, { shouldValidate: true });
   }, [detailsHarvest]);
 
@@ -295,6 +318,8 @@ export const FormHarvestProvider: React.FC<
         setHarvestDetail,
         detailsHarvest,
         addHarvestDetail,
+        isSubmittingHarvestDetail,
+        setIsSubmittingHarvestDetail,
         // queries
         queryEmployees,
         dataTableHarvestDetail,
@@ -306,6 +331,7 @@ export const FormHarvestProvider: React.FC<
         actionsHarvestsModule,
         unitTypeToShowAmount,
         setUnitTypeToShowAmount,
+        defaultValues: defaultValues as any,
       }}
     >
       {children}

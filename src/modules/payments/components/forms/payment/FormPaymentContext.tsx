@@ -1,10 +1,14 @@
 import { useCreateForm } from '@/modules/core/hooks';
 import { FormProps } from '@/modules/core/interfaces';
+import { UseGetOneRecordReturn } from '@/modules/core/interfaces/responses/UseGetOneRecordReturn';
 import { HarvestDetail } from '@/modules/harvests/interfaces';
 import { useGetEmployeePendingPayments } from '@/modules/payments/hooks/queries/useGetEmployeePendingPayments';
 import { Payment } from '@/modules/payments/interfaces/Payment';
 import { RecordToPay } from '@/modules/payments/interfaces/RecordToPay';
-import { PaymentRecord } from '@/modules/payments/interfaces/ResponseGetOnePayment';
+import {
+  Employee,
+  PaymentRecord,
+} from '@/modules/payments/interfaces/ResponseGetOnePayment';
 import { formSchemaPayments } from '@/modules/payments/utils';
 import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
 import React, {
@@ -33,6 +37,8 @@ export interface FormPaymentContextValues {
   defaultValues: Payment;
   addRecordToPay: (record: RecordToPay) => void;
   removeRecordToPay: (record: RecordToPay) => void;
+  queryEmployeePayments: UseGetOneRecordReturn<Employee>;
+  employeeId: string;
 }
 
 const initialPaymentState: PaymentsState = {
@@ -171,7 +177,7 @@ const paymentsReducer = (
 
 const defaultValuesPayment: PaymentRecord = {
   id: '',
-  date: '',
+  date: undefined,
   method_of_payment: '',
   value_pay: 0,
   employee: {
@@ -208,7 +214,7 @@ export const FormPaymentProvider: React.FC<
 
   const employeeId: string = formPayment.watch('employee').id;
 
-  const queryEmployeePayments = useGetEmployeePendingPayments(
+  const queryEmployeePayments: any = useGetEmployeePendingPayments(
     employeeId,
     !readOnly
   );
@@ -292,7 +298,7 @@ export const FormPaymentProvider: React.FC<
   }, [records_to_pay]);
 
   useEffect(() => {
-    if (paymentsState.records_to_pay.length > 0) {
+    if (paymentsState.records_to_pay.length > 0 || employeeId.length === 0) {
       resetToDefaultValues();
     }
   }, [employeeId]);
@@ -345,6 +351,8 @@ export const FormPaymentProvider: React.FC<
         defaultValues: defaultValues as any,
         addRecordToPay,
         removeRecordToPay: removeRecordToPay,
+        queryEmployeePayments,
+        employeeId,
       }}
     >
       {children}

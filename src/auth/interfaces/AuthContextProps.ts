@@ -1,14 +1,20 @@
-import { HandleErrorProps, ModulesCropco } from '../components';
+import { ModulesCropco } from '../components';
+import { UseHandlerErrorProps } from '../hooks/errors/useHandlerError';
+import { Tenant } from './Tenant';
 import { UserActive } from './UserActive';
 
 export interface AuthContextProps {
   saveUser: (user: UserActive) => void;
-  isLogin: boolean;
+  saveTenant: (tenant: Tenant) => void;
+  is_login: boolean;
   removeUser: () => void;
+  removeTenant: () => void;
+  // logout: () => Promise<void>;
   updateTokenInClient: (token: string) => void;
   tokenSession: string | undefined;
+  tenantId: string | undefined;
   user: UserActive | null;
-  handleError: ({ error, messagesStatusError }: HandleErrorProps) => void;
+  handleError: (props: UseHandlerErrorProps) => void;
   nameModulesUser: string[];
   hasMoreThanOnePermission: (moduleName: string) => number;
   hasPermission: (moduleName: string, actionName: string) => boolean;

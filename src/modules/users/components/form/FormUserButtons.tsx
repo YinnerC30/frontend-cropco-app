@@ -1,7 +1,7 @@
-import { Button } from '@/components';
 import { ButtonsForm } from '@/modules/core/components';
-import { useFormUserContext } from '../../hooks';
+import { ButtonBack } from '@/modules/core/components/form/buttons/ButtonBack';
 import { useNavigate } from 'react-router-dom';
+import { useFormUserContext } from '@/modules/users/hooks';
 import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
 
 export const FormUserButtons: React.FC = () => {
@@ -14,9 +14,7 @@ export const FormUserButtons: React.FC = () => {
   };
 
   return readOnly ? (
-    <Button className="my-2" onClick={handleReturnToModule}>
-      Volver
-    </Button>
+    <ButtonBack handleNavigation={handleReturnToModule} />
   ) : (
     <ButtonsForm
       actionToCancel={handleReturnToModule}

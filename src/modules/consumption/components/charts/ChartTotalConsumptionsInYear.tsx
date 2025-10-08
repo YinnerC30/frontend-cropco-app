@@ -23,8 +23,8 @@ import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 
 import { Label, Switch } from '@/components';
 import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
-import CropSelector from '@/modules/core/components/shared/CropSelector';
-import SupplySelector from '@/modules/core/components/shared/SupplySelector';
+import ChartCropSelector from '@/modules/core/components/shared/ChartCropSelector';
+import SupplySelector from '@/modules/core/components/shared/ChartSupplySelector';
 import { FormatNumber } from '@/modules/core/helpers';
 import { useGetAllCropsWithConsumptions } from '@/modules/crops/hooks/queries/useGetAllCropsWithConsumptions';
 import { useGetAllSuppliesWithConsumptions } from '@/modules/supplies/hooks/queries/useGetAllSuppliesWithConsumptions';
@@ -48,7 +48,7 @@ export const ChartTotalConsumptionsInYear = () => {
 
   const queryCrops = useGetAllCropsWithConsumptions();
 
-  if (queryConsumptions.isLoading) {
+  if (queryConsumptions.isLoading || queryConsumptions.isFetching) {
     return <ChartSkeleton />;
   }
 
@@ -66,7 +66,7 @@ export const ChartTotalConsumptionsInYear = () => {
   const chartData = organizeConsumptionData(queryConsumptions.data as any);
 
   return queryConsumptions.isSuccess ? (
-    <Card className="w-auto lg:w-[650px] ">
+    <Card className="w-11/12 lg:w-2/4">
       <CardHeader>
         <CardTitle>Total de los consumos por año</CardTitle>
         <CardDescription>
@@ -76,17 +76,25 @@ export const ChartTotalConsumptionsInYear = () => {
       </CardHeader>
       <CardContent>
         <div>
-          <div className="inline-flex items-center px-4 py-2 my-4 space-x-2 border rounded-sm">
-            <Switch
-              defaultChecked={showPreviousYear}
-              onCheckedChange={(value) => {
-                setShowPreviousYear(value);
+          <div className="flex items-center justify-between">
+            <div className="inline-flex items-center px-4 py-2 my-4 space-x-2 border rounded-sm">
+              <Switch
+                defaultChecked={showPreviousYear}
+                onCheckedChange={(value) => {
+                  setShowPreviousYear(value);
+                }}
+                id="show-previous-year"
+              />
+              <Label htmlFor="show-previous-year">
+                Mostrar información del año anterior
+              </Label>
+            </div>
+            <ButtonRefetchData
+              onClick={async () => {
+                await queryConsumptions.refetch();
               }}
-              id="show-previous-year"
+              disabled={queryConsumptions.isLoading}
             />
-            <Label htmlFor="show-previous-year">
-              Mostrar información del año anterior
-            </Label>
           </div>
 
           <div className="flex flex-wrap justify-between gap-4 mb-5">
@@ -95,7 +103,7 @@ export const ChartTotalConsumptionsInYear = () => {
               setSelectedsupply={setSelectedSupply}
               query={querySupplies}
             />
-            <CropSelector
+            <ChartCropSelector
               selectedCrop={selectedCrop}
               setSelectedCrop={setSelectedCrop}
               query={queryCrops}
@@ -104,12 +112,6 @@ export const ChartTotalConsumptionsInYear = () => {
               selectedYear={selectedYear}
               setSelectedYear={setSelectedYear}
               initialYear={2023}
-            />
-            <ButtonRefetchData
-              onClick={async () => {
-                await queryConsumptions.refetch();
-              }}
-              disabled={queryConsumptions.isLoading}
             />
           </div>
           <ChartContainer config={chartConfig}>

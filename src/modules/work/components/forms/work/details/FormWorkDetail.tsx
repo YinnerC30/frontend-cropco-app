@@ -1,15 +1,14 @@
-import { Cross2Icon } from '@radix-ui/react-icons';
 
 import { Button } from '@/components/ui/button';
 
 import {
   Dialog,
-  DialogClose,
   DialogContent,
+  DialogCustomClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from '@/components/ui/dialog';
 
 import { toast } from 'sonner';
@@ -35,6 +34,7 @@ export const FormWorkDetail: React.FC = () => {
     addWorkDetail,
     modifyWorkDetail,
     formWorkDetail,
+    isSubmittingWorkDetail,
   } = useFormWorkContext();
 
   const onSubmitWorkDetail = (
@@ -79,6 +79,7 @@ export const FormWorkDetail: React.FC = () => {
           size="icon"
           onClick={handleOpenDialogExtended}
           disabled={readOnly}
+          data-testid="btn-open-work-detail-form"
         >
           <Plus className="w-4 h-4" />
           <span className="sr-only">Crear nuevo registro</span>
@@ -86,19 +87,13 @@ export const FormWorkDetail: React.FC = () => {
       </ToolTipTemplate>
       <Dialog open={openDialog} modal={false}>
         <DialogContent
-          className="sm:max-w-[425px]"
+          className="max-w-[95vw] sm:max-w-[425px]"
           onClick={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
-          <DialogClose
-            onClick={handleCloseDialog}
-            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-          >
-            <Cross2Icon className="w-4 h-4" />
-            <span className="sr-only">Close</span>
-          </DialogClose>
+          <DialogCustomClose handleClose={handleCloseDialog} />
           <DialogHeader>
             <DialogTitle>Trabajo del empleado</DialogTitle>
             <DialogDescription className="">
@@ -112,6 +107,8 @@ export const FormWorkDetail: React.FC = () => {
             <Button
               type="submit"
               onClick={formWorkDetail.handleSubmit(onSubmitWorkDetail)}
+              disabled={isSubmittingWorkDetail}
+              data-testid="form-detail-submit-button"
             >
               Guardar
             </Button>

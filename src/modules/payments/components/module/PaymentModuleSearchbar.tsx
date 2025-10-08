@@ -5,13 +5,7 @@ import {
   DropdownMenuTrigger,
   Form,
 } from '@/components';
-import {
-  FormFieldCalendar,
-  FormFieldCommand,
-  FormFieldInput,
-  FormFieldSelect,
-  ToolTipTemplate,
-} from '@/modules/core/components';
+import { ToolTipTemplate } from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
 
 import { useNavigate } from 'react-router-dom';
@@ -22,42 +16,73 @@ import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/format
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { Filter, X } from 'lucide-react';
+import { Filter } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
-import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
 import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
-import {
-  dateFilterOptions,
-  numberFilterOptions,
-} from '@/modules/core/interfaces/queries/FilterOptions';
 import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
+import { UseFormReturn } from 'react-hook-form';
+import { z } from 'zod';
 import { usePaymentModuleContext } from '../../hooks/context/usePaymentModuleContext';
 import { MODULE_PAYMENTS_PATHS } from '../../routes/pathRoutes';
-import { formFieldsSearchBarPayment } from '../../utils/formFieldsSearchBarPayment';
 import {
   formSchemaSearchBarPayment,
   MethodOfPaymentSearchBar,
 } from '../../utils/formSchemaSearchBarPayment';
 
+import { ButtonClearAllFilters } from '@/modules/core/components/search-bar/ButtonClearAllFilters';
+import {
+  PaymentSearchBarEmployeeFilter,
+  PaymentSearchBarDateFilter,
+  PaymentSearchBarValuePayFilter,
+  PaymentSearchBarMethodOfPaymentFilter,
+} from './search-bar';
+
+const valuesResetForm = {
+  employee: {
+    id: '',
+  },
+  filter_by_date: {
+    date: undefined,
+    type_filter_date: TypeFilterDate.AFTER,
+  },
+  filter_by_value_pay: {
+    type_filter_value_pay: TypeFilterNumber.LESS_THAN,
+    value_pay: 0,
+  },
+  filter_by_method_of_payment: {
+    method_of_payment: MethodOfPaymentSearchBar.NONE,
+  },
+};
+
 export const PaymentModuleSearchbar: React.FC = () => {
-  const { paramsQuery, actionsPaymentsModule, queryEmployees, hasParamsQuery } =
-    usePaymentModuleContext();
+  const {
+    paramsQuery,
+    hasParamsQuery,
+    actionsPaymentsModule,
+    appliedFilters,
+    setAppliedFilters,
+    queryEmployees,
+  } = usePaymentModuleContext();
   const readOnly = !actionsPaymentsModule['find_all_payments'];
   const navigate = useNavigate();
 
-  const form = useCreateForm({
+  const form: UseFormReturn<
+    z.infer<typeof formSchemaSearchBarPayment>,
+    unknown
+  > = useCreateForm({
     schema: formSchemaSearchBarPayment,
     defaultValues: paramsQuery,
     skipDirty: true,
     validationMode: 'onSubmit',
   });
-  const [appliedFilters, setAppliedFilters] = useState<FilterSearchBar[]>([]);
 
   const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
-  const handleAddFilter = async (name = '') => {
-    const isValid = await form.trigger(name);
+  const handleAddFilter = async (name: string): Promise<boolean> => {
+    const isValid = await form.trigger(
+      name as unknown as keyof z.infer<typeof formSchemaSearchBarPayment>
+    );
     if (!isValid) return false;
 
     const {
@@ -69,12 +94,15 @@ export const PaymentModuleSearchbar: React.FC = () => {
 
     const filters: FilterSearchBar[] = [];
 
-    
-
     if (employee?.id) {
+      const employeeData = queryEmployees.data?.records.find(
+        (e) => e.id === employee.id
+      );
       filters.push({
         key: 'employee',
-        label: `Empleado: ${employee.full_name}`,
+        label: `Empleado: ${
+          employeeData?.full_name || 'Empleado seleccionado'
+        }`,
       });
     }
 
@@ -113,25 +141,27 @@ export const PaymentModuleSearchbar: React.FC = () => {
     ) {
       filters.push({
         key: 'method_of_payment',
-        label: `Metodo de pago: ${filter_by_method_of_payment.method_of_payment}`,
+        label: `Método de pago: ${filter_by_method_of_payment.method_of_payment}`,
       });
     }
 
     setAppliedFilters(filters);
     setOpenDropDownMenu(false);
-    await handleSearch(form.watch());
+    handleSearch(form.watch());
     return true;
   };
 
-  const handleClearErrorsForm = (name = '') => {
-    form.clearErrors(name);
+  const handleClearErrorsForm = (name: string) => {
+    form.clearErrors(
+      name as unknown as keyof z.infer<typeof formSchemaSearchBarPayment>
+    );
   };
 
   const handleRemoveFilter = (filter: FilterSearchBar) => {
     setAppliedFilters((prev) => prev.filter((f) => f.key !== filter.key));
     switch (filter.key) {
       case 'employee':
-        form.setValue('employee', { id: '', name: '' }, { shouldDirty: false });
+        form.setValue('employee', { id: '' }, { shouldDirty: false });
         break;
       case 'date':
         form.setValue('filter_by_date.type_filter_date', undefined, {
@@ -160,7 +190,7 @@ export const PaymentModuleSearchbar: React.FC = () => {
     handleSearch(form.watch());
   };
 
-  const handleSearch = async (values: any) => {
+  const handleSearch = (values: z.infer<typeof formSchemaSearchBarPayment>) => {
     const params = new URLSearchParams();
 
     if (values.employee?.id) {
@@ -205,26 +235,10 @@ export const PaymentModuleSearchbar: React.FC = () => {
 
   const handleResetForm = () => {
     setAppliedFilters([]);
-    form.reset(
-      {
-        employee: {
-          id: '',
-          name: '',
-        },
-        filter_by_date: {
-          date: undefined,
-          type_filter_date: TypeFilterDate.after,
-        },
-        filter_by_value_pay: {
-          type_filter_value_pay: TypeFilterNumber.MIN,
-          value_pay: 0,
-        },
-      },
-      {
-        keepErrors: false,
-        keepDirty: false,
-      }
-    );
+    form.reset(valuesResetForm, {
+      keepErrors: false,
+      keepDirty: false,
+    });
     navigate(MODULE_PAYMENTS_PATHS.ViewAll);
     toast.success('Se han limpiado los filtros');
   };
@@ -235,10 +249,10 @@ export const PaymentModuleSearchbar: React.FC = () => {
         await handleAddFilter(key);
       }
     };
-    if (hasParamsQuery) {
+    if (queryEmployees.isSuccess && hasParamsQuery) {
       addFilters();
     }
-  }, []);
+  }, [queryEmployees.isSuccess, hasParamsQuery]);
 
   return (
     <div className="flex flex-col items-start justify-start my-4 sm:w-full">
@@ -248,41 +262,26 @@ export const PaymentModuleSearchbar: React.FC = () => {
           id="formSearch"
           className="flex flex-col w-full"
         >
-          <DropdownMenu open={openDropDownMenu} modal={false}>
-            <div className="flex flex-col items-center justify-center  md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
+          <DropdownMenu
+            open={openDropDownMenu}
+            onOpenChange={setOpenDropDownMenu}
+            modal={false}
+          >
+            <div className="flex flex-col items-center justify-center md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
-                <FormFieldCommand
-                  data={queryEmployees?.data?.records || []}
-                  form={form}
-                  nameToShow="full_name"
-                  control={form.control}
-                  name="employee"
-                  placeholder={formFieldsSearchBarPayment.employee.placeholder}
-                  className="w-auto lg:w-[300px]"
-                  description={''}
-                  label={''}
+                <PaymentSearchBarEmployeeFilter
+                  formSearchBar={form}
+                  onAddFilter={handleAddFilter}
+                  onClearErrors={handleClearErrorsForm}
+                  paramsQuery={paramsQuery}
+                  queryEmployees={queryEmployees}
                   disabled={readOnly}
-                  actionFinal={() => handleAddFilter('employee.id')}
-                  isLoading={
-                    queryEmployees.isLoading || queryEmployees.isFetching
-                  }
-                  reloadData={async () => {
-                    await queryEmployees.refetch();
-                  }}
-                  contentTooltip="Actualizar datos de empleados involucrados"
                 />
 
-                <ToolTipTemplate content="Borrar consulta">
-                  <Button
-                    variant="outline"
-                    onClick={handleResetForm}
-                    size={'icon'}
-                    disabled={readOnly}
-                    className="bg-destructive hover:bg-destructive/80"
-                  >
-                    <X className="w-4 h-4" />
-                  </Button>
-                </ToolTipTemplate>
+                <ButtonClearAllFilters
+                  onClearValues={handleResetForm}
+                  disabled={readOnly}
+                />
               </div>
 
               <div className="self-start my-2 sm:self-center sm:m-0">
@@ -290,11 +289,10 @@ export const PaymentModuleSearchbar: React.FC = () => {
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="outline"
-                      onClick={() =>
-                        setOpenDropDownMenu((prev: boolean) => !prev)
-                      }
                       size={'icon'}
+                      type="button"
                       disabled={readOnly}
+                      data-testid="btn-payments-filters"
                     >
                       <Filter className="w-4 h-4" />
                     </Button>
@@ -304,103 +302,34 @@ export const PaymentModuleSearchbar: React.FC = () => {
             </div>
 
             <DropdownMenuContent
-              className="w-32"
+              className="w-auto"
               onPointerDownOutside={(e) => {
-                e.preventDefault();
-                setOpenDropDownMenu((prev: boolean) => !prev);
+                // e.preventDefault();
+                // e.stopImmediatePropagation();
               }}
-              onCloseAutoFocus={(e) => e.preventDefault()}
             >
-              <FilterDropdownItem
-                label={'Fecha'}
-                content={
-                  <>
-                    <FormFieldSelect
-                      items={dateFilterOptions}
-                      disabled={false}
-                      {...formFieldsSearchBarPayment.type_filter_date}
-                      name="filter_by_date.type_filter_date"
-                      control={form.control}
-                    />
-                    <FormFieldCalendar
-                      disabled={false}
-                      {...formFieldsSearchBarPayment.date}
-                      control={form.control}
-                      name="filter_by_date.date"
-                    />
-                  </>
-                }
-                actionOnSave={() => handleAddFilter('filter_by_date')}
-                actionOnClose={() => handleClearErrorsForm('filter_by_date')}
+              <PaymentSearchBarDateFilter
+                onAddFilter={handleAddFilter}
+                onClearErrors={handleClearErrorsForm}
+                paramsQuery={paramsQuery}
+                disabled={readOnly}
+                formSearchBar={form}
               />
-              <FilterDropdownItem
-                label={'Valor a pagar'}
-                actionOnSave={() => handleAddFilter('filter_by_value_pay')}
-                actionOnClose={() =>
-                  handleClearErrorsForm('filter_by_value_pay')
-                }
-                content={
-                  <>
-                    <FormFieldSelect
-                      disabled={false}
-                      items={numberFilterOptions}
-                      {...formFieldsSearchBarPayment.type_filter_value_pay}
-                      control={form.control}
-                      name="filter_by_value_pay.type_filter_value_pay"
-                    />
-                    <FormFieldInput
-                      disabled={false}
-                      {...formFieldsSearchBarPayment.value_pay}
-                      control={form.control}
-                      type="number"
-                      name="filter_by_value_pay.value_pay"
-                    />
-                  </>
-                }
+              <PaymentSearchBarValuePayFilter
+                onAddFilter={handleAddFilter}
+                onClearErrors={handleClearErrorsForm}
+                disabled={readOnly}
+                formSearchBar={form}
               />
-              <FilterDropdownItem
-                label={'Metodo de pago'}
-                actionOnSave={() =>
-                  handleAddFilter('filter_by_method_of_payment')
-                }
-                actionOnClose={() =>
-                  handleClearErrorsForm('filter_by_method_of_payment')
-                }
-                content={
-                  <>
-                    <FormFieldSelect
-                      disabled={false}
-                      items={[
-                        {
-                          key: MethodOfPaymentSearchBar.EFECTIVO,
-                          value: MethodOfPaymentSearchBar.EFECTIVO,
-                          label: 'Efectivo',
-                        },
-                        {
-                          key: MethodOfPaymentSearchBar.INTERCAMBIO,
-                          value: MethodOfPaymentSearchBar.INTERCAMBIO,
-                          label: 'Intercambio',
-                        },
-                        {
-                          key: MethodOfPaymentSearchBar.TRANSFERENCIA,
-                          value: MethodOfPaymentSearchBar.TRANSFERENCIA,
-                          label: 'Transferencia',
-                        },
-                        {
-                          key: MethodOfPaymentSearchBar.NONE,
-                          value: MethodOfPaymentSearchBar.NONE,
-                          label: 'Ninguno',
-                        },
-                      ]}
-                      {...formFieldsSearchBarPayment.method_of_payment}
-                      control={form.control}
-                      name="filter_by_method_of_payment.method_of_payment"
-                    />
-                  </>
-                }
+              <PaymentSearchBarMethodOfPaymentFilter
+                onAddFilter={handleAddFilter}
+                onClearErrors={handleClearErrorsForm}
+                disabled={readOnly}
+                formSearchBar={form}
               />
             </DropdownMenuContent>
           </DropdownMenu>
+
           <FiltersBadgedList
             filters={appliedFilters}
             handleRemove={handleRemoveFilter}

@@ -1,4 +1,6 @@
 import { authenticationReducer } from '@/auth/utils/authenticationSlice';
+import { tenantReducer } from '@/auth/utils/tenantSlice';
+import { authenticationManagementReducer } from '@/management/auth/utils/authenticationManagementSlice';
 
 import { configureStore } from '@reduxjs/toolkit';
 
@@ -7,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 export const store = configureStore({
   reducer: {
     authentication: authenticationReducer,
+    tenant: tenantReducer,
+    authenticationManagement: authenticationManagementReducer,
   },
 });
 

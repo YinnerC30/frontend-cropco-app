@@ -16,6 +16,7 @@ export const FormDataTableButtonsPagination = () => {
         className="hidden w-8 h-8 p-0 lg:flex"
         onClick={() => table.setPageIndex(0)}
         disabled={!table.getCanPreviousPage()}
+        data-testid="btn-go-first-page"
       >
         <span className="sr-only">Go to first page</span>
         <DoubleArrowLeftIcon className="w-4 h-4" />
@@ -25,6 +26,7 @@ export const FormDataTableButtonsPagination = () => {
         className="w-8 h-8 p-0"
         onClick={() => table.previousPage()}
         disabled={!table.getCanPreviousPage()}
+        data-testid="btn-go-previous-page"
       >
         <span className="sr-only">Go to previous page</span>
         <ChevronLeftIcon className="w-4 h-4" />
@@ -34,6 +36,7 @@ export const FormDataTableButtonsPagination = () => {
         className="w-8 h-8 p-0"
         onClick={() => table.nextPage()}
         disabled={!table.getCanNextPage()}
+        data-testid="btn-go-next-page"
       >
         <span className="sr-only">Go to next page</span>
         <ChevronRightIcon className="w-4 h-4" />
@@ -43,6 +46,7 @@ export const FormDataTableButtonsPagination = () => {
         className="hidden w-8 h-8 p-0 lg:flex"
         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
         disabled={!table.getCanNextPage()}
+        data-testid="btn-go-last-page"
       >
         <span className="sr-only">Go to last page</span>
         <DoubleArrowRightIcon className="w-4 h-4" />

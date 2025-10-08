@@ -5,12 +5,12 @@ import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { CapitalizeFirstWord } from '@/auth/helpers';
 import { LoginUserData } from '@/auth/interfaces';
 
-import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { useFormChange } from '@/modules/core/components';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { User } from '@/modules/users/interfaces';
 import { useAuthContext } from '..';
-import { useFormChange } from '@/modules/core/components';
+import { useHandlerError } from '../errors/useHandlerError';
 
 export const loginUser = async (
   loginUserData: LoginUserData
@@ -26,38 +26,36 @@ export const useLoginUser = (): UseMutationReturn<User, LoginUserData> => {
 
   const queryClient = useQueryClient();
   const { markChanges } = useFormChange();
+  const { handleErrorByStatus } = useHandlerError();
   const mutation: UseMutationReturn<User, LoginUserData> = useMutation({
     mutationFn: loginUser,
     onSuccess: async ({ data }) => {
       markChanges(false);
       await queryClient.invalidateQueries({ queryKey: ['user-active'] });
-      saveUser({ ...data, isLogin: true });
+      saveUser({ ...data, is_login: true });
       toast.success(`Bienvenido, ${CapitalizeFirstWord(data.first_name)}`, {});
     },
-    onError: (error) => {
-      if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
-        toast.error('El servicio actualmente no se encuentra disponible');
-        return;
-      }
-      const { status } = error.response as unknown as TypedAxiosError;
-      switch (status) {
-        case 401:
-          toast.error('Usuario o contraseña incorrectos, inténtelo nuevamente');
-          return;
-        case 403:
-          toast.error(
-            'El usuario no cuenta con suficientes permisos para acceder al sistema'
-          );
-          return;
-        case 400:
-          toast.error(
-            'Las credenciales enviadas son invalidas, revise nuevamente los campos del formulario'
-          );
-          return;
-        default:
-          toast.error('Hubo un problema en el sistema, inténtelo nuevamente');
-          return;
-      }
+    onError: (error: any) => {
+      const messageResponse: any = error.response?.data?.message! || '';
+      const unauthorizedMessage = messageResponse.includes('is inactive')
+        ? 'El usuario se encuentra desactivado'
+        : 'Usuario o contraseña incorrectos, inténtelo nuevamente';
+      handleErrorByStatus({
+        error,
+        handlers: {
+          unauthorized: {
+            message: unauthorizedMessage,
+          },
+          forbidden: {
+            message:
+              'El usuario no cuenta con suficientes permisos para acceder al sistema',
+          },
+          badRequest: {
+            message:
+              'Las credenciales enviadas son invalidas, revise nuevamente los campos del formulario',
+          },
+        },
+      });
     },
     retry: false,
   });

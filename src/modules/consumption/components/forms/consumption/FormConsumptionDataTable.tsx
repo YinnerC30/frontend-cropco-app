@@ -44,12 +44,13 @@ export const FormConsumptionDataTable: React.FC = () => {
   const validateIsDisabled = (
     row: Row<any>
   ): { status: boolean; cellColorError: ErrorCell; message: string } => {
-    const { deletedDate } = row.original;
-    const isDisabled = deletedDate !== null;
+    const { supply, crop } = row.original;
+    const isDisabled = supply.deletedDate !== null || crop.deletedDate !== null;
     return {
       status: isDisabled,
       cellColorError: 'restriction',
-      message: 'No se puede eliminar o modificar este registro porque...',
+      message:
+        'No es posible eliminar o modificar este registro porque el suministro o el cultivo asociado han sido dados de baja.',
     };
   };
 
@@ -65,7 +66,7 @@ export const FormConsumptionDataTable: React.FC = () => {
         <FormDataTableFilter
           placeholder={'Buscar por nombre del cultivo...'}
           nameColumnFilter={'supply_name'}
-          className="w-[280px] ml-10 self-start sm:self-center sm:m-0"
+          className="w-[280px] lg:ml-10 self-start sm:self-center sm:m-0"
         />
 
         {/* Botones */}

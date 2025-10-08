@@ -31,6 +31,7 @@ export const formSchemaShoppingDetail = z.object({
         }
       },
     }),
+    // deletedDate: z.union([z.date(), z.null()]).optional(),
   }),
 
   supplier: z.object({
@@ -42,6 +43,7 @@ export const formSchemaShoppingDetail = z.object({
         message: 'Debe selecciónar uno de los proveedores.',
       }),
     full_name: z.string().optional(),
+    // deletedDate: z.union([z.date(), z.null()]).optional(),
   }),
 
   unit_of_measure: z.nativeEnum(AllUnitsOfMeasure, {

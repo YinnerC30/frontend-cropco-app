@@ -23,7 +23,7 @@ export const PaymentModuleTable: React.FC = () => {
       rowCount={queryPayments?.data?.total_row_count ?? 0}
       isLoading={
         queryPayments.isLoading ||
-        queryPayments.isRefetching ||
+        queryPayments.isFetching ||
         mutationDeletePayments.isPending ||
         mutationDeletePayment.isPending
       }

@@ -1,5 +1,3 @@
-
-
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 
 import { FormatDate } from '@/modules/core/helpers/formatting/FormatDate';

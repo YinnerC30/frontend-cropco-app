@@ -1,12 +1,18 @@
 import { Button } from '@/components/ui/button';
-import { PATH_HOME_APP } from '@/config';
+import { PATH_HOME_APP, PATH_MANAGEMENT_HOME_APP } from '@/config';
 import { AlertCircle, Home, RefreshCcw } from 'lucide-react';
-import { Link, useRouteError, ErrorResponse } from 'react-router-dom';
+import {
+  ErrorResponse,
+  Link,
+  useLocation,
+  useRouteError,
+} from 'react-router-dom';
 
 export default function ErrorPage() {
   const { status, statusText } = useRouteError() as ErrorResponse;
 
-  
+  const url = useLocation();
+  const isInManagement = url.pathname.includes('/management');
 
   return (
     <div className="flex items-center justify-center min-h-screen px-4 ">
@@ -23,7 +29,9 @@ export default function ErrorPage() {
         </div>
         <div className="flex justify-center space-x-4">
           <Button asChild>
-            <Link to={PATH_HOME_APP}>
+            <Link
+              to={isInManagement ? PATH_MANAGEMENT_HOME_APP : PATH_HOME_APP}
+            >
               <Home className="w-4 h-4 mr-2" />
               Inicio
             </Link>

@@ -26,7 +26,7 @@ export const SaleModuleTable = () => {
       rowCount={querySales?.data?.total_row_count ?? 0}
       isLoading={
         querySales.isLoading ||
-        querySales.isRefetching ||
+        querySales.isFetching ||
         mutationDeleteSales.isPending ||
         mutationDeleteSale.isPending
       }

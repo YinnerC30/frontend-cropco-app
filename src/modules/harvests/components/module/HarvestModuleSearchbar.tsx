@@ -1,66 +1,39 @@
 import {
   Button,
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
   Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  ScrollArea,
 } from '@/components';
-import {
-  ButtonRefetchData,
-  FormFieldCalendar,
-  FormFieldCommand,
-  FormFieldInput,
-  FormFieldSelect,
-  Loading,
-  ToolTipTemplate,
-} from '@/modules/core/components';
+import { ToolTipTemplate } from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks/useCreateForm';
+
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { CapitalizeFirstWord } from '@/auth/helpers';
-import { cn } from '@/lib/utils';
-import { FilterDropdownItem } from '@/modules/core/components/search-bar/FilterDropdownItem';
-import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
 import { formatTypeFilterDate } from '@/modules/core/helpers/formatting/formatTypeFilterDate';
 import { formatTypeFilterNumber } from '@/modules/core/helpers/formatting/formatTypeFilterNumber';
 import { TypeFilterDate, TypeFilterNumber } from '@/modules/core/interfaces';
-import {
-  dateFilterOptions,
-  numberFilterOptions,
-} from '@/modules/core/interfaces/queries/FilterOptions';
-import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
-import {
-  MassUnitOfMeasure,
-  UnitsType
-} from '@/modules/supplies/interfaces/UnitOfMeasure';
-import { CaretSortIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { CheckIcon, Filter, X } from 'lucide-react';
+import { Filter } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
+
+import { FiltersBadgedList } from '@/modules/core/components/search-bar/FiltersBadgedList';
+import { FilterSearchBar } from '@/modules/core/interfaces/queries/FilterSearchBar';
+import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { useHarvestModuleContext } from '../../hooks/context/useHarvestModuleContext';
 import { MODULE_HARVESTS_PATHS } from '../../routes/pathRoutes';
-import { formFieldsSearchBarHarvest } from '../../utils/formFieldsSearchBarHarvest';
 import { formSchemaSearchBarHarvest } from '../../utils/formSchemaSearchBarHarvest';
+
+import { ButtonClearAllFilters } from '@/modules/core/components/search-bar/ButtonClearAllFilters';
+import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { HarvestSearchBarCropFilter } from './search-bar/HarvestSearchBarCropFilter';
+import { HarvestSearchBarDateFilter } from './search-bar/HarvestSearchBarDateFilter';
+import { HarvestSearchBarEmployeesFilter } from './search-bar/HarvestSearchBarEmployeesFilter';
+import { HarvestSearchBarAmountFilter } from './search-bar/HarvestSearchBarAmountFilter';
+import { HarvestSearchBarValuePayFilter } from './search-bar/HarvestSearchBarValuePayFilter';
 
 const valuesResetForm = {
   crop: {
@@ -69,15 +42,15 @@ const valuesResetForm = {
   },
   filter_by_date: {
     date: undefined,
-    type_filter_date: TypeFilterDate.after,
+    type_filter_date: TypeFilterDate.AFTER,
   },
   filter_by_amount: {
-    type_filter_amount: TypeFilterNumber.MIN,
+    type_filter_amount: TypeFilterNumber.LESS_THAN,
     type_unit_of_measure: MassUnitOfMeasure.KILOGRAMOS,
     amount: 0,
   },
   filter_by_value_pay: {
-    type_filter_value_pay: TypeFilterNumber.MIN,
+    type_filter_value_pay: TypeFilterNumber.LESS_THAN,
     value_pay: 0,
   },
   employees: [],
@@ -105,6 +78,8 @@ export const HarvestModuleSearchbar: React.FC = () => {
     skipDirty: true,
     validationMode: 'onSubmit',
   });
+
+  const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
   const handleAddFilter = async (name: string): Promise<boolean> => {
     const isValid = await form.trigger(
@@ -196,7 +171,6 @@ export const HarvestModuleSearchbar: React.FC = () => {
     handleSearch(form.watch());
     return true;
   };
-  const [openDropDownMenu, setOpenDropDownMenu] = useState(false);
 
   const handleClearErrorsForm = (name: string) => {
     form.clearErrors(
@@ -297,8 +271,6 @@ export const HarvestModuleSearchbar: React.FC = () => {
     toast.success('Se han limpiado los filtros');
   };
 
-  const [openPopover, setOpenPopover] = useState(false);
-
   useEffect(() => {
     const addFilters = async () => {
       for (const key of Object.keys(paramsQuery)) {
@@ -308,63 +280,47 @@ export const HarvestModuleSearchbar: React.FC = () => {
     if (queryCrops.isSuccess && queryEmployees.isSuccess && hasParamsQuery) {
       addFilters();
     }
-  }, [queryCrops.isSuccess, queryEmployees.isSuccess]);
+  }, [queryCrops.isSuccess, queryEmployees.isSuccess, hasParamsQuery]);
 
   return (
-    <div className="flex flex-col items-start justify-start my-4 ">
-      <DropdownMenu open={openDropDownMenu} modal={false}>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSearch)}
-            id="formSearch"
-            className="flex flex-col w-full "
+    <div className="flex flex-col items-start justify-start my-4 sm:w-full">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleSearch)}
+          id="formSearch"
+          className="flex flex-col w-full"
+        >
+          <DropdownMenu
+            open={openDropDownMenu}
+            onOpenChange={setOpenDropDownMenu}
+            modal={false}
           >
             <div className="flex flex-col items-center justify-center md:gap-1 sm:w-[100%] sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
-                <FormFieldCommand
-                  data={queryCrops?.data?.records || []}
-                  form={form}
-                  nameToShow={'name'}
-                  control={form.control}
-                  name={'crop'}
-                  placeholder={formFieldsSearchBarHarvest.crop.placeholder}
-                  className="lg:w-[300px]"
-                  description={''}
-                  label={''}
+                <HarvestSearchBarCropFilter
+                  formSearchBar={form}
+                  onAddFilter={handleAddFilter}
+                  onClearErrors={handleClearErrorsForm}
+                  paramsQuery={paramsQuery}
+                  queryCrops={queryCrops}
                   disabled={readOnly}
-                  actionFinal={() => handleAddFilter('crop.id')}
-                  isLoading={queryCrops.isLoading || queryCrops.isFetching}
-                  reloadData={async () => {
-                    await queryCrops.refetch();
-                  }}
-                  contentTooltip="Actualizar datos de cultivo"
                 />
 
-                <div className="flex gap-2 ml-4">
-                  <ToolTipTemplate content="Borrar consulta">
-                    <Button
-                      variant="outline"
-                      onClick={handleResetForm}
-                      size={'icon'}
-                      disabled={readOnly}
-                      className="bg-destructive hover:bg-destructive/80"
-                    >
-                      <X className="w-4 h-4" />
-                    </Button>
-                  </ToolTipTemplate>
-                </div>
+                <ButtonClearAllFilters
+                  onClearValues={handleResetForm}
+                  disabled={readOnly}
+                />
               </div>
 
-              <div className="self-start mb-2 sm:self-center sm:m-0">
+              <div className="self-start my-2 sm:self-center sm:m-0">
                 <ToolTipTemplate content="Filtros">
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="outline"
-                      onClick={() =>
-                        setOpenDropDownMenu((prev: boolean) => !prev)
-                      }
                       size={'icon'}
+                      type="button"
                       disabled={readOnly}
+                      data-testid="btn-harvests-filters"
                     >
                       <Filter className="w-4 h-4" />
                     </Button>
@@ -374,279 +330,47 @@ export const HarvestModuleSearchbar: React.FC = () => {
             </div>
 
             <DropdownMenuContent
-              className="w-32"
+              className="w-auto"
               onPointerDownOutside={(e) => {
-                e.preventDefault();
-                setOpenDropDownMenu((prev: boolean) => !prev);
+                // e.preventDefault();
+                // e.stopImmediatePropagation();
               }}
-              onCloseAutoFocus={(e) => e.preventDefault()}
             >
-              <FilterDropdownItem
-                label={'Empleados'}
-                className=" lg:w-[280px]"
-                content={
-                  <>
-                    <FormField
-                      control={form.control}
-                      name={`employees`}
-                      render={({
-                        field,
-                      }: {
-                        field: ControllerRenderProps<any, any>;
-                      }) => {
-                        const currentEmployees = form.watch('employees');
-
-                        return (
-                          <FormItem className="">
-                            <FormLabel className="block my-2">
-                              {'Empleados involucrados:'}
-                            </FormLabel>
-                            <Popover
-                              open={openPopover}
-                              onOpenChange={setOpenPopover}
-                              modal={true}
-                            >
-                              <div className="flex gap-2">
-                                <PopoverTrigger asChild>
-                                  <FormControl>
-                                    {queryEmployees.isLoading ||
-                                    queryEmployees.isFetching ? (
-                                      <div className="w-[200px]">
-                                        <Loading className="" />
-                                      </div>
-                                    ) : (
-                                      <Button
-                                        variant="outline"
-                                        role="combobox"
-                                        aria-expanded={openPopover}
-                                        className={` ${cn(
-                                          'justify-between',
-                                          !field.value &&
-                                            'text-muted-foreground'
-                                        )}`}
-                                        ref={field.ref}
-                                        onBlur={field.onBlur}
-                                        disabled={readOnly}
-                                      >
-                                        {field.value.length > 0 &&
-                                        !!queryEmployees.data
-                                          ? `${
-                                              currentEmployees!.length
-                                            } seleccionado(s)`
-                                          : 'Selecciona empleados'}
-
-                                        <CaretSortIcon className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-                                      </Button>
-                                    )}
-                                  </FormControl>
-                                </PopoverTrigger>
-                                <ButtonRefetchData
-                                  onClick={async () => {
-                                    await queryEmployees.refetch();
-                                  }}
-                                  disabled={false}
-                                  content="Actualizar datos de empleados involucrados"
-                                />
-                              </div>
-                              <PopoverContent className="w-[200px] p-0">
-                                <Command>
-                                  <CommandInput
-                                    placeholder={`Buscar empleado...`}
-                                    className="h-9"
-                                  />
-                                  <CommandList>
-                                    <ScrollArea className="w-auto h-56 p-1 pr-2">
-                                      <CommandEmpty>{`${CapitalizeFirstWord(
-                                        'empleado'
-                                      )} no encontrado`}</CommandEmpty>
-                                      <CommandGroup>
-                                        {queryEmployees?.data?.records.map(
-                                          (item) => {
-                                            return (
-                                              <CommandItem
-                                                value={item?.['full_name']}
-                                                key={item.id!}
-                                                onSelect={() => {
-                                                  if (
-                                                    field?.value?.some(
-                                                      (i: any) =>
-                                                        i.id === item?.id
-                                                    )
-                                                  ) {
-                                                    form.setValue(
-                                                      'employees',
-                                                      [
-                                                        ...field?.value?.filter(
-                                                          (i: any) =>
-                                                            i.id !== item?.id
-                                                        ),
-                                                      ],
-                                                      {
-                                                        shouldValidate: true,
-                                                        shouldDirty: true,
-                                                      }
-                                                    );
-                                                  } else {
-                                                    form.setValue(
-                                                      'employees',
-                                                      [
-                                                        ...(currentEmployees ||
-                                                          []),
-                                                        {
-                                                          id: item.id,
-                                                          full_name:
-                                                            item['full_name'],
-                                                        },
-                                                      ],
-                                                      {
-                                                        shouldValidate: true,
-                                                        shouldDirty: true,
-                                                      }
-                                                    );
-                                                  }
-                                                  setOpenPopover(false);
-                                                }}
-                                              >
-                                                <div className="">
-                                                  {item?.['full_name']}
-                                                </div>
-                                                <CheckIcon
-                                                  className={cn(
-                                                    'ml-auto h-4 w-4',
-                                                    field?.value.some(
-                                                      (i: any) => {
-                                                        return (
-                                                          i.id === item?.id
-                                                        );
-                                                      }
-                                                    )
-                                                      ? 'opacity-100'
-                                                      : 'opacity-0'
-                                                  )}
-                                                />
-                                              </CommandItem>
-                                            );
-                                          }
-                                        )}
-                                      </CommandGroup>
-                                    </ScrollArea>
-                                  </CommandList>
-                                </Command>
-                              </PopoverContent>
-                            </Popover>
-                            <FormDescription>
-                              {
-                                'Empleado(s) que han participado en el trabajo de cosecha en el cultivo'
-                              }
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        );
-                      }}
-                    />
-                  </>
-                }
-                actionOnSave={() => handleAddFilter('employees')}
-                actionOnClose={() => handleClearErrorsForm('employees')}
+              <HarvestSearchBarEmployeesFilter
+                onAddFilter={handleAddFilter}
+                onClearErrors={handleClearErrorsForm}
+                queryEmployees={queryEmployees}
+                disabled={readOnly}
+                formSearchBar={form}
               />
-              <FilterDropdownItem
-                label={'Fecha'}
-                content={
-                  <>
-                    <FormFieldSelect
-                      items={dateFilterOptions}
-                      disabled={false}
-                      {...formFieldsSearchBarHarvest.type_filter_date}
-                      name="filter_by_date.type_filter_date"
-                      control={form.control}
-                    />
-                    <FormFieldCalendar
-                      disabled={false}
-                      {...formFieldsSearchBarHarvest.date}
-                      control={form.control}
-                      name="filter_by_date.date"
-                    />
-                  </>
-                }
-                actionOnSave={() => handleAddFilter('filter_by_date')}
-                actionOnClose={() => handleClearErrorsForm('filter_by_date')}
+              <HarvestSearchBarDateFilter
+                onAddFilter={handleAddFilter}
+                onClearErrors={handleClearErrorsForm}
+                paramsQuery={paramsQuery}
+                disabled={readOnly}
+                formSearchBar={form}
               />
-              <FilterDropdownItem
-                label={'Cantidad'}
-                actionOnSave={() => handleAddFilter('filter_by_amount')}
-                actionOnClose={() => handleClearErrorsForm('filter_by_amount')}
-                content={
-                  <>
-                    <FormFieldSelect
-                      disabled={false}
-                      items={numberFilterOptions}
-                      {...formFieldsSearchBarHarvest.type_filter_amount}
-                      control={form.control}
-                      name="filter_by_amount.type_filter_amount"
-                    />
-
-                    <FormFieldSelect
-                      items={UnitsType[MassUnitOfMeasure.GRAMOS]}
-                      control={form.control}
-                      description={
-                        formFieldsSearchBarHarvest.type_unit_of_measure
-                          .description
-                      }
-                      label={
-                        formFieldsSearchBarHarvest.type_unit_of_measure.label
-                      }
-                      name={'filter_by_amount.type_unit_of_measure'}
-                      placeholder={
-                        formFieldsSearchBarHarvest.type_unit_of_measure
-                          .placeholder
-                      }
-                      disabled={false}
-                    />
-
-                    <FormFieldInput
-                      disabled={false}
-                      {...formFieldsSearchBarHarvest.amount}
-                      control={form.control}
-                      type="number"
-                      name="filter_by_amount.amount"
-                    />
-                  </>
-                }
+              <HarvestSearchBarAmountFilter
+                onAddFilter={handleAddFilter}
+                onClearErrors={handleClearErrorsForm}
+                disabled={readOnly}
+                formSearchBar={form}
               />
-              <FilterDropdownItem
-                label={'Valor a pagar'}
-                actionOnSave={() => handleAddFilter('filter_by_value_pay')}
-                actionOnClose={() =>
-                  handleClearErrorsForm('filter_by_value_pay')
-                }
-                content={
-                  <>
-                    <FormFieldSelect
-                      disabled={false}
-                      items={numberFilterOptions}
-                      {...formFieldsSearchBarHarvest.type_filter_value_pay}
-                      control={form.control}
-                      name="filter_by_value_pay.type_filter_value_pay"
-                    />
-                    <FormFieldInput
-                      disabled={false}
-                      {...formFieldsSearchBarHarvest.value_pay}
-                      control={form.control}
-                      type="number"
-                      name="filter_by_value_pay.value_pay"
-                    />
-                  </>
-                }
+              <HarvestSearchBarValuePayFilter
+                onAddFilter={handleAddFilter}
+                onClearErrors={handleClearErrorsForm}
+                disabled={readOnly}
+                formSearchBar={form}
               />
             </DropdownMenuContent>
+          </DropdownMenu>
 
-            <FiltersBadgedList
-              filters={appliedFilters}
-              handleRemove={handleRemoveFilter}
-            />
-          </form>
-        </Form>
-      </DropdownMenu>
+          <FiltersBadgedList
+            filters={appliedFilters}
+            handleRemove={handleRemoveFilter}
+          />
+        </form>
+      </Form>
     </div>
   );
 };

@@ -2,12 +2,7 @@ import {
   Badge,
   Label,
   ScrollArea,
-  ScrollBar,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  ScrollBar
 } from '@/components';
 import {
   FormDataTableButtonsPagination,
@@ -17,12 +12,10 @@ import { FormDataTable } from '@/modules/core/components/form/data-table/';
 import { FormDataTablePageCount } from '@/modules/core/components/form/data-table/FormDataTablePageCount';
 import { FormDataTableRowCount } from '@/modules/core/components/form/data-table/FormDataTableRowCount';
 import { FormDataTableSelectPageSize } from '@/modules/core/components/form/data-table/FormDataTableSelectPageSize';
+import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
+import { FormatNumber } from '@/modules/core/helpers';
 import { useDataTableGeneric } from '@/modules/core/hooks/data-table/useDataTableGeneric';
 import { HarvestProcessed } from '@/modules/harvests/interfaces';
-import {
-  MassUnitOfMeasure,
-  UnitsType,
-} from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { memo, useMemo } from 'react';
 import columnsHarvestProcessed from './ColumnsTableHarvestProcessed';
 import { FormHarvestProcessed } from './FormHarvestProcessed';
@@ -89,44 +82,30 @@ const HarvestProcessedDataTable: React.FC = memo(() => {
 
           <ScrollBar className="mt-2" orientation="horizontal" forceMount />
         </ScrollArea>
+        <FormDataTableButtonsPagination />
+        <FormDataTablePageCount />
         <div className="self-start">
           <Label>Total de cosecha procesada:</Label>
           <div className="flex items-center gap-1">
             <Badge
               className="block w-auto h-8 my-2 text-base text-center"
-              variant={'cyan'}
+              variant={'zinc'}
+              data-testid="badge-amount-processed"
             >
-              {amountProcessedConverted}
+              {FormatNumber(amountProcessedConverted)}
             </Badge>
-            <div className='w-auto'>
-              <Select
-                onValueChange={(value: any) => {
-                  setUnitTypeToShowProcessedAmount(value);
-                }}
-                defaultValue={MassUnitOfMeasure.KILOGRAMOS}
-                value={unitTypeToShowProcessedAmount}
-                disabled={false}
-              >
-                <SelectTrigger /* ref={field.ref} */>
-                  <SelectValue placeholder={'Selecciona una medida'} />
-                </SelectTrigger>
-
-                <SelectContent>
-                  {[...UnitsType['GRAMOS']].map((item: any) => (
-                    <SelectItem key={item.key} value={item.value}>
-                      {item.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <div className="w-auto">
+              <SelectedMassUnitOfMeasure
+                onChange={setUnitTypeToShowProcessedAmount}
+                valueSelect={unitTypeToShowProcessedAmount}
+              />
             </div>
           </div>
           <p className="text-[0.8rem] text-muted-foreground">
             {'Número de kilogramos listos para la venta'}
           </p>
         </div>
-        <FormDataTableButtonsPagination />
-        <FormDataTablePageCount />
+        
       </div>
     </FormDataTableProvider>
   );

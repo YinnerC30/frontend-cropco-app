@@ -32,11 +32,12 @@ export const ActionsTableShoppingDetail = ({
     handleOpenDialog();
   };
 
-  const { deletedDate } = row.original;
-  const isDisabled = deletedDate !== null;
+  const { supply, supplier, id } = row.original;
+  const isDisabled =
+    supply.deletedDate !== null || supplier.deletedDate !== null;
 
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={id}>
       <ActionCopyIdRecord id={shoppingDetail?.id!} />
       <ActionDeleteRecord
         action={() => {

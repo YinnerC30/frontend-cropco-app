@@ -12,11 +12,13 @@ import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
 import { Button, Form } from '@/components';
 import { FormFieldInput } from '@/modules/core/components';
 
+import { TypedAxiosError } from '@/auth/interfaces/AxiosErrorResponse';
 import { useCreateForm } from '@/modules/core/hooks';
-import { RootState, useAppSelector } from '@/redux/store';
+import { UseMutateFunction } from '@tanstack/react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import React from 'react';
 import { z } from 'zod';
-import { userPatchChangePasswordUser } from '../hooks/mutations';
+import { DataChangePassword } from '../hooks/mutations';
 
 const formSchemaChangePassword = z.object({
   old_password: z
@@ -38,17 +40,20 @@ const formSchemaChangePassword = z.object({
 });
 
 interface Props {
+  id: string;
   handleCloseDialog: (event: React.MouseEvent<HTMLButtonElement>) => void;
   setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  isPending: boolean;
+  mutate: UseMutateFunction<
+    AxiosResponse<void, any>,
+    AxiosError<TypedAxiosError, unknown>,
+    DataChangePassword,
+    unknown
+  >;
 }
 
-export const DialogChangePassword: React.FC<Props> = ({
-  handleCloseDialog,
-  setOpenDialog,
-}) => {
-  const { id } = useAppSelector(
-    (state: RootState) => state.authentication.user
-  );
+export const DialogChangePassword: React.FC<Props> = (props) => {
+  const { handleCloseDialog, setOpenDialog, isPending, mutate, id } = props;
   const form = useCreateForm({
     schema: formSchemaChangePassword,
     defaultValues: {
@@ -57,8 +62,6 @@ export const DialogChangePassword: React.FC<Props> = ({
     },
   });
 
-  const { isPending, mutate } = userPatchChangePasswordUser();
-
   const handleSubmit = (values: z.infer<typeof formSchemaChangePassword>) => {
     mutate({ id, ...values }, { onSuccess: () => setOpenDialog(false) });
   };
@@ -66,7 +69,7 @@ export const DialogChangePassword: React.FC<Props> = ({
   return (
     <DialogContent
       forceMount={true}
-      className="sm:max-w-[425px]"
+      className="sm:max-w-[425px] max-w-[90vw]"
       onInteractOutside={(event) => {
         event.preventDefault();
       }}
@@ -103,6 +106,7 @@ export const DialogChangePassword: React.FC<Props> = ({
               placeholder={'antiguacontraseña'}
               disabled={false}
               type="password"
+              dataTestiId='input-old-pass'
             />
             <FormFieldInput
               control={form.control}
@@ -112,12 +116,13 @@ export const DialogChangePassword: React.FC<Props> = ({
               placeholder={'nuevacontraseña'}
               disabled={false}
               type="password"
+              dataTestiId='input-new-pass'
             />
           </form>
         </Form>
       </div>
       <DialogFooter>
-        <Button type="submit" form={'formChangePassword'} disabled={isPending}>
+        <Button type="submit" form={'formChangePassword'} disabled={isPending} data-testid="btn-form-submit-change-password">
           {isPending && <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />}
           Guardar
         </Button>

@@ -18,21 +18,25 @@ const routeConfig: RouteConfig[] = [
     action: 'find_all_suppliers',
     element: <SuppliersModule />,
     viewComponent: true,
+    label: 'Proveedores'
   },
   {
     path: 'create/one',
     action: 'create_supplier',
     element: <CreateSupplier />,
+    label: 'Crear Proveedor'
   },
   {
     path: 'view/one/:id',
     action: 'find_one_supplier',
     element: <ViewSupplier />,
+    label: 'Ver Proveedor'
   },
   {
     path: 'update/one/:id',
     action: 'update_one_supplier',
     element: <ModifySupplier />,
+    label: 'Modificar Proveedor'
   },
 ];
 

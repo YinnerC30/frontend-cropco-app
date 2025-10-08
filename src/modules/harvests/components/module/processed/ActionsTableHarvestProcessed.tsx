@@ -23,7 +23,6 @@ export const ActionsTableHarvestProcessed: React.FC<Props> = ({ row }) => {
 
   const mutationDeleteHarvestProcessed = useDeleteHarvestProcessed();
 
-  
   const handleDelete = () => {
     mutationDeleteHarvestProcessed.mutate(id, {
       onSuccess: async () => {
@@ -34,12 +33,12 @@ export const ActionsTableHarvestProcessed: React.FC<Props> = ({ row }) => {
 
   const handleModify = () => {
     setHarvestProcessed(row.original);
-    
+
     setOpenDialog(true);
   };
 
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={id}>
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}

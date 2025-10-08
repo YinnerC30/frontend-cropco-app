@@ -10,7 +10,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface RowData {
   id: string;
@@ -28,17 +28,19 @@ export interface DataTableGenericReturn<T> {
   resetSelectionRows: () => void;
   hasSelectedRecords: boolean;
   getDataOfRowsSelected: () => unknown[];
+  setData: React.Dispatch<React.SetStateAction<unknown[]>>;
 }
 
 export const useDataTableGeneric = <T>({
   columns,
   rows = [],
 }: DataTableManualProps<T>): DataTableGenericReturn<T> => {
+  const [data, setData] = useState(rows);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
-    data: rows,
+    data,
     columns: columns as ColumnDef<unknown>[],
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -72,6 +74,10 @@ export const useDataTableGeneric = <T>({
 
   const hasSelectedRecords = table.getSelectedRowModel().rows.length > 0;
 
+  useEffect(() => {
+    setData(rows);
+  }, [rows]);
+
   return {
     table,
     rowSelection,
@@ -80,5 +86,6 @@ export const useDataTableGeneric = <T>({
     resetSelectionRows,
     hasSelectedRecords,
     getDataOfRowsSelected,
+    setData,
   };
 };

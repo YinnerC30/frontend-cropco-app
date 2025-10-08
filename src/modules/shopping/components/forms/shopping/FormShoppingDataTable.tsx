@@ -43,12 +43,14 @@ export const FormShoppingDataTable: React.FC = () => {
   const validateIsDisabled = (
     row: Row<any>
   ): { status: boolean; cellColorError: ErrorCell; message: string } => {
-    const { deletedDate } = row.original;
-    const isDisabled = deletedDate !== null;
+    const { supply, supplier } = row.original;
+    const isDisabled =
+      supply.deletedDate !== null || supplier.deletedDate !== null;
     return {
       status: isDisabled,
       cellColorError: 'restriction',
-      message: 'No se puede eliminar o modificar este registro porque...',
+      message:
+        'No es posible eliminar o modificar este registro porque el suministro o el proveedor asociado han sido dados de baja.',
     };
   };
 
@@ -64,7 +66,7 @@ export const FormShoppingDataTable: React.FC = () => {
         <FormDataTableFilter
           placeholder={'Buscar por nombre del proveedor...'}
           nameColumnFilter={'supplier_full_name'}
-          className="w-[300px] ml-10 self-start sm:self-center sm:m-0 "
+          className="w-[300px] lg:ml-10 self-start sm:self-center sm:m-0 "
         />
 
         {/* Botones */}

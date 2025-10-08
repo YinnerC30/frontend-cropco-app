@@ -2,9 +2,9 @@ import {
   ActionCopyIdRecord,
   ActionDeleteRecord,
   ActionModifyRecord,
+  ActionNavigate,
   ActionViewRecord,
   DropDownMenuActions,
-  ItemNavigate,
 } from '@/modules/core/components';
 import { Row } from '@tanstack/react-table';
 import { LayersIcon } from 'lucide-react';
@@ -20,7 +20,10 @@ interface Props {
 export const ActionsTableHarvest: React.FC<Props> = ({ row }) => {
   const { dataTable, actionsHarvestsModule, mutationDeleteHarvest } =
     useHarvestModuleContext();
-  const id = row.original.id ?? '';
+  const {
+    id = '',
+    crop: { deletedDate },
+  } = row.original;
   const { mutate } = mutationDeleteHarvest;
 
   const handleDelete = () => {
@@ -31,7 +34,7 @@ export const ActionsTableHarvest: React.FC<Props> = ({ row }) => {
     });
   };
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={id}>
       <ActionCopyIdRecord id={id} />
       <ActionDeleteRecord
         action={handleDelete}
@@ -47,11 +50,13 @@ export const ActionsTableHarvest: React.FC<Props> = ({ row }) => {
         path={MODULE_HARVESTS_PATHS.ViewOne + id}
         disabled={!actionsHarvestsModule['find_one_harvest']}
       />
-      <ItemNavigate
+
+      <ActionNavigate
         path={`../processed/view/${id}`}
         Icon={LayersIcon}
         name={'Inventario'}
-        disabled={!actionsHarvestsModule['find_one_harvest']}
+        disabled={!actionsHarvestsModule['find_one_harvest'] || !!deletedDate}
+        dataTestId="btn-view-processed-records"
       />
       <ActionGetDocument
         id={id!}

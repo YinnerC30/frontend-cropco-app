@@ -42,12 +42,13 @@ export const FormSaleDataTable: React.FC = () => {
   };
 
   const validateIsDisabled = (row: Row<any>): ValidationCellReturn => {
-    const { deletedDate } = row.original;
-    const isDisabled = deletedDate !== null;
+    const { crop, client } = row.original;
+    const isDisabled = crop.deletedDate !== null || client.deletedDate !== null;
     return {
       status: isDisabled,
       cellColorError: 'restriction',
-      message: 'No se puede modificar o eliminar este registro',
+      message:
+        'No es posible eliminar o modificar este registro porque el cultivo o el cliente asociado han sido dados de baja.',
     };
   };
 
@@ -58,12 +59,12 @@ export const FormSaleDataTable: React.FC = () => {
       errorMessage={'Ha ocurrido un error en la tabla'}
       lengthColumns={lengthColumns}
     >
-      <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-11/12">
+      <div className="flex flex-col items-center justify-center w-screen gap-2 sm:w-full">
         {/* Barra */}
         <FormDataTableFilter
           placeholder={'Buscar por nombre del cliente...'}
           nameColumnFilter={'client_full_name'}
-          className="w-[270px] ml-10 self-start sm:self-center sm:m-0"
+          className="w-[270px] lg:ml-10 self-start sm:self-center sm:m-0"
         />
 
         {/* Botones */}

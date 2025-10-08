@@ -14,13 +14,20 @@ import {
 
 import { Button } from '@/components';
 import { TrashIcon } from '@radix-ui/react-icons';
-import { useDataTableMenuActionsContext } from '../DataTableMenuActionsContext';
 import { useState } from 'react';
+import { useDataTableMenuActionsContext } from '../DataTableMenuActionsContext';
 interface Props {
   action: () => void;
   disabled?: boolean;
+  alertDialogTitle?: string;
+  alertDialogDescription?: string;
 }
-export const ActionDeleteRecord = ({ action, disabled }: Props) => {
+export const ActionDeleteRecord = ({
+  action,
+  disabled,
+  alertDialogTitle = '¿Estas seguro de eliminar el registro?',
+  alertDialogDescription = 'Esta acción es irreversible y no podrá recuperar su registro',
+}: Props) => {
   const { toggleOpen } = useDataTableMenuActionsContext();
   const [openDialog, setOpenDialog] = useState(false);
   return (
@@ -31,19 +38,22 @@ export const ActionDeleteRecord = ({ action, disabled }: Props) => {
             type="button"
             variant={'ghost'}
             onClick={() => setOpenDialog(!openDialog)}
+            data-testid="btn-delete-one-record"
+            disabled={disabled}
           >
             <TrashIcon className="w-4 h-4 mr-2" /> Eliminar
           </Button>
         </DropdownMenuItem>
       </AlertDialogTrigger>
 
-      <AlertDialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
+      <AlertDialogContent
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        className="sm:max-w-[425px] max-w-[90vw]"
+      >
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            ¿Estas seguro de eliminar el registro?
-          </AlertDialogTitle>
+          <AlertDialogTitle>{alertDialogTitle}</AlertDialogTitle>
           <AlertDialogDescription>
-            Esta acción es irreversible y no podrá recuperar su registro
+            {alertDialogDescription}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -54,6 +64,7 @@ export const ActionDeleteRecord = ({ action, disabled }: Props) => {
                 toggleOpen(false);
               }}
               variant="secondary"
+              data-testid="btn-cancel-delete-one-record"
             >
               Cancelar
             </Button>
@@ -66,6 +77,7 @@ export const ActionDeleteRecord = ({ action, disabled }: Props) => {
                 setOpenDialog(false);
                 toggleOpen(false);
               }}
+              data-testid="btn-continue-delete-one-record"
             >
               Continuar
             </Button>

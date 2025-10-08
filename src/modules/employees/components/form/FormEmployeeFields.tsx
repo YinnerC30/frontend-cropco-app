@@ -12,9 +12,10 @@ export const FormEmployeeFields: React.FC = () => {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         id="formEmployee"
-        className="flex flex-col gap-2 ml-1"
+        className="flex flex-row flex-wrap gap-1 ml-1 sm:gap-10"
       >
         <FormFieldInput
+          autoFocus
           control={form.control}
           description={formFieldsEmployee.first_name.description}
           label={formFieldsEmployee.first_name.label}
@@ -54,7 +55,7 @@ export const FormEmployeeFields: React.FC = () => {
           name={'address'}
           placeholder={formFieldsEmployee.address.placeholder}
           disabled={readOnly}
-          className="sm:w-2/4"
+          className="w-[300px]"
         />
       </form>
     </Form>

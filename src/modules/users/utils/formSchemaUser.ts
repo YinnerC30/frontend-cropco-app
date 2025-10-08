@@ -9,8 +9,8 @@ export const formSchemaUser = z.object({
     .max(100, { message: `El nombre no debe exceder los 100 caracteres` }),
   last_name: z
     .string({ required_error: 'El apellido es obligatorio' })
-    .min(4, {
-      message: 'El apellido debe tener al menos 4 caracteres',
+    .min(2, {
+      message: 'El apellido debe tener al menos 2 caracteres',
     })
     .max(100, { message: `El apellido no debe exceder los 100 caracteres` }),
   email: z
@@ -20,21 +20,26 @@ export const formSchemaUser = z.object({
       message: `El correo electrónico no debe superar los 100 caracteres`,
     }),
   cell_phone_number: z
-    .string({
-      required_error: 'El número celular es obligatorio',
+    .string()
+    .min(1, { message: 'El número de celular es requerido' })
+    .regex(/^\+?[1-9]\d{8,14}$/, {
+      message:
+        'El número de celular debe tener entre 9 y 15 dígitos y puede incluir el código de país con +',
     })
     .refine(
-      (data) => {
-        return /^3\d{9}$/.test(data);
+      (value) => {
+        // Remover espacios y caracteres especiales para validar solo números
+        const cleanNumber = value.replace(/[\s\-\(\)]/g, '');
+        return /^\+?[1-9]\d{8,14}$/.test(cleanNumber);
       },
       {
-        message: 'El número celular es incorrecto',
+        message: 'Formato de número de celular no válido',
       }
     ),
   actions: z
     .array(z.object({ id: z.string().uuid() }))
     .optional()
-    .default([])
+    .default([]),
 });
 
 export const formSchemaUserWithPassword = formSchemaUser.extend({

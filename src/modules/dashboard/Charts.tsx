@@ -21,6 +21,7 @@ import { ChartTopEmployeesInWorks } from '../employees/components/charts/ChartTo
 import { ChartTotalHarvestsInYear } from '../harvests/components/charts/ChartTotalHarvestsInYear';
 import { ChartTotalSalesInYear } from '../sales/components/charts/ChartTotalSalesInYear';
 import { ChartTotalWorksInYear } from '../work/components/charts/ChartTotalWorksInYear';
+import useDocumentTitle from '../core/hooks/useDocumentTitle';
 
 interface TitleModuleProps {
   label: string;
@@ -41,7 +42,11 @@ const ContainerCharts: React.FC<{
   className?: string;
 }> = ({ children, className }) => {
   return (
-    <div className={`flex flex-wrap gap-10 justify-evenly ${className}`}>
+    <div
+      className={`flex flex-wrap gap-2 justify-evenly ${
+        !!className && className
+      }`}
+    >
       {children}
     </div>
   );
@@ -86,7 +91,7 @@ const CropCharts: React.FC = () => {
     <div>
       <TitleModule label={'Cultivos'} IconTitle={Leaf} />
       <Separator className="my-2 " />
-      <ContainerCharts className="flex-col justify-center items-center">
+      <ContainerCharts className="flex-col items-center justify-center">
         {hasPermission('dashboard', 'find_all_crops_stock_chart') && (
           <ChartTopCropsWithStock />
         )}
@@ -158,6 +163,7 @@ const ConsumptionCharts: React.FC = () => {
 };
 
 export function Charts() {
+  useDocumentTitle({ title: 'Gráficas' });
   const { isMobile, open } = useSidebar();
   const { getActionsModule } = useAuthContext();
   const actionsDashboard = getActionsModule('dashboard');
@@ -167,7 +173,7 @@ export function Charts() {
       <BreadCrumb finalItem={'Gráficas'} />
       <div className="flex justify-center">
         <ScrollArea
-          className={`h-[85vh] px-2 pt-5  ${
+          className={`h-[85vh] pt-5  ${
             isMobile
               ? 'w-screen'
               : open
@@ -175,7 +181,7 @@ export function Charts() {
               : 'w-screen'
           }`}
         >
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col pr-1 space-y-5">
             {(actionsDashboard['find_top_employees_in_harvests_chart'] ||
               actionsDashboard['find_top_employees_in_works_chart']) && (
               <EmployeeCharts />

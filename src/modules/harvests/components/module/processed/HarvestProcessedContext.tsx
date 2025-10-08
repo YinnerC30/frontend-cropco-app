@@ -44,7 +44,7 @@ export const HarvestProcessedProvider: React.FC<{
     date: undefined,
     unit_of_measure: undefined,
     amount: 0,
-  });
+  } as any);
 
   const { getActionsModule } = useAuthContext();
 
@@ -74,8 +74,6 @@ export const HarvestProcessedProvider: React.FC<{
       )
     : 0;
 
-  console.log(queryOneHarvest.data);
-  console.log('🚀 ~ amountProcessedConverted:', amountProcessedConverted);
 
   const contextValue: HarvestProcessedContextValues = {
     queryOneHarvest,

@@ -13,4 +13,6 @@ export interface Payment {
     harvests: PaymentHarvest[];
     works: PaymentWork[];
   };
+  payments_harvest?: any[];
+  payments_work?: any[];
 }

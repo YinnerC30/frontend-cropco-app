@@ -15,7 +15,6 @@ export const getSuppliesWithConsumptions =
     return await cropcoAPI.get(`${pathsCropco.supplies}/consumptions/all`);
   };
 
-
 export const useGetAllSuppliesWithConsumptions =
   (): UseQueryGetAllRecordsReturn<Supply> => {
     const { hasPermission, handleError } = useAuthContext();
@@ -37,7 +36,7 @@ export const useGetAllSuppliesWithConsumptions =
     useEffect(() => {
       if (!isAuthorized) {
         toast.error(
-          'No tienes permiso para ver el listado de insumos con consumos 😑'
+          'No tienes permiso para ver el listado de insumos con consumos '
         );
       }
     }, [isAuthorized]);
@@ -46,7 +45,7 @@ export const useGetAllSuppliesWithConsumptions =
       if (query.isError) {
         handleError({
           error: query.error,
-          messagesStatusError: {},
+          handlers: {},
         });
       }
     }, [query.isError, query.error]);

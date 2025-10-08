@@ -23,7 +23,7 @@ export const ShoppingModuleTable: React.FC = () => {
       rowCount={queryShopping?.data?.total_row_count ?? 0}
       isLoading={
         queryShopping.isLoading ||
-        queryShopping.isRefetching ||
+        queryShopping.isFetching ||
         mutationDeleteShopping.isPending ||
         mutationDeleteOneShopping.isPending
       }

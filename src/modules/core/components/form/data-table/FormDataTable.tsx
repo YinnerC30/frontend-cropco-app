@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components';
+import { useActiveDialog } from '@/hooks/useActiveDialog';
 import {
   Cell,
   flexRender,
@@ -44,6 +45,25 @@ export const FormDataTable = memo(
     }),
   }: Props) => {
     const { table, lengthColumns } = useFormDataTableContext();
+
+    const { isActiveDialog } = useActiveDialog();
+
+    const handleDoubleClickRow = (props: {
+      row: Row<any>;
+      status: boolean;
+      message: string;
+    }) => {
+      const { row, status, message } = props;
+
+      if (status) {
+        toast.info(message);
+        return;
+      }
+      if (!disabledDoubleClick && !isActiveDialog) {
+        onCellDoubleClick(row.original);
+      }
+    };
+
     return (
       <Table className={`${className}`}>
         <TableHeader>
@@ -82,14 +102,9 @@ export const FormDataTable = memo(
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
                   onDoubleClick={() => {
-                    if (status) {
-                      toast.info(message);
-                      return;
-                    }
-                    if (!disabledDoubleClick) {
-                      onCellDoubleClick(row.original);
-                    }
+                    handleDoubleClickRow({ row, status, message });
                   }}
+                  data-testid={`table-row-id-${row.original.id}`}
                 >
                   {row.getVisibleCells().map((cell: Cell<any, unknown>) => (
                     <TableCell key={cell.id} className="py-1">

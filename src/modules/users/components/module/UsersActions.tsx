@@ -5,7 +5,7 @@ import {
   ButtonRefetchData,
 } from '@/modules/core/components';
 
-import { useUsersModuleContext } from '../../hooks';
+import { useUsersModuleContext } from '@/modules/users/hooks';
 import { MODULE_USER_PATHS } from '../../routes/pathsRoutes';
 
 export const UsersActions: React.FC = () => {
@@ -31,7 +31,8 @@ export const UsersActions: React.FC = () => {
         onClick={async () => {
           await queryUsers.refetch();
         }}
-        disabled={!actionsUsersModule['find_all_users']}
+        disabled={!actionsUsersModule['find_all_users'] || queryUsers.isFetching}
+        // disabled={false}
         className=""
       />
 

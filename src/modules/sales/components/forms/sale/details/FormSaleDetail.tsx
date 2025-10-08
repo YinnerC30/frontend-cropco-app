@@ -1,11 +1,9 @@
-import { Cross2Icon } from '@radix-ui/react-icons';
-
 import { Button } from '@/components/ui/button';
 
 import {
   Dialog,
-  DialogClose,
   DialogContent,
+  DialogCustomClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -19,6 +17,7 @@ import { ToolTipTemplate } from '@/modules/core/components';
 
 import { Plus } from 'lucide-react';
 
+import { ScrollArea } from '@/components';
 import { useFormSaleContext } from '@/modules/sales/hooks';
 import { formSchemaSaleDetails } from '@/modules/sales/utils';
 import React from 'react';
@@ -38,6 +37,7 @@ export const FormSaleDetail: React.FC = () => {
     formSaleDetail,
     removeCropStock,
     validateAvailableStock,
+    isSubmittingSaleDetail,
   } = useFormSaleContext();
 
   const onSubmitSaleDetail = (
@@ -56,6 +56,8 @@ export const FormSaleDetail: React.FC = () => {
       const record = {
         ...values,
         deletedDate: null,
+        client: { ...values.client, deletedDate: null },
+        crop: { ...values.crop, deletedDate: null },
         id: generateUUID(),
       };
 
@@ -78,6 +80,8 @@ export const FormSaleDetail: React.FC = () => {
 
       modifySaleDetail({
         ...values,
+        client: { ...values.client, deletedDate: null },
+        crop: { ...values.crop, deletedDate: null },
         deletedDate: null,
       });
       toast.success('Registro actualizado');
@@ -98,10 +102,13 @@ export const FormSaleDetail: React.FC = () => {
     <>
       <ToolTipTemplate content={'Crear registro'}>
         <Button
-          className={`${readOnly && 'hidden'} bg-primary/70 hover:bg-primary/50`}
+          className={`${
+            readOnly && 'hidden'
+          } bg-primary/70 hover:bg-primary/50`}
           size="icon"
           onClick={handleOpenDialogExtended}
           disabled={readOnly}
+          data-testid="btn-open-sale-detail-form"
         >
           <Plus className="w-4 h-4" />
           <span className="sr-only">Crear nuevo registro</span>
@@ -109,19 +116,13 @@ export const FormSaleDetail: React.FC = () => {
       </ToolTipTemplate>
       <Dialog open={openDialog} modal={false}>
         <DialogContent
-          className="sm:max-w-[525px]"
+          className="sm:max-w-[425px] h-[85vh] overflow-hidden max-w-[95vw]"
           onClick={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
-          <DialogClose
-            onClick={handleCloseDialog}
-            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-          >
-            <Cross2Icon className="w-4 h-4" />
-            <span className="sr-only">Close</span>
-          </DialogClose>
+          <DialogCustomClose handleClose={handleCloseDialog} />
           <DialogHeader>
             <DialogTitle>Venta a cliente</DialogTitle>
             <DialogDescription>
@@ -129,12 +130,16 @@ export const FormSaleDetail: React.FC = () => {
             </DialogDescription>
           </DialogHeader>
 
-          <FormSaleDetailsFields />
+          <ScrollArea className="h-[60vh] w-full py-2">
+            <FormSaleDetailsFields />
+          </ScrollArea>
 
           <DialogFooter>
             <Button
               type="submit"
               onClick={formSaleDetail.handleSubmit(onSubmitSaleDetail)}
+              disabled={isSubmittingSaleDetail}
+              data-testid="form-detail-submit-button"
             >
               Guardar
             </Button>

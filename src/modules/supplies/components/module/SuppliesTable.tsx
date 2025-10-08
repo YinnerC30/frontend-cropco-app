@@ -3,6 +3,7 @@ import React from 'react';
 import { useSuppliesModuleContext } from '../../hooks';
 import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
 import { SelectedVolumeUnitOfMeasure } from '@/modules/core/components/shared/SelectedVolumeUnitOfMeasure';
+import { SelectedLengthUnitOfMeasure } from '@/modules/core/components/shared/SelectedLengthUnitOfMeasure';
 
 export const SuppliesTable: React.FC = () => {
   const {
@@ -15,6 +16,8 @@ export const SuppliesTable: React.FC = () => {
     setMassUnitTypeToShowAmount,
     unitVolumeTypeToShowAmount,
     setUnitVolumeTypeToShowAmount,
+    unitLengthTypeToShowAmount,
+    setUnitLengthTypeToShowAmount,
   } = useSuppliesModuleContext();
 
   return (
@@ -56,6 +59,18 @@ export const SuppliesTable: React.FC = () => {
           <SelectedVolumeUnitOfMeasure
             onChange={setUnitVolumeTypeToShowAmount}
             valueSelect={unitVolumeTypeToShowAmount}
+          />
+        </div>
+      </div>
+      <div className="flex items-center justify-end gap-2 pb-2">
+        <p className="text-sm font-medium text-muted-foreground">
+          Mostrar inventario de longitud como:
+        </p>
+        <div className="font-medium">
+          {' '}
+          <SelectedLengthUnitOfMeasure
+            onChange={setUnitLengthTypeToShowAmount}
+            valueSelect={unitLengthTypeToShowAmount}
           />
         </div>
       </div>

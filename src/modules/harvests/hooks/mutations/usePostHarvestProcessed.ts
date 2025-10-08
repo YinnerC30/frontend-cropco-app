@@ -1,11 +1,11 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
-import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
-import { useAuthContext } from "@/auth";
-import { PromiseReturnRecord } from "@/auth/interfaces/PromiseReturnRecord";
-import { UseMutationReturn } from "@/modules/core/interfaces/responses/UseMutationReturn";
-import { HarvestProcessed } from "@/modules/harvests/interfaces/HarvestProcessed";
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { HarvestProcessed } from '@/modules/harvests/interfaces/HarvestProcessed';
 
 export const createHarvestProcessed = async (
   harvestProcessed: HarvestProcessed
@@ -26,20 +26,27 @@ export const usePostHarvestProcessed = (): UseMutationReturn<
     mutationFn: createHarvestProcessed,
     onSuccess: async (_, variables) => {
       const id = variables.harvest?.id!;
-      await queryClient.invalidateQueries({ queryKey: ["harvests_processed"] });
+      await queryClient.invalidateQueries({ queryKey: ['harvests_processed'] });
       await queryClient.invalidateQueries({
-        queryKey: ["crops"],
+        queryKey: ['crops'],
       });
-      await queryClient.invalidateQueries({ queryKey: ["harvest", id] });
+      await queryClient.invalidateQueries({ queryKey: ['harvest', id] });
 
       toast.success(`Cosecha procesada creada`);
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      const messageResponse: any = error.response?.data?.message! || '';
+      const conflictMessage = messageResponse.includes(
+        'add more processed harvest'
+      )
+        ? 'El monto ingresado supera el monto total de la cosecha.'
+        : 'Hubo un conflicto al crear la cosecha procesada, verifique los datos ingresados.';
       handleError({
         error,
-        messagesStatusError: {
-          conflict:
-            "El monto ingresado excede la cantidad disponible de la cosecha",
+        handlers: {
+          conflict: {
+            message: conflictMessage,
+          },
         },
       });
     },

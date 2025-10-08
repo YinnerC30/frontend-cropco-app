@@ -1,6 +1,6 @@
 // import { ToastAction, toast } from '@/components';
 import { useNavigate } from 'react-router-dom';
-import { useFormChange } from '../components';
+import { useFormChange } from '@/modules/core/components';
 import { toast } from 'sonner';
 
 export const useToastDiscardChanges = () => {
@@ -32,7 +32,9 @@ export const useToastDiscardChanges = () => {
           handleToastAction(route, skipRedirection);
           action && action();
         },
+
       },
+      duration: 10_000
     });
 
     //   return toast({

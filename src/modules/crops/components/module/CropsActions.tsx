@@ -9,12 +9,8 @@ import { useCropsModuleContext } from '../../hooks';
 import { MODULE_CROPS_PATHS } from '../../routes/pathRoutes';
 
 export const CropsActions: React.FC = () => {
-  const {
-    queryCrops,
-    dataTable,
-    mutationDeleteCrops,
-    actionsCropsModule,
-  } = useCropsModuleContext();
+  const { queryCrops, dataTable, mutationDeleteCrops, actionsCropsModule } =
+    useCropsModuleContext();
 
   const handleDeleteBulkCrops = () => {
     mutationDeleteCrops.mutate(
@@ -33,7 +29,7 @@ export const CropsActions: React.FC = () => {
         onClick={async () => {
           await queryCrops.refetch();
         }}
-        disabled={!actionsCropsModule['find_all_crops']}
+        disabled={!actionsCropsModule['find_all_crops'] || queryCrops.isFetching}
         className=""
       />
 

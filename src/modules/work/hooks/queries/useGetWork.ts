@@ -54,7 +54,7 @@ export function useGetWork(id: string): UseGetOneRecordReturn<Work> {
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {},
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

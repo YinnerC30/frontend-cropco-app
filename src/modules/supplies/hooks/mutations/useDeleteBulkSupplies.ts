@@ -1,11 +1,11 @@
-import { cropcoAPI, pathsCropco } from "@/api/cropcoAPI";
-import { useAuthContext } from "@/auth/hooks";
-import { PromiseReturnRecord } from "@/auth/interfaces/PromiseReturnRecord";
-import { BulkRecords } from "@/modules/core/interfaces/bulk-data/BulkRecords";
-import { UseDeleteBulkResponse } from "@/modules/core/interfaces/responses/UseDeleteBulkResponse";
-import { UseMutationReturn } from "@/modules/core/interfaces/responses/UseMutationReturn";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
+import { useAuthContext } from '@/auth/hooks';
+import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { ManageMessageBulkRemove } from '@/modules/core/helpers/ManageMessageBulkRemove';
+import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
+import { UseDeleteBulkResponse } from '@/modules/core/interfaces/responses/UseDeleteBulkResponse';
+import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const deleteBulkSupplies = async (
   data: BulkRecords
@@ -26,24 +26,29 @@ export const useDeleteBulkSupplies = (): UseMutationReturn<
   const mutation: UseMutationReturn<UseDeleteBulkResponse, BulkRecords> =
     useMutation({
       mutationFn: deleteBulkSupplies,
-      onSuccess: async ({ data: { failed, success } }) => {
-        await queryClient.invalidateQueries({ queryKey: ["supplies"] });
-        await queryClient.invalidateQueries({ queryKey: ["supply"] });
-        await queryClient.invalidateQueries({ queryKey: ["consumption"] });
-        await queryClient.invalidateQueries({ queryKey: ["shopping"] });
+      onSuccess: async ({ status, data: { failed, success } }) => {
+        await queryClient.invalidateQueries({ queryKey: ['supplies'] });
+        await queryClient.invalidateQueries({ queryKey: ['supply'] });
+        await queryClient.invalidateQueries({ queryKey: ['consumption'] });
+        await queryClient.invalidateQueries({ queryKey: ['shopping'] });
 
-        if (success.length > 0 && failed.length === 0) {
-          toast.success(`Insumos eliminados`);
-        } else if (failed.length > 0) {
-          toast.error(
-            `No se pudieron eliminar algunos insumos, es posible que alguno tenga aun stock disponible`
-          );
-        }
+        ManageMessageBulkRemove({
+          status,
+          customMessages: {
+            multiStatus:
+              'No fue posible eliminar algunos insumos seleccionados. Verifica que no tengan stock disponible antes de intentar eliminarlos',
+          },
+        });
       },
       onError: (error) => {
         handleError({
           error,
-          messagesStatusError: {},
+          handlers: {
+            conflict: {
+              message:
+                'No fue posible eliminar los insumos seleccionados. Verifica que no tengan stock disponible antes de intentar eliminarlos',
+            },
+          },
         });
       },
 

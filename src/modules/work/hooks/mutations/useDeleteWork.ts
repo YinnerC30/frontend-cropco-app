@@ -22,8 +22,11 @@ export const useDeleteWork = (): UseMutationReturn<void, string> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {
-          conflict: 'El registro tiene pagos realizados',
+        handlers: {
+          conflict: {
+            message:
+              'No se pudo eliminar el trabajo seleccionado, revisa que no tenga registros pagos',
+          },
         },
       });
     },

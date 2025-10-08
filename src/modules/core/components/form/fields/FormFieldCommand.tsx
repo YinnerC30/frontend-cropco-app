@@ -82,6 +82,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
       form.setValue(
         name,
         {
+          ...item,
           id: item?.id,
           [nameToShow]: item[nameToShow],
         },
@@ -129,6 +130,8 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                         ref={field.ref}
                         onBlur={field.onBlur}
                         disabled={readOnly}
+                        data-testid={`btn-open-command-${name}`}
+                        data-value={field.value}
                       >
                         <span
                           className={cn(
@@ -159,6 +162,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                   <CommandInput
                     placeholder={`Buscar ${nameEntity}...`}
                     className="h-9"
+                    data-testid={`${name}-command-input`}
                   />
                   <CommandList>
                     <ScrollArea className="w-auto h-56 p-1 pr-2">
@@ -166,7 +170,7 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                         nameEntity
                       )} no encontrado`}</CommandEmpty>
                       <CommandGroup>
-                        {data.map((item) => {
+                        {data.map((item, index) => {
                           return (
                             <CommandItem
                               disabled={item.disabled}
@@ -175,6 +179,8 @@ export const FormFieldCommand: React.FC<FormFieldCommandProps> = ({
                               onSelect={() => {
                                 handleOnSelectCommandItem(field, item);
                               }}
+                              // data-testid={`command-item-${item?.[nameToShow]}`}
+                              data-testid={`form-field-command-item-${index}`}
                             >
                               <div className="">{item?.[nameToShow]}</div>
                               <CheckIcon

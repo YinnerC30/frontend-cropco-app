@@ -47,7 +47,7 @@ export const WorkModuleActions = () => {
     <div className="flex justify-between">
       <ButtonRefetchData
         onClick={handleRefetchData}
-        disabled={!actionsWorksModule['find_all_works']}
+        disabled={!actionsWorksModule['find_all_works'] || queryWorks.isRefetching}
         className=""
       />
 

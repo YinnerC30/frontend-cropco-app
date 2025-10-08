@@ -5,6 +5,7 @@ import React from 'react';
 
 interface CreateColumnsProps<T> {
   hiddenActions?: boolean;
+  hiddenCheckbox?: boolean;
   columns: ColumnDef<T>[];
   actions: React.FC<{ row: Row<T> }>;
   readOnly?: boolean;
@@ -15,6 +16,7 @@ export const useCreateColumnsTable = <T>({
   columns: columnsTable,
   actions: actionsTable,
   hiddenActions = false,
+  hiddenCheckbox = false,
   customCheckbox,
 }: CreateColumnsProps<T>): ColumnDef<T>[] => {
   const { isSmallScreen } = useResponsiveWindow();
@@ -29,10 +31,12 @@ export const useCreateColumnsTable = <T>({
     return columns;
   }
 
-  if (!customCheckbox) {
-    columns.unshift(CheckboxTable as ColumnDef<T>);
-  } else {
-    columns.unshift(customCheckbox as ColumnDef<T>);
+  if (!hiddenCheckbox) {
+    if (!customCheckbox) {
+      columns.unshift(CheckboxTable as ColumnDef<T>);
+    } else {
+      columns.unshift(customCheckbox as ColumnDef<T>);
+    }
   }
 
   isSmallScreen ? columns.unshift(actions) : columns.push(actions);

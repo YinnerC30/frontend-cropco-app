@@ -26,8 +26,8 @@ import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 
 import { Label, Switch } from '@/components';
 import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
-import CropSelector from '@/modules/core/components/shared/CropSelector';
-import EmployeeSelector from '@/modules/core/components/shared/EmployeeSelector';
+import ChartCropSelector from '@/modules/core/components/shared/ChartCropSelector';
+import ChartEmployeeSelector from '@/modules/core/components/shared/ChartEmployeeSelector';
 import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
 import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 import { useGetAllCropsWithHarvest } from '@/modules/crops/hooks';
@@ -108,7 +108,7 @@ export function ChartTotalHarvestsInYear() {
   );
 
   return queryHarvests.isSuccess ? (
-    <Card className="w-auto lg:w-[650px] ">
+    <Card className="w-11/12 lg:w-2/4">
       <CardHeader>
         <CardTitle>Total de las cosechas por año</CardTitle>
         <CardDescription>
@@ -119,42 +119,43 @@ export function ChartTotalHarvestsInYear() {
       <CardContent>
         <div className="space-y-4"></div>
         <div>
-          <div className="inline-flex items-center px-4 py-2 my-4 space-x-2 border rounded-sm">
-            <Switch
-              defaultChecked={showPreviousYear}
-              onCheckedChange={(value) => {
-                setShowPreviousYear(value);
-              }}
-              id="show-previous-year"
-            />
-            <Label htmlFor="show-previous-year">
-              Mostrar información del año anterior
-            </Label>
-          </div>
-
-          <div className="flex flex-wrap justify-between gap-4 mb-5">
-            <CropSelector
-              selectedCrop={selectedCrop}
-              setSelectedCrop={setSelectedCrop}
-              query={queryCrops}
-            />
-            <EmployeeSelector
-              employeesIn="harvests"
-              selectedEmployee={selectedEmployee}
-              setSelectedEmployee={setSelectedEmployee}
-            />
-            <YearSelector
-              selectedYear={selectedYear}
-              setSelectedYear={setSelectedYear}
-              initialYear={2023}
-            />
+          <div className="flex items-center justify-between mb-4">
+            <div className="inline-flex items-center px-4 py-2 my-4 space-x-2 border rounded-sm">
+              <Switch
+                defaultChecked={showPreviousYear}
+                onCheckedChange={(value) => {
+                  setShowPreviousYear(value);
+                }}
+                id="show-previous-year"
+              />
+              <Label htmlFor="show-previous-year">
+                Mostrar información del año anterior
+              </Label>
+            </div>
             <ButtonRefetchData
               onClick={async () => {
                 await queryHarvests.refetch();
               }}
               disabled={queryHarvests.isLoading}
             />
-            <div className="flex items-center w-full gap-2 pb-2">
+          </div>
+
+          <div className="flex flex-wrap justify-between gap-4 mb-5">
+            <ChartCropSelector
+              selectedCrop={selectedCrop}
+              setSelectedCrop={setSelectedCrop}
+              query={queryCrops}
+            />
+
+            <ChartEmployeeSelector
+              employeesIn="harvests"
+              selectedEmployee={selectedEmployee}
+              setSelectedEmployee={setSelectedEmployee}
+            />
+          </div>
+
+          <div className="flex justify-between">
+            <div className="flex items-center gap-2 pb-2">
               <p className="text-sm font-medium text-muted-foreground">
                 Unidad de medida:
               </p>
@@ -166,6 +167,11 @@ export function ChartTotalHarvestsInYear() {
                 />
               </div>
             </div>
+            <YearSelector
+              selectedYear={selectedYear}
+              setSelectedYear={setSelectedYear}
+              initialYear={2023}
+            />
           </div>
           <ChartContainer config={chartConfig}>
             <AreaChart
@@ -203,7 +209,7 @@ export function ChartTotalHarvestsInYear() {
                           {chartConfig[name as keyof typeof chartConfig]
                             ?.label || name}
                           <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
-                            {value}
+                            {FormatNumber(value as number)}
 
                             <span className="font-normal text-muted-foreground">
                               {UnitSymbols[unitTypeToShowAmount]}
@@ -350,7 +356,7 @@ export function ChartTotalHarvestsInYear() {
 
 const ErrorCard = () => {
   return (
-    <Card className="w-auto lg:w-[650px] ">
+    <Card className="w-11/12 lg:w-2/4">
       <CardHeader>
         <CardTitle>Total de las cosechas por año</CardTitle>
         <CardDescription>

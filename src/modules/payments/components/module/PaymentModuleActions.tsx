@@ -39,7 +39,7 @@ export const PaymentModuleActions: React.FC = () => {
     <div className="flex justify-between">
       <ButtonRefetchData
         onClick={handleRefetchData}
-        disabled={!actionsPaymentsModule['find_all_payments']}
+        disabled={!actionsPaymentsModule['find_all_payments'] || queryPayments.isRefetching}
         className=""
       />
 

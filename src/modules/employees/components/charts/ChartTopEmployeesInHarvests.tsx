@@ -20,7 +20,7 @@ import { ButtonRefetchData } from '@/modules/core/components';
 import { ChartSkeleton } from '@/modules/core/components/charts/ChartSkeleton';
 import { SelectedMassUnitOfMeasure } from '@/modules/core/components/shared/SelectedMassUnitOfMeasure';
 import YearSelector from '@/modules/core/components/shared/YearSelector';
-import { FormatMoneyValue } from '@/modules/core/helpers';
+import { FormatMoneyValue, FormatNumber } from '@/modules/core/helpers';
 import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
 import {
   MassUnitOfMeasure,
@@ -77,7 +77,7 @@ export function ChartTopEmployeesInHarvests() {
   });
 
   return (
-    <Card className="w-auto lg:w-[650px] ">
+    <Card className="w-11/12 lg:w-2/4">
       <CardHeader>
         <CardTitle>Top 5 empleados de las cosechas</CardTitle>
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>
@@ -175,7 +175,7 @@ export function ChartTopEmployeesInHarvests() {
                             ?.label || name}
                           <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
                             {name === 'total_harvests_amount'
-                              ? Number(value)
+                              ? FormatNumber(value as number)
                               : FormatMoneyValue(Number(value))}
                             {name === 'total_harvests_amount' && (
                               <span className="font-normal text-muted-foreground">

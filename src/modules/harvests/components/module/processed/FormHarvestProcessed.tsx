@@ -1,13 +1,13 @@
 import {
   Button,
   Dialog,
-  DialogClose,
   DialogContent,
+  DialogCustomClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  Form,
+  Form
 } from '@/components';
 import {
   FormFieldCalendar,
@@ -18,12 +18,12 @@ import {
 } from '@/modules/core/components';
 import { useCreateForm } from '@/modules/core/hooks';
 import {
-  usePatchHarvestProcessed,
   usePostHarvestProcessed,
+  usePutHarvestProcessed,
 } from '@/modules/harvests/hooks';
 import { formFieldsHarvestProcessed } from '@/modules/harvests/utils/formFieldsHarvestProcessed';
 
-import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons';
+import { ReloadIcon } from '@radix-ui/react-icons';
 
 import { Plus } from 'lucide-react';
 import { memo, useEffect } from 'react';
@@ -31,13 +31,25 @@ import { memo, useEffect } from 'react';
 import { ConvertStringToDate } from '@/modules/core/helpers';
 import {
   MassUnitOfMeasure,
-  UnitsType
+  UnitsType,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { z } from 'zod';
 import { useHarvestProcessedContext } from './HarvestProcessedContext';
 
 const formSchemaHarvestProcessed = z.object({
   date: z.date({ required_error: 'La fecha es un campo obligatorio' }),
+  unit_of_measure: z.nativeEnum(MassUnitOfMeasure, {
+    errorMap: (issue, _ctx) => {
+      switch (issue.code) {
+        case 'invalid_type':
+          return { message: 'Debe seleccionar una unidad de medida.' };
+        case 'invalid_enum_value':
+          return { message: 'Debe seleccionar una unidad de medida válida.' };
+        default:
+          return { message: 'Error en la selección de unidad de medida.' };
+      }
+    },
+  }),
   amount: z.coerce
     .number({
       required_error: `El total es requerido`,
@@ -75,7 +87,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
   };
 
   const mutationPostHarvestProcessed = usePostHarvestProcessed();
-  const mutationPatchHarvestProcessed = usePatchHarvestProcessed();
+  const mutationPatchHarvestProcessed = usePutHarvestProcessed();
 
   const onSubmitHarvestProcessed = async () => {
     const result = await formProcessed.trigger();
@@ -110,7 +122,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
               amount: 0,
               id: undefined,
               unit_of_measure: undefined,
-            });
+            } as any);
 
             setOpenDialog(false);
           },
@@ -146,9 +158,10 @@ export const FormHarvestProcessed: React.FC = memo(() => {
           size="icon"
           onClick={handleOpenDialogExtended}
           disabled={
-            !actionsHarvestsModule['create_harvest_processed'] ||
-            data?.amount! <= data?.total_amount_processed!
+            !actionsHarvestsModule['create_harvest_processed']
+            /* || data?.amount! <= data?.total_amount_processed! */
           }
+          data-testid="btn-create-harvest-processed"
         >
           <Plus className="w-4 h-4" />
           <span className="sr-only">Crear nuevo registro</span>
@@ -163,13 +176,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
           onInteractOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
-          <DialogClose
-            onClick={handleCloseDialog}
-            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-          >
-            <Cross2Icon className="w-4 h-4" />
-            <span className="sr-only">Close</span>
-          </DialogClose>
+          <DialogCustomClose handleClose={handleCloseDialog} />
           <DialogHeader>
             <DialogTitle>Cosecha procesada</DialogTitle>
             <DialogDescription className="">
@@ -182,7 +189,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
             <Loading />
           ) : (
             <Form {...formProcessed}>
-              <form className="z-50 mx-5" id="myform">
+              <form className="z-50 mx-5" id="formHarvestProcessed">
                 <FormFieldCalendar
                   control={formProcessed.control}
                   description={formFieldsHarvestProcessed.date.description}
@@ -198,7 +205,7 @@ export const FormHarvestProcessed: React.FC = memo(() => {
                 />
 
                 <FormFieldSelect
-                  items={UnitsType[MassUnitOfMeasure.GRAMOS]}
+                  items={UnitsType.MASS}
                   control={formProcessed.control}
                   description={
                     formFieldsHarvestProcessed.unit_of_measure.description
@@ -232,11 +239,12 @@ export const FormHarvestProcessed: React.FC = memo(() => {
                 mutationPostHarvestProcessed.isPending ||
                 mutationPatchHarvestProcessed.isPending
               }
+              data-testid="form-processed-submit-button"
             >
-              {mutationPostHarvestProcessed.isPending ||
-                (mutationPatchHarvestProcessed.isPending && (
-                  <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
-                ))}
+              {(mutationPostHarvestProcessed.isPending ||
+                mutationPatchHarvestProcessed.isPending) && (
+                <ReloadIcon className="w-4 h-4 mr-2 animate-spin" />
+              )}
               Guardar
             </Button>
           </DialogFooter>

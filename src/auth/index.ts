@@ -16,4 +16,4 @@ export * from './utils/authenticationSlice';
 
 export * from './utils/formFieldsLogin';
 export * from './utils/formSchemaLogin';
-export * from './utils/manageUserInLocalStorage';
+export * from './utils/UserLocalStorageManager';

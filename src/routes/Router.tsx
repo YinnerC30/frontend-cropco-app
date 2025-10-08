@@ -20,11 +20,48 @@ import { HomeLayout } from '../components/home/HomeLayout';
 import { RoutesController } from './components';
 import { HomePage } from './HomePage';
 
+import { authenticationTenantRoutes } from '@/management/auth/routes/authenticationTenantRoutes';
+import { tenantRoutes } from '@/management/tenants/routes/tenantRoutes';
+import { RoutesManagementController } from './components/RoutesManagementController';
+import { HomeManagementLayout } from '@/management/auth/components/HomeManagementLayout';
+import AuthenticationTenantLayout from '@/management/auth/components/AuthenticationTenantLayout';
+import { HomeManagementPage } from '@/management/auth/components/HomeManagementPage';
+import { administratorRoutes } from '@/management/administrators/routes/administratorRoutes';
+
 export const Router = createBrowserRouter([
   {
     path: '/',
     element: <LandingPage />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: '/management',
+    element: <RoutesManagementController />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <Navigate to={'authentication/login'} /> },
+      {
+        path: 'authentication',
+        element: <AuthenticationTenantLayout />,
+        children: [
+          { index: true, element: <Navigate to={'login'} /> },
+          ...authenticationTenantRoutes,
+        ],
+      },
+      {
+        path: 'home',
+        element: <HomeManagementLayout />,
+        children: [
+          { index: true, element: <Navigate to={'page'} /> },
+          {
+            path: 'page',
+            element: <HomeManagementPage />,
+          },
+          tenantRoutes,
+          administratorRoutes,
+        ],
+      },
+    ],
   },
   {
     path: '/app',

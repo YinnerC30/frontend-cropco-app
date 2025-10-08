@@ -7,7 +7,7 @@ export const formFieldsShopping: Record<FormFieldsShopping, CustomFormField> = {
     name: 'date',
     label: 'Fecha:',
     placeholder: 'Selecciona una fecha',
-    description: 'Fecha en la que se realizo la compra',
+    description: 'Fecha en la que se realizó la compra',
   },
   value_pay: {
     name: 'value_pay',

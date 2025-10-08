@@ -1,19 +1,65 @@
 import { useFormSupplyContext } from '../../hooks';
 
 import { Form } from '@/components';
+import { FormFieldInput, FormFieldTextArea } from '@/modules/core/components';
 import {
-  FormFieldInput,
-  FormFieldSelect,
-  FormFieldTextArea,
-} from '@/modules/core/components';
-import {
-  MassUnitOfMeasure,
-  VolumeUnitOfMeasure,
-} from '../../interfaces/UnitOfMeasure';
+  FormFieldSelectWithGroups,
+  SelectElement,
+} from '@/modules/core/components/form/fields/FormFieldSelectWithGroups';
+import { unitTypeMap } from '@/modules/core/hooks/useUnitConverter';
+import { UnitOfMeasure, UnitsType } from '../../interfaces/UnitOfMeasure';
 import { formFieldsSupply } from '../../utils';
 
 export const FormSupplyFields = () => {
-  const { form, onSubmit, readOnly } = useFormSupplyContext();
+  const { form, onSubmit, readOnly, statusForm } = useFormSupplyContext();
+
+  const getElementsToSelectUnitOfMeasure = () => {
+    // TODO: Refactorizar para mayor eficiencia
+    if (statusForm !== 'update') {
+      return [
+        {
+          groupName: 'Masa',
+          elements: UnitsType.MASS,
+        },
+        {
+          groupName: 'Volumen',
+          elements: UnitsType.VOLUME,
+        },
+        {
+          groupName: 'Longitud',
+          elements: UnitsType.LENGTH,
+        },
+      ];
+    }
+    const prevUnitOfMeasure = form.getValues('unit_of_measure');
+    let elementsToShow: SelectElement[] = [];
+    let groupNameToShow = '';
+    let groupUnitOfMeasure = unitTypeMap[prevUnitOfMeasure as UnitOfMeasure];
+    switch (groupUnitOfMeasure) {
+      case 'MASS':
+        elementsToShow = UnitsType.MASS;
+        groupNameToShow = 'Masa';
+        break;
+      case 'VOLUME':
+        elementsToShow = UnitsType.VOLUME;
+        groupNameToShow = 'Volumen';
+        break;
+      case 'LENGTH':
+        elementsToShow = UnitsType.LENGTH;
+        groupNameToShow = 'Longitud';
+        break;
+
+      default:
+        break;
+    }
+
+    return [
+      {
+        groupName: groupNameToShow,
+        elements: elementsToShow,
+      },
+    ];
+  };
 
   return (
     <Form {...form}>
@@ -23,6 +69,7 @@ export const FormSupplyFields = () => {
         className="flex flex-col gap-2 ml-1"
       >
         <FormFieldInput
+          autoFocus
           control={form.control}
           description={formFieldsSupply.name.description}
           label={formFieldsSupply.name.label}
@@ -38,19 +85,8 @@ export const FormSupplyFields = () => {
           placeholder={formFieldsSupply.brand.placeholder}
           disabled={readOnly}
         />
-        <FormFieldSelect
-          items={[
-            {
-              key: MassUnitOfMeasure.GRAMOS,
-              value: MassUnitOfMeasure.GRAMOS,
-              label: 'Gramos',
-            },
-            {
-              key: VolumeUnitOfMeasure.MILILITROS,
-              value: VolumeUnitOfMeasure.MILILITROS,
-              label: 'Mililitros',
-            },
-          ]}
+        <FormFieldSelectWithGroups
+          groups={getElementsToSelectUnitOfMeasure()}
           control={form.control}
           description={formFieldsSupply.unit_of_measure.description}
           label={formFieldsSupply.unit_of_measure.label}

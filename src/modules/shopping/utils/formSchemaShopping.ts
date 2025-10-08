@@ -17,6 +17,6 @@ export const formSchemaShopping = z.object({
         'Debes registrar las compras que se han hecho a los proveedores',
     })
     .nonempty({
-      message: 'Debes registrar la compra de al menos a  1 proveedor',
+      message: 'Debes registrar la compra de al menos 1 proveedor',
     }),
 });

@@ -41,11 +41,11 @@ export const ActionsTableConsumptionDetail: React.FC<{
     handleOpenDialog();
   };
 
-  const { deletedDate } = row.original;
-  const isDisabled = deletedDate !== null;
+  const { supply, crop } = row.original;
+  const isDisabled = supply.deletedDate !== null || crop.deletedDate !== null;
 
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={consumptionDetail.id!}>
       <ActionCopyIdRecord id={consumptionDetail.id!} />
       <ActionDeleteRecord
         action={() => {

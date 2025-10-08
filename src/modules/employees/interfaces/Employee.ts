@@ -1,5 +1,6 @@
 import { LogicDeleteRecordProps } from '@/modules/core/interfaces/general/LogicDeleteRecordProps';
 import { HarvestDetail } from '@/modules/harvests/interfaces';
+import { Payment } from '@/modules/payments/interfaces/Payment';
 import { WorkDetail } from '@/modules/work/interfaces/WorkDetail';
 
 export interface Employee extends LogicDeleteRecordProps {
@@ -12,4 +13,5 @@ export interface Employee extends LogicDeleteRecordProps {
   address: string;
   harvests_detail?: HarvestDetail[];
   works_detail?: WorkDetail[];
+  payments?: Payment[];
 }

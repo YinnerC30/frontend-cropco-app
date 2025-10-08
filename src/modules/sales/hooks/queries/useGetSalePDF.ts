@@ -20,8 +20,6 @@ export const getSalePDF = async (id: string): PromiseReturnRecord<Blob> => {
   );
 };
 
-
-
 interface Props {
   saleId: string;
   stateQuery: boolean;
@@ -51,7 +49,7 @@ export const useGetSalePDF = ({
 
       return fetchCertification;
     },
-    
+
     select: ({ data }) => data,
     enabled: stateQuery && isAuthorized,
     retry: false,
@@ -66,7 +64,7 @@ export const useGetSalePDF = ({
           viewPDF(query.data);
           break;
         case 'DownloadPDF':
-          downloadPDF(query.data, `sale-document-${saleId}`);
+          downloadPDF(query.data, `reporte-venta-${saleId}`);
           break;
         default:
           break;
@@ -79,10 +77,7 @@ export const useGetSalePDF = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          notFound: 'El documento solicitado no fue encontrado',
-          unauthorized: 'No tienes permiso para obtener el documento',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

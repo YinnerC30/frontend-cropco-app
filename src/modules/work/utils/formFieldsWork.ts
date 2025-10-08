@@ -7,13 +7,13 @@ export const formFieldsWork: Record<FormFieldsWork, CustomFormField> = {
     name: "date",
     label: "Fecha:",
     placeholder: "Selecciona una fecha",
-    description: "Fecha en la que se realizo la venta",
+    description: "Fecha en la que se realizó el trabajo",
   },
   description: {
     name: "description",
     label: "Descripción:",
-    placeholder: "Se realizo limpieza, fumigación...",
-    description: "Alguna descripción sobre el trabajo realizado",
+    placeholder: "Se realizó limpieza, fumigación...",
+    description: "Descripción del trabajo realizado",
   },
   crop: {
     name: "crop",
@@ -29,7 +29,7 @@ export const formFieldsWork: Record<FormFieldsWork, CustomFormField> = {
   },
   details: {
     name: "details",
-    label: "Trabajo realizado por empleado:",
+    label: "Trabajo realizado por el empleado:",
     placeholder: "",
     description: "",
   },

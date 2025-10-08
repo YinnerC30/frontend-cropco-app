@@ -1,10 +1,11 @@
 import { BreadCrumb } from '@/modules/core/components';
 import React from 'react';
 import { z } from 'zod';
-import { usePostUser } from '../hooks';
+
 import { MODULE_USER_PATHS } from '../routes/pathsRoutes';
 import { formSchemaUserWithPassword, formSchemaUser } from '../utils';
 import { FormUser } from './form';
+import { usePostUser } from '@/modules/users/hooks';
 
 export const CreateUser: React.FC = () => {
   const { mutate, isPending } = usePostUser();

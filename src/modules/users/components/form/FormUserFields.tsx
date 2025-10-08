@@ -1,4 +1,4 @@
-import { useFormUserContext } from '../../hooks';
+import { useFormUserContext } from '@/modules/users/hooks';
 
 import {
   Button,
@@ -72,7 +72,7 @@ export const FormUserFields: React.FC = () => {
           />
 
           {!hiddenPassword && (
-            <>
+            <div>
               <FormField
                 control={form.control}
                 name={'passwords.password1'}
@@ -88,7 +88,10 @@ export const FormUserFields: React.FC = () => {
                           readOnly={readOnly}
                         />
                       </FormControl>
-                      <Button onClick={togglePasswordVisibility}>
+                      <Button
+                        onClick={togglePasswordVisibility}
+                        data-testid="btn-toggle-pass-1"
+                      >
                         {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                       </Button>
                     </div>
@@ -114,7 +117,10 @@ export const FormUserFields: React.FC = () => {
                           readOnly={readOnly}
                         />
                       </FormControl>
-                      <Button onClick={togglePasswordVisibility}>
+                      <Button
+                        onClick={togglePasswordVisibility}
+                        data-testid="btn-toggle-pass-2"
+                      >
                         {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                       </Button>
                     </div>
@@ -125,7 +131,7 @@ export const FormUserFields: React.FC = () => {
                   </FormItem>
                 )}
               />
-            </>
+            </div>
           )}
         </form>
       </Form>

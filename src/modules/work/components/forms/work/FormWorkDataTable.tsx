@@ -65,7 +65,7 @@ export const FormWorkDataTable: React.FC = () => {
         <FormDataTableFilter
           placeholder={'Buscar por nombre de empleado...'}
           nameColumnFilter={'employee_full_name'}
-          className="w-[280px] ml-10 self-start sm:self-center sm:m-0"
+          className="w-[280px] lg:ml-10 self-start sm:self-center sm:m-0"
         />
 
         {/* Botones */}

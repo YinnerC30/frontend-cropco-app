@@ -7,6 +7,7 @@ import {
   UnitSymbols,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { Badge } from '@/components';
+import { FormatNumber } from '@/modules/core/helpers';
 
 export const CellHarvestAmount = ({ row }: { row: Row<Harvest> }) => {
   const { unitTypeToShowAmount } = useHarvestModuleContext();
@@ -24,8 +25,10 @@ export const CellHarvestAmount = ({ row }: { row: Row<Harvest> }) => {
 
   return (
     <div className="flex items-center gap-2">
-      <span>{convertedValue}</span>
-      <Badge>{symbolToShow}</Badge>
+      <span data-testid="span-amount">{FormatNumber(convertedValue)}</span>
+      <Badge data-testid="badge-unit-of-measure" variant={'zinc'}>
+        {symbolToShow}
+      </Badge>
     </div>
   );
 };

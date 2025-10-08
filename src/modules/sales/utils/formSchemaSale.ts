@@ -20,6 +20,6 @@ export const formSchemaSale = z.object({
         'Debes registrar las ventas que se han hecho a los clientes',
     })
     .nonempty({
-      message: 'Debes registrar la venta de al menos a 1 cliente',
+      message: 'Debes registrar la venta de al menos 1 cliente',
     }),
 });

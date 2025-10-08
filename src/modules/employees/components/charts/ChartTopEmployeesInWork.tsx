@@ -53,7 +53,7 @@ export function ChartTopEmployeesInWorks() {
     : [];
 
   return (
-    <Card className="w-auto lg:w-[650px] ">
+    <Card className="w-11/12 lg:w-2/4">
       <CardHeader>
         <CardTitle>Top 5 empleados de los trabajos</CardTitle>
         <CardDescription>Enero - Diciembre {selectedYear}</CardDescription>

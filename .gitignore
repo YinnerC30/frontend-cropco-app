@@ -23,3 +23,16 @@ dist-ssr
 *.sw?
 
 .env
+
+# Testing
+coverage/
+*.lcov
+.nyc_output
+
+# Test results
+junit.xml
+test-results/
+test-results.xml
+
+# Cypress
+cypress/downloads/

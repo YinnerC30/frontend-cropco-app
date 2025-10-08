@@ -28,7 +28,7 @@ export const usePostSupply = (): UseMutationReturn<Supply, Supply> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

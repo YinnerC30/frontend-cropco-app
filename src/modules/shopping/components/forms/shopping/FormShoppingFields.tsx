@@ -5,10 +5,10 @@ import {
   FormFieldInput,
 } from '@/modules/core/components';
 
+import { FormatMoneyValue } from '@/modules/core/helpers';
 import { useFormShoppingContext } from '@/modules/shopping/hooks/context/useFormShoppingContext';
 import { formFieldsShopping } from '@/modules/shopping/utils';
 import { FormShoppingDataTable } from './FormShoppingDataTable';
-import { FormatMoneyValue } from '@/modules/core/helpers';
 
 export const FormShoppingFields: React.FC = () => {
   const { formShopping, onSubmit, readOnly, value_pay } = useFormShoppingContext();
@@ -53,7 +53,8 @@ export const FormShoppingFields: React.FC = () => {
         >
           <Badge
             className="block h-8 text-base text-center w-28"
-            variant={'cyan'}
+            variant={'emerald'}
+            data-testid="badge-value-pay"
           >
             {FormatMoneyValue(value_pay)}
           </Badge>

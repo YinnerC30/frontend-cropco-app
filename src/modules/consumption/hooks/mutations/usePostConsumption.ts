@@ -25,22 +25,24 @@ export const usePostConsumption = (): UseMutationReturn<
   const queryClient = useQueryClient();
   const { handleError } = useAuthContext();
   const navigate = useNavigate();
-  const { markChanges } = useFormChange()
+  const { markChanges } = useFormChange();
   const mutation: UseMutationReturn<ConsumptionSupplies, ConsumptionSupplies> =
     useMutation({
       mutationFn: createConsumption,
       onSuccess: async () => {
-        markChanges(true)
+        markChanges(true);
         await queryClient.invalidateQueries({ queryKey: ['consumptions'] });
-        await queryClient.invalidateQueries({ queryKey: ['supplies-with-stock'] });
+        await queryClient.invalidateQueries({
+          queryKey: ['supplies-with-stock'],
+        });
         await queryClient.invalidateQueries({ queryKey: ['supplies'] });
         navigate(MODULE_CONSUMPTION_PATHS.ViewAll);
-        toast.success(`Consumo de insumo registrado`);
+        toast.success(`Consumo de insumos registrado`);
       },
       onError: (error) => {
         handleError({
           error,
-          messagesStatusError: {},
+          handlers: {},
         });
       },
       retry: false,

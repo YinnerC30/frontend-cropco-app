@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Hero Component > should match snapshot 1`] = `
+<section
+  class="py-20 bg-primary/60 dark:bg-black-200"
+>
+  <div
+    class="container px-4 mx-auto text-center"
+  >
+    <h1
+      class="mb-6 text-4xl font-bold md:text-5xl text-slate-900"
+    >
+      Administra tus cultivos con CropCo
+    </h1>
+    <p
+      class="mb-8 text-xl text-gray-600"
+    >
+      La solución integral para gestionar la información de tus cultivos agrícolas de manera eficiente y efectiva.
+    </p>
+  </div>
+</section>
+`;

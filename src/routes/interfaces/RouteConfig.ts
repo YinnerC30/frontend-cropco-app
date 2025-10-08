@@ -3,4 +3,5 @@ export interface RouteConfig {
   action: string;
   element: JSX.Element;
   viewComponent?: boolean;
+  label: string;
 }

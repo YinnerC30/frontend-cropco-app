@@ -19,7 +19,7 @@ export const formFieldsSearchBarPayment: Record<
     name: 'employee',
     label: 'Filtrar por empleado:',
     placeholder: 'Selecciona un empleado',
-    description: 'Nombre del empleado al cual se le realizo el pago',
+    description: 'Nombre del empleado al cual se le realizó el pago',
   },
 
   filter_by_date: {
@@ -61,14 +61,14 @@ export const formFieldsSearchBarPayment: Record<
 
   filter_by_method_of_payment: {
     name: 'filter_by_method_of_payment',
-    label: 'Filtrar por value_pay pagos pendiente:',
+    label: 'Filtrar por pagos pendientes:',
     placeholder: '',
     description: 'Activa la opción para filtrar por este modo',
   },
   method_of_payment: {
     name: 'method_of_payment',
-    label: 'Metodo de pago:',
+    label: 'Método de pago:',
     placeholder: 'Selecciona una opción',
-    description: 'Filtrar registros por  metodo de pago',
+    description: 'Filtrar registros por método de pago',
   },
 };

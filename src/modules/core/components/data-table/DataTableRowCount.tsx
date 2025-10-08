@@ -5,7 +5,8 @@ export const DataTableRowCount = memo(() => {
   const { rowCount } = useDataTableContext();
   return (
     <p className="text-sm font-medium text-muted-foreground">
-      Total: {rowCount}
+      {'Total: '}
+      <span data-testid='data-table-row-total'>{rowCount}</span>
     </p>
   );
 });

@@ -62,10 +62,10 @@ export const useGetWorkPDF = ({
     if (query.isSuccess) {
       switch (actionPDF) {
         case 'ViewPDF':
-          viewPDF(query.data, `work-report-${workId}`);
+          viewPDF(query.data, `reporte-trabajo-${workId}`);
           break;
         case 'DownloadPDF':
-          downloadPDF(query.data, `work-document-${workId}`);
+          downloadPDF(query.data, `reporte-trabajo-${workId}`);
           break;
         default:
           break;
@@ -78,10 +78,7 @@ export const useGetWorkPDF = ({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          notFound: 'El documento solicitado no fue encontrado',
-          unauthorized: 'No tienes permiso para obtener el documento',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

@@ -18,6 +18,7 @@ import { useToastDiscardChanges } from '@/modules/core/hooks/useToastDiscardChan
 import { Route, routes } from '@/routes/components/RoutesNavBar';
 
 import { useAuthContext } from '@/auth';
+import { useLogoutUser } from '@/auth/hooks/mutations/useLogoutUser';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useHome } from '../hooks/useHome';
 import { Button } from '../ui/button';
@@ -40,6 +41,7 @@ export function AppSidebar() {
   const { showToast } = useToastDiscardChanges();
 
   const { removeUser } = useAuthContext();
+  const mutationLogoutUser = useLogoutUser();
 
   const { setTheme } = useTheme();
 
@@ -61,6 +63,11 @@ export function AppSidebar() {
     }
   };
 
+  const handleLogout = () => {
+    removeUser();
+    mutationLogoutUser.mutate();
+  };
+
   return (
     <Sidebar collapsible="offcanvas">
       <SidebarHeader>
@@ -76,16 +83,20 @@ export function AppSidebar() {
               {routes.map((route: Route) => {
                 if (nameModulesUser.includes(route.name_module)) {
                   return (
-                    <SidebarMenuItem key={route.path} className='hover:cursor-pointer'>
+                    <SidebarMenuItem
+                      key={route.path}
+                      className="hover:cursor-pointer"
+                    >
                       <SidebarMenuButton
                         onClick={(e) => handleClick(e, route.path)}
                         isActive={url.pathname.includes(route.name_module)}
+                        data-testid={'btn-module-' + route.name_module}
                         asChild
                       >
-                        <div>
+                        <button data-test-id={'btn-module-' + route.name_module}>
                           {route.Icon}
                           <span>{route.label}</span>
-                        </div>
+                        </button>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   );
@@ -100,7 +111,11 @@ export function AppSidebar() {
           <DropdownMenu>
             {/* <SidebarMenuButton> */}
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon">
+              <Button
+                variant="outline"
+                size="icon"
+                data-testid="btn-change-theme-app"
+              >
                 <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 <span className="sr-only">Tema</span>
@@ -108,19 +123,28 @@ export function AppSidebar() {
             </DropdownMenuTrigger>
             {/* </SidebarMenuButton> */}
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => setTheme('light')}>
+              <DropdownMenuItem
+                data-testid="btn-light-theme"
+                onClick={() => setTheme('light')}
+              >
                 Claro
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme('dark')}>
+              <DropdownMenuItem
+                data-testid="btn-dark-theme"
+                onClick={() => setTheme('dark')}
+              >
                 Oscuro
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme('system')}>
+              <DropdownMenuItem
+                data-testid="btn-system-theme"
+                onClick={() => setTheme('system')}
+              >
                 Sistema
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <SidebarMenuButton onClick={() => removeUser()}>
+        <SidebarMenuButton onClick={handleLogout} data-testid="btn-logout-user">
           <LogOut /> Salir
         </SidebarMenuButton>
       </SidebarFooter>

@@ -38,14 +38,13 @@ export const useCreateForm = ({
       skipDirty === false &&
       !hasCustomErrors
     ) {
-      console.log(form.watch())
       toast.error('Faltan campos por rellenar en el formulario');
     }
   }, [errors]);
 
   useEffect(() => {
     if (skipDirty === false) {
-      isDirty ? markChanges(true) : null;
+      isDirty ? markChanges(true) : markChanges(false);
     }
     return () => {
       markChanges(false);

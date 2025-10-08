@@ -49,7 +49,7 @@ export const usePostPayment = (): UseMutationReturn<void, Payment> => {
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
     retry: false,

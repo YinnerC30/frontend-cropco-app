@@ -35,7 +35,9 @@ function Calendar({
   showOutsideDays = true,
   ...props
 }: CalendarProps) {
-  const [currentMonth, setCurrentMonth] = React.useState(new Date());
+  const [currentMonth, setCurrentMonth] = React.useState(
+    props.selected as Date
+  );
 
   // Generamos los años una sola vez cuando se monta el componente
   const years = React.useMemo(() => {
@@ -67,12 +69,19 @@ function Calendar({
       value={displayMonth.getMonth().toString()}
       onValueChange={handleMonthChange}
     >
-      <SelectTrigger className="w-[120px] h-8">
+      <SelectTrigger
+        className="w-[120px] h-8"
+        data-testid="btn-month-calendar-selector"
+      >
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
         {months.map((month, index) => (
-          <SelectItem key={index} value={index.toString()}>
+          <SelectItem
+            key={index}
+            value={index.toString()}
+            data-testid={`item-month-${index}`}
+          >
             {month}
           </SelectItem>
         ))}
@@ -84,13 +93,21 @@ function Calendar({
     <Select
       value={displayMonth.getFullYear().toString()}
       onValueChange={handleYearChange}
+      // open={true}
     >
-      <SelectTrigger className="w-[80px] h-8">
+      <SelectTrigger
+        className="w-[80px] h-8"
+        data-testid="btn-year-calendar-selector"
+      >
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
         {years.map((year) => (
-          <SelectItem key={year} value={year.toString()}>
+          <SelectItem
+            key={year}
+            value={year.toString()}
+            data-testid={`item-year-${year}`}
+          >
             {year}
           </SelectItem>
         ))}

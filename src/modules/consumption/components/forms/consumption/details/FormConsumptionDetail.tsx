@@ -1,15 +1,14 @@
-import { Cross2Icon } from '@radix-ui/react-icons';
 
 import { Button } from '@/components/ui/button';
 
 import {
   Dialog,
-  DialogClose,
   DialogContent,
+  DialogCustomClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from '@/components/ui/dialog';
 
 import { toast } from 'sonner';
@@ -21,6 +20,7 @@ import { Plus } from 'lucide-react';
 
 import { useFormConsumptionContext } from '@/modules/consumption/hooks/context/useFormConsumptionContext';
 
+import { ScrollArea } from '@/components';
 import { formSchemaConsumptionDetail } from '@/modules/consumption/utils';
 import { z } from 'zod';
 import { FormConsumptionDetailsFields } from './FormConsumptionDetailsFields';
@@ -39,6 +39,7 @@ export const FormConsumptionDetail: React.FC = () => {
     formConsumptionDetail,
     validateAvailableStock,
     removeSupplyStock,
+    isSubmittingConsumptionDetail,
   } = useFormConsumptionContext();
 
   const onSubmitConsumptionDetail = (
@@ -57,6 +58,8 @@ export const FormConsumptionDetail: React.FC = () => {
       const record = {
         ...values,
         deletedDate: null,
+        supply: { ...values.supply, deletedDate: null },
+        crop: { ...values.crop, deletedDate: null },
         id: generateUUID(),
       };
       removeSupplyStock({
@@ -69,7 +72,13 @@ export const FormConsumptionDetail: React.FC = () => {
       addConsumptionDetail(record);
       toast.success('Registro añadido');
     } else {
-      const record = { ...values, id: consumptionDetail.id, deletedDate: null };
+      const record = {
+        ...values,
+        id: consumptionDetail.id,
+        deletedDate: null,
+        supply: { ...values.supply, deletedDate: null },
+        crop: { ...values.crop, deletedDate: null },
+      };
       removeSupplyStock({
         id: values.supply.id,
         name: values.supply?.name!,
@@ -102,6 +111,7 @@ export const FormConsumptionDetail: React.FC = () => {
           size="icon"
           onClick={handleOpenDialogExtended}
           disabled={readOnly}
+          data-testid="btn-open-consumption-detail-form"
         >
           <Plus className="w-4 h-4" />
           <span className="sr-only">Crear nuevo registro</span>
@@ -109,19 +119,13 @@ export const FormConsumptionDetail: React.FC = () => {
       </ToolTipTemplate>
       <Dialog open={openDialog} modal={false}>
         <DialogContent
-          className="sm:max-w-[525px]"
+          className="sm:max-w-[425px] h-[85vh] overflow-hidden max-w-[95vw]"
           onClick={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
           onInteractOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
-          <DialogClose
-            onClick={handleCloseDialog}
-            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none hover:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-          >
-            <Cross2Icon className="w-4 h-4" />
-            <span className="sr-only">Close</span>
-          </DialogClose>
+          <DialogCustomClose handleClose={handleCloseDialog} />
           <DialogHeader>
             <DialogTitle>Consumo de sumistro</DialogTitle>
             <DialogDescription className="">
@@ -129,7 +133,9 @@ export const FormConsumptionDetail: React.FC = () => {
             </DialogDescription>
           </DialogHeader>
 
-          <FormConsumptionDetailsFields />
+          <ScrollArea className="h-[60vh] w-full py-2">
+            <FormConsumptionDetailsFields />
+          </ScrollArea>
 
           <DialogFooter>
             <Button
@@ -137,6 +143,8 @@ export const FormConsumptionDetail: React.FC = () => {
               onClick={formConsumptionDetail.handleSubmit(
                 onSubmitConsumptionDetail
               )}
+              data-testid="form-detail-submit-button"
+              disabled={isSubmittingConsumptionDetail}
             >
               Guardar
             </Button>

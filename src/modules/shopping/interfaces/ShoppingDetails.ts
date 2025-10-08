@@ -1,6 +1,7 @@
 import { LogicDeleteRecordProps } from '@/modules/core/interfaces/general/LogicDeleteRecordProps';
 import { ObjectWithId } from '@/modules/core/interfaces/general/ObjectWithId';
 import { UnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
+import { ShoppingSupplies } from './ShoppingSupplies';
 
 export interface ShoppingDetail extends LogicDeleteRecordProps {
   id?: string;
@@ -9,4 +10,5 @@ export interface ShoppingDetail extends LogicDeleteRecordProps {
   supplier: ObjectWithId;
   amount: number;
   value_pay: number;
+  shopping?: ShoppingSupplies;
 }

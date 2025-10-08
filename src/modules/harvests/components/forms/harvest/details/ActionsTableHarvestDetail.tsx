@@ -31,11 +31,11 @@ export const ActionsTableHarvestDetail: React.FC<Props> = ({ row }) => {
     handleOpenDialog();
   };
 
-  const { deletedDate, payment_is_pending } = row.original;
+  const { deletedDate, payment_is_pending, id } = row.original;
   const isDisabled = deletedDate !== null || payment_is_pending === false;
 
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={id}>
       <ActionCopyIdRecord id={harvestDetail?.id!} />
       <ActionDeleteRecord
         action={() => {

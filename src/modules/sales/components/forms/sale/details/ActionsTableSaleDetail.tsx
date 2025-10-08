@@ -46,11 +46,11 @@ export const ActionsTableSaleDetail: React.FC<{ row: Row<SaleDetail> }> = ({
     toggleStatusPayment(saleDetail.id!);
   };
 
-  const { deletedDate } = row.original;
-  const isDisabled = deletedDate !== null;
+  const { crop, client, id } = row.original;
+  const isDisabled = crop.deletedDate !== null || client.deletedDate !== null;
 
   return (
-    <DropDownMenuActions>
+    <DropDownMenuActions idRecord={id}>
       <ActionCopyIdRecord id={saleDetail?.id!} />
       <ActionDeleteRecord
         action={() => {

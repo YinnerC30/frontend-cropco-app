@@ -37,7 +37,7 @@ export const useGetEmployeePendingPayments = (
 
   useEffect(() => {
     if (query.isSuccess) {
-      toast.success('Información del empleado obtenida con éxito');
+      toast.success('La información del empleado se obtuvo correctamente');
     }
   }, [query.isSuccess]);
 
@@ -53,7 +53,7 @@ export const useGetEmployeePendingPayments = (
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {},
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

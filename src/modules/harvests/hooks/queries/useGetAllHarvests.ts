@@ -105,7 +105,7 @@ export const useGetAllHarvests = (
 
   useEffect(() => {
     if (!isAuthorized) {
-      toast.error('No tienes permiso para ver el listado de usuarios 😑');
+      toast.error('No tienes permiso para ver el listado de usuarios ');
     }
   }, [isAuthorized]);
 
@@ -113,7 +113,7 @@ export const useGetAllHarvests = (
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {},
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

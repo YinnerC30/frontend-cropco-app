@@ -30,7 +30,7 @@ import { Client } from '@/modules/clients/interfaces/Client';
 import { Crop } from '@/modules/crops/interfaces/Crop';
 import { MassUnitOfMeasure } from '@/modules/supplies/interfaces/UnitOfMeasure';
 
-export interface paramQuerySale {
+export interface ParamQuerySale {
   clients: { id: string }[];
   crops: { id: string }[];
   filter_by_date: {
@@ -49,7 +49,7 @@ export interface paramQuerySale {
 }
 
 export interface SalesModuleContextValues {
-  paramsQuery: paramQuerySale;
+  paramsQuery: ParamQuerySale;
   querySales: UseQueryGetAllRecordsReturn<Sale>;
   dataTable: DataTableManualReturn<Sale>;
   mutationDeleteSales: UseMutationReturn<void, BulkRecords>;
@@ -193,7 +193,7 @@ export const SalesModuleProvider: React.FC<{
     paramsQuery: {
       // ...paramsValues,
       filter_by_date: {
-        type_filter_date: paramsValues.type_filter_date || TypeFilterDate.after,
+        type_filter_date: paramsValues.type_filter_date || TypeFilterDate.AFTER,
         date: !paramsValues.date ? undefined : new Date(paramsValues.date),
       },
       filter_by_value_pay: {

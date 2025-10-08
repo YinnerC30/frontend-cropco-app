@@ -50,7 +50,7 @@ export function useGetAllUsers({
 
   useEffect(() => {
     if (!isAuthorized) {
-      toast.error('No tienes permiso para ver el listado de usuarios 😑');
+      toast.error('No tienes permiso para ver el listado de usuarios ');
     }
   }, [isAuthorized]);
 
@@ -58,10 +58,7 @@ export function useGetAllUsers({
     if (query.isError) {
       handleError({
         error: query.error,
-        messagesStatusError: {
-          badRequest: 'La solicitud contiene información incorrecta',
-          unauthorized: 'No tienes permiso para ver el listado de usuarios 😑',
-        },
+        handlers: {},
       });
     }
   }, [query.isError, query.error]);

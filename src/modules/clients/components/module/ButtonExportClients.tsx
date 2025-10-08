@@ -32,6 +32,7 @@ export const ButtonExportClients: React.FC<{ disabled: boolean }> = ({
         size={'icon'}
         onClick={handleClick}
         disabled={disabled}
+        data-testid="btn-export-all-clients"
       >
         <FileUp className="w-4 h-4" />
       </Button>

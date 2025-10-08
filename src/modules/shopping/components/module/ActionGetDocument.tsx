@@ -12,7 +12,9 @@ export const ActionGetDocument: React.FC<Props> = ({ id, disabled }: Props) => {
   const { setShoppingIdDocument, setExecuteQuery } = useShoppingModuleContext();
   const { toggleOpen } = useDataTableMenuActionsContext();
 
-  const handleDocumentShopping = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDocumentShopping = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     setShoppingIdDocument(id);
     toggleOpen(false);
     setExecuteQuery(true);
@@ -20,7 +22,11 @@ export const ActionGetDocument: React.FC<Props> = ({ id, disabled }: Props) => {
   };
   return (
     <DropdownMenuItem asChild disabled={disabled}>
-      <Button variant={'ghost'} onClick={handleDocumentShopping}>
+      <Button
+        variant={'ghost'}
+        onClick={handleDocumentShopping}
+        data-testid="btn-download-pdf"
+      >
         <Download className="w-4 h-4 mr-1" /> Descargar PDF
       </Button>
     </DropdownMenuItem>

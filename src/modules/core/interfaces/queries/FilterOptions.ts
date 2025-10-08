@@ -3,8 +3,8 @@ import { TypeFilterNumber } from '../general/TypeFilterNumber';
 
 export const numberFilterOptions = [
   {
-    key: TypeFilterNumber.MIN,
-    value: TypeFilterNumber.MIN,
+    key: TypeFilterNumber.LESS_THAN,
+    value: TypeFilterNumber.LESS_THAN,
     label: 'Menor a',
   },
   {
@@ -13,26 +13,26 @@ export const numberFilterOptions = [
     label: 'Igual a',
   },
   {
-    key: TypeFilterNumber.MAX,
-    value: TypeFilterNumber.MAX,
+    key: TypeFilterNumber.GREATER_THAN,
+    value: TypeFilterNumber.GREATER_THAN,
     label: 'Mayor a',
   },
 ];
 
 export const dateFilterOptions = [
   {
-    key: TypeFilterDate.equal,
-    value: TypeFilterDate.equal,
+    key: TypeFilterDate.EQUAL,
+    value: TypeFilterDate.EQUAL,
     label: 'El día',
   },
   {
-    key: TypeFilterDate.after,
-    value: TypeFilterDate.after,
-    label: 'Despues del',
+    key: TypeFilterDate.AFTER,
+    value: TypeFilterDate.AFTER,
+    label: 'Después del',
   },
   {
-    key: TypeFilterDate.before,
-    value: TypeFilterDate.before,
+    key: TypeFilterDate.BEFORE,
+    value: TypeFilterDate.BEFORE,
     label: 'Antes del',
   },
 ];

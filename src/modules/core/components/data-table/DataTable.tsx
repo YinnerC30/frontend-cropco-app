@@ -6,18 +6,26 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { flexRender } from '@tanstack/react-table';
+import { flexRender, Row } from '@tanstack/react-table';
 import { useNavigate } from 'react-router-dom';
 
 import { ScrollArea, ScrollBar } from '@/components';
-import { memo } from 'react';
+import { useActiveDialog } from '@/hooks/useActiveDialog';
 import { Loading } from '../shared/Loading';
 import { useDataTableContext } from './DataTableContext';
 
-export const DataTable = memo(() => {
+export const DataTable = () => {
   const { table, disabledDoubleClick, errorMessage, lengthColumns, isLoading } =
     useDataTableContext();
   const navigate = useNavigate();
+
+  const { isActiveDialog } = useActiveDialog();
+
+  const handleDoubleClickRow = (row: Row<any>) => {
+    if (!disabledDoubleClick && !isActiveDialog) {
+      navigate(`../view/one/${row.original.id}`);
+    }
+  };
 
   return (
     <ScrollArea
@@ -52,17 +60,15 @@ export const DataTable = memo(() => {
           ) : table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row: any) => (
               <TableRow
-                className=""
                 key={row.id}
                 onDoubleClick={() => {
-                  if (!disabledDoubleClick) {
-                    navigate(`../view/one/${row.original.id}`);
-                  }
+                  handleDoubleClickRow(row);
                 }}
                 data-state={row.getIsSelected() && 'selected'}
+                data-testid={`table-row-id-${row.original.id}`}
               >
                 {row.getVisibleCells().map((cell: any) => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} className="max-w-[250px] truncate pr-2" data-testid={`table-cell-id-${row.original.id}`} >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -80,4 +86,4 @@ export const DataTable = memo(() => {
       <ScrollBar className="mt-4" orientation="horizontal" />
     </ScrollArea>
   );
-});
+};

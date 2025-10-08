@@ -1,9 +1,15 @@
 import { Badge } from '@/components';
-import { useUnitConverter } from '@/modules/core/hooks/useUnitConverter';
+import {
+  unitTypeMap,
+  useUnitConverter,
+} from '@/modules/core/hooks/useUnitConverter';
 import { SupplyStock } from '@/modules/supplies/interfaces/SupplyStock';
 import {
+  LengthUnitOfMeasure,
+  MassUnitOfMeasure,
   UnitOfMeasure,
   UnitSymbols,
+  VolumeUnitOfMeasure,
 } from '@/modules/supplies/interfaces/UnitOfMeasure';
 import { ControllerRenderProps } from 'react-hook-form';
 
@@ -30,18 +36,32 @@ export const BadgeSupplyStock = ({
   }
   let convertedAmount: number = -1;
 
+  const grupUnit = unitTypeMap[selectedSupply.unit_of_measure as UnitOfMeasure];
+  let coreUnit: UnitOfMeasure = MassUnitOfMeasure.GRAMOS;
+
+  switch (grupUnit) {
+    case 'MASS':
+      coreUnit = MassUnitOfMeasure.GRAMOS;
+      break;
+    case 'VOLUME':
+      coreUnit = VolumeUnitOfMeasure.MILILITROS;
+      break;
+    case 'LENGTH':
+      coreUnit = LengthUnitOfMeasure.MILIMETROS;
+      break;
+
+    default:
+      break;
+  }
+
   try {
-    convertedAmount = convert(
-      selectedSupply.amount,
-      selectedSupply.unit_of_measure as UnitOfMeasure,
-      convertTo
-    );
+    convertedAmount = convert(selectedSupply.amount, coreUnit, convertTo);
   } catch (error) {
     console.error('Hubo un error al convertir', error);
   }
 
   return (
-    <Badge className={`${!field.value ? 'hidden' : 'ml-10'}`} variant={'cyan'}>
+    <Badge className={`${!field.value ? 'hidden' : ''}`} variant={'cyan'}>
       {`Disponibles: ${convertedAmount} ${UnitSymbols[convertTo]}`}
     </Badge>
   );

@@ -1,0 +1,26 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "isolatedModules": false,
+    "types": ["cypress", "node", "cypress-real-events"]
+  },
+  "paths": {
+    "@/*": ["../src/*"],
+    "@/users/*": ["../src/modules/users"],
+    "@/clients/*": ["../src/modules/clients"],
+    "@/consumption/*": ["../src/modules/consumption"],
+    "@/core/*": ["../src/modules/core"],
+    "@/crops/*": ["../src/modules/crops"],
+    "@/dashboard/*": ["../src/modules/dashboard"],
+    "@/employees/*": ["../src/modules/employees"],
+    "@/harvests/*": ["../src/modules/harvests"],
+    "@/payments/*": ["../src/modules/payments"],
+    "@/sales/*": ["../src/modules/sales"],
+    "@/shopping/*": ["../src/modules/shopping"],
+    "@/suppliers/*": ["../src/modules/suppliers"],
+    "@/supplies/*": ["../src/modules/supplies"],
+    "@/work/*": ["../src/modules/work"]
+  },
+  "include": ["./**/*.ts", "./**/*.tsx"],
+  "exclude": []
+}

@@ -17,26 +17,31 @@ const routeConfig: RouteConfig[] = [
     action: 'find_all_harvests',
     element: <HarvestModule />,
     viewComponent: true,
+    label: 'Cosechas'
   },
   {
     path: 'create/one',
     action: 'create_harvest',
     element: <CreateHarvest />,
+    label: 'Crear Cosecha'
   },
   {
     path: 'view/one/:id',
     action: 'find_one_harvest',
     element: <ViewHarvest />,
+    label: 'Ver Cosecha'
   },
   {
     path: 'update/one/:id',
     action: 'update_one_harvest',
     element: <ModifyHarvest />,
+    label: 'Modificar Cosecha'
   },
   {
     path: 'processed/view/:id',
     action: 'find_one_harvest_processed_all',
     element: <HarvestProcessed />,
+    label: 'Ver Cosecha Procesada'
   },
 ];
 

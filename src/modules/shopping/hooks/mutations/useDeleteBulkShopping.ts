@@ -1,10 +1,10 @@
 import { cropcoAPI, pathsCropco } from '@/api/cropcoAPI';
 import { useAuthContext } from '@/auth/hooks';
 import { PromiseReturnRecord } from '@/auth/interfaces/PromiseReturnRecord';
+import { ManageMessageBulkRemove } from '@/modules/core/helpers/ManageMessageBulkRemove';
 import { BulkRecords } from '@/modules/core/interfaces/bulk-data/BulkRecords';
 import { UseMutationReturn } from '@/modules/core/interfaces/responses/UseMutationReturn';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
 
 const deleteBulkShopping = async (
   data: BulkRecords
@@ -24,15 +24,20 @@ export const useDeleteBulkShopping = (): UseMutationReturn<
   const { handleError } = useAuthContext();
   const mutation: UseMutationReturn<void, BulkRecords> = useMutation({
     mutationFn: deleteBulkShopping,
-    onSuccess: async () => {
+    onSuccess: async ({ status }) => {
       await queryClient.invalidateQueries({ queryKey: ['shopping'] });
       await queryClient.invalidateQueries({ queryKey: ['supplies'] });
-      toast.success(`Compras eliminadas`);
+      ManageMessageBulkRemove({
+        status,
+        customMessages: {
+          multiStatus: 'No se pudieron eliminar algunas compras',
+        },
+      });
     },
     onError: (error) => {
       handleError({
         error,
-        messagesStatusError: {},
+        handlers: {},
       });
     },
 

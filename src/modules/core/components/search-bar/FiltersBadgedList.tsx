@@ -17,7 +17,7 @@ const FiltersBadgedListComponent: React.FC<Props> = ({
     return null;
   }
   return (
-    <div className="w-2/4 mt-2">
+    <div className="w-2/4 mt-2" data-testid="filters-badged-list">
       <Label className="block">Filtros aplicados:</Label>
       <div className="flex flex-wrap gap-2 my-4">
         {filters.map((filter, index) => (
@@ -29,6 +29,7 @@ const FiltersBadgedListComponent: React.FC<Props> = ({
                 variant="ghost"
                 size="icon"
                 onClick={() => handleRemove(filter)}
+                data-testid={`btn-remove-filter-${filter.key}`}
               >
                 <X className="w-3 h-3" />
               </Button>

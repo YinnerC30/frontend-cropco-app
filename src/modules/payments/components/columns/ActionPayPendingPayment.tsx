@@ -18,6 +18,7 @@ export const ActionPayPendingPayment: React.FC<Props> = ({ action }: Props) => {
         }}
         variant={'ghost'}
         className="cursor-pointer"
+        data-testid="action-pay-pending-payment"
       >
         <CircleDollarSignIcon className="w-4 h-4 mr-2" /> Pagar
       </Button>

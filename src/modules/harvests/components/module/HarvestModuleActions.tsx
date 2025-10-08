@@ -42,7 +42,7 @@ export const HarvestModuleActions: React.FC = () => {
     <div className="flex justify-between">
       <ButtonRefetchData
         onClick={handleRefetchData}
-        disabled={!actionsHarvestsModule['find_all_harvests']}
+        disabled={!actionsHarvestsModule['find_all_harvests'] || queryHarvests.isFetching}
         className=""
       />
 
