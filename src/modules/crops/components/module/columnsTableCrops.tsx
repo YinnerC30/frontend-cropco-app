@@ -20,10 +20,12 @@ export const columnsTableCrops: ColumnDef<Crop>[] = [
     accessorKey: formFieldsCrop.description.name,
     header: ({ column }: HeaderContext<Crop, unknown>) => {
       return (
-        <ButtonHeaderTable
-          column={column}
-          label={formFieldsCrop.description.label}
-        />
+        <div className="min-w-80">
+          <ButtonHeaderTable
+            column={column}
+            label={formFieldsCrop.description.label}
+          />
+        </div>
       );
     },
     cell: ({ row }) => {
@@ -59,10 +61,12 @@ export const columnsTableCrops: ColumnDef<Crop>[] = [
     accessorKey: formFieldsCrop.location.name,
     header: ({ column }: HeaderContext<Crop, unknown>) => {
       return (
-        <ButtonHeaderTable
-          column={column}
-          label={formFieldsCrop.location.label}
-        />
+        <div className="min-w-80">
+          <ButtonHeaderTable
+            column={column}
+            label={formFieldsCrop.location.label}
+          />
+        </div>
       );
     },
     cell: ({ row }) => {
