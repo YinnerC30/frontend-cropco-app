@@ -1,6 +1,5 @@
 import { AuthenticationLayout } from '@/auth';
 import { authenticationRoutes } from '@/auth/routes/authenticationRoutes';
-import { LandingPage } from '@/components/landing/LandingPage';
 import { clientRoutes } from '@/modules/clients/routes/clientRoutes';
 import { consumptionRoutes } from '@/modules/consumption/routes/consumptionRoutes';
 import { cropRoutes } from '@/modules/crops/routes/cropsRoutes';
@@ -20,18 +19,19 @@ import { HomeLayout } from '../components/home/HomeLayout';
 import { RoutesController } from './components';
 import { HomePage } from './HomePage';
 
+import NewLandingPage from '@/components/landing/NewLandingPage';
+import { administratorRoutes } from '@/management/administrators/routes/administratorRoutes';
+import AuthenticationTenantLayout from '@/management/auth/components/AuthenticationTenantLayout';
+import { HomeManagementLayout } from '@/management/auth/components/HomeManagementLayout';
+import { HomeManagementPage } from '@/management/auth/components/HomeManagementPage';
 import { authenticationTenantRoutes } from '@/management/auth/routes/authenticationTenantRoutes';
 import { tenantRoutes } from '@/management/tenants/routes/tenantRoutes';
 import { RoutesManagementController } from './components/RoutesManagementController';
-import { HomeManagementLayout } from '@/management/auth/components/HomeManagementLayout';
-import AuthenticationTenantLayout from '@/management/auth/components/AuthenticationTenantLayout';
-import { HomeManagementPage } from '@/management/auth/components/HomeManagementPage';
-import { administratorRoutes } from '@/management/administrators/routes/administratorRoutes';
 
 export const Router = createBrowserRouter([
   {
     path: '/',
-    element: <LandingPage />,
+    element: <NewLandingPage />,
     errorElement: <ErrorPage />,
   },
   {
