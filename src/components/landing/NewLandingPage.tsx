@@ -5,16 +5,26 @@ import {
   BarChart3,
   Cloud,
   Leaf,
+  Moon,
   Package,
   Shield,
   Smartphone,
   Sprout,
+  Sun,
   TrendingUp,
   Users,
   Zap,
 } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+import { useTheme } from '@/modules/core/components';
 
 export default function NewLandingPage() {
+  const { setTheme } = useTheme();
   const RedirectToVideoDemo = () => {
     window.open('https://youtu.be/UXXsp_PqsHo', '_blank');
   };
@@ -28,6 +38,41 @@ export default function NewLandingPage() {
             <Sprout className="w-8 h-8 text-emerald-600" />
             <span className="text-2xl font-bold text-foreground">CropCo</span>
           </div>
+          <DropdownMenu>
+            {/* <SidebarMenuButton> */}
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                data-testid="btn-change-theme-app"
+              >
+                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Tema</span>
+              </Button>
+            </DropdownMenuTrigger>
+            {/* </SidebarMenuButton> */}
+            <DropdownMenuContent>
+              <DropdownMenuItem
+                data-testid="btn-light-theme"
+                onClick={() => setTheme('light')}
+              >
+                Claro
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                data-testid="btn-dark-theme"
+                onClick={() => setTheme('dark')}
+              >
+                Oscuro
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                data-testid="btn-system-theme"
+                onClick={() => setTheme('system')}
+              >
+                Sistema
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           {/* <Link to="/management" target="_blank">
             <Button variant="outline">Administración</Button>
           </Link> */}
