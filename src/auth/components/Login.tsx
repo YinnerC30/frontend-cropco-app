@@ -17,6 +17,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLoginUser } from '../hooks/mutations/useLoginUser';
 import useDocumentTitle from '@/modules/core/hooks/useDocumentTitle';
+import { Sprout } from 'lucide-react';
 
 export const Login: React.FC = () => {
   useDocumentTitle({ title: 'Login' });
@@ -47,7 +48,8 @@ export const Login: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen gap-10 space-y-6">
-      <div className="px-4 py-4 border-b">
+      <div className="flex items-center gap-2 px-4 py-4 border-b">
+        <Sprout className="w-8 h-8 text-emerald-600" />
         <Link to="/" className="text-2xl font-bold text-black-600">
           CropCo
         </Link>

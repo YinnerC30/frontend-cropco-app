@@ -2,6 +2,7 @@ import { ButtonHeaderTable } from '@/modules/core/components';
 import { formFieldsEmployee } from '../../utils';
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 import { Employee } from '../../interfaces/Employee';
+import { CellTextArea } from '@/modules/core/components/data-table/CellTextArea';
 
 export const columnsTableEmployees: ColumnDef<Employee>[] = [
   {
@@ -57,6 +58,9 @@ export const columnsTableEmployees: ColumnDef<Employee>[] = [
           label={formFieldsEmployee.address.label}
         />
       );
+    },
+    cell: ({ row }) => {
+      return <CellTextArea content={row.getValue('address')} />;
     },
   },
 ];

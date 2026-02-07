@@ -12,6 +12,7 @@ import { CropHoverCard } from '@/modules/crops/components/card/CropHoverCard';
 import { PersonHoverCard } from '@/modules/core/components/card/PersonHoverCard';
 import { Employee } from '@/modules/employees/interfaces/Employee';
 import { MODULE_EMPLOYEE_PATHS } from '@/modules/employees/routes/pathRoutes';
+import { CellTextArea } from '@/modules/core/components/data-table/CellTextArea';
 
 export const columnsWork: ColumnDef<Work>[] = [
   {
@@ -91,9 +92,7 @@ export const columnsWork: ColumnDef<Work>[] = [
   },
   {
     accessorKey: formFieldsWork.description.name,
-    cell: ({ row }) => {
-      return row.getValue('description');
-    },
+
     header: ({ column }: HeaderContext<Work, unknown>) => {
       return (
         <ButtonHeaderTable
@@ -101,6 +100,9 @@ export const columnsWork: ColumnDef<Work>[] = [
           label={formFieldsWork.description.label}
         />
       );
+    },
+    cell: ({ row }) => {
+      return <CellTextArea content={row.getValue('description')} />;
     },
   },
   {

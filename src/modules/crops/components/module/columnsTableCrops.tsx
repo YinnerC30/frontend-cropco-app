@@ -5,6 +5,7 @@ import { ColumnDef, HeaderContext, Row } from '@tanstack/react-table';
 import { Crop } from '../../interfaces/Crop';
 import { formFieldsCrop } from '../../utils';
 import { CellCropAmount } from './CellCropAmount';
+import { CellTextArea } from '@/modules/core/components/data-table/CellTextArea';
 
 export const columnsTableCrops: ColumnDef<Crop>[] = [
   {
@@ -19,11 +20,16 @@ export const columnsTableCrops: ColumnDef<Crop>[] = [
     accessorKey: formFieldsCrop.description.name,
     header: ({ column }: HeaderContext<Crop, unknown>) => {
       return (
-        <ButtonHeaderTable
-          column={column}
-          label={formFieldsCrop.description.label}
-        />
+        <div className="min-w-80">
+          <ButtonHeaderTable
+            column={column}
+            label={formFieldsCrop.description.label}
+          />
+        </div>
       );
+    },
+    cell: ({ row }) => {
+      return <CellTextArea content={row.getValue('description')} />;
     },
   },
   {
@@ -55,11 +61,16 @@ export const columnsTableCrops: ColumnDef<Crop>[] = [
     accessorKey: formFieldsCrop.location.name,
     header: ({ column }: HeaderContext<Crop, unknown>) => {
       return (
-        <ButtonHeaderTable
-          column={column}
-          label={formFieldsCrop.location.label}
-        />
+        <div className="min-w-80">
+          <ButtonHeaderTable
+            column={column}
+            label={formFieldsCrop.location.label}
+          />
+        </div>
       );
+    },
+    cell: ({ row }) => {
+      return <CellTextArea content={row.getValue('location')} />;
     },
   },
   {

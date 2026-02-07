@@ -3,6 +3,7 @@ import { ButtonHeaderTable } from '@/modules/core/components';
 import { ColumnDef, HeaderContext } from '@tanstack/react-table';
 import { Supplier } from '../../interfaces/Supplier';
 import { formFieldsSupplier } from '../../utils/formFieldsSupplier';
+import { CellTextArea } from '@/modules/core/components/data-table/CellTextArea';
 
 export const columnsTableSuppliers: ColumnDef<Supplier>[] = [
   {
@@ -58,6 +59,9 @@ export const columnsTableSuppliers: ColumnDef<Supplier>[] = [
           label={formFieldsSupplier.address.label}
         />
       );
+    },
+    cell: ({ row }) => {
+      return <CellTextArea content={row.getValue('address')} />;
     },
   },
   {
